@@ -169,6 +169,10 @@ categoryMod.controller('CategoryCtrl',
                     ajax.then(function () {
                         product.wishlist = 2;
                     }, function () {
+                        if (!$localStorage.prevous) {
+                            $localStorage.prevous = {};
+                        }
+                        $localStorage.prevous;
                         product.wishlist = false;
                     });
                 }
