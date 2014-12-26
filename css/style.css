@@ -1,0 +1,41 @@
+/* Empty. Add your own CSS if you like */
+
+
+.category .product{
+    width: 50%;
+    float: left;
+    height: 200px;
+    text-align: center;
+}
+.category .product .bottom_box .price{                       
+    float: left;
+    width: 90%;
+}
+.category .product .bottom_box .heart{                       
+    float: left;
+    width: 10%;
+}
+.category .product .bottom_box .heart .icon{
+    font-size:1.5em;
+}
+
+.category .product .image{
+    height: 100px;
+}
+.category .product .image img{
+    height: 100%;
+    max-width: 100%;
+}
+
+.top{
+    top:45px;
+    position: relative;
+}
+
+.right_menu{
+    display: none;
+    position: absolute;
+    top:45px;
+    width: 150px;
+    background-color: #fff;
+}

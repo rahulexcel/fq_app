@@ -1,0 +1,98 @@
+<ion-view view-title="SignUp">
+    <ion-content>
+        <div class="register"  ng-if="show_register">
+            <form>
+                <div class="list">
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Full Name</span>
+                        <input type="text" ng-model='register_obj.name' placeholder="Full Name">
+                    </label>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Email</span>
+                        <input type="email" ng-model='register_obj.email' placeholder="Email">
+                    </label>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Password</span>
+                        <input type="password" ng-model='register_obj.password' placeholder="Passowrd">
+                    </label>
+                </div>
+                <div class="padding">
+                    <button on-tap='create();' class="button button-positive">
+                        SignUp
+                        <i class="fa fa-spinner fa-spin" ng-show="register_status == 1"></i>
+                        <i class="fa fa-times" ng-show="register_status == 3"></i>
+                        <i class="fa fa-check" ng-show="register_status == 2"></i>
+                    </button>
+                </div>
+                <span on-tap='showLogin();'>Login</span>
+            </form>
+        </div>
+        <div class="login" ng-if="show_login">
+            <form>
+                <div class="list">
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Email</span>
+                        <input type="email" ng-model="login_obj.email" placeholder="Email">
+                    </label>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Password</span>
+                        <input type="password" ng-model="login_obj.password" placeholder="Passowrd">
+                    </label>
+                    <div class="padding">
+                        <button class="button button-positive" on-tap='login();'>
+                            Login
+                            <i class="fa fa-spinner fa-spin" ng-show="login_status == 1"></i>
+                            <i class="fa fa-times" ng-show="login_status == 3"></i>
+                            <i class="fa fa-check" ng-show="login_status == 2"></i>
+                        </button>
+                    </div>
+
+                    <span on-tap='showRegister();'>Register</span>
+                    <span on-tap='showForgot();'>Forgot Password</span>
+                </div>
+            </form>
+        </div>
+
+        <div class="forgot" ng-if="show_forgot">
+            <form>
+                <div class="list">
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Email</span>
+                        <input type="email" ng-model='forgot_obj.email' placeholder="Email">
+                    </label>
+                    <div class="padding">
+                        <button class="button button-positive" on-tap='forgot();'>
+                            Send
+                            <i class="fa fa-spinner fa-spin" ng-show="forgot_status == 1"></i>
+                            <i class="fa fa-times" ng-show="forgot_status == 3"></i>
+                            <i class="fa fa-check" ng-show="forgot_status == 2"></i>
+                        </button>
+                    </div>
+
+                    <span on-tap='showRegister();'>Register</span>
+                    <span on-tap='showLogin();'>Login</span>
+                </div>
+            </form>
+        </div>
+
+
+        <div>
+            <div class="padding">
+                <button class="button" on-tap='facebook();'>
+                    Facebook
+                    <i class="fa fa-spinner fa-spin" ng-show="facebook_status == 1"></i>
+                    <i class="fa fa-times" ng-show="facebook_status == 3"></i>
+                    <i class="fa fa-check" ng-show="facebook_status == 2"></i>
+                </button>
+            </div>
+            <div class="padding">
+                <button class="button" on-tap='google();'>
+                    Google
+                    <i class="fa fa-spinner fa-spin" ng-show="google_status == 1"></i>
+                    <i class="fa fa-times" ng-show="google_status == 3"></i>
+                    <i class="fa fa-check" ng-show="google_status == 2"></i>
+                </button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

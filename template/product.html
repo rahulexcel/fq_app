@@ -1,0 +1,29 @@
+<ion-view>
+    <ion-content>
+        <i class="icon ion-load-a ion-spin" ng-show='product_loading'></i>
+        <div class="product" ng-show='!product_loading'>
+            <img ng-src='{{product.image}}'/>
+            <br/>
+            Price : {{product.price}}
+
+            <button class="button" on-tap="buy(product);">Buy Now</button>
+
+            <div class="variants">
+                <div ng-repeat="variant in product.variants" style="float: left">
+                    <div>
+                        <img ng-src='{{variant.image}}'/>
+                    </div>
+                    <div class="name" on-tap="buyVariant(variant);">
+                        {{variant.name}}
+                    </div>
+                    <div>
+                        Price: {{variant.price}}
+                    </div>
+                    <div>
+                        {{variant.website}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

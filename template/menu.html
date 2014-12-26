@@ -1,0 +1,47 @@
+<ion-side-menus enable-menu-with-back-views="true">
+    <ion-side-menu-content>
+        <ion-nav-bar class="bar-stable">
+            <ion-nav-back-button>
+                <i class="fa fa-chevron-left "></i>
+            </ion-nav-back-button>
+            <ion-nav-title>
+                <i class="fa fa-at"></i>
+            </ion-nav-title>
+            <ion-nav-buttons side="left">
+                <button class="button button-icon fa fa-bars" menu-toggle="left">
+                </button>
+            </ion-nav-buttons>
+            <ion-nav-buttons side="right">
+                <button on-tap='wishlist();' class="button button-icon fa fa-circle-o">
+                </button>
+            </ion-nav-buttons>
+
+
+        </ion-nav-bar>
+        <ion-nav-view name="menuContent"></ion-nav-view>
+    </ion-side-menu-content>
+    <ion-side-menu side="left" expose-aside-when="large">
+        <ion-content>
+            <i class="fa fa-spinner fa-spin" ng-show='category.length == 0'></i>
+            <ul  ng-show='category.length >= 0'>
+                <li nav-clear menu-close ng-repeat="cat in category">
+                    <span ng-click="selectCategory(cat)">{{cat.name}}</span>
+                    <ul ng-show="cat.open" style="padding-left: 20px" ng-if='cat.data.length > 0'>
+                        <li nav-clear menu-close ng-repeat="catSub in cat.data" >
+                            <span ng-click='selectCategory(catSub)'>{{catSub.name}}</span>
+                            <ul ng-show="catSub.open" style="padding-left: 20px" ng-if='catSub.data.length > 0'>
+                                <li nav-clear menu-close ng-repeat="catLast in catSub.data" >
+                                    <span ng-click='selectCategory(catLast)'>{{catLast.name}}</span>        
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a ng-if="!login" nav-clear menu-close href='#/app/signup'>SignUp</a></li>
+                <li><a ng-if="login" nav-clear menu-close on-tap='logout();'>Logout</a></li>
+                <li ng-if="login" nav-clear menu-close on-tap='account();'>MyAccount</li>
+                <li nav-clear menu-close on-tap='feedback();'>Feedback</li>
+                <li nav-clear menu-close on-tap='about();'>AboutUs</li>
+            </ul>
+        </ion-content>
+    </ion-side-menu>
