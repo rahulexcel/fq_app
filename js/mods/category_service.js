@@ -1,12 +1,13 @@
-var categoryService = angular.module('CategoryService', ['ServiceMod']);
+var categoryService = angular.module('CategoryService', ['ServiceMod', 'ionic']);
 
 categoryService.factory('categoryHelper', [
-    'ajaxRequest', '$q',
-    function (ajaxRequest, $q) {
+    'ajaxRequest', '$q', '$ionicBackdrop',
+    function (ajaxRequest, $q, $ionicBackdrop) {
         var service = {};
         service.fetchProduct = function (data) {
             var defer = $q.defer();
             var ajax = ajaxRequest.send('v1/catalog/products', data);
+            $ionicBackdrop.retain();
             ajax.then(function (data) {
                 var ret = {};
                 if (data.products) {
@@ -52,7 +53,11 @@ categoryService.factory('categoryHelper', [
                     }
                 }
                 ret.filters = filters;
+                $ionicBackdrop.release();
                 defer.resolve(ret);
+            }, function () {
+                defer.reject();
+                $ionicBackdrop.release();
             });
             return defer.promise;
         }

@@ -1,9 +1,16 @@
-var categoryMod = angular.module('CategoryMod', ['CategoryService', 'ionic']);
+var categoryMod = angular.module('CategoryMod', ['CategoryService', 'WishlistService', 'ionic']);
 
 categoryMod.controller('CategoryCtrl',
-        ['$scope', 'categoryHelper', '$ionicNavBarDelegate', 'toast', '$ionicScrollDelegate',
-            function ($scope, categoryHelper, $ionicNavBarDelegate, toast, $ionicScrollDelegate) {
+        ['$scope', 'categoryHelper', '$ionicNavBarDelegate', 'toast', '$ionicScrollDelegate', 'wishlistHelper', '$stateParams',
+            function ($scope, categoryHelper, $ionicNavBarDelegate, toast, $ionicScrollDelegate, wishlistHelper, $stateParams) {
 
+                if ($stateParams.cat_id && $stateParams.sub_cat_id) {
+                    $scope.current_category = {
+                        name: $stateParams.name,
+                        cat_id: $stateParams.cat_id,
+                        sub_cat_id: $stateParams.sub_cat_id,
+                    };
+                }
                 var products = [];
 
                 $scope.showProducts = true;
@@ -156,8 +163,15 @@ categoryMod.controller('CategoryCtrl',
                     $scope.sortBy = ret.sortBy;
                     $scope.filters = ret.filters;
                 }
-
-
+                $scope.wishlist = function (product) {
+                    product.wishlist = 1;
+                    var ajax = wishlistHelper.add(product._id);
+                    ajax.then(function () {
+                        product.wishlist = 2;
+                    }, function () {
+                        product.wishlist = false;
+                    });
+                }
 
             }
         ]);

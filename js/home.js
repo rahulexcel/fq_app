@@ -51,8 +51,9 @@ homeMod.controller('HomeCtrl',
 
                         return;
                     }
-                    $location.path('/#/app/home');
-                    $scope.current_category = cat;
+                    $location.path('/app/category/' + cat.cat_id + '/' + cat.sub_cat_id + '/' + cat.name);
+                    //$location.path('/#/app/home');
+                    //$scope.current_category = cat;
                 }
                 $scope.wishlist = function () {
                     alert('wishlist not done yet');

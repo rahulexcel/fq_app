@@ -30,6 +30,15 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                     }
                 }
             })
+            .state('app.category', {
+                url: '/category/:cat_id/:sub_cat_id/:name',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'template/category.html',
+                        controller: 'CategoryCtrl'
+                    }
+                }
+            })
             .state('app.product', {
                 url: '/product/:product_id',
                 views: {
@@ -50,7 +59,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
             });
     $urlRouterProvider.otherwise('/app/home');
 });
-app.run(function ($ionicPlatform) {
+app.run(function ($ionicPlatform, $rootScope, $localStorage) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -62,4 +71,27 @@ app.run(function ($ionicPlatform) {
         }
 
     });
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        if (toState.name == 'app.login' && fromState) {
+            if (fromState.name != "") {
+                var url = fromState.url;
+                if (fromParams && url) {
+                    for (var key in fromParams) {
+                        var value = fromParams[key];
+                        url = url.replace(':' + key, value);
+                    }
+                    if (!$localStorage.prevous) {
+                        $localStorage.prevous = {};
+                    }
+                    $localStorage.prevous.url = url;
+                    console.log(url + 'set as previous url');
+                }
+
+            }
+        }
+//        console.log(toState);
+//        console.log(toParams);
+//        console.log(fromState);
+//        console.log(fromParams);
+    })
 })

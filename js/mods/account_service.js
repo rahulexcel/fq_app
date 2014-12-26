@@ -16,7 +16,13 @@ accountService.factory('accountHelper', [
                 }
                 $localStorage.user = data;
                 def.resolve(data);
-                $location.path('/app/home');
+                if ($localStorage.prevous.url) {
+                    var prev_url = $localStorage.prevous.url;
+                    $localStorage.prevous.url = false;
+                    $location.path(prev_url);
+                } else {
+                    $location.path('/app/home');
+                }
                 $rootScope.$broadcast('login_event');
             }, function (message) {
                 def.reject(message);

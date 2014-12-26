@@ -50,8 +50,10 @@
                             <span class="discount" ng-if="prod.offrate > 0">{{prod.offrate}}%</span>
                         </div>
                     </div>
-                    <div class="heart">
-                        <i class="icon ion-ios-heart-outline"></i>
+                    <div class="heart" on-tap="wishlist(prod);">
+                        <i ng-show="!prod.wishlist" class="fa fa-heart-o"></i>
+                        <i ng-show="prod.wishlist == 1" class="fa fa-heart"></i>
+                        <i ng-show="prod.wishlist == 2" class="fa fa-spinner fa-spin"></i>
                     </div>
                 </div>
                 <div class="clearfix"></div>
