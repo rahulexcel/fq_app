@@ -1,0 +1,68 @@
+<ion-view view-title="My Account">
+    <ion-content>
+
+        <div class="list card">
+
+            <div class="item item-avatar">
+                <h2>{{login_data.name}}</h2>
+                <p>{{login_data.create_at}}</p>
+            </div>
+
+            <div class="item item-image">
+                <img src="{{login_data.picture}}">
+            </div>
+
+            
+
+        </div>
+
+        <div class="register">
+            <form>
+                <div class="list">
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Full Name</span>
+                        <input type="text" ng-model='profile.name' placeholder="Full Name">
+                    </label>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Password</span>
+                        <input type="password" ng-model='profile.password' placeholder="New Passowrd">
+                    </label>
+                </div>
+                <div class="padding">
+                    <button on-tap='update();' class="button button-positive">
+                        Update
+                        <i class="fa fa-spinner fa-spin" ng-show="register_status == 1"></i>
+                        <i class="fa fa-times" ng-show="register_status == 3"></i>
+                        <i class="fa fa-check" ng-show="register_status == 2"></i>
+                    </button>
+                </div>
+                <span on-tap='showLogin();'>Login</span>
+            </form>
+        </div>
+        <div class="login">
+            <form>
+                <div class="list">
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Email</span>
+                        <input type="email" ng-model="login_obj.email" placeholder="Email">
+                    </label>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Password</span>
+                        <input type="password" ng-model="login_obj.password" placeholder="Passowrd">
+                    </label>
+                    <div class="padding">
+                        <button class="button button-positive" on-tap='login();'>
+                            Login
+                            <i class="fa fa-spinner fa-spin" ng-show="login_status == 1"></i>
+                            <i class="fa fa-times" ng-show="login_status == 3"></i>
+                            <i class="fa fa-check" ng-show="login_status == 2"></i>
+                        </button>
+                    </div>
+
+                    <span on-tap='showRegister();'>Register</span>
+                    <span on-tap='showForgot();'>Forgot Password</span>
+                </div>
+            </form>
+        </div>
+    </ion-content>
+</ion-view>

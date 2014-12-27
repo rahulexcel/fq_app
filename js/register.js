@@ -2,7 +2,8 @@ var registerMod = angular.module('RegisterMod', ['GoogleLoginService', 'AccountS
 
 //ionic -d plugin add C:\xampp\htdocs\facebook-plugin -variable APP_ID="765213543516434" --variable APP_NAME="FashionIQ"
 
-registerMod.controller('AccountCtrl',
+
+registerMod.controller('RegisterCtrl',
         ['$scope', '$localStorage', '$location', 'toast', 'googleLogin', 'accountHelper',
             function ($scope, $localStorage, $location, toast, googleLogin, accountHelper) {
                 if (!$localStorage.user) {

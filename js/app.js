@@ -53,10 +53,20 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                 views: {
                     'menuContent': {
                         templateUrl: 'template/register.html',
+                        controller: 'RegisterCtrl'
+                    }
+                }
+            })
+            .state('app.account', {
+                url: '/account',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'template/account.html',
                         controller: 'AccountCtrl'
                     }
                 }
             });
+    ;
     $urlRouterProvider.otherwise('/app/home');
 });
 app.run(function ($ionicPlatform, $rootScope, $localStorage) {
@@ -72,7 +82,8 @@ app.run(function ($ionicPlatform, $rootScope, $localStorage) {
 
     });
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-        if (toState.name == 'app.login' && fromState) {
+        console.log(toState.name + " to state");
+        if (toState.name == 'app.signup' && fromState) {
             if (fromState.name != "") {
                 var url = fromState.url;
                 if (fromParams && url) {

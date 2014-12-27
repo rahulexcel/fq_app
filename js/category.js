@@ -1,16 +1,32 @@
 var categoryMod = angular.module('CategoryMod', ['CategoryService', 'WishlistService', 'ionic']);
 
 categoryMod.controller('CategoryCtrl',
-        ['$scope', 'categoryHelper', '$ionicNavBarDelegate', 'toast', '$ionicScrollDelegate', 'wishlistHelper', '$stateParams',
-            function ($scope, categoryHelper, $ionicNavBarDelegate, toast, $ionicScrollDelegate, wishlistHelper, $stateParams) {
+        ['$scope', 'categoryHelper', '$ionicNavBarDelegate', 'toast', '$ionicScrollDelegate', 'wishlistHelper', '$stateParams', '$localStorage',
+            function ($scope, categoryHelper, $ionicNavBarDelegate, toast, $ionicScrollDelegate, wishlistHelper, $stateParams, $localStorage) {
+                if ($localStorage.previous && $localStorage.previous.state) {
+                    var state = $localStorage.previous.state;
+                    var category = $localStorage.previous.category;
+                    var req = categoryHelper.fetchProduct(category);
+                    req.then(function (ret) {
+                        $scope.product_loading = false;
+                        if (ret.products.length == 0) {
+                            toast.showShortBottom('Product Not Found Matching Current Filter');
+                        }
+                        $scope.update(ret, true);
+                        $scope.showProductsFn();
+                        if (state.function == 'wishlist') {
+                            $scope.wishlist(state.param);
+                        }
+                    });
 
-                if ($stateParams.cat_id && $stateParams.sub_cat_id) {
+                } else if ($stateParams.cat_id && $stateParams.sub_cat_id) {
                     $scope.current_category = {
                         name: $stateParams.name,
                         cat_id: $stateParams.cat_id,
                         sub_cat_id: $stateParams.sub_cat_id,
                     };
                 }
+
                 var products = [];
 
                 $scope.showProducts = true;
@@ -168,11 +184,16 @@ categoryMod.controller('CategoryCtrl',
                     var ajax = wishlistHelper.add(product._id);
                     ajax.then(function () {
                         product.wishlist = 2;
+                        $localStorage.previous.state = {};
                     }, function () {
-                        if (!$localStorage.prevous) {
-                            $localStorage.prevous = {};
+                        if (!$localStorage.previous) {
+                            $localStorage.previous = {};
                         }
-                        $localStorage.prevous;
+                        $localStorage.previous.state = {
+                            function: 'wishlist',
+                            param: product,
+                            category: $scope.currentState
+                        };
                         product.wishlist = false;
                     });
                 }

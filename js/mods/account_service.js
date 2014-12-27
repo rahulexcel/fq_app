@@ -21,7 +21,7 @@ accountService.factory('accountHelper', [
                     $localStorage.prevous.url = false;
                     $location.path(prev_url);
                 } else {
-                    $location.path('/app/home');
+                    $location.path('/app/account');
                 }
                 $rootScope.$broadcast('login_event');
             }, function (message) {
