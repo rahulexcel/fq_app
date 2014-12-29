@@ -1,6 +1,6 @@
 var registerMod = angular.module('RegisterMod', ['GoogleLoginService', 'AccountService', 'ServiceMod', 'ngStorage']);
 
-//ionic -d plugin add C:\xampp\htdocs\facebook-plugin -variable APP_ID="765213543516434" --variable APP_NAME="FashionIQ"
+//cordova -d plugin add C:\xampp\htdocs\facebook-plugin -variable APP_ID="765213543516434" --variable APP_NAME="FashionIQ"
 
 
 registerMod.controller('RegisterCtrl',
@@ -184,28 +184,43 @@ registerMod.controller('RegisterCtrl',
 
                 $scope.google = function () {
                     if (typeof chrome != 'undefined' && chrome.identity) {
+                        if ($scope.google_status == 1) {
+                            toast.showProgress();
+                            return;
+                        }
+                        $scope.google_status = 1;
                         chrome.identity.getAuthToken({interactive: true}, function (token) {
                             console.log(token);
-                            if ($scope.google_status == 1) {
-                                toast.showProgress();
-                                return;
-                            }
-                            $scope.google_status = 1;
                             chrome.identity.getProfileUserInfo(function (email) {
-                                console.log(obj);
-                                var user = {
-                                    name: 'XXX',
-                                    gender: false,
-                                    email: email,
-                                    google_play: true,
-                                    picture: ''
-                                };
-                                var prog = accountHelper.create(user);
-                                prog.then(function () {
-                                    $scope.google_status = 2;
-                                }, function () {
-                                    $scope.google_status = 3;
-                                });
+                                if (email) {
+                                    console.log(email);
+                                    var user = {
+                                        name: 'XXX',
+                                        gender: false,
+                                        email: email,
+                                        google_play: true,
+                                        picture: ''
+                                    };
+                                    var prog = accountHelper.create(user);
+                                    prog.then(function () {
+                                        $scope.google_status = 2;
+                                    }, function () {
+                                        $scope.google_status = 3;
+                                    });
+                                } else {
+                                    var api = googleLogin.startLogin();
+                                    api.then(function (data) {
+                                        var user = data;
+                                        var prog = accountHelper.create(user);
+                                        prog.then(function () {
+                                            $scope.google_status = 2;
+                                        }, function () {
+                                            $scope.google_status = 3;
+                                        });
+                                    }, function (err) {
+                                        toast.showShortBottom('Unknow Error!' + err);
+                                    });
+                                }
                             });
                         });
                     } else {

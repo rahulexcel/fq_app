@@ -1,4 +1,5 @@
 <ion-view>
+    <ion-nav-title>{{currentState.name}}</ion-nav-title>
     <ion-content>
         <i class="fa fa-spinner" ng-show='product_loading'></i>
 
@@ -37,10 +38,10 @@
             </div>
 
             <div class="product" ng-repeat="prod in products track by $index">
-                <div class="image">
-                    <a href="/#/app/product/{{prod._id}}"><img ng-src="{{prod.img}}" /></a>
+                <div class="image" on-tap="openProduct(prod);">
+                    <img ng-src="{{prod.img}}" />
                 </div>
-                <div class="name"><a href="/#/app/product/{{prod._id}}">{{prod.name}}</a></div>
+                <div class="name" on-tap="openProduct(prod);">{{prod.name}}</div>
                 <div class="website">{{prod.website}}</div>
                 <div class="brand">{{prod.brand}}</div>
                 <div class="bottom_box">
@@ -60,7 +61,6 @@
             </div>
         </div>
         <ion-infinite-scroll
-            ng-if="next_page_url != -1"
             on-infinite="nextPage()"
             icon="ion-loading-c"
             distance="1%"

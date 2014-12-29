@@ -2,14 +2,25 @@
     <ion-content>
         <i class="icon ion-load-a ion-spin" ng-show='product_loading'></i>
         <div class="product" ng-show='!product_loading'>
-            <img ng-src='{{product.image}}'/>
+            <img ng-src='{{product.img}}'/>
+            <br/>
+            {{product.name}}
             <br/>
             Price : {{product.price}}
 
+            <br/>
+
+            <div class="heart" on-tap="wishlist();">
+                <i ng-show="!product.wishlist" class="fa fa-heart-o"></i>
+                <i ng-show="product.wishlist == 1" class="fa fa-heart"></i>
+                <i ng-show="product.wishlist == 2" class="fa fa-spinner fa-spin"></i>
+            </div>
+
+            <br/>
             <button class="button" on-tap="buy(product);">Buy Now</button>
 
             <div class="variants">
-                <div ng-repeat="variant in product.variants" style="float: left">
+                <div on-tap="buy(variant);" ng-repeat="variant in product.variants" style="float: left">
                     <div>
                         <img ng-src='{{variant.image}}'/>
                     </div>

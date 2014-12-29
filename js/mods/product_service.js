@@ -6,7 +6,9 @@ productService.factory('productHelper', [
         var service = {};
         service.fetchProduct = function (id) {
             var defer = $q.defer();
-            var ajax = ajaxRequest.send('action=product&query_id=' + id, [], 'GET');
+            var ajax = ajaxRequest.send('v1/product/view', {
+                product_id: id
+            });
             ajax.then(function (data) {
                 var data = data.data;
                 var ret = {};

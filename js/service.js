@@ -38,6 +38,10 @@ serviceMod.factory('ajaxRequest',
         ['$http', '$q', '$log', 'toast',
             function ($http, $q, $log, toast) {
                 return {
+                    url: function (api) {
+//        url: 'http://127.0.0.1:5000/' + api + "?" + new Date().getTime(),
+                        return 'http://144.76.83.246:5000/' + api
+                    },
                     send: function (api, data, method) {
                         if (!method) {
                             method = 'POST';
@@ -47,8 +51,7 @@ serviceMod.factory('ajaxRequest',
                         var def = $q.defer();
 //                        delete $http.defaults.headers.common['X-Requested-With'];
                         var http = $http({
-//                            url: 'http://127.0.0.1:5000/' + api + "?" + new Date().getTime(),
-                            url: 'http://144.76.83.246:5000/' + api + "?" + new Date().getTime(),
+                            url: this.url(api),
                             method: method,
                             headers: {'Content-Type': 'application/json;charset=utf-8'},
                             cache: false,
@@ -89,3 +92,159 @@ serviceMod.factory('ajaxRequest',
                 }
             }
         ]);
+
+serviceMod.factory('uploader', ['$q', 'ajaxRequest',
+    function ($q, ajaxRequest) {
+        return {
+            ft: false,
+            currentFile: false,
+            upload_defer: false,
+            had_error: false,
+            fileSize: function (fileURI) {
+                var def = $q.defer();
+                var promise = def.promise;
+                window.resolveLocalFileSystemURL(fileURI, function (fileEntry) {
+                    fileEntry.file(function (filee) {
+                        var size = filee.size * 1;
+                        size = Math.ceil(size / (1024 * 1024));
+                        def.resolve(size);
+                    }, function () {
+                        def.resolve(0);
+                    });
+
+                }, function (err) {
+                    def.resolve(0);
+                });
+                return promise;
+            },
+            cancelUpload: function (index) {
+                if (this.ft && this.currentFile == index) {
+                    this.ft.abort();
+                    this.ft = false;
+                    if (this.upload_defer) {
+                        this.upload_defer.reject();
+                    }
+                    console.log('upload abored');
+                } else {
+                    console.log('no reason to abort upload');
+                }
+            },
+            upload: function (files, params) {
+                if (!angular.isArray(files)) {
+                    files = [files];
+                }
+                this.had_error = false;
+                var defer = $q.defer();
+                var x = this.doFile(files, params, 0);
+                x.then(function (data) {
+                    defer.resolve(data);
+                }, function (data) {
+                    defer.reject(data);
+                }, function (data) {
+                    defer.notify(data);
+                });
+                return defer.promise;
+            },
+            doFile: function (files, params, i, defer) {
+                if (i == 0) {
+                    defer = $q.defer();
+                }
+                var promise = this.uploadFile(files[i], params);
+                var context = this;
+                context.currentFile = i;
+                promise.then(function (data) {
+                    console.log(i + '==' + (files.length - 1));
+                    if (i == files.length - 1) {
+                        if (context.had_error) {
+                            defer.reject(data);
+                        } else {
+                            defer.resolve(data);
+                        }
+                    } else {
+                        context.doFile(files, params, i + 1, defer);
+                    }
+                }, function (data) {
+                    context.had_error = true;
+                    console.log(i + '==' + (files.length - 1) + "error");
+                    if (i == files.length - 1) {
+                        if (context.had_error) {
+                            defer.reject(data);
+                        } else {
+                            defer.resolve(data);
+                        }
+                    } else {
+                        context.doFile(files, params, i + 1, defer);
+                    }
+                }, function (data) {
+//                    console.log('at notify');
+//                    console.log(data);
+
+                    if (data.status == 'error') {
+                        context.had_error = true;
+                    }
+                    if (data.progress) {
+                        data.file = i;
+                        data.status = 'progress';
+                        defer.notify(data);
+                    } else {
+                        data.file = i;
+                        defer.notify(data);
+                    }
+                });
+                if (i == 0) {
+                    return defer.promise;
+                }
+            },
+            uploadFile: function (fileURL, params) {
+                var options = new FileUploadOptions();
+                options.fileKey = "file";
+                options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+                options.mimeType = "image/jpeg";
+                options.params = params;
+                var context = this;
+                context.upload_defer = $q.defer();
+                if (context.ft) {
+                    console.log('another file already in progress');
+                    context.notify({status: 'error', code: 'Another File Already In Progress'});
+                    context.reject();
+                } else {
+                    console.log('starting file ' + fileURL);
+                    var win = function (r) {
+
+                        console.log("Code = " + r.responseCode);
+                        console.log("Response = " + r.response);
+                        var obj = JSON.parse(r.response);
+                        console.log(obj);
+                        console.log("Response Error = " + obj.error);
+                        console.log("Sent = " + r.bytesSent);
+                        if (obj.error * 1 == 0) {
+                        } else {
+                            if (obj.error == 2) {
+                                context.upload_defer.notify({status: 'error', code: 'Unknow Error! Try Again Later'});
+                            } else {
+                                context.upload_defer.notify({status: 'error', code: obj.message});
+                            }
+                        }
+                        context.upload_defer.resolve(obj);
+                        context.ft = false;
+                    }
+
+                    var fail = function (error) {                     // error.code == FileTransferError.ABORT_ERR
+                        context.upload_defer.reject("An error has occurred: Code = " + error.code);
+                        context.ft = false;
+                    }
+                    context.ft = new FileTransfer();
+                    context.ft.upload(fileURL, encodeURI(ajaxRequest.url('v1/account/picture')), win, fail, options);
+                    context.ft.onprogress = function (progressEvent) {
+                        if (progressEvent.lengthComputable) {                         //loadingStatus.setPercentage();
+                            var x = Math.floor((progressEvent.loaded / progressEvent.total) * 100);
+                            context.upload_defer.notify({progress: x});
+                        } else {
+                        }
+                    };
+                }
+                return this.upload_defer.promise;
+            }
+        }
+    }
+]);

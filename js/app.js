@@ -3,13 +3,15 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
+// netstat -tulpn
 var app = angular.module('starter',
         [
             'ionic',
             'CategoryMod',
             'HomeMod',
             'ProductMod',
-            'RegisterMod'
+            'RegisterMod',
+            'AccountMod'
         ]
         );
 app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
@@ -83,6 +85,9 @@ app.run(function ($ionicPlatform, $rootScope, $localStorage) {
     });
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         console.log(toState.name + " to state");
+        console.log(fromState.name + "from state");
+
+//        console.log(fromState);
         if (toState.name == 'app.signup' && fromState) {
             if (fromState.name != "") {
                 var url = fromState.url;
@@ -91,10 +96,10 @@ app.run(function ($ionicPlatform, $rootScope, $localStorage) {
                         var value = fromParams[key];
                         url = url.replace(':' + key, value);
                     }
-                    if (!$localStorage.prevous) {
-                        $localStorage.prevous = {};
+                    if (!$localStorage.previous) {
+                        $localStorage.previous = {};
                     }
-                    $localStorage.prevous.url = url;
+                    $localStorage.previous.url = '/app' + url;
                     console.log(url + 'set as previous url');
                 }
 

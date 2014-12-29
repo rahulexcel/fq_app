@@ -1,31 +1,41 @@
 var categoryMod = angular.module('CategoryMod', ['CategoryService', 'WishlistService', 'ionic']);
 
 categoryMod.controller('CategoryCtrl',
-        ['$scope', 'categoryHelper', '$ionicNavBarDelegate', 'toast', '$ionicScrollDelegate', 'wishlistHelper', '$stateParams', '$localStorage',
-            function ($scope, categoryHelper, $ionicNavBarDelegate, toast, $ionicScrollDelegate, wishlistHelper, $stateParams, $localStorage) {
-                if ($localStorage.previous && $localStorage.previous.state) {
-                    var state = $localStorage.previous.state;
-                    var category = $localStorage.previous.category;
-                    var req = categoryHelper.fetchProduct(category);
-                    req.then(function (ret) {
-                        $scope.product_loading = false;
-                        if (ret.products.length == 0) {
-                            toast.showShortBottom('Product Not Found Matching Current Filter');
-                        }
-                        $scope.update(ret, true);
-                        $scope.showProductsFn();
+        ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate', 'wishlistHelper', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare',
+            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, wishlistHelper, $stateParams, $localStorage, $rootScope, $location, dataShare) {
+
+                var backView = false;
+
+                $rootScope.$on('login_event', function () {
+                    console.log('category ctrl login event listener');
+                    backView = $ionicHistory.backView();
+                    console.log('back view');
+                    console.log(backView);
+                    //if an operation requires login. log pages send back here and restores previous state
+                    if ($localStorage.previous && $localStorage.previous.state) {
+                        var state = $localStorage.previous.state;
+                        console.log('previous state');
+                        console.log(state);
+                        var category = $localStorage.previous.state.category;
+                        $scope.current_category = category;
+
+                        $localStorage.previous = {};
+                        backView = false;
                         if (state.function == 'wishlist') {
                             $scope.wishlist(state.param);
                         }
-                    });
-
-                } else if ($stateParams.cat_id && $stateParams.sub_cat_id) {
+                    }
+                });
+                if ($stateParams.cat_id && $stateParams.sub_cat_id) {
+                    console.log('setting category via state params');
                     $scope.current_category = {
                         name: $stateParams.name,
                         cat_id: $stateParams.cat_id,
                         sub_cat_id: $stateParams.sub_cat_id,
                     };
                 }
+
+
 
                 var products = [];
 
@@ -130,10 +140,11 @@ categoryMod.controller('CategoryCtrl',
                 $scope.$watch('current_category', function (cat) {
                     console.log(cat);
                     if (cat) {
+                        console.log('processing');
                         $scope.currentState = {};
                         $scope.currentState = cat;
                         $scope.currentState.filters = [];
-                        $ionicNavBarDelegate.title(cat.name);
+//                        $ionicNavBarDelegate.title(cat.name);
                         var products = [];
                         $scope.products = products;
                         $scope.product_loading = true;
@@ -149,7 +160,8 @@ categoryMod.controller('CategoryCtrl',
                     }
                 });
                 $scope.nextPage = function () {
-                    if ($scope.page) {
+                    console.log('next page');
+                    if ($scope.currentState.page && $scope.currentState.page * 1 != -1) {
                         $scope.product_loading = true;
                         var state = $scope.currentState;
                         state.page++;
@@ -166,6 +178,7 @@ categoryMod.controller('CategoryCtrl',
                 $scope.update = function (ret, append) {
                     $scope.currentState.page = ret.page;
                     console.log(ret.products.length + 'products');
+                    console.log('current page ' + ret.page)
                     if ($scope.products && append) {
                         var products = $scope.products;
                         for (var i = 0; i < ret.products.length; i++) {
@@ -178,24 +191,33 @@ categoryMod.controller('CategoryCtrl',
                     $scope.next_page_url = ret.page;
                     $scope.sortBy = ret.sortBy;
                     $scope.filters = ret.filters;
+
                 }
                 $scope.wishlist = function (product) {
-                    product.wishlist = 1;
+                    product.wishlist = 2;
                     var ajax = wishlistHelper.add(product._id);
                     ajax.then(function () {
-                        product.wishlist = 2;
-                        $localStorage.previous.state = {};
-                    }, function () {
-                        if (!$localStorage.previous) {
-                            $localStorage.previous = {};
+                        product.wishlist = 1;
+                        toast.showShortBottom(product.name + " added to your wishlist!!");
+                    }, function (data) {
+                        if (data.login == 1) {
+                            if (!$localStorage.previous) {
+                                $localStorage.previous = {};
+                            }
+                            $localStorage.previous.state = {
+                                function: 'wishlist',
+                                param: angular.copy(product),
+                                category: angular.copy($scope.currentState)
+                            };
                         }
-                        $localStorage.previous.state = {
-                            function: 'wishlist',
-                            param: product,
-                            category: $scope.currentState
-                        };
                         product.wishlist = false;
                     });
+                }
+                $scope.openProduct = function (product) {
+                    var id = product._id;
+                    console.log('open product ');
+                    $location.path('/app/product/' + id);
+                    dataShare.broadcastData(angular.copy(product), 'product_open');
                 }
 
             }

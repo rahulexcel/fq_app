@@ -59,7 +59,7 @@ homeMod.controller('HomeCtrl',
                     alert('wishlist not done yet');
                 }
                 $scope.account = function () {
-
+                    $location.path('/app/account');
                 }
                 $scope.feedback = function () {
 

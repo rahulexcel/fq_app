@@ -1,18 +1,41 @@
 <ion-view view-title="My Account">
     <ion-content>
 
-        <div class="list card">
+        <div>
 
-            <div class="item item-avatar">
+            <div>
                 <h2>{{login_data.name}}</h2>
                 <p>{{login_data.create_at}}</p>
             </div>
 
-            <div class="item item-image">
-                <img src="{{login_data.picture}}">
+            <div>
+                <img style="max-height: 150px;max-width: 150px" ng-src="{{login_data.picture}}">
             </div>
 
+            <div ng-if="!is_mobile">
+                <button class="button" 
+                        ng-file-select 
+                        ng-model="file.myFiles" 
+                        ng-multiple="false" 
+                        ng-rejected-file-model="rejFiles"
+                        >Upload</button>
+            </div>
             
+            <div ng-if='is_mobile'>
+                <button class="button" on-tap='browseCamera();'>Upload</button>
+            </div>
+            
+            <div ng-show='rejFiles'>
+                {{rejFiles}}
+            </div>
+            <div ng-show='file_upload'>
+                <div width="100%" style="height: 2px">
+                    <div ng-style="progoress_style" class='prog_inner'>
+
+                    </div>
+                </div>
+                <div>{{progress}}</div>
+            </div>
 
         </div>
 
@@ -35,32 +58,6 @@
                         <i class="fa fa-times" ng-show="register_status == 3"></i>
                         <i class="fa fa-check" ng-show="register_status == 2"></i>
                     </button>
-                </div>
-                <span on-tap='showLogin();'>Login</span>
-            </form>
-        </div>
-        <div class="login">
-            <form>
-                <div class="list">
-                    <label class="item item-input item-floating-label">
-                        <span class="input-label">Email</span>
-                        <input type="email" ng-model="login_obj.email" placeholder="Email">
-                    </label>
-                    <label class="item item-input item-floating-label">
-                        <span class="input-label">Password</span>
-                        <input type="password" ng-model="login_obj.password" placeholder="Passowrd">
-                    </label>
-                    <div class="padding">
-                        <button class="button button-positive" on-tap='login();'>
-                            Login
-                            <i class="fa fa-spinner fa-spin" ng-show="login_status == 1"></i>
-                            <i class="fa fa-times" ng-show="login_status == 3"></i>
-                            <i class="fa fa-check" ng-show="login_status == 2"></i>
-                        </button>
-                    </div>
-
-                    <span on-tap='showRegister();'>Register</span>
-                    <span on-tap='showForgot();'>Forgot Password</span>
                 </div>
             </form>
         </div>
