@@ -64,7 +64,7 @@ homeMod.controller('HomeCtrl',
                     $location.path('/app/account');
                 }
                 $scope.feedback = function () {
-
+                    $location.path('/app/feedback');
                 }
                 $scope.aboutus = function () {
 

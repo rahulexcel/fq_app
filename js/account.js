@@ -114,6 +114,10 @@ accountMod.controller('AccountCtrl',
                     } else if (password != confPassword) {
                         toast.showShortBottom('Passwords Don\'t Match');
                     } else {
+                        if ($scope.register_status == 1) {
+                            toast.showProgress();
+                            return;
+                        }
                         $scope.register_status = 1;
                         var ajax = accountHelper.updatePassword(password);
                         ajax.then(function () {
@@ -129,6 +133,12 @@ accountMod.controller('AccountCtrl',
                     var gender = $scope.profile.gender;
 
                     if (name.length != 0 && gender.length != 0) {
+
+                        if ($scope.register_status == 1) {
+                            toast.showProgress();
+                            return;
+                        }
+
                         $scope.register_status = 1;
                         var ajax = accountHelper.updateProfile({
                             name: name,

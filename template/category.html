@@ -6,8 +6,6 @@
             pulling-text="Refresh..."
             on-refresh="refershCategory()">
         </ion-refresher>
-        <i class="fa fa-spinner fa-spin" ng-show='product_loading'></i>
-
         <div ng-show="showFilter" >
 
             <i class="fa fa-times" on-tap='showProductsFn()'></i>
@@ -68,7 +66,7 @@
         </div>
         <div ng-show="currentState.page > 0 && !product_loading" on-tap="nextPage(true);">Load Next Page</div>
         <ion-infinite-scroll
-            ng-if="currentState.page"
+            ng-if="currentState.page && showProducts"
             on-infinite="nextPage()"
             icon="ion-loading-c"
             >

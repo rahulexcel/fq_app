@@ -10,11 +10,11 @@ categoryMod.directive('scrollWatch', function () {
                 if (e.detail.scrollTop >= start) {
                     start = e.detail.scrollTop;
                     scope.scroll_direction.direction = -1;
-                    scope.$apply();
+                    scope.$evalAsync();
                     console.log('scroll to bottom');
                 } else {
                     scope.scroll_direction.direction = 1;
-                    scope.$apply();
+                    scope.$evalAsync();
                     console.log('scroll to top');
                 }
             });
@@ -78,15 +78,23 @@ categoryMod.controller('CategoryCtrl',
                     $ionicScrollDelegate.scrollTop();
                 }
                 $scope.showSortByFn = function () {
-                    $scope.showProducts = false;
-                    $scope.showSortBy = true;
-                    $scope.showFilter = false;
+                    if (!$scope.showProducts) {
+                        $scope.showProductsFn();
+                    } else {
+                        $scope.showProducts = false;
+                        $scope.showSortBy = true;
+                        $scope.showFilter = false;
+                    }
                     $ionicScrollDelegate.scrollTop();
                 }
                 $scope.showFiltersFn = function () {
-                    $scope.showProducts = false;
-                    $scope.showSortBy = false;
-                    $scope.showFilter = true;
+                    if (!$scope.showProducts) {
+                        $scope.showProductsFn();
+                    } else {
+                        $scope.showProducts = false;
+                        $scope.showSortBy = false;
+                        $scope.showFilter = true;
+                    }
                     $ionicScrollDelegate.scrollTop();
                 }
                 $scope.open = function (obj) {
@@ -96,7 +104,7 @@ categoryMod.controller('CategoryCtrl',
                         obj.open = !obj.open;
                     }
                 }
-                $scope.hideFilterBox = false;
+                $scope.hideFilterBox = true;
                 $scope.scroll_direction = {
                     direction: 1
                 }
@@ -127,7 +135,7 @@ categoryMod.controller('CategoryCtrl',
                     var new_filters = [];
 
                     for (var i = 0; i < filters.length; i++) {
-                        if (filters[i].url != url) {
+                        if (filters[i].param != url) {
                             new_filters.push(filters[i]);
                         }
                     }

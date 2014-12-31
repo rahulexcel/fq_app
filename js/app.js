@@ -12,6 +12,7 @@ var app = angular.module('starter',
             'ProductMod',
             'RegisterMod',
             'AccountMod',
+            'FeedbackMod',
             'ngCordova'
         ]
         );
@@ -71,6 +72,15 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                     'menuContent': {
                         templateUrl: 'template/account.html',
                         controller: 'AccountCtrl'
+                    }
+                }
+            })
+            .state('app.feedback', {
+                url: '/feedback',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'template/feedback.html',
+                        controller: 'FeedbackCtrl'
                     }
                 }
             });

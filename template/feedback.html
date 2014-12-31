@@ -7,12 +7,16 @@
             </label>
             <label class="item item-input item-floating-label">
                 <span class="input-label">Message</span>
-                <textarea style="width:100px"></textarea>
+                <textarea ng-model="feedback.text" style="width:100%;height: 50px" placeholder="Your Feedback"></textarea>
             </label>
-            <label class="item item-input item-floating-label">
-                <span class="input-label">Password</span>
-                <input type="password" ng-model='register_obj.password' placeholder="Passowrd">
-            </label>
+            <div>
+                <button class="button" on-tap="sendFeedback();">Submit
+                    <i class="fa fa-spinner fa-spin" ng-show="feedback_status == 1"></i>
+                    <i class="fa fa-times" ng-show="feedback_status == 3"></i>
+                    <i class="fa fa-check" ng-show="feedback_status == 2"></i>
+                </button>
+            </div>
         </div>
+        <button ng-if="isMobile" on-tap="rateUs();" class="button">Rate Us</button>
     </ion-content>
 </ion-view>
