@@ -64,9 +64,9 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-        <div ng-show="currentState.page > 0 && !product_loading" on-tap="nextPage(true);">Load Next Page</div>
+        <div ng-show="currentState.page > 0 && !product_loading && products.length > 0" on-tap="nextPage(true);">Load Next Page</div>
         <ion-infinite-scroll
-            ng-if="currentState.page && showProducts"
+            ng-if="currentState.page && showProducts && products.length > 0"
             on-infinite="nextPage()"
             icon="ion-loading-c"
             >
