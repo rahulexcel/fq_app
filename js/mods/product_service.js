@@ -10,24 +10,35 @@ productService.factory('productHelper', [
                 product_id: id
             });
             ajax.then(function (data) {
-                var data = data.data;
                 var ret = {};
-                ret.name = data.query_row.query;
-                ret.price = data.query_row.lowest_price;
-                ret.image = 'http://img6a.flixcart.com/image/mobile/h/g/v/nokia-lumia-630ss-125x125-imadwun8kundgpfd.jpeg';
-                ret.url = 'http://www.flipkart.com/hp-1000-1b10au-notebook-apu-dual-core-a4-2gb-500gb-free-dos-k5b65pa/p/itmey7hkhzhbgaqf?pid&otracker=hp_widget_banner_0_image';
-
+                ret.product = data.product;
                 var variants = [];
-                for (var i = 0; i < data.result.length; i++) {
+                for (var i = 0; i < data.variant.length; i++) {
                     variants.push({
-                        name: data.result[i].name,
-                        image: data.result[i].image,
-                        price: data.result[i].disc_price,
-                        website: data.result[i].website,
-                        url: data.result[i].url
+                        _id: data.variant[i]._id,
+                        brand: data.variant[i].brand,
+                        name: data.variant[i].name,
+                        img: data.variant[i].img,
+                        price: data.variant[i].price,
+                        website: data.variant[i].website,
+                        url: data.variant[i].href
                     });
                 }
 
+                var similar = [];
+
+                for (var i = 0; i < data.similar.length; i++) {
+                    similar.push({
+                        _id: data.similar[i]._id,
+                        brand: data.similar[i].brand,
+                        name: data.similar[i].name,
+                        image: data.similar[i].img,
+                        price: data.similar[i].price,
+                        website: data.similar[i].website,
+                        url: data.similar[i].href
+                    });
+                }
+                ret.similar = similar;
                 ret.variants = variants;
                 defer.resolve(ret);
             });

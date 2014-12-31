@@ -1,7 +1,12 @@
 <ion-view>
     <ion-nav-title>{{currentState.name}}</ion-nav-title>
-    <ion-content>
-        <i class="fa fa-spinner" ng-show='product_loading'></i>
+    <ion-content scroll-watch on-scroll="on-scroll();">
+
+        <ion-refresher
+            pulling-text="Refresh..."
+            on-refresh="refershCategory()">
+        </ion-refresher>
+        <i class="fa fa-spinner fa-spin" ng-show='product_loading'></i>
 
         <div ng-show="showFilter" >
 
@@ -67,7 +72,7 @@
             >
         </ion-infinite-scroll>
     </ion-content>
-    <ion-footer-bar class="bar-light" ng-show="products.length > 0">
+    <ion-footer-bar class="bar-light" ng-show="products.length > 0 && !hideFilterBox">
         <div class="row">
             <div class="col" ng-if="sortBy.length > 0">
                 <button class="button button-full button-clear" on-tap="showSortByFn();">

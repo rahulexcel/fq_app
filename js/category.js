@@ -1,5 +1,28 @@
 var categoryMod = angular.module('CategoryMod', ['CategoryService', 'WishlistService', 'ionic']);
 
+
+
+categoryMod.directive('scrollWatch', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var start = scope.$eval(attrs.scrolling) || 0;
+
+            element.bind('scroll', function (e) {
+                if (e.detail.scrollTop >= start) {
+                    start = e.detail.scrollTop;
+                    scope.scroll_direction.direction = -1;
+                    scope.$apply();
+                    console.log('scroll to bottom');
+                } else {
+                    scope.scroll_direction.direction = 1;
+                    scope.$apply();
+                    console.log('scroll to top');
+                }
+            });
+        }
+    }
+});
 categoryMod.controller('CategoryCtrl',
         ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate', 'wishlistHelper', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare',
             function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, wishlistHelper, $stateParams, $localStorage, $rootScope, $location, dataShare) {
@@ -74,6 +97,28 @@ categoryMod.controller('CategoryCtrl',
                     } else {
                         obj.open = !obj.open;
                     }
+                }
+                $scope.hideFilterBox = false;
+                $scope.scroll_direction = {
+                    direction: 1
+                }
+                $scope.$watch('scroll_direction.direction', function (value) {
+                    console.log('scroll direct change');
+                    if (value && value == -1) {
+                        $scope.hideFilterBox = true;
+                    } else {
+                        $scope.hideFilterBox = false;
+                    }
+                })
+
+                $scope.refershCategory = function () {
+                    var cat = {
+                        name: $scope.currentState.name,
+                        cat_id: $scope.currentState.cat_id,
+                        sub_cat_id: $scope.currentState.sub_cat_id
+                    };
+                    $scope.current_category = cat;
+                    $scope.$apply();
                 }
 
                 $scope.removeFilter = function (filter) {
@@ -156,6 +201,10 @@ categoryMod.controller('CategoryCtrl',
                         req.then(function (ret) {
                             $scope.product_loading = false;
                             $scope.update(ret);
+                            $scope.$broadcast('scroll.refreshComplete');
+                        });
+                        req.then(function () {
+                            $scope.$broadcast('scroll.refreshComplete');
                         });
                     }
                 });

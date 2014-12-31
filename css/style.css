@@ -43,3 +43,52 @@
     background-color: black;
     height: 2px;
 }
+
+
+/**
+Scroll On Product Page
+**/
+
+#scroller {
+    position: absolute;
+    z-index: 1;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    width: 5000px;
+    height: 100%;
+    background-color: #fff;
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    -o-text-size-adjust: none;
+    text-size-adjust: none;
+}
+
+#scroller ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+#scroller li {
+    display: block;
+    float: left;
+    width: 200px;
+    height: 100%;
+    border-right: 1px solid #ccc;
+    background-color: #fafafa;
+    font-size: 14px;
+    z-index: 9999;
+}

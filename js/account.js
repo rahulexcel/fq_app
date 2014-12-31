@@ -5,6 +5,10 @@ accountMod.controller('AccountCtrl',
         ['$scope', '$localStorage', '$location', 'toast', 'accountHelper', '$upload', 'ajaxRequest', '$ionicActionSheet', '$cordovaCamera', 'uploader',
             function ($scope, $localStorage, $location, toast, accountHelper, $upload, ajaxRequest, $ionicActionSheet, $cordovaCamera, uploader) {
 
+
+                $scope.$on('logout_event', function () {
+                    $location.path('/app/signup');
+                })
                 if (!$localStorage.user.id) {
                     toast.showShortBottom('SignIn To Access This Page');
                     $location.path('/app/signup');
@@ -14,7 +18,9 @@ accountMod.controller('AccountCtrl',
                 $scope.login_data = $localStorage.user;
                 $scope.profile = {
                     name: $localStorage.user.name,
-                    password: ''
+                    password: '',
+                    confirmPassword: '',
+                    gender: $localStorage.user.gender
                 };
                 $scope.is_mobile = false;
                 if (window.cordova && window.cordova.plugins) {
@@ -99,12 +105,39 @@ accountMod.controller('AccountCtrl',
                     });
                 }
 
-                $scope.update = function () {
+                $scope.password = function () {
+                    var password = $scope.profile.password;
+                    var confPassword = $scope.profile.confPassword;
 
+                    if (password.length == 0) {
+                        toast.showShortBottom('Enter A Valid Password');
+                    } else if (password != confPassword) {
+                        toast.showShortBottom('Passwords Don\'t Match');
+                    } else {
+                        var ajax = accountHelper.updatePassword(password);
+                        ajax.then(function () {
+                            toast.showShortBottom('Password Updated');
+                        });
+                    }
+                }
+                $scope.update = function () {
+                    var name = $scope.profile.name;
+                    var gender = $scope.profile.gender;
+
+                    if (name.length != 0 && gender.length != 0) {
+                        var ajax = accountHelper.updateProfile({
+                            name: name,
+                            gender: gender
+                        });
+                        ajax.then(function () {
+                            toast.showShortBottom('Profile Updated');
+                        });
+                    } else {
+                        toast.showShortBottom('Fill Up Name and Gender');
+                    }
                 }
 
                 $scope.$watch('file.myFiles', function (val) {
-                    console.log('here');
                     if (!val) {
                         return;
                     }

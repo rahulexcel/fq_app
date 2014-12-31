@@ -5,13 +5,41 @@ accountService.factory('accountHelper', [
     function (ajaxRequest, $q, toast, $localStorage, $location, $rootScope) {
         var service = {};
 
+        service.updatePassword = function (password) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/account/update', {
+                user_id: $localStorage.user.id,
+                password: password
+            });
+            ajax.then(function () {
+                def.resolve();
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        }
+        service.updateProfile = function (profile) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/account/update', {
+                user_id: $localStorage.user.id,
+                profile: profile
+            });
+            ajax.then(function () {
+                $localStorage.user.name = profile.name;
+                $localStorage.user.gender = profile.gender;
+                def.resolve();
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        }
         service.removePicture = function () {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/account/remove_picture', {
                 user_id: $localStorage.user.id
             });
             ajax.then(function (data) {
-                $localStorage.user.picture = 'img/ionic.png';
+                $localStorage.user.picture = 'img/silhouette_default.jpg';
                 def.resolve();
             }, function () {
                 def.reject();
@@ -30,7 +58,7 @@ accountService.factory('accountHelper', [
                 $localStorage.user = data;
                 var picture = data.picture;
                 if (picture.length == 0) {
-                    data.picture = 'img/ionic.png';
+                    data.picture = 'img/silhouette_default.jpg';
                 } else if (picture.indexOf('http') == -1) {
                     data.picture = ajaxRequest.url('v1/account/picture/view/' + data.picture);
                 }

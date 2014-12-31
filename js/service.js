@@ -1,5 +1,28 @@
-var serviceMod = angular.module('ServiceMod', []);
+var serviceMod = angular.module('ServiceMod', ['ngStorage']);
 
+serviceMod.factory('timeStorage', ['$localStorage', function ($localStorage) {
+        var timeStorage = {};
+        timeStorage.set = function (key, data, hours) {
+            $localStorage.key = data;
+            var time_key = key + '_expire';
+            var time = new Date().getTime();
+            time = time + (hours * 1 * 60 * 60)
+            $localStorage[time_key] = time;
+        }
+        timeStorage.get = function (key) {
+            var time_key = key + "_expire";
+            if (!$localStorage[time_key]) {
+                return false;
+            }
+            var expire = $localStorage[time_key] * 1;
+            if (new Date().getTime() > expire) {
+                $localStorage.key = false;
+                return false;
+            }
+            return $localStorage.key;
+        }
+        return timeStorage;
+    }]);
 serviceMod.factory('dataShare', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
         var shareService = {};
         shareService.data = false;
@@ -39,7 +62,6 @@ serviceMod.factory('ajaxRequest',
             function ($http, $q, $log, toast) {
                 return {
                     url: function (api) {
-//        url: 'http://127.0.0.1:5000/' + api + "?" + new Date().getTime(),
                         return 'http://144.76.83.246:5000/' + api
                     },
                     send: function (api, data, method) {

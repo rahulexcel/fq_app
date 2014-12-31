@@ -11,12 +11,18 @@ var app = angular.module('starter',
             'HomeMod',
             'ProductMod',
             'RegisterMod',
-            'AccountMod'
+            'AccountMod',
+            'ngCordova'
         ]
         );
 app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
     $ionicConfigProvider.views.maxCache(5);
     $stateProvider
+            .state('offline', {
+                url: '/offline',
+                templateUrl: 'template/offline.html',
+                controller: 'HomeCtrl'
+            })
             .state('app', {
                 url: '/app',
                 abstract: true,
@@ -71,21 +77,35 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
     ;
     $urlRouterProvider.otherwise('/app/home');
 });
-app.run(function ($ionicPlatform, $rootScope, $localStorage) {
+app.run(function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            $cordovaSplashscreen.hide();
+            $cordovaNetwork.watchOffline();
+            $cordovaNetwork.watchOnline();
         }
         if (window.StatusBar) {
             StatusBar.styleDefault();
         }
 
     });
+    $rootScope.$on('networkOffline', function () {
+        $location.path('/offline');
+    });
+    $rootScope.$on('networkOnline', function () {
+        $location.path('/app/home');
+    });
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         console.log(toState.name + " to state");
         console.log(fromState.name + "from state");
+        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+            if ($cordovaNetwork.isOffline() && toState.name != 'offline') {
+                return;
+            }
+        }
 
 //        console.log(fromState);
         if (toState.name == 'app.signup' && fromState) {

@@ -1,17 +1,17 @@
 var homeMod = angular.module('HomeMod', ['ServiceMod', 'ngStorage', 'ionic']);
 
 homeMod.controller('HomeCtrl',
-        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate',
-            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate) {
+        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage',
+            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage) {
                 $ionicNavBarDelegate.showBackButton(false);
-                if ($localStorage.cat) {
-                    $scope.category = $localStorage.cat;
+                if (timeStorage.get('category')) {
+                    $scope.category = timeStorage.get('category');
                 } else {
                     $scope.category = [];
                     var ajax = ajaxRequest.send('v1/catalog/list', {});
                     ajax.then(function (data) {
                         $scope.category = data;
-                        $localStorage.cat = data;
+                        timeStorage.set('category', data, 24);
                     });
                 }
 
@@ -29,7 +29,7 @@ homeMod.controller('HomeCtrl',
                     $localStorage.user = {
                         email: email
                     };
-                    $scope.$broadcast('logout_event');
+                    $rootScope.$broadcast('logout_event');
                 }
 
                 $scope.$on('login_event', function () {

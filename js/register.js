@@ -152,6 +152,13 @@ registerMod.controller('RegisterCtrl',
                             var firstname = data.first_name;
                             var lastname = data.last_name;
                             var gender = data.gender;
+                            if (gender == 'male') {
+                                gender = 'M';
+                            } else if (gender == 'female') {
+                                gender = 'F';
+                            } else {
+                                gender = false;
+                            }
                             if (!email) {
                                 toast.showShortBottom("Email Not Found From Facebook, Unable To Login!");
                             } else {
@@ -232,6 +239,13 @@ registerMod.controller('RegisterCtrl',
                         var api = googleLogin.startLogin();
                         api.then(function (data) {
                             var user = data;
+                            if (user.gender == 'male') {
+                                user.gender = 'M';
+                            } else if (user.gender == 'female') {
+                                user.gender = 'F';
+                            } else {
+                                user.gender = false;
+                            }
                             var prog = accountHelper.create(user);
                             prog.then(function () {
                                 $scope.google_status = 2;
@@ -243,5 +257,6 @@ registerMod.controller('RegisterCtrl',
                         });
                     }
                 }
+                
             }
         ]);
