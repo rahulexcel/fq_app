@@ -1,7 +1,5 @@
 var categoryMod = angular.module('CategoryMod', ['CategoryService', 'WishlistService', 'ionic']);
 
-
-
 categoryMod.directive('scrollWatch', function () {
     return {
         restrict: 'A',
@@ -140,7 +138,7 @@ categoryMod.controller('CategoryCtrl',
                         if (ret.products.length == 0) {
                             toast.showShortBottom('Product Not Found Matching Current Filter');
                         }
-                        $scope.update(ret, true);
+                        $scope.update(ret);
                         $scope.showProductsFn();
                     });
                 }
@@ -163,7 +161,7 @@ categoryMod.controller('CategoryCtrl',
                         if (ret.products.length == 0) {
                             toast.showShortBottom('Product Not Found Matching Current Filter');
                         }
-                        $scope.update(ret, true);
+                        $scope.update(ret);
                         $scope.showProductsFn();
                     });
                 }
@@ -177,7 +175,7 @@ categoryMod.controller('CategoryCtrl',
                     var req = categoryHelper.fetchProduct(state);
                     req.then(function (ret) {
                         $scope.product_loading = false;
-                        $scope.update(ret, true);
+                        $scope.update(ret);
                         $scope.showProductsFn();
                     });
                 }
@@ -208,9 +206,9 @@ categoryMod.controller('CategoryCtrl',
                         });
                     }
                 });
-                $scope.nextPage = function () {
+                $scope.nextPage = function (force) {
                     console.log('next page');
-                    if ($scope.currentState.page && $scope.currentState.page * 1 != -1) {
+                    if ($scope.currentState.page && ($scope.currentState.page * 1 != -1 && $scope.currentState.page * 1 <= 10) || force) {
                         $scope.product_loading = true;
                         var state = $scope.currentState;
                         state.page++;
@@ -218,24 +216,38 @@ categoryMod.controller('CategoryCtrl',
                         req.then(function (ret) {
                             $scope.product_loading = false;
                             $scope.update(ret, true);
-                            if (ret.products.length > 0)
-                                $scope.$broadcast('scroll.infiniteScrollComplete');
+                            $scope.$broadcast('scroll.infiniteScrollComplete');
                         });
+                    } else {
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
                     }
                 }
+
+                $scope.page_size = 1;
+                $scope.page_range = 2;
+                $scope.current_start_page = 1;
 
                 $scope.update = function (ret, append) {
                     $scope.currentState.page = ret.page;
                     console.log(ret.products.length + 'products');
                     console.log('current page ' + ret.page)
+                    $scope.page_size = ret.products.length;
                     if ($scope.products && append) {
                         var products = $scope.products;
+//                        if (ret.page > $scope.page_range) {
+//                            for (var i = 0; i < ret.products.length; i++) {
+//                                products.shift();
+//                            }
+//                            $scope.current_start_page = ret.page - $scope.page_range;
+//                        }
+//
                         for (var i = 0; i < ret.products.length; i++) {
                             products.push(ret.products[i]);
                         }
                         $scope.products = products;
                     } else {
                         $scope.products = ret.products;
+                        $scope.current_start_page = 1;
                     }
                     $scope.next_page_url = ret.page;
                     $scope.sortBy = ret.sortBy;

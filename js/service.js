@@ -6,7 +6,7 @@ serviceMod.factory('timeStorage', ['$localStorage', function ($localStorage) {
             $localStorage.key = data;
             var time_key = key + '_expire';
             var time = new Date().getTime();
-            time = time + (hours * 1 * 60 * 60)
+            time = time + (hours * 1 * 60 * 60 * 1000)
             $localStorage[time_key] = time;
         }
         timeStorage.get = function (key) {

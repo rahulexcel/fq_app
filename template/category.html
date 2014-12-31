@@ -43,6 +43,7 @@
             </div>
 
             <div class="product" ng-repeat="prod in products track by $index">
+                <div class="clearfix"></div>
                 <div class="image" on-tap="openProduct(prod);">
                     <img ng-src="{{prod.img}}" />
                 </div>
@@ -65,10 +66,11 @@
                 <div class="clearfix"></div>
             </div>
         </div>
+        <div ng-show="currentState.page > 0 && !product_loading" on-tap="nextPage(true);">Load Next Page</div>
         <ion-infinite-scroll
+            ng-if="currentState.page"
             on-infinite="nextPage()"
             icon="ion-loading-c"
-            distance="1%"
             >
         </ion-infinite-scroll>
     </ion-content>

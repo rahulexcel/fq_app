@@ -1,5 +1,23 @@
 <ion-view view-title="SignUp">
     <ion-content>
+        <div>
+            <div class="padding">
+                <button class="button" on-tap='facebook();'>
+                    Facebook
+                    <i class="fa fa-spinner fa-spin" ng-show="facebook_status == 1"></i>
+                    <i class="fa fa-times" ng-show="facebook_status == 3"></i>
+                    <i class="fa fa-check" ng-show="facebook_status == 2"></i>
+                </button>
+            </div>
+            <div class="padding">
+                <button class="button" on-tap='google();'>
+                    Google
+                    <i class="fa fa-spinner fa-spin" ng-show="google_status == 1"></i>
+                    <i class="fa fa-times" ng-show="google_status == 3"></i>
+                    <i class="fa fa-check" ng-show="google_status == 2"></i>
+                </button>
+            </div>
+        </div>
         <div class="register"  ng-if="show_register">
             <form>
                 <div class="list">
@@ -75,24 +93,5 @@
             </form>
         </div>
 
-
-        <div>
-            <div class="padding">
-                <button class="button" on-tap='facebook();'>
-                    Facebook
-                    <i class="fa fa-spinner fa-spin" ng-show="facebook_status == 1"></i>
-                    <i class="fa fa-times" ng-show="facebook_status == 3"></i>
-                    <i class="fa fa-check" ng-show="facebook_status == 2"></i>
-                </button>
-            </div>
-            <div class="padding">
-                <button class="button" on-tap='google();'>
-                    Google
-                    <i class="fa fa-spinner fa-spin" ng-show="google_status == 1"></i>
-                    <i class="fa fa-times" ng-show="google_status == 3"></i>
-                    <i class="fa fa-check" ng-show="google_status == 2"></i>
-                </button>
-            </div>
-        </div>
     </ion-content>
 </ion-view>

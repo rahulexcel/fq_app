@@ -114,9 +114,13 @@ accountMod.controller('AccountCtrl',
                     } else if (password != confPassword) {
                         toast.showShortBottom('Passwords Don\'t Match');
                     } else {
+                        $scope.register_status = 1;
                         var ajax = accountHelper.updatePassword(password);
                         ajax.then(function () {
+                            $scope.register_status = 2;
                             toast.showShortBottom('Password Updated');
+                        }, function () {
+                            $scope.register_status = 3;
                         });
                     }
                 }
@@ -125,12 +129,16 @@ accountMod.controller('AccountCtrl',
                     var gender = $scope.profile.gender;
 
                     if (name.length != 0 && gender.length != 0) {
+                        $scope.register_status = 1;
                         var ajax = accountHelper.updateProfile({
                             name: name,
                             gender: gender
                         });
                         ajax.then(function () {
+                            $scope.register_status = 2;
                             toast.showShortBottom('Profile Updated');
+                        }, function () {
+                            $scope.register_status = 3;
                         });
                     } else {
                         toast.showShortBottom('Fill Up Name and Gender');

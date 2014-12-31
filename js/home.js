@@ -5,8 +5,10 @@ homeMod.controller('HomeCtrl',
             function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage) {
                 $ionicNavBarDelegate.showBackButton(false);
                 if (timeStorage.get('category')) {
+                    console.log('category from cache');
                     $scope.category = timeStorage.get('category');
                 } else {
+                    console.log('category not from cache');
                     $scope.category = [];
                     var ajax = ajaxRequest.send('v1/catalog/list', {});
                     ajax.then(function (data) {
