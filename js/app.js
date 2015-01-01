@@ -48,6 +48,15 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                     }
                 }
             })
+            .state('app.category.search', {
+                url: '/category/:father_text/:search',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'template/category.html',
+                        controller: 'CategoryCtrl'
+                    }
+                }
+            })
             .state('app.product', {
                 url: '/product/:product_id',
                 views: {

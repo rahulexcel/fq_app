@@ -1,8 +1,8 @@
 var homeMod = angular.module('HomeMod', ['ServiceMod', 'ngStorage', 'ionic']);
 
 homeMod.controller('HomeCtrl',
-        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage',
-            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage) {
+        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal',
+            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal) {
                 $ionicNavBarDelegate.showBackButton(false);
                 if (timeStorage.get('category')) {
                     console.log('category from cache');
@@ -68,6 +68,43 @@ homeMod.controller('HomeCtrl',
                 }
                 $scope.aboutus = function () {
 
+                }
+
+                $rootScope.showSearchBox = false;
+                $rootScope.search = {
+                    text: ''
+                }
+                $scope.searchNow = function () {
+                    $rootScope.showSearchBox = true;
+                }
+                $scope.$on('$destroy', function () {
+                    $scope.modal.remove();
+                });
+                $scope.closeModel = function () {
+                    $scope.modal.hide();
+                }
+                $ionicModal.fromTemplateUrl('template/partial/search-category.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    $scope.modal = modal;
+                });
+                $scope.doSearch = function () {
+                    if ($rootScope.search.text.length > 0) {
+                        $scope.modal.show();
+                    } else {
+                        toast.showShortBottom('Enter Search Term');
+                    }
+                }
+                $scope.search_cat = false;
+                $scope.selectSearchCategory = function (cat) {
+                    console.log(cat);
+                    $scope.search_cat = cat;
+                    $scope.modal.hide();
+                    var father_key = cat.father_key;
+                    $location.path('/app/catagory/' + father_key + "/" + $rootScope.search.text);
+                    $rootScope.search.text = '';
+                    $rootScope.showSearchBox = false;
                 }
             }
         ]);

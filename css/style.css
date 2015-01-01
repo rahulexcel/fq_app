@@ -92,3 +92,7 @@ Scroll On Product Page
     font-size: 14px;
     z-index: 9999;
 }
+
+.hidden {
+    display: none;
+}

@@ -47,7 +47,14 @@ categoryMod.controller('CategoryCtrl',
                         }
                     }
                 });
-                if ($stateParams.cat_id && $stateParams.sub_cat_id) {
+                if ($stateParams.father_key) {
+                    console.log('setting category via state params');
+                    $scope.current_category = {
+                        name: $stateParams.name,
+                        father_key: $stateParams.father_key,
+                        search: $stateParams.search,
+                    };
+                } else if ($stateParams.cat_id && $stateParams.sub_cat_id) {
                     console.log('setting category via state params');
                     $scope.current_category = {
                         name: $stateParams.name,

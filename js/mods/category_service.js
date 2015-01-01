@@ -6,7 +6,7 @@ categoryService.factory('categoryHelper', [
         var service = {};
         service.fetchProduct = function (data) {
             var defer = $q.defer();
-            var ajax = ajaxRequest.send('v1/catalog/products', data);
+            var ajax = ajaxRequest.send('v1/catalog/products', angular.copy(data));
             $ionicBackdrop.retain();
             ajax.then(function (data) {
                 var ret = {};
