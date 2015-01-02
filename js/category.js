@@ -123,14 +123,20 @@ categoryMod.controller('CategoryCtrl',
                     }
                 })
 
-                $scope.refershCategory = function () {
-                    var cat = {
-                        name: $scope.currentState.name,
-                        cat_id: $scope.currentState.cat_id,
-                        sub_cat_id: $scope.currentState.sub_cat_id
-                    };
-                    $scope.current_category = cat;
-                    $scope.$apply();
+                $scope.refreshCategory = function () {
+                    $scope.product_loading = true;
+                    var state = $scope.currentState;
+                    delete state.page;
+                    $scope.currentState = state;
+                    var req = categoryHelper.fetchProduct(state);
+                    req.then(function (ret) {
+                        $scope.product_loading = false;
+                        if (ret.products.length == 0) {
+                            toast.showShortBottom('Product Not Found Matching Current Filter');
+                        }
+                        $scope.update(ret);
+                        $scope.showProductsFn();
+                    });
                 }
 
                 $scope.removeFilter = function (filter) {
