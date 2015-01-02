@@ -107,7 +107,7 @@ line-height: 35px;
 }
 
 .scroll-content .scroll ul{
-margin: 10px 20px;
+margin: 0px 20px;
 }
 .scroll-content .scroll ul li a{
 text-decoration: none;
@@ -116,7 +116,7 @@ text-decoration: none;
 font-weight: normal;
 color: #999999;
  border-bottom-style:none;
-line-height: 35px;
+line-height: 28px;
 }
 i.fa-map-marker,i.fa-user{color:#db500d;}
 li a.internal-details{font-weight:normal; color:#000;}
