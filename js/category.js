@@ -48,9 +48,8 @@ categoryMod.controller('CategoryCtrl',
                     }
                 });
                 if ($stateParams.father_key) {
-                    console.log('setting category via state params');
+                    console.log('setting category via search params');
                     $scope.current_category = {
-                        name: $stateParams.name,
                         father_key: $stateParams.father_key,
                         search: $stateParams.search,
                     };
@@ -194,6 +193,11 @@ categoryMod.controller('CategoryCtrl',
                         $scope.showProductsFn();
                     });
                 }
+                
+                $scope.$on('search_event',function(){
+                    var text = $rootScope.search.text;
+                    alert(text);
+                })
 
                 $scope.$watch('current_category', function (cat) {
                     console.log(cat);
@@ -201,15 +205,22 @@ categoryMod.controller('CategoryCtrl',
                         console.log('processing');
                         $scope.currentState = {};
                         $scope.currentState = cat;
+                        if (!cat.cat_id) {
+                            cat.cat_id = -1;
+                            cat.sub_cat_id = -1;
+                        }
+                        if (!cat.father_key) {
+                            cat.father_key = '';
+                        }
+                        if (!cat.search) {
+                            cat.search = '';
+                        }
                         $scope.currentState.filters = [];
 //                        $ionicNavBarDelegate.title(cat.name);
                         var products = [];
                         $scope.products = products;
                         $scope.product_loading = true;
-                        var req = categoryHelper.fetchProduct({
-                            cat_id: cat.cat_id,
-                            sub_cat_id: cat.sub_cat_id
-                        });
+                        var req = categoryHelper.fetchProduct(cat);
 
                         req.then(function (ret) {
                             $scope.product_loading = false;

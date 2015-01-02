@@ -48,8 +48,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                     }
                 }
             })
-            .state('app.category.search', {
-                url: '/category/:father_text/:search',
+            .state('app.search', {
+                url: '/search/:father_key/:search',
                 views: {
                     'menuContent': {
                         templateUrl: 'template/category.html',

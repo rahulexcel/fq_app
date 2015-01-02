@@ -91,7 +91,14 @@ homeMod.controller('HomeCtrl',
                 });
                 $scope.doSearch = function () {
                     if ($rootScope.search.text.length > 0) {
-                        $scope.modal.show();
+
+                        var path = $location.path();
+                        if (path.indexOf('/app/category') != -1) {
+                            $scope.$broadcast('search_event');
+                        } else {
+                            $scope.modal.show();
+                        }
+
                     } else {
                         toast.showShortBottom('Enter Search Term');
                     }
@@ -102,7 +109,7 @@ homeMod.controller('HomeCtrl',
                     $scope.search_cat = cat;
                     $scope.modal.hide();
                     var father_key = cat.father_key;
-                    $location.path('/app/catagory/' + father_key + "/" + $rootScope.search.text);
+                    $location.path('/app/search/' + father_key + "/" + $rootScope.search.text);
                     $rootScope.search.text = '';
                     $rootScope.showSearchBox = false;
                 }
