@@ -37,11 +37,15 @@
         <ion-content>
             <i class="fa fa-spinner fa-spin" ng-show='category.length == 0'></i>
             <ul ng-show='category.length >= 0'>
-                <li nav-clear menu-close ng-repeat="cat in category">
+                <li ng-repeat="cat in category">
                     <span ng-click="selectCategory(cat)">{{cat.name}}</span>
                     <ul ng-show="cat.open" style="padding-left: 20px" ng-if='cat.data.length > 0'>
-                        <li class="sub-cat-label" nav-clear menu-close ng-repeat="catSub in cat.data" >
+                        <li class="sub-cat-label" ng-repeat="catSub in cat.data" >
                             <span ng-click='selectCategory(catSub)'>{{catSub.name}}</span>
+                            <span ng-if="catSub.data.length > 0">
+                                <i ng-show="!catSub.open">+</i>
+                                <i ng-show="catSub.open">-</i>
+                            </span>
                             <ul class="" ng-show="catSub.open" style="padding-left: 20px" ng-if='catSub.data.length > 0'>
                                 <li class="" nav-clear menu-close ng-repeat="catLast in catSub.data" >
                                     <span  ng-click='selectCategory(catLast)'>{{catLast.name}}</span>        
@@ -52,10 +56,11 @@
                 </li>
                 <li ><i class="fa fa-user"></i><a class="internal-details" ng-if="!login" nav-clear menu-close href='#/app/signup'> SignUp</a></li>
                 <li ><a class="internal-details" ng-if="login" nav-clear menu-close on-tap='logout();'>Logout</a></li>
-                <li  ng-if="login" nav-clear menu-close on-tap='account();'><a class="internal-details">MyAccount<a></li>
-                <li  nav-clear menu-close on-tap='feedback();'><a class="internal-details">Feedback<a></li>
-                <li  nav-clear menu-close on-tap='about();'><i class="fa fa-map-marker"></i><a class="internal-details">
-AboutUs</a></li>
+                <li ng-if="login" nav-clear menu-close on-tap='account();'><a class="internal-details">My Account</a></li>
+                <li nav-clear menu-close on-tap='feedback();'><a class="internal-details">Feedback</a></li>
+                <li nav-clear menu-close on-tap='about();'>
+                    <i class="fa fa-map-marker"></i><a class="internal-details">About Us</a>
+                </li>
             </ul>
         </ion-content>
     </ion-side-menu>
