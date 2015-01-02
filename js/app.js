@@ -13,6 +13,7 @@ var app = angular.module('starter',
             'RegisterMod',
             'AccountMod',
             'FeedbackMod',
+            'WishlistMod',
             'ngCordova'
         ]
         );
@@ -81,6 +82,15 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                     'menuContent': {
                         templateUrl: 'template/account.html',
                         controller: 'AccountCtrl'
+                    }
+                }
+            })
+            .state('app.wishlist', {
+                url: '/wishlist',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'template/wishlist.html',
+                        controller: 'WishlistCtrl'
                     }
                 }
             })

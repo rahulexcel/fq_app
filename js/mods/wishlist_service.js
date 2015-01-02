@@ -1,4 +1,4 @@
-var wishlistService = angular.module('WishlistService', ['ServiceMod', 'ionic']);
+var wishlistService = angular.module('WishlistService', ['ServiceMod']);
 
 wishlistService.factory('wishlistHelper', [
     'ajaxRequest', '$q', 'toast', '$localStorage', '$location',

@@ -58,7 +58,7 @@ homeMod.controller('HomeCtrl',
                     //$scope.current_category = cat;
                 }
                 $scope.wishlist = function () {
-                    alert('wishlist not done yet');
+                    $location.path('/app/wishlist');
                 }
                 $scope.account = function () {
                     $location.path('/app/account');
