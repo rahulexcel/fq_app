@@ -1,8 +1,8 @@
 var productMod = angular.module('ProductMod', ['ionic', 'ProductService', 'ServiceMod']);
 
 productMod.controller('ProductCtrl',
-        ['$scope', '$stateParams', 'productHelper', 'dataShare', 'wishlistHelper', 'toast', '$localStorage', '$timeout', '$location',
-            function ($scope, $stateParams, productHelper, dataShare, wishlistHelper, toast, $localStorage, $timeout, $location) {
+        ['$scope', '$stateParams', 'productHelper', 'dataShare', 'wishlistHelper', 'toast', '$localStorage', '$timeout', '$location', '$rootScope',
+            function ($scope, $stateParams, productHelper, dataShare, wishlistHelper, toast, $localStorage, $timeout, $location, $rootScope) {
                 $scope.product_loading = true;
                 $scope.product = false;
                 $scope.variants = [];
@@ -30,6 +30,13 @@ productMod.controller('ProductCtrl',
                         $scope.$broadcast('scroll.refreshComplete');
                     });
                 }
+                $scope.$on('search_product_event', function () {
+                    var cat_id = $scope.product.cat_id;
+                    var sub_cat_id = $scope.product.sub_cat_id;
+                    var name = $scope.product.cat_name;
+                    var text = $rootScope.search.text;
+                    $location.path('/app/category/' + cat_id + "/" + sub_cat_id + "/" + name + "/" + text);
+                })
                 $scope.$on('product_open', function () {
                     var data = dataShare.getData();
                     console.log('product open event');

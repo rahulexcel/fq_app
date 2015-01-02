@@ -1,5 +1,5 @@
 <ion-view>
-    <ion-nav-title>{{currentState.name}}</ion-nav-title>
+    <ion-nav-title>{{currentState.title}}</ion-nav-title>
     <ion-content scroll-watch on-scroll="on-scroll();">
 
         <ion-refresher
@@ -66,7 +66,7 @@
         </div>
         <div ng-show="currentState.page > 0 && !product_loading && products.length > 0 && showProducts" on-tap="nextPage(true);">Load Next Page</div>
         <ion-infinite-scroll
-            ng-if="currentState.page && showProducts && products.length > 0"
+            ng-if="currentState.page && showProducts && products.length > 0 && startPaging"
             on-infinite="nextPage()"
             icon="ion-loading-c"
             >

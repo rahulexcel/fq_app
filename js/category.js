@@ -20,8 +20,8 @@ categoryMod.directive('scrollWatch', function () {
     }
 });
 categoryMod.controller('CategoryCtrl',
-        ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate', 'wishlistHelper', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare',
-            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, wishlistHelper, $stateParams, $localStorage, $rootScope, $location, dataShare) {
+        ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate', 'wishlistHelper', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$interval',
+            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, wishlistHelper, $stateParams, $localStorage, $rootScope, $location, dataShare, $interval) {
 
                 var backView = false;
 
@@ -45,7 +45,16 @@ categoryMod.controller('CategoryCtrl',
                         }
                     }
                 });
-                if ($stateParams.father_key) {
+                if ($stateParams.search_text) {
+                    $scope.current_category = {
+                        name: $stateParams.name,
+                        cat_id: $stateParams.cat_id,
+                        sub_cat_id: $stateParams.sub_cat_id,
+                        search: $stateParams.search_text
+                    };
+                    $rootScope.search.text = '';
+                    $rootScope.showSearchBox = false;
+                } else if ($stateParams.father_key) {
                     console.log('setting category via search params');
                     $scope.current_category = {
                         father_key: $stateParams.father_key,
@@ -221,6 +230,8 @@ categoryMod.controller('CategoryCtrl',
                     });
                 })
 
+                $scope.startPaging = false;
+
                 $scope.$watch('current_category', function (cat) {
                     console.log(cat);
                     if (cat) {
@@ -237,6 +248,11 @@ categoryMod.controller('CategoryCtrl',
                         if (!cat.search) {
                             cat.search = '';
                         }
+                        if (cat.search.length > 0) {
+                            $scope.currentState.title = cat.search;
+                        } else {
+                            $scope.currentState.title = cat.name;
+                        }
                         $scope.currentState.filters = [];
 //                        $ionicNavBarDelegate.title(cat.name);
                         var products = [];
@@ -247,6 +263,7 @@ categoryMod.controller('CategoryCtrl',
                         req.then(function (ret) {
                             $scope.product_loading = false;
                             $scope.update(ret);
+                            $scope.startPaging = true;
                         });
                     }
                 });
@@ -260,7 +277,9 @@ categoryMod.controller('CategoryCtrl',
                         req.then(function (ret) {
                             $scope.product_loading = false;
                             $scope.update(ret, true);
-                            $scope.$broadcast('scroll.infiniteScrollComplete');
+                            $interval(function () {
+                                $scope.$broadcast('scroll.infiniteScrollComplete');
+                            }, 500);
                         });
                     } else {
                         $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -322,7 +341,9 @@ categoryMod.controller('CategoryCtrl',
                     var id = product._id;
                     console.log('open product ');
                     $location.path('/app/product/' + id);
-                    dataShare.broadcastData(angular.copy(product), 'product_open');
+                    var product = angular.copy(product);
+                    product.cat_name = $scope.current_category.name;
+                    dataShare.broadcastData(product, 'product_open');
                 }
 
             }
