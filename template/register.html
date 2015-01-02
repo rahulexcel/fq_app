@@ -1,21 +1,29 @@
 <ion-view view-title="SignUp">
     <ion-content>
         <div>
+			<div class="brand-image">
+			<img src="img/fashionig_brand.png" width="160px;" alt="Fashionig"/>
+			</div>
             <div class="padding">
-                <button class="button" on-tap='facebook();'>
-                    Facebook
+                <button class="button google-button" on-tap='google();'>
+					<i class="fa fa-google-plus fa-lg g-social-icon"></i>
+                    Sign up with <span class="social-site-name">Google+</span>
+                    <i class="fa fa-spinner fa-spin" ng-show="google_status == 1"></i>
+                    <i class="fa fa-times" ng-show="google_status == 3"></i>
+                    <i class="fa fa-check" ng-show="google_status == 2"></i>
+                </button>
+            </div>
+            <div class="padding">
+                <button class="button fb-button" on-tap='facebook();'>	
+					<i class="fa fa-facebook fa-lg fb-social-icon"></i>
+                  Sign up with <span class="social-site-name">Facebook</span>
                     <i class="fa fa-spinner fa-spin" ng-show="facebook_status == 1"></i>
                     <i class="fa fa-times" ng-show="facebook_status == 3"></i>
                     <i class="fa fa-check" ng-show="facebook_status == 2"></i>
                 </button>
             </div>
-            <div class="padding">
-                <button class="button" on-tap='google();'>
-                    Google
-                    <i class="fa fa-spinner fa-spin" ng-show="google_status == 1"></i>
-                    <i class="fa fa-times" ng-show="google_status == 3"></i>
-                    <i class="fa fa-check" ng-show="google_status == 2"></i>
-                </button>
+            <div class="alter">
+            Alternatively,
             </div>
         </div>
         <div class="register"  ng-if="show_register">
@@ -35,14 +43,15 @@
                     </label>
                 </div>
                 <div class="padding">
-                    <button on-tap='create();' class="button button-positive">
-                        SignUp
+                    <button class="button signup-button" on-tap='create();' class="button button-positive">
+                        SIGN UP
                         <i class="fa fa-spinner fa-spin" ng-show="register_status == 1"></i>
                         <i class="fa fa-times" ng-show="register_status == 3"></i>
                         <i class="fa fa-check" ng-show="register_status == 2"></i>
                     </button>
                 </div>
-                <span on-tap='showLogin();'>Login</span>
+                <div align="center"><span class="check-account">Already have an account? </span><span class="login-click" on-tap='showLogin();'>Login</span>
+				</div>
             </form>
         </div>
         <div class="login" ng-if="show_login">
