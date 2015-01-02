@@ -98,7 +98,7 @@ Scroll On Product Page
 }
 
 /**************************Side Menu*********************************/
-
+.scroll-content .scroll ul li.list-not-cat{border-bottom-style:none; }
 .scroll-content .scroll ul li {
 font-weight: bold;
 color: #000;
