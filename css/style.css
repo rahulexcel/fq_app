@@ -138,3 +138,4 @@ div#account-page button{min-height: 40px;max-height:43px; overflow:hidden;}
 .social-site-name{font-weight:bold;}
 .brand-image{text-align:center;margin: 31px 5px;}
 .forget-pass{float:right;padding-right:13px;color:#da500f;text-decoration: underline;font-style: italic;margin-bottom:7px;}
+.activated i{background-color:#E5E5E5;}
