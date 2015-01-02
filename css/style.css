@@ -98,7 +98,7 @@ Scroll On Product Page
 }
 
 /**************************Side Menu*********************************/
-
+.scroll-content .scroll ul li.list-not-cat{border-bottom-style:none; }
 .scroll-content .scroll ul li {
 font-weight: bold;
 color: #000;
@@ -121,18 +121,22 @@ line-height: 35px;
 i.fa-map-marker,i.fa-user{color:#db500d;}
 li a.internal-details{font-weight:normal; color:#000;}
 li.sub-cat-label > span{font-weight: normal; color:#000;}
+span.plus-minus{float: right;}
 
 /**************************closed Side Menu*********************************/
 
-/**************************Sign up*********************************/
-
+/**************************Sign up/login*********************************/
+div#account-page button:hover{color:#fff;}
+div#account-page button{min-height: 40px;max-height:43px; overflow:hidden;}
 .google-button{width:100%; background-color:#e25b47;color:#fff;padding-left:0px; padding-right:42px;border-radius: 5px;}
 .fb-button{width:100%; background-color:#506da9;color:#fff;padding-left:0px;padding-right:42px;border-radius: 5px;}
-.signup-button{width:100%; background-color:#da500f;color:#fff;padding-left:0px;border-radius: 5px;font-weight: bold;font-family: "Arial", Times, serif;}
-.fb-social-icon{float: left; padding: 15px 0; background-color: #253b6c; width: 46px;}
-.g-social-icon{float: left; padding: 15px 0; background-color: #a12b1d; width: 46px;}
+.signup-button{width:100%; border-color: #da500f;background-color:#da500f;color:#fff;padding-left:0px;border-radius: 5px;font-weight: bold;font-family: "Arial", Times, serif;}
+.fb-social-icon{float: left; padding: 12.5px 0; background-color: #253b6c; width: 46px;}
+.g-social-icon{float: left; padding: 12.5px 0; background-color: #a12b1d; width: 46px;}
 .alter{text-align:center;color:#959595;margin: 29px 0px 10px;}
 .login-click{color:#d94f0e;font-weight: bold;}
 .check-account{color:#bebebe;}
 .social-site-name{font-weight:bold;}
 .brand-image{text-align:center;margin: 31px 5px;}
+.forget-pass{float:right;padding-right:13px;color:#da500f;text-decoration: underline;font-style: italic;margin-bottom:7px;}
+.activated i{background-color:#E5E5E5;}
