@@ -108,6 +108,8 @@ homeMod.controller('HomeCtrl',
                     console.log(cat);
                     $scope.search_cat = cat;
                     $scope.modal.hide();
+                    $rootScope.search.text = '';
+                    $rootScope.showSearchBox = false;
                     var father_key = cat.father_key;
                     $location.path('/app/search/' + father_key + "/" + $rootScope.search.text);
                     $rootScope.search.text = '';

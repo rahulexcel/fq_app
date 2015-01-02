@@ -169,6 +169,8 @@ categoryMod.controller('CategoryCtrl',
                         name: name,
                         param: url
                     });
+                    delete state.page;
+                    $scope.currentState = state;
                     var req = categoryHelper.fetchProduct(state);
                     req.then(function (ret) {
                         $scope.product_loading = false;
@@ -184,6 +186,8 @@ categoryMod.controller('CategoryCtrl',
                     $scope.product_loading = true;
 
                     var state = $scope.currentState;
+                    delete state.page;
+                    $scope.currentState = state;
                     state.sortby = url;
 
                     var req = categoryHelper.fetchProduct(state);
@@ -193,10 +197,21 @@ categoryMod.controller('CategoryCtrl',
                         $scope.showProductsFn();
                     });
                 }
-                
-                $scope.$on('search_event',function(){
+
+                $scope.$on('search_event', function () {
                     var text = $rootScope.search.text;
-                    alert(text);
+                    $scope.product_loading = true;
+                    $scope.currentState.search = text;
+                    var state = $scope.currentState;
+
+                    var req = categoryHelper.fetchProduct(state);
+                    req.then(function (ret) {
+                        $rootScope.search.text = '';
+                        $rootScope.showSearchBox = false;
+                        $scope.product_loading = false;
+                        $scope.update(ret);
+                        $scope.showProductsFn();
+                    });
                 })
 
                 $scope.$watch('current_category', function (cat) {
