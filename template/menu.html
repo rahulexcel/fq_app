@@ -42,7 +42,7 @@
                     <ul ng-show="cat.open" style="padding-left: 20px" ng-if='cat.data.length > 0'>
                         <li class="sub-cat-label" ng-repeat="catSub in cat.data" >
                             <span ng-click='selectCategory(catSub)'>{{catSub.name}}</span>
-                            <span ng-if="catSub.data.length > 0">
+                            <span class="plus-minus" ng-if="catSub.data.length > 0">
                                 <i ng-show="!catSub.open">+</i>
                                 <i ng-show="catSub.open">-</i>
                             </span>

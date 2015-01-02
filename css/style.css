@@ -121,6 +121,7 @@ line-height: 35px;
 i.fa-map-marker,i.fa-user{color:#db500d;}
 li a.internal-details{font-weight:normal; color:#000;}
 li.sub-cat-label > span{font-weight: normal; color:#000;}
+span.plus-minus{float: right;}
 
 /**************************closed Side Menu*********************************/
 
