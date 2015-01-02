@@ -11,11 +11,9 @@ categoryMod.directive('scrollWatch', function () {
                     start = e.detail.scrollTop;
                     scope.scroll_direction.direction = -1;
                     scope.$evalAsync();
-                    console.log('scroll to bottom');
                 } else {
                     scope.scroll_direction.direction = 1;
                     scope.$evalAsync();
-                    console.log('scroll to top');
                 }
             });
         }
@@ -126,7 +124,7 @@ categoryMod.controller('CategoryCtrl',
                 $scope.refreshCategory = function () {
                     $scope.product_loading = true;
                     var state = $scope.currentState;
-                    delete state.page;
+                    state.page = -1;
                     $scope.currentState = state;
                     var req = categoryHelper.fetchProduct(state);
                     req.then(function (ret) {
@@ -136,6 +134,9 @@ categoryMod.controller('CategoryCtrl',
                         }
                         $scope.update(ret);
                         $scope.showProductsFn();
+                        $scope.$broadcast('scroll.refreshComplete');
+                    }, function () {
+                        $scope.$broadcast('scroll.refreshComplete');
                     });
                 }
 
@@ -175,7 +176,7 @@ categoryMod.controller('CategoryCtrl',
                         name: name,
                         param: url
                     });
-                    delete state.page;
+                    state.page = -1;
                     $scope.currentState = state;
                     var req = categoryHelper.fetchProduct(state);
                     req.then(function (ret) {
@@ -192,7 +193,7 @@ categoryMod.controller('CategoryCtrl',
                     $scope.product_loading = true;
 
                     var state = $scope.currentState;
-                    delete state.page;
+                    state.page = -1;
                     $scope.currentState = state;
                     state.sortby = url;
 
@@ -246,10 +247,6 @@ categoryMod.controller('CategoryCtrl',
                         req.then(function (ret) {
                             $scope.product_loading = false;
                             $scope.update(ret);
-                            $scope.$broadcast('scroll.refreshComplete');
-                        });
-                        req.then(function () {
-                            $scope.$broadcast('scroll.refreshComplete');
                         });
                     }
                 });
