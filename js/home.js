@@ -58,7 +58,7 @@ homeMod.controller('HomeCtrl',
                     //$scope.current_category = cat;
                 }
                 $scope.wishlist = function () {
-                    alert('wishlist not done yet');
+                    $location.path('/app/wishlist');
                 }
                 $scope.account = function () {
                     $location.path('/app/account');
@@ -95,6 +95,8 @@ homeMod.controller('HomeCtrl',
                         var path = $location.path();
                         if (path.indexOf('/app/category') != -1) {
                             $scope.$broadcast('search_event');
+                        } else if (path.indexOf('/app/product') != -1) {
+                            $scope.$broadcast('search_product_event');
                         } else {
                             $scope.modal.show();
                         }
