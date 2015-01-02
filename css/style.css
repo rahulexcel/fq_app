@@ -96,3 +96,27 @@ Scroll On Product Page
 .hidden {
     display: none;
 }
+
+/***********************************************************/
+.scroll-content .scroll ul li {
+font-weight: bold;
+color: #000;
+border-bottom: 1px solid #ececec; 
+line-height: 35px;
+}
+
+.scroll-content .scroll ul{
+margin: 10px 20px;
+}
+.scroll-content .scroll ul li a{
+text-decoration: none;
+}
+.scroll-content .scroll ul li ul li {
+font-weight: normal;
+color: #999999;
+ border-bottom-style:none;
+line-height: 35px;
+}
+i.fa-map-marker,i.fa-user{color:#db500d;}
+li a.internal-details{font-weight:normal; color:#000;}
+li.sub-cat-label > span{font-weight: normal; color:#000;}

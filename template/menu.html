@@ -40,21 +40,22 @@
                 <li nav-clear menu-close ng-repeat="cat in category">
                     <span ng-click="selectCategory(cat)">{{cat.name}}</span>
                     <ul ng-show="cat.open" style="padding-left: 20px" ng-if='cat.data.length > 0'>
-                        <li nav-clear menu-close ng-repeat="catSub in cat.data" >
+                        <li class="sub-cat-label" nav-clear menu-close ng-repeat="catSub in cat.data" >
                             <span ng-click='selectCategory(catSub)'>{{catSub.name}}</span>
-                            <ul ng-show="catSub.open" style="padding-left: 20px" ng-if='catSub.data.length > 0'>
-                                <li nav-clear menu-close ng-repeat="catLast in catSub.data" >
-                                    <span ng-click='selectCategory(catLast)'>{{catLast.name}}</span>        
+                            <ul class="" ng-show="catSub.open" style="padding-left: 20px" ng-if='catSub.data.length > 0'>
+                                <li class="" nav-clear menu-close ng-repeat="catLast in catSub.data" >
+                                    <span  ng-click='selectCategory(catLast)'>{{catLast.name}}</span>        
                                 </li>
                             </ul>
                         </li>
                     </ul>
                 </li>
-                <li><a ng-if="!login" nav-clear menu-close href='#/app/signup'>SignUp</a></li>
-                <li><a ng-if="login" nav-clear menu-close on-tap='logout();'>Logout</a></li>
-                <li ng-if="login" nav-clear menu-close on-tap='account();'>MyAccount</li>
-                <li nav-clear menu-close on-tap='feedback();'>Feedback</li>
-                <li nav-clear menu-close on-tap='about();'>AboutUs</li>
+                <li ><i class="fa fa-user"></i><a class="internal-details" ng-if="!login" nav-clear menu-close href='#/app/signup'> SignUp</a></li>
+                <li ><a class="internal-details" ng-if="login" nav-clear menu-close on-tap='logout();'>Logout</a></li>
+                <li  ng-if="login" nav-clear menu-close on-tap='account();'><a class="internal-details">MyAccount<a></li>
+                <li  nav-clear menu-close on-tap='feedback();'><a class="internal-details">Feedback<a></li>
+                <li  nav-clear menu-close on-tap='about();'><i class="fa fa-map-marker"></i><a class="internal-details">
+AboutUs</a></li>
             </ul>
         </ion-content>
     </ion-side-menu>
