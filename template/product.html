@@ -1,21 +1,26 @@
 <ion-view>
     <ion-content>
-
         <ion-refresher
             pulling-text="Update Product Info"
             on-refresh="productInfo()">
         </ion-refresher>
         <ion-list>
             <i class="fa fa-spinner fa-spin" ng-show='product_loading'></i>
-            <div class="product" ng-show='!product_loading'>
-                <img ng-src='{{product.img}}' width="100%"/>
+            <div class="product pro-img" ng-show='!product_loading'>
+                <img ng-src='{{product.img}}'/>
                 <br/>
                 <div class="pro-info">
                     <div class="pro-name">
                         {{product.name}}
                         <br/>
+                        <span class="arrow">ARROW</span>
+                        <span class="e-site">
+                            flipkart
+                        </span>
                     </div>
-                    Price : {{product.price}}
+                    <div class="pro-price">
+                        Price : {{product.price}}
+                    </div>
                     <div class="heart img-heart" on-tap="wishlist();">
                         <i ng-show="!product.wishlist" class="fa fa-heart-o fa-lg"></i>
                         <i ng-show="product.wishlist == 1" class="fa fa-heart fa-lg"></i>
