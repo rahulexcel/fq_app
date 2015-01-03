@@ -8,23 +8,21 @@
         <ion-list>
             <i class="fa fa-spinner fa-spin" ng-show='product_loading'></i>
             <div class="product" ng-show='!product_loading'>
-                <img ng-src='{{product.img}}'/>
+                <img ng-src='{{product.img}}' width="100%"/>
                 <br/>
-                {{product.name}}
-                <br/>
-                Price : {{product.price}}
-
-                <br/>
-
-                <div class="heart" on-tap="wishlist();">
-                    <i ng-show="!product.wishlist" class="fa fa-heart-o"></i>
-                    <i ng-show="product.wishlist == 1" class="fa fa-heart"></i>
-                    <i ng-show="product.wishlist == 2" class="fa fa-spinner fa-spin"></i>
+                <div class="pro-info">
+                    <div class="pro-name">
+                        {{product.name}}
+                        <br/>
+                    </div>
+                    Price : {{product.price}}
+                    <div class="heart img-heart" on-tap="wishlist();">
+                        <i ng-show="!product.wishlist" class="fa fa-heart-o fa-lg"></i>
+                        <i ng-show="product.wishlist == 1" class="fa fa-heart fa-lg"></i>
+                        <i ng-show="product.wishlist == 2" class="fa fa-spinner fa-spin fa-lg"></i>
+                    </div>
+                    <button class="button pro-button" on-tap="buy(product);">Buy Now</button>
                 </div>
-
-                <br/>
-                <button class="button" on-tap="buy(product);">Buy Now</button>
-
                 <div class="variants">
                     <div on-tap="buy(variant);" ng-repeat="variant in product.variants" style="float: left">
                         <div>

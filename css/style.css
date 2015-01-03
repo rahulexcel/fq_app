@@ -126,7 +126,7 @@ span.plus-minus{float: right;}
 /**************************closed Side Menu*********************************/
 
 /**************************Sign up/login*********************************/
-div#account-page button:hover{color:#fff;}
+div#account-page button:hover ,.pro-info button:hover{color:#fff;}
 div#account-page button{min-height: 40px;max-height:43px; overflow:hidden;}
 .google-button{width:100%; background-color:#e25b47;color:#fff;padding-left:0px; padding-right:42px;border-radius: 5px;}
 .fb-button{width:100%; background-color:#506da9;color:#fff;padding-left:0px;padding-right:42px;border-radius: 5px;}
@@ -140,3 +140,13 @@ div#account-page button{min-height: 40px;max-height:43px; overflow:hidden;}
 .brand-image{text-align:center;margin: 31px 5px;}
 .forget-pass{float:right;padding-right:13px;color:#da500f;text-decoration: underline;font-style: italic;margin-bottom:7px;}
 .activated i{background-color:#E5E5E5;}
+/************************** closed Sign up/login*********************************/
+
+/**************************product page*********************************/
+
+.img-heart{position: absolute; top: 9px; right: 13px;color: #da500f;}
+.img-heart i{font-weight: 900;}
+.pro-info{width:90%;margin:10px 20px;}
+.pro-name{margin-bottom:8px;}
+.pro-button{float:right;color:#fff; background-color:#da500f;line-height: 16px; border-radius: 4px;border-style: none;}
+.pro-info button{min-height: 28px;}
