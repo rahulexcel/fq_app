@@ -39,11 +39,23 @@ categoryService.factory('categoryHelper', [
                             var sub_filters = [];
                             for (var i = 0; i < filter_values.data.length; i++) {
                                 var name = filter_values.data[i].text;
-                                var param = filter_values.data[i].param;
-                                sub_filters.push({
-                                    name: name,
-                                    param: param
-                                });
+                                if (filter_values.data[i].param) {
+
+                                    var param = filter_values.data[i].param;
+                                    sub_filters.push({
+                                        name: name,
+                                        param: param
+                                    });
+
+                                } else {
+                                    var cat_id = filter_values.data[i].cat_id;
+                                    var sub_cat_id = filter_values.data[i].sub_cat_id;
+                                    var cat_name = filter_values.data[i].cat_name;
+                                    sub_filters.push({
+                                        name: name,
+                                        param: param
+                                    });
+                                }
                             }
                             filters.push({
                                 type: filter_text,
