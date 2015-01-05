@@ -50,10 +50,12 @@ categoryService.factory('categoryHelper', [
                                 } else {
                                     var cat_id = filter_values.data[i].cat_id;
                                     var sub_cat_id = filter_values.data[i].sub_cat_id;
-                                    var cat_name = filter_values.data[i].cat_name;
+                                    var cat_name = filter_values.data[i].text;
                                     sub_filters.push({
                                         name: name,
-                                        param: param
+                                        cat_id: cat_id,
+                                        sub_cat_id: sub_cat_id,
+                                        cat_name: cat_name
                                     });
                                 }
                             }

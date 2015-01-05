@@ -174,28 +174,36 @@ categoryMod.controller('CategoryCtrl',
                 }
 
                 $scope.doFilter = function (filter) {
-                    var url = filter.param;
-                    var name = filter.name;
-                    $scope.product_loading = true;
-                    var state = $scope.currentState;
-                    if (!state.filters) {
-                        state.filters = [];
-                    }
-                    state.filters.push({
-                        name: name,
-                        param: url
-                    });
-                    state.page = -1;
-                    $scope.currentState = state;
-                    var req = categoryHelper.fetchProduct(state);
-                    req.then(function (ret) {
-                        $scope.product_loading = false;
-                        if (ret.products.length == 0) {
-                            toast.showShortBottom('Product Not Found Matching Current Filter');
+                    if (!filter.param) {
+                        var cat_id = filter.cat_id;
+                        var sub_cat_id = filter.sub_cat_id;
+                        var cat_name = filter.cat_name;
+                        var search = $scope.currentState.search;
+                        $location.path('/app/category/' + cat_id + '/' + sub_cat_id + '/' + cat_name + '/' + search)
+                    } else {
+                        var url = filter.param;
+                        var name = filter.name;
+                        $scope.product_loading = true;
+                        var state = $scope.currentState;
+                        if (!state.filters) {
+                            state.filters = [];
                         }
-                        $scope.update(ret);
-                        $scope.showProductsFn();
-                    });
+                        state.filters.push({
+                            name: name,
+                            param: url
+                        });
+                        state.page = -1;
+                        $scope.currentState = state;
+                        var req = categoryHelper.fetchProduct(state);
+                        req.then(function (ret) {
+                            $scope.product_loading = false;
+                            if (ret.products.length == 0) {
+                                toast.showShortBottom('Product Not Found Matching Current Filter');
+                            }
+                            $scope.update(ret);
+                            $scope.showProductsFn();
+                        });
+                    }
                 }
                 $scope.doSort = function (sort) {
                     var url = sort.url;
