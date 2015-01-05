@@ -6,9 +6,17 @@
         </ion-refresher>
         <ion-list>
             <i class="fa fa-spinner fa-spin" ng-show='product_loading'></i>
-            <div class="product pro-img" ng-show='!product_loading'>
-                <img ng-src='{{product.img}}'/>
-                <br/>
+            <div class="product" ng-show='!product_loading'>
+
+                <div class="heart img-heart" on-tap="wishlist();">
+                    <i ng-show="!product.wishlist" class="fa fa-heart-o fa-lg"></i>
+                    <i ng-show="product.wishlist == 1" class="fa fa-heart fa-lg"></i>
+                    <i ng-show="product.wishlist == 2" class="fa fa-spinner fa-spin fa-lg"></i>
+                </div>
+                <div class="pro-img">
+                    <img ng-src='{{product.img}}'/>
+                </div>
+
                 <div class="pro-info">
                     <div class="pro-name">
                         {{product.name}}
@@ -21,37 +29,20 @@
                     <div class="pro-price">
                         Price : {{product.price}}
                     </div>
-                    <div class="heart img-heart" on-tap="wishlist();">
-                        <i ng-show="!product.wishlist" class="fa fa-heart-o fa-lg"></i>
-                        <i ng-show="product.wishlist == 1" class="fa fa-heart fa-lg"></i>
-                        <i ng-show="product.wishlist == 2" class="fa fa-spinner fa-spin fa-lg"></i>
-                    </div>
+
                     <button class="button pro-button" on-tap="buy(product);">Buy Now</button>
+                    <div class="clearfix"></div>
                 </div>
 
                 <div class="clearfix"></div>
-                <div class="variants">
-                    <div on-tap="buy(variant);" ng-repeat="variant in product.variants" style="float: left">
-                        <div>
-                            <img ng-src='{{variant.img}}'/>
-                        </div>
-                        <div class="name" on-tap="buyVariant(variant);">
-                            {{variant.name}}
-                        </div>
-                        <div>
-                            Price: {{variant.price}}
-                        </div>
-                        <div>
-                            {{variant.website}}
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
                 <div id="similar">
+                    <div class="similar-product-label">
+                        SIMILAR PRODUCT
+                    </div>
                     <ul id="scroller" class="variants">
                         <li on-tap="openProduct(variant);" ng-repeat="variant in product.variants" style="float: left">
                             <div>
-                                <img ng-src='{{variant.img}}'/>
+                                <img ng-src='{{variant.img}}' width="110px" height="145px"/>
                             </div>
                             <div class="name">
                                 {{variant.name}}
@@ -66,8 +57,39 @@
                                 {{variant.website}}
                             </div>
                         </li>
+                        <div class="clearfix"></div>
                     </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="variants">
+					<div class="similar-product-label">
+                        OTHER SELLERS
+                    </div>
+                    <div on-tap="buy(variant);" ng-repeat="variant in product.variants" style="float: none;">
+                        <div class="other_seller_container">
+                        <div class="other-sellers-img">
+                            <img ng-src='{{variant.img}}' width="95px" height="85px"/>
+                        </div>
+                        <div class="other-seller-info">
+                        <div class="name" on-tap="buyVariant(variant);">
+                            {{variant.name}}
+                        </div>
+                        <div>
+                           <span class="e-site"> {{variant.website}} </span>
+                        </div>
+                        <div>
+                            <span class="other-price">Rs.{{variant.price}}</span>
+                            <button class="button pro-button" on-tap="buy(product);">BUY</button>
+                        </div>
+                        <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        </div>
+                    </div>
+                      <div class="clearfix"></div>
                 </div>
             </div>
+            </ion-list>
     </ion-content>
 </ion-view>
