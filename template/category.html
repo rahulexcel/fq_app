@@ -45,21 +45,22 @@
                 <div class="image" on-tap="openProduct(prod);">
                     <img ng-src="{{prod.img}}" />
                 </div>
-                <div class="name" on-tap="openProduct(prod);">{{prod.name}}</div>
-                <div class="website">{{prod.website}}</div>
-                <div class="brand">{{prod.brand}}</div>
+               
+
+                <!-- <div class="brand">{{prod.brand}}</div> -->
                 <div class="bottom_box">
+					<div class="name" on-tap="openProduct(prod);">{{prod.name}}</div>
+                    <div class="website e-site">{{prod.website}}</div>
                     <div class="price">
-                        <div class="price">
-                            {{prod.price}}
-                            <span class="discount" ng-if="prod.offrate > 0">{{prod.offrate}}%</span>
-                        </div>
+                        Rs.{{prod.price}}
+                        <span class="discount" ng-if="prod.offrate > 0">{{prod.offrate}}%</span>
                     </div>
                     <div class="heart" on-tap="wishlist(prod);">
-                        <i ng-show="!prod.wishlist" class="fa fa-heart-o"></i>
-                        <i ng-show="prod.wishlist == 1" class="fa fa-heart"></i>
-                        <i ng-show="prod.wishlist == 2" class="fa fa-spinner fa-spin"></i>
+                        <i ng-show="!prod.wishlist" class="fa fa-heart-o fa-lg"></i>
+                        <i ng-show="prod.wishlist == 1" class="fa fa-heart fa-lg"></i>
+                        <i ng-show="prod.wishlist == 2" class="fa fa-spinner fa-spin fa-lg"></i>
                     </div>
+                    <div class="clearfix"></div>
                 </div>
                 <div class="clearfix"></div>
             </div>
