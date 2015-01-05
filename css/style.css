@@ -106,8 +106,11 @@ border-bottom: 1px solid #ececec;
 line-height: 42px;
 }
 
+.scroll-content .scroll ul li ul{
+margin: -8px 0 10px;
+}
 .scroll-content .scroll ul{
-margin: 0px 20px;
+margin:  0px 20px;
 }
 .scroll-content .scroll ul li a{
 text-decoration: none;
@@ -126,7 +129,7 @@ span.plus-minus{float: right;}
 /**************************closed Side Menu*********************************/
 
 /**************************Sign up/login*********************************/
-div#account-page button:hover ,.pro-info button:hover{color:#fff;}
+div#account-page button:hover ,.pro-info button:hover ,.pro-button:hover{color:#fff;}
 div#account-page button{min-height: 40px;max-height:43px; overflow:hidden;}
 .google-button{width:100%; background-color:#e25b47;color:#fff;padding-left:0px; padding-right:42px;border-radius: 5px;}
 .fb-button{width:100%; background-color:#506da9;color:#fff;padding-left:0px;padding-right:42px;border-radius: 5px;}
@@ -146,7 +149,21 @@ div#account-page button{min-height: 40px;max-height:43px; overflow:hidden;}
 
 .img-heart{position: absolute; top: 9px; right: 13px;color: #da500f;}
 .img-heart i{font-weight: 900;}
-.pro-info{width:90%;margin:10px 20px;}
+.pro-info{width:99%;font-family:serif,Times,serif;padding: 2px 10px 10px 15px;text-align: left;border-top:1px solid #d1d1d1; border-bottom:1px solid #d1d1d1;margin-top: -6px;}
 .pro-name{margin-bottom:8px;}
 .pro-button{float:right;color:#fff; background-color:#da500f;line-height: 16px; border-radius: 4px;border-style: none;}
 .pro-info button{min-height: 28px;}
+.pro-img{background-color:#fff;text-align:center;}
+span.arrow{color:red;}
+span.e-site{color:#959595;}
+.pro-price{float: left;font-size: 18px;line-height: 28px;}
+.arrow , .e-site{font-size:10px;}
+.similar-product-label{text-align: left;padding: 11px 15px; background-color:#eee7dd;font-family: "DejaVu Serif",Times,serif;}
+#scroller li {width:150px;background-color:#fff;}
+#scroller{position: static;height: 460px;}
+.other-sellers-img{float:left;}
+.other-seller-info{margin-left:107px;}
+.other_seller_container{border-bottom:2px solid #d1d1d1;padding-bottom:16px;margin:16px 15px 0px;}
+.other-seller-info .name{font-weight: bold;color:#000000;font-family: Arial,Times,serif;}
+.variants .pro-button{min-height:34px;}
+span.other-price{line-height: 34px;font-size: 21px;font-weight: bold;font-family: Georgia,Times,serif;color:#999999;}
