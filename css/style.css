@@ -150,23 +150,23 @@ div#account-page button{min-height: 40px;max-height:43px; overflow:hidden;}
 .img-heart{position: absolute; top: 9px; right: 13px;color: #da500f;}
 .img-heart i{font-weight: 900;}
 .pro-info{width:99%;font-family:serif,Times,serif;padding: 2px 10px 10px 15px;text-align: left;border-top:1px solid #d1d1d1; border-bottom:1px solid #d1d1d1;margin-top: -6px;}
-.pro-name{margin-bottom:8px;}
+.pro-name{margin-bottom:8px;font-family: sans-serif,small-caption,Tahoma;}
 .pro-button{float:right;color:#fff; background-color:#da500f;line-height: 16px; border-radius: 4px;border-style: none;}
 .pro-info button{min-height: 28px;}
 .pro-img{background-color:#fff;text-align:center;}
 span.arrow{color:red;}
 span.e-site{color:#959595;}
-.pro-price{float: left;font-size: 18px;line-height: 28px;color:#999999;}
+.pro-price{float: left;font-size: 16px;line-height: 16px;color:#737373;font-weight: bold;}
 .arrow , .e-site{font-size:10px;}
 .similar-product-label{text-align: left;padding: 11px 15px; background-color:#eee7dd;font-family: "DejaVu Serif",Times,serif;}
 #scroller li {width:150px;background-color:#fff;padding: 0 10px;}
-#scroller{position: static;height: 212px;}
+#scroller{position: static;height: 175px;}
 .other-sellers-img{float:left;}
 .other-seller-info{margin-left:107px;}
 .other_seller_container{border-bottom:2px solid #d1d1d1;padding-bottom:16px;margin:16px 15px 0px;}
-.other-seller-info .name{font-weight: bold;color:#000000;font-family: Arial,Times,serif;}
+.other-seller-info .name{font-weight: bold;color:#000000;font-family: Arial,Times,serif;overflow: hidden;height: 20px;}
 .variants .pro-button{min-height:34px;}
-span.other-price{line-height: 34px;font-size: 21px;font-weight: bold;font-family: Georgia,Times,serif;color:#737373;}
+span.other-price{line-height: 34px;font-size: 17px;font-weight: bold;font-family: Georgia,Times,serif;color:#737373;}
 #similar .name{overflow:hidden;height:20px;line-height:20px;font-family: "Comic Sans MS",Times New Roman,"DejaVu Sans";}
 .similar-price{color:#737373;line-height: 20px;}
-.similar-img{text-align:center;}
+.similar-img{text-align:center;margin-top:10px;}
