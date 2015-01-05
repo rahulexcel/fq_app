@@ -41,20 +41,14 @@
                     </div>
                     <ul id="scroller" class="variants">
                         <li on-tap="openProduct(variant);" ng-repeat="variant in product.variants" style="float: left">
-                            <div>
+                            <div class="similar-img">
                                 <img ng-src='{{variant.img}}' width="110px" height="145px"/>
                             </div>
                             <div class="name">
                                 {{variant.name}}
                             </div>
-                            <div>
-                                Price: {{variant.price}}
-                            </div>
-                            <div>
-                                {{variant.brand}}
-                            </div>
-                            <div>
-                                {{variant.website}}
+                            <div class="similar-price">
+                                Rs. {{variant.price}}
                             </div>
                         </li>
                         <div class="clearfix"></div>
