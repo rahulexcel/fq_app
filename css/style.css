@@ -129,11 +129,11 @@ span.plus-minus{float: right;}
 /**************************closed Side Menu*********************************/
 
 /**************************Sign up/login*********************************/
-div#account-page button:hover ,.pro-info button:hover ,.pro-button:hover{color:#fff;}
+.button:hover,.pro-info button:hover ,.pro-button:hover{color:#fff;}
 div#account-page button{min-height: 40px;max-height:43px; overflow:hidden;}
 .google-button{width:100%; background-color:#e25b47;color:#fff;padding-left:0px; padding-right:42px;border-radius: 5px;}
 .fb-button{width:100%; background-color:#506da9;color:#fff;padding-left:0px;padding-right:42px;border-radius: 5px;}
-.signup-button{width:100%; border-color: #da500f;background-color:#da500f;color:#fff;padding-left:0px;border-radius: 5px;font-weight: bold;font-family: "Arial", Times, serif;}
+.signup-button{min-height: 40px;max-height: 41px;width:100%; border-color: #da500f;background-color:#da500f;color:#fff;padding-left:0px;border-radius: 5px;font-weight: bold;font-family: "Arial", Times, serif;}
 .fb-social-icon{float: left; padding: 12.5px 0; background-color: #253b6c; width: 46px;}
 .g-social-icon{float: left; padding: 12.5px 0; background-color: #a12b1d; width: 46px;}
 .alter{text-align:center;color:#959595;margin: 29px 0px 10px;}
@@ -178,7 +178,7 @@ span.other-price{line-height: 34px;font-size: 17px;font-weight: bold;font-family
 .category .heart i{color:#da500f; font-weight: bold;}
 .category .product{height:239px;}
 .category .product .image {height:179px;}
-.category .product {margin-top:10px;}
+.category .product{margin-top:10px;}
 .category .product .bottom_box .price{width: 88%;}
 .button.button-block, .button.button-full{margin-top:0px;}
 .row,.col{padding-top:0px;}
@@ -206,11 +206,21 @@ span.other-price{line-height: 34px;font-size: 17px;font-weight: bold;font-family
 #my-acc .item{border-style:none;}
 .update-info{margin-left:-11px;font-weight:bold;color:#585858;}
 .list-my_acc .input-label{margin-top:5px;color:#000;}
-.list-my_acc input{color:#8A8A8A;}
+.list-my_acc input,.feedback-container input{color:#8A8A8A;}
 #my-acc .item-myacc1{border-bottom:2px solid #FF7832;padding-bottom:0px;}
 #my-acc .item-myacc2{border-top:1px solid #f8dcd0;padding-top:15px;}
 #my-acc .item-floating-label span.myacc-gender-label {opacity:1;top:0px;float: left;color:#000;}
 #my-acc .item-myacc2 select{float:right;margin-top: 7px;}
 #my-acc .myacc-update{color:#fff;background-color: #EE6423;min-height: 43px;border-style: none;width: 108px;border-radius: 4px;margin-bottom:10px;}
 #my-acc .padding{padding:0px;}
-#my-acc .item-confirm-pass{border-bottom:2px solid #E1E1E1;padding-top:0px;padding-bottom:0px;}}
+#my-acc .item-confirm-pass{border-bottom:2px solid #E1E1E1;padding-top:0px;padding-bottom:0px;}
+
+
+.feedback-container{padding:0px 14px;border-style:none;border-top:2px solid #E1E1E1;}
+.feed-info{text-align:center;color:#000;padding:20px 0 5px;}
+.feed-info p{line-height:30px;}
+.feed-rate-btn{background-color:#f5f5f5;color:#000;border:2px solid #e3e3e3;margin-top:10px;}
+.feed-rate-btn:hover{color:#000;}
+.feedback-container .item{border: 2px solid #E1E1E1;border-top:0px none;border-left:0px none;border-right:0px none;padding-top:0px;padding-bottom:0px; }
+.feed-submit {margin-top:24px;}
+.feedback-container .first-feed-label{border-color:#FF7832;}
