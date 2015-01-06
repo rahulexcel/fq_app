@@ -1,9 +1,9 @@
 <ion-view view-title="My Account">
     <ion-content>
-
+	<div id="my-acc">
         <div>
 
-            <div>
+            <div class="">
                 <h2>{{login_data.name}}</h2>
                 <p>{{login_data.create_at}}</p>
             </div>
@@ -13,7 +13,7 @@
             </div>
 
             <div ng-if="!is_mobile">
-                <button class="button" 
+                <button class="button myacc-update" 
                         ng-file-select 
                         ng-model="file.myFiles" 
                         ng-multiple="false" 
@@ -40,22 +40,23 @@
         </div>
         <div class="register">
             <form>
-                <div class="list">
-                    <label class="item item-input item-floating-label">
-                        <span class="input-label">Full Name</span>
+                <div class="list list-my_acc">
+                    <label class="item item-input item-floating-label item-myacc1">
+						<span class="update-info">Update Information</span>
+                        <span class="input-label">Name</span>
                         <input type="text" ng-model='profile.name' placeholder="Full Name">
                     </label>
-                    <label class="item item-input item-floating-label">
-                        <span class="input-label">Gender</span>
-                        <select ng-model='profile.gender'>
+                    <label class="item item-input item-floating-label item-myacc2">
+                        <span class="input-label myacc-gender-label">Gender</span>
+                        <select ng-model='profile.gender'>sss
                             <option value="M">Male</option>                            
                             <option value="F">Female</option>                            
                         </select>
                     </label>
                 </div>
                 <div class="padding">
-                    <button on-tap='update();' class="button button-positive">
-                        Update
+                    <button on-tap='update();' class="button button-positive myacc-update">
+                        UPDATE
                         <i class="fa fa-spinner fa-spin" ng-show="register_status == 1"></i>
                         <i class="fa fa-times" ng-show="register_status == 3"></i>
                         <i class="fa fa-check" ng-show="register_status == 2"></i>
@@ -66,19 +67,20 @@
 
         <div class="register">
             <form>
-                <div class="list">
-                    <label class="item item-input item-floating-label">
-                        <span class="input-label">Password</span>
+                <div class="list list-my_ac">
+                    <label class="item item-input item-floating-label item-myacc1">
+						<span class="update-info">Change Password</span>
+                        <span class="input-label">New Password</span>
                         <input type="password" ng-model='profile.password' placeholder="New Passowrd">
                     </label>
-                    <label class="item item-input item-floating-label">
+                    <label class="item item-input item-floating-label item-myacc2 item-confirm-pass">
                         <span class="input-label">Confirm Password</span>
                         <input type="password" ng-model='profile.confPassword' placeholder="Confirm Passowrd">
                     </label>
                 </div>
                 <div class="padding">
-                    <button on-tap='password();' class="button button-positive">
-                        Update
+                    <button on-tap='password();' class="button button-positive myacc-update">
+                        CHANGE
                         <i class="fa fa-spinner fa-spin" ng-show="register_status == 1"></i>
                         <i class="fa fa-times" ng-show="register_status == 3"></i>
                         <i class="fa fa-check" ng-show="register_status == 2"></i>
@@ -87,6 +89,6 @@
             </form>
         </div>
 
-
+</div>
     </ion-content>
 </ion-view>

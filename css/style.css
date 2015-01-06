@@ -198,3 +198,19 @@ span.other-price{line-height: 34px;font-size: 17px;font-weight: bold;font-family
 .filter-list .item{padding:3px 10px; border-style:none;}
 .filter-list .item-content span{padding-left:30px;}
 .item-checkbox .checkbox {left:-6px;}
+/**************************Closed Filter*********************************/
+
+/**************************My Account*********************************/
+#my-acc{margin:2px 17px;}
+.list-my_acc{margin-top:10px;border-top:1px solid #E1E1E1; border-bottom:2px solid #E1E1E1;}
+#my-acc .item{border-style:none;}
+.update-info{margin-left:-11px;font-weight:bold;color:#585858;}
+.list-my_acc .input-label{margin-top:5px;color:#000;}
+.list-my_acc input{color:#8A8A8A;}
+#my-acc .item-myacc1{border-bottom:2px solid #FF7832;padding-bottom:0px;}
+#my-acc .item-myacc2{border-top:1px solid #f8dcd0;padding-top:15px;}
+#my-acc .item-floating-label span.myacc-gender-label {opacity:1;top:0px;float: left;color:#000;}
+#my-acc .item-myacc2 select{float:right;margin-top: 7px;}
+#my-acc .myacc-update{color:#fff;background-color: #EE6423;min-height: 43px;border-style: none;width: 108px;border-radius: 4px;margin-bottom:10px;}
+#my-acc .padding{padding:0px;}
+#my-acc .item-confirm-pass{border-bottom:2px solid #E1E1E1;padding-top:0px;padding-bottom:0px;}}
