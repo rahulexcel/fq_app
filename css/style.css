@@ -168,11 +168,33 @@ span.arrow{color:red;}
 .other-seller-info .name{font-weight: bold;color:#000000;font-family: Arial,Times,serif;overflow: hidden;height: 20px;}
 .variants .pro-button{min-height:34px;}
 span.other-price{line-height: 34px;font-size: 17px;font-weight: bold;font-family: Georgia,Times,serif;color:#737373;}
-#similar .name,.category .name{overflow:hidden;height:20px;line-height:20px;font-family: "Comic Sans MS",Times New Roman,"DejaVu Sans";}
-.similar-price,.category .price{color:#737373;line-height: 20px;}
+#similar .name,.category .name{overflow:hidden;height:20px;line-height:20px;font-family:status-bar,Times New Roman,"DejaVu Sans";font-weight:bold;}
+.similar-price,.category .price{color:#737373;line-height: 20px;font-weight: bold;}
 .similar-img{text-align:center;margin-top:10px;}
 /**************************closed product page*********************************/
 
+/**************************Catagory page*********************************/
 .bottom_box{text-align:left;margin-left:10px;}
-.category .heart{color:#da500f; font-weight: bold;}
+.category .heart i{color:#da500f; font-weight: bold;}
+.category .product{height:239px;}
+.category .product .image {height:179px;}
+.category .product {margin-top:10px;}
+.category .product .bottom_box .price{width: 88%;}
+.button.button-block, .button.button-full{margin-top:0px;}
+.row,.col{padding-top:0px;}
+.filter-icon {float:left;color:#da500f;}
+.bar-light .button.button-clear {color: #000;font-size: 14px;}
+.bar .button.button-clear .icon:before, .bar .button.button-clear.icon-left:before, .bar .button.button-clear.icon-right:before, .bar .button.button-clear.icon:before {font-size:17px;}
+/**************************closed Catagory page*********************************/
 
+/**************************Filter*********************************/
+
+.filter-label{float:left;color:#000;margin-left:10px;font-size:23px;font-family:sans-serif,Times New Roman,"DejaVu Sans";}
+.filter-page:after{border-bottom:3px solid black; left:0px;right:0px;}
+#show-fliter{margin:0px 35px;}
+
+.filter-list{border-bottom: 1px solid #dcdcdc;line-height: 34px;padding:0px 14px;}
+.filter-list span.plus-minus{color:#919191;}
+.filter-list .item{padding:3px 10px; border-style:none;}
+.filter-list .item-content span{padding-left:30px;}
+.item-checkbox .checkbox {left:-6px;}
