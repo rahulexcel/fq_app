@@ -15,6 +15,7 @@
             </ion-nav-buttons>
             <ion-nav-buttons side="right">
                 <button on-tap='searchNow();' class="button button-icon fa fa-search">
+					<img src="" alt=""/>
                 </button>
                 <button on-tap='wishlist();' class="button button-icon fa fa-circle-o">
                 </button>
@@ -56,12 +57,12 @@
                         </li>
                     </ul>
                 </li>
-                <li class="list-not-cat"><a class="internal-details" ng-if="!login" nav-clear menu-close href='#/app/signup'><img src="img/signup.png" alt="join"/>&nbsp;&nbsp;Join /Sign Up</a></li>
-                <li class="list-not-cat"><a class="internal-details" ng-if="login" nav-clear menu-close on-tap='logout();'><img src="img/logout.png" alt=""/>&nbsp;&nbsp;Logout</a></li>
-                <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='account();'><a class="internal-details"><img src="img/myaccount.png" alt=""/>&nbsp;&nbsp;My Account</a></li>
-                <li class="list-not-cat" nav-clear menu-close on-tap='feedback();'><a class="internal-details"><img src="img/feedback.png" alt=""/>&nbsp;&nbsp;Feedback</a></li>
+                <li class="list-not-cat"><a class="internal-details" ng-if="!login" nav-clear menu-close href='#/app/signup'><img src="img/signup.png" alt="join"/>Join /Sign Up</a></li>
+                <li class="list-not-cat"><a class="internal-details" ng-if="login" nav-clear menu-close on-tap='logout();'><img src="img/logout.png" alt=""/>Logout</a></li>
+                <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='account();'><a class="internal-details"><img src="img/myaccount.png" alt=""/>My Account</a></li>
+                <li class="list-not-cat" nav-clear menu-close on-tap='feedback();'><a class="internal-details"><i class="ion-chatbubble-working fa-lg"></i>Feedback</a></li>
                 <li class="list-not-cat" nav-clear menu-close on-tap='about();'>
-                    &nbsp;<i class="fa fa-map-marker fa-lg"></i>&nbsp;&nbsp;<a class="internal-details">About Us</a>
+                  <a class="internal-details"><img src="img/about_us.png" alt=""/>About Us</a>
                 </li>
             </ul>
         </ion-content>
