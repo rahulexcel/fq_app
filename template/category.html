@@ -1,5 +1,5 @@
 <ion-view>
-   <ion-nav-title>{{currentState.title}}</ion-nav-title> 
+    <ion-nav-title>{{currentState.title}}</ion-nav-title> 
     <ion-content scroll-watch on-scroll="on-scroll();">
 
         <ion-refresher
@@ -7,17 +7,17 @@
             on-refresh="refreshCategory()">
         </ion-refresher>
         <div ng-show="showFilter" id="show-fliter" >
-           <!-- <i class="fa fa-times " on-tap='showProductsFn()'></i> -->
-           <button class="button button-full button-clear filter-button filter-page" on-tap="showFiltersFn();">
-                    <i class="icon ion-funnel filter-icon"></i>
-                    <span class="filter-label">FILTER</span>
-                </button>
+            <!-- <i class="fa fa-times " on-tap='showProductsFn()'></i> -->
+            <button class="button button-full button-clear filter-button filter-page" on-tap="showFiltersFn();">
+                <i class="icon ion-funnel filter-icon"></i>
+                <span class="filter-label">FILTER</span>
+            </button>
             <div class="filter-list" ng-repeat="filter_type in filters">
                 <div on-tap='open(filter_type);'>{{filter_type.type}}
-                <span class="plus-minus" ng-if="filter_type.data.length > 0">
-                                <i ng-show="!filter_type.open">[ + ]</i>
-                                <i ng-show="filter_type.open">[&nbsp;&nbsp;-&nbsp;&nbsp;]</i>
-                            </span></div>
+                    <span class="plus-minus" ng-if="filter_type.data.length > 0">
+                        <i ng-show="!filter_type.open">[ + ]</i>
+                        <i ng-show="filter_type.open">[&nbsp;&nbsp;-&nbsp;&nbsp;]</i>
+                    </span></div>
                 <div ng-show="filter_type.open">
                     <ion-list>
                         <ion-item ng-repeat="filter in filter_type.data">
@@ -29,10 +29,10 @@
             </div>
         </div>
         <div ng-show="showSortBy" class="sortby-container">
-			<button class="button button-full button-clear filter-button filter-page">
-                    <i class="fa fa-sort-alpha-desc fa-lg filter-icon" on-tap='showProductsFn()'></i>
-                    <span class="filter-label"> SORT BY</span>
-                </button>
+            <button class="button button-full button-clear filter-button filter-page">
+                <i class="fa fa-sort-alpha-desc fa-lg filter-icon" on-tap='showProductsFn()'></i>
+                <span class="filter-label"> SORT BY</span>
+            </button>
             <ion-list>
                 <ion-item ng-repeat="sort in sortBy">
                     <ion-checkbox on-tap="doSort(sort);" ng-model="sort.checked">{{sort.name}}</ion-checkbox>
@@ -54,30 +54,24 @@
                 <div class="image" on-tap="openProduct(prod);">
                     <img ng-src="{{prod.img}}" />
                     <div class="heart my-wishlist-img" on-tap="wishlist(prod);">
-                    <img src="img/Wishlist.png" alt="wishlist"/>
-                        </div>
+                        <img src="img/Wishlist.png" alt="wishlist"/>
+                    </div>
                 </div>
-               
+
 
                 <!-- <div class="brand">{{prod.brand}}</div> -->
                 <div class="bottom_box">
-					<div class="name" on-tap="openProduct(prod);">{{prod.name}}</div>
+                    <div class="name" on-tap="openProduct(prod);">{{prod.name}}</div>
                     <div class="website e-site">{{prod.website}}</div>
                     <div class="price">
                         Rs.{{prod.price}}
-                      <!--    <span class="discount" ng-if="prod.offrate > 0">{{prod.offrate}}%</span>-->
+                        <!--    <span class="discount" ng-if="prod.offrate > 0">{{prod.offrate}}%</span>-->
                     </div>
                     <div class="drop-price">
-						<i class="fa fa-caret-down"></i>
-						Rs.125
-					</div>
-                    <!--   <div class="heart" on-tap="wishlist(prod);">
-                     <i ng-show="!prod.wishlist" class="fa fa-heart-o fa-lg"></i>
-                        <i ng-show="prod.wishlist == 1" class="fa fa-heart fa-lg"></i>
-                        <i ng-show="prod.wishlist == 2" class="fa fa-spinner fa-spin fa-lg"></i> 
-                        </div>
-                        -->
-                    
+                        <i class="fa fa-caret-down"></i>
+                        Rs.125
+                    </div>
+
                     <div class="clearfix"></div>
                 </div>
                 <div class="clearfix"></div>
