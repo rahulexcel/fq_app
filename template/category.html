@@ -1,5 +1,5 @@
 <ion-view>
-    <ion-nav-title>{{currentState.title}}</ion-nav-title>
+    <!--<ion-nav-title>{{currentState.title}}</ion-nav-title>-->
     <ion-content scroll-watch on-scroll="on-scroll();">
 
         <ion-refresher
@@ -50,6 +50,9 @@
                 <div class="clearfix"></div>
                 <div class="image" on-tap="openProduct(prod);">
                     <img ng-src="{{prod.img}}" />
+                    <div class="heart my-wishlist-img" on-tap="wishlist(prod);">
+                    <img src="img/Wishlist.png" alt="wishlist"/>
+                        </div>
                 </div>
                
 
@@ -61,11 +64,17 @@
                         Rs.{{prod.price}}
                       <!--    <span class="discount" ng-if="prod.offrate > 0">{{prod.offrate}}%</span>-->
                     </div>
-                    <div class="heart" on-tap="wishlist(prod);">
-                        <i ng-show="!prod.wishlist" class="fa fa-heart-o fa-lg"></i>
+                    <div class="drop-price">
+						<i class="fa fa-caret-down"></i>
+						Rs.125
+					</div>
+                    <!--   <div class="heart" on-tap="wishlist(prod);">
+                     <i ng-show="!prod.wishlist" class="fa fa-heart-o fa-lg"></i>
                         <i ng-show="prod.wishlist == 1" class="fa fa-heart fa-lg"></i>
-                        <i ng-show="prod.wishlist == 2" class="fa fa-spinner fa-spin fa-lg"></i>
-                    </div>
+                        <i ng-show="prod.wishlist == 2" class="fa fa-spinner fa-spin fa-lg"></i> 
+                        </div>
+                        -->
+                    
                     <div class="clearfix"></div>
                 </div>
                 <div class="clearfix"></div>
