@@ -145,7 +145,7 @@ registerMod.controller('RegisterCtrl',
                     }
                     facebookConnectPlugin.login(['email', 'user_friends'], function (data) {
                         console.log(data);
-                        facebookConnectPlugin.api('/me', ['email', 'user_friends'], function (data) {
+                        facebookConnectPlugin.api('/me', null, function (data) {
                             if ($scope.facebook_status == 1) {
                                 toast.showProgress();
                                 return;
@@ -165,7 +165,7 @@ registerMod.controller('RegisterCtrl',
                             }
                             var def = $q.defer();
                             var promise = def.promise;
-                            facebookConnectPlugin.api('/me/friends', ['email', 'user_friends'], function (data) {
+                            facebookConnectPlugin.api('/me/friends', null, function (data) {
                                 console.log(data);
                                 dataShare.broadcastData(data, 'facebook_friends');
                                 def.resolve();

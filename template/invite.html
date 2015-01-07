@@ -1,16 +1,39 @@
 <ion-view view-title="Invite">
     <ion-content>
-        <div class="padding">
-            <button class="button fb-button" on-tap='facebook();'>	
-                <i class="fa fa-facebook fa-lg fb-social-icon"></i>
-                Invite Friend From <span class="social-site-name">Facebook</span>
-            </button>
+        <div ng-if="!isMobile">
+            <div class="fb-share-button" data-href="{{link}}" data-layout="button_count"></div>
+            <div class="twitter">
+                <a class="twitter-share-button"
+                   href="https://twitter.com/share" data-url="{{link}}" data-text="{{text}}"  data-size="large">
+                    Tweet
+                </a>
+            </div>
         </div>
-        <div class="padding">
-            <button class="button google-button" on-tap='google();'>
-                <i class="fa fa-google-plus fa-lg g-social-icon"></i>
-                Invite Friend From <span class="social-site-name">Whatsapp</span>
-            </button>
+        <div ng-if="isMobile">
+            <div class="padding">
+                <button class="button fb-button" on-tap='facebook();'>	
+                    <i class="fa fa-facebook fa-lg fb-social-icon"></i>
+                    Invite Friend From <span class="social-site-name">Facebook</span>
+                </button>
+            </div>
+            <div class="padding">
+                <button class="button google-button" on-tap='whatsapp();'>
+                    <i class="fa fa-google-plus fa-lg g-social-icon"></i>
+                    Invite Friend From <span class="social-site-name">Whatsapp</span>
+                </button>
+            </div>
+            <div class="padding">
+                <button class="button google-button" on-tap='twitter();'>
+                    <i class="fa fa-google-plus fa-lg g-social-icon"></i>
+                    Invite Friend From <span class="social-site-name">Twitter</span>
+                </button>
+            </div>
+            <div class="padding">
+                <button class="button google-button" on-tap='shareAll();'>
+                    <i class="fa fa-google-plus fa-lg g-social-icon"></i>
+                    Share All
+                </button>
+            </div>
         </div>
     </ion-content>
 </ion-view>

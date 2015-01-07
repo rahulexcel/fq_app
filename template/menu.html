@@ -59,6 +59,7 @@
                 <li class="list-not-cat"><a class="internal-details" ng-if="!login" nav-clear menu-close href='#/app/signup'><img src="img/signup.png" alt="join"/>&nbsp;&nbsp;Join /Sign Up</a></li>
                 <li class="list-not-cat"><a class="internal-details" ng-if="login" nav-clear menu-close on-tap='logout();'><img src="img/logout.png" alt=""/>&nbsp;&nbsp;Logout</a></li>
                 <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='account();'><a class="internal-details"><img src="img/myaccount.png" alt=""/>&nbsp;&nbsp;My Account</a></li>
+                <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='invite();'><a class="internal-details">Invite Friends</a></li>
                 <li class="list-not-cat" nav-clear menu-close on-tap='feedback();'><a class="internal-details"><img src="img/feedback.png" alt=""/>&nbsp;&nbsp;Feedback</a></li>
                 <li class="list-not-cat" nav-clear menu-close on-tap='about();'>
                     &nbsp;<i class="fa fa-map-marker fa-lg"></i>&nbsp;&nbsp;<a class="internal-details">About Us</a>
