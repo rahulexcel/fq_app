@@ -121,7 +121,7 @@ color: #999999;
  border-bottom-style:none;
 line-height: 28px;
 }
-i.fa-map-marker,i.fa-user{color:#db500d;}
+i.fa-map-marker,i.fa-user,.header-search{color:#db500d;}
 li a.internal-details{font-weight:normal; color:#000;}
 li.sub-cat-label > span{font-weight: normal; color:#000;}
 span.plus-minus{float: right;}
