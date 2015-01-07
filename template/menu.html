@@ -57,13 +57,13 @@
                         </li>
                     </ul>
                 </li>
-                <li class="list-not-cat"><a class="internal-details" ng-if="!login" nav-clear menu-close href='#/app/signup'><img src="img/signup.png" alt="join"/>&nbsp;&nbsp;Join /Sign Up</a></li>
-                <li class="list-not-cat"><a class="internal-details" ng-if="login" nav-clear menu-close on-tap='logout();'><img src="img/logout.png" alt=""/>&nbsp;&nbsp;Logout</a></li>
-                <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='account();'><a class="internal-details"><img src="img/myaccount.png" alt=""/>&nbsp;&nbsp;My Account</a></li>
-                <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='invite();'><a class="internal-details">Invite Friends</a></li>
-                <li class="list-not-cat" nav-clear menu-close on-tap='feedback();'><a class="internal-details"><img src="img/feedback.png" alt=""/>&nbsp;&nbsp;Feedback</a></li>
+                <li class="list-not-cat"><a class="internal-details" ng-if="!login" nav-clear menu-close href='#/app/signup'><i class="ion-person-add fa-lg"></i>Join /Sign Up</a></li>
+                <li class="list-not-cat"><a class="internal-details" ng-if="login" nav-clear menu-close on-tap='logout();'><i class="ion-log-out fa-lg"></i>Logout</a></li>
+                <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='account();'><a class="internal-details"><i class="ion-person fa-lg"></i>My Account</a></li>
+                <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='invite();'><a class="internal-details"><i class="ion-ios7-people fa-lg"></i>Invite Friends</a></li>
+                <li class="list-not-cat" nav-clear menu-close on-tap='feedback();'><a class="internal-details"><i class="ion-chatbubble-working fa-lg"></i>Feedback</a></li>
                 <li class="list-not-cat" nav-clear menu-close on-tap='about();'>
-                  <a class="internal-details"><img src="img/about_us.png" alt=""/>About Us</a>
+                  <a class="internal-details"><img src="img/about_us.png" alt="" width="14px" height="20px"/>About Us</a>
                 </li>
             </ul>
         </ion-content>
