@@ -134,7 +134,7 @@ span.plus-minus{float: right;}
 div#account-page button{min-height: 40px;max-height:43px; overflow:hidden;}
 .google-button{width:100%; background-color:#e25b47;color:#fff;padding-left:0px; padding-right:42px;border-radius: 5px;}
 .fb-button{width:100%; background-color:#506da9;color:#fff;padding-left:0px;padding-right:42px;border-radius: 5px;}
-.signup-button{min-height: 40px;max-height: 41px;width:100%; border-color: #da500f;background-color:#da500f;color:#fff;padding-left:0px;border-radius: 5px;font-weight: bold;font-family: "Arial", Times, serif;}
+.signup-button{min-height: 40px;max-height: 41px;width:100%; border-color: #da500f;background-color:#da500f;color:#fff;padding-left:0px;border-radius: 5px;font-weight: bold;font-family:'Open Sans', sans-serif;}
 .fb-social-icon{float: left; padding: 12.5px 0; background-color: #253b6c; width: 46px;}
 .g-social-icon{float: left; padding: 12.5px 0; background-color: #a12b1d; width: 46px;}
 .alter{text-align:center;color:#959595;margin: 29px 0px 10px;}
@@ -150,8 +150,8 @@ div#account-page button{min-height: 40px;max-height:43px; overflow:hidden;}
 
 .img-heart{position: absolute; top: 9px; right: 13px;color: #da500f;}
 .img-heart i{font-weight: 900;}
-.pro-info{width:99%;font-family:serif,Times,serif;padding: 2px 10px 10px 15px;text-align: left;border-top:1px solid #d1d1d1; border-bottom:1px solid #d1d1d1;margin-top: -5px;}
-.pro-name{margin-bottom:8px;font-family: sans-serif,small-caption,Tahoma;}
+.pro-info{width:99%;font-family:'Open Sans', sans-serif;padding: 2px 10px 10px 15px;text-align: left;border-top:1px solid #d1d1d1; border-bottom:1px solid #d1d1d1;margin-top: -5px;}
+.pro-name{margin-bottom:8px;font-family: 'Open Sans', sans-serif;}
 .pro-button{float:right;color:#fff; background-color:#da500f;line-height: 16px; border-radius: 4px;border-style: none;}
 .pro-info button{min-height: 34px;}
 .pro-img{background-color:#fff;text-align:center;}
@@ -159,17 +159,17 @@ span.arrow{color:red;}
 .e-site{color:#959595;}
 .pro-price{font-size: 16px;line-height: 16px;color:#737373;font-weight: bold;margin-bottom:5px;}
 .arrow , .e-site{font-size:10px;}
-.similar-product-label{text-align: left;padding: 11px 15px; background-color:#eee7dd;font-family: "DejaVu Serif",Times,serif;}
+.similar-product-label{text-align: left;padding: 11px 15px; background-color:#eee7dd;font-family: 'Open Sans', sans-serif;}
 #scroller li {width:150px;background-color:#fff;padding: 0 10px;}
 #scroller li:first-child{padding-left:0px;}
 #scroller{position: static;height: 175px;}
 .other-sellers-img,.similar-price{float:left;}
 .other-seller-info{margin-left:107px;}
 .other_seller_container{border-bottom:2px solid #d1d1d1;margin:16px 15px 0px;}
-.other-seller-info .name{font-weight: bold;color:#000000;font-family: Arial,Times,serif;overflow: hidden;height: 20px;}
+.other-seller-info .name{font-weight: bold;color:#000000;font-family: 'Open Sans', sans-serif;overflow: hidden;height: 20px;}
 .variants .pro-button{min-height:34px;}
-span.other-price{line-height: 34px;font-size: 17px;font-weight: bold;font-family: Georgia,Times,serif;color:#737373;}
-#similar .name,.category .name{overflow:hidden;height:20px;line-height:20px;font-family:status-bar,Times New Roman,"DejaVu Sans";font-weight:bold;}
+span.other-price{line-height: 34px;font-size: 17px;font-weight: bold;font-family: 'Open Sans', sans-serif;color:#737373;}
+#similar .name,.category .name{overflow:hidden;height:20px;line-height:20px;font-family:'Open Sans', sans-serif;font-weight:bold;}
 .similar-price,.category .price{color:#737373;line-height: 20px;font-weight: bold;}
 .similar-img{text-align:center;margin-top:10px;}
 .wishlist-product-img{width: 100%;text-align: right;margin-top: -43px;margin-bottom: 9px;padding-right: 22px;}
@@ -197,7 +197,7 @@ span.other-price{line-height: 34px;font-size: 17px;font-weight: bold;font-family
 
 /**************************Filter*********************************/
 
-.filter-label{float:left;color:#000;margin-left:10px;font-size:23px;font-family:sans-serif,Times New Roman,"DejaVu Sans";}
+.filter-label{float:left;color:#000;margin-left:10px;font-size:23px;font-family:'Open Sans', sans-serif;}
 .filter-page:after{border-bottom:3px solid black; left:0px;right:0px;}
 #show-fliter{margin:0px 20px;}
 .filter-list{border-bottom: 1px solid #dcdcdc;line-height: 34px;padding:0px 14px;}
