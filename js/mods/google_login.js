@@ -4,10 +4,11 @@ googleLoginService.factory('googleLogin', [
     '$http', '$q', '$interval', '$log',
     function ($http, $q, $interval, $log) {
         var service = {};
+        service.access_token = false;
         service.redirect_url = 'http://localhost/fashioniq/myapp/www/';
         service.client_id = '124787039157-04s8ecjnpgm47sm2br2kpplbk6ubp4q0.apps.googleusercontent.com';
         service.secret = 'aKlRBaHkYq4pdMMEVlW7pJ51';
-        service.scope = 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile';
+        service.scope = 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/plus.me';
         service.gulp = function (url, name) {
             url = url.substring(url.indexOf('?') + 1, url.length);
 
@@ -118,6 +119,19 @@ googleLoginService.factory('googleLogin', [
                     profile: user_data.profile
                 };
                 def.resolve(user);
+            });
+        }
+        service.getUserFriends = function () {
+            var access_token = this.access_token;
+            var http = $http({
+                url: 'https://www.googleapis.com/plus/v1/people/me/people/visible',
+                method: 'GET',
+                params: {
+                    access_token: access_token
+                }
+            });
+            http.then(function (data) {
+                console.log(data);
             });
         }
         service.startLogin = function () {

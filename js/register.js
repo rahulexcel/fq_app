@@ -4,8 +4,8 @@ var registerMod = angular.module('RegisterMod', ['GoogleLoginService', 'AccountS
 
 
 registerMod.controller('RegisterCtrl',
-        ['$scope', '$localStorage', '$location', 'toast', 'googleLogin', 'accountHelper',
-            function ($scope, $localStorage, $location, toast, googleLogin, accountHelper) {
+        ['$scope', '$localStorage', '$location', 'toast', 'googleLogin', 'accountHelper', '$q', 'dataShare',
+            function ($scope, $localStorage, $location, toast, googleLogin, accountHelper, $q, dataShare) {
                 if (!$localStorage.user) {
                     $localStorage.user = {};
                     $localStorage.user.email = '';
@@ -98,7 +98,7 @@ registerMod.controller('RegisterCtrl',
                             email: email,
                             password: password
                         };
-                        var prog = accountHelper.create(user);
+                        var prog = accountHelper.create(user, 'login');
                         prog.then(function () {
                             $scope.login_status = 2;
                         }, function () {
@@ -125,7 +125,7 @@ registerMod.controller('RegisterCtrl',
                             email: email,
                             password: password
                         };
-                        var prog = accountHelper.create(user);
+                        var prog = accountHelper.create(user, 'create');
                         prog.then(function () {
                             $scope.register_status = 2;
                         }, function () {
@@ -136,12 +136,16 @@ registerMod.controller('RegisterCtrl',
                     }
                 }
                 $scope.facebook = function () {
+                    console.log('facebook called');
                     if (window.cordova.platformId == "browser") {
-                        facebookConnectPlugin.browserInit('765213543516434');
+                        if (!accountHelper.isFbInit()) {
+                            facebookConnectPlugin.browserInit('765213543516434');
+                            accountHelper.fbInit();
+                        }
                     }
-                    facebookConnectPlugin.login(['email'], function (data) {
+                    facebookConnectPlugin.login(['email', 'user_friends'], function (data) {
                         console.log(data);
-                        facebookConnectPlugin.api('/me', ['email'], function (data) {
+                        facebookConnectPlugin.api('/me', null, function (data) {
                             if ($scope.facebook_status == 1) {
                                 toast.showProgress();
                                 return;
@@ -159,25 +163,35 @@ registerMod.controller('RegisterCtrl',
                             } else {
                                 gender = false;
                             }
-                            if (!email) {
-                                toast.showShortBottom("Email Not Found From Facebook, Unable To Login!");
-                            } else {
-                                var user = {
-                                    name: firstname + " " + lastname,
-                                    gender: gender,
-                                    email: email,
-                                    fb_id: fb_id,
-                                    picture: 'http://graph.facebook.com/' + fb_id + '/picture?type=large'
-                                };
-                                var prog = accountHelper.create(user);
-                                prog.then(function () {
-                                    $scope.facebook_status = 2;
-                                }, function () {
-                                    $scope.facebook_status = 3;
-                                });
-                            }
+                            var def = $q.defer();
+                            var promise = def.promise;
+                            facebookConnectPlugin.api('/me/friends', null, function (data) {
+                                console.log(data);
+                                dataShare.broadcastData(data, 'facebook_friends');
+                                def.resolve();
+                            }, function (data) {
+                                def.resolve();
+                            })
+                            promise.then(function () {
+                                if (!email) {
+                                    toast.showShortBottom("Email Not Found From Facebook, Unable To Login!");
+                                } else {
+                                    var user = {
+                                        name: firstname + " " + lastname,
+                                        gender: gender,
+                                        email: email,
+                                        fb_id: fb_id,
+                                        picture: 'http://graph.facebook.com/' + fb_id + '/picture?type=large'
+                                    };
+                                    var prog = accountHelper.create(user, 'facebook');
+                                    prog.then(function () {
+                                        $scope.facebook_status = 2;
+                                    }, function () {
+                                        $scope.facebook_status = 3;
+                                    });
+                                }
+                            });
                         }, function (data) {
-                            console.log('error2');
                             console.log(data);
                             toast.showShortBottom('Facebook Login Error! Try Again.');
                         })
@@ -189,74 +203,51 @@ registerMod.controller('RegisterCtrl',
                     })
                 }
 
-                $scope.google = function () {
+                $scope.googleplay = function (model) {
                     if (typeof chrome != 'undefined' && chrome.identity) {
-                        if ($scope.google_status == 1) {
-                            toast.showProgress();
+                        if (model.is_play_done || model.email.length > 0) {
                             return;
                         }
-                        $scope.google_status = 1;
                         chrome.identity.getAuthToken({interactive: true}, function (token) {
                             console.log(token);
                             chrome.identity.getProfileUserInfo(function (email) {
                                 if (email) {
                                     console.log(email);
-                                    var user = {
-                                        name: 'XXX',
-                                        gender: false,
-                                        email: email,
-                                        google_play: true,
-                                        picture: ''
-                                    };
-                                    var prog = accountHelper.create(user);
-                                    prog.then(function () {
-                                        $scope.google_status = 2;
-                                    }, function () {
-                                        $scope.google_status = 3;
-                                    });
-                                } else {
-                                    var api = googleLogin.startLogin();
-                                    api.then(function (data) {
-                                        var user = data;
-                                        var prog = accountHelper.create(user);
-                                        prog.then(function () {
-                                            $scope.google_status = 2;
-                                        }, function () {
-                                            $scope.google_status = 3;
-                                        });
-                                    }, function (err) {
-                                        toast.showShortBottom('Unknow Error!' + err);
-                                    });
+                                    model.is_play_done = true;
+                                    model.email = email;
+                                    $scope.$apply();
                                 }
                             });
                         });
-                    } else {
-                        if ($scope.google_status == 1) {
-                            toast.showProgress();
-                            return;
-                        }
-                        $scope.google_status = 1;
-                        var api = googleLogin.startLogin();
-                        api.then(function (data) {
-                            var user = data;
-                            if (user.gender == 'male') {
-                                user.gender = 'M';
-                            } else if (user.gender == 'female') {
-                                user.gender = 'F';
-                            } else {
-                                user.gender = false;
-                            }
-                            var prog = accountHelper.create(user);
-                            prog.then(function () {
-                                $scope.google_status = 2;
-                            }, function () {
-                                $scope.google_status = 3;
-                            });
-                        }, function (err) {
-                            toast.showShortBottom('Unknow Error!' + err);
-                        });
                     }
                 }
-                
+
+                $scope.google = function () {
+                    if ($scope.google_status == 1) {
+                        toast.showProgress();
+                        return;
+                    }
+                    $scope.google_status = 1;
+                    var api = googleLogin.startLogin();
+                    api.then(function (data) {
+                        var user = data;
+                        if (user.gender == 'male') {
+                            user.gender = 'M';
+                        } else if (user.gender == 'female') {
+                            user.gender = 'F';
+                        } else {
+                            user.gender = false;
+                        }
+                        var prog = accountHelper.create(user, 'google');
+                        prog.then(function () {
+                            $scope.google_status = 2;
+                        }, function () {
+                            $scope.google_status = 3;
+                        });
+                    }, function (err) {
+                        toast.showShortBottom('Unknow Error!' + err);
+                    });
+
+                }
             }
         ]);

@@ -4,6 +4,13 @@ accountService.factory('accountHelper', [
     'ajaxRequest', '$q', 'toast', '$localStorage', '$location', '$rootScope',
     function (ajaxRequest, $q, toast, $localStorage, $location, $rootScope) {
         var service = {};
+        service.init_done = false;
+        service.fbInit = function () {
+            this.init_done = true;
+        }
+        service.isFbInit = function () {
+            return this.init_done;
+        }
 
         service.updatePassword = function (password) {
             var def = $q.defer();
@@ -46,15 +53,24 @@ accountService.factory('accountHelper', [
             });
             return def.promise;
         }
-        service.create = function (user) {
+        service.create = function (user, type) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/account/create', {user: user});
+            if (type == 'login') {
+                var ajax = ajaxRequest.send('v1/account/login', {user: user});
+            } else if (type == 'facebook') {
+                var ajax = ajaxRequest.send('v1/account/create/facebook', {user: user});
+            } else if (type == 'google') {
+                var ajax = ajaxRequest.send('v1/account/create/google', {user: user});
+            } else {
+                var ajax = ajaxRequest.send('v1/account/create', {user: user});
+            }
             ajax.then(function (data) {
                 if (data.name && data.name != 'XXX') {
                     toast.showShortBottom('Welcome ' + data.name);
                 } else {
                     toast.showShortBottom('Welcome');
                 }
+                data.type = type;
                 $localStorage.user = data;
                 var picture = data.picture;
                 if (picture.length == 0) {
@@ -63,6 +79,7 @@ accountService.factory('accountHelper', [
                     data.picture = ajaxRequest.url('v1/account/picture/view/' + data.picture);
                 }
                 def.resolve(data);
+
                 if ($localStorage.previous.url) {
                     var prev_url = $localStorage.previous.url;
                     $localStorage.previous.url = false;
