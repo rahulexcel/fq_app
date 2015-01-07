@@ -196,17 +196,18 @@ span.other-price{line-height: 34px;font-size: 17px;font-weight: bold;font-family
 .bar .button.button-clear .icon:before, .bar .button.button-clear.icon-left:before, .bar .button.button-clear.icon-right:before, .bar .button.button-clear.icon:before {font-size:17px;}
 /**************************closed Category page*********************************/
 
-/**************************Filter*********************************/
+/**************************Filter & Sort by*********************************/
 
 .filter-label{float:left;color:#000;margin-left:10px;font-size:23px;font-family:'Open Sans', sans-serif;}
 .filter-page:after{border-bottom:3px solid black; left:0px;right:0px;}
-#show-fliter{margin:0px 20px;}
-.filter-list{border-bottom: 1px solid #dcdcdc;line-height: 34px;padding:0px 14px;}
+#show-fliter,.sortby-container{margin:0px 20px;}
+.sortby-container i.filter-icon{line-height: 2;}
+.filter-list,.sortby-container .item label{border-bottom: 1px solid #dcdcdc;line-height: 34px;padding:0px 14px;}
 .filter-list span.plus-minus{color:#919191;}
-.filter-list .item{padding:3px 10px; border-style:none;}
-.filter-list .item-content span{padding-left:30px;}
+.filter-list .item,.sortby-container .item{padding:3px 10px; border-style:none;}
+.filter-list .item-content span ,.sortby-container .item-content span{padding-left:30px;}
 .item-checkbox .checkbox {left:-6px;}
-/**************************Closed Filter*********************************/
+/**************************Closed Filter & sort by*********************************/
 
 /**************************My Account*********************************/
 #my-acc{margin:2px 17px;}
