@@ -1,5 +1,19 @@
 <ion-view view-title="Invite">
     <ion-content>
+
+        <div ng-show="friends.length > 0" class="friend_list" style="height: 300px;overflow-y: scroll">
+            <div class="list">
+
+                <a class="item item-avatar" ng-repeat="friend in friends">
+                    <img ng-src="{{friend.picture}}">
+                    <h2>{{friend.name}}</h2>
+                    <span ng-if="friend.type == 'facebook'>f</span>
+                    <span ng-if="friend.type == 'google'>g</span>
+                </a>
+
+            </div>
+        </div>
+
         <div ng-if="!isMobile">
             <div class="fb-share-button" data-href="{{link}}" data-layout="button_count"></div>
             <div class="twitter">
@@ -34,6 +48,13 @@
                     Share All
                 </button>
             </div>
+        </div>
+
+
+        <div class="padding">
+            <button class="button" style="width: 100%" on-tap='next();'>
+                Next
+            </button>
         </div>
     </ion-content>
 </ion-view>

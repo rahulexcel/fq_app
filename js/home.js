@@ -69,6 +69,9 @@ homeMod.controller('HomeCtrl',
                 $scope.aboutus = function () {
 
                 }
+                $scope.invite = function () {
+                    $location.path('/app/invite');
+                }
 
                 $rootScope.showSearchBox = false;
                 $rootScope.search = {

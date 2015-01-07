@@ -1,0 +1,20 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Add To List</h1>
+        <div class="button button-icon fa fa-times" on-tap="closeModel();">
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div ng-show="!lists">Loading</div>
+        <ul>
+            <li class="new" on-tap='newList(wishlist_product);'>Add New</li>
+            <li ng-repeat='list in lists'>
+                <div>{{list.name}}</div>
+                <div>{{list.created_at}}</div>
+                <div>{{list.likes}}</div>
+                <div>{{list.followers}}</div>
+                <div>{{list.products}}</div>
+            </li>
+        </ul>
+    </ion-content>
+</ion-modal-view>

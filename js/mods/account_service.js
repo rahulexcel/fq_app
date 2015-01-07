@@ -79,15 +79,7 @@ accountService.factory('accountHelper', [
                     data.picture = ajaxRequest.url('v1/account/picture/view/' + data.picture);
                 }
                 def.resolve(data);
-
-                if ($localStorage.previous.url) {
-                    var prev_url = $localStorage.previous.url;
-                    $localStorage.previous.url = false;
-                    console.log('previous url ' + prev_url);
-                    $location.path(prev_url);
-                } else {
-                    $location.path('/app/account');
-                }
+                $location.path('/app/invite');
                 $rootScope.$broadcast('login_event');
             }, function (message) {
                 def.reject(message);

@@ -20,8 +20,8 @@ categoryMod.directive('scrollWatch', function () {
     }
 });
 categoryMod.controller('CategoryCtrl',
-        ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate', 'wishlistHelper', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$interval',
-            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, wishlistHelper, $stateParams, $localStorage, $rootScope, $location, dataShare, $interval) {
+        ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$interval', '$ionicModal',
+            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $interval, $ionicModal) {
 
                 var backView = false;
 
@@ -323,27 +323,40 @@ categoryMod.controller('CategoryCtrl',
                     $scope.next_page_url = ret.page;
                     $scope.sortBy = ret.sortBy;
                     $scope.filters = ret.filters;
-
                 }
+
+                $scope.$on('$destroy', function () {
+                    $scope.modal.remove();
+                });
+                $scope.closeModel = function () {
+                    $scope.modal.hide();
+                }
+                $ionicModal.fromTemplateUrl('template/partial/wishlist-select.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    $scope.modal = modal;
+                });
+
+                $scope.newList = function (product) {
+                    dataShare.broadcastData(product, 'wishlist_add');
+                    $location.path('/app/wishlist_add');
+                }
+                $scope.wishlist_product = false;
                 $scope.wishlist = function (product) {
-                    product.wishlist = 2;
-                    var ajax = wishlistHelper.add(product._id);
-                    ajax.then(function () {
-                        product.wishlist = 1;
-                        toast.showShortBottom(product.name + " added to your wishlist!!");
-                    }, function (data) {
-                        if (data.login == 1) {
-                            if (!$localStorage.previous) {
-                                $localStorage.previous = {};
-                            }
-                            $localStorage.previous.state = {
-                                function: 'wishlist',
-                                param: angular.copy(product),
-                                category: angular.copy($scope.currentState)
-                            };
+                    if ($localStorage.user.id) {
+                        $scope.wishlist_product = product;
+                        $scope.modal.show();
+                    } else {
+                        if (!$localStorage.previous) {
+                            $localStorage.previous = {};
                         }
-                        product.wishlist = false;
-                    });
+                        $localStorage.previous.state = {
+                            function: 'wishlist',
+                            param: angular.copy(product),
+                            category: angular.copy($scope.currentState)
+                        };
+                    }
                 }
                 $scope.openProduct = function (product) {
                     var id = product._id;

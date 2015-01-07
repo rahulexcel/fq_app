@@ -1,20 +1,32 @@
-var inviteMod = angular.module('InviteMod', ['GoogleLoginService', 'AccountService', 'ServiceMod', 'ngStorage', 'InviteService']);
+var inviteMod = angular.module('InviteMod', ['AccountService', 'ServiceMod', 'ngStorage', 'InviteService']);
 
 inviteMod.controller('InviteCtrl',
-        ['$scope', '$localStorage', '$location', 'toast', 'googleLogin', 'accountHelper', 'inviteHelper', 'dataShare',
-            function ($scope, $localStorage, $location, toast, googleLogin, accountHelper, inviteHelper, dataShare) {
+        ['$scope', '$localStorage', '$location', 'toast', 'accountHelper', 'inviteHelper', 'dataShare',
+            function ($scope, $localStorage, $location, toast, accountHelper, inviteHelper, dataShare) {
 
                 if (!$localStorage.user.id) {
                     $location.path('/app/home');
                     return;
                 }
+                $scope.friends = [];
                 $scope.$on('logout_event', function () {
                     $location.path('/app/signup');
                 })
                 if ($localStorage.user.type == 'facebook') {
                     var data = dataShare.getData();
                     if (data && data.data) {
-                        inviteHelper.lookUpFacebookFriends(data.data);
+                        var ajax = inviteHelper.lookUpFacebookFriends(data.data);
+                        ajax.then(function (data) {
+                            $scope.friends = data;
+                        });
+                    }
+                } else if ($localStorage.user.type == 'google') {
+                    var data = dataShare.getData();
+                    if (data && data.data) {
+                        var ajax = inviteHelper.lookUpGoogleFriends(data.data);
+                        ajax.then(function (data) {
+                            $scope.friends = data.friends_data;
+                        });
                     }
                 }
 
@@ -83,8 +95,15 @@ inviteMod.controller('InviteCtrl',
 
                 }
 
-                $scope.google = function () {
-
+                $scope.next = function () {
+                    if ($localStorage.previous.url) {
+                        var prev_url = $localStorage.previous.url;
+                        $localStorage.previous.url = false;
+                        console.log('previous url ' + prev_url);
+                        $location.path(prev_url);
+                    } else {
+                        $location.path('/app/account');
+                    }
                 }
 
             }
