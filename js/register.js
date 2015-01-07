@@ -206,19 +206,19 @@ registerMod.controller('RegisterCtrl',
                 $scope.googleplay = function (model) {
                     if (typeof chrome != 'undefined' && chrome.identity) {
                         if (model.is_play_done || model.email.length > 0) {
-                            return;
-                        }
-                        chrome.identity.getAuthToken({interactive: true}, function (token) {
-                            console.log(token);
-                            chrome.identity.getProfileUserInfo(function (email) {
-                                if (email) {
-                                    console.log(email);
+                        } else {
+                            chrome.identity.getAuthToken({interactive: true}, function (token) {
+                                console.log(token);
+                                chrome.identity.getProfileUserInfo(function (email) {
                                     model.is_play_done = true;
-                                    model.email = email;
+                                    if (email) {
+                                        console.log(email);
+                                        model.email = email;
+                                    }
                                     $scope.$apply();
-                                }
+                                });
                             });
-                        });
+                        }
                     }
                 }
 
