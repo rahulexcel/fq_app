@@ -14,11 +14,12 @@ var app = angular.module('starter',
             'AccountMod',
             'FeedbackMod',
             'WishlistMod',
+            'InviteMod',
             'ngCordova'
         ]
         );
 app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-    $ionicConfigProvider.views.maxCache(5);
+    $ionicConfigProvider.views.maxCache(0);
     $stateProvider
             .state('offline', {
                 url: '/offline',
@@ -100,6 +101,15 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                     'menuContent': {
                         templateUrl: 'template/wishlist.html',
                         controller: 'WishlistCtrl'
+                    }
+                }
+            })
+            .state('app.invite', {
+                url: '/invite',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'template/invite.html',
+                        controller: 'InviteCtrl'
                     }
                 }
             })
