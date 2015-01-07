@@ -7,14 +7,11 @@
         <ion-list>
             <i class="fa fa-spinner fa-spin" ng-show='product_loading'></i>
             <div class="product" ng-show='!product_loading'>
-
-                <div class="heart img-heart" on-tap="wishlist();">
-                    <i ng-show="!product.wishlist" class="fa fa-heart-o fa-lg"></i>
-                    <i ng-show="product.wishlist == 1" class="fa fa-heart fa-lg"></i>
-                    <i ng-show="product.wishlist == 2" class="fa fa-spinner fa-spin fa-lg"></i>
-                </div>
                 <div class="pro-img">
                     <img ng-src='{{product.img}}'/>
+                    <div class="heart wishlist-product-img" on-tap="wishlist(prod);">
+                    <img src="img/Wishlist.png" alt="wishlist" width="28px"/>
+                        </div>
                 </div>
 
                 <div class="pro-info">
@@ -29,8 +26,19 @@
                     <div class="pro-price">
                         Rs.{{product.price}}
                     </div>
-
-                    <button class="button pro-button" on-tap="buy(product);">BUY NOW</button>
+                    <div class="price-up-down">
+                    <i class="fa fa-caret-up">&nbsp;Price Rise of Rs.125</i>
+						<br>
+						<i class="fa fa-caret-down">&nbsp;Price Drop of Rs.125</i>
+						
+						</div>
+                    <div class="social-share">
+					<i class="fa fa-instagram"></i>&nbsp;&nbsp;
+					<i class="fa fa-twitter"></i>&nbsp;&nbsp;
+					<i class="fa fa-facebook"></i>&nbsp;&nbsp;
+					<i class="fa fa-share-alt"></i>
+					</div>
+                    <button class="button pro-button signup-button" on-tap="buy(product);">BUY NOW</button>
                     <div class="clearfix"></div>
                 </div>
 
@@ -50,6 +58,9 @@
                             <div class="similar-price">
                                 Rs. {{variant.price}}
                             </div>
+                            <div class="similar-price-drop">
+								<i class="fa fa-caret-down">&nbsp;Rs.25</i>
+								</div>
                         </li>
                         <div class="clearfix"></div>
                     </ul>
