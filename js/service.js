@@ -26,11 +26,15 @@ serviceMod.factory('timeStorage', ['$localStorage', function ($localStorage) {
 serviceMod.factory('dataShare', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
         var shareService = {};
         shareService.data = false;
-        shareService.broadcastData = function (data, event) {
+        shareService.broadcastData = function (data, event, fast) {
             this.data = data;
-            $timeout(function () {
+            if (fast) {
                 $rootScope.$broadcast(event);
-            }, 500);
+            } else {
+                $timeout(function () {
+                    $rootScope.$broadcast(event);
+                }, 500);
+            }
         }
         shareService.getData = function () {
             var data = shareService.data;

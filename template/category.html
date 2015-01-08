@@ -53,7 +53,7 @@
                 <div class="clearfix"></div>
                 <div class="image" on-tap="openProduct(prod);">
                     <img ng-src="{{prod.img}}" />
-                    <div class="heart my-wishlist-img" on-tap="wishlist(prod);">
+                    <div class="heart my-wishlist-img" on-tap="wishlist(prod,$event);">
                         <img src="img/Wishlist.png" alt="wishlist"/>
                     </div>
                 </div>
