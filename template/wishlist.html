@@ -1,5 +1,6 @@
 <ion-view>
     <ion-content>
+			<div class="top-container">
         <div ng-repeat='item in wishlist track by $index'>
             <div style="float: left">
                 <img style="max-width: 150px;max-height: 150px" ng-src='{{item.img}}' />
@@ -10,6 +11,7 @@
                 {{item.brand}} - {{item.website}} - {{item.price}}
             </div>
             <div class="clearfix"></div>
+        </div>
         </div>
     </ion-content>
 </ion-view>
