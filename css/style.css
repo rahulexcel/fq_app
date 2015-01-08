@@ -2,20 +2,16 @@
 			 
 			  @font-face {
 				font-family: 'Open Sans';
-				src: url('font/OpenSans-Regular.ttf') format("truetype");
-				src: url('font/OpenSans-Regular.otf') format("opentype");
-				src: url('font/OpenSans-Regular.woff') format("woff");
-				src: url('font/OpenSans-Regular.svg') format("svg");
-				src: url('font/OpenSans-Regular.eot');
+				src: url('../font/OpenSans-Regular.ttf') format("truetype");
+				src: url('../font/OpenSans-Regular.otf') format("opentype");
+				src: url('../font/OpenSans-Regular.woff') format("woff");
+				src: url('../font/OpenSans-Regular.svg') format("svg");
+				src: url('./font/OpenSans-Regular.eot');
 				font-weight: normal;
 				font-style:  normal;
 				}
-				/*
 			  body{ 
 			  font-family: 'Open Sans', sans-serif;
-			  } */
-			  body{ 
-			  font-family: 'Open Sans';
 			  }
 			.category .product{
                 width: 50%;
