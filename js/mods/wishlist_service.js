@@ -8,7 +8,7 @@ wishlistService.factory('wishlistHelper', [
             var def = $q.defer();
 
             if ($localStorage.user && $localStorage.user.id) {
-                var ajax = ajaxRequest.send('v1/wishlist/remove', {
+                var ajax = ajaxRequest.send('v1/wishlist/item/remove', {
                     user_id: $localStorage.user.id,
                     product_id: product_id
                 });
@@ -52,11 +52,30 @@ wishlistService.factory('wishlistHelper', [
             }
             return def.promise;
         }
+        service.create = function (list) {
+            var def = $q.defer();
+            if ($localStorage.user && $localStorage.user.id) {
+                list.user_id = $localStorage.user.id;
+                var ajax = ajaxRequest.send('v1/wishlist/add', list);
+                ajax.then(function (data) {
+                    def.resolve();
+                }, function (message) {
+                    def.reject();
+                });
+            } else {
+                $location.path('/app/signup');
+                toast.showShortBottom('SignUp To Setup Wishlist and Price Alerts');
+                def.reject({
+                    login: 1
+                });
+            }
+            return def.promise;
+        }
         service.add = function (product_id) {
             var def = $q.defer();
 
             if ($localStorage.user && $localStorage.user.id) {
-                var ajax = ajaxRequest.send('v1/wishlist/add', {
+                var ajax = ajaxRequest.send('v1/wishlist/item/add', {
                     user_id: $localStorage.user.id,
                     product_id: product_id
                 });

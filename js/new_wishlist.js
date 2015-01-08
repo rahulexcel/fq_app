@@ -25,8 +25,15 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         shared_ids: []
                     }
 
-                    $scope.create = function () {
 
+                    $scope.create = function () {
+                        $scope.status = 1;
+                        var ajax = wishlistHelper.create(angular.copy($scope.list));
+                        ajax.then(function (data) {
+                            $scope.status = 2;
+                        }, function () {
+                            $scope.status = 3;
+                        });
                     }
 
                     $scope.$watch('list.type', function (val) {
