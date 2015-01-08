@@ -20,8 +20,9 @@ categoryMod.directive('scrollWatch', function () {
     }
 });
 categoryMod.controller('CategoryCtrl',
-        ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$interval', '$ionicModal',
-            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $interval, $ionicModal) {
+        ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate',
+            '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$interval', '$ionicModal', 'wishlistHelper',
+            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $interval, $ionicModal, wishlistHelper) {
 
                 var backView = false;
 
@@ -343,9 +344,20 @@ categoryMod.controller('CategoryCtrl',
                     $location.path('/app/wishlist_add');
                 }
                 $scope.wishlist_product = false;
-                $scope.wishlist = function (product) {
+                $scope.newList = function (product) {
+                    dataShare.broadcastData(product, 'wishstlist_new');
+                    $scope.modal.close();
+                    $location.path('/app/wishlist_add');
+                }
+                $scope.wishlist = function (product, $event) {
+                    $event.preventDefault();
+                    $event.stopPropagation();
                     if ($localStorage.user.id) {
                         $scope.wishlist_product = product;
+                        var ajax = wishlistHelper.list();
+                        ajax.then(function (data) {
+                            $scope.lists = data;
+                        });
                         $scope.modal.show();
                     } else {
                         if (!$localStorage.previous) {

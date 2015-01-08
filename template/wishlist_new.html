@@ -1,0 +1,28 @@
+<ion-view view-title="New List">
+    <ion-content>
+        <div ng-show='friend_load'>
+            <div class="list">
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">List Name</span>
+                    <input type="text" ng-model='list.name' placeholder="List Name">
+                </label>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">Description</span>
+                    <textarea ng-model='list.description' placeholder="List Description"></textarea>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Visibility</span>
+                    <ion-radio ng-repeat="item in types" ng-model="list.type" ng-value="item.value">{{item.text}}</ion-radio>
+                </label>
+            </div>
+            <div class="padding">
+                <button  on-tap='create();' class="button signup-button">
+                    Create
+                    <i class="fa fa-spinner fa-spin" ng-show="status == 1"></i>
+                    <i class="fa fa-times" ng-show="status == 3"></i>
+                    <i class="fa fa-check" ng-show="status == 2"></i>
+                </button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,21 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Select Friends</h1>
+        <div class="button button-icon fa fa-times" on-tap="closeModel();">
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <i class="fa fa-spinner fa-spin" ng-show='!friend_load'></i>
+        <ion-checkbox ng-model='friend.checked' on-tap='selectFriend(friend)' ng-repeat='friend in friends'>
+            <img ng-if='friend.picture' ng-src='{{friend.picture}}' style="max-width: 50px;max-height: 50px" />
+            <span>{{friend.name}}</span>
+        </ion-checkbox>
+
+
+        <div class="padding">
+            <button  on-tap='closeModel();' class="button">
+                Done
+            </button>
+        </div>
+    </ion-content>
+</ion-modal-view>
