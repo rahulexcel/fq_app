@@ -2,7 +2,11 @@
 			 
 			  @font-face {
 				font-family: 'Open Sans';
-				src: url('font/OpenSans-Light.ttf') format("truetype");
+				src: url('font/OpenSans-Regular.ttf') format("truetype");
+				src: url('font/OpenSans-Regular.otf') format("opentype");
+				src: url('font/OpenSans-Regular.woff') format("woff");
+				src: url('font/OpenSans-Regular.svg') format("svg");
+				src: url('font/OpenSans-Regular.eot');
 				font-weight: normal;
 				font-style:  normal;
 				}
