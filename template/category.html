@@ -9,7 +9,7 @@
         <div ng-show="showFilter" id="show-fliter" >
             <!-- <i class="fa fa-times " on-tap='showProductsFn()'></i> -->
             <button class="button button-full button-clear filter-button filter-page" on-tap="showFiltersFn();">
-                <i class="icon ion-funnel filter-icon"></i>
+                <i class="icon ion-funnel filter-icon red-color"></i>
                 <span class="filter-label">FILTER</span>
             </button>
             <div class="filter-list" ng-repeat="filter_type in filters">
@@ -30,7 +30,7 @@
         </div>
         <div ng-show="showSortBy" class="sortby-container">
             <button class="button button-full button-clear filter-button filter-page">
-                <i class="fa fa-sort-alpha-desc fa-lg filter-icon" on-tap='showProductsFn()'></i>
+                <i class="fa fa-sort-alpha-desc fa-lg filter-icon red-color" on-tap='showProductsFn()'></i>
                 <span class="filter-label"> SORT BY</span>
             </button>
             <ion-list>
@@ -53,8 +53,8 @@
                 <div class="clearfix"></div>
                 <div class="image" on-tap="openProduct(prod);">
                     <img ng-src="{{prod.img}}" />
-                    <div class="heart my-wishlist-img" on-tap="wishlist(prod,$event);">
-                        <img src="img/Wishlist.png" alt="wishlist"/>
+                    <div class="heart my-wishlist-img" on-tap="wishlist(prod);">
+                        <img src="img/heart.png" alt="wishlist"/>
                     </div>
                 </div>
 
@@ -89,13 +89,13 @@
         <div class="row">
             <div class="col" ng-if="sortBy.length > 0">
                 <button class="button button-full button-clear filter-button" on-tap="showSortByFn();">
-                    <i class="fa fa-sort-alpha-desc  filter-icon"></i>
+                    <i class="fa fa-sort-alpha-desc  filter-icon red-color"></i>
                     Sort By
                 </button>
             </div>
             <div class="col" ng-if="filters.length > 0">
                 <button class="button button-full button-clear filter-button" on-tap="showFiltersFn();">
-                    <i class="icon ion-funnel filter-icon"></i>
+                    <i class="icon ion-funnel filter-icon red-color"></i>
                     Filter
                 </button>
             </div>

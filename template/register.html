@@ -3,7 +3,7 @@
         <div id="account-page">
             <div>
                 <div class="brand-image">
-                    <img src="img/fashionig_brand.png" width="160px;" alt="Fashionig"/>
+                    <img src="img/logo.png" width="160px;" alt="Fashionig"/>
                 </div>
                 <div class="padding">
                     <button class="button google-button" on-tap='google();'>
@@ -44,14 +44,14 @@
                         </label>
                     </div>
                     <div class="padding">
-                        <button  on-tap='create();' class="button signup-button">
+                        <button  on-tap='create();' class="button signup-button red-back">
                             SIGN UP
                             <i class="fa fa-spinner fa-spin" ng-show="register_status == 1"></i>
                             <i class="fa fa-times" ng-show="register_status == 3"></i>
                             <i class="fa fa-check" ng-show="register_status == 2"></i>
                         </button>
                     </div>
-                    <div align="center"><span class="check-account">Already have an account? </span><span class="login-click" on-tap='showLogin();'>Login</span>
+                    <div align="center"><span class="check-account">Already have an account? </span><span class="login-click red-color" on-tap='showLogin();'>Login</span>
                     </div>
                 </form>
             </div>
@@ -66,11 +66,11 @@
                             <span class="input-label">Password</span>
                             <input type="password" ng-model="login_obj.password" placeholder="Passowrd"/>
                         </label>
-                        <div class="forget-pass">
+                        <div class="forget-pass red-color">
                             <span on-tap='showForgot();'>Forgot your password?</span>
                         </div>
                         <div class="padding">
-                            <button class="button signup-button" on-tap='login();'>
+                            <button class="button signup-button red-back" on-tap='login();'>
                                 LOG IN
                                 <i class="fa fa-spinner fa-spin" ng-show="login_status == 1"></i>
                                 <i class="fa fa-times" ng-show="login_status == 3"></i>
@@ -78,7 +78,7 @@
                             </button>
                         </div>
                         <div align="center">
-                            <span class="login-click" on-tap='showRegister();'>Sign Up</span>
+                            <span class="login-click red-color" on-tap='showRegister();'>Sign Up</span>
                             <span class="check-account">  using your email address.</span>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                             <input type="email" ng-model='forgot_obj.email' placeholder="Email">
                         </label>
                         <div class="padding">
-                            <button class="button signup-button" on-tap='forgot();'>
+                            <button class="button signup-button red-back" on-tap='forgot();'>
                                 Send
                                 <i class="fa fa-spinner fa-spin" ng-show="forgot_status == 1"></i>
                                 <i class="fa fa-times" ng-show="forgot_status == 3"></i>
@@ -101,8 +101,8 @@
                             </button>
                         </div>
                         <div align="center">			
-                            <span class="login-click" on-tap='showRegister();'>Signup </span>or
-                            <span class="login-click" on-tap='showLogin();'> Login</span>
+                            <span class="login-click red-color" on-tap='showRegister();'>Signup </span>or
+                            <span class="login-click red-color" on-tap='showLogin();'> Login</span>
                         </div>
                     </div>
                 </form>

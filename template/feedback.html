@@ -4,7 +4,7 @@
 			<div class="feed-info">
 				<h4>RATE OUR APP</h4>
 				<p>if you love our app, please take a moment to rate it in the App store</p>
-				<button class="button signup-button feed-rate-btn" on-tap=""><img src="img/rate_now.png"/>&nbsp;RATE NOW
+				<button class="button signup-button feed-rate-btn" on-tap=""><img src="img/google_play.png"/>&nbsp;RATE NOW
                 </button>
 			</div>
             <label class="item item-input item-floating-label first-feed-label">
@@ -16,7 +16,7 @@
                 <textarea ng-model="feedback.text" style="width:100%;height: 25px" placeholder="Leave a feedback"></textarea>
             </label>
             <div class="feed-submit">
-                <button class="button signup-button" on-tap="sendFeedback();">SUBMIT
+                <button class="button signup-button red-back" on-tap="sendFeedback();">SUBMIT
                     <i class="fa fa-spinner fa-spin" ng-show="feedback_status == 1"></i>
                     <i class="fa fa-times" ng-show="feedback_status == 3"></i>
                     <i class="fa fa-check" ng-show="feedback_status == 2"></i>
@@ -24,5 +24,6 @@
             </div>
         </div>
         <button ng-if="isMobile" on-tap="rateUs();" class="button signup-button">Rate Us</button>
+    
     </ion-content>
 </ion-view>
