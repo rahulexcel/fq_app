@@ -10,7 +10,7 @@
                 <div class="pro-img">
                     <img ng-src='{{product.img}}'/>
                     <div class="heart wishlist-product-img" on-tap="wishlist(prod);">
-                    <img src="img/Wishlist.png" alt="wishlist" width="28px"/>
+                    <img src="img/heart.png" alt="wishlist" width="28px"/>
                         </div>
                 </div>
 
@@ -33,12 +33,12 @@
 						
 						</div>
                     <div class="social-share">
-					<i class="ion-social-instagram fa-lg"></i>
-					<i class="fa fa-twitter fa-lg"></i>
-					<i class="fa fa-facebook fa-lg"></i>
-					<i class="fa fa-share-alt fa-lg"></i>
+					<i class="ion-social-instagram fa-lg red-color"></i>
+					<i class="fa fa-twitter fa-lg red-color"></i>
+					<i class="fa fa-facebook fa-lg red-color"></i>
+					<i class="fa fa-share-alt fa-lg red-color"></i>
 					</div>
-                    <button class="button pro-button signup-button" on-tap="buy(product);">BUY NOW</button>
+                    <button class="button pro-button signup-button red-back" on-tap="buy(product);">BUY NOW</button>
                     <div class="clearfix"></div>
                 </div>
 
@@ -85,7 +85,7 @@
                                 </div>
                                 <div>
                                     <span class="other-price">Rs.{{variant.price}}</span>
-                                    <button class="button pro-button" on-tap="buy(product);">BUY</button>
+                                    <button class="button pro-button red-back" on-tap="buy(product);">BUY</button>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
