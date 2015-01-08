@@ -97,6 +97,7 @@ Scroll On Product Page
     display: none;
 }
 
+.bar.bar-stable .title {color:#da500f;}
 /**************************Side Menu*********************************/
 .scroll-content .scroll ul li.list-not-cat{border-bottom-style:none; }
 .scroll-content .scroll ul li {
@@ -220,14 +221,13 @@ span.other-price{line-height: 34px;font-size: 17px;font-weight: bold;font-family
 #my-acc .item-myacc2{border-top:1px solid #f8dcd0;padding-top:15px;}
 #my-acc .item-floating-label span.myacc-gender-label {opacity:1;top:0px;float: left;color:#000;}
 #my-acc .item-myacc2 select{float:right;margin-top: 7px;}
-#my-acc .myacc-update{color:#fff;background-color: #EE6423;min-height: 43px;border-style: none;width: 108px;border-radius: 4px;margin-bottom:10px;}
+#my-acc .myacc-update{color:#fff;background-color:#D84E0D;min-height: 43px;border-style: none;width: 108px;border-radius: 4px;margin-bottom:10px;}
 #my-acc .padding{padding:0px;}
 #my-acc .item-confirm-pass{border-bottom:2px solid #E1E1E1;padding-top:0px;padding-bottom:0px;}
-#my-acc select{ display: inline-block;
-cursor: pointer;
-border: 1px solid #FFF;
-float: right;
-width: 84px;}
+#my-acc select{border: 1px solid #FFF;width: 84px;}
+.profile-pic{text-align:center; background-color:#eeeeee;min-height: 105px;padding-top:10px;color:#999999;}
+.profile-pic-not{border:2px solid #D4D4D4; border-radius:43px; width:71px;height:71px;margin: 0px auto;}
+.profile-pic-not i{max-height: 150px;max-width: 150px;line-height: 2.4;color:#b2b2b2;}
 /************************** closed My Account*********************************/
 
 /************************** Feedback *********************************/

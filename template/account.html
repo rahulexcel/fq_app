@@ -1,17 +1,25 @@
 <ion-view view-title="My Account">
     <ion-content>
+		<div class="profile-pic" ng-if="login_data.picture">
+                <img style="max-height: 150px;max-width: 150px" ng-src="{{login_data.picture}}">
+            </div>
+		<div class="profile-pic" ng-if="!login_data.picture">
+				<div class="profile-pic-not" align="center">
+					<i class="fa fa-camera fa-2x"></i>
+                </div>
+                Add a Photo
+            </div>
 	<div id="my-acc">
         <div>
 
-            <div class="">
+           <!-- <div class="">
                 <h2>{{login_data.name}}</h2>
                 <p>{{login_data.create_at}}</p>
             </div>
-
-            <div>
-                <img style="max-height: 150px;max-width: 150px" ng-src="{{login_data.picture}}">
-            </div>
-
+			
+		
+            -->
+			
             <div ng-if="!is_mobile">
                 <button class="button myacc-update" 
                         ng-file-select 
