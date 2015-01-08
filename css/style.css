@@ -1,17 +1,20 @@
 			 /* @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);*/
 			 
 			  @font-face {
-				font-family: 'Open Sans';
-				src: url('../font/OpenSans-Regular.ttf') format("truetype");
-				src: url('../font/OpenSans-Regular.otf') format("opentype");
-				src: url('../font/OpenSans-Regular.woff') format("woff");
-				src: url('../font/OpenSans-Regular.svg') format("svg");
-				src: url('./font/OpenSans-Regular.eot');
-				font-weight: normal;
-				font-style:  normal;
-				}
+    font-family: 'OpenSansRegular';
+    src: url('../fonts/OpenSansRegular.eot');
+    src: url('../fonts/OpenSansRegular.eot') format('embedded-opentype'),
+         url('../fonts/OpenSansRegular.woff2') format('woff2'),
+         url('../fonts/OpenSansRegular.woff') format('woff'),
+         url('../fonts/OpenSansRegular.ttf') format('truetype'),
+         url('../fonts/OpenSansRegular.svg#OpenSansRegular') format('svg');
+         font-weight: normal;
+    font-style: normal;
+}
+
 			  body{ 
-			  font-family: 'Open Sans', sans-serif;
+			  font-family: 'OpenSansRegular', sans-serif !important;
+			  
 			  }
 			.category .product{
                 width: 50%;
