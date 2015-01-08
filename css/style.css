@@ -6,8 +6,12 @@
 				font-weight: normal;
 				font-style:  normal;
 				}
+				/*
 			  body{ 
 			  font-family: 'Open Sans', sans-serif;
+			  } */
+			  body{ 
+			  font-family: 'Open Sans';
 			  }
 			.category .product{
                 width: 50%;
