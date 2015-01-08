@@ -201,7 +201,7 @@ span.other-price{line-height: 34px;font-size: 17px;font-weight: bold;font-family
 .filter-label{float:left;color:#000;margin-left:10px;font-size:23px;font-family:'Open Sans', sans-serif;}
 .filter-page:after{border-bottom:3px solid black; left:0px;right:0px;}
 #show-fliter,.sortby-container{margin:0px 20px;}
-.sortby-container i.filter-icon{line-height: 2;}
+.sortby-container i.filter-icon ,.col i.fa{line-height: 2;}
 .filter-list,.sortby-container .item label{border-bottom: 1px solid #dcdcdc;line-height: 34px;padding:0px 14px;}
 .filter-list span.plus-minus{color:#919191;}
 .filter-list .item,.sortby-container .item{padding:3px 10px; border-style:none;}
@@ -211,7 +211,7 @@ span.other-price{line-height: 34px;font-size: 17px;font-weight: bold;font-family
 
 /**************************My Account*********************************/
 #my-acc{margin:2px 17px;}
-.list-my_acc{margin-top:10px;border-top:1px solid #E1E1E1; border-bottom:2px solid #E1E1E1;}
+.list-my_acc{margin-top:10px;border-top:2px solid #E1E1E1; border-bottom:2px solid #E1E1E1;}
 #my-acc .item{border-style:none;}
 .update-info{margin-left:-11px;font-weight:bold;color:#585858;}
 .list-my_acc .input-label{margin-top:5px;color:#000;}
@@ -223,8 +223,14 @@ span.other-price{line-height: 34px;font-size: 17px;font-weight: bold;font-family
 #my-acc .myacc-update{color:#fff;background-color: #EE6423;min-height: 43px;border-style: none;width: 108px;border-radius: 4px;margin-bottom:10px;}
 #my-acc .padding{padding:0px;}
 #my-acc .item-confirm-pass{border-bottom:2px solid #E1E1E1;padding-top:0px;padding-bottom:0px;}
+#my-acc select{ display: inline-block;
+cursor: pointer;
+border: 1px solid #FFF;
+float: right;
+width: 84px;}
+/************************** closed My Account*********************************/
 
-
+/************************** Feedback *********************************/
 .feedback-container{padding:0px 14px;border-style:none;border-top:2px solid #E1E1E1;box-shadow:-19px 44px 17px -43px #E1E1E1 inset;}
 .feed-info{text-align:center;color:#000;padding:10px 0 5px;}
 .feed-info p{line-height:28px;}
@@ -233,3 +239,5 @@ span.other-price{line-height: 34px;font-size: 17px;font-weight: bold;font-family
 .feedback-container .item{border: 1px solid #E1E1E1;border-top:0px none;border-left:0px none;border-right:0px none;padding-top:0px;padding-bottom:0px; }
 .feed-submit {margin-top:24px;}
 .feedback-container .first-feed-label{border-color:#FF7832;}
+
+/************************** closed Feedback *********************************/
