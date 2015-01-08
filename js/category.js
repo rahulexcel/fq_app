@@ -346,8 +346,19 @@ categoryMod.controller('CategoryCtrl',
                 $scope.wishlist_product = false;
                 $scope.newList = function (product) {
                     dataShare.broadcastData(product, 'wishstlist_new');
-                    $scope.modal.close();
+                    $scope.closeModel();
                     $location.path('/app/wishlist_add');
+                }
+                $scope.selectList = function (list) {
+                    $scope.closeModel();
+                    $scope.wishlist_product.wishlist_status = 1;
+                    var ajax2 = wishlistHelper.add($scope.wishlist_product._id, list._id);
+                    ajax2.then(function () {
+                        $scope.wishlist_product.wishlist_status = 2;
+                    }, function (message) {
+                        toast.showShortBottom(message);
+                        $scope.wishlist_product.wishlist_status = 3;
+                    });
                 }
                 $scope.wishlist = function (product, $event) {
                     $event.preventDefault();

@@ -58,9 +58,9 @@ wishlistService.factory('wishlistHelper', [
                 list.user_id = $localStorage.user.id;
                 var ajax = ajaxRequest.send('v1/wishlist/add', list);
                 ajax.then(function (data) {
-                    def.resolve();
+                    def.resolve(data);
                 }, function (message) {
-                    def.reject();
+                    def.reject(message);
                 });
             } else {
                 $location.path('/app/signup');
@@ -71,16 +71,17 @@ wishlistService.factory('wishlistHelper', [
             }
             return def.promise;
         }
-        service.add = function (product_id) {
+        service.add = function (product_id, list_id) {
             var def = $q.defer();
 
             if ($localStorage.user && $localStorage.user.id) {
                 var ajax = ajaxRequest.send('v1/wishlist/item/add', {
                     user_id: $localStorage.user.id,
-                    product_id: product_id
+                    product_id: product_id,
+                    list_id: list_id
                 });
                 ajax.then(function (data) {
-                    def.resolve();
+                    def.resolve(data);
                 }, function (message) {
                     def.reject({
                         login: 0,

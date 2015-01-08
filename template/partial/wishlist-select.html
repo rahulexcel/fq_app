@@ -8,7 +8,7 @@
         <div ng-show="!lists">Loading</div>
         <ul>
             <li class="new" on-tap='newList(wishlist_product);'>Add New</li>
-            <li ng-repeat='list in lists'>
+            <li on-tap='selectList(list);' ng-repeat='list in lists'>
                 <div>{{list.name}}</div>
                 <div>{{list.created_at}}</div>
                 <div>{{list.likes}}</div>

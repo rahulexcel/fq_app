@@ -5,14 +5,14 @@ wishlistnewMod.controller('WishlistNewCtrl',
             function ($scope, $localStorage, toast, wishlistHelper, dataShare, $location, $ionicModal, friendHelper) {
                 if ($localStorage.user.id) {
                     $scope.product = false;
-//                    var product = dataShare.getData('wishstlist_new');
-//                    if (!product) {
-//                        toast.showShortBottom('Invalid Request No Product');
-//                        //put history in play here
-//                        $location.path('/app/home');
-//                    } else {
-//                        $scope.product = product;
-//                    }
+                    var product = dataShare.getData('wishstlist_new');
+                    if (!product) {
+                        toast.showShortBottom('Invalid Request No Product');
+                        //put history in play here
+                        $location.path('/app/home');
+                    } else {
+                        $scope.product = product;
+                    }
 
                     $scope.types = [
                         {text: 'Private', value: 'private'},
@@ -30,8 +30,17 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         $scope.status = 1;
                         var ajax = wishlistHelper.create(angular.copy($scope.list));
                         ajax.then(function (data) {
-                            $scope.status = 2;
-                        }, function () {
+                            var list_id = data.id;
+                            var ajax2 = wishlistHelper.add($scope.product._id, list_id);
+                            ajax2.then(function () {
+                                $scope.status = 2;
+                                toast.showShortBottom('Product Added To Your Wishlist');
+                            }, function (message) {
+                                toast.showShortBottom(message);
+                                $scope.status = 2;
+                            });
+                        }, function (data) {
+                            toast.showShortBottom(data);
                             $scope.status = 3;
                         });
                     }
