@@ -16,6 +16,7 @@ var app = angular.module('starter',
             'WishlistMod',
             'InviteMod',
             'WishlistNewMod',
+            'WishlistItemMod',
             'ngCordova'
         ]
         );
@@ -105,12 +106,30 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                     }
                 }
             })
+            .state('app.wishlist_edit', {
+                url: '/wishlist_edit',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'template/wishlist_new.html',
+                        controller: 'WishlistNewCtrl'
+                    }
+                }
+            })
             .state('app.wishlist_add', {
                 url: '/wishlist_add',
                 views: {
                     'menuContent': {
                         templateUrl: 'template/wishlist_new.html',
                         controller: 'WishlistNewCtrl'
+                    }
+                }
+            })
+            .state('app.wishlist_item', {
+                url: '/wishlist_item/:list_id',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'template/wishlist_item.html',
+                        controller: 'WishlistItemCtrl'
                     }
                 }
             })

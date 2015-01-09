@@ -15,9 +15,16 @@
                     <ion-radio ng-repeat="item in types" ng-model="list.type" ng-value="item.value">{{item.text}}</ion-radio>
                 </label>
             </div>
+            <div ng-show="list.type == 'private'">
+                <div ng-repeat="friend in friends" style="float: left" class="padding">
+                    <img ng-if='friend.id != -1 && friend.checked' src='{{friend.picture}}' style="max-width: 50px;max-height: 50px" />
+                </div>
+                <div class="clearfix"></div>
+            </div>
             <div class="padding">
                 <button  on-tap='create();' class="button signup-button">
-                    Create
+                    <span ng-show='list.update'>Update</span>
+                    <span ng-show='!list.update'>Create</span>
                     <i class="fa fa-spinner fa-spin" ng-show="status == 1"></i>
                     <i class="fa fa-times" ng-show="status == 3"></i>
                     <i class="fa fa-check" ng-show="status == 2"></i>

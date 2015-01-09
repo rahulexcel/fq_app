@@ -1,4 +1,4 @@
-var serviceMod = angular.module('ServiceMod', ['ngStorage']);
+var serviceMod = angular.module('ServiceMod', ['ngStorage', 'ionic']);
 
 serviceMod.factory('timeStorage', ['$localStorage', function ($localStorage) {
         var timeStorage = {};
@@ -44,7 +44,7 @@ serviceMod.factory('dataShare', ['$rootScope', '$timeout', function ($rootScope,
         return shareService;
     }
 ]);
-serviceMod.factory('toast', [function () {
+serviceMod.factory('toast', ['$ionicPopup', function ($ionicPopup) {
         return {
             showShortBottom: function (message) {
                 if (window.plugins && window.plugins.toast) {
@@ -52,7 +52,11 @@ serviceMod.factory('toast', [function () {
                     }, function (b) {
                     })
                 } else {
-                    alert(message);
+                    $ionicPopup.alert({
+                        title: 'Alert',
+                        template: message
+                    });
+                    ;
                 }
             },
             showProgress: function () {
@@ -104,13 +108,7 @@ serviceMod.factory('ajaxRequest',
                         });
                         http.error(function () {
                             $log.warn('500 Error');
-                            if (window.plugins && window.plugins.toast) {
-                                window.plugins.toast.showShortBottom('Unable to Complete Request! Check Your Network Connection Or Try Again', function (a) {
-                                }, function (b) {
-                                })
-                            } else {
-                                alert('Unable to Complete Request! Check Your Network Connection Or Try Again');
-                            }
+                            toast.showShortBottom('Unable to Complete Request! Check Your Network Connection Or Try Again');
                             def.reject('500');
                         });
                         return def.promise;
