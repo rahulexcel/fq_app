@@ -163,8 +163,17 @@ li.sub-cat-label>span,
     line-height: 42px;
 }
 
+.scroll-content .scroll  ul li span{
+width: 100%;
+float: left;
+
+}
+span div.plus-minus
+{
+	float:right;
+}
 .scroll-content .scroll ul li ul{
-    margin: -8px 0 10px;
+    margin: 0px 0 10px;
 }
 .scroll-content .scroll ul{
     margin:  0px 20px;
@@ -176,7 +185,7 @@ li.sub-cat-label>span,
     font-weight: normal;
     color: #999999;
     border-bottom-style:none;
-    line-height: 28px;
+    line-height: 26px;
 }
 i.fa-map-marker,i.fa-user {
     color:#db500d;
@@ -190,7 +199,10 @@ span.plus-minus{
 .internal-details i, .internal-details img{
     margin-right:6px;
 }
-
+ .internal-details img {
+max-width: 2%;
+margin-right: 16px;
+ }
 /**************************closed Side Menu*********************************/
 
 /**************************Sign up/login*********************************/
@@ -387,6 +399,9 @@ span.other-price{
 .social-share{
     float:right;
     font-size:10px;
+}
+.social-share i{ 
+	padding-left: 4px;
 }
 .price-up-down{
     float:left;

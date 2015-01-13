@@ -45,14 +45,17 @@
             <i class="fa fa-spinner fa-spin" ng-show='category.length == 0'></i>
             <ul ng-show='category.length >= 0'>
                 <li ng-repeat="cat in category">
-                    <span ng-click="selectCategory(cat)">{{cat.name}}</span>
+                    <span ng-click="selectCategory(cat)">{{cat.name}}</span><div class="clearfix"></div>
                     <ul ng-show="cat.open" style="padding-left: 20px" ng-if='cat.data.length > 0'>
                         <li class="sub-cat-label" ng-repeat="catSub in cat.data" >
-                            <span ng-click='selectCategory(catSub)'>{{catSub.name}}</span>
-                            <span class="plus-minus" ng-if="catSub.data.length > 0">
+                            <span ng-click='selectCategory(catSub)'>{{catSub.name}}
+                            <div class="plus-minus" ng-if="catSub.data.length > 0">
                                 <i ng-show="!catSub.open">+</i>
                                 <i ng-show="catSub.open">-</i>
+                            </div>
+                            
                             </span>
+                             <div class="clearfix"></div>
                             <ul class="" ng-show="catSub.open" style="padding-left: 20px" ng-if='catSub.data.length > 0'>
                                 <li class="" nav-clear menu-close ng-repeat="catLast in catSub.data" >
                                     <span  ng-click='selectCategory(catLast)'>{{catLast.name}}</span>        
@@ -60,6 +63,7 @@
                             </ul>
                         </li>
                     </ul>
+                    <div class="clearfix"></div>
                 </li>
                 <li class="list-not-cat"><a class="internal-details" ng-if="!login" nav-clear menu-close href='#/app/signup'><i class="ion-person-add fa-lg red-color"></i>Join /Sign Up</a></li>
                 <li class="list-not-cat"><a class="internal-details" ng-if="login" nav-clear menu-close on-tap='logout();'><i class="ion-log-out fa-lg red-color"></i>Logout</a></li>
