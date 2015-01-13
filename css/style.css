@@ -349,8 +349,11 @@ span.arrow{
 .similar-price{
     float:left;
 }
+.other-sellers-img{
+width: 72px;
+}
 .other-seller-info{
-    margin-left:107px;
+    margin-left:85px;
 }
 .other_seller_container{
     border-bottom:2px solid #d1d1d1;
@@ -385,9 +388,8 @@ span.other-price{
     margin-top:10px;
     height: 115px;
 	overflow: hidden;
-}
-.similar-img img{
-	max-width:41%;
+	width: 60%;
+	margin: 0 auto;
 }
 .wishlist-product-img{
     width: 100%;
@@ -511,21 +513,18 @@ span.other-price{
 /**************************Closed Filter & sort by*********************************/
 
 /**************************My Account*********************************/
-#my-acc{
-    margin:2px 17px;
-}
-.list-my_acc{
+
+.register{
     margin-top:10px;
-    border-top:2px solid #E1E1E1;
-    border-bottom:2px solid #E1E1E1;
+     margin:2px 17px;
 }
 #my-acc .item{
     border-style:none;
 }
 .update-info{
-    margin-left:-11px;
     font-weight:bold;
     color:#585858;
+    padding-left: 16px;
 }
 .list-my_acc .input-label{
     margin-top:5px;
@@ -566,10 +565,7 @@ span.other-price{
     padding-top:0px;
     padding-bottom:0px;
 }
-#my-acc select{
-    border: 1px solid #FFF;
-    width: 84px;
-}
+
 .profile-pic{
     text-align:center;
     min-height: 105px;
