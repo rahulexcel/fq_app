@@ -1,7 +1,10 @@
 <ion-view>
     <ion-content>
         <i class="fa fa-spinner fa-spin" ng-show='loading'></i>
-
+        <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="doRefresh()">
+        </ion-refresher>
         <div ng-show="!loading">
 
             <div style="max-width: 50px;max-height: 50px">
@@ -9,30 +12,53 @@
             </div>
 
             <div class="username">{{item.user_id.name}}</div>
-            <div on-tap='followUser();' ng-show="item.user_id.followers.length > 0">{{item.user_id.followers}} Followers</div>
-            <div on-tap='followUser();' ng-show="!item.user_id.followers || item.user_id.followers.length == 0">Be First To Follow User</div>
+
+            <div ng-if="me_follow_user" on-tap='unFollowUser(item.user_id._id);'>
+                <div ng-if="item.user_id.followers.length > 1">You and {{item.user_id.followers.length - 1}}Followers</div>
+                <div ng-if="item.user_id.followers.length == 1">You Follow</div>
+            </div>
+            <div ng-if="!me_follow_user" on-tap='followUser(item.user_id._id);'>
+                <div ng-show="item.user_id.followers.length > 0">{{item.user_id.followers.length}} Followers</div>
+                <div ng-show="!item.user_id.followers || item.user_id.followers.length == 0">Be First To Follow User</div>
+            </div>
 
             <div class="listname">{{item.list_id.name}}</div>
 
-            <div on-tap='followList();' ng-show="item.list_id.followers.length > 0">{{item.list_id.followers}} Followers</div>
-            <div on-tap='followList();' ng-show="!item.list_id.followers || item.list_id.followers.length == 0">Be First To Follow List</div>
+
+            <div ng-if="me_follow_list">
+                <div on-tap='unFollowList();' ng-if="item.list_id.followers.length > 1">You and {{item.list_id.followers.length - 1}}Followers</div>
+                <div on-tap='unFollowList();' ng-if="item.list_id.followers.length == 1">You Follow</div>
+            </div>
+            <div ng-if="!me_follow_list">
+                <div on-tap='followList();' ng-show="item.list_id.followers.length > 0">{{item.list_id.followers.length}} Followers</div>
+                <div on-tap='followList();' ng-show="!item.list_id.followers || item.list_id.followers.length == 0">Be First To Follow List</div>
+            </div>
 
             <div style="max-height: 600px;overflow: hidden">
                 <img ng-src='{{item.img| picture:picture_width}}' />
             </div>
             <div ng-show="item.description.length > 0">{{item.description}}</div>
 
-            <div ng-if="me_like" on-tap="unlikeItem();">
+            <div ng-if="me_like" on-tap="unlike();">
                 <span ng-if="item.likes.length > 1">You and {{item.likes.length - 1}} Likes</span>
                 <span ng-if="item.likes.length == 1">You Like</span>
             </div>
-            <div ng-if="!me_like" on-tap='likeItem();' ng-show="item.likes.length > 0">
-                {{item.likes.length}} Likes
+            <div ng-if="!me_like" on-tap='like();'>
+                <div ng-show="item.likes.length > 0">{{item.likes.length}} Likes</div>
+                <div ng-show="item.likes.length == 0">Be First To Like</div>
             </div>
-            <div on-tap='likeItem();' ng-show="item.likes.length == 0 || !item.likes">Be First To like</div>
 
-            <div on-tap='pinItem();' ng-show="item.item_id.pins.length > 0">{{item.item_id.pins.length}} Pins</div>
-            <div on-tap='pinItem();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">Be First To Pin</div>
+            <div ng-if='me_pin'>
+                <div ng-if='item.item_id.pins.length > 1'>
+                    <div on-tap='pin();' ng-show="item.item_id.pins.length > 0">You and {{item.item_id.pins.length - 1}} Pins</div>                        
+                </div>
+                <div ng-if='item.item_id.pins.length == 1'>
+                    <div on-tap='pin();' ng-show="item.item_id.pins.length > 0">You Pins</div>                        
+                </div>
+            </div>
+            <div ng-if='!me_pin'>
+                <div on-tap='pin();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">Be First To Pin</div>
+            </div>
 
             <div class="pro-info">
                 <div class="pro-name">

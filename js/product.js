@@ -9,6 +9,7 @@ productMod.controller('ProductCtrl',
                 $scope.similar = [];
                 $scope.myScroll = false;
                 $scope.product_id = false;
+                var cache_key = false;
 
                 if (window.plugins && window.plugins.socialsharing) {
                     $scope.isMobile = true;
