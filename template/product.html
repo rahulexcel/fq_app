@@ -21,9 +21,9 @@
                     <div class="pro-name">
                         {{product.name}}
                         <br/>
-                        <span class="arrow">ARROW</span>
+                        <span class="arrow">{{product.brand}}</span>
                         <span class="e-site">
-                            FLIPKART
+                            {{product.website}}
                         </span>
                     </div>
                     <div class="pro-price">
@@ -36,41 +36,54 @@
 
                     </div>
                     <div class="social-share">
-                        <i class="ion-social-instagram fa-lg red-color"></i>
-                        <i class="fa fa-twitter fa-lg red-color"></i>
-                        <i class="fa fa-facebook fa-lg red-color"></i>
-                        <i class="fa fa-share-alt fa-lg red-color"></i>
+                        <div ng-if="!isMobile && isMobile">
+                            <div class="fb-share-button" data-href="{{product.href}}" data-layout="button_count"></div>
+                            <div class="twitter">
+                                <a class="twitter-share-button"
+                                   href="https://twitter.com/share" data-url="{{product.href}}" data-text="{{product.name}}"  data-size="small">
+                                    Tweet
+                                </a>
+                            </div>
+                        </div>
+                        <div ng-if="isMobile && isMobile">
+                            <i class="fa-lg red-color fa-2x" on-tap='whatsapp(product)'>W</i>
+                            <i class="fa fa-twitter fa-lg red-color fa-2x" on-tap='twitter(product)'></i>
+                            <i class="fa fa-facebook fa-lg red-color fa-2x"  on-tap='facebook(product)'></i>
+                            <i class="fa fa-share-alt fa-lg red-color fa-2x" on-tap='shareAll(product)'></i>
+                        </div>
                     </div>
                     <button class="button pro-button signup-button red-back" on-tap="buy(product);">BUY NOW</button>
                     <div class="clearfix"></div>
                 </div>
 
                 <div class="clearfix"></div>
-                <div id="similar">
+                <div ng-show='product.similar.length > 0'>
                     <div class="similar-product-label">
                         SIMILAR PRODUCT
                     </div>
-                    <ul id="scroller" class="variants">
-                        <li on-tap="openProduct(variant);" ng-repeat="variant in product.variants" style="float: left">
-                            <div class="similar-img">
-                                <img ng-src='{{variant.img}}' width="92px" height="100px"/>
-                            </div>
-                            <div class="name">
-                                {{variant.name}}
-                            </div>
-                            <div class="similar-price">
-                                Rs. {{variant.price}}
-                            </div>
-                            <div class="similar-price-drop">
-                                <i class="fa fa-caret-down">&nbsp;Rs.25</i>
-                            </div>
-                        </li>
-                        <div class="clearfix"></div>
-                    </ul>
+                    <div  id="similar">
+                        <ul id="scroller" class="variants">
+                            <li on-tap="openProduct(variant);" ng-repeat="variant in product.similar" style="float: left">
+                                <div class="similar-img">
+                                    <img ng-src='{{variant.image}}' width="92px" height="100px"/>
+                                </div>
+                                <div class="name">
+                                    {{variant.name}}
+                                </div>
+                                <div class="similar-price">
+                                    Rs. {{variant.price}}
+                                </div>
+                                <div class="similar-price-drop">
+                                    <i class="fa fa-caret-down">&nbsp;Rs.25</i>
+                                </div>
+                            </li>
+                            <div class="clearfix"></div>
+                        </ul>
+                    </div>  
                     <div class="clearfix"></div>
                 </div>
                 <div class="clearfix"></div>
-                <div class="variants">
+                <div class="variants" ng-show='product.variants.length > 0'>
                     <div class="similar-product-label">
                         OTHER SELLERS
                     </div>

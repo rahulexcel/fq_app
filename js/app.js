@@ -17,6 +17,7 @@ var app = angular.module('starter',
             'InviteMod',
             'WishlistNewMod',
             'WishlistItemMod',
+            'WishlistItemAddMod',
             'ngCordova'
         ]
         );
@@ -124,12 +125,30 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                     }
                 }
             })
-            .state('app.wishlist_item', {
-                url: '/wishlist_item/:list_id',
+            .state('app.item', {
+                url: '/item/:item_id/:list_id',
                 views: {
                     'menuContent': {
                         templateUrl: 'template/wishlist_item.html',
                         controller: 'WishlistItemCtrl'
+                    }
+                }
+            })
+            .state('app.wishlist_item', {
+                url: '/wishlist_item/:list_id/:list_name',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'template/wishlist_items.html',
+                        controller: 'WishlistItemCtrl'
+                    }
+                }
+            })
+            .state('app.wishlist_item_add', {
+                url: '/wishlist_item_add/:list_id',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'template/wishlist_item_add.html',
+                        controller: 'WishlistItemAddCtrl'
                     }
                 }
             })
@@ -151,7 +170,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                     }
                 }
             });
-    ;
     $urlRouterProvider.otherwise('/app/home');
 });
 app.run(function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location) {
@@ -178,6 +196,13 @@ app.run(function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $c
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         console.log(toState.name + " to state");
         console.log(fromState.name + "from state");
+
+        if (toState.name && toState.name == 'app.wishlist_item') {
+            $rootScope.list_id = toParams.list_id;
+        } else {
+            $rootScope.list_id = false;
+        }
+
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
             if ($cordovaNetwork.isOffline() && toState.name != 'offline') {
                 return;

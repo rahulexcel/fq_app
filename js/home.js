@@ -1,8 +1,8 @@
 var homeMod = angular.module('HomeMod', ['ServiceMod', 'ngStorage', 'ionic']);
 
 homeMod.controller('HomeCtrl',
-        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal',
-            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal) {
+        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare',
+            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare) {
                 $ionicNavBarDelegate.showBackButton(false);
                 if (timeStorage.get('category')) {
                     console.log('category from cache');
@@ -43,8 +43,8 @@ homeMod.controller('HomeCtrl',
                 })
 
                 $scope.selectCategory = function (cat) {
+                    console.log('select category');
                     if (cat.sub_cat_id == 1 || cat.cat_id == -1) {
-
                         if (cat.open) {
                             cat.open = !cat.open;
                         } else {
@@ -117,6 +117,76 @@ homeMod.controller('HomeCtrl',
                     $location.path('/app/search/' + father_key + "/" + $rootScope.search.text);
                     $rootScope.search.text = '';
                     $rootScope.showSearchBox = false;
+                }
+
+
+                //wishlist code below
+                $scope.wishlist_product = {
+                    product: false
+                };
+                $scope.$on('$destroy', function () {
+                    $scope.wishlistmodal.remove();
+                });
+                $scope.closeWishlistModel = function () {
+                    $scope.wishlistmodal.hide();
+                }
+                $ionicModal.fromTemplateUrl('template/partial/wishlist-select.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    $scope.wishlistmodal = modal;
+                });
+
+                $scope.newList = function (product) {
+                    dataShare.broadcastData(product, 'wishstlist_new');
+                    $scope.closeWishlistModel();
+                    $location.path('/app/wishlist_add');
+                }
+                $scope.refreshList = function () {
+                    var ajax = wishlistHelper.list(true);
+                    ajax.then(function (data) {
+                        $scope.lists = data;
+                        $scope.$broadcast('scroll.refreshComplete');
+                    }, function () {
+                        $scope.$broadcast('scroll.refreshComplete');
+                    });
+                }
+                $scope.selectList = function (list) {
+                    $scope.closeWishlistModel();
+                    if ($scope.wishlist_product.product) {
+                        $scope.wishlist_product.product.wishlist_status = 1;
+                        var ajax2 = wishlistHelper.add($scope.wishlist_product.product._id, list._id);
+                        ajax2.then(function () {
+                            $scope.wishlist_product.product.wishlist_status = 2;
+                        }, function (message) {
+                            $scope.wishlist_product.product.wishlist_status = 3;
+                        });
+                    } else {
+                        $location.path('/app/wishlist_item_add/' + list._id);
+                    }
+                }
+                $scope.showWishlist = function () {
+                    var ajax = wishlistHelper.list();
+                    ajax.then(function (data) {
+                        $scope.lists = data;
+                    });
+                    $scope.wishlistmodal.show();
+                }
+                $scope.addWishlistItem = function () {
+                    if ($localStorage.user && $localStorage.user.id) {
+                        if ($rootScope.list_id) {
+                            dataShare.broadcastData({}, 'add_wishlist_item');
+                            $location.path('/app/wishlist_item_add/' + $rootScope.list_id);
+                        } else {
+                            var ajax = wishlistHelper.list();
+                            ajax.then(function (data) {
+                                $scope.lists = data;
+                            });
+                            $scope.wishlistmodal.show();
+                        }
+                    } else {
+                        toast.showShortBottom('Login To Add Item To Your Wishlist');
+                    }
                 }
             }
         ]);

@@ -1,9 +1,76 @@
 var serviceMod = angular.module('ServiceMod', ['ngStorage', 'ionic']);
 
+serviceMod.filter('picture', function () {
+    return function (picture, width) {
+        if (!angular.isDefined(picture)) {
+            return "";
+        }
+        if (!angular.isDefined(width)) {
+            return picture;
+        }
+        if (picture.indexOf('facebook') != -1) {
+            if (picture.indexOf('width=') != -1) {
+                picture = picture.substring(0, picture.lastIndexOf('?width=') + "?width=".length);
+                picture = picture + width;
+            } else {
+                picture = picture.substring(0, picture.lastIndexOf('?'));
+                picture = picture + "?width=" + width;
+            }
+        } else if (picture.indexOf('picture/view') != -1) {
+            if (picture.indexOf('width=') != -1) {
+                picture = picture.substring(0, picture.indexOf('?width='));
+            }
+            picture = picture + "?width=" + width;
+
+        } else {
+
+        }
+        return picture;
+    };
+})
+serviceMod.factory('socialJs', function () {
+    var service = {};
+    service.social_js = false;
+    service.addSocialJs = function () {
+        if (this.social_js) {
+            return;
+        }
+        this.social_js = true;
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id))
+                return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=765213543516434&version=v2.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        window.twttr = (function (d, s, id) {
+            var t, js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+            return window.twttr || (t = {_e: [], ready: function (f) {
+                    t._e.push(f)
+                }})
+        }(document, "script", "twitter-wjs"));
+    }
+    return service;
+
+});
 serviceMod.factory('timeStorage', ['$localStorage', function ($localStorage) {
         var timeStorage = {};
+        timeStorage.remove = function (key) {
+            var time_key = key + '_expire';
+            $localStorage[key] = null;
+            $localStorage[time_key] = null;
+        }
         timeStorage.set = function (key, data, hours) {
-            $localStorage.key = data;
+            $localStorage[key] = data;
             var time_key = key + '_expire';
             var time = new Date().getTime();
             time = time + (hours * 1 * 60 * 60 * 1000)
@@ -16,10 +83,11 @@ serviceMod.factory('timeStorage', ['$localStorage', function ($localStorage) {
             }
             var expire = $localStorage[time_key] * 1;
             if (new Date().getTime() > expire) {
-                $localStorage.key = false;
+                $localStorage[key] = null;
+                $localStorage[time_key] = null;
                 return false;
             }
-            return $localStorage.key;
+            return $localStorage[key];
         }
         return timeStorage;
     }]);
@@ -56,7 +124,6 @@ serviceMod.factory('toast', ['$ionicPopup', function ($ionicPopup) {
                         title: 'Alert',
                         template: message
                     });
-                    ;
                 }
             },
             showProgress: function () {
@@ -258,7 +325,7 @@ serviceMod.factory('uploader', ['$q', 'ajaxRequest',
                         context.ft = false;
                     }
                     context.ft = new FileTransfer();
-                    context.ft.upload(fileURL, encodeURI(ajaxRequest.url('v1/account/picture')), win, fail, options);
+                    context.ft.upload(fileURL, encodeURI(ajaxRequest.url('v1/picture/upload')), win, fail, options);
                     context.ft.onprogress = function (progressEvent) {
                         if (progressEvent.lengthComputable) {                         //loadingStatus.setPercentage();
                             var x = Math.floor((progressEvent.loaded / progressEvent.total) * 100);

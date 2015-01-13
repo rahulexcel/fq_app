@@ -1,10 +1,14 @@
 <ion-modal-view>
     <ion-header-bar>
         <h1 class="title">Add To List</h1>
-        <div class="button button-icon fa fa-times" on-tap="closeModel();">
+        <div class="button button-icon fa fa-times" on-tap="closeWishlistModel();">
         </div>
     </ion-header-bar>
     <ion-content>
+        <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="refreshList()">
+        </ion-refresher>
         <div ng-show="!lists">Loading</div>
         <ul>
             <li class="new" on-tap='newList(wishlist_product);'>Add New</li>

@@ -1,16 +1,110 @@
 <ion-view>
     <ion-content>
         <i class="fa fa-spinner fa-spin" ng-show='loading'></i>
-        <div class="top-container" ng-show="!loading">
-            <ul>
-                <li on-tap='viewList(item);' ng-repeat='item in items track by $index'>
-                    {{item.name}}
-                    <br>
-                    {{item.created_at}} - Type: {{item.type}} - Followers: {{item.followers}}
+
+        <div ng-show="!loading">
+
+            <div style="max-width: 50px;max-height: 50px">
+                <img ng-src='{{item.user_id.picture| picture:50}}' />
+            </div>
+
+            <div class="username">{{item.user_id.name}}</div>
+            <div on-tap='followUser();' ng-show="item.user_id.followers.length > 0">{{item.user_id.followers}} Followers</div>
+            <div on-tap='followUser();' ng-show="!item.user_id.followers || item.user_id.followers.length == 0">Be First To Follow User</div>
+
+            <div class="listname">{{item.list_id.name}}</div>
+
+            <div on-tap='followList();' ng-show="item.list_id.followers.length > 0">{{item.list_id.followers}} Followers</div>
+            <div on-tap='followList();' ng-show="!item.list_id.followers || item.list_id.followers.length == 0">Be First To Follow List</div>
+
+            <div style="max-height: 600px;overflow: hidden">
+                <img ng-src='{{item.img| picture:picture_width}}' />
+            </div>
+            <div ng-show="item.description.length > 0">{{item.description}}</div>
+
+            <div on-tap='likeItem();' ng-show="item.likes.length > 0">{{item.likes}} Likes</div>
+            <div on-tap='likeItem();' ng-show="item.likes.length == 0 || !item.likes">Be First To like</div>
+
+            <div on-tap='pinItem();' ng-show="item.pins.length > 0">{{item.pins}} Pins</div>
+            <div on-tap='pinItem();' ng-show="item.pins.length == 0 || !item.pins">Be First To Pin</div>
+
+            <div class="pro-info">
+                <div class="pro-name">
+                    <div ng-show="item.name.length > 0">{{item.name}}</div>
                     <br/>
-                    <span on-tap='editList(item);'>Edit</span>
-                </li>
-            </ul>
+                    <span class="arrow" ng-show='item.brand.length > 0'>{{item.brand}}</span>
+                    <span class="e-site" ng-show='item.website.length > 0'>
+                        {{item.website}}
+                    </span>
+                </div>
+                <div class="pro-price" ng-show="item.price.length > 0">
+                    Rs.{{item.price}}
+                </div>
+                <div class="social-share">
+                    <div ng-if="!isMobile && item.href.length > 0">
+                        <div class="fb-share-button" data-href="{{item.href}}" data-layout="button_count"></div>
+                        <div class="twitter">
+                            <a class="twitter-share-button"
+                               href="https://twitter.com/share" data-url="{{item.href}}" data-text="{{item.name}}"  data-size="small">
+                                Tweet
+                            </a>
+                        </div>
+                    </div>
+                    <div ng-if="isMobile && item.href.length > 0">
+                        <i class="fa-lg red-color fa-2x" on-tap='whatsapp(item)'>W</i>
+                        <i class="fa fa-twitter fa-lg red-color fa-2x" on-tap='twitter(item)'></i>
+                        <i class="fa fa-facebook fa-lg red-color fa-2x"  on-tap='facebook(item)'></i>
+                        <i class="fa fa-share-alt fa-lg red-color fa-2x" on-tap='shareAll(item)'></i>
+                    </div>
+                </div>
+                <button class="button pro-button signup-button red-back" ng-show="item.product_id.length > 0" on-tap="view(item);">BUY NOW</button>
+                <div class="clearfix"></div>
+            </div>
+
+            <div  data-tap-disabled="true" id="map-canvas-parent" style="height: 200px" ng-if="item.location.lat">
+                <div id="map-canvas" style="width: 100%; height: 100%">
+                    <i class="fa fa-spinner fa-spin"></i>
+                </div>
+            </div>
+
+            <div>
+                Commment
+            </div>
+            <input type="text" ng-model="item.comment" />
+
+            <div ng-if="!is_mobile">
+                <div class ="profile-pic" ng-if="item.picture">
+                    <img ng-src="{{item.picture|picture:picture_width}}">
+                    <i class="ion-edit profile-pic-edit" ng-file-select 
+                       ng-model="file.myFiles" 
+                       ng-multiple="false" 
+                       ng-rejected-file-model="rejFiles"></i>
+                </div>            
+                <div class="profile-pic" ng-if="!item.picture" ng-file-select 
+                     ng-model="file.myFiles" 
+                     ng-multiple="false" 
+                     ng-rejected-file-model="rejFiles">
+                    <div class="profile-pic-not" align="center">
+                        <i class="fa fa-camera fa-2x"></i>
+                    </div>
+                    Add a Picture
+                </div>
+            </div>
+
+            <div ng-if='is_mobile'>
+                <div class ="profile-pic" ng-if="item.picture">
+                    <img ng-src="{{item.picture|picture:picture_width}}">
+                    <i class="ion-edit profile-pic-edit" on-tap='browseCamera();'></i>
+                </div>            
+                <div class="profile-pic" ng-if="!item.picture"  on-tap='browseCamera();'>
+                    <div class="profile-pic-not" align="center">
+                        <i class="fa fa-camera fa-2x"></i>
+                    </div>
+                    Add a Picture
+                </div>
+            </div>
+
+            <button class="button" on-tap='addComment();'>Send</button>
         </div>
     </ion-content>
 </ion-view>

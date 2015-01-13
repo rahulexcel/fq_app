@@ -1,88 +1,118 @@
-var accountMod = angular.module('AccountMod',
-        ['ngCordova', 'AccountService', 'ServiceMod', 'ngStorage', 'angularFileUpload', 'ionic']);
+var wishlistItemAddMod = angular.module('WishlistItemAddMod', ['ServiceMod', 'angularFileUpload', 'ngStorage', 'ionic', 'WishlistService', 'MapService']);
 
-accountMod.controller('AccountCtrl',
-        ['$scope', '$localStorage', '$location', 'toast', 'accountHelper', '$upload', 'ajaxRequest', '$ionicActionSheet', '$cordovaCamera', 'uploader', '$window',
-            function ($scope, $localStorage, $location, toast, accountHelper, $upload, ajaxRequest, $ionicActionSheet, $cordovaCamera, uploader, $window) {
-
-
-                $scope.$on('logout_event', function () {
-                    $location.path('/app/signup');
-                })
-                if (!$localStorage.user.id) {
-                    toast.showShortBottom('SignIn To Access This Page');
-                    $location.path('/app/signup');
-                    return;
-                }
-                $scope.login_data = $localStorage.user;
-                var picture_width = $window.innerWidth;
-                picture_width = Math.ceil(picture_width * .95);
-                $scope.picture_width = picture_width;
-//                var picture = $scope.login_data.picture;
-//                if (picture.indexOf('facebook') != -1) {
-//                    picture = picture.substring(0, picture.lastIndexOf('?'));
-//                    picture = picture + "?width=" + picture_width;
-//                    $scope.login_data.picture = picture;
-//                } else if (picture.indexOf('picture/view') != -1) {
-//                    picture = picture + "?width=" + picture_width;
-//                    $scope.login_data.picture = picture;
-//                }
-
-                $scope.profile = {
-                    name: $localStorage.user.name,
-                    password: '',
-                    confirmPassword: '',
-                    gender: $localStorage.user.gender
+wishlistItemAddMod.controller('WishlistItemAddCtrl',
+        ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$ionicActionSheet', '$ionicTabsDelegate', '$ionicPopup',
+            function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $ionicModal, $window, $ionicActionSheet, $ionicTabsDelegate, $ionicPopup) {
+                $scope.item = {
+                    picture: '',
+                    url: '',
+                    name: '',
+                    price: '',
+                    location: {
+                    }
                 };
-                $scope.password = function () {
-                    var password = $scope.profile.password;
-                    var confPassword = $scope.profile.confPassword;
-
-                    if (password.length == 0) {
-                        toast.showShortBottom('Enter A Valid Password');
-                    } else if (password != confPassword) {
-                        toast.showShortBottom('Passwords Don\'t Match');
-                    } else {
-                        if ($scope.register_status == 1) {
-                            toast.showProgress();
-                            return;
+                $scope.sendItem = function () {
+                    var ajax = wishlistHelper.addItem(angular.copy($scope.item), $scope.list_id);
+                    ajax.then(function (data) {
+                        if (data.id) {
+                            $location.path('/app/item/' + data.id + "/" + $scope.list_id);
                         }
-                        $scope.register_status = 1;
-                        var ajax = accountHelper.updatePassword(password);
-                        ajax.then(function () {
-                            $scope.register_status = 2;
-                            toast.showShortBottom('Password Updated');
-                        }, function () {
-                            $scope.register_status = 3;
-                        });
+                    });
+                }
+                $scope.next = function () {
+                    if ($scope.item.picture.length > 0) {
+                        $ionicTabsDelegate.select(1);
+                    } else {
+                        toast.showShortBottom('Add Item Picture');
+                    }
+                };
+                $scope.removeLocation = function () {
+                    $scope.item.location = {};
+                }
+                $scope.tab1 = function () {
+                    $ionicTabsDelegate.select(0);
+                }
+                $scope.tab2 = function () {
+                    if ($scope.item.picture.length > 0) {
+                        $ionicTabsDelegate.select(1);
+                    } else {
+                        toast.showShortBottom('Add Item Picture');
                     }
                 }
-                $scope.update = function () {
-                    var name = $scope.profile.name;
-                    var gender = $scope.profile.gender;
 
-                    if (name.length != 0 && gender.length != 0) {
-
-                        if ($scope.register_status == 1) {
-                            toast.showProgress();
-                            return;
-                        }
-
-                        $scope.register_status = 1;
-                        var ajax = accountHelper.updateProfile({
-                            name: name,
-                            gender: gender
+                $scope.$on('$destroy', function () {
+                    $scope.modal.remove();
+                    mapHelper.destroy();
+                });
+                $scope.closeModel = function () {
+                    var pos = mapHelper.getPosition();
+                    if (!pos.lat) {
+                        var confirmPopup = $ionicPopup.confirm({
+                            title: 'Warning',
+                            template: 'No Location Set?'
                         });
-                        ajax.then(function () {
-                            $scope.register_status = 2;
-                            toast.showShortBottom('Profile Updated');
-                        }, function () {
-                            $scope.register_status = 3;
+                        confirmPopup.then(function (res) {
+                            if (res) {
+                                $scope.modal.hide();
+                            } else {
+                            }
                         });
                     } else {
-                        toast.showShortBottom('Fill Up Name and Gender');
+                        console.log(pos);
+                        $scope.item.location = pos;
+                        $scope.modal.hide();
                     }
                 }
+                $ionicModal.fromTemplateUrl('template/partial/map.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    $scope.modal = modal;
+                });
+                console.log('started');
+
+                $scope.$watch('item.url', function (val) {
+                    if (val) {
+                        var ajax = wishlistHelper.getUrlImage(val);
+                        $scope.url_loading = true;
+                        ajax.then(function (data) {
+                            $scope.url_loading = false;
+                            if (data.image && data.image.image) {
+                                var image = data.image.image;
+                                $scope.item.picture = image;
+                            }
+                        }, function () {
+                            $scope.url_loading = false;
+                        })
+                    }
+                })
+                $scope.showMap = function () {
+                    var height = $window.innerHeight * 1 - 44;
+                    $scope.height = height + 'px';
+
+
+                    $scope.setHeight = {};
+
+                    $scope.modal.show();
+                    mapHelper.initMap($scope);
+                }
+
+                if ($localStorage.user.id) {
+                    $scope.list_id = false;
+                    if ($stateParams.list_id) {
+                        $scope.list_id = $stateParams.list_id;
+                        var name = wishlistHelper.getListName($scope.list_id);
+                        $scope.wishlist_name = name;
+                    } else {
+                        toast.showShortBottom('Invalid Page, Need List ID');
+                        $location.path('/app/home');
+                    }
+                } else {
+                    toast.showShortBottom('You Need To Be Logged In To Access This Page');
+                    $location.path('/app/register');
+                }
+
+
 
                 $scope.is_mobile = false;
                 if (window.cordova && window.cordova.plugins) {
@@ -92,6 +122,9 @@ accountMod.controller('AccountCtrl',
                 $scope.file = {
                     myFiles: false
                 };
+                var picture_width = $window.innerWidth;
+                picture_width = Math.ceil(picture_width * .95);
+                $scope.picture_width = picture_width;
                 $scope.browseCamera = function () {
                     $ionicActionSheet.show({
                         buttons: [
@@ -99,7 +132,7 @@ accountMod.controller('AccountCtrl',
                             {text: 'Take Picture'}
                         ],
                         destructiveText: 'Remove Picture',
-                        titleText: 'Update Your Profile Picture',
+                        titleText: 'Add Picture To Share',
                         cancelText: 'Cancel',
                         destructiveButtonClicked: function () {
                             var picture = accountHelper.removePicture();
@@ -116,8 +149,7 @@ accountMod.controller('AccountCtrl',
                                 encodingType: Camera.EncodingType.JPEG,
                                 popoverOptions: CameraPopoverOptions,
                                 saveToPhotoAlbum: false,
-                                allowEdit: false,
-                                cameraDirection: Camera.Direction.FRONT
+                                allowEdit: false
                             };
 
                             if (index == 0) {
@@ -146,17 +178,11 @@ accountMod.controller('AccountCtrl',
                                             $scope.progress = per;
                                             console.log(data);
                                             if (data && data.data) {
-
-                                                var ajax = accountHelper.updatePicture(data.data);
-                                                ajax.then(function () {
-                                                    var pic = ajaxRequest.url('v1/picture/view/' + data.data)
-                                                    $scope.login_data.picture = pic;
-                                                    $localStorage.user.picture = pic;
-                                                    $scope.file_upload = false;
-                                                }, function () {
-                                                    $scope.file_upload = false;
-                                                });
+                                                var pic = ajaxRequest.url('v1/picture/view/' + data.data);
+                                                $scope.login_data.picture = pic;
                                             }
+                                            $scope.step1Class = 'red-back';
+                                            $scope.file_upload = false;
                                         }, function (data) {
 
                                         }, function (data) {
@@ -186,11 +212,11 @@ accountMod.controller('AccountCtrl',
 
                         var mb_size = Math.ceil((size / (1024 * 1024)));
                         console.log(mb_size);
-                        if (mb_size > 2) {
+                        if (mb_size > 5) {
                             $scope.file = {
                                 myFiles: false
                             };
-                            toast.showShortBottom('Upload File Of Size Less Than 2MB');
+                            toast.showShortBottom('Upload File Of Size Less Than 5MB');
                             return;
                         }
 
@@ -211,16 +237,11 @@ accountMod.controller('AccountCtrl',
 
                             console.log(data);
                             if (data.data) {
-                                var ajax = accountHelper.updatePicture(data.data);
-                                ajax.then(function () {
-                                    var pic = ajaxRequest.url('v1/picture/view/' + data.data);
-                                    $scope.login_data.picture = pic;
-                                    $localStorage.user.picture = pic;
-                                    $scope.file_upload = false;
-                                }, function () {
-                                    $scope.file_upload = false;
-                                });
+                                var pic = ajaxRequest.url('v1/picture/view/' + data.data);
+                                $scope.item.picture = pic;
                             }
+                            $scope.file_upload = false;
+                            $scope.step1Class = 'red-back';
 
 //                            console.log('file ' + config.file.name + 'is uploaded successfully. Response: ' + data);
                         });

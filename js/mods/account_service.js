@@ -53,6 +53,19 @@ accountService.factory('accountHelper', [
             });
             return def.promise;
         }
+        service.updatePicture = function (filename) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/account/remove_picture', {
+                user_id: $localStorage.user.id,
+                picture: filename
+            });
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        }
         service.create = function (user, type) {
             var def = $q.defer();
             if (type == 'login') {
@@ -76,7 +89,7 @@ accountService.factory('accountHelper', [
                 if (picture.length == 0) {
                     data.picture = 'img/silhouette_default.jpg';
                 } else if (picture.indexOf('http') == -1) {
-                    data.picture = ajaxRequest.url('v1/account/picture/view/' + data.picture);
+                    data.picture = ajaxRequest.url('v1/picture/view/' + data.picture);
                 }
                 def.resolve(data);
                 $location.path('/app/invite');

@@ -16,7 +16,7 @@ wishlistMod.controller('WishlistCtrl',
 
                     $scope.viewList = function (list) {
                         var list_id = list._id;
-                        $location.path('/app/wishlist_item/' + list_id);
+                        $location.path('/app/wishlist_item/' + list_id + "/" + list.name);
                     }
                     $scope.editList = function (list) {
                         dataShare.broadcastData(list, 'edit_list');

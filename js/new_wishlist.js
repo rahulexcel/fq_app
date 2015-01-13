@@ -1,8 +1,8 @@
 var wishlistnewMod = angular.module('WishlistNewMod', ['ServiceMod', 'ngStorage', 'ionic', 'WishlistService', 'FriendService']);
 
 wishlistnewMod.controller('WishlistNewCtrl',
-        ['$scope', '$localStorage', 'toast', 'wishlistHelper', 'dataShare', '$location', '$ionicModal', 'friendHelper', '$timeout',
-            function ($scope, $localStorage, toast, wishlistHelper, dataShare, $location, $ionicModal, friendHelper, $timeout) {
+        ['$scope', '$localStorage', 'toast', 'wishlistHelper', 'dataShare', '$location', '$ionicModal', 'friendHelper', '$timeout', 'timeStorage',
+            function ($scope, $localStorage, toast, wishlistHelper, dataShare, $location, $ionicModal, friendHelper, $timeout, timeStorage) {
                 if ($localStorage.user.id) {
                     $scope.product = false;
 
@@ -39,7 +39,8 @@ wishlistnewMod.controller('WishlistNewCtrl',
                             //put history in play here
                             $location.path('/app/home');
                         } else {
-                            $scope.product = product;
+                            console.log(product.product);
+                            $scope.product = product.product;
                         }
                     }
 
@@ -47,17 +48,22 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         $scope.status = 1;
                         var ajax = wishlistHelper.create(angular.copy($scope.list));
                         ajax.then(function (data) {
+                            timeStorage.remove('user_wish_list');
                             if ($scope.product) {
                                 var list_id = data.id;
-                                var ajax2 = wishlistHelper.add($scope.product._id, list_id);
-                                ajax2.then(function () {
-                                    $scope.status = 2;
-                                    toast.showShortBottom('Product Added To Your Wishlist');
-                                    $location.app('/app/wishlist');
-                                }, function (message) {
-                                    toast.showShortBottom(message);
-                                    $scope.status = 2;
-                                });
+                                if ($scope.product._id) {
+                                    var ajax2 = wishlistHelper.add($scope.product._id, list_id);
+                                    ajax2.then(function () {
+                                        $scope.status = 2;
+                                        toast.showShortBottom('Product Added To Your Wishlist');
+                                        $location.app('/app/wishlist');
+                                    }, function (message) {
+                                        toast.showShortBottom(message);
+                                        $scope.status = 2;
+                                    });
+                                } else {
+                                    $location.path('/app/wishlist_item_add/' + list_id);
+                                }
                             } else {
                                 $location.path('/app/wishlist');
                             }
