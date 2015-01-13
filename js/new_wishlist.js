@@ -1,18 +1,10 @@
 var wishlistnewMod = angular.module('WishlistNewMod', ['ServiceMod', 'ngStorage', 'ionic', 'WishlistService', 'FriendService']);
 
 wishlistnewMod.controller('WishlistNewCtrl',
-        ['$scope', '$localStorage', 'toast', 'wishlistHelper', 'dataShare', '$location', '$ionicModal', 'friendHelper',
-            function ($scope, $localStorage, toast, wishlistHelper, dataShare, $location, $ionicModal, friendHelper) {
+        ['$scope', '$localStorage', 'toast', 'wishlistHelper', 'dataShare', '$location', '$ionicModal', 'friendHelper', '$timeout',
+            function ($scope, $localStorage, toast, wishlistHelper, dataShare, $location, $ionicModal, friendHelper, $timeout) {
                 if ($localStorage.user.id) {
                     $scope.product = false;
-//                    var product = dataShare.getData('wishstlist_new');
-//                    if (!product) {
-//                        toast.showShortBottom('Invalid Request No Product');
-//                        //put history in play here
-//                        $location.path('/app/home');
-//                    } else {
-//                        $scope.product = product;
-//                    }
 
                     $scope.types = [
                         {text: 'Private', value: 'private'},
@@ -22,16 +14,63 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         type: 'public',
                         name: '',
                         description: '',
-                        shared_ids: []
+                        shared_ids: [],
+                        update: false
+                    }
+                    var path = $location.path();
+                    if (path.indexOf('wishlist_edit') != -1) {
+                        var list = dataShare.getData();
+                        if (!list) {
+                            toast.showShortBottom('Invalid Request No List To Edit');
+                            //put history in play here
+                            $location.path('/app/wishlist');
+                        } else {
+                            $scope.list.type = list.type;
+                            $scope.list.list_id = list._id;
+                            $scope.list.name = list.name;
+                            $scope.list.description = list.description;
+                            $scope.list.shared_ids = list.shared_ids;
+                            $scope.list.update = true;
+                        }
+                    } else {
+                        var product = dataShare.getData();
+                        if (!product) {
+                            toast.showShortBottom('Invalid Request No Product');
+                            //put history in play here
+                            $location.path('/app/home');
+                        } else {
+                            $scope.product = product;
+                        }
                     }
 
                     $scope.create = function () {
-
+                        $scope.status = 1;
+                        var ajax = wishlistHelper.create(angular.copy($scope.list));
+                        ajax.then(function (data) {
+                            if ($scope.product) {
+                                var list_id = data.id;
+                                var ajax2 = wishlistHelper.add($scope.product._id, list_id);
+                                ajax2.then(function () {
+                                    $scope.status = 2;
+                                    toast.showShortBottom('Product Added To Your Wishlist');
+                                    $location.app('/app/wishlist');
+                                }, function (message) {
+                                    toast.showShortBottom(message);
+                                    $scope.status = 2;
+                                });
+                            } else {
+                                $location.path('/app/wishlist');
+                            }
+                        }, function (data) {
+                            toast.showShortBottom(data);
+                            $scope.status = 3;
+                        });
                     }
 
-                    $scope.$watch('list.type', function (val) {
-                        console.log(val);
-                        if (val && val == 'private') {
+                    $scope.$watch('list.type', function (val, old) {
+                        console.log(val + 'xxx');
+                        console.log(old + 'xxx');
+                        if (val && val == 'private' && old != 'private') {
                             if ($scope.friends && $scope.friends.length > 0)
                                 $scope.modal.show();
                         }
@@ -48,6 +87,15 @@ wishlistnewMod.controller('WishlistNewCtrl',
                             id: -1,
                             name: 'Only Me'
                         });
+                        var shared_ids = $scope.list.shared_ids;
+                        for (var i = 0; i < shared_ids.length; i++) {
+                            for (var j = 0; j < data.length; j++) {
+                                if (shared_ids[i] == data[j].id) {
+                                    data[j].checked = true;
+                                    break;
+                                }
+                            }
+                        }
                         $scope.friends = data;
                         $scope.friend_load = true;
                     }, function () {
@@ -97,9 +145,6 @@ wishlistnewMod.controller('WishlistNewCtrl',
                     }).then(function (modal) {
                         $scope.modal = modal;
                     });
-
-
-
                 } else {
                     toast.showShortBottom('You Need To Be Logged In To Access This Page');
                 }
