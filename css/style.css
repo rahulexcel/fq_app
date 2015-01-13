@@ -319,6 +319,7 @@ span.arrow{
     text-align: left;
     padding: 11px 15px;
     background-color:#eee7dd;
+    border-top: 1px solid #D1D1D1;
 }
 #scroller li {
     width:150px;
@@ -370,6 +371,11 @@ span.other-price{
 .similar-img{
     text-align:center;
     margin-top:10px;
+    height: 115px;
+	overflow: hidden;
+}
+.similar-img img{
+	max-width:41%;
 }
 .wishlist-product-img{
     width: 100%;
@@ -380,6 +386,7 @@ span.other-price{
 }
 .social-share{
     float:right;
+    font-size:10px;
 }
 .price-up-down{
     float:left;
