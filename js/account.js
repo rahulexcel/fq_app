@@ -18,15 +18,6 @@ accountMod.controller('AccountCtrl',
                 var picture_width = $window.innerWidth;
                 picture_width = Math.ceil(picture_width * .95);
                 $scope.picture_width = picture_width;
-//                var picture = $scope.login_data.picture;
-//                if (picture.indexOf('facebook') != -1) {
-//                    picture = picture.substring(0, picture.lastIndexOf('?'));
-//                    picture = picture + "?width=" + picture_width;
-//                    $scope.login_data.picture = picture;
-//                } else if (picture.indexOf('picture/view') != -1) {
-//                    picture = picture + "?width=" + picture_width;
-//                    $scope.login_data.picture = picture;
-//                }
 
                 $scope.profile = {
                     name: $localStorage.user.name,
@@ -186,7 +177,7 @@ accountMod.controller('AccountCtrl',
 
                         var mb_size = Math.ceil((size / (1024 * 1024)));
                         console.log(mb_size);
-                        if (mb_size > 2) {
+                        if (mb_size > 5) {
                             $scope.file = {
                                 myFiles: false
                             };

@@ -44,7 +44,7 @@ wishlistService.factory('wishlistHelper', [
         }
         service.getListName = function (list_id) {
             var user_wish_list = timeStorage.get('user_wish_list');
-            if (user_wish_list) {
+            if (user_wish_list.me) {
                 for (var i = 0; i < user_wish_list.length; i++) {
                     if (user_wish_list[i]._id == list_id) {
                         return user_wish_list[i].name;
