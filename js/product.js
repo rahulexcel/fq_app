@@ -9,6 +9,56 @@ productMod.controller('ProductCtrl',
                 $scope.similar = [];
                 $scope.myScroll = false;
                 $scope.product_id = false;
+
+                if (window.plugins && window.plugins.socialsharing) {
+                    $scope.isMobile = true;
+
+                    $scope.shareAll = function (product) {
+                        window.plugins.socialsharing.share(product.name, null, product.img, product.href, function () {
+                        }, function () {
+                            toast.showShortBottom('Unable to Share');
+                        })
+                    }
+                    $scope.twitter = function (product) {
+                        window.plugins.socialsharing.shareViaTwitter(
+                                product.name, product.img, product.href, function () {
+                                }, function () {
+                            toast.showShortBottom('Unable to Share');
+                        });
+                    }
+                    $scope.whatsapp = function (product) {
+                        window.plugins.socialsharing.shareViaWhatsApp(
+                                product.name, product.img, product.href, function () {
+                                }, function () {
+                            toast.showShortBottom('Unable to Share');
+                        });
+                    }
+
+                    $scope.facebook = function (product) {
+                        if (window.cordova.platformId == "browser") {
+                            if (!accountHelper.isFbInit()) {
+                                facebookConnectPlugin.browserInit('765213543516434');
+                                accountHelper.fbInit();
+                            }
+                        }
+                        facebookConnectPlugin.showDialog({
+                            method: 'share',
+                            href: product.href,
+                            message: product.name,
+                            picture: product.img
+                        }, function (data) {
+                            console.log(data);
+                        }, function (data) {
+                            console.log(data);
+                            toast.showShortBottom('Unable to Share');
+                        })
+
+                    }
+                } else {
+                    $scope.isMobile = false;
+                    socialJs.addSocialJs();
+                }
+
                 $scope.productInfo = function () {
                     var product_id = $scope.product_id;
                     var ajax = productHelper.fetchProduct(product_id);
@@ -25,56 +75,6 @@ productMod.controller('ProductCtrl',
                         }
                         $scope.product_loading = false;
                         $scope.$broadcast('scroll.refreshComplete');
-
-                        if (window.plugins && window.plugins.socialsharing) {
-                            $scope.isMobile = true;
-
-                            $scope.shareAll = function (product) {
-                                window.plugins.socialsharing.share(product.name, null, product.img, product.href, function () {
-                                }, function () {
-                                    toast.showShortBottom('Unable to Share');
-                                })
-                            }
-                            $scope.twitter = function (product) {
-                                window.plugins.socialsharing.shareViaTwitter(
-                                        product.name, product.img, product.href, function () {
-                                        }, function () {
-                                    toast.showShortBottom('Unable to Share');
-                                });
-                            }
-                            $scope.whatsapp = function (product) {
-                                window.plugins.socialsharing.shareViaWhatsApp(
-                                        product.name, product.img, product.href, function () {
-                                        }, function () {
-                                    toast.showShortBottom('Unable to Share');
-                                });
-                            }
-
-                            $scope.facebook = function (product) {
-                                if (window.cordova.platformId == "browser") {
-                                    if (!accountHelper.isFbInit()) {
-                                        facebookConnectPlugin.browserInit('765213543516434');
-                                        accountHelper.fbInit();
-                                    }
-                                }
-                                facebookConnectPlugin.showDialog({
-                                    method: 'share',
-                                    href: product.href,
-                                    message: product.name,
-                                    picture: product.img
-                                }, function (data) {
-                                    console.log(data);
-                                }, function (data) {
-                                    console.log(data);
-                                    toast.showShortBottom('Unable to Share');
-                                })
-
-                            }
-                        } else {
-                            $scope.isMobile = false;
-                            socialJs.addSocialJs();
-                        }
-
                     }, function () {
                         $scope.$broadcast('scroll.refreshComplete');
                     });

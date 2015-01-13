@@ -22,11 +22,17 @@
             </div>
             <div ng-show="item.description.length > 0">{{item.description}}</div>
 
-            <div on-tap='likeItem();' ng-show="item.likes.length > 0">{{item.likes}} Likes</div>
+            <div ng-if="me_like" on-tap="unlikeItem();">
+                <span ng-if="item.likes.length > 1">You and {{item.likes.length - 1}} Likes</span>
+                <span ng-if="item.likes.length == 1">You Like</span>
+            </div>
+            <div ng-if="!me_like" on-tap='likeItem();' ng-show="item.likes.length > 0">
+                {{item.likes.length}} Likes
+            </div>
             <div on-tap='likeItem();' ng-show="item.likes.length == 0 || !item.likes">Be First To like</div>
 
-            <div on-tap='pinItem();' ng-show="item.pins.length > 0">{{item.pins}} Pins</div>
-            <div on-tap='pinItem();' ng-show="item.pins.length == 0 || !item.pins">Be First To Pin</div>
+            <div on-tap='pinItem();' ng-show="item.item_id.pins.length > 0">{{item.item_id.pins.length}} Pins</div>
+            <div on-tap='pinItem();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">Be First To Pin</div>
 
             <div class="pro-info">
                 <div class="pro-name">
