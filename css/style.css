@@ -153,6 +153,12 @@ li.sub-cat-label>span,
 #my-acc .myacc-update {
     color:#fff;
 }
+.logout-btn{ min-height: 43px;
+    border-style: none;
+    width: 108px;
+    border-radius: 4px;
+    margin-bottom:10px;}
+
 /**************************Side Menu*********************************/
 .scroll-content .scroll ul li.list-not-cat {
     border-bottom-style:none; 
