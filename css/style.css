@@ -527,10 +527,10 @@
                 padding-top:0px;
                 padding-bottom:0px;
             }
-            #my-acc select{
+           /* #my-acc select{
                 border: 1px solid #FFF;
                 width: 84px;
-            }
+            }*/
             .profile-pic{
                 text-align:center;
                 background-color:#eeeeee;
