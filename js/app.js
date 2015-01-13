@@ -129,7 +129,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                 url: '/item/:item_id/:list_id',
                 views: {
                     'menuContent': {
-                        templateUrl: 'template/wishlist_item.html',
+                        templateUrl: 'template/wishlist_item.html?' + new Date().getTime(),
                         controller: 'WishlistItemCtrl'
                     }
                 }

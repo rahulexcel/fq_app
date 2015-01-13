@@ -122,7 +122,8 @@ homeMod.controller('HomeCtrl',
 
                 //wishlist code below
                 $scope.wishlist_product = {
-                    product: false
+                    product: false,
+                    item: false
                 };
                 $scope.$on('$destroy', function () {
                     $scope.wishlistmodal.remove();
@@ -138,7 +139,15 @@ homeMod.controller('HomeCtrl',
                 });
 
                 $scope.newList = function (product) {
-                    dataShare.broadcastData(product, 'wishstlist_new');
+                    if ($scope.wishlist_product.product) {
+                        dataShare.broadcastData({
+                            product: angular.copy($scope.wishlist_product.product)
+                        }, 'wishstlist_new');
+                    } else if ($scope.wishlist_product.item) {
+                        dataShare.broadcastData({
+                            item: angular.copy($scope.wishlist_product.product)
+                        }, 'wishstlist_new');
+                    }
                     $scope.closeWishlistModel();
                     $location.path('/app/wishlist_add');
                 }
@@ -161,6 +170,9 @@ homeMod.controller('HomeCtrl',
                         }, function (message) {
                             $scope.wishlist_product.product.wishlist_status = 3;
                         });
+                    } else if ($scope.wishlist_product.item) {
+                        $scope.wishlist_product.item['select_list_id'] = list._id;
+                        $scope.$broadcast('wishlist_pin_select');
                     } else {
                         $location.path('/app/wishlist_item_add/' + list._id);
                     }
