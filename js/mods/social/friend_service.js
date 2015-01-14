@@ -4,6 +4,55 @@ friendService.factory('friendHelper', [
     'ajaxRequest', '$q', 'toast', '$localStorage', '$location', '$rootScope',
     function (ajaxRequest, $q, toast, $localStorage, $location, $rootScope) {
         var service = {};
+        service.item_pins_list = function (item_id) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/item/pin', {
+                item_id: item_id
+            })
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        }
+        service.item_likes_list = function (list_id, item_id) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/item/likes', {
+                list_id: list_id,
+                item_id: item_id
+            })
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        }
+        service.list_followers_list = function (list_id) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/list/followers', {
+                list_id: list_id
+            })
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        }
+        service.user_followers_list = function (user_id) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/user/followers', {
+                user_id: user_id
+            })
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        }
         service.user_unfollow = function (follow_user_id) {
             return this.user_follow(follow_user_id, 'remove');
         }

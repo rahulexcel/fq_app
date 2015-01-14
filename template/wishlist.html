@@ -8,9 +8,9 @@
                     <i class="fa fa-spinner fa-spin" ng-show='loading'></i>
                     <div class="top-container" ng-show="!loading">
                         <ul>
-                            <li ng-repeat='item in wishlist_mine track by $index'>
-                                <div on-tap='viewList(item);'>{{item.name}}</div>
-                                {{item.created_at}} - Type: {{item.type}} - Followers: {{item.followers.length}} - Products: {{item.meta.products}}
+                            <li ng-repeat='item1 in wishlist_mine track by $index'>
+                                <div on-tap='viewList(item);'>{{item1.name}}</div>
+                                {{item1.created_at}} - Type: {{item1.type}} - Followers: {{item1.followers.length}} - Products: {{item1.meta.products}}
                                 <br/>
                                 <span on-tap='editList(item);'>Edit</span>
                             </li>
@@ -23,9 +23,9 @@
                     <i class="fa fa-spinner fa-spin" ng-show='loading'></i>
                     <div class="top-container" ng-show="!loading">
                         <ul>
-                            <li ng-repeat='item in wishlist_their track by $index'>
-                                <div on-tap='viewList(item);'>{{item.name}}</div>
-                                {{item.created_at}} - Type: {{item.type}} - Followers: {{item.followers.length}} - Products: {{item.meta.products}}
+                            <li ng-repeat='item2 in wishlist_their track by $index'>
+                                <div on-tap='viewList(item);'>{{item2.name}}</div>
+                                {{item2.created_at}} - Type: {{item2.type}} - Followers: {{item2.followers.length}} - Products: {{item2.meta.products}}
                             </li>
                         </ul>
                     </div>

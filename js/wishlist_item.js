@@ -1,8 +1,7 @@
 var wishlistItemMod = angular.module('WishlistItemMod', ['ServiceMod', 'ngStorage', 'ionic', 'WishlistService', 'MapService', 'ItemService', 'FriendService']);
-
 wishlistItemMod.controller('WishlistItemCtrl',
-        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$window', 'socialJs', 'itemHelper', 'friendHelper', 'timeStorage', '$ionicLoading',
-            function ($scope, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $window, socialJs, itemHelper, friendHelper, timeStorage, $ionicLoading) {
+        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$window', 'socialJs', 'itemHelper', 'friendHelper', 'timeStorage', '$ionicLoading', '$ionicModal',
+            function ($scope, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $window, socialJs, itemHelper, friendHelper, timeStorage, $ionicLoading, $ionicModal) {
                 $scope.wishlist = [];
                 $scope.loading = true;
                 $scope.items = [];
@@ -214,7 +213,77 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             });
                         }
                     }
-                    $scope.followUser = function (user_id) {
+
+                    $scope.$on('$destroy', function () {
+                        $scope.modal.remove();
+                    });
+                    $scope.closeModel = function () {
+                        $scope.modal.hide();
+                        $scope.users = [];
+                    }
+                    $ionicModal.fromTemplateUrl('template/partial/user-follow.html', {
+                        scope: $scope,
+                        animation: 'slide-in-up'
+                    }).then(function (modal) {
+                        $scope.modal = modal;
+                    });
+                    $scope.likeList = function () {
+                        var list_id = $scope.item.list_id._id;
+                        var item_id = $scope.item.item_id._id;
+                        $scope.modal.show();
+                        $ionicLoading.show({
+                            template: 'Loading...'
+                        });
+                        var ajax = friendHelper.item_likes_list(list_id, item_id);
+                        ajax.then(function (data) {
+                            if (data.length > 0) {
+                                $scope.users = data;
+                            } else {
+                                toast.showShortBottom('No Followers Found');
+                            }
+                            $ionicLoading.hide();
+                        }, function () {
+                            $ionicLoading.hide();
+                        });
+                    }
+                    $scope.followListList = function () {
+                        var list_id = $scope.item.list_id._id;
+                        $scope.modal.show();
+                        $ionicLoading.show({
+                            template: 'Loading...'
+                        });
+                        var ajax = friendHelper.list_followers_list(list_id);
+                        ajax.then(function (data) {
+                            if (data.length > 0) {
+                                $scope.users = data;
+                            } else {
+                                toast.showShortBottom('No Followers Found');
+                            }
+                            $ionicLoading.hide();
+                        }, function () {
+                            $ionicLoading.hide();
+                        });
+                    }
+
+                    $scope.followUserList = function () {
+                        var user_id = $scope.item.user_id._id;
+                        $scope.modal.show();
+                        $ionicLoading.show({
+                            template: 'Loading...'
+                        });
+                        var ajax = friendHelper.user_followers_list(user_id);
+                        ajax.then(function (data) {
+                            if (data.length > 0) {
+                                $scope.users = data;
+                            } else {
+                                toast.showShortBottom('No Followers Found');
+                            }
+                            $ionicLoading.hide();
+                        }, function () {
+                            $ionicLoading.hide();
+                        });
+                    }
+                    $scope.followUser = function (user_id, showLoading) {
                         if (!$localStorage.user.id) {
                             $localStorage.previous.state = {
                                 function: 'followUser'
@@ -225,6 +294,11 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 toast.showProgress();
                                 return;
                             }
+                            if (showLoading) {
+                                $ionicLoading.show({
+                                    template: 'Loading...'
+                                });
+                            }
                             $scope.request_process = true;
                             var ajax = friendHelper.user_follow(user_id);
                             ajax.then(function (data) {
@@ -234,8 +308,14 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 $scope.me_follow_user = true;
                                 timeStorage.remove(cache_key);
                                 $scope.request_process = false;
+                                if (showLoading) {
+                                    $ionicLoading.hide();
+                                }
                             }, function () {
                                 $scope.request_process = false;
+                                if (showLoading) {
+                                    $ionicLoading.hide();
+                                }
                             });
                         }
                     }
@@ -439,7 +519,6 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     } else {
                         var comment = $scope.item.comment;
                         var picture = $scope.item.picture;
-
                         var ajax = itemHelper.comment($scope.item_id, $scope.list_id, comment, picture);
                         ajax.then(function (data) {
                             var comments = $scope.item.comments;
