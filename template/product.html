@@ -10,7 +10,7 @@
                 <div class="pro-img">
                     <img ng-src='{{product.img}}'/>
                     <div class="heart wishlist-product-img" on-tap="wishlist(product,$event);">
-                        <img ng-show="!product.wishlist_status" src="img/heart.png" alt="wishlist" width="28px"/>
+                       <img ng-show="!product.wishlist_status" src="img/heart.png" alt="wishlist" width="28px"/>
                         <i class="fa fa-spinner fa-spin" ng-show="product.wishlist_status == 1"></i>
                         <i class="fa fa-times" ng-show="product.wishlist_status == 3"></i>
                         <i class="fa fa-check" ng-show="product.wishlist_status == 2"></i>

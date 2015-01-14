@@ -153,11 +153,7 @@ li.sub-cat-label>span,
 #my-acc .myacc-update {
     color:#fff;
 }
-.logout-btn{ min-height: 43px;
-    border-style: none;
-    width: 108px;
-    border-radius: 4px;
-    margin-bottom:10px;}
+
 
 /**************************Side Menu*********************************/
 .scroll-content .scroll ul li.list-not-cat {
@@ -641,3 +637,9 @@ span.other-price{
 .feedback-container .first-feed-label{
     border-color:#FF7832;
 }
+/*********************************CLIP *******************************/
+.clip-font-color{ color: #949494;}
+.clip-label{line-height: 10px;padding:11px 20px;}
+.scroll-content .scroll #clip_1 ul{margin:15px 0;}
+ #clip_1 .signup-button{margin:5px 2px 5px 17px; width: 96%;}
+ .scroll-content .scroll #clip_1 ul li{color: #949494;padding-left:22px;padding-right:22px;}
