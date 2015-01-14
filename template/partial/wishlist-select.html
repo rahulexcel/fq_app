@@ -11,14 +11,17 @@
         </ion-refresher>
         <div id="clip_1">
             <div ng-show="!lists">Loading</div>
-            <div class="clip-label clip-font-color"><span>ADD TO CLIPS</span></div>
-            <div class="similar-product-label clip-label clip-font-color">YOUR CLIPS</div>
+            <div class="clip-label black-font add-to-clip"><span>ADD TO CLIPS</span></div>
+            <div class="similar-product-label  clip-font-color clip-label">Your Clips</div>
             <ul>
                 <!--<li class="new" on-tap='newList(wishlist_product);'>Add TO CLIPS</li> -->
-                <li class="clip-font-color new" on-tap='newList(wishlist_product);'><img src=""/>Create a New Clipboard</li>
+                <li class="clip-font-color new add-new" on-tap='newList(wishlist_product);'><i class="fa fa-plus-square-o fa-3px"></i>
+                    <span>Create a New Clipboard</span>
+                </li>
                 <li on-tap='selectList(list);' ng-repeat='list in lists'>
-                    <div>{{list.name}}</div>
-                    <div>{{list.created_at}}</div>
+                    <div class="black-font">{{list.name}} <i ng-if="list.type == 'private'" class="ion-ios7-locked"></i>
+                    </div>
+                    <div> 1 clip . Created on {{list.created_at}}</div>
                     <div>{{list.likes}}</div>
                     <!--<div>{{list.followers}}</div> -->
                     <div>{{list.products}}</div>
