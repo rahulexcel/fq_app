@@ -166,13 +166,13 @@ li.sub-cat-label>span,
 }
 
 .scroll-content .scroll  ul li span{
-width: 100%;
-float: left;
+    width: 100%;
+    float: left;
 
 }
 span div.plus-minus
 {
-	float:right;
+    float:right;
 }
 .scroll-content .scroll ul li ul{
     margin: 0px 0 10px;
@@ -201,10 +201,10 @@ span.plus-minus{
 .internal-details i, .internal-details img{
     margin-right:6px;
 }
- .internal-details img {
-max-width: 2%;
-margin-right: 16px;
- }
+.internal-details img {
+    max-width: 2%;
+    margin-right: 16px;
+}
 /**************************closed Side Menu*********************************/
 
 /**************************Sign up/login*********************************/
@@ -352,7 +352,7 @@ span.arrow{
     float:left;
 }
 .other-sellers-img{
-width: 72px;
+    width: 72px;
 }
 .other-seller-info{
     margin-left:85px;
@@ -389,9 +389,9 @@ span.other-price{
     text-align:center;
     margin-top:10px;
     height: 115px;
-	overflow: hidden;
-	width: 60%;
-	margin: 0 auto;
+    overflow: hidden;
+    width: 60%;
+    margin: 0 auto;
 }
 .wishlist-product-img{
     width: 100%;
@@ -402,10 +402,10 @@ span.other-price{
 }
 .social-share{
     float:right;
-    font-size:10px;
+    font-size:13px;
 }
 .social-share i{ 
-	padding-left: 4px;
+    padding-left: 8px;
 }
 .price-up-down{
     float:left;
@@ -446,7 +446,13 @@ span.other-price{
     height:239px;
 }
 .category .product .image {
-    height:179px;
+    height: 179px;
+    margin: 0 auto;
+    width: 165px;
+}
+.category .product .image img{
+    height : auto;
+    max-width: 100%
 }
 .category .product{
     margin-top:10px;
@@ -518,7 +524,7 @@ span.other-price{
 
 .register{
     margin-top:10px;
-     margin:2px 17px;
+    margin:2px 17px;
 }
 #my-acc .item{
     border-style:none;
@@ -641,5 +647,5 @@ span.other-price{
 .clip-font-color{ color: #949494;}
 .clip-label{line-height: 10px;padding:11px 20px;}
 .scroll-content .scroll #clip_1 ul{margin:15px 0;}
- #clip_1 .signup-button{margin:5px 2px 5px 17px; width: 96%;}
- .scroll-content .scroll #clip_1 ul li{color: #949494;padding-left:22px;padding-right:22px;}
+#clip_1 .signup-button{margin:5px 2px 5px 17px; width: 96%;}
+.scroll-content .scroll #clip_1 ul li{color: #949494;padding-left:22px;padding-right:22px;line-height: 20px;}
