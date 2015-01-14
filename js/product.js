@@ -65,23 +65,27 @@ productMod.controller('ProductCtrl',
 
                     var cache_key = 'product_' + product_id;
                     if (timeStorage.get(cache_key) && !force) {
-                        var data = timeStorage.get('cache_key');
+                        var data = timeStorage.get(cache_key);
                         $scope.processProductData(data);
-                    }
+                    } else {
 
-                    var ajax = productHelper.fetchProduct(product_id);
-                    ajax.then(function (data) {
-                        timeStorage.set(cache_key, data, 1);
-                        $scope.processProductData(data);
-                    }, function () {
-                        $scope.$broadcast('scroll.refreshComplete');
-                    });
+                        var ajax = productHelper.fetchProduct(product_id);
+                        ajax.then(function (data) {
+                            timeStorage.set(cache_key, data, 1);
+                            $scope.processProductData(data);
+                        }, function () {
+                            $scope.$broadcast('scroll.refreshComplete');
+                        });
+                    }
                 }
                 $scope.processProductData = function (data) {
+                    console.log(data);
                     $scope.product = data.product;
-                    $scope.product.variants = data.variants;
-                    $scope.product.similar = data.similar;
-                    if (data.similar.length > 0) {
+                    if (data.variants)
+                        $scope.product.variants = data.variants;
+                    if (data.similar)
+                        $scope.product.similar = data.similar;
+                    if (data.similar && data.similar.length > 0) {
                         console.log('initiazling iscroll');
                         angular.element(document.querySelector('#scroller')).attr('style', 'width:' + (data.similar.length * 200) + "px");
                         $timeout(function () {
@@ -110,6 +114,12 @@ productMod.controller('ProductCtrl',
                         window.open(product.href, '_system');
                     } else {
                         window.open(product.href);
+                    }
+                }
+
+                $scope.viewCategory = function (product) {
+                    if (product.cat_id && product.sub_cat_id) {
+                        $location.path('/app/category/' + product.cat_id + "/" + product.sub_cat_id + "/" + product.cat_name);
                     }
                 }
 

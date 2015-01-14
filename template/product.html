@@ -19,19 +19,21 @@
                 <div class="pro-info">
                     <div class="pro-name">
                         {{product.name}}
-                        <br/>
-                        <span class="arrow">{{product.brand}}</span>
-                        <span class="e-site">
-                            {{product.website}}
-                        </span>
+                        <div>
+                            <span class="arrow" ng-show='product.cat_id' on-tap='viewBrand(product);'>{{product.brand}}</span>
+                            <span class="category" ng-show='product.cat_id' on-tap='viewCategory(product);'>{{product.parent_cat_name}} > {{product.cat_name}}</span>
+                            <span class="e-site">
+                                {{product.website}}
+                            </span>
+                        </div>
                     </div>
                     <div class="pro-price">
                         Rs.{{product.price}}
                     </div>
-                    <div class="price-up-down">
-                        <i class="fa fa-caret-up">&nbsp;Price Rise of Rs.125</i>
+                    <div class="price-up-down" ng-if="product.price_drop != 0">
+                        <i class="fa fa-caret-up" ng-if="product.price_drop > 0">&nbsp;Price Rise of Rs.{{product.price_drop}}</i>
                         <br>
-                        <i class="fa fa-caret-down">&nbsp;Price Drop of Rs.125</i>
+                        <i class="fa fa-caret-down" ng-if="product.price_drop < 0">&nbsp;Price Drop of Rs.{{product.price_drop}}</i>
 
                     </div>
                     <div class="social-share">
@@ -44,7 +46,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div ng-if="isMobile && isMobile || true">
+                        <div ng-if="isMobile && isMobile">
                             <i class="fa-lg red-color fa-2x" on-tap='whatsapp(product)'><img src='img/whatsapp.png' alt='whats_app'/></i>
                             <i class="fa fa-twitter fa-lg red-color fa-2x" on-tap='twitter(product)'></i>
                             <i class="fa fa-facebook fa-lg red-color fa-2x"  on-tap='facebook(product)'></i>
