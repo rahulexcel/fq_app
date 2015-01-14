@@ -2,10 +2,10 @@
     <ion-content>
         <ion-refresher
             pulling-text="Update Product Info"
-            on-refresh="productInfo()">
+            on-refresh="productInfo(true)">
         </ion-refresher>
         <ion-list>
-            <i class="fa fa-spinner fa-spin" ng-show='product_loading'></i>
+            <!--<i class="fa fa-spinner fa-spin" ng-show='product_loading'></i>-->
             <div class="product">
                 <div class="pro-img">
                     <img ng-src='{{product.img}}'/>
@@ -16,7 +16,7 @@
                         <i class="fa fa-check" ng-show="product.wishlist_status == 2"></i>
                     </div>
                 </div>
-                 <div class="pro-info">
+                <div class="pro-info">
                     <div class="pro-name">
                         {{product.name}}
                         <br/>

@@ -154,10 +154,10 @@ li.sub-cat-label>span,
     color:#fff;
 }
 .logout-btn{ min-height: 43px;
-    border-style: none;
-    width: 108px;
-    border-radius: 4px;
-    margin-bottom:10px;}
+             border-style: none;
+             width: 108px;
+             border-radius: 4px;
+             margin-bottom:10px;}
 
 /**************************Side Menu*********************************/
 .scroll-content .scroll ul li.list-not-cat {
@@ -170,13 +170,13 @@ li.sub-cat-label>span,
 }
 
 .scroll-content .scroll  ul li span{
-width: 100%;
-float: left;
+    width: 100%;
+    float: left;
 
 }
 span div.plus-minus
 {
-	float:right;
+    float:right;
 }
 .scroll-content .scroll ul li ul{
     margin: 0px 0 10px;
@@ -205,10 +205,10 @@ span.plus-minus{
 .internal-details i, .internal-details img{
     margin-right:6px;
 }
- .internal-details img {
-max-width: 2%;
-margin-right: 16px;
- }
+.internal-details img {
+    max-width: 2%;
+    margin-right: 16px;
+}
 /**************************closed Side Menu*********************************/
 
 /**************************Sign up/login*********************************/
@@ -356,7 +356,7 @@ span.arrow{
     float:left;
 }
 .other-sellers-img{
-width: 72px;
+    width: 72px;
 }
 .other-seller-info{
     margin-left:85px;
@@ -393,9 +393,9 @@ span.other-price{
     text-align:center;
     margin-top:10px;
     height: 115px;
-	overflow: hidden;
-	width: 60%;
-	margin: 0 auto;
+    overflow: hidden;
+    width: 60%;
+    margin: 0 auto;
 }
 .wishlist-product-img{
     width: 100%;
@@ -409,7 +409,7 @@ span.other-price{
     font-size:10px;
 }
 .social-share i{ 
-	padding-left: 4px;
+    padding-left: 4px;
 }
 .price-up-down{
     float:left;
@@ -522,7 +522,7 @@ span.other-price{
 
 .register{
     margin-top:10px;
-     margin:2px 17px;
+    margin:2px 17px;
 }
 #my-acc .item{
     border-style:none;
