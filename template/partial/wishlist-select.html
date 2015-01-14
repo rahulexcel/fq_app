@@ -9,16 +9,25 @@
             pulling-text="Pull to refresh..."
             on-refresh="refreshList()">
         </ion-refresher>
-        <div ng-show="!lists">Loading</div>
-        <ul>
-            <li class="new" on-tap='newList(wishlist_product);'>Add New</li>
-            <li on-tap='selectList(list);' ng-repeat='list in lists'>
-                <div>{{list.name}}</div>
-                <div>{{list.created_at}}</div>
-                <div>{{list.likes}}</div>
-                <div>{{list.followers}}</div>
-                <div>{{list.products}}</div>
-            </li>
-        </ul>
+        <div id="clip_1">
+            <div ng-show="!lists">Loading</div>
+            <div class="clip-label clip-font-color"><span>ADD TO CLIPS</span></div>
+            <div class="similar-product-label clip-label clip-font-color">YOUR CLIPS</div>
+            <ul>
+                <!--<li class="new" on-tap='newList(wishlist_product);'>Add TO CLIPS</li> -->
+                <li class="clip-font-color new" on-tap='newList(wishlist_product);'><img src=""/>Create a New Clipboard</li>
+                <li on-tap='selectList(list);' ng-repeat='list in lists'>
+                    <div>{{list.name}}</div>
+                    <div>{{list.created_at}}</div>
+                    <div>{{list.likes}}</div>
+                    <!--<div>{{list.followers}}</div> -->
+                    <div>{{list.products}}</div>
+                </li>
+
+            </ul>
+            <button class="button signup-button red-back disable-user-behavior">
+                CLIP IT
+            </button>
+        </div>
     </ion-content>
 </ion-modal-view>
