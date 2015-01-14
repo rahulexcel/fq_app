@@ -6,7 +6,7 @@ friendService.factory('friendHelper', [
         var service = {};
         service.item_pins_list = function (item_id) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/item/pin', {
+            var ajax = ajaxRequest.send('v1/social/item/pins', {
                 item_id: item_id
             })
             ajax.then(function (data) {

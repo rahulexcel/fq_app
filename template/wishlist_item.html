@@ -5,9 +5,7 @@
             pulling-text="Pull to refresh..."
             on-refresh="doRefresh()">
         </ion-refresher>
-        <div on-tap='likeList();'>Test</div>
         <div ng-show="item">
-
             <div style="max-width: 50px;max-height: 50px">
                 <img ng-src='{{item.user_id.picture| picture:50}}' />
             </div>

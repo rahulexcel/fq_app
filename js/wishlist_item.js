@@ -227,6 +227,24 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     }).then(function (modal) {
                         $scope.modal = modal;
                     });
+                    $scope.pinList = function () {
+                        var item_id = $scope.item.item_id._id;
+                        $scope.modal.show();
+                        $ionicLoading.show({
+                            template: 'Loading...'
+                        });
+                        var ajax = friendHelper.item_pins_list(item_id);
+                        ajax.then(function (data) {
+                            if (data.length > 0) {
+                                $scope.users = data;
+                            } else {
+                                toast.showShortBottom('No Followers Found');
+                            }
+                            $ionicLoading.hide();
+                        }, function () {
+                            $ionicLoading.hide();
+                        });
+                    }
                     $scope.likeList = function () {
                         var list_id = $scope.item.list_id._id;
                         var item_id = $scope.item.item_id._id;
