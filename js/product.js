@@ -1,8 +1,8 @@
 var productMod = angular.module('ProductMod', ['ionic', 'ProductService', 'ServiceMod']);
 
 productMod.controller('ProductCtrl',
-        ['$scope', '$stateParams', 'productHelper', 'dataShare', 'toast', '$localStorage', '$timeout', '$location', '$rootScope', 'socialJs',
-            function ($scope, $stateParams, productHelper, dataShare, toast, $localStorage, $timeout, $location, $rootScope, socialJs) {
+        ['$scope', '$stateParams', 'productHelper', 'dataShare', 'toast', '$localStorage', '$timeout', '$location', '$rootScope', 'socialJs', 'timeStorage',
+            function ($scope, $stateParams, productHelper, dataShare, toast, $localStorage, $timeout, $location, $rootScope, socialJs, timeStorage) {
                 $scope.product_loading = true;
                 $scope.product = false;
                 $scope.variants = [];
@@ -60,25 +60,36 @@ productMod.controller('ProductCtrl',
                     socialJs.addSocialJs();
                 }
 
-                $scope.productInfo = function () {
+                $scope.productInfo = function (force) {
                     var product_id = $scope.product_id;
+
+                    var cache_key = 'product_' + product_id;
+                    if (timeStorage.get(cache_key) && !force) {
+                        var data = timeStorage.get('cache_key');
+                        $scope.processProductData(data);
+                    }
+
                     var ajax = productHelper.fetchProduct(product_id);
                     ajax.then(function (data) {
-                        $scope.product = data.product;
-                        $scope.product.variants = data.variants;
-                        $scope.product.similar = data.similar;
-                        if (data.similar.length > 0) {
-                            console.log('initiazling iscroll');
-                            angular.element(document.querySelector('#scroller')).attr('style', 'width:' + (data.similar.length * 200) + "px");
-                            $timeout(function () {
-                                $scope.myScroll = new IScroll('#similar', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
-                            }, 500);
-                        }
-                        $scope.product_loading = false;
-                        $scope.$broadcast('scroll.refreshComplete');
+                        timeStorage.set(cache_key, data, 1);
+                        $scope.processProductData(data);
                     }, function () {
                         $scope.$broadcast('scroll.refreshComplete');
                     });
+                }
+                $scope.processProductData = function (data) {
+                    $scope.product = data.product;
+                    $scope.product.variants = data.variants;
+                    $scope.product.similar = data.similar;
+                    if (data.similar.length > 0) {
+                        console.log('initiazling iscroll');
+                        angular.element(document.querySelector('#scroller')).attr('style', 'width:' + (data.similar.length * 200) + "px");
+                        $timeout(function () {
+                            $scope.myScroll = new IScroll('#similar', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
+                        }, 500);
+                    }
+                    $scope.product_loading = false;
+                    $scope.$broadcast('scroll.refreshComplete');
                 }
                 $scope.$on('search_product_event', function () {
                     var cat_id = $scope.product.cat_id;

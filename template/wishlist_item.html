@@ -108,12 +108,15 @@
 
             <button class="button" on-tap='addComment();'>Send</button>
 
-            <div ng-repeat="comment in item.comments track by $index">
+            <div ng-repeat="comment in item.comments">
                 <div>
                     <img ng-src='{{comment.picture|picture:50}}' style="max-width: 50px;max-height: 50px;" />
                     <div>{{comment.comment}}</div>
-                    <div>{{comment.created_at | prettyDate}}</div>
+                    <div>{{comment.created_at| prettyDate}}</div>
                 </div>
+            </div>
+            <div ng-if='item.comments && !showMoreComment'>
+                <button class="button" on-tap='loadAllComments()'>Load All Comments</button>
             </div>
 
             <!--            <div ng-if="!is_mobile">

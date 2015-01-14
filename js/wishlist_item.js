@@ -1,154 +1,196 @@
 var wishlistItemMod = angular.module('WishlistItemMod', ['ServiceMod', 'ngStorage', 'ionic', 'WishlistService', 'MapService', 'ItemService', 'FriendService']);
 
 wishlistItemMod.controller('WishlistItemCtrl',
-        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$window', 'socialJs', 'itemHelper', 'friendHelper', 'timeStorage', '$ionicActionSheet', 'uploader', 'ajaxRequest', '$cordovaCamera', '$upload',
-            function ($scope, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $window, socialJs, itemHelper, friendHelper, timeStorage, $ionicActionSheet, uploader, ajaxRequest, $cordovaCamera, $upload) {
-                if ($localStorage.user.id) {
-                    $scope.wishlist = [];
-                    $scope.loading = true;
-                    $scope.items = [];
-                    $scope.$on('$destroy', function () {
-                        mapHelper.destroy();
-                    })
-                    var picture_width = $window.innerWidth;
-                    picture_width = Math.ceil(picture_width * .95);
-                    $scope.picture_width = picture_width;
-                    if ($stateParams.item_id) {
-                        $scope.item_id = $stateParams.item_id;
-                        $scope.list_id = $stateParams.list_id;
-                        $scope.me_pin = false;
-                        $scope.me_like = false;
-                        $scope.me_follow_user = false;
-                        $scope.me_follow_list = false;
-                        $scope.checkData = function (data) {
-                            if (!data.likes) {
-                                data.likes = [];
+        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$window', 'socialJs', 'itemHelper', 'friendHelper', 'timeStorage', '$ionicLoading',
+            function ($scope, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $window, socialJs, itemHelper, friendHelper, timeStorage, $ionicLoading) {
+                $scope.wishlist = [];
+                $scope.loading = true;
+                $scope.items = [];
+                $scope.$on('$destroy', function () {
+                    mapHelper.destroy();
+                })
+                $scope.$on('logout_event', function () {
+                    $scope.me_pin = false;
+                    $scope.me_like = false;
+                    $scope.me_follow_user = false;
+                    $scope.me_follow_list = false;
+                })
+                var picture_width = $window.innerWidth;
+                picture_width = Math.ceil(picture_width * .95);
+                $scope.picture_width = picture_width;
+                if ($stateParams.item_id) {
+                    $scope.item_id = $stateParams.item_id;
+                    $scope.list_id = $stateParams.list_id;
+                    $scope.me_pin = false;
+                    $scope.me_like = false;
+                    $scope.me_follow_user = false;
+                    $scope.me_follow_list = false;
+                    $scope.checkData = function (data) {
+                        if (!data.likes) {
+                            data.likes = [];
+                        }
+                        if (!data.item_id.pins) {
+                            data.item_id.pins = [];
+                        }
+                        if (!data.list_id.followers) {
+                            data.list_id.followers = [];
+                        }
+                        if (!data.user_id.followers) {
+                            data.user_id.followers = [];
+                        }
+                        for (var i = 0; i < data.user_id.followers.length; i++) {
+                            if (data.user_id.followers[i] == $localStorage.user.id) {
+                                $scope.me_follow_user = true;
                             }
-                            if (!data.item_id.pins) {
-                                data.item_id.pins = [];
+                        }
+                        for (var i = 0; i < data.list_id.followers.length; i++) {
+                            if (data.list_id.followers[i] == $localStorage.user.id) {
+                                $scope.me_follow_list = true;
                             }
-                            if (!data.list_id.followers) {
-                                data.list_id.followers = [];
+                        }
+                        for (var i = 0; i < data.likes.length; i++) {
+                            if (data.likes[i].user_id == $localStorage.user.id) {
+                                $scope.me_like = true;
+                                break;
                             }
-                            if (!data.user_id.followers) {
-                                data.user_id.followers = [];
+                        }
+                        for (var i = 0; i < data.item_id.pins.length; i++) {
+                            if (data.item_id.pins[i].user_id == $localStorage.user.id) {
+                                $scope.me_pin = true;
+                                break;
                             }
-                            for (var i = 0; i < data.user_id.followers.length; i++) {
-                                if (data.user_id.followers[i] == $localStorage.user.id) {
-                                    $scope.me_follow_user = true;
-                                }
-                            }
-                            for (var i = 0; i < data.list_id.followers.length; i++) {
-                                if (data.list_id.followers[i] == $localStorage.user.id) {
-                                    $scope.me_follow_list = true;
-                                }
-                            }
-                            for (var i = 0; i < data.likes.length; i++) {
-                                if (data.likes[i].user_id == $localStorage.user.id) {
-                                    $scope.me_like = true;
-                                    break;
-                                }
-                            }
-                            for (var i = 0; i < data.item_id.pins.length; i++) {
-                                if (data.item_id.pins[i].user_id == $localStorage.user.id) {
-                                    $scope.me_pin = true;
-                                    break;
-                                }
-                            }
+                        }
 
-                            var comments = data.comments;
-                            for (var i = 0; i < comments.length; i++) {
+                        var comments = data.comments;
+                        for (var i = 0; i < comments.length; i++) {
+                            if (!comments[i].picture || comments[i].picture.length == 0)
                                 comments[i].picture = 'img/favicon.png';
-                            }
-
-                            $scope.item = data;
-                            if (data.location && data.location.lat) {
-                                mapHelper.showMap(data.location);
-                            }
-                            $scope.loading = false;
-                            var ajax = itemHelper.listComment($scope.list_id, $scope.item_id);
-                            ajax.then(function (data) {
-                                $scope.item.comments = data;
-                            });
                         }
-                        var cache_key = 'item_' + $stateParams.item_id + "_" + $stateParams.list_id;
-                        if (timeStorage.get(cache_key)) {
-                            var data = timeStorage.get(cache_key);
+
+                        $scope.item = data;
+                        if (data.location && data.location.lat) {
+                            mapHelper.showMap(data.location);
+                        }
+                        if ($localStorage.previous && $localStorage.previous.state) {
+                            var state = $localStorage.previous.state;
+                            if (state == 'unFollowUser') {
+                                $scope.unFollowUser(data.user_id._id);
+                            } else if (state == 'followUser') {
+                                $scope.followUser(data.user_id._id);
+                            } else if (state == 'followList') {
+                                $scope.followList();
+                            } else if (state == 'unFollowList') {
+                                $scope.unFollowList();
+                            } else if (state == 'unlike') {
+                                $scope.unlike();
+                            } else if (state == 'like') {
+                                $scope.like();
+                            } else if (state == 'pin') {
+                                $scope.pin();
+                            }
+                        }
+                        $scope.loading = false;
+                    }
+
+                    $scope.loadAllComments = function () {
+                        var ajax = itemHelper.listComment($scope.list_id, $scope.item_id);
+                        ajax.then(function (data) {
+                            $scope.showMoreComment = true;
+                            $scope.item.comments = data;
+                        }, function () {
+                            $scope.showMoreComment = true;
+                        });
+                    }
+
+                    var cache_key = 'item_' + $stateParams.item_id + "_" + $stateParams.list_id;
+                    if (timeStorage.get(cache_key)) {
+                        var data = timeStorage.get(cache_key);
+                        $scope.checkData(data);
+                    } else {
+                        $ionicLoading.show({
+                            template: 'Loading...'
+                        });
+                        var ajax = wishlistHelper.viewItem($stateParams.item_id, $stateParams.list_id);
+                        ajax.then(function (data) {
+                            timeStorage.set(cache_key, data, 1);
                             $scope.checkData(data);
-                        } else {
-                            var ajax = wishlistHelper.viewItem($stateParams.item_id, $stateParams.list_id);
-                            ajax.then(function (data) {
-                                timeStorage.set(cache_key, data, 1);
-                                $scope.checkData(data);
+                            $ionicLoading.hide();
+                        }, function () {
+                            $scope.loading = false;
+                            $ionicLoading.hide();
+                        });
+                    }
+                    $scope.doRefresh = function () {
+                        var ajax = wishlistHelper.viewItem($stateParams.item_id, $stateParams.list_id);
+                        ajax.then(function (data) {
+                            timeStorage.set(cache_key, data, 1);
+                            $scope.checkData(data);
+                            $scope.$broadcast('scroll.refreshComplete');
+                        }, function () {
+                            $scope.$broadcast('scroll.refreshComplete');
+                        });
+                    }
+
+                    if (window.plugins && window.plugins.socialsharing) {
+                        $scope.isMobile = true;
+                        $scope.shareAll = function (product) {
+                            window.plugins.socialsharing.share(product.name, null, product.picture, product.href, function () {
                             }, function () {
-                                $scope.loading = false;
+                                toast.showShortBottom('Unable to Share');
+                            })
+                        }
+                        $scope.twitter = function (product) {
+                            window.plugins.socialsharing.shareViaTwitter(
+                                    product.name, product.picture, product.href, function () {
+                                    }, function () {
+                                toast.showShortBottom('Unable to Share');
                             });
                         }
-                        $scope.doRefresh = function () {
-                            var ajax = wishlistHelper.viewItem($stateParams.item_id, $stateParams.list_id);
-                            ajax.then(function (data) {
-                                timeStorage.set(cache_key, data, 1);
-                                $scope.checkData(data);
-                                $scope.$broadcast('scroll.refreshComplete');
-                            }, function () {
-                                $scope.$broadcast('scroll.refreshComplete');
+                        $scope.whatsapp = function (product) {
+                            window.plugins.socialsharing.shareViaWhatsApp(
+                                    product.name, product.picture, product.href, function () {
+                                    }, function () {
+                                toast.showShortBottom('Unable to Share');
                             });
                         }
 
-                        if (window.plugins && window.plugins.socialsharing) {
-                            $scope.isMobile = true;
-                            $scope.shareAll = function (product) {
-                                window.plugins.socialsharing.share(product.name, null, product.picture, product.href, function () {
-                                }, function () {
-                                    toast.showShortBottom('Unable to Share');
-                                })
-                            }
-                            $scope.twitter = function (product) {
-                                window.plugins.socialsharing.shareViaTwitter(
-                                        product.name, product.picture, product.href, function () {
-                                        }, function () {
-                                    toast.showShortBottom('Unable to Share');
-                                });
-                            }
-                            $scope.whatsapp = function (product) {
-                                window.plugins.socialsharing.shareViaWhatsApp(
-                                        product.name, product.picture, product.href, function () {
-                                        }, function () {
-                                    toast.showShortBottom('Unable to Share');
-                                });
-                            }
-
-                            $scope.facebook = function (product) {
-                                if (window.cordova.platformId == "browser") {
-                                    if (!accountHelper.isFbInit()) {
-                                        facebookConnectPlugin.browserInit('765213543516434');
-                                        accountHelper.fbInit();
-                                    }
+                        $scope.facebook = function (product) {
+                            if (window.cordova.platformId == "browser") {
+                                if (!accountHelper.isFbInit()) {
+                                    facebookConnectPlugin.browserInit('765213543516434');
+                                    accountHelper.fbInit();
                                 }
-                                facebookConnectPlugin.showDialog({
-                                    method: 'share',
-                                    href: product.href,
-                                    message: product.name,
-                                    picture: product.picture
-                                }, function (data) {
-                                    console.log(data);
-                                }, function (data) {
-                                    console.log(data);
-                                    toast.showShortBottom('Unable to Share');
-                                })
-
                             }
-                        } else {
-                            $scope.isMobile = false;
-                            socialJs.addSocialJs();
-                        }
+                            facebookConnectPlugin.showDialog({
+                                method: 'share',
+                                href: product.href,
+                                message: product.name,
+                                picture: product.picture
+                            }, function (data) {
+                                console.log(data);
+                            }, function (data) {
+                                console.log(data);
+                                toast.showShortBottom('Unable to Share');
+                            })
 
-                        $scope.view = function (item) {
-                            if (item.product_id)
-                                $location.path('/app/product/' + item.product_id);
                         }
-                        $scope.request_process = false;
-                        $scope.unFollowUser = function (user_id) {
+                    } else {
+                        $scope.isMobile = false;
+                        socialJs.addSocialJs();
+                    }
+
+                    $scope.view = function (item) {
+                        if (item.product_id)
+                            $location.path('/app/product/' + item.product_id);
+                    }
+                    $scope.request_process = false;
+                    $scope.unFollowUser = function (user_id) {
+                        if (!$localStorage.user.id) {
+                            $localStorage.previous.state = {
+                                function: 'unFollowUser'
+                            };
+                            toast.showShortBottom('SignUp/Login To UnFollow From List');
+                        } else {
                             if ($scope.request_process) {
                                 toast.showProgress();
                                 return;
@@ -171,7 +213,14 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 $scope.request_process = false;
                             });
                         }
-                        $scope.followUser = function (user_id) {
+                    }
+                    $scope.followUser = function (user_id) {
+                        if (!$localStorage.user.id) {
+                            $localStorage.previous.state = {
+                                function: 'followUser'
+                            };
+                            toast.showShortBottom('SignUp/Login To Follow List');
+                        } else {
                             if ($scope.request_process) {
                                 toast.showProgress();
                                 return;
@@ -189,7 +238,14 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 $scope.request_process = false;
                             });
                         }
-                        $scope.followList = function () {
+                    }
+                    $scope.followList = function () {
+                        if (!$localStorage.user.id) {
+                            $localStorage.previous.state = {
+                                function: 'followList'
+                            };
+                            toast.showShortBottom('SignUp/Login To Follow List');
+                        } else {
                             if ($scope.request_process) {
                                 toast.showProgress();
                                 return;
@@ -208,7 +264,14 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 $scope.request_process = false;
                             });
                         }
-                        $scope.unFollowList = function () {
+                    }
+                    $scope.unFollowList = function () {
+                        if (!$localStorage.user.id) {
+                            $localStorage.previous.state = {
+                                function: 'unFollowList'
+                            };
+                            toast.showShortBottom('SignUp/Login To UnFollow From List');
+                        } else {
                             if ($scope.request_process) {
                                 toast.showProgress();
                                 return;
@@ -232,7 +295,14 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 $scope.request_process = false;
                             });
                         }
-                        $scope.unlike = function () {
+                    }
+                    $scope.unlike = function () {
+                        if (!$localStorage.user.id) {
+                            $localStorage.previous.state = {
+                                function: 'unlike'
+                            };
+                            toast.showShortBottom('Create Account To Pin Item');
+                        } else {
                             if ($scope.request_process) {
                                 toast.showProgress();
                                 return;
@@ -261,7 +331,14 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 $scope.request_process = false;
                             });
                         }
-                        $scope.like = function () {
+                    }
+                    $scope.like = function () {
+                        if (!$localStorage.user.id) {
+                            $localStorage.previous.state = {
+                                function: 'like'
+                            };
+                            toast.showShortBottom('SignUp/Login To Like Item');
+                        } else {
                             if ($scope.request_process) {
                                 toast.showProgress();
                                 return;
@@ -287,27 +364,36 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 $scope.request_process = false;
                             });
                         }
-                        $scope.$on('wishlist_pin_select', function () {
-                            var list_id = $scope.wishlist_product.item.select_list_id;
-                            var ajax = itemHelper.pin($scope.item.item_id._id, list_id);
-                            ajax.then(function (data) {
-                                var pins = $scope.item.item_id.pins;
-                                if (!pins) {
-                                    pins = [];
-                                }
-                                pins.push({
-                                    user_id: $localStorage.user.id,
-                                    created_at: new Date().getTime()
-                                });
-                                $scope.me_pin = true;
-                                $scope.item.item_id.pins = pins;
-                                timeStorage.remove(cache_key);
-                                $scope.request_process = false;
-                            }, function () {
-                                $scope.request_process = false;
+                    }
+                    $scope.$on('wishlist_pin_select', function () {
+                        var list_id = $scope.wishlist_product.item.select_list_id;
+                        var ajax = itemHelper.pin($scope.item.item_id._id, list_id);
+                        ajax.then(function (data) {
+                            var pins = $scope.item.item_id.pins;
+                            if (!pins) {
+                                pins = [];
+                            }
+                            pins.push({
+                                user_id: $localStorage.user.id,
+                                created_at: new Date().getTime()
                             });
-                        })
-                        $scope.pin = function () {
+                            $scope.me_pin = true;
+                            $scope.item.item_id.pins = pins;
+                            timeStorage.remove(cache_key);
+                            $scope.request_process = false;
+                        }, function () {
+                            $scope.request_process = false;
+                        });
+                    })
+                    $scope.pin = function () {
+                        if (!$localStorage.user.id) {
+                            $localStorage.previous.state = {
+                                function: 'pin'
+                            };
+                            toast.showShortBottom('SignUp/Login To Pin Item');
+                        } else {
+
+
 //                            if ($scope.request_process) {
 //                                toast.showProgress();
 //                                return;
@@ -317,35 +403,40 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             $scope.wishlist_product.item = $scope.item.item_id;
                             $scope.$parent.showWishlist();
                         }
+                    }
 
-                    } else if ($stateParams.list_id) {
-                        $scope.wishlist_name = $stateParams.list_name;
-                        $scope.list_id = $stateParams.list_id;
-                        var ajax = wishlistHelper.listItems($stateParams.list_id);
-                        ajax.then(function (data) {
-                            $scope.items = data;
-                            if (data.length == 0) {
-                                toast.showShortBottom('Not Items Found In Wishlist');
-                            }
-                            $scope.loading = false;
-                        }, function () {
-                            $scope.loading = false;
-                        });
-                        $scope.viewItem = function (item) {
-                            console.log(item);
-                            var item_id = item._id;
+                } else if ($stateParams.list_id) {
+                    $scope.wishlist_name = $stateParams.list_name;
+                    $scope.list_id = $stateParams.list_id;
+                    var ajax = wishlistHelper.listItems($stateParams.list_id);
+                    ajax.then(function (data) {
+                        $scope.items = data;
+                        if (data.length == 0) {
+                            toast.showShortBottom('Not Items Found In Wishlist');
+                        }
+                        $scope.loading = false;
+                    }, function () {
+                        $scope.loading = false;
+                    });
+                    $scope.viewItem = function (item) {
+                        console.log(item);
+                        var item_id = item._id;
 //                            console.log('/app/item/' + item_id + "/" + $scope.list_id);
-                            $location.path('/app/item/' + item_id + "/" + $scope.list_id);
-                        }
+                        $location.path('/app/item/' + item_id + "/" + $scope.list_id);
                     }
-                    $scope.buy = function (product) {
-                        if (window.plugins) {
-                            window.open(product.href, '_system');
-                        } else {
-                            window.open(product.href);
-                        }
+                }
+                $scope.buy = function (product) {
+                    if (window.plugins) {
+                        window.open(product.href, '_system');
+                    } else {
+                        window.open(product.href);
                     }
-                    $scope.addComment = function () {
+                }
+                $scope.addComment = function () {
+                    if ($localStorage.user.id) {
+                        toast.showProgress('SignUp/Login To Post A Comment');
+                        $location.app('/app/register');
+                    } else {
                         var comment = $scope.item.comment;
                         var picture = $scope.item.picture;
 
@@ -365,6 +456,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             timeStorage.remove(cache_key);
                         });
                     }
+                }
 
 //                    $scope.is_mobile = false;
 //                    if (window.cordova && window.cordova.plugins) {
@@ -476,9 +568,5 @@ wishlistItemMod.controller('WishlistItemCtrl',
 //                            });
 //                        }
 //                    });
-                } else {
-                    toast.showShortBottom('You Need To Be Logged In To Access This Page');
-                    $location.path('/app/register');
-                }
             }
         ]);

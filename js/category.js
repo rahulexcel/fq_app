@@ -21,8 +21,8 @@ categoryMod.directive('scrollWatch', function () {
 });
 categoryMod.controller('CategoryCtrl',
         ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate',
-            '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$interval', '$ionicModal', 'wishlistHelper',
-            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $interval, $ionicModal, wishlistHelper) {
+            '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$interval',
+            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $interval) {
 
                 var backView = false;
 

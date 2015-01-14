@@ -39,7 +39,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                 url: '/home',
                 views: {
                     'menuContent': {
-                        templateUrl: 'template/category.html',
+                        templateUrl: 'template/home.html',
                         controller: 'CategoryCtrl'
                     }
                 }

@@ -1,8 +1,8 @@
-var wishlistService = angular.module('WishlistService', ['ServiceMod']);
+var wishlistService = angular.module('WishlistService', ['ServiceMod', 'ionic']);
 
 wishlistService.factory('wishlistHelper', [
-    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', 'timeStorage',
-    function (ajaxRequest, $q, toast, $localStorage, $location, timeStorage) {
+    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', 'timeStorage', '$ionicLoading',
+    function (ajaxRequest, $q, toast, $localStorage, $location, timeStorage, $ionicLoading) {
         var service = {};
 
         service.getUrlImage = function (url) {
@@ -59,16 +59,19 @@ wishlistService.factory('wishlistHelper', [
             if (user_wish_list && !force) {
                 return $q.when(user_wish_list);
             } else if ($localStorage.user && $localStorage.user.id) {
+                $ionicLoading.show({
+                    template: 'Loading...'
+                });
                 var ajax = ajaxRequest.send('v1/wishlist/list', {
                     user_id: $localStorage.user.id
                 });
                 ajax.then(function (data) {
-                    console.log(data);
-
+                    $ionicLoading.hide();
                     timeStorage.set('user_wish_list', data, 12);
 
                     def.resolve(data);
                 }, function (message) {
+                    $ionicLoading.hide();
                     def.reject({
                         login: 0,
                         message: message

@@ -83,6 +83,9 @@ accountService.factory('accountHelper', [
                 } else {
                     toast.showShortBottom('Welcome');
                 }
+                if (data._id) {
+                    data.id = data._id;
+                }
                 data.type = type;
                 $localStorage.user = data;
                 var picture = data.picture;
