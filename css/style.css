@@ -1,5 +1,23 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);
 
+@media screen and (min-width: 1001px) {
+    .category .product{
+      width: 25%;
+        
+    }
+}
+@media screen and (max-width: 1000px) {
+    .category .product{
+      width: 33.3%;
+        
+    }
+}
+@media screen and (max-width: 480px) {
+    .category .product{
+      width: 50%;
+        
+    }
+}
 /*	  @font-face {
 font-family: 'OpenSansRegular';
 src: url('../fonts/OpenSansRegular.eot');
@@ -21,7 +39,7 @@ img {
     height:auto;
 }
 .category .product{
-    width: 50%;
+
     float: left;
     height: 200px;
     text-align: center;
@@ -38,9 +56,6 @@ img {
     font-size:1.5em;
 }
 
-.category .product .image{
-    height: 100px;
-}
 .category .product .image img{
     height: 100%;
     max-width: 100%;
@@ -446,7 +461,9 @@ span.other-price{
     height:239px;
 }
 .category .product .image {
-    height:179px;
+    height: 179px;
+    margin: 0 auto;
+    width: 165px;
 }
 .category .product{
     margin-top:10px;
