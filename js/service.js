@@ -1,5 +1,10 @@
 var serviceMod = angular.module('ServiceMod', ['ngStorage', 'ionic']);
 
+serviceMod.filter('prettyDate', function () {
+    return function (date) {
+        return prettyDate(date);
+    };
+})
 serviceMod.filter('picture', function () {
     return function (picture, width) {
         if (!angular.isDefined(picture)) {

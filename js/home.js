@@ -180,7 +180,7 @@ homeMod.controller('HomeCtrl',
                 $scope.showWishlist = function () {
                     var ajax = wishlistHelper.list();
                     ajax.then(function (data) {
-                        $scope.lists = data;
+                        $scope.lists = data.me;
                     });
                     $scope.wishlistmodal.show();
                 }

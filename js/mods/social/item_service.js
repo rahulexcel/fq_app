@@ -4,6 +4,16 @@ itemService.factory('itemHelper', [
     'ajaxRequest', '$q', 'toast', '$localStorage',
     function (ajaxRequest, $q, toast, $localStorage) {
         var service = {};
+        service.listComment = function (list_id, item_id) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/item/view/comment/' + list_id + "/" + item_id, {}, 'POST');
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function (data) {
+                def.reject(data);
+            });
+            return def.promise;
+        }
         service.editComment = function (item_id, list_id, comment, picture, comment_id) {
             return this.comment(item_id, list_id, comment, picture, 'edit', comment_id);
         }
@@ -16,7 +26,7 @@ itemService.factory('itemHelper', [
             }
             var user_id = $localStorage.user.id;
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/item/pin', {
+            var ajax = ajaxRequest.send('v1/social/item/comment', {
                 user_id: user_id,
                 list_id: list_id,
                 item_id: item_id,

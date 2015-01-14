@@ -6,9 +6,10 @@ wishlistMod.controller('WishlistCtrl',
                 if ($localStorage.user.id) {
                     $scope.wishlist = [];
                     $scope.loading = true;
-                    var ajax = wishlistHelper.list();
+                    var ajax = wishlistHelper.list(true);
                     ajax.then(function (data) {
-                        $scope.wishlist = data;
+                        $scope.wishlist_mine = data.me;
+                        $scope.wishlist_their = data.their;
                         $scope.loading = false;
                     }, function () {
                         $scope.loading = false;
