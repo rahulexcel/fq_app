@@ -166,17 +166,21 @@ homeMod.controller('HomeCtrl',
                     });
                 }
                 $scope.tickList = function (list) {
-                    var lists = $scope.lists;
+                    var lists = $scope.lists.me;
                     for (var i = 0; i < lists.length; i++) {
-                        lists[i].tick = false;
+                        if (lists[i]._id == list._id) {
+                            lists[i].tick = true;
+                        } else {
+                            lists[i].tick = false;
+                        }
                     }
-                    list.tick = true;
-                    $scope.lists = lists;
+                    $scope.lists.me = lists;
+//                    list.tick = true;
                 }
                 $scope.selectList = function () {
 
                     var list = false;
-                    var lists = $scope.lists;
+                    var lists = $scope.lists.me;
                     for (var i = 0; i < lists.length; i++) {
                         if (lists[i].tick) {
                             list = lists[i];
