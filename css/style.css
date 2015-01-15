@@ -254,12 +254,16 @@ li a.internal-details ,li.sub-cat-label > span{
 span.plus-minus{
     float: right;
 }
-.internal-details i, .internal-details img{
+.internal-details i{
     margin-right:6px;
+    text-align: center;
+    font-size: 1.1em;
+    
 }
  .internal-details img {
 max-width: 2%;
-margin-right: 16px;
+margin-right: 10px;
+margin-left: 5px;
  }
 /**************************closed Side Menu*********************************/
 
@@ -717,9 +721,8 @@ box-shadow:0px 5px 7px -7px #0E0103 inset;
 .scroll-content .scroll #clip_1 ul{
     margin:0 0 15px;
 }
- #clip_1 .signup-button{
-     margin:5px 2px 5px 17px;
-     width: 96%;
+ #clip_1 .clip-it{
+    padding:0 20px;
  }
  .scroll-content .scroll #clip_1 ul li{
      color: #a8a8a8;
@@ -768,3 +771,4 @@ box-shadow:0px 5px 7px -7px #0E0103 inset;
 .clip-share {
     font-weight: normal;
 }
+
