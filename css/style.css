@@ -362,7 +362,10 @@ div#account-page button{
 /************************** closed Sign up/login*********************************/
 
 /**************************product page*********************************/
-
+.fb-like,.twitter{
+    float: right;
+    width:44%;
+}
 .img-heart{
     position: absolute;
     top: 9px; right: 13px;
@@ -400,8 +403,11 @@ div#account-page button{
 span.arrow{
     color:red;
 }
-.e-site{
+span.e-site{
     color:#959595;
+    width:100%;
+    float: left;
+    
 }
 .pro-price{
     font-size: 1.2em;
@@ -411,7 +417,7 @@ span.arrow{
 }
 .arrow ,
 .e-site{
-    font-size:.8em;
+    font-size:0.8em;
 }
 .similar-product-label{
     text-align: left;
@@ -436,7 +442,7 @@ span.arrow{
     float:left;
 }
 .other-sellers-img{
-width: 72px;
+width: 50px;
 }
 .other-seller-info{
     margin-left:85px;
@@ -450,6 +456,9 @@ width: 72px;
     color:#000000;
     overflow: hidden;
     height: 20px;
+}
+.other-seller-info button.pro-button{
+    min-height: 26px;
 }
 .variants .pro-button{
     min-height:34px;
@@ -470,12 +479,11 @@ span.other-price{
     font-weight: bold;
 }
 .similar-img{
-    text-align:center;
-    margin-top:10px;
-    height: 115px;
-	overflow: hidden;
-	width: 60%;
-	margin: 0 auto;
+    text-align: center;
+    height: 104px;
+    overflow: hidden;
+    width: 60%;
+    margin: 15px auto 6px;
 }
 .wishlist-product-img{
     width: 100%;
@@ -495,11 +503,7 @@ span.other-price{
     float:left;
     width:135px;
     font-size:.8em;
-    line-height:11px;
-    color:#878787;
-    margin-bottom: 5px;
-}
-.price-up-down i:last-child{
+    line-height:20px;
     color:#06ACAC;
 }
 .similar-price-drop{
@@ -567,7 +571,7 @@ vertical-align: middle;
     line-height: 45px;
     }
     
-    .category .drop-price i.up-price{
+     i.up-price{
         color:#959595;
     }
 /**************************closed Category page*********************************/
