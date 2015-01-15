@@ -2,20 +2,20 @@
 
 @media screen and (min-width: 1001px) {
     .category .product{
-      width: 25%;
-        
+        width: 25%;
+
     }
 }
 @media screen and (max-width: 1000px) {
     .category .product{
-      width: 33.3%;
-        
+        width: 33.3%;
+
     }
 }
 @media screen and (max-width: 480px) {
     .category .product{
-      width: 50%;
-        
+        width: 50%;
+
     }
 }
 /*	  @font-face {
@@ -32,56 +32,66 @@ font-style: normal;
 */
 
 .fa-spinner{
-                background-image: url('../img/loading.gif');
-                width: 16px;
-                height: 16px;
-                background-repeat: no-repeat;
-                display: inline-block;
-                background-size: contain;
-                background-position: center center;
-            }
+    background-image: url('../img/loading.gif');
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background-size: contain;
+    background-position: center center;
+}
 
-            .site{
-                background-repeat: no-repeat;
-                background-size: contain;
-                display: inline-block;
-                height: 12px;
-                width: 12px;
-                line-height: 12px;
-            }
-            .Flipkart  { background-image: url("../img/fav/flipkart.png");   }
-            .Snapdeal  { background-image: url("../img/fav/snapdeal.png")  }
-            .ShopClues  { background-image: url("../img/fav/shopclues.png")  }
-            .Indiatimes  { background-image: url("../img/fav/indiatimes.png")  }
-            .amazon  { background-image: url("../img/fav/amazon.png")  }
-            .Infibeam  { background-image: url("../img/fav/infibeam.png")  }
-            .Homeshop  { background-image: url("../img/fav/homeshop.png")  }
-            .eBay  { background-image: url("../img/fav/ebay.png")  }
-            .Yebhi  { background-image: url("../img/fav/yebhi.png")  }
-            .Pepperfry  { background-image: url("../img/fav/pepperfry.png")  }
-            .healthgenie  { background-image: url("../img/fav/healthgenie.png")  }
-            .healthkart  { background-image: url("../img/fav/healthkart.png")  }
-            .nykaa  { background-image: url("../img/fav/nykaa.png")  }
-            .babyoye  { background-image: url("../img/fav/babyoye.png")  }
-            .firstcry  { background-image: url("../img/fav/firstcry.png")  }
-            .littleshop  { background-image: url("../img/fav/littleshop.png")  }
-            .jabong  { background-image: url("../img/fav/jabong.png")  }
-            .eBayAPI  { background-image: url("../img/fav/ebayapi.png")  }
-            .Purplle  { background-image: url("../img/fav/purplle.png")  }
-            .redlily  { background-image: url("../img/fav/redlily.png")  }
-            .beautykafe  { background-image: url("../img/fav/beautykafe.png")  }
-            .fabfurnish  { background-image: url("../img/fav/fabfurnish.png")  }
-            .fashionara  { background-image: url("../img/fav/fashionara.png")  }
-            .koovs  { background-image: url("../img/fav/koovs.png")  }
-            .myntra  { background-image: url("../img/fav/myntra.png")  }
-            .prettysecrets  { background-image: url("../img/fav/prettysecrets.png")  }
-            .shopnineteen  { background-image: url("../img/fav/shopnineteen.png")  }
-            .trendin  { background-image: url("../img/fav/trendin.png")  }
-            .urabanladder  { background-image: url("../img/fav/urabanladder.png")  }
-            .voiletbag  { background-image: url("../img/fav/voiletbag.png")  }
-            .zanzaar  { background-image: url("../img/fav/zanzaar.png")  }
-            
-            
+.site{
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    line-height: 12px;
+}
+.Flipkart  { background-image: url("../img/fav/flipkart.png");   }
+.Snapdeal  { background-image: url("../img/fav/snapdeal.png")  }
+.ShopClues  { background-image: url("../img/fav/shopclues.png")  }
+.Indiatimes  { background-image: url("../img/fav/indiatimes.png")  }
+.amazon  { background-image: url("../img/fav/amazon.png")  }
+.Infibeam  { background-image: url("../img/fav/infibeam.png")  }
+.Homeshop  { background-image: url("../img/fav/homeshop.png")  }
+.eBay  { background-image: url("../img/fav/ebay.png")  }
+.Yebhi  { background-image: url("../img/fav/yebhi.png")  }
+.Pepperfry  { background-image: url("../img/fav/pepperfry.png")  }
+.healthgenie  { background-image: url("../img/fav/healthgenie.png")  }
+.healthkart  { background-image: url("../img/fav/healthkart.png")  }
+.nykaa  { background-image: url("../img/fav/nykaa.png")  }
+.babyoye  { background-image: url("../img/fav/babyoye.png")  }
+.firstcry  { background-image: url("../img/fav/firstcry.png")  }
+.littleshop  { background-image: url("../img/fav/littleshop.png")  }
+.jabong  { background-image: url("../img/fav/jabong.png")  }
+.eBayAPI  { background-image: url("../img/fav/ebayapi.png")  }
+.Purplle  { background-image: url("../img/fav/purplle.png")  }
+.redlily  { background-image: url("../img/fav/redlily.png")  }
+.beautykafe  { background-image: url("../img/fav/beautykafe.png")  }
+.fabfurnish  { background-image: url("../img/fav/fabfurnish.png")  }
+.fashionara  { background-image: url("../img/fav/fashionara.png")  }
+.koovs  { background-image: url("../img/fav/koovs.png")  }
+.myntra  { background-image: url("../img/fav/myntra.png")  }
+.prettysecrets  { background-image: url("../img/fav/prettysecrets.png")  }
+.shopnineteen  { background-image: url("../img/fav/shopnineteen.png")  }
+.trendin  { background-image: url("../img/fav/trendin.png")  }
+.urabanladder  { background-image: url("../img/fav/urabanladder.png")  }
+.voiletbag  { background-image: url("../img/fav/voiletbag.png")  }
+.zanzaar  { background-image: url("../img/fav/zanzaar.png")  }
+
+.tab-item .icon{
+    height: 15px;
+    line-height: 32px !important;
+}
+.pane .tab-content{
+    overflow-y: auto;
+    margin-top: 44px;
+}
+.rounded {
+    border-radius: 100%;
+}
 
 body{ 
     font-family: 'Open Sans', sans-serif;
@@ -205,8 +215,8 @@ Scroll On Product Page
 
 }
 i.close-tab-icon{
-    
-     color: black;
+
+    color: black;
     float: right;
     font-size: 1.7em;
     font-weight: normal;
@@ -241,13 +251,13 @@ li.sub-cat-label>span,
 }
 
 .scroll-content .scroll #menu-bar-container  ul li span{
-width: 100%;
-float: left;
+    width: 100%;
+    float: left;
 
 }
 span div.plus-minus ,.list-tick
 {
-	float:right;
+    float:right;
 }
 .scroll-content .scroll ul li ul{
     margin: 0px 0 10px;
@@ -277,16 +287,16 @@ span.plus-minus{
     margin-right:6px;
     text-align: center;
     font-size: 1.1em;
-    
+
 }
 .internal-details i.log-sign{
     margin-left:1px;
 }
- .internal-details img {
-max-width: 2%;
-margin-right: 10px;
-margin-left: 5px;
- }
+.internal-details img {
+    max-width: 2%;
+    margin-right: 10px;
+    margin-left: 5px;
+}
 /**************************closed Side Menu*********************************/
 
 /**************************Sign up/login*********************************/
@@ -407,7 +417,7 @@ span.e-site{
     color:#959595;
     width:100%;
     float: left;
-    
+
 }
 .pro-price{
     font-size: 1.2em;
@@ -442,7 +452,7 @@ span.e-site{
     float:left;
 }
 .other-sellers-img{
-width: 50px;
+    width: 50px;
 }
 .other-seller-info{
     margin-left:85px;
@@ -496,8 +506,8 @@ span.other-price{
     float:right;
 }
 .social-share i{ 
-	padding:5px;
-        font-size:1.7em;
+    padding:5px;
+    font-size:1.7em;
 }
 .price-up-down{
     float:left;
@@ -565,15 +575,15 @@ span.other-price{
 }
 i.site {
     margin-right: 5px;
-vertical-align: middle;
+    vertical-align: middle;
 }
-    i.close-icon-show{
+i.close-icon-show{
     line-height: 45px;
-    }
-    
-     i.up-price{
-        color:#959595;
-    }
+}
+
+i.up-price{
+    color:#959595;
+}
 /**************************closed Category page*********************************/
 
 /**************************Filter & Sort by*********************************/
@@ -619,7 +629,7 @@ vertical-align: middle;
 
 .register{
     margin-top:10px;
-     margin:2px 17px;
+    margin:2px 17px;
 }
 #my-acc .item{
     border-style:none;
@@ -743,7 +753,7 @@ vertical-align: middle;
     color: #949494;
 }
 .add-to-clip{
-box-shadow:0px 5px 7px -7px #0E0103 inset;
+    box-shadow:0px 5px 7px -7px #0E0103 inset;
 }
 
 .clip-label{
@@ -751,57 +761,57 @@ box-shadow:0px 5px 7px -7px #0E0103 inset;
     padding:11px 20px;
     font-weight: bold;
     font-size: 1.2em;
-    
+
 }
 .scroll-content .scroll #clip_1 ul{
     margin:0 0 15px;
 }
- #clip_1 .clip-it{
+#clip_1 .clip-it{
     padding:0 20px;
- }
- .scroll-content .scroll #clip_1 ul li{
-     color: #a8a8a8;
-     font-size: 1em;
-     padding:12px 22px;
-     line-height: 21px;
-     font-weight: normal;
- }
- #clip_1 ul li span i{
-     font-size:0.3em;
- }
- .add-new img{
-     margin-right: 34px;
- }
- .add-new i{
-     font-size: 3em;
- }
- .scroll-content .scroll ul li.add-new span{
-     vertical-align: middle;
+}
+.scroll-content .scroll #clip_1 ul li{
+    color: #a8a8a8;
+    font-size: 1em;
+    padding:12px 22px;
+    line-height: 21px;
+    font-weight: normal;
+}
+#clip_1 ul li span i{
+    font-size:0.3em;
+}
+.add-new img{
+    margin-right: 34px;
+}
+.add-new i{
+    font-size: 3em;
+}
+.scroll-content .scroll ul li.add-new span{
+    vertical-align: middle;
     padding-bottom: 20px;
     padding-left: 10px;
     float:none;
- }
- .clip-des{
-     border-color: #DA500F;
- }
+}
+.clip-des{
+    border-color: #DA500F;
+}
 .item .private-check{float:left;
-	margin-left: 15px;
-    margin-top: 15px;}
+                     margin-left: 15px;
+                     margin-top: 15px;}
 #wishlist_new .item-radio .item-content {
-	padding:12px 11px 3px 16px;
-	background-color:none;
+    padding:12px 11px 3px 16px;
+    background-color:none;
 }
 #wishlist_new .visibility-section{
-	line-height: 35px;
+    line-height: 35px;
 }
 #wishlist_new .item-private{
-	border-bottom:0px none;
-	}
+    border-bottom:0px none;
+}
 #wishlist_new .item-private:last-child{
-	border-style:none;
-	}
+    border-style:none;
+}
 #wishlist_new .list{
-	margin-bottom:0px;
+    margin-bottom:0px;
 }
 .clip-share {
     font-weight: normal;
