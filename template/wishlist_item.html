@@ -5,17 +5,19 @@
             pulling-text="Pull to refresh..."
             on-refresh="doRefresh()">
         </ion-refresher>
-        <div ng-show="!loading">
-
+        <div ng-show="item">
             <div style="max-width: 50px;max-height: 50px">
                 <img ng-src='{{item.user_id.picture| picture:50}}' />
             </div>
 
             <div class="username">{{item.user_id.name}}</div>
 
-            <div ng-if="me_follow_user" on-tap='unFollowUser(item.user_id._id);'>
-                <div ng-if="item.user_id.followers.length > 1">You and {{item.user_id.followers.length - 1}}Followers</div>
-                <div ng-if="item.user_id.followers.length == 1">You Follow</div>
+            <div ng-if="me_follow_user">
+                <div ng-if="item.user_id.followers.length > 1">
+                    <span on-tap='unFollowUser(item.user_id._id);'>You</span> and 
+                    <span on-tap='followUserList();'>{{item.user_id.followers.length - 1}}Followers</span>
+                </div>
+                <div on-tap='unFollowUser(item.user_id._id);' ng-if="item.user_id.followers.length == 1">You Follow</div>
             </div>
             <div ng-if="!me_follow_user" on-tap='followUser(item.user_id._id);'>
                 <div ng-show="item.user_id.followers.length > 0">{{item.user_id.followers.length}} Followers</div>
@@ -26,7 +28,10 @@
 
 
             <div ng-if="me_follow_list">
-                <div on-tap='unFollowList();' ng-if="item.list_id.followers.length > 1">You and {{item.list_id.followers.length - 1}}Followers</div>
+                <div ng-if="item.list_id.followers.length > 1">
+                    <span on-tap='unFollowList();'>You</span> and 
+                    <span on-tap='followListList();'></span>{{item.list_id.followers.length - 1}}Followers</span>
+                </div>
                 <div on-tap='unFollowList();' ng-if="item.list_id.followers.length == 1">You Follow</div>
             </div>
             <div ng-if="!me_follow_list">
@@ -39,9 +44,10 @@
             </div>
             <div ng-show="item.description.length > 0">{{item.description}}</div>
 
-            <div ng-if="me_like" on-tap="unlike();">
-                <span ng-if="item.likes.length > 1">You and {{item.likes.length - 1}} Likes</span>
-                <span ng-if="item.likes.length == 1">You Like</span>
+            <div ng-if="me_like">
+                <span ng-if="item.likes.length > 1" on-tap="unlike();">You</span> and 
+                <span on-tap='likeList();'>{{item.likes.length - 1}} Likes</span>
+                <span ng-if="item.likes.length == 1" on-tap="unlike();">You Like</span>
             </div>
             <div ng-if="!me_like" on-tap='like();'>
                 <div ng-show="item.likes.length > 0">{{item.likes.length}} Likes</div>

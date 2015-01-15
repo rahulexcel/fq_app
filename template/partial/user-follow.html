@@ -1,0 +1,23 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">User List</h1>
+        <div class="button button-icon fa fa-times" on-tap="closeModel();">
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <ul>
+            <li ng-repeat='user in users'>
+                <img ng-if='user.picture' ng-src='{{user.picture|picture:50}}' style="max-width: 50px;max-height: 50px" />
+                <span>{{user.name}}</span>
+                <button class="button" on-tap='followUser(user._id,true)'>Follow</button>
+            </li>
+
+        </ul>
+
+        <div class="padding">
+            <button  on-tap='closeModel();' class="button">
+                Done
+            </button>
+        </div>
+    </ion-content>
+</ion-modal-view>
