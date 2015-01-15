@@ -70,6 +70,18 @@ font-style: normal;
             .Purplle  { background-image: url("../img/fav/purplle.png")  }
             .redlily  { background-image: url("../img/fav/redlily.png")  }
             .beautykafe  { background-image: url("../img/fav/beautykafe.png")  }
+            .fabfurnish  { background-image: url("../img/fav/fabfurnish.png")  }
+            .fashionara  { background-image: url("../img/fav/fashionara.png")  }
+            .koovs  { background-image: url("../img/fav/koovs.png")  }
+            .myntra  { background-image: url("../img/fav/myntra.png")  }
+            .prettysecrets  { background-image: url("../img/fav/prettysecrets.png")  }
+            .shopnineteen  { background-image: url("../img/fav/shopnineteen.png")  }
+            .trendin  { background-image: url("../img/fav/trendin.png")  }
+            .urabanladder  { background-image: url("../img/fav/urabanladder.png")  }
+            .voiletbag  { background-image: url("../img/fav/voiletbag.png")  }
+            .zanzaar  { background-image: url("../img/fav/zanzaar.png")  }
+            
+            
 
 body{ 
     font-family: 'Open Sans', sans-serif;
@@ -192,13 +204,20 @@ Scroll On Product Page
 .prog_inner{
 
 }
+i.close-tab-icon{
+    
+     color: black;
+    float: right;
+    font-size: 1.7em;
+    font-weight: normal;
+}
 .feed-info,.list-my_acc .input-label,
 .feed-rate-btn:hover,.feed-rate-btn,
 .scroll-content .scroll ul li,
 li a.internal-details,
 li a.internal-details,
 li.sub-cat-label>span,
-.filter-label {
+.filter-label,.black-font:hover,.black-font {
     color:#000;
 }
 .button:hover,
@@ -254,12 +273,19 @@ li a.internal-details ,li.sub-cat-label > span{
 span.plus-minus{
     float: right;
 }
-.internal-details i, .internal-details img{
+.internal-details i{
     margin-right:6px;
+    text-align: center;
+    font-size: 1.1em;
+    
+}
+.internal-details i.log-sign{
+    margin-left:1px;
 }
  .internal-details img {
 max-width: 2%;
-margin-right: 16px;
+margin-right: 10px;
+margin-left: 5px;
  }
 /**************************closed Side Menu*********************************/
 
@@ -336,7 +362,10 @@ div#account-page button{
 /************************** closed Sign up/login*********************************/
 
 /**************************product page*********************************/
-
+.fb-like,.twitter{
+    float: right;
+    width:44%;
+}
 .img-heart{
     position: absolute;
     top: 9px; right: 13px;
@@ -374,8 +403,11 @@ div#account-page button{
 span.arrow{
     color:red;
 }
-.e-site{
+span.e-site{
     color:#959595;
+    width:100%;
+    float: left;
+    
 }
 .pro-price{
     font-size: 1.2em;
@@ -385,7 +417,7 @@ span.arrow{
 }
 .arrow ,
 .e-site{
-    font-size:.8em;
+    font-size:0.8em;
 }
 .similar-product-label{
     text-align: left;
@@ -410,7 +442,7 @@ span.arrow{
     float:left;
 }
 .other-sellers-img{
-width: 72px;
+width: 50px;
 }
 .other-seller-info{
     margin-left:85px;
@@ -424,6 +456,9 @@ width: 72px;
     color:#000000;
     overflow: hidden;
     height: 20px;
+}
+.other-seller-info button.pro-button{
+    min-height: 26px;
 }
 .variants .pro-button{
     min-height:34px;
@@ -444,12 +479,11 @@ span.other-price{
     font-weight: bold;
 }
 .similar-img{
-    text-align:center;
-    margin-top:10px;
-    height: 115px;
-	overflow: hidden;
-	width: 60%;
-	margin: 0 auto;
+    text-align: center;
+    height: 104px;
+    overflow: hidden;
+    width: 60%;
+    margin: 15px auto 6px;
 }
 .wishlist-product-img{
     width: 100%;
@@ -469,11 +503,7 @@ span.other-price{
     float:left;
     width:135px;
     font-size:.8em;
-    line-height:11px;
-    color:#878787;
-    margin-bottom: 5px;
-}
-.price-up-down i:last-child{
+    line-height:20px;
     color:#06ACAC;
 }
 .similar-price-drop{
@@ -533,6 +563,17 @@ span.other-price{
 .bar .button.button-clear.icon:before {
     font-size:1.1em;
 }
+i.site {
+    margin-right: 5px;
+vertical-align: middle;
+}
+    i.close-icon-show{
+    line-height: 45px;
+    }
+    
+     i.up-price{
+        color:#959595;
+    }
 /**************************closed Category page*********************************/
 
 /**************************Filter & Sort by*********************************/
@@ -704,9 +745,7 @@ span.other-price{
 .add-to-clip{
 box-shadow:0px 5px 7px -7px #0E0103 inset;
 }
-.black-font{
-    color:#000;
-}
+
 .clip-label{
     line-height: 22px;
     padding:11px 20px;
@@ -717,9 +756,8 @@ box-shadow:0px 5px 7px -7px #0E0103 inset;
 .scroll-content .scroll #clip_1 ul{
     margin:0 0 15px;
 }
- #clip_1 .signup-button{
-     margin:5px 2px 5px 17px;
-     width: 96%;
+ #clip_1 .clip-it{
+    padding:0 20px;
  }
  .scroll-content .scroll #clip_1 ul li{
      color: #a8a8a8;
@@ -768,3 +806,4 @@ box-shadow:0px 5px 7px -7px #0E0103 inset;
 .clip-share {
     font-weight: normal;
 }
+

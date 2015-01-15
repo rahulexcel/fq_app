@@ -26,13 +26,14 @@
                                 <i class='site {{product.website}}'></i>
                                 {{product.website}}
                             </span>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
                     <div class="pro-price">
                         Rs.{{product.price}}
                     </div>
-                    <div class="price-up-down" ng-if="product.price_drop != 0">
-                        <i class="fa fa-caret-up" ng-if="product.price_drop > 0">&nbsp;Price Rise of Rs.{{product.price_drop}}</i>
+                    <div class="price-up-down" >
+                        <i class="fa fa-caret-up up-price" ng-if="product.price_drop > 0">&nbsp;Price Rise of Rs.112{{product.price_drop}}</i>
                         <i class="fa fa-caret-down" ng-if="product.price_drop < 0">&nbsp;Price Drop of Rs.{{product.price_drop}}</i>
                     </div>
                     <div class="social-share">
