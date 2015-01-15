@@ -7,8 +7,8 @@
             on-refresh="refreshCategory()">
         </ion-refresher>
         <div ng-show="showFilter" id="show-fliter" >
-            <!-- <i class="fa fa-times " on-tap='showProductsFn()'></i> -->
-            <button class="button button-full button-clear filter-button filter-page" on-tap="showFiltersFn();">
+            <i class="fa fa-times " on-tap='showProductsFn()'></i> 
+            <button class="button button-full button-clear filter-button filter-page">
                 <i class="icon ion-funnel filter-icon red-color"></i>
                 <span class="filter-label">FILTER</span>
             </button>
@@ -30,7 +30,8 @@
         </div>
         <div ng-show="showSortBy" class="sortby-container">
             <button class="button button-full button-clear filter-button filter-page">
-                <i class="fa fa-sort-alpha-desc fa-lg filter-icon red-color" on-tap='showProductsFn()'></i>
+                <i class="fa fa-times " on-tap='showProductsFn()'></i> 
+                <i class="fa fa-sort-alpha-desc fa-lg filter-icon red-color"></i>
                 <span class="filter-label"> SORT BY</span>
             </button>
             <ion-list>
@@ -64,7 +65,7 @@
 
                 <div class="bottom_box">
                     <div class="name" on-tap="openProduct(prod);">{{prod.name}}</div>
-                    <div class="website e-site"><i id='Flipkart'></i>{{prod.website}}</div>
+                    <div class="website e-site"><i class='site {{prod.website}}'></i>{{prod.website}}</div>
                     <div class="brand" ng-show="prod.brand.length > 0">{{prod.brand}}</div> 
                     <div class="price">
                         Rs.{{prod.price}}
