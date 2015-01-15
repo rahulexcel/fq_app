@@ -700,3 +700,22 @@ box-shadow:0px 5px 7px -7px #0E0103 inset;
  .clip-des{
      border-color: #DA500F;
  }
+.item .private-check{float:left;
+	margin-left: 15px;
+    margin-top: 25px;}
+#wishlist_new .item-radio.item-content {
+	padding:6px 11px 16px 16px;
+	background-color:none;
+}
+#wishlist_new .visibility-section{
+	line-height: 46px;
+}
+#wishlist_new .item-private{
+	border-bottom:0px none;
+	}
+#wishlist_new .item-private:last-child{
+	border-style:none;
+	}
+#wishlist_new .list{
+	margin-bottom:0px;
+}
