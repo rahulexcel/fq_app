@@ -6,7 +6,7 @@
         </ion-refresher>
         <ion-list>
             <!--<i class="fa fa-spinner fa-spin" ng-show='product_loading'></i>-->
-            <div class="product">
+            <div class="product" ng-show="product">
                 <div class="pro-img">
                     <img ng-src='{{product.img}}'/>
                     <div class="heart wishlist-product-img" on-tap="wishlist(product,$event);">
@@ -22,7 +22,8 @@
                         <div>
                             <span class="arrow" ng-show='product.cat_id' on-tap='viewBrand(product);'>{{product.brand}}</span>
                             <span class="category" ng-show='product.cat_id' on-tap='viewCategory(product);'>{{product.parent_cat_name}} > {{product.cat_name}}</span>
-                            <span class="e-site {{product.website}}">
+                            <span class="e-site">
+                                <i class='site {{product.website}}'></i>
                                 {{product.website}}
                             </span>
                         </div>
@@ -35,8 +36,8 @@
                         <i class="fa fa-caret-down" ng-if="product.price_drop < 0">&nbsp;Price Drop of Rs.{{product.price_drop}}</i>
                     </div>
                     <div class="social-share">
-                        <div ng-if="!isMobile && isMobile">
-                            <div class="fb-share-button" data-href="{{product.href}}" data-layout="button_count"></div>
+                        <div ng-if="!isMobile">
+                            <div class="fb-like" data-href="{{product.href}}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                             <div class="twitter">
                                 <a class="twitter-share-button"
                                    href="https://twitter.com/share" data-url="{{product.href}}" data-text="{{product.name}}"  data-size="small">
@@ -44,7 +45,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div ng-if="isMobile && isMobile">
+                        <div ng-if="isMobile">
                             <i class="fa-lg red-color fa-2x" on-tap='whatsapp(product)'><img src='img/whatsapp.png' alt='whats_app'/></i>
                             <i class="fa fa-twitter fa-lg red-color fa-2x" on-tap='twitter(product)'></i>
                             <i class="fa fa-facebook fa-lg red-color fa-2x"  on-tap='facebook(product)'></i>
@@ -72,9 +73,6 @@
                                 <div class="similar-price">
                                     Rs. {{variant.price}}
                                 </div>
-                                <div class="similar-price-drop">
-                                    <i class="fa fa-caret-down">&nbsp;Rs.25</i>
-                                </div>
                             </li>
                             <div class="clearfix"></div>
                         </ul>
@@ -86,21 +84,21 @@
                     <div class="similar-product-label">
                         OTHER SELLERS
                     </div>
-                    <div on-tap="buy(variant);" ng-repeat="variant in product.variants" style="float: none;">
+                    <div ng-repeat="variant in product.variants" style="float: none;">
                         <div class="other_seller_container">
-                            <div class="other-sellers-img">
+                            <div on-tap="openProduct(product);" class="other-sellers-img">
                                 <img ng-src='{{variant.img}}'/>
                             </div>
                             <div class="other-seller-info">
-                                <div class="name" on-tap="buyVariant(variant);">
+                                <div class="name" on-tap="openProduct(variant);">
                                     {{variant.name}}
                                 </div>
                                 <div>
-                                    <span class="e-site"> {{variant.website}} </span>
+                                    <span class="e-site"> <i class="site {{variant.website}}"></i>{{variant.website}} </span>
                                 </div>
                                 <div>
-                                    <span class="other-price">Rs.{{variant.price}}</span>
-                                    <button class="button pro-button red-back" on-tap="buy(product);">BUY</button>
+                                    <span on-tap="openProduct(product);" class="other-price">Rs.{{variant.price}}</span>
+                                    <button class="button pro-button red-back" on-tap="buy(product);">Buy</button>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
