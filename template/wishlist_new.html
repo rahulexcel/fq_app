@@ -2,7 +2,9 @@
     <ion-content>
         <div id="wishlist_new">
         <div ng-show='friend_load'>
-            <div class="clip-label black-font add-to-clip"><span>CREATE A NEW LIST</span></div>
+            <div class="clip-label black-font add-to-clip"><span>CREATE A NEW LIST</span>
+            <i class="fa fa-times close-tab-icon" on-tap='newList();'></i>
+            </div>
             <div class="list">
                 <label class="item item-input item-floating-label">
                     <span class="input-label">List Name</span>

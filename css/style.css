@@ -70,6 +70,18 @@ font-style: normal;
             .Purplle  { background-image: url("../img/fav/purplle.png")  }
             .redlily  { background-image: url("../img/fav/redlily.png")  }
             .beautykafe  { background-image: url("../img/fav/beautykafe.png")  }
+            .fabfurnish  { background-image: url("../img/fav/fabfurnish.png")  }
+            .fashionara  { background-image: url("../img/fav/fashionara.png")  }
+            .koovs  { background-image: url("../img/fav/koovs.png")  }
+            .myntra  { background-image: url("../img/fav/myntra.png")  }
+            .prettysecrets  { background-image: url("../img/fav/prettysecrets.png")  }
+            .shopnineteen  { background-image: url("../img/fav/shopnineteen.png")  }
+            .trendin  { background-image: url("../img/fav/trendin.png")  }
+            .urabanladder  { background-image: url("../img/fav/urabanladder.png")  }
+            .voiletbag  { background-image: url("../img/fav/voiletbag.png")  }
+            .zanzaar  { background-image: url("../img/fav/zanzaar.png")  }
+            
+            
 
 body{ 
     font-family: 'Open Sans', sans-serif;
@@ -192,13 +204,20 @@ Scroll On Product Page
 .prog_inner{
 
 }
+i.close-tab-icon{
+    
+     color: black;
+    float: right;
+    font-size: 1.7em;
+    font-weight: normal;
+}
 .feed-info,.list-my_acc .input-label,
 .feed-rate-btn:hover,.feed-rate-btn,
 .scroll-content .scroll ul li,
 li a.internal-details,
 li a.internal-details,
 li.sub-cat-label>span,
-.filter-label {
+.filter-label,.black-font:hover,.black-font {
     color:#000;
 }
 .button:hover,
@@ -540,7 +559,17 @@ span.other-price{
 .bar .button.button-clear.icon:before {
     font-size:1.1em;
 }
-
+i.site {
+    margin-right: 5px;
+vertical-align: middle;
+}
+    i.close-icon-show{
+    line-height: 45px;
+    }
+    
+    .category .drop-price i.up-price{
+        color:#959595;
+    }
 /**************************closed Category page*********************************/
 
 /**************************Filter & Sort by*********************************/
@@ -712,9 +741,7 @@ span.other-price{
 .add-to-clip{
 box-shadow:0px 5px 7px -7px #0E0103 inset;
 }
-.black-font{
-    color:#000;
-}
+
 .clip-label{
     line-height: 22px;
     padding:11px 20px;
