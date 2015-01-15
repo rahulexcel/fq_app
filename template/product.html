@@ -12,8 +12,8 @@
                     <div class="heart wishlist-product-img" on-tap="wishlist(product,$event);">
                         <img ng-show="!product.wishlist_status" src="img/heart.png" alt="wishlist" width="28px"/>
                         <i class="fa fa-spinner fa-spin" ng-show="product.wishlist_status == 1"></i>
-                        <i class="fa fa-times" ng-show="product.wishlist_status == 3"></i>
-                        <i class="fa fa-check" ng-show="product.wishlist_status == 2"></i>
+<!--                        <i class="fa fa-times" ng-show="product.wishlist_status == 3"></i>
+                        <i class="fa fa-check" ng-show="product.wishlist_status == 2"></i>-->
                     </div>
                 </div>
                 <div class="pro-info">
@@ -22,7 +22,7 @@
                         <div>
                             <span class="arrow" ng-show='product.cat_id' on-tap='viewBrand(product);'>{{product.brand}}</span>
                             <span class="category" ng-show='product.cat_id' on-tap='viewCategory(product);'>{{product.parent_cat_name}} > {{product.cat_name}}</span>
-                            <span class="e-site">
+                            <span class="e-site {{product.website}}">
                                 {{product.website}}
                             </span>
                         </div>
@@ -32,9 +32,7 @@
                     </div>
                     <div class="price-up-down" ng-if="product.price_drop != 0">
                         <i class="fa fa-caret-up" ng-if="product.price_drop > 0">&nbsp;Price Rise of Rs.{{product.price_drop}}</i>
-                        <br>
                         <i class="fa fa-caret-down" ng-if="product.price_drop < 0">&nbsp;Price Drop of Rs.{{product.price_drop}}</i>
-
                     </div>
                     <div class="social-share">
                         <div ng-if="!isMobile && isMobile">

@@ -30,6 +30,47 @@ font-weight: normal;
 font-style: normal;
 }
 */
+
+.fa-spinner{
+                background-image: url('../img/loading.gif');
+                width: 16px;
+                height: 16px;
+                background-repeat: no-repeat;
+                display: inline-block;
+                background-size: contain;
+                background-position: center center;
+            }
+
+            .site{
+                background-repeat: no-repeat;
+                background-size: contain;
+                display: inline-block;
+                height: 12px;
+                width: 12px;
+                line-height: 12px;
+            }
+            .Flipkart  { background-image: url("../img/fav/flipkart.png");   }
+            .Snapdeal  { background-image: url("../img/fav/snapdeal.png")  }
+            .ShopClues  { background-image: url("../img/fav/shopclues.png")  }
+            .Indiatimes  { background-image: url("../img/fav/indiatimes.png")  }
+            .amazon  { background-image: url("../img/fav/amazon.png")  }
+            .Infibeam  { background-image: url("../img/fav/infibeam.png")  }
+            .Homeshop  { background-image: url("../img/fav/homeshop.png")  }
+            .eBay  { background-image: url("../img/fav/ebay.png")  }
+            .Yebhi  { background-image: url("../img/fav/yebhi.png")  }
+            .Pepperfry  { background-image: url("../img/fav/pepperfry.png")  }
+            .healthgenie  { background-image: url("../img/fav/healthgenie.png")  }
+            .healthkart  { background-image: url("../img/fav/healthkart.png")  }
+            .nykaa  { background-image: url("../img/fav/nykaa.png")  }
+            .babyoye  { background-image: url("../img/fav/babyoye.png")  }
+            .firstcry  { background-image: url("../img/fav/firstcry.png")  }
+            .littleshop  { background-image: url("../img/fav/littleshop.png")  }
+            .jabong  { background-image: url("../img/fav/jabong.png")  }
+            .eBayAPI  { background-image: url("../img/fav/ebayapi.png")  }
+            .Purplle  { background-image: url("../img/fav/purplle.png")  }
+            .redlily  { background-image: url("../img/fav/redlily.png")  }
+            .beautykafe  { background-image: url("../img/fav/beautykafe.png")  }
+
 body{ 
     font-family: 'Open Sans', sans-serif;
 
