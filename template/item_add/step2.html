@@ -1,0 +1,24 @@
+<div class="tab2" style="margin-top: 44px">
+    <div class="list" ng-if="is_mobile">
+        <label class="item item-input item-floating-label">
+            <span class="input-label">URL (if any)</span>
+            <input type="text" ng-model="item.url" placeholder="URL (if any)">
+        </label>                    
+    </div>
+    <div class="list">
+        <label class="item item-input item-floating-label">
+            <span class="input-label">Title (if any)</span>
+            <input type="text" ng-model='list.name' placeholder="Title (if any)">
+        </label>
+        <button class="button icon ion-location" on-tap="showMap();" ng-class="{
+                        'red-color' : done, 'grey-color': !done}">
+        </button>
+        <span ng-show='item.location.lat' on-tap='removeLocation();'>Remove Location</span>
+
+        <label class ="item item-input item-floating-label">
+            <span class="input-label">Description (if any)</span>
+            <textarea ng-model='list.description' placeholder="Description (if any)"></textarea>
+        </label>
+    </div>
+    <button class="button red-back" on-tap="sendItem();">Finish</button>
+</div>

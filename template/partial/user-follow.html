@@ -7,7 +7,7 @@
     <ion-content>
         <ul>
             <li ng-repeat='user in users'>
-                <img ng-if='user.picture' ng-src='{{user.picture|picture:50}}' style="max-width: 50px;max-height: 50px" />
+                <img  class="rounded" ng-if='user.picture' ng-src='{{user.picture|picture:50:50}}' style="max-width: 50px;max-height: 50px" />
                 <span>{{user.name}}</span>
                 <button class="button" on-tap='followUser(user._id,true)'>Follow</button>
             </li>

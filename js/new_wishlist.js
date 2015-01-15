@@ -26,7 +26,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         if (!list) {
                             toast.showShortBottom('Invalid Request No List To Edit');
                             //put history in play here
-                            $location.path('/app/wishlist');
+                            $location.path('/app/wishlist/mine');
                         } else {
                             $scope.list.type = list.type;
                             $scope.list.list_id = list._id;
@@ -34,6 +34,11 @@ wishlistnewMod.controller('WishlistNewCtrl',
                             $scope.list.description = list.description;
                             $scope.list.shared_ids = list.shared_ids;
                             $scope.list.update = true;
+                            if (list.type == 'private') {
+                                $scope.list.checked = true;
+                            } else {
+                                $scope.list.checked = false;
+                            }
                         }
                     } else {
                         var product = dataShare.getData();
@@ -91,7 +96,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                             } else if ($scope.new_item) {
                                 $location.path('/app/wishlist_item_add/' + list_id);
                             } else {
-                                $location.path('/app/wishlist');
+                                $location.path('/app/wishlist/mine');
                             }
                         }, function (data) {
                             toast.showShortBottom(data);
@@ -99,18 +104,25 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         });
                     }
 
-                    $scope.$watch('list.type', function (val, old) {
-                        console.log(val + 'xxx');
-                        console.log(old + 'xxx');
-                        if (val && val == 'private' && old != 'private') {
-                            $scope.list.checked = true;
+                    $scope.checkType = function () {
+                        if (!$scope.list.checked) {
+                            $scope.list.type = 'public';
+                        } else {
+                            $scope.list.type = 'private';
                             if ($scope.friends && $scope.friends.length > 0)
                                 $scope.modal.show();
-                        } else {
-                            $scope.list.checked = true;
                         }
-                    })
+                    }
 
+                    $scope.refreshFriendList = function () {
+                        var ajax = friendHelper.list(false, true);
+                        ajax.then(function (data) {
+                            $scope.$broadcast('scroll.refreshComplete');
+                            $scope.processFriendList(angular.copy(data));
+                        }, function () {
+                            $scope.$broadcast('scroll.refreshComplete');
+                        });
+                    }
                     $scope.friend_load = false;
                     $scope.friends = [{
                             id: -1,
@@ -118,6 +130,14 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         }];
                     var ajax = friendHelper.list();
                     ajax.then(function (data) {
+                        $scope.processFriendList(angular.copy(data));
+                    }, function () {
+                        $scope.friend_load = true;
+                    });
+                    $scope.processFriendList = function (data) {
+                        console.log('herer');
+                        console.log(data);
+
                         data.unshift({
                             id: -1,
                             name: 'Only Me'
@@ -133,9 +153,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         }
                         $scope.friends = data;
                         $scope.friend_load = true;
-                    }, function () {
-                        $scope.friend_load = true;
-                    });
+                    }
 
                     $scope.selectFriend = function (friend) {
                         if (friend) {
@@ -172,6 +190,10 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         $scope.modal.remove();
                     });
                     $scope.closeModel = function () {
+                        if ($scope.list.shared_ids.length > 0) {
+                            $scope.list.type = 'public';
+                            $scope.list.checked = false;
+                        }
                         $scope.modal.hide();
                     }
                     $ionicModal.fromTemplateUrl('template/partial/friend-select.html', {

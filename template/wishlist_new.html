@@ -1,57 +1,58 @@
-<ion-view view-title="New List">
+<ion-view>
     <ion-content>
         <div id="wishlist_new">
-        <div ng-show='friend_load'>
-            <div class="clip-label black-font add-to-clip"><span>CREATE A NEW LIST</span></div>
-            <div class="list">
-                <label class="item item-input item-floating-label">
-                    <span class="input-label">List Name</span>
-                    <input type="text" ng-model='list.name' placeholder="List Name">
-                </label>
-                <label class="item item-input item-floating-label clip-des">
-                    <span class="input-label">Description</span>
-                    <textarea ng-model='list.description' placeholder="List Description"></textarea>
-                </label>
-                <!----- code for private ---->
-               <!-- <ion-checkbox ng-model="list.checked">Private</ion-checkbox> -->
-                <label class="item item-radio ng-valid item-private" ng-value="item.value" ng-model="list.type" ng-repeat="item in types" value="private">
-                    <div ng-if="item.value == 'private'" class="visibility-section">
-                        <input type="radio" name="radio-group" ng-value="item.value" ng-model="list.type" class="ng-valid ng-dirty ng-valid-parse ng-touched" value="private">
-                        <i class="checkbox-icon private-check"  ng-model="list.checked"></i>
-                        <div ng-transclude="" class="item-content disable-pointer-events ">
-                            <span class="ng-binding">{{item.text}}</span>
-                        </div>
-                    </div>
-                    <i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
-                </label>
-                <!----- end code for private ---->
+            <div>
+                <div class="clip-label black-font add-to-clip" ng-if='!list.update'><span>CREATE A NEW LIST</span></div>
+                <div class="clip-label black-font add-to-clip" ng-if='list.update'><span>EDIT LIST</span></div>
+                <div class="list">
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">List Name</span>
+                        <input type="text" ng-model='list.name' placeholder="List Name">
+                    </label>
+                    <label class="item item-input item-floating-label clip-des">
+                        <span class="input-label">Description</span>
+                        <textarea ng-model='list.description' placeholder="List Description"></textarea>
+                    </label>
+                    <!----- code for private ---->
+                    <ion-checkbox ng-change='checkType();' ng-model="list.checked">Private</ion-checkbox> 
+                    <!--                <label class="item item-radio ng-valid item-private" ng-value="item.value" ng-model="list.type" ng-repeat="item in types" value="private">
+                                        <div ng-if="item.value == 'private'" class="visibility-section">
+                                            <input type="radio" name="radio-group" ng-value="item.value" ng-model="list.type" class="ng-valid ng-dirty ng-valid-parse ng-touched" value="private">
+                                            <i class="checkbox-icon private-check"  ng-model="list.checked"></i>
+                                            <div ng-transclude="" class="item-content disable-pointer-events ">
+                                                <span class="ng-binding">{{item.text}}</span>
+                                            </div>
+                                        </div>
+                                        <i class="radio-icon disable-pointer-events icon ion-checkmark"></i>
+                                    </label>-->
+                    <!----- end code for private ---->
 
 
-                <!-- visibility section hidden
-                
-                <label class="item item-input">
-                    <span class="input-label">Visibility</span>
-                    <ion-radio ng-repeat="item in types" ng-model="list.type" ng-value="item.value">{{item.text}}</ion-radio>
-                </label>
-                -->
-            </div>
-            <div ng-show="list.type == 'private'">
-                <div class="similar-product-label  clip-font-color clip-label clip-share">Share this with</div>
-                <div ng-repeat="friend in friends" style="float: left" class="padding">
-                    <img ng-if='friend.id != -1 && friend.checked' src='{{friend.picture}}' style="max-width: 50px;max-height: 50px" />
+                    <!-- visibility section hidden
+                    
+                    <label class="item item-input">
+                        <span class="input-label">Visibility</span>
+                        <ion-radio ng-repeat="item in types" ng-model="list.type" ng-value="item.value">{{item.text}}</ion-radio>
+                    </label>
+                    -->
                 </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="padding">
-                <button  on-tap='create();' class="button signup-button red-back">
-                    <span ng-show='list.update'>Update</span>
-                    <span ng-show='!list.update'>CREATE</span>
-                    <i class="fa fa-spinner fa-spin" ng-show="status == 1"></i>
-                    <i class="fa fa-times" ng-show="status == 3"></i>
-                    <i class="fa fa-check" ng-show="status == 2"></i>
-                </button>
+                <div ng-show="list.type == 'private'">
+                    <div class="similar-product-label  clip-font-color clip-label clip-share">Share this with</div>
+                    <div ng-repeat="friend in friends" style="float: left" class="padding">
+                        <img class="rounded" ng-if='friend.id != -1 && friend.checked' ng-src='{{friend.picture|picture:25:25}}' style="max-width: 25px;max-height: 25px" />
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="padding">
+                    <button  on-tap='create();' class="button signup-button red-back">
+                        <span ng-show='list.update'>UPDATE</span>
+                        <span ng-show='!list.update'>CREATE</span>
+                        <i class="fa fa-spinner fa-spin" ng-show="status == 1"></i>
+                        <i class="fa fa-times" ng-show="status == 3"></i>
+                        <i class="fa fa-check" ng-show="status == 2"></i>
+                    </button>
+                </div>
             </div>
         </div>
-            </div>
     </ion-content>
 </ion-view>

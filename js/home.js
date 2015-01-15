@@ -58,7 +58,7 @@ homeMod.controller('HomeCtrl',
                     //$scope.current_category = cat;
                 }
                 $scope.wishlist = function () {
-                    $location.path('/app/wishlist');
+                    $location.path('/app/wishlist/mine');
                 }
                 $scope.account = function () {
                     $location.path('/app/account');
@@ -203,7 +203,7 @@ homeMod.controller('HomeCtrl',
                             $scope.wishlist_product.item['select_list_id'] = list._id;
                             $scope.$broadcast('wishlist_pin_select');
                         } else {
-                            $location.path('/app/wishlist_item_add/' + list._id);
+                            $location.path('/app/wishlist_item_add/' + list._id + "/step1");
                         }
                     }
                 }
@@ -231,6 +231,7 @@ homeMod.controller('HomeCtrl',
                         }
                     } else {
                         toast.showShortBottom('Login To Add Item To Your Wishlist');
+                        $location.path('/app/register');
                     }
                 }
             }

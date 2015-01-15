@@ -2,88 +2,12 @@
     <ion-nav-title>{{wishlist_name}}: Add Item</ion-nav-title>
     <ion-pane>
         <ion-tabs class="tabs-positive tabs-icon-only">
-            <ion-tab ng-click="tab1();" title="Step1" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline">
-                <div class="tab1" style="margin-top: 44px">
-                    <div class="list" ng-if="!is_mobile">
-                        <label class="item item-input">
-                            <input type="text" ng-model="item.url" placeholder="URL">
-                        </label>                    
-                    </div>
-
-                    <div ng-if="!is_mobile">
-                        <div class ="profile-pic" ng-if="item.picture">
-                            <img ng-src="{{item.picture|picture:picture_width}}">
-                            <i class="ion-edit profile-pic-edit" ng-file-select 
-                               ng-model="file.myFiles" 
-                               ng-multiple="false" 
-                               ng-rejected-file-model="rejFiles"></i>
-                        </div>            
-                        <div class="profile-pic" ng-if="!item.picture" ng-file-select 
-                             ng-model="file.myFiles" 
-                             ng-multiple="false" 
-                             ng-rejected-file-model="rejFiles">
-                            <div class="profile-pic-not" align="center">
-                                <i class="fa fa-camera fa-2x"></i>
-                            </div>
-                            Add a Picture
-                        </div>
-                    </div>
-
-                    <div ng-if='is_mobile'>
-                        <div class ="profile-pic" ng-if="item.picture">
-                            <img ng-src="{{item.picture|picture:picture_width}}">
-                            <i class="ion-edit profile-pic-edit" on-tap='browseCamera();'></i>
-                        </div>            
-                        <div class="profile-pic" ng-if="!item.picture"  on-tap='browseCamera();'>
-                            <div class="profile-pic-not" align="center">
-                                <i class="fa fa-camera fa-2x"></i>
-                            </div>
-                            Add a Picture
-                        </div>
-                    </div>
-                    <div ng-show='rejFiles'>
-                        {{rejFiles}}
-                    </div>
-                    <div class="progress_parent" ng-show='file_upload'>
-                        <div class="progress" style="height: 2px">
-                            <div ng-style="progoress_style" class='prog_inner red-back'>
-
-                            </div>
-                        </div>
-                        <div>
-                            Uploading... <i class="fa fa-spinner fa-spin"></i><span ng-if="image_size && image_size != 0">{{image_size}} Mb</span>
-                        </div>
-                    </div>
-                    <button class="button" ng-class="step1Class" on-tap="next();">Next</button>
-
-                </div>
+            <ion-tab ng-click="tab1();" title="Step1" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" href='#app/wishlist_item_add/{{list_id}}/step1'>
+                <ion-nav-view name="tab-step1"></ion-nav-view>
             </ion-tab>
 
-            <ion-tab ng-click='tab2();' title="Step2" icon-on="ion-ios7-clock" icon-off="ion-ios7-clock-outline">
-                <div class="tab2" style="margin-top: 44px">
-                    <div class="list" ng-if="is_mobile">
-                        <label class="item item-input item-floating-label">
-                            <span class="input-label">URL (if any)</span>
-                            <input type="text" ng-model="item.url" placeholder="URL (if any)">
-                        </label>                    
-                    </div>
-                    <div class="list">
-                        <label class="item item-input item-floating-label">
-                            <span class="input-label">Title (if any)</span>
-                            <input type="text" ng-model='list.name' placeholder="Title (if any)">
-                        </label>
-                        <button class="button icon ion-location" on-tap="showMap();" ng-class="{
-                        'red-color' : done, 'grey-color': !done}">
-                        </button>
-                        <span ng-show='item.location.lat' on-tap='removeLocation();'>Remove Location</span>
-
-                        <label class ="item item-input item-floating-label">
-                            <span class="input-label">Description (if any)</span>
-                            <textarea ng-model='list.description' placeholder="Description (if any)"></textarea>
-                        </label>
-                    </div>
-                    <button class="button red-back" on-tap="sendItem();">Finish</button>
-                </div>
+            <ion-tab ng-click='tab2();' title="Step2" icon-on="ion-ios7-clock" icon-off="ion-ios7-clock-outline" href='#app/wishlist_item_add/{{list_id}}/step2'>
+                <ion-nav-view name="tab-step2"></ion-nav-view>
             </ion-tab>
 
         </ion-tabs>

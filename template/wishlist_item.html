@@ -99,7 +99,7 @@
                 <div class="clearfix"></div>
             </div>
 
-            <div  data-tap-disabled="true" id="map-canvas-parent" style="height: 200px" ng-if="item.location.lat">
+            <div class="hide-on-keyboard-open" data-tap-disabled="true" id="map-canvas-parent" style="height: 200px" ng-if="item.location.lat">
                 <div id="map-canvas" style="width: 100%; height: 100%">
                     <i class="fa fa-spinner fa-spin"></i>
                 </div>
@@ -109,7 +109,7 @@
                 Commment
             </div>
             <div style="border: 1px solid #ccc">
-                <textarea style="width: 100%;height: 70px" ng-model="item.comment"></textarea>
+                <textarea keyboard-attach style="width: 100%;height: 70px" ng-model="item.comment"></textarea>
             </div>
 
             <button class="button" on-tap='addComment();'>Send</button>

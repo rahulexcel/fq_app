@@ -1,8 +1,8 @@
 var friendService = angular.module('FriendService', ['ServiceMod']);
 
 friendService.factory('friendHelper', [
-    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', '$rootScope',
-    function (ajaxRequest, $q, toast, $localStorage, $location, $rootScope) {
+    'ajaxRequest', '$q', '$localStorage', 'timeStorage',
+    function (ajaxRequest, $q, $localStorage, timeStorage) {
         var service = {};
         service.item_pins_list = function (item_id) {
             var def = $q.defer();
@@ -95,20 +95,30 @@ friendService.factory('friendHelper', [
             });
             return def.promise;
         }
-        service.list = function (user_id) {
+        service.list = function (user_id, force) {
             if (!user_id) {
                 user_id = $localStorage.user.id;
             }
+            if (!angular.isDefined(force)) {
+                force = false;
+            }
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/friends/list', {
-                user_id: user_id
-            })
-            ajax.then(function (data) {
-                def.resolve(data);
-            }, function () {
-                def.reject();
-            });
-            return def.promise;
+            var cache_key = 'user_friend_list_' + user_id;
+            var friend_list = timeStorage.get(cache_key);
+            if (friend_list && !force) {
+                return $q.when(angular.copy(friend_list));
+            } else {
+                var ajax = ajaxRequest.send('v1/social/friends/list', {
+                    user_id: user_id
+                })
+                ajax.then(function (data) {
+                    def.resolve(data);
+                    timeStorage.set(cache_key, data, 12);
+                }, function () {
+                    def.reject();
+                });
+                return def.promise;
+            }
         }
         return service;
     }
