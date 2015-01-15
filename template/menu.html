@@ -43,6 +43,7 @@
     </ion-side-menu-content>
     <ion-side-menu side="left" expose-aside-when="large">
         <ion-content>
+            <div id="menu-bar-container">
             <i class="fa fa-spinner fa-spin" ng-show='category.length == 0'></i>
             <ul ng-show='category.length >= 0'>
                 <li ng-repeat="cat in category">
@@ -75,5 +76,6 @@
                     <a class="internal-details"><img src="img/favicon.png" class="red-color" alt="" width="14px" height="20px"/>About Us</a>
                 </li>
             </ul>
+            </div>
         </ion-content>
     </ion-side-menu>

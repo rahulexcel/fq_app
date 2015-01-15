@@ -180,7 +180,7 @@ li.sub-cat-label>span,
     line-height: 42px;
 }
 
-.scroll-content .scroll  ul li span{
+.scroll-content .scroll #menu-bar-container  ul li span{
 width: 100%;
 float: left;
 
@@ -684,6 +684,9 @@ box-shadow:0px 5px 7px -7px #0E0103 inset;
      padding:12px 22px;
      line-height: 21px;
      font-weight: normal;
+ }
+ #clip_1 ul li span i{
+     font-size:0.3em;
  }
  .add-new img{
      margin-right: 34px;
