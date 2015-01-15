@@ -14,9 +14,9 @@
                 </label>
                 <!----- code for private ---->
                 <label class="item item-radio ng-valid" ng-value="item.value" ng-model="list.type" ng-repeat="item in types" value="private">
-                    <div ng-if="item.value == 'private'">
+                    <div ng-if="item.value == 'private'" class="visibility-section">
                     <input type="radio" name="radio-group" ng-value="item.value" ng-model="list.type" class="ng-valid ng-dirty ng-valid-parse ng-touched" value="private">
-                    <i class="checkbox-icon"></i>
+                    <i class="checkbox-icon private-check"></i>
                     <div ng-transclude="" class="item-content disable-pointer-events">
                         <span class="ng-binding">{{item.text}}</span>
                     </div>
