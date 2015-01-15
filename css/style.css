@@ -368,6 +368,8 @@ div#account-page button{
 .pro-img{
     background-color:#fff;
     text-align:center;
+    overflow: hidden;
+    min-height: 344px;
 }
 span.arrow{
     color:red;
@@ -499,7 +501,7 @@ span.other-price{
     margin-right: 12px;
 }
 .category .product{
-    height:239px;
+    height:264px;
 }
 .category .product .image {
     height: 179px;
