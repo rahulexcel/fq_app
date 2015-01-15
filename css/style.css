@@ -260,6 +260,9 @@ span.plus-minus{
     font-size: 1.1em;
     
 }
+.internal-details i.log-sign{
+    margin-left:1px;
+}
  .internal-details img {
 max-width: 2%;
 margin-right: 10px;
@@ -537,6 +540,7 @@ span.other-price{
 .bar .button.button-clear.icon:before {
     font-size:1.1em;
 }
+
 /**************************closed Category page*********************************/
 
 /**************************Filter & Sort by*********************************/
