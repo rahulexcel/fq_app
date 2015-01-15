@@ -127,6 +127,8 @@ productMod.controller('ProductCtrl',
                     $event.preventDefault();
                     $event.stopPropagation();
                     if ($localStorage.user.id) {
+                        $scope.wishlist_product.item = false;
+                        $scope.wishlist_product.new_item = false;
                         $scope.wishlist_product.product = product;
                         $scope.$parent.showWishlist();
                     } else {

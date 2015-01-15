@@ -490,14 +490,8 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             };
                             toast.showShortBottom('SignUp/Login To Pin Item');
                         } else {
-
-
-//                            if ($scope.request_process) {
-//                                toast.showProgress();
-//                                return;
-//                            }
-//                            $scope.request_process = true;
-//                            var item_id = $scope.item_id;
+                            $scope.wishlist_product.product = false;
+                            $scope.wishlist_product.new_item = false;
                             $scope.wishlist_product.item = $scope.item.item_id;
                             $scope.$parent.showWishlist();
                         }
@@ -531,8 +525,8 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     }
                 }
                 $scope.addComment = function () {
-                    if ($localStorage.user.id) {
-                        toast.showProgress('SignUp/Login To Post A Comment');
+                    if (!$localStorage.user.id) {
+                        toast.showShortBottom('SignUp/Login To Post A Comment');
                         $location.app('/app/register');
                     } else {
                         var comment = $scope.item.comment;

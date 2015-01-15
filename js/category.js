@@ -332,6 +332,8 @@ categoryMod.controller('CategoryCtrl',
                     $event.stopPropagation();
                     console.log($scope);
                     if ($localStorage.user.id) {
+                        $scope.wishlist_product.item = false;
+                        $scope.wishlist_product.new_item = false;
                         $scope.wishlist_product.product = product;
                         $scope.$parent.showWishlist();
                     } else {

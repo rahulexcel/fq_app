@@ -5,6 +5,8 @@ wishlistnewMod.controller('WishlistNewCtrl',
             function ($scope, $localStorage, toast, wishlistHelper, dataShare, $location, $ionicModal, friendHelper, timeStorage, itemHelper) {
                 if ($localStorage.user.id) {
                     $scope.product = false;
+                    $scope.item = false;
+                    $scope.new_item = false;
 
                     $scope.types = [
                         {text: 'Private', value: 'private'},
@@ -15,7 +17,8 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         name: '',
                         description: '',
                         shared_ids: [],
-                        update: false
+                        update: false,
+                        checked: false
                     }
                     var path = $location.path();
                     if (path.indexOf('wishlist_edit') != -1) {
@@ -44,6 +47,8 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                 $scope.product = product.product;
                             } else if (product.item) {
                                 $scope.item = product.item;
+                            } else if (product.new_item) {
+                                $scope.new_item = true;
                             }
                         }
                     }
@@ -83,6 +88,8 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                 } else {
                                     $location.path('/app/wishlist_item_add/' + list_id);
                                 }
+                            } else if ($scope.new_item) {
+                                $location.path('/app/wishlist_item_add/' + list_id);
                             } else {
                                 $location.path('/app/wishlist');
                             }
@@ -96,8 +103,11 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         console.log(val + 'xxx');
                         console.log(old + 'xxx');
                         if (val && val == 'private' && old != 'private') {
+                            $scope.list.checked = true;
                             if ($scope.friends && $scope.friends.length > 0)
                                 $scope.modal.show();
+                        } else {
+                            $scope.list.checked = true;
                         }
                     })
 
