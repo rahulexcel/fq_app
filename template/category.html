@@ -56,23 +56,22 @@
                     <div class="heart my-wishlist-img" on-tap="wishlist(prod,$event);">
                         <img ng-show='!prod.wishlist_status' src="img/heart.png"/>
                         <i class="fa fa-spinner fa-spin" ng-show="prod.wishlist_status == 1"></i>
-                        <i class="fa fa-times" ng-show="prod.wishlist_status == 3"></i>
-                        <i class="fa fa-check" ng-show="prod.wishlist_status == 2"></i>
+                        <!--                        <i class="fa fa-times" ng-show="prod.wishlist_status == 3"></i>
+                                                <i class="fa fa-check" ng-show="prod.wishlist_status == 2"></i>-->
                     </div>
                 </div>
 
 
-                <!-- <div class="brand">{{prod.brand}}</div> -->
                 <div class="bottom_box">
                     <div class="name" on-tap="openProduct(prod);">{{prod.name}}</div>
-                    <div class="website e-site">{{prod.website}}</div>
+                    <div class="website e-site"><i id='Flipkart'></i>{{prod.website}}</div>
+                    <div class="brand" ng-show="prod.brand.length > 0">{{prod.brand}}</div> 
                     <div class="price">
                         Rs.{{prod.price}}
-                        <!--    <span class="discount" ng-if="prod.offrate > 0">{{prod.offrate}}%</span>-->
                     </div>
-                    <div class="drop-price">
-                        <i class="fa fa-caret-down"></i>
-                        Rs.125
+                    <div class="drop-price" ng-show="prod.price_drop != 0">
+                        <i class="fa fa-caret-up" ng-if="prod.price_drop > 0">&nbsp;Price Rise of Rs.{{product.price_drop}}</i>
+                        <i class="fa fa-caret-down" ng-if="prod.price_drop < 0">&nbsp;Price Drop of Rs.{{product.price_drop}}</i>
                     </div>
 
                     <div class="clearfix"></div>
