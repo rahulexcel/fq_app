@@ -12,7 +12,7 @@
         <div id="clip_1">
             <div ng-show="!lists">Loading</div>
             <div class="clip-label black-font add-to-clip"><span>ADD TO LIST</span></div>
-            <div class="similar-product-label  clip-font-color clip-label">Your Lists</div>
+            <div class="similar-product-label  clip-font-color clip-label clip-share">Your Lists</div>
             <ul>
                 <li class="clip-font-color new add-new" on-tap='newList();'>
                     <i class="fa fa-plus-square-o fa-3px"></i>
@@ -26,9 +26,9 @@
                         <span ng-show='list.meta.likes != 0'><i class="ion-ios7-heart-outline"></i>{{list.meta.likes}}</span> 
                         <span ng-show='list.followers.length != 0'><i class="ion-ios7-people"></i>{{list.followers.length}}</span> 
                         <span>Created {{list.created_at| prettyDate}}</span>
+                        <i ng-show="list.tick" class="fa fa-check list-tick"></i>
                     <div class="clearfix"></div>
                     </div>
-                    <i ng-show="list.tick" class="fa fa-check"></i>
                     <div class="clearfix"></div>
                 </li>
 

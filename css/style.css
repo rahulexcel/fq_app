@@ -185,7 +185,7 @@ width: 100%;
 float: left;
 
 }
-span div.plus-minus
+span div.plus-minus ,.list-tick
 {
 	float:right;
 }
@@ -721,4 +721,7 @@ box-shadow:0px 5px 7px -7px #0E0103 inset;
 	}
 #wishlist_new .list{
 	margin-bottom:0px;
+}
+.clip-share {
+    font-weight: normal;
 }

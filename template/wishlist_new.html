@@ -36,7 +36,7 @@
                 -->
             </div>
             <div ng-show="list.type == 'private'">
-                <div class="similar-product-label  clip-font-color clip-label">Share this with</div>
+                <div class="similar-product-label  clip-font-color clip-label clip-share">Share this with</div>
                 <div ng-repeat="friend in friends" style="float: left" class="padding">
                     <img ng-if='friend.id != -1 && friend.checked' src='{{friend.picture}}' style="max-width: 50px;max-height: 50px" />
                 </div>
