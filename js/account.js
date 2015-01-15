@@ -17,6 +17,9 @@ accountMod.controller('AccountCtrl',
                 $scope.login_data = $localStorage.user;
                 var picture_width = $window.innerWidth;
                 picture_width = Math.ceil(picture_width * .95);
+                if(picture_width > 640){
+                    picture_width = 640;
+                }
                 $scope.picture_width = picture_width;
 
                 $scope.profile = {
