@@ -1,5 +1,6 @@
 <ion-view view-title="New List">
     <ion-content>
+		<div id="wishlist_new">
         <div ng-show='friend_load'>
             <div class="clip-label black-font add-to-clip"><span>CREATE A NEW CLIPBOARD</span></div>
             <div class="list">
@@ -13,7 +14,7 @@
                     <textarea ng-model='list.description' placeholder="List Description"></textarea>
                 </label>
                 <!----- code for private ---->
-                <label class="item item-radio ng-valid" ng-value="item.value" ng-model="list.type" ng-repeat="item in types" value="private">
+                <label class="item item-radio ng-valid item-private" ng-value="item.value" ng-model="list.type" ng-repeat="item in types" value="private">
                     <div ng-if="item.value == 'private'" class="visibility-section">
                     <input type="radio" name="radio-group" ng-value="item.value" ng-model="list.type" class="ng-valid ng-dirty ng-valid-parse ng-touched" value="private">
                     <i class="checkbox-icon private-check"></i>
@@ -49,6 +50,7 @@
                     <i class="fa fa-check" ng-show="status == 2"></i>
                 </button>
             </div>
+        </div>
         </div>
     </ion-content>
 </ion-view>
