@@ -390,7 +390,6 @@ div#account-page button{
     text-align: left;
     border-top:1px solid #d1d1d1;
     border-bottom:1px solid #d1d1d1;
-    margin-top: -4px;
 }
 .pro-name{
     margin-bottom:8px;
@@ -408,6 +407,7 @@ div#account-page button{
     background-color:#fff;
     text-align:center;
     overflow: hidden;
+    position: relative;
 }
 span.arrow{
     color:red;
@@ -497,8 +497,8 @@ span.other-price{
 .wishlist-product-img{
     width: 100%;
     text-align: right;
-    margin-top: -43px;
-    margin-bottom: 9px;
+    position:absolute;
+    bottom:2%;
     padding-right: 22px;
 }
 .social-share{
@@ -530,9 +530,11 @@ span.other-price{
     margin-left:10px;
 }
 .my-wishlist-img{
-    margin-top: -24px;
+    position: absolute;
+    bottom: 2%;
     width: 100%;
     text-align: right;
+    
 }
 .category .drop-price{
     color:#06ACAC;
@@ -546,6 +548,7 @@ span.other-price{
     height: 179px;
     margin: 0 auto;
     width: 165px;
+    position: relative;
 }
 .category .product{
     margin-top:10px;
