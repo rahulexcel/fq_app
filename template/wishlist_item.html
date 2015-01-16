@@ -7,25 +7,26 @@
         </ion-refresher>
         <div ng-show="item" id="wishlist_item">
             <div class="username">
-                <div style="max-height: 600px;overflow: hidden">
+                <div class="pro-img">
                     <img ng-src='{{item.item_id.img| picture:picture_width}}' />
-                    <div ng-if="!me_like" on-tap='like();'>
-                        <div ng-show="item.likes.length > 0">{{item.likes.length}} Likes</div>
-                        <div ng-show="item.likes.length == 0">Be First To Like</div>
+                    <div class="heart wishlist-product-img">
+                        <div ng-if="!me_like" on-tap='like();'>
+                            <div ng-show="item.likes.length > 0">
+                                <img src="img/likehand.jpg" alt="Like">
+                            </div>
+                            <div ng-show="item.likes.length == 0">Be First To Like</div>
+                        </div>
+                        <div ng-if='!me_pin'>
+                            <div on-tap='pin();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">Be First To Pin</div>
+                        </div>
                     </div>
-
-                    <div ng-if='!me_pin'>
-                        <div on-tap='pin();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">Be First To Pin</div>
-                    </div>
-
                 </div>
-
                 <div class="pro-info">
                     <div class="pro-name">
                         <div ng-show="item.item_id.name.length > 0">{{item.item_id.name}}</div>
-                        <br/>
                         <span class="arrow" ng-show='item.item_id.brand.length > 0'>{{item.item_id.brand}}</span>
                         <span class="e-site" ng-show='item.item_id.website.length > 0'>
+                            <i class='site {{item.item_id.website}}'></i>
                             {{item.item_id.website}}
                         </span>
                     </div>
@@ -67,13 +68,19 @@
                     </div>
                 </div>
             </div>
+
             <div class="username">
                 <div ng-show="item.description.length > 0">{{item.description}}</div>
             </div>
 
+
+
+
+
+
             <div class="username">
                 <div class="user_image">
-                    <img ng-src='{{item.user_id.picture| picture:50}}' />
+                    <img ng-src='{{item.user_id.picture| picture:50}}'/>
                 </div>
                 <div class="user-info">
                     <span class="red-color">{{item.user_id.name}}</span>
@@ -92,13 +99,14 @@
                             {{item.user_id.followers.length}} Followers
                         </span>
                         <span class="grey-color" ng-show="!item.user_id.followers || item.user_id.followers.length == 0">Be First To Follow User</span>
-                        <!-- Need To Show Below Button On Right Side Like List Follow Button -->
-                        <button on-tap='followUser(item.user_id._id);' class="follow-btn black-font">FOLLOW</button>
+
+
                     </div>
                 </div>
+                <!-- Need To Show Below Button On Right Side Like List Follow Button -->
+                <button on-tap='followUser(item.user_id._id);' class="follow-btn black-font">FOLLOW</button>
                 <div class="clearfix"></div>
             </div>
-
             <div class="added-to username">
                 <div class="user-info">
                     <span class="grey-color">Added to</span>
@@ -106,20 +114,22 @@
 
                     <span class="grey-color" ng-if="me_follow_list">
                         <span ng-if="item.list_id.followers.length > 1">
-                            <span>{{item.list_id.products.length}}clips . </span>
-                            <i class="ion-ios7-people fa-lg red-color"></i>You and 
-                            <span on-tap='followListList();'>{{item.list_id.followers.length - 1}}Followers</span>
+                            <span class="clip-follower">{{item.list_id.products.length}} clips . 
+                                <i class="ion-ios7-people fa-lg red-color"></i>You and 
+                                <div on-tap='followListList();'>{{item.list_id.followers.length - 1}}Followers</div>
+                            </span>
+                            <span on-tap='unFollowList();' class="user-unfollow black-font" ng-if="item.list_id.followers.length == 1">Unfollow!</span>
                         </span>
-                        <span on-tap='unFollowList();' class="user-unfollow black-font" ng-if="item.list_id.followers.length == 1">Unfollow!</span>
                     </span>
                     <span class="grey-color" ng-if="!me_follow_list">
-                        <span>{{item.list_id.products.length}}clips . </span>
-                        <span on-tap='followList();' ng-show="item.list_id.followers.length > 0">
-                            {{item.list_id.followers.length}} <i class="ion-ios7-people fa-lg red-color"></i> Followers
+                        <span class="clip-follower">{{item.list_id.products.length}}clips .&nbsp; 
+                            <div on-tap='followList();' ng-show="item.list_id.followers.length > 0">
+                                <i class="ion-ios7-people fa-lg red-color"></i> {{item.list_id.followers.length}}  Followers
+                            </div>
+                            <!--                        <span ng-show="!item.list_id.followers || item.list_id.followers.length == 0">
+                                                        Be First To Follow List
+                                                    </span>-->
                         </span>
-                        <!--                        <span ng-show="!item.list_id.followers || item.list_id.followers.length == 0">
-                                                    Be First To Follow List
-                                                </span>-->
                     </span>
                 </div>
                 <button on-tap='followList();' ng-if="!me_follow_list"  class="follow-btn black-font">FOLLOW</button>
@@ -132,24 +142,37 @@
                     <i class="fa fa-spinner fa-spin"></i>
                 </div>
             </div>
-
-
-
-            <div class="user-comments">
+            <div class="user-comments username">
                 <h4>Comments</h4>
                 <span class="grey-color" ng-if="item.comments.length == 0">Be the first to comment</span>
                 <div ng-repeat="comment in item.comments">
                     <div>
-                        <img ng-src='{{comment.picture|picture:50}}' style="max-width: 50px;max-height: 50px;" />
-                        <div>{{comment.comment}}</div>
-                        <div>{{comment.created_at| prettyDate}}</div>
+                        <div class="user_image">
+                            <img ng-src='{{comment.picture|picture:50}}' style="max-width: 50px;max-height: 50px;" />
+                        </div>
+                        <div class="user-info">
+                            <div>{{comment.comment}}</div>
+                            <div>{{comment.created_at| prettyDate}}</div>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
+
                 </div>
                 <div class="comment-frm">
-                    <form>
-                        <input ng-model="item.comment" keyboard-attach type="text" placeholder="Write a comment" class="black-font"/>
-                        <button on-tap='addComment();' class="follow-btn black-font">COMMENT</button>
-                    </form>
+
+
+
+                    <div class="item item-input-inset">
+                        <label class="item-input-wrapper">
+                            <input ng-model="item.comment" keyboard-attach type="text" placeholder="Write a comment" class="black-font"/>
+                        </label>
+                       <button on-tap='addComment();' class="follow-btn black-font">COMMENT</button>
+                    </div>
+
+
+
+
+                   
                     <div class="clearfix"></div>
                 </div>
                 <div ng-if='item.comments && !showMoreComment'>
