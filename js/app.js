@@ -232,6 +232,11 @@ app.run(function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $c
         console.log(toState.name + " to state");
         console.log(fromState.name + "from state");
 
+        $rootScope.body_class = '';
+        if (toState.name == 'app.item') {
+            $rootScope.body_class = 'grey_bg';
+        }
+
         if (toState.name && toState.name == 'app.wishlist_item') {
             $rootScope.list_id = toParams.list_id;
         } else {
