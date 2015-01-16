@@ -208,6 +208,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
     $urlRouterProvider.otherwise('/app/home');
 });
 app.run(function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location) {
+    console.log('angular ready');
+
+    $rootScope.isReady = function () {
+        $rootScope.display = {display: "block"};
+    }
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
