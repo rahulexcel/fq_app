@@ -778,7 +778,7 @@ i.up-price{
     line-height: 21px;
     font-weight: normal;
 }
-#clip_1 ul li span i{
+span i.fa-circle{
     font-size:0.3em;
 }
 .add-new img{
@@ -818,4 +818,59 @@ i.up-price{
 .clip-share {
     font-weight: normal;
 }
-
+/*********************************CLIP closed *******************************/
+#wishlist_item{
+    padding: 0 20px;
+}
+.username{
+   padding: 10px;
+   border: 1px solid #ccc;
+   margin-bottom: 20px;
+   border-radius: .2em;
+}
+.user_image{
+    float: left;
+    width: 55px;
+    height: 55px;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+}
+.user-info{
+    float: left;
+    width: 72%;
+    }
+.username span{float: left;
+width: 100%;
+}
+.user-info span a{text-decoration: underline;}
+ button.follow-btn{
+    float: right;
+    border: 1px solid #ccc;
+    min-height: 33px;
+    margin: 12px 0px;
+    border-radius: .2em;
+}
+.user-comments{
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding:0px 10px;
+    border-radius: .2em;
+}
+.comment-frm{
+    margin-top: 5px;
+    border-top: 1px solid #ccc;
+    padding: 30px 0px;
+    
+}
+.comment-frm input{
+    width: 80%;
+    border: 1px solid #ccc;
+    float: left;
+    background-color: #DBDBDB;
+    border-radius: .2em;
+   
+}
+.comment-frm button.follow-btn{
+    margin:0px;
+}

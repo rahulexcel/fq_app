@@ -5,8 +5,8 @@
             pulling-text="Pull to refresh..."
             on-refresh="doRefresh()">
         </ion-refresher>
-        <div ng-show="item">
-            <div style="max-width: 50px;max-height: 50px">
+        <div ng-show="item" id="wishlist_item">
+            <div style="height: 179px;">
                 <img ng-src='{{item.user_id.picture| picture:50}}' />
             </div>
 
@@ -161,6 +161,50 @@
                             </div>
                         </div>-->
 
+            <!--------------------------my custome code here-------------------------------->
+            <hr>
+            <div class="username">
+                <div class="user_image">
+                    <img src=""/>
+                </div>
+                <div class="user-info">
+                    <span class="red-color">Manish prakash</span>
+                    <span class="grey-color">1 clips <i class="fa fa-circle"></i> Added one hour ago</span>
+                    <span class="grey-color"><i class="ion-ios7-people fa-lg red-color"></i> 100 followers. <a class="user-unfollow black-font">Unfollow!</a></span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="added-to username">
+                <div class="user-info">
+                    <span class="grey-color">Added to</span>
+                    <span class="black-font">Looking & feeling great</span>
+                    <span class="grey-color"><i class="ion-ios7-people fa-lg red-color"></i> 100 followers. <a class="user-unfollow black-font">Unfollow!</a></span>
+                </div>
+                <button class="follow-btn black-font">FOLLOW</button>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="user-comments">
+                <h4>Comments</h4>
+                <span class="grey-color">Be the first to comment</span>
+                <div class="comment-frm">
+                    <form>
+                        <input type="text" placeholder="Write a comment" class="black-font"/>
+                        <button class="follow-btn black-font">COMMENT</button>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="user-map">
+                <img src=""/>
+            </div>            
+
+
+            <!-------------------------- end my code here-------------------------------->
+
         </div>
+
     </ion-content>
 </ion-view>
