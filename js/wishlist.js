@@ -6,17 +6,21 @@ wishlistMod.controller('WishlistCtrl',
                 if ($localStorage.user.id) {
                     $scope.wishlist = [];
                     $scope.loading = true;
-                    var ajax = wishlistHelper.list(true);
+                    var ajax = wishlistHelper.list(true, false);
                     ajax.then(function (data) {
-                        $scope.wishlist_mine = data.me;
-                        $scope.wishlist_their = data.their;
+                        $scope.wishlist_mine = angular.copy(data.me);
+                        $scope.wishlist_their = angular.copy(data.their);
                         $scope.loading = false;
                     }, function () {
                         $scope.loading = false;
+                    }, function (data) {
+                        $scope.wishlist_mine = angular.copy(data.me);
+                        $scope.wishlist_their = angular.copy(data.their);
                     });
 
                     $scope.viewList = function (list) {
                         var list_id = list._id;
+                        console.log('/app/wishlist_item/' + list_id + "/" + list.name);
                         $location.path('/app/wishlist_item/' + list_id + "/" + list.name);
                     }
                     $scope.editList = function (list) {

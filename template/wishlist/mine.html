@@ -1,0 +1,10 @@
+<div class="top-container" ng-show="wishlist_mine">
+    <ul>
+        <li ng-repeat='item1 in wishlist_mine track by item1._id'>
+            <div on-tap='viewList(item1);'>{{item1.name}}</div>
+            {{item1.created_at}} - Type: {{item1.type}} - Followers: {{item1.followers.length}} - Products: {{item1.meta.products}}
+            <br/>
+            <span on-tap='editList(item1);'>Edit</span>
+        </li>
+    </ul>
+</div>

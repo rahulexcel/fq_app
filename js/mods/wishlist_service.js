@@ -53,25 +53,37 @@ wishlistService.factory('wishlistHelper', [
             }
             return "";
         }
-        service.list = function (force) {
+        service.list = function (force, showLoading) {
+            if (!angular.isDefined(showLoading)) {
+                showLoading = true;
+            }
+            if (!angular.isDefined(force)) {
+                force = false;
+            }
             var def = $q.defer();
             var user_wish_list = timeStorage.get('user_wish_list');
             if (user_wish_list && !force) {
-                return $q.when(user_wish_list);
+                return $q.when(angular.copy(user_wish_list));
             } else if ($localStorage.user && $localStorage.user.id) {
-                $ionicLoading.show({
-                    template: 'Loading...'
-                });
+                if (user_wish_list) {
+                    def.notify(angular.copy(user_wish_list));
+                }
+                if (showLoading)
+                    $ionicLoading.show({
+                        template: 'Loading...'
+                    });
                 var ajax = ajaxRequest.send('v1/wishlist/list', {
                     user_id: $localStorage.user.id
                 });
                 ajax.then(function (data) {
-                    $ionicLoading.hide();
+                    if (showLoading)
+                        $ionicLoading.hide();
                     timeStorage.set('user_wish_list', data, 12);
 
                     def.resolve(data);
                 }, function (message) {
-                    $ionicLoading.hide();
+                    if (showLoading)
+                        $ionicLoading.hide();
                     def.reject({
                         login: 0,
                         message: message

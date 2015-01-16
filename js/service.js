@@ -6,7 +6,7 @@ serviceMod.filter('prettyDate', function () {
     };
 })
 serviceMod.filter('picture', function () {
-    return function (picture, width) {
+    return function (picture, width, height) {
         if (!angular.isDefined(picture)) {
             return "";
         }
@@ -21,11 +21,17 @@ serviceMod.filter('picture', function () {
                 picture = picture.substring(0, picture.lastIndexOf('?'));
                 picture = picture + "?width=" + width;
             }
+            if (height) {
+                picture = picture + "&height=" + height;
+            }
         } else if (picture.indexOf('picture/view') != -1) {
             if (picture.indexOf('width=') != -1) {
                 picture = picture.substring(0, picture.indexOf('?width='));
             }
             picture = picture + "?width=" + width;
+            if (height) {
+                picture = picture + "&height=" + height;
+            }
 
         } else {
 
@@ -128,6 +134,10 @@ serviceMod.factory('toast', ['$ionicPopup', function ($ionicPopup) {
                     $ionicPopup.alert({
                         title: 'Alert',
                         template: message
+                    }, function () {
+
+                    }, function () {
+
                     });
                 }
             },

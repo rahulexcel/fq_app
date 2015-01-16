@@ -100,10 +100,27 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
             })
             .state('app.wishlist', {
                 url: '/wishlist',
+                abstract: true,
                 views: {
                     'menuContent': {
                         templateUrl: 'template/wishlist.html',
                         controller: 'WishlistCtrl'
+                    }
+                }
+            })
+            .state('app.wishlist.mine', {
+                url: '/mine',
+                views: {
+                    'tab-mine': {
+                        templateUrl: 'template/wishlist/mine.html'
+                    }
+                }
+            })
+            .state('app.wishlist.their', {
+                url: '/their',
+                views: {
+                    'tab-their': {
+                        templateUrl: 'template/wishlist/their.html'
                     }
                 }
             })
@@ -116,15 +133,16 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                     }
                 }
             })
-            .state('app.wishlist_add', {
-                url: '/wishlist_add',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'template/wishlist_new.html',
-                        controller: 'WishlistNewCtrl'
-                    }
-                }
-            })
+//            .state('app.wishlist_add', {
+//                url: '/wishlist_add',
+//                abstract: true,
+//                views: {
+//                    'menuContent': {
+//                        templateUrl: 'template/wishlist_new.html',
+//                        controller: 'WishlistNewCtrl'
+//                    }
+//                }
+//            })
             .state('app.item', {
                 url: '/item/:item_id/:list_id',
                 views: {
@@ -145,10 +163,27 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
             })
             .state('app.wishlist_item_add', {
                 url: '/wishlist_item_add/:list_id',
+                abstract: true,
                 views: {
                     'menuContent': {
                         templateUrl: 'template/wishlist_item_add.html',
                         controller: 'WishlistItemAddCtrl'
+                    }
+                }
+            })
+            .state('app.wishlist_item_add.step1', {
+                url: '/step1',
+                views: {
+                    'tab-step1': {
+                        templateUrl: 'template/item_add/step1.html'
+                    }
+                }
+            })
+            .state('app.wishlist_item_add.step2', {
+                url: '/step2',
+                views: {
+                    'tab-step2': {
+                        templateUrl: 'template/item_add/step2.html'
                     }
                 }
             })

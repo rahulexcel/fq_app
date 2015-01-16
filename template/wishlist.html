@@ -2,34 +2,11 @@
     <ion-nav-title>My Wishlist</ion-nav-title>
     <ion-pane>
         <ion-tabs class="tabs-positive tabs-icon-only">
-
-            <ion-tab title="Home" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline">
-                <div style="margin-top: 44px">
-                    <i class="fa fa-spinner fa-spin" ng-show='loading'></i>
-                    <div class="top-container" ng-show="!loading">
-                        <ul>
-                            <li ng-repeat='item1 in wishlist_mine track by $index'>
-                                <div on-tap='viewList(item);'>{{item1.name}}</div>
-                                {{item1.created_at}} - Type: {{item1.type}} - Followers: {{item1.followers.length}} - Products: {{item1.meta.products}}
-                                <br/>
-                                <span on-tap='editList(item);'>Edit</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            <ion-tab title="Mine" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing" href='#app/wishlist/mine'>
+                <ion-nav-view name="tab-mine"></ion-nav-view>
             </ion-tab>
-            <ion-tab title="About" icon-on="ion-ios7-clock" icon-off="ion-ios7-clock-outline">
-                <div style="margin-top: 44px">
-                    <i class="fa fa-spinner fa-spin" ng-show='loading'></i>
-                    <div class="top-container" ng-show="!loading">
-                        <ul>
-                            <li ng-repeat='item2 in wishlist_their track by $index'>
-                                <div on-tap='viewList(item);'>{{item2.name}}</div>
-                                {{item2.created_at}} - Type: {{item2.type}} - Followers: {{item2.followers.length}} - Products: {{item2.meta.products}}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            <ion-tab title="Following" icon-on="ion-ios7-clock" icon-off="ion-ios7-clock"  href='#app/wishlist/their'>
+                <ion-nav-view name="tab-their"></ion-nav-view>
             </ion-tab>
         </ion-tabs>
     </ion-pane>

@@ -1,52 +1,53 @@
 <ion-view view-title="My Account">
     <ion-content>
-        <div ng-if="!is_mobile">
-            <div class ="profile-pic" ng-if="login_data.picture">
-                <img ng-src="{{login_data.picture|picture:picture_width}}">
-                <i class="ion-edit profile-pic-edit" ng-file-select 
-                   ng-model="file.myFiles" 
-                   ng-multiple="false" 
-                   ng-rejected-file-model="rejFiles"></i>
-            </div>            
-            <div class="profile-pic" ng-if="!login_data.picture" ng-file-select 
-                 ng-model="file.myFiles" 
-                 ng-multiple="false" 
-                 ng-rejected-file-model="rejFiles">
-                <div class="profile-pic-not" align="center">
-                    <i class="fa fa-camera fa-2x"></i>
+        <div>
+            <div ng-if="!is_mobile">
+                <div class ="profile-pic" ng-if="login_data.picture">
+                    <img ng-src="{{login_data.picture|picture:picture_width}}">
+                    <i class="ion-edit profile-pic-edit" ng-file-select 
+                       ng-model="file.myFiles" 
+                       ng-multiple="false" 
+                       ng-rejected-file-model="rejFiles"></i>
+                </div>            
+                <div class="profile-pic" ng-if="!login_data.picture" ng-file-select 
+                     ng-model="file.myFiles" 
+                     ng-multiple="false" 
+                     ng-rejected-file-model="rejFiles">
+                    <div class="profile-pic-not" align="center">
+                        <i class="fa fa-camera fa-2x"></i>
+                    </div>
+                    Add a Picture
                 </div>
-                Add a Picture
             </div>
-        </div>
+            <div ng-if='is_mobile'>
+                <div class ="profile-pic" ng-if="login_data.picture">
+                    <img ng-src="{{login_data.picture|picture:picture_width}}">
+                    <i class="ion-edit profile-pic-edit" on-tap='browseCamera();'></i>
+                </div>            
+                <div class="profile-pic" ng-if="!login_data.picture"  on-tap='browseCamera();'>
+                    <div class="profile-pic-not" align="center">
+                        <i class="fa fa-camera fa-2x"></i>
+                    </div>
+                    Add a Picture
+                </div>
+            </div>
+            <div ng-show='rejFiles'>
+                {{rejFiles}}
+            </div>
+            <div class="progress_parent" ng-show='file_upload'>
+                <div class="progress" style="height: 2px">
+                    <div ng-style="progoress_style" class='prog_inner red-back'>
 
-        <div ng-if='is_mobile'>
-            <div class ="profile-pic" ng-if="login_data.picture">
-                <img ng-src="{{login_data.picture|picture:picture_width}}">
-                <i class="ion-edit profile-pic-edit" on-tap='browseCamera();'></i>
-            </div>            
-            <div class="profile-pic" ng-if="!login_data.picture"  on-tap='browseCamera();'>
-                <div class="profile-pic-not" align="center">
-                    <i class="fa fa-camera fa-2x"></i>
+                    </div>
                 </div>
-                Add a Picture
-            </div>
-        </div>
-        <div ng-show='rejFiles'>
-            {{rejFiles}}
-        </div>
-        <div class="progress_parent" ng-show='file_upload'>
-            <div class="progress" style="height: 2px">
-                <div ng-style="progoress_style" class='prog_inner red-back'>
-
+                <div>
+                    Uploading... <i class="fa fa-spinner fa-spin"></i><span ng-if="image_size != 0">{{image_size}} Mb</span>
                 </div>
-            </div>
-            <div>
-                Uploading... <i class="fa fa-spinner fa-spin"></i><span ng-if="image_size != 0">{{image_size}} Mb</span>
             </div>
         </div>
         <div id="my-acc">
-			
-                            <div class="update-info similar-product-label">Update Information</div>
+
+            <div class="update-info similar-product-label">Update Information</div>
             <div class="register">
                 <form>
                     <div class="list list-my_acc">
@@ -72,17 +73,17 @@
                     </div>
                 </form>
             </div>
-			<div class="update-info similar-product-label">Change Password</div>
+            <div class="update-info similar-product-label">Change Password</div>
             <div class="register">
                 <form>
                     <div class="list list-my_ac">
                         <label class="item item-input item-floating-label item-myacc1">
                             <span class="input-label">New Password</span>
-                            <input type="password" ng-model='profile.password' placeholder="New Passowrd">
+                            <input autocomplete="off" type="password" ng-model='profile.password' placeholder="New Passowrd">
                         </label>
                         <label class="item item-input item-floating-label item-myacc2 item-confirm-pass">
                             <span class="input-label">Confirm Password</span>
-                            <input type="password" ng-model='profile.confPassword' placeholder="Confirm Passowrd">
+                            <input autocomplete="off" type="password" ng-model='profile.confPassword' placeholder="Confirm Passowrd">
                         </label>
                     </div>
                     <div class="padding">

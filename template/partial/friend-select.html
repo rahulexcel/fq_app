@@ -6,18 +6,22 @@
         </div>
     </ion-header-bar>
     <ion-content>
+        <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="refreshFriendList()">
+        </ion-refresher>
         <i class="fa fa-spinner fa-spin" ng-show='!friend_load'></i>
-        <div class="clip-label black-font add-to-clip"><span>PRIVATE</span></div>
-         <div class="similar-product-label  clip-font-color clip-label clip-share">Share this with</div>
+        <!--<div class="clip-label black-font add-to-clip"><span>PRIVATE</span></div>-->
+        <div class="similar-product-label  clip-font-color clip-label clip-share">Share this with</div>
         <ion-checkbox ng-model='friend.checked' on-tap='selectFriend(friend)' ng-repeat='friend in friends'>
-            <img ng-if='friend.picture' ng-src='{{friend.picture|picture:50}}' style="max-width: 50px;max-height: 50px" />
+            <img class="rounded" ng-if='friend.picture' ng-src='{{friend.picture|picture:50:50}}' style="max-width: 50px;max-height: 50px" />
             <span>{{friend.name}}</span>
         </ion-checkbox>
 
 
         <div class="padding">
             <button  on-tap='closeModel();' class="button signup-button red-back">
-                SHARE
+                DONE
             </button>
         </div>
     </ion-content>
