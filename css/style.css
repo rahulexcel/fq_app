@@ -398,7 +398,6 @@ div#account-page button{
     background-color:#fff;
     text-align:center;
     overflow: hidden;
-    min-height: 344px;
 }
 span.arrow{
     color:red;
