@@ -18,11 +18,13 @@
                 </div>
                 <div class="pro-info">
                     <div class="pro-name">
+                        <span class="category pro-breadcrumb" ng-show='product.cat_id' on-tap='viewCategory(product);'><div class="grey-color">{{product.parent_cat_name}} >&nbsp;</div>{{product.cat_name}}</span>
                         {{product.name}}
                         <div>
-                            <span class="arrow" ng-show='product.cat_id' on-tap='viewBrand(product);'>{{product.brand}}</span>
-                            <span class="category" ng-show='product.cat_id' on-tap='viewCategory(product);'>{{product.parent_cat_name}} > {{product.cat_name}}</span>
+                            
+                            
                             <span class="e-site">
+                                <span class="arrow" ng-show='product.cat_id' on-tap='viewBrand(product);'>{{product.brand}}</span>
                                 <i class='site {{product.website}}'></i>
                                 {{product.website}}
                             </span>

@@ -1,4 +1,41 @@
 <div class="top-container" ng-show="wishlist_mine">
+    <div class="clip-label black-font add-to-clip">
+    <div class="username">
+                <div class="user_image">
+                    <img ng-src='img/user-image.jpg'/>
+                </div>
+                <div class="user-info">
+                    <span class="red-color">Manish Prakash</span>
+                    <span><button>EDIT PROFILE</button></span>
+               <div class="clearfix"></div>      
+    </div>
+         <div class="clearfix"></div>
+        
+    </div>
+    <div class="follow-details">
+            <span>12 <span class="grey-color">Following</span></span>   
+            <span>39 <span class="grey-color">Followers</span></span>
+            <span>60 <span class="grey-color">Pins</span></span>
+    </div>
+        
+        
+        
+        
+        <ul>
+            <li>MY PINS</li>
+            <li>MY WISHLIST</li>
+            <li>FOLLOWERS</li>
+            <li>FOLLOWINGS</li>
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+        
+        
     <ul>
         <li ng-repeat='item1 in wishlist_mine track by item1._id'>
             <div on-tap='viewList(item1);'>{{item1.name}}</div>
@@ -8,3 +45,4 @@
         </li>
     </ul>
 </div>
+    </div>

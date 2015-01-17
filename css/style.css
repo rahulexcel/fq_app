@@ -391,6 +391,12 @@ div#account-page button{
     border-top:1px solid #d1d1d1;
     border-bottom:1px solid #d1d1d1;
 }
+.pro-breadcrumb{
+    width: 100%;
+    float: left;
+    font-size: 0.8em;
+    display: inline-flex;
+}
 .pro-name{
     margin-bottom:8px;
 }
@@ -416,6 +422,7 @@ span.e-site{
     color:#959595;
     width:100%;
     float: left;
+    font-size: 0.9em;
 
 }
 .pro-price{
@@ -820,6 +827,8 @@ span i.fa-circle{
     font-weight: normal;
 }
 /*********************************CLIP closed *******************************/
+
+/*********************************Social page *******************************/
 #wishlist_item{
     padding: 0 20px;
     min-width: 366px;
@@ -846,6 +855,7 @@ span i.fa-circle{
 .user-info{
     float: left;
     width: 57%;
+    margin-left: 10px;
     }
 .username span{float: left;
 width: 100%;
@@ -885,4 +895,29 @@ span.clip-follower{display: flex;}
 #wishlist_item .item-input-wrapper{
     padding-right: 0px;
     margin-right:10px;
+}
+
+/*********************************social page closed *******************************/
+.top-container .username button{
+    border: 1px solid #CCC;
+    min-height: 31px;
+    min-width: 133px;
+    margin-top: 3px;
+    border-radius: 0.3em;
+}
+.top-container .username{
+    border-style: none;
+    padding:0;
+}
+.top-container .clip-label{
+    font-size: inherit;
+    font-weight: normal;
+}
+.follow-details>span{
+    margin-right: 35px;
+}
+.follow-details {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    line-height: 36px;
 }
