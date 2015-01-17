@@ -118,17 +118,16 @@
                 <div class="user-info">
                     <span class="info grey-color">Added to</span>
                     <span class="info black-font">{{item.list_id.name}}</span>
-
-                    <span class="info grey-color" ng-if="me_follow_list">
+                    <span class="grey-color" ng-if="me_follow_list">
                         <span ng-if="item.list_id.followers.length > 1">
-                            <span class="info clip-follower">{{item.list_id.products.length}} clips . 
+                            <span class="clip-follower">{{item.list_id.products.length}} clips . 
                                 <i class="ion-ios7-people fa-lg red-color"></i>You and 
                                 <div on-tap='followListList();'>{{item.list_id.followers.length - 1}}Followers</div>
                             </span>
                             <span on-tap='unFollowList();' class="user-unfollow black-font" ng-if="item.list_id.followers.length == 1">Unfollow!</span>
                         </span>
                     </span>
-                    <span class="grey-color" ng-if="!me_follow_list">
+                    <span class="info grey-color" ng-if="!me_follow_list">
                         <span class="clip-follower">{{item.list_id.products.length}}clips .&nbsp; 
                             <div on-tap='followList();' ng-show="item.list_id.followers.length > 0">
                                 <i class="ion-ios7-people fa-lg red-color"></i> {{item.list_id.followers.length}}  Followers
