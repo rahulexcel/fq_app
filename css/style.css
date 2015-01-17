@@ -897,7 +897,10 @@ span.clip-follower{display: flex;}
     padding-right: 0px;
     margin-right:10px;
 }
-
+.username span.info{
+float: left;
+width: 100%;
+}
 /*********************************social page closed *******************************/
 .top-container .username button{
     border: 1px solid #CCC;

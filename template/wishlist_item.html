@@ -87,12 +87,17 @@
                     <img ng-src='{{item.user_id.picture| picture:50}}'/>
                 </div>
                 <div class="user-info">
-                    <span class="red-color">{{item.user_id.name}}</span>
-                    <!--<span class="grey-color">1 clips <i class="fa fa-circle"></i> Added one hour ago</span>-->
-
+                    <span class="red-color info">{{item.user_id.name}}</span>
+                    <span class="grey-color info">1 clips <i class="fa fa-circle"></i> Added one hour ago</span>
+                    <span class="clip-follower info"> 
+                                <i class="ion-ios7-people fa-lg red-color"></i>&nbsp
+                                <div on-tap='followListList();'> {{item.list_id.followers.length - 1}} Followers 
+                                <span on-tap='unFollowUser(item.user_id._id);' class="user-unfollow black-font">Unfollow!</span>
+                                </div>
+                    </span>
                     <div ng-if="me_follow_user">
                         <span class="grey-color" ng-if="item.user_id.followers.length > 1">
-                            <i class="ion-ios7-people fa-lg red-color"></i> 
+                            <i class="ion-ios7-people fa-lg red-color"></i>
                             <span on-tap='followUserList();'>You and {{item.user_id.followers.length - 1}} followers</span>
                         </span>
                         <!--<span class="grey-color" on-tap='unFollowUser(item.user_id._id);' ng-if="item.user_id.followers.length == 1">You Follow</span>-->
