@@ -880,6 +880,7 @@ width: 100%;
 .comment-frm button.follow-btn{
     margin:0px;
 }
+.load-more{margin-left:55px; }
 span.clip-follower{display: flex;}
 #wishlist_item .item-input-wrapper{
     padding-right: 0px;

@@ -72,12 +72,6 @@
             <div class="username">
                 <div ng-show="item.description.length > 0">{{item.description}}</div>
             </div>
-
-
-
-
-
-
             <div class="username">
                 <div class="user_image">
                     <img ng-src='{{item.user_id.picture| picture:50}}'/>
@@ -99,8 +93,6 @@
                             {{item.user_id.followers.length}} Followers
                         </span>
                         <span class="grey-color" ng-show="!item.user_id.followers || item.user_id.followers.length == 0">Be First To Follow User</span>
-
-
                     </div>
                 </div>
                 <!-- Need To Show Below Button On Right Side Like List Follow Button -->
@@ -156,8 +148,12 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-
+                    
                 </div>
+                <div class="load-more" ng-if='item.comments && !showMoreComment'>
+                    <span class="red-color" on-tap='loadAllComments()'>Load More</span>
+                </div>
+                <div class="clearfix"></div>
                 <div class="comment-frm">
 
 
@@ -175,9 +171,7 @@
                    
                     <div class="clearfix"></div>
                 </div>
-                <div ng-if='item.comments && !showMoreComment'>
-                    <button class="button" on-tap='loadAllComments()'>Load All Comments</button>
-                </div>
+                
             </div>
 
 
