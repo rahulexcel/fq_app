@@ -202,7 +202,7 @@ Scroll On Product Page
     color:#da500f;
 }
 .grey-color {
-    color:#ccc;
+    color:#838383;
 }
 .progress_parent{
     width: 95%;
@@ -903,6 +903,9 @@ width: 100%;
 }
 .user-unfollow{
     text-decoration: underline;
+}
+.social-share .social-icon{
+    float: right;
 }
 /*********************************social page closed *******************************/
 .top-container .username button{

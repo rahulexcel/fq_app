@@ -42,7 +42,17 @@
                         Rs.{{item.item_id.price}}
                     </div>
                     -->
+                    
+                    <!--social icon here-->
                     <div class="social-share">
+                        <div class="social-icon">
+                            <i class="fa-lg red-color fa-2x" on-tap='whatsapp(item)'><img src='img/whatsapp.png' alt='whats_app'/></i>
+                            <i class="fa fa-twitter fa-lg red-color fa-2x" on-tap='twitter(item)'></i>
+                            <i class="fa fa-facebook fa-lg red-color fa-2x"  on-tap='facebook(item)'></i>
+                            <i class="fa fa-share-alt fa-lg red-color fa-2x" on-tap='shareAll(item)'></i>
+                        </div>
+                    <!--social icon closed here-->
+                        
                         <div ng-if="!isMobile && item.item_id.href.length > 0">
                             <div class="fb-like" data-href="{{item.item_id.href}}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                             <div class="twitter">
@@ -53,7 +63,7 @@
                             </div>
                         </div>
                         <div ng-if="isMobile && item.item_id.href.length > 0">
-                            <i class="fa-lg red-color fa-2x" on-tap='whatsapp(item)'>W</i>
+                            <i class="fa-lg red-color fa-2x" on-tap='whatsapp(item)'><img src='img/whatsapp.png' alt='whats_app'/></i>
                             <i class="fa fa-twitter fa-lg red-color fa-2x" on-tap='twitter(item)'></i>
                             <i class="fa fa-facebook fa-lg red-color fa-2x"  on-tap='facebook(item)'></i>
                             <i class="fa fa-share-alt fa-lg red-color fa-2x" on-tap='shareAll(item)'></i>
