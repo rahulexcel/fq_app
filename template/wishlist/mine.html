@@ -1,48 +1,48 @@
 <div class="top-container" ng-show="wishlist_mine">
     <div class="clip-label black-font add-to-clip">
-    <div class="username">
-                <div class="user_image">
-                    <img ng-src='img/user-image.jpg'/>
-                </div>
-                <div class="user-info">
-                    <span class="red-color">Manish Prakash</span>
-                    <span><button>EDIT PROFILE</button></span>
-               <div class="clearfix"></div>      
-    </div>
-         <div class="clearfix"></div>
-        
-    </div>
-    <div class="follow-details">
+        <div class="username">
+            <div class="user_image">
+                <img ng-src='img/user-image.jpg'/>
+            </div>
+            <div class="user-info">
+                <span class="red-color info">Manish Prakash</span>
+                <span><button>EDIT PROFILE</button></span>
+                <div class="clearfix"></div>      
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="follow-details">
             <span>12 <span class="grey-color">Following</span></span>   
             <span>39 <span class="grey-color">Followers</span></span>
             <span>60 <span class="grey-color">Pins</span></span>
-    </div>
-        
-        
-        
-        
-        <ul>
+        </div>
+        <ul class="mine-list">
             <li>MY PINS</li>
             <li>MY WISHLIST</li>
             <li>FOLLOWERS</li>
             <li>FOLLOWINGS</li>
         </ul>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    <ul>
-        <li ng-repeat='item1 in wishlist_mine track by item1._id'>
-            <div on-tap='viewList(item1);'>{{item1.name}}</div>
-            {{item1.created_at}} - Type: {{item1.type}} - Followers: {{item1.followers.length}} - Products: {{item1.meta.products}}
-            <br/>
-            <span on-tap='editList(item1);'>Edit</span>
-        </li>
-    </ul>
-</div>
+        <div class="mine-container">
+            <ul class="mine-clip-list">
+                <li class="clip-font-color new add-new" on-tap='newList();'>
+                    <i class="fa fa-plus-square-o fa-3px"></i>
+                    <span class="mine-new">Create a New Clipboard</span>
+                </li>
+                <li ng-repeat='item1 in wishlist_mine track by item1._id'>
+                    <div class="black-font" on-tap='viewList(item1);'>{{item1.name}} <i ng-if="{{item1.type}} == 'private'" class="ion-ios7-locked"></i>
+                    </div>
+                    <div class="user-info"> 
+                        <span class="info">{{item1.meta.products}} clips <i class="fa fa-circle"></i> Created on <!--{{item1.created_at}}--> 12 jan'15</span>
+                        <span class="info"><i class="ion-ios7-heart-outline red-color"></i>{{list.meta.likes}} 
+                            <i class="ion-ios7-people red-color"></i> {{item1.followers.length}}
+                        </span> 
+                        <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
+                        <div class="clearfix"></div>
+                    </div>
+                    <button class="follow-btn">EDIT</button>
+                    <div class="clearfix"></div>
+                </li>
+            </ul>
+        </div>
     </div>
+</div>
