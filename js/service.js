@@ -155,8 +155,12 @@ serviceMod.factory('ajaxRequest',
                         return 'http://144.76.83.246:5000/' + api;
                     },
                     send: function (api, data, method) {
-                        if (!method) {
+                        if (!angular.isDefined(method)) {
                             method = 'POST';
+                        }
+                        if (method == 'POST') {
+                            var timestamp = new Date().getTime();
+                            data.timestamp = timestamp;
                         }
                         console.log('data to send');
                         console.log(data);
