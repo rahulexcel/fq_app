@@ -584,7 +584,7 @@ span.other-price{
     font-size:1.1em;
 }
 i.site {
-    margin-right: 5px;
+    margin-right: 3px;
     vertical-align: middle;
 }
 i.close-icon-show{
@@ -830,8 +830,11 @@ span i.fa-circle{
 
 /*********************************Social page *******************************/
 #wishlist_item{
-    padding:20px;
-    min-width: 366px;
+    padding:15px;
+    min-width: 376px;
+}
+#wishlist_item i.site{
+    margin-bottom: 2px;
 }
 #wishlist_item .pro-info
 {
@@ -857,9 +860,7 @@ span i.fa-circle{
     width: 57%;
     margin-left: 10px;
     }
-.username span{float: left;
-width: 100%;
-}
+
 .user-info span a{text-decoration: underline;}
  button.follow-btn{
     float: right;

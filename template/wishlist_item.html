@@ -19,13 +19,16 @@
                         <div ng-if='!me_pin'>
                             <div on-tap='pin();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">Be First To Pin</div>
                         </div>
+                        <img src="img/heart_big.jpg" alt="Like">
                     </div>
                 </div>
                 <div class="pro-info">
                     <div class="pro-name">
+                        <span class="category pro-breadcrumb" on-tap='viewCategory(product);'><div class="grey-color">Men >&nbsp;</div>Shoes</span>
                         <div ng-show="item.item_id.name.length > 0">{{item.item_id.name}}</div>
-                        <span class="arrow" ng-show='item.item_id.brand.length > 0'>{{item.item_id.brand}}</span>
+                        <span class="arrow" ng-show='item.item_id.brand.length > 0'>Arrow </span>
                         <span class="e-site" ng-show='item.item_id.website.length > 0'>
+                            <span class="arrow"  on-tap='viewBrand(product);'>Arrow</span>
                             <i class='site {{item.item_id.website}}'></i>
                             {{item.item_id.website}}
                         </span>
@@ -74,10 +77,11 @@
                     </div>
                 </div>
             </div>
-
+<!-- empty div
             <div class="username">
                 <div ng-show="item.description.length > 0">{{item.description}}</div>
             </div>
+-->
             <div class="username">
                 <div class="user_image">
                     <img ng-src='{{item.user_id.picture| picture:50}}'/>
@@ -154,7 +158,7 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    
+
                 </div>
                 <div class="load-more" ng-if='item.comments && !showMoreComment'>
                     <span class="red-color" on-tap='loadAllComments()'>Load More</span>
@@ -168,16 +172,16 @@
                         <label class="item-input-wrapper">
                             <input ng-model="item.comment" keyboard-attach type="text" placeholder="Write a comment" class="black-font"/>
                         </label>
-                       <button on-tap='addComment();' class="follow-btn black-font">COMMENT</button>
+                        <button on-tap='addComment();' class="follow-btn black-font">COMMENT</button>
                     </div>
 
 
 
 
-                   
+
                     <div class="clearfix"></div>
                 </div>
-                
+
             </div>
 
 
