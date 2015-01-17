@@ -116,12 +116,12 @@
             </div>
             <div class="added-to username">
                 <div class="user-info">
-                    <span class="grey-color">Added to</span>
-                    <span class="black-font">{{item.list_id.name}}</span>
+                    <span class="info grey-color">Added to</span>
+                    <span class="info black-font">{{item.list_id.name}}</span>
 
-                    <span class="grey-color" ng-if="me_follow_list">
+                    <span class="info grey-color" ng-if="me_follow_list">
                         <span ng-if="item.list_id.followers.length > 1">
-                            <span class="clip-follower">{{item.list_id.products.length}} clips . 
+                            <span class="info clip-follower">{{item.list_id.products.length}} clips . 
                                 <i class="ion-ios7-people fa-lg red-color"></i>You and 
                                 <div on-tap='followListList();'>{{item.list_id.followers.length - 1}}Followers</div>
                             </span>
