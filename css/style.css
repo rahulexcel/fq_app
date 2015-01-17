@@ -901,6 +901,9 @@ span.clip-follower{display: flex;}
 float: left;
 width: 100%;
 }
+.user-unfollow{
+    text-decoration: underline;
+}
 /*********************************social page closed *******************************/
 .top-container .username button{
     border: 1px solid #CCC;
