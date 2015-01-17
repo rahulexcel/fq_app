@@ -76,7 +76,7 @@ categoryService.factory('categoryHelper', [
                 $ionicLoading.hide();
             });
             return defer.promise;
-        }
+        };
         return service;
     }
 ]);

@@ -24,7 +24,7 @@ feedbackMod.controller('FeedbackCtrl',
                     $cordovaAppRate.promptForRating(true).then(function (result) {
 
                     });
-                }
+                };
 
 
                 $scope.sendFeedback = function () {
@@ -46,7 +46,7 @@ feedbackMod.controller('FeedbackCtrl',
                     } else {
                         toast.showShortBottom('Fill Up All Fields');
                     }
-                }
+                };
 
                 if ($scope.isMobile) {
                     $scope.device = {

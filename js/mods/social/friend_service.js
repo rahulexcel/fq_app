@@ -8,54 +8,54 @@ friendService.factory('friendHelper', [
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/social/item/pins', {
                 item_id: item_id
-            })
+            });
             ajax.then(function (data) {
                 def.resolve(data);
             }, function () {
                 def.reject();
             });
             return def.promise;
-        }
+        };
         service.item_likes_list = function (list_id, item_id) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/social/item/likes', {
                 list_id: list_id,
                 item_id: item_id
-            })
+            });
             ajax.then(function (data) {
                 def.resolve(data);
             }, function () {
                 def.reject();
             });
             return def.promise;
-        }
+        };
         service.list_followers_list = function (list_id) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/social/list/followers', {
                 list_id: list_id
-            })
+            });
             ajax.then(function (data) {
                 def.resolve(data);
             }, function () {
                 def.reject();
             });
             return def.promise;
-        }
+        };
         service.user_followers_list = function (user_id) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/social/user/followers', {
                 user_id: user_id
-            })
+            });
             ajax.then(function (data) {
                 def.resolve(data);
             }, function () {
                 def.reject();
             });
             return def.promise;
-        }
+        };
         service.user_unfollow = function (follow_user_id) {
             return this.user_follow(follow_user_id, 'remove');
-        }
+        };
         service.user_follow = function (follow_user_id, type) {
             if (!type) {
                 type = 'add';
@@ -66,17 +66,17 @@ friendService.factory('friendHelper', [
                 user_id: user_id,
                 follow_user_id: follow_user_id,
                 type: type
-            })
+            });
             ajax.then(function (data) {
                 def.resolve(data);
             }, function () {
                 def.reject();
             });
             return def.promise;
-        }
+        };
         service.list_unfollow = function (list_id) {
             return this.list_follow(list, 'remove');
-        }
+        };
         service.list_follow = function (list_id, type) {
             if (!type) {
                 type = 'add';
@@ -87,14 +87,14 @@ friendService.factory('friendHelper', [
                 user_id: user_id,
                 list_id: list_id,
                 type: type
-            })
+            });
             ajax.then(function (data) {
                 def.resolve(data);
             }, function () {
                 def.reject();
             });
             return def.promise;
-        }
+        };
         service.list = function (user_id, force) {
             if (!user_id) {
                 user_id = $localStorage.user.id;
@@ -110,7 +110,7 @@ friendService.factory('friendHelper', [
             } else {
                 var ajax = ajaxRequest.send('v1/social/friends/list', {
                     user_id: user_id
-                })
+                });
                 ajax.then(function (data) {
                     def.resolve(data);
                     timeStorage.set(cache_key, data, 12);
@@ -119,7 +119,7 @@ friendService.factory('friendHelper', [
                 });
                 return def.promise;
             }
-        }
+        };
         return service;
     }
 ]);

@@ -43,7 +43,7 @@ productService.factory('productHelper', [
                 defer.resolve(ret);
             });
             return defer.promise;
-        }
+        };
         return service;
     }
 ]);

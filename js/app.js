@@ -21,7 +21,7 @@ var app = angular.module('starter',
             'ngCordova'
         ]
         );
-app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider", function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
     $ionicConfigProvider.views.maxCache(0);
     $stateProvider
             .state('offline', {
@@ -206,13 +206,13 @@ app.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
                 }
             });
     $urlRouterProvider.otherwise('/app/home');
-});
-app.run(function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location) {
+}]);
+app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location) {
     console.log('angular ready');
 
     $rootScope.isReady = function () {
         $rootScope.display = {display: "block"};
-    }
+    };
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -238,25 +238,25 @@ app.run(function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $c
         console.log(fromState.name + "from state");
 
         $rootScope.body_class = '';
-        if (toState.name == 'app.item') {
+        if (toState.name === 'app.item') {
             $rootScope.body_class = 'grey_bg';
         }
 
-        if (toState.name && toState.name == 'app.wishlist_item') {
+        if (toState.name && toState.name === 'app.wishlist_item') {
             $rootScope.list_id = toParams.list_id;
         } else {
             $rootScope.list_id = false;
         }
 
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-            if ($cordovaNetwork.isOffline() && toState.name != 'offline') {
+            if ($cordovaNetwork.isOffline() && toState.name !== 'offline') {
                 return;
             }
         }
 
 //        console.log(fromState);
-        if (toState.name == 'app.signup' && fromState) {
-            if (fromState.name != "") {
+        if (toState.name === 'app.signup' && fromState) {
+            if (fromState.name !== "") {
                 var url = fromState.url;
                 if (fromParams && url) {
                     for (var key in fromParams) {
@@ -276,5 +276,5 @@ app.run(function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $c
 //        console.log(toParams);
 //        console.log(fromState);
 //        console.log(fromParams);
-    })
-})
+    });
+}]);

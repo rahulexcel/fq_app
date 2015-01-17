@@ -32,19 +32,19 @@ homeMod.controller('HomeCtrl',
                         email: email
                     };
                     $rootScope.$broadcast('logout_event');
-                }
+                };
 
                 $scope.$on('login_event', function () {
                     $ionicNavBarDelegate.showBackButton(false);
                     $scope.login = true;
-                })
+                });
                 $scope.$on('logout_event', function () {
                     $scope.login = false;
-                })
+                });
 
                 $scope.selectCategory = function (cat) {
                     console.log('select category');
-                    if (cat.sub_cat_id == 1 || cat.cat_id == -1) {
+                    if (cat.sub_cat_id === 1 || cat.cat_id === -1) {
                         if (cat.open) {
                             cat.open = !cat.open;
                         } else {
@@ -56,36 +56,36 @@ homeMod.controller('HomeCtrl',
                     $location.path('/app/category/' + cat.cat_id + '/' + cat.sub_cat_id + '/' + cat.name);
                     //$location.path('/#/app/home');
                     //$scope.current_category = cat;
-                }
+                };
                 $scope.wishlist = function () {
                     $location.path('/app/wishlist/mine');
-                }
+                };
                 $scope.account = function () {
                     $location.path('/app/account');
-                }
+                };
                 $scope.feedback = function () {
                     $location.path('/app/feedback');
-                }
+                };
                 $scope.aboutus = function () {
 
-                }
+                };
                 $scope.invite = function () {
                     $location.path('/app/invite');
-                }
+                };
 
                 $rootScope.showSearchBox = false;
                 $rootScope.search = {
                     text: ''
-                }
+                };
                 $scope.searchNow = function () {
                     $rootScope.showSearchBox = true;
-                }
+                };
                 $scope.$on('$destroy', function () {
                     $scope.modal.remove();
                 });
                 $scope.closeModel = function () {
                     $scope.modal.hide();
-                }
+                };
                 $ionicModal.fromTemplateUrl('template/partial/search-category.html', {
                     scope: $scope,
                     animation: 'slide-in-up'
@@ -96,9 +96,9 @@ homeMod.controller('HomeCtrl',
                     if ($rootScope.search.text.length > 0) {
 
                         var path = $location.path();
-                        if (path.indexOf('/app/category') != -1) {
+                        if (path.indexOf('/app/category') !== -1) {
                             $scope.$broadcast('search_event');
-                        } else if (path.indexOf('/app/product') != -1) {
+                        } else if (path.indexOf('/app/product') !== -1) {
                             $scope.$broadcast('search_product_event');
                         } else {
                             $scope.modal.show();
@@ -107,7 +107,7 @@ homeMod.controller('HomeCtrl',
                     } else {
                         toast.showShortBottom('Enter Search Term');
                     }
-                }
+                };
                 $scope.search_cat = false;
                 $scope.selectSearchCategory = function (cat) {
                     console.log(cat);
@@ -117,7 +117,7 @@ homeMod.controller('HomeCtrl',
                     $location.path('/app/search/' + father_key + "/" + $rootScope.search.text);
                     $rootScope.search.text = '';
                     $rootScope.showSearchBox = false;
-                }
+                };
 
 
                 //wishlist code below
@@ -131,7 +131,7 @@ homeMod.controller('HomeCtrl',
                 });
                 $scope.closeWishlistModel = function () {
                     $scope.wishlistmodal.hide();
-                }
+                };
                 $ionicModal.fromTemplateUrl('template/partial/wishlist-select.html', {
                     scope: $scope,
                     animation: 'slide-in-up'
@@ -155,7 +155,7 @@ homeMod.controller('HomeCtrl',
                     }
                     $scope.closeWishlistModel();
                     $location.path('/app/wishlist_add');
-                }
+                };
                 $scope.refreshList = function () {
                     var ajax = wishlistHelper.list(true);
                     ajax.then(function (data) {
@@ -164,11 +164,11 @@ homeMod.controller('HomeCtrl',
                     }, function () {
                         $scope.$broadcast('scroll.refreshComplete');
                     });
-                }
+                };
                 $scope.tickList = function (list) {
                     var lists = $scope.lists.me;
                     for (var i = 0; i < lists.length; i++) {
-                        if (lists[i]._id == list._id) {
+                        if (lists[i]._id === list._id) {
                             lists[i].tick = true;
                         } else {
                             lists[i].tick = false;
@@ -176,7 +176,7 @@ homeMod.controller('HomeCtrl',
                     }
                     $scope.lists.me = lists;
 //                    list.tick = true;
-                }
+                };
                 $scope.selectList = function () {
 
                     var list = false;
@@ -200,20 +200,20 @@ homeMod.controller('HomeCtrl',
                                 $scope.wishlist_product.product.wishlist_status = 3;
                             });
                         } else if ($scope.wishlist_product.item) {
-                            $scope.wishlist_product.item['select_list_id'] = list._id;
+                            $scope.wishlist_product.item.select_list_id = list._id;
                             $scope.$broadcast('wishlist_pin_select');
                         } else {
                             $location.path('/app/wishlist_item_add/' + list._id + "/step1");
                         }
                     }
-                }
+                };
                 $scope.showWishlist = function () {
                     var ajax = wishlistHelper.list();
                     ajax.then(function (data) {
                         $scope.lists = data;
                     });
                     $scope.wishlistmodal.show();
-                }
+                };
                 $scope.addWishlistItem = function () {
                     if ($localStorage.user && $localStorage.user.id) {
                         if ($rootScope.list_id) {
@@ -233,6 +233,6 @@ homeMod.controller('HomeCtrl',
                         toast.showShortBottom('Login To Add Item To Your Wishlist');
                         $location.path('/app/register');
                     }
-                }
+                };
             }
         ]);

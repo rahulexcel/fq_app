@@ -14,7 +14,7 @@ mapService.factory('mapHelper', [
         service.position = {};
         service.getPosition = function () {
             return this.position;
-        }
+        };
         service.destroy = function () {
             if (this.map) {
                 google.maps.event.removeListener(this.listener1);
@@ -24,7 +24,7 @@ mapService.factory('mapHelper', [
                 this.market = null;
                 this.map = null;
             }
-        }
+        };
         service.showMap = function (location) {
             loadScript();
             var context = this;
@@ -43,7 +43,7 @@ mapService.factory('mapHelper', [
                     position: new google.maps.LatLng(location.lat, location.lng)
                 });
             });
-        }
+        };
         service.initMap = function ($scope) {
             loadScript();
 
@@ -93,7 +93,7 @@ mapService.factory('mapHelper', [
                     position: context.center
                 });
                 service.listener1 = google.maps.event.addListener(context.marker, 'click', function () {
-                    if (context.marker.getAnimation() != null) {
+                    if (context.marker.getAnimation() !== null) {
                         context.marker.setAnimation(null);
                     } else {
                         context.marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -115,11 +115,9 @@ mapService.factory('mapHelper', [
                     context.position.lng = event.latLng.lng();
                     $scope.done = true;
                     $scope.$apply();
-                })
-
-            })
-
-        }
+                });
+            });
+        };
         return service;
     }]);
 

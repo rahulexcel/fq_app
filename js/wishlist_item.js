@@ -5,17 +5,18 @@ wishlistItemMod.controller('WishlistItemCtrl',
                 $scope.wishlist = [];
                 $scope.loading = true;
                 $scope.items = [];
+                var ajax = false;
                 $scope.$on('$destroy', function () {
                     mapHelper.destroy();
-                })
+                });
                 $scope.$on('logout_event', function () {
                     $scope.me_pin = false;
                     $scope.me_like = false;
                     $scope.me_follow_user = false;
                     $scope.me_follow_list = false;
-                })
+                });
                 var picture_width = $window.innerWidth;
-                picture_width = Math.ceil(picture_width * .95);
+                picture_width = Math.ceil(picture_width * 0.95);
                 $scope.picture_width = picture_width;
                 if ($stateParams.item_id) {
                     $scope.item_id = $stateParams.item_id;
@@ -37,32 +38,33 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         if (!data.user_id.followers) {
                             data.user_id.followers = [];
                         }
-                        for (var i = 0; i < data.user_id.followers.length; i++) {
-                            if (data.user_id.followers[i] == $localStorage.user.id) {
+                        var i = 0;
+                        for (i = 0; i < data.user_id.followers.length; i++) {
+                            if (data.user_id.followers[i] === $localStorage.user.id) {
                                 $scope.me_follow_user = true;
                             }
                         }
-                        for (var i = 0; i < data.list_id.followers.length; i++) {
-                            if (data.list_id.followers[i] == $localStorage.user.id) {
+                        for (i = 0; i < data.list_id.followers.length; i++) {
+                            if (data.list_id.followers[i] === $localStorage.user.id) {
                                 $scope.me_follow_list = true;
                             }
                         }
-                        for (var i = 0; i < data.likes.length; i++) {
-                            if (data.likes[i].user_id == $localStorage.user.id) {
+                        for (i = 0; i < data.likes.length; i++) {
+                            if (data.likes[i].user_id === $localStorage.user.id) {
                                 $scope.me_like = true;
                                 break;
                             }
                         }
-                        for (var i = 0; i < data.item_id.pins.length; i++) {
-                            if (data.item_id.pins[i].user_id == $localStorage.user.id) {
+                        for (i = 0; i < data.item_id.pins.length; i++) {
+                            if (data.item_id.pins[i].user_id === $localStorage.user.id) {
                                 $scope.me_pin = true;
                                 break;
                             }
                         }
 
                         var comments = data.comments;
-                        for (var i = 0; i < comments.length; i++) {
-                            if (!comments[i].picture || comments[i].picture.length == 0)
+                        for (i = 0; i < comments.length; i++) {
+                            if (!comments[i].picture || comments[i].picture.length === 0)
                                 comments[i].picture = 'img/favicon.png';
                         }
 
@@ -72,24 +74,24 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }
                         if ($localStorage.previous && $localStorage.previous.state) {
                             var state = $localStorage.previous.state;
-                            if (state == 'unFollowUser') {
+                            if (state === 'unFollowUser') {
                                 $scope.unFollowUser(data.user_id._id);
-                            } else if (state == 'followUser') {
+                            } else if (state === 'followUser') {
                                 $scope.followUser(data.user_id._id);
-                            } else if (state == 'followList') {
+                            } else if (state === 'followList') {
                                 $scope.followList();
-                            } else if (state == 'unFollowList') {
+                            } else if (state === 'unFollowList') {
                                 $scope.unFollowList();
-                            } else if (state == 'unlike') {
+                            } else if (state === 'unlike') {
                                 $scope.unlike();
-                            } else if (state == 'like') {
+                            } else if (state === 'like') {
                                 $scope.like();
-                            } else if (state == 'pin') {
+                            } else if (state === 'pin') {
                                 $scope.pin();
                             }
                         }
                         $scope.loading = false;
-                    }
+                    };
 
                     $scope.loadAllComments = function () {
                         var ajax = itemHelper.listComment($scope.list_id, $scope.item_id);
@@ -99,7 +101,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }, function () {
                             $scope.showMoreComment = true;
                         });
-                    }
+                    };
 
                     var cache_key = 'item_' + $stateParams.item_id + "_" + $stateParams.list_id;
                     if (timeStorage.get(cache_key)) {
@@ -109,7 +111,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         $ionicLoading.show({
                             template: 'Loading...'
                         });
-                        var ajax = wishlistHelper.viewItem($stateParams.item_id, $stateParams.list_id);
+                        ajax = wishlistHelper.viewItem($stateParams.item_id, $stateParams.list_id);
                         ajax.then(function (data) {
                             timeStorage.set(cache_key, data, 1);
                             $scope.checkData(data);
@@ -120,7 +122,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         });
                     }
                     $scope.doRefresh = function () {
-                        var ajax = wishlistHelper.viewItem($stateParams.item_id, $stateParams.list_id);
+                        ajax = wishlistHelper.viewItem($stateParams.item_id, $stateParams.list_id);
                         ajax.then(function (data) {
                             timeStorage.set(cache_key, data, 1);
                             $scope.checkData(data);
@@ -128,7 +130,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }, function () {
                             $scope.$broadcast('scroll.refreshComplete');
                         });
-                    }
+                    };
 
                     if (window.plugins && window.plugins.socialsharing) {
                         $scope.isMobile = true;
@@ -136,25 +138,25 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             window.plugins.socialsharing.share(product.name, null, product.picture, product.href, function () {
                             }, function () {
                                 toast.showShortBottom('Unable to Share');
-                            })
-                        }
+                            });
+                        };
                         $scope.twitter = function (product) {
                             window.plugins.socialsharing.shareViaTwitter(
                                     product.name, product.picture, product.href, function () {
                                     }, function () {
                                 toast.showShortBottom('Unable to Share');
                             });
-                        }
+                        };
                         $scope.whatsapp = function (product) {
                             window.plugins.socialsharing.shareViaWhatsApp(
                                     product.name, product.picture, product.href, function () {
                                     }, function () {
                                 toast.showShortBottom('Unable to Share');
                             });
-                        }
+                        };
 
                         $scope.facebook = function (product) {
-                            if (window.cordova.platformId == "browser") {
+                            if (window.cordova.platformId === "browser") {
                                 if (!accountHelper.isFbInit()) {
                                     facebookConnectPlugin.browserInit('765213543516434');
                                     accountHelper.fbInit();
@@ -170,9 +172,8 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             }, function (data) {
                                 console.log(data);
                                 toast.showShortBottom('Unable to Share');
-                            })
-
-                        }
+                            });
+                        };
                     } else {
                         $scope.isMobile = false;
                         socialJs.addSocialJs();
@@ -181,7 +182,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     $scope.view = function (item) {
                         if (item.product_id)
                             $location.path('/app/product/' + item.product_id);
-                    }
+                    };
                     $scope.request_process = false;
                     $scope.unFollowUser = function (user_id) {
                         if (!$localStorage.user.id) {
@@ -200,7 +201,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 var followers = $scope.item.user_id.followers;
                                 var new_followers = [];
                                 for (var i = 0; i < followers.length; i++) {
-                                    if (followers[i] != $localStorage.user.id) {
+                                    if (followers[i] !== $localStorage.user.id) {
                                         new_followers.push(followers[i]);
                                     }
                                 }
@@ -212,7 +213,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 $scope.request_process = false;
                             });
                         }
-                    }
+                    };
 
                     $scope.$on('$destroy', function () {
                         $scope.modal.remove();
@@ -220,7 +221,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     $scope.closeModel = function () {
                         $scope.modal.hide();
                         $scope.users = [];
-                    }
+                    };
                     $ionicModal.fromTemplateUrl('template/partial/user-follow.html', {
                         scope: $scope,
                         animation: 'slide-in-up'
@@ -244,7 +245,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }, function () {
                             $ionicLoading.hide();
                         });
-                    }
+                    };
                     $scope.likeList = function () {
                         var list_id = $scope.item.list_id._id;
                         var item_id = $scope.item.item_id._id;
@@ -263,7 +264,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }, function () {
                             $ionicLoading.hide();
                         });
-                    }
+                    };
                     $scope.followListList = function () {
                         var list_id = $scope.item.list_id._id;
                         $scope.modal.show();
@@ -281,7 +282,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }, function () {
                             $ionicLoading.hide();
                         });
-                    }
+                    };
 
                     $scope.followUserList = function () {
                         var user_id = $scope.item.user_id._id;
@@ -300,7 +301,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }, function () {
                             $ionicLoading.hide();
                         });
-                    }
+                    };
                     $scope.followUser = function (user_id, showLoading) {
                         if (!$localStorage.user.id) {
                             $localStorage.previous.state = {
@@ -336,7 +337,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 }
                             });
                         }
-                    }
+                    };
                     $scope.followList = function () {
                         if (!$localStorage.user.id) {
                             $localStorage.previous.state = {
@@ -362,7 +363,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 $scope.request_process = false;
                             });
                         }
-                    }
+                    };
                     $scope.unFollowList = function () {
                         if (!$localStorage.user.id) {
                             $localStorage.previous.state = {
@@ -381,7 +382,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 var followers = $scope.item.list_id.followers;
                                 var new_followers = [];
                                 for (var i = 0; i < followers.length; i++) {
-                                    if (followers[i] != $localStorage.user.id) {
+                                    if (followers[i] !== $localStorage.user.id) {
                                         new_followers.push(followers[i]);
                                     }
                                 }
@@ -393,7 +394,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 $scope.request_process = false;
                             });
                         }
-                    }
+                    };
                     $scope.unlike = function () {
                         if (!$localStorage.user.id) {
                             $localStorage.previous.state = {
@@ -416,7 +417,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 }
                                 var new_likes = [];
                                 for (var i = 0; i < likes.length; i++) {
-                                    if (likes[i].user_id != $localStorage.user.id)
+                                    if (likes[i].user_id !== $localStorage.user.id)
                                     {
                                         new_likes.push(likes[i]);
                                     }
@@ -429,7 +430,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 $scope.request_process = false;
                             });
                         }
-                    }
+                    };
                     $scope.like = function () {
                         if (!$localStorage.user.id) {
                             $localStorage.previous.state = {
@@ -462,7 +463,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 $scope.request_process = false;
                             });
                         }
-                    }
+                    };
                     $scope.$on('wishlist_pin_select', function () {
                         var list_id = $scope.wishlist_product.item.select_list_id;
                         var ajax = itemHelper.pin($scope.item.item_id._id, list_id);
@@ -482,7 +483,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }, function () {
                             $scope.request_process = false;
                         });
-                    })
+                    });
                     $scope.pin = function () {
                         if (!$localStorage.user.id) {
                             $localStorage.previous.state = {
@@ -495,15 +496,15 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             $scope.wishlist_product.item = $scope.item.item_id;
                             $scope.$parent.showWishlist();
                         }
-                    }
+                    };
 
                 } else if ($stateParams.list_id) {
                     $scope.wishlist_name = $stateParams.list_name;
                     $scope.list_id = $stateParams.list_id;
-                    var ajax = wishlistHelper.listItems($stateParams.list_id);
+                    ajax = wishlistHelper.listItems($stateParams.list_id);
                     ajax.then(function (data) {
                         $scope.items = data;
-                        if (data.length == 0) {
+                        if (data.length === 0) {
                             toast.showShortBottom('Not Items Found In Wishlist');
                         }
                         $scope.loading = false;
@@ -515,7 +516,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         var item_id = item._id;
 //                            console.log('/app/item/' + item_id + "/" + $scope.list_id);
                         $location.path('/app/item/' + item_id + "/" + $scope.list_id);
-                    }
+                    };
                 }
                 $scope.buy = function (product) {
                     if (window.plugins) {
@@ -523,7 +524,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     } else {
                         window.open(product.href);
                     }
-                }
+                };
                 $scope.addComment = function () {
                     if (!$localStorage.user.id) {
                         toast.showShortBottom('SignUp/Login To Post A Comment');
@@ -547,7 +548,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             timeStorage.remove(cache_key);
                         });
                     }
-                }
+                };
 
 //                    $scope.is_mobile = false;
 //                    if (window.cordova && window.cordova.plugins) {
