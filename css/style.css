@@ -915,7 +915,7 @@ width: 100%;
     margin-top: 3px;
     border-radius: 0.3em;
 }
-.top-container .username{
+.top-container .mine-username{
     border-style: none;
     padding: 5px 25px;
 }
@@ -957,6 +957,7 @@ ul.mine-clip-list{
     border:1px solid #ccc;
     background-color:  #fff;
     border-radius: 0.3em;
+    margin-bottom: 15px;
 }
 ul.mine-clip-list li span.mine-new{
     vertical-align: middle;
@@ -966,6 +967,13 @@ padding-bottom: 20px;
   background-color: #EDE6DC;
   padding:20px;
 }
-.mine-container .user-info,.mine-container button.follow-btn {
+.mine-container .user-info,.mine-container button.edit-btn {
     margin: 0px;
+}
+.mine-pins{
+    width:48%;
+    float: left;
+    border:1px solid #ccc;
+    border-bottom-style:none;
+    margin-right: 10px
 }
