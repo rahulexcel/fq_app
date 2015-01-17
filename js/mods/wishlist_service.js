@@ -15,7 +15,7 @@ wishlistService.factory('wishlistHelper', [
                 def.reject();
             });
             return def.promise;
-        }
+        };
 
         service.remove = function (product_id) {
             var def = $q.defer();
@@ -41,18 +41,18 @@ wishlistService.factory('wishlistHelper', [
                 });
             }
             return def.promise;
-        }
+        };
         service.getListName = function (list_id) {
             var user_wish_list = timeStorage.get('user_wish_list');
             if (user_wish_list.me) {
                 for (var i = 0; i < user_wish_list.length; i++) {
-                    if (user_wish_list[i]._id == list_id) {
+                    if (user_wish_list[i]._id === list_id) {
                         return user_wish_list[i].name;
                     }
                 }
             }
             return "";
-        }
+        };
         service.list = function (force, showLoading) {
             if (!angular.isDefined(showLoading)) {
                 showLoading = true;
@@ -98,7 +98,7 @@ wishlistService.factory('wishlistHelper', [
                 });
                 return def.promise;
             }
-        }
+        };
         service.listItems = function (list_id) {
             var def = $q.defer();
             if ($localStorage.user && $localStorage.user.id) {
@@ -119,7 +119,7 @@ wishlistService.factory('wishlistHelper', [
                 });
             }
             return def.promise;
-        }
+        };
         service.create = function (list) {
             var def = $q.defer();
             if ($localStorage.user && $localStorage.user.id) {
@@ -138,7 +138,7 @@ wishlistService.factory('wishlistHelper', [
                 });
             }
             return def.promise;
-        }
+        };
         service.addItem = function (item, list_id) {
             var def = $q.defer();
 
@@ -165,7 +165,7 @@ wishlistService.factory('wishlistHelper', [
                 });
             }
             return def.promise;
-        }
+        };
         service.viewItem = function (item_id, list_id) {
             var def = $q.defer();
 
@@ -176,7 +176,7 @@ wishlistService.factory('wishlistHelper', [
                 def.reject(message);
             });
             return def.promise;
-        }
+        };
         service.add = function (product_id, list_id) {
             var def = $q.defer();
 
@@ -203,7 +203,7 @@ wishlistService.factory('wishlistHelper', [
                 });
             }
             return def.promise;
-        }
+        };
         return service;
     }
-])
+]);

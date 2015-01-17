@@ -8,7 +8,7 @@ accountMod.controller('AccountCtrl',
 
                 $scope.$on('logout_event', function () {
                     $location.path('/app/signup');
-                })
+                });
                 if (!$localStorage.user.id) {
                     toast.showShortBottom('SignIn To Access This Page');
                     $location.path('/app/signup');
@@ -16,8 +16,8 @@ accountMod.controller('AccountCtrl',
                 }
                 $scope.login_data = $localStorage.user;
                 var picture_width = $window.innerWidth;
-                picture_width = Math.ceil(picture_width * .95);
-                if(picture_width > 640){
+                picture_width = Math.ceil(picture_width * 0.95);
+                if (picture_width > 640) {
                     picture_width = 640;
                 }
                 $scope.picture_width = picture_width;
@@ -32,12 +32,12 @@ accountMod.controller('AccountCtrl',
                     var password = $scope.profile.password;
                     var confPassword = $scope.profile.confPassword;
 
-                    if (password.length == 0) {
+                    if (password.length === 0) {
                         toast.showShortBottom('Enter A Valid Password');
-                    } else if (password != confPassword) {
+                    } else if (password !== confPassword) {
                         toast.showShortBottom('Passwords Don\'t Match');
                     } else {
-                        if ($scope.register_status == 1) {
+                        if ($scope.register_status === 1) {
                             toast.showProgress();
                             return;
                         }
@@ -50,14 +50,14 @@ accountMod.controller('AccountCtrl',
                             $scope.register_status = 3;
                         });
                     }
-                }
+                };
                 $scope.update = function () {
                     var name = $scope.profile.name;
                     var gender = $scope.profile.gender;
 
-                    if (name.length != 0 && gender.length != 0) {
+                    if (name.length !== 0 && gender.length !== 0) {
 
-                        if ($scope.register_status == 1) {
+                        if ($scope.register_status === 1) {
                             toast.showProgress();
                             return;
                         }
@@ -76,7 +76,7 @@ accountMod.controller('AccountCtrl',
                     } else {
                         toast.showShortBottom('Fill Up Name and Gender');
                     }
-                }
+                };
 
                 $scope.is_mobile = false;
                 if (window.cordova && window.cordova.plugins) {
@@ -114,7 +114,7 @@ accountMod.controller('AccountCtrl',
                                 cameraDirection: Camera.Direction.FRONT
                             };
 
-                            if (index == 0) {
+                            if (index === 0) {
                                 options.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
                             }
 
@@ -143,7 +143,7 @@ accountMod.controller('AccountCtrl',
 
                                                 var ajax = accountHelper.updatePicture(data.data);
                                                 ajax.then(function () {
-                                                    var pic = ajaxRequest.url('v1/picture/view/' + data.data)
+                                                    var pic = ajaxRequest.url('v1/picture/view/' + data.data);
                                                     $scope.login_data.picture = pic;
                                                     $localStorage.user.picture = pic;
                                                     $scope.file_upload = false;
@@ -167,58 +167,59 @@ accountMod.controller('AccountCtrl',
                             return true;
                         }
                     });
-                }
+                };
 
                 $scope.$watch('file.myFiles', function (val) {
                     if (!val) {
                         return;
                     }
                     console.log($scope.file.myFiles);
-                    for (var i = 0; i < $scope.file.myFiles.length; i++) {
-                        var file = $scope.file.myFiles[i];
-                        var size = file.size;
+//                    for (var i = 0; i < $scope.file.myFiles.length; i++) {
+                    var i = 0;
+                    var file = $scope.file.myFiles[i];
+                    var size = file.size;
 
-                        var mb_size = Math.ceil((size / (1024 * 1024)));
-                        console.log(mb_size);
-                        if (mb_size > 5) {
-                            $scope.file = {
-                                myFiles: false
-                            };
-                            toast.showShortBottom('Upload File Of Size Less Than 2MB');
-                            return;
+                    var mb_size = Math.ceil((size / (1024 * 1024)));
+                    console.log(mb_size);
+                    if (mb_size > 5) {
+                        $scope.file = {
+                            myFiles: false
+                        };
+                        toast.showShortBottom('Upload File Of Size Less Than 2MB');
+                        return;
+                    }
+
+                    $scope.file_upload = true;
+                    $scope.upload = $upload.upload({
+                        url: ajaxRequest.url('v1/picture/upload'),
+                        data: {user_id: $localStorage.user.id},
+                        file: file
+                    }).progress(function (evt) {
+                        var per = parseInt(100.0 * evt.loaded / evt.total) + '%';
+                        $scope.progoress_style = {width: per};
+                        $scope.progress = per;
+//                            console.log('progress: ' +  + '% file :' + evt.config.file.name);
+                    }).success(function (data, status, headers, config) {
+                        var per = '100%';
+                        $scope.progoress_style = {width: per};
+                        $scope.progress = per;
+
+                        console.log(data);
+                        if (data.data) {
+                            var ajax = accountHelper.updatePicture(data.data);
+                            ajax.then(function () {
+                                var pic = ajaxRequest.url('v1/picture/view/' + data.data);
+                                $scope.login_data.picture = pic;
+                                $localStorage.user.picture = pic;
+                                $scope.file_upload = false;
+                            }, function () {
+                                $scope.file_upload = false;
+                            });
                         }
 
-                        $scope.file_upload = true;
-                        $scope.upload = $upload.upload({
-                            url: ajaxRequest.url('v1/picture/upload'),
-                            data: {user_id: $localStorage.user.id},
-                            file: file
-                        }).progress(function (evt) {
-                            var per = parseInt(100.0 * evt.loaded / evt.total) + '%';
-                            $scope.progoress_style = {width: per};
-                            $scope.progress = per;
-//                            console.log('progress: ' +  + '% file :' + evt.config.file.name);
-                        }).success(function (data, status, headers, config) {
-                            var per = '100%';
-                            $scope.progoress_style = {width: per};
-                            $scope.progress = per;
-
-                            console.log(data);
-                            if (data.data) {
-                                var ajax = accountHelper.updatePicture(data.data);
-                                ajax.then(function () {
-                                    var pic = ajaxRequest.url('v1/picture/view/' + data.data);
-                                    $scope.login_data.picture = pic;
-                                    $localStorage.user.picture = pic;
-                                    $scope.file_upload = false;
-                                }, function () {
-                                    $scope.file_upload = false;
-                                });
-                            }
-
 //                            console.log('file ' + config.file.name + 'is uploaded successfully. Response: ' + data);
-                        });
-                    }
+                    });
+//                    }
 
                 });
             }

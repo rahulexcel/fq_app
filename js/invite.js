@@ -11,19 +11,21 @@ inviteMod.controller('InviteCtrl',
                 $scope.friends = [];
                 $scope.$on('logout_event', function () {
                     $location.path('/app/signup');
-                })
-                if ($localStorage.user.type == 'facebook') {
-                    var data = dataShare.getData();
+                });
+                var data = false;
+                var ajax = false;
+                if ($localStorage.user.type === 'facebook') {
+                    data = dataShare.getData();
                     if (data && data.data) {
-                        var ajax = inviteHelper.lookUpFacebookFriends(data.data);
+                        ajax = inviteHelper.lookUpFacebookFriends(data.data);
                         ajax.then(function (data) {
                             $scope.friends = data;
                         });
                     }
-                } else if ($localStorage.user.type == 'google') {
-                    var data = dataShare.getData();
+                } else if ($localStorage.user.type === 'google') {
+                    data = dataShare.getData();
                     if (data && data.data) {
-                        var ajax = inviteHelper.lookUpGoogleFriends(data.data);
+                        ajax = inviteHelper.lookUpGoogleFriends(data.data);
                         ajax.then(function (data) {
                             $scope.friends = data.friends_data;
                         });
@@ -40,21 +42,21 @@ inviteMod.controller('InviteCtrl',
                 }
 
                 $scope.shareAll = function () {
-                    window.plugins.socialsharing.share($scope.text, null, null, 'http://www.pricegenie.co')
-                }
+                    window.plugins.socialsharing.share($scope.text, null, null, 'http://www.pricegenie.co');
+                };
                 $scope.twitter = function () {
                     window.plugins.socialsharing.shareViaTwitter(
                             $scope.text, null,
                             'http://www.pricegenie.co');
-                }
+                };
                 $scope.whatsapp = function () {
                     window.plugins.socialsharing.shareViaWhatsApp(
                             $scope.text, null,
                             'http://www.pricegenie.co');
-                }
+                };
 
                 $scope.facebook = function () {
-                    if (window.cordova.platformId == "browser") {
+                    if (window.cordova.platformId === "browser") {
                         if (!accountHelper.isFbInit()) {
                             facebookConnectPlugin.browserInit('765213543516434');
                             accountHelper.fbInit();
@@ -69,10 +71,8 @@ inviteMod.controller('InviteCtrl',
                         console.log(data);
                     }, function (data) {
                         console.log(data);
-                    })
-
-                }
-
+                    });
+                };
                 $scope.next = function () {
                     if ($localStorage.previous.url) {
                         var prev_url = $localStorage.previous.url;
@@ -82,7 +82,7 @@ inviteMod.controller('InviteCtrl',
                     } else {
                         $location.path('/app/account');
                     }
-                }
+                };
 
             }
         ]);

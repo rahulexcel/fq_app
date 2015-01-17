@@ -28,7 +28,7 @@ registerMod.controller('RegisterCtrl',
                 };
                 $scope.forgot_obj = {
                     email: $localStorage.user.email
-                }
+                };
                 $scope.google_status = 0;
                 $scope.facebook_status = 0;
                 $scope.login_status = 0;
@@ -40,19 +40,19 @@ registerMod.controller('RegisterCtrl',
                         $scope.login_obj.email = value;
                         $scope.forgot_obj.email = value;
                     }
-                })
+                });
                 $scope.$watch('login_obj.email', function (value) {
                     if (value) {
                         $scope.register_obj.email = value;
                         $scope.forgot_obj.email = value;
                     }
-                })
+                });
                 $scope.$watch('forgot_obj.email', function (value) {
                     if (value) {
                         $scope.login_obj.email = value;
                         $scope.register_obj.email = value;
                     }
-                })
+                });
 
                 $scope.show_register = true;
                 $scope.show_login = false;
@@ -62,17 +62,17 @@ registerMod.controller('RegisterCtrl',
                     $scope.show_register = false;
                     $scope.show_login = false;
                     $scope.show_forgot = true;
-                }
+                };
                 $scope.showRegister = function () {
                     $scope.show_register = true;
                     $scope.show_login = false;
                     $scope.show_forgot = false;
-                }
+                };
                 $scope.showLogin = function () {
                     $scope.show_register = false;
                     $scope.show_login = true;
                     $scope.show_forgot = false;
-                }
+                };
                 $scope.forgot = function () {
                     var email = $scope.forgot_obj.email;
                     if (email.length > 0) {
@@ -80,13 +80,13 @@ registerMod.controller('RegisterCtrl',
                     } else {
                         toast.showShortBottom('All Fields Required');
                     }
-                }
+                };
 
                 $scope.login = function () {
                     var email = $scope.login_obj.email;
                     var password = $scope.login_obj.password;
                     if (email.length > 0 && password.length > 0) {
-                        if ($scope.login_status == 1)
+                        if ($scope.login_status === 1)
                         {
                             toast.showProgress();
                             return;
@@ -107,13 +107,13 @@ registerMod.controller('RegisterCtrl',
                     } else {
                         toast.showShortBottom('All Fields Required');
                     }
-                }
+                };
                 $scope.create = function () {
                     var email = $scope.register_obj.email;
                     var password = $scope.register_obj.password;
                     var name = $scope.register_obj.name;
                     if (email.length > 0 && password.length > 0 && name.length > 0) {
-                        if ($scope.register_status == 1) {
+                        if ($scope.register_status === 1) {
                             toast.showProgress();
                             return;
                         }
@@ -134,10 +134,10 @@ registerMod.controller('RegisterCtrl',
                     } else {
                         toast.showShortBottom('All Fields Required');
                     }
-                }
+                };
                 $scope.facebook = function () {
                     console.log('facebook called');
-                    if (window.cordova.platformId == "browser") {
+                    if (window.cordova.platformId === "browser") {
                         if (!accountHelper.isFbInit()) {
                             facebookConnectPlugin.browserInit('765213543516434');
                             accountHelper.fbInit();
@@ -146,7 +146,7 @@ registerMod.controller('RegisterCtrl',
                     facebookConnectPlugin.login(['email', 'user_friends'], function (data) {
                         console.log(data);
                         facebookConnectPlugin.api('/me', null, function (data) {
-                            if ($scope.facebook_status == 1) {
+                            if ($scope.facebook_status === 1) {
                                 toast.showProgress();
                                 return;
                             }
@@ -156,9 +156,9 @@ registerMod.controller('RegisterCtrl',
                             var firstname = data.first_name;
                             var lastname = data.last_name;
                             var gender = data.gender;
-                            if (gender == 'male') {
+                            if (gender === 'male') {
                                 gender = 'M';
-                            } else if (gender == 'female') {
+                            } else if (gender === 'female') {
                                 gender = 'F';
                             } else {
                                 gender = false;
@@ -171,7 +171,7 @@ registerMod.controller('RegisterCtrl',
                                 def.resolve();
                             }, function (data) {
                                 def.resolve();
-                            })
+                            });
                             promise.then(function () {
                                 if (!email) {
                                     toast.showShortBottom("Email Not Found From Facebook, Unable To Login!");
@@ -194,17 +194,17 @@ registerMod.controller('RegisterCtrl',
                         }, function (data) {
                             console.log(data);
                             toast.showShortBottom('Facebook Login Error! Try Again.');
-                        })
+                        });
 
                     }, function (data) {
                         console.log('error');
                         console.log(data);
                         toast.showShortBottom('Facebook Login Error! Try Again.');
-                    })
-                }
+                    });
+                };
 
                 $scope.googleplay = function (model) {
-                    if (typeof chrome != 'undefined' && chrome.identity) {
+                    if (typeof chrome !== 'undefined' && chrome.identity) {
                         if (model.is_play_done || model.email.length > 0) {
                         } else {
                             chrome.identity.getAuthToken({interactive: true}, function (token) {
@@ -220,10 +220,10 @@ registerMod.controller('RegisterCtrl',
                             });
                         }
                     }
-                }
+                };
 
                 $scope.google = function () {
-                    if ($scope.google_status == 1) {
+                    if ($scope.google_status === 1) {
                         toast.showProgress();
                         return;
                     }
@@ -231,9 +231,9 @@ registerMod.controller('RegisterCtrl',
                     var api = googleLogin.startLogin();
                     api.then(function (data) {
                         var user = data;
-                        if (user.gender == 'male') {
+                        if (user.gender === 'male') {
                             user.gender = 'M';
-                        } else if (user.gender == 'female') {
+                        } else if (user.gender === 'female') {
                             user.gender = 'F';
                         } else {
                             user.gender = false;
@@ -248,6 +248,6 @@ registerMod.controller('RegisterCtrl',
                         toast.showShortBottom('Unknow Error!' + err);
                     });
 
-                }
+                };
             }
         ]);

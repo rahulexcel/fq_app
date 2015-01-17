@@ -18,25 +18,25 @@ productMod.controller('ProductCtrl',
                         window.plugins.socialsharing.share(product.name, null, product.img, product.href, function () {
                         }, function () {
                             toast.showShortBottom('Unable to Share');
-                        })
-                    }
+                        });
+                    };
                     $scope.twitter = function (product) {
                         window.plugins.socialsharing.shareViaTwitter(
                                 product.name, product.img, product.href, function () {
                                 }, function () {
                             toast.showShortBottom('Unable to Share');
                         });
-                    }
+                    };
                     $scope.whatsapp = function (product) {
                         window.plugins.socialsharing.shareViaWhatsApp(
                                 product.name, product.img, product.href, function () {
                                 }, function () {
                             toast.showShortBottom('Unable to Share');
                         });
-                    }
+                    };
 
                     $scope.facebook = function (product) {
-                        if (window.cordova.platformId == "browser") {
+                        if (window.cordova.platformId === "browser") {
                             if (!accountHelper.isFbInit()) {
                                 facebookConnectPlugin.browserInit('765213543516434');
                                 accountHelper.fbInit();
@@ -52,9 +52,8 @@ productMod.controller('ProductCtrl',
                         }, function (data) {
                             console.log(data);
                             toast.showShortBottom('Unable to Share');
-                        })
-
-                    }
+                        });
+                    };
                 } else {
                     $scope.isMobile = false;
                     socialJs.addSocialJs();
@@ -77,7 +76,7 @@ productMod.controller('ProductCtrl',
                             $scope.$broadcast('scroll.refreshComplete');
                         });
                     }
-                }
+                };
                 $scope.processProductData = function (data) {
                     console.log(data);
                     $scope.product = data.product;
@@ -94,34 +93,34 @@ productMod.controller('ProductCtrl',
                     }
                     $scope.product_loading = false;
                     $scope.$broadcast('scroll.refreshComplete');
-                }
+                };
                 $scope.$on('search_product_event', function () {
                     var cat_id = $scope.product.cat_id;
                     var sub_cat_id = $scope.product.sub_cat_id;
                     var name = $scope.product.cat_name;
                     var text = $rootScope.search.text;
                     $location.path('/app/category/' + cat_id + "/" + sub_cat_id + "/" + name + "/" + text);
-                })
+                });
                 $scope.$on('product_open', function () {
                     var data = dataShare.getData();
                     console.log('product open event');
                     console.log(data);
                     $scope.product = data;
                     $scope.product_loading = false;
-                })
+                });
                 $scope.buy = function (product) {
                     if (window.plugins) {
                         window.open(product.href, '_system');
                     } else {
                         window.open(product.href);
                     }
-                }
+                };
 
                 $scope.viewCategory = function (product) {
                     if (product.cat_id && product.sub_cat_id) {
                         $location.path('/app/category/' + product.cat_id + "/" + product.sub_cat_id + "/" + product.cat_name);
                     }
-                }
+                };
 
                 $scope.wishlist = function (product, $event) {
                     $event.preventDefault();
@@ -142,13 +141,13 @@ productMod.controller('ProductCtrl',
                         toast.showShortBottom('Login To Create Wishlist');
                         $location.path('/app/register');
                     }
-                }
+                };
                 $scope.openProduct = function (product) {
                     var id = product._id;
                     console.log('open product ' + id);
                     $location.path('/app/product/' + id);
                     dataShare.broadcastData(angular.copy(product), 'product_open');
-                }
+                };
                 if ($stateParams.product_id) {
                     $scope.product_loading = true;
                     $scope.product = false;

@@ -17,7 +17,7 @@ categoryMod.directive('scrollWatch', function () {
                 }
             });
         }
-    }
+    };
 });
 categoryMod.controller('CategoryCtrl',
         ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate',
@@ -41,7 +41,7 @@ categoryMod.controller('CategoryCtrl',
 
                         $localStorage.previous = {};
                         backView = false;
-                        if (state.function == 'wishlist') {
+                        if (state.function === 'wishlist') {
                             $scope.wishlist(state.param);
                         }
                     }
@@ -59,14 +59,14 @@ categoryMod.controller('CategoryCtrl',
                     console.log('setting category via search params');
                     $scope.current_category = {
                         father_key: $stateParams.father_key,
-                        search: $stateParams.search,
+                        search: $stateParams.search
                     };
                 } else if ($stateParams.cat_id && $stateParams.sub_cat_id) {
                     console.log('setting category via state params');
                     $scope.current_category = {
                         name: $stateParams.name,
                         cat_id: $stateParams.cat_id,
-                        sub_cat_id: $stateParams.sub_cat_id,
+                        sub_cat_id: $stateParams.sub_cat_id
                     };
                 }
 
@@ -90,7 +90,7 @@ categoryMod.controller('CategoryCtrl',
                     $scope.showSortBy = false;
                     $scope.showFilter = false;
                     $ionicScrollDelegate.scrollTop();
-                }
+                };
                 $scope.showSortByFn = function () {
                     if (!$scope.showProducts) {
                         $scope.showProductsFn();
@@ -100,7 +100,7 @@ categoryMod.controller('CategoryCtrl',
                         $scope.showFilter = false;
                     }
                     $ionicScrollDelegate.scrollTop();
-                }
+                };
                 $scope.showFiltersFn = function () {
                     if (!$scope.showProducts) {
                         $scope.showProductsFn();
@@ -110,26 +110,26 @@ categoryMod.controller('CategoryCtrl',
                         $scope.showFilter = true;
                     }
                     $ionicScrollDelegate.scrollTop();
-                }
+                };
                 $scope.open = function (obj) {
                     if (!obj.open) {
                         obj.open = true;
                     } else {
                         obj.open = !obj.open;
                     }
-                }
+                };
                 $scope.hideFilterBox = true;
                 $scope.scroll_direction = {
                     direction: 1
-                }
+                };
                 $scope.$watch('scroll_direction.direction', function (value) {
                     console.log('scroll direct change');
-                    if (value && value == -1) {
+                    if (value && value === -1) {
                         $scope.hideFilterBox = true;
                     } else {
                         $scope.hideFilterBox = false;
                     }
-                })
+                });
 
                 $scope.refreshCategory = function () {
                     $scope.product_loading = true;
@@ -139,7 +139,7 @@ categoryMod.controller('CategoryCtrl',
                     var req = categoryHelper.fetchProduct(state);
                     req.then(function (ret) {
                         $scope.product_loading = false;
-                        if (ret.products.length == 0) {
+                        if (ret.products.length === 0) {
                             toast.showShortBottom('Product Not Found Matching Current Filter');
                         }
                         $scope.update(ret);
@@ -148,7 +148,7 @@ categoryMod.controller('CategoryCtrl',
                     }, function () {
                         $scope.$broadcast('scroll.refreshComplete');
                     });
-                }
+                };
 
                 $scope.removeFilter = function (filter) {
                     var url = filter.param;
@@ -158,7 +158,7 @@ categoryMod.controller('CategoryCtrl',
                     var new_filters = [];
 
                     for (var i = 0; i < filters.length; i++) {
-                        if (filters[i].param != url) {
+                        if (filters[i].param !== url) {
                             new_filters.push(filters[i]);
                         }
                     }
@@ -166,13 +166,13 @@ categoryMod.controller('CategoryCtrl',
                     var req = categoryHelper.fetchProduct(state);
                     req.then(function (ret) {
                         $scope.product_loading = false;
-                        if (ret.products.length == 0) {
+                        if (ret.products.length === 0) {
                             toast.showShortBottom('Product Not Found Matching Current Filter');
                         }
                         $scope.update(ret);
                         $scope.showProductsFn();
                     });
-                }
+                };
 
                 $scope.doFilter = function (filter) {
                     if (!filter.param) {
@@ -180,7 +180,7 @@ categoryMod.controller('CategoryCtrl',
                         var sub_cat_id = filter.sub_cat_id;
                         var cat_name = filter.cat_name;
                         var search = $scope.currentState.search;
-                        $location.path('/app/category/' + cat_id + '/' + sub_cat_id + '/' + cat_name + '/' + search)
+                        $location.path('/app/category/' + cat_id + '/' + sub_cat_id + '/' + cat_name + '/' + search);
                     } else {
                         var url = filter.param;
                         var name = filter.name;
@@ -198,14 +198,14 @@ categoryMod.controller('CategoryCtrl',
                         var req = categoryHelper.fetchProduct(state);
                         req.then(function (ret) {
                             $scope.product_loading = false;
-                            if (ret.products.length == 0) {
+                            if (ret.products.length === 0) {
                                 toast.showShortBottom('Product Not Found Matching Current Filter');
                             }
                             $scope.update(ret);
                             $scope.showProductsFn();
                         });
                     }
-                }
+                };
                 $scope.doSort = function (sort) {
                     var url = sort.url;
                     $scope.product_loading = true;
@@ -221,7 +221,7 @@ categoryMod.controller('CategoryCtrl',
                         $scope.update(ret);
                         $scope.showProductsFn();
                     });
-                }
+                };
 
                 $scope.$on('search_event', function () {
                     var text = $rootScope.search.text;
@@ -237,7 +237,7 @@ categoryMod.controller('CategoryCtrl',
                         $scope.update(ret);
                         $scope.showProductsFn();
                     });
-                })
+                });
 
                 $scope.startPaging = false;
 
@@ -278,7 +278,7 @@ categoryMod.controller('CategoryCtrl',
                 });
                 $scope.nextPage = function (force) {
                     console.log('next page');
-                    if ($scope.currentState.page && ($scope.currentState.page * 1 != -1 && $scope.currentState.page * 1 <= 10) || force) {
+                    if ($scope.currentState.page && ($scope.currentState.page * 1 !== -1 && $scope.currentState.page * 1 <= 10) || force) {
                         $scope.product_loading = true;
                         var state = $scope.currentState;
                         state.page++;
@@ -294,7 +294,7 @@ categoryMod.controller('CategoryCtrl',
                         console.log('here');
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     }
-                }
+                };
 
                 $scope.page_size = 1;
                 $scope.page_range = 2;
@@ -303,7 +303,7 @@ categoryMod.controller('CategoryCtrl',
                 $scope.update = function (ret, append) {
                     $scope.currentState.page = ret.page;
                     console.log(ret.products.length + 'products');
-                    console.log('current page ' + ret.page)
+                    console.log('current page ' + ret.page);
                     $scope.page_size = ret.products.length;
                     if ($scope.products && append) {
                         var products = $scope.products;
@@ -325,7 +325,7 @@ categoryMod.controller('CategoryCtrl',
                     $scope.next_page_url = ret.page;
                     $scope.sortBy = ret.sortBy;
                     $scope.filters = ret.filters;
-                }
+                };
 
                 $scope.wishlist = function (product, $event) {
                     $event.preventDefault();
@@ -346,15 +346,15 @@ categoryMod.controller('CategoryCtrl',
                             category: angular.copy($scope.currentState)
                         };
                     }
-                }
+                };
                 $scope.openProduct = function (product) {
                     var id = product._id;
                     console.log('open product ');
                     $location.path('/app/product/' + id);
-                    var product = angular.copy(product);
+                    product = angular.copy(product);
                     product.cat_name = $scope.current_category.name;
                     dataShare.broadcastData(product, 'product_open');
-                }
+                };
 
             }
         ]);

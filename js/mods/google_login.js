@@ -41,7 +41,7 @@ googleLoginService.factory('googleLogin', [
 //                return false;
 //            }
 
-        }
+        };
         service.authorize = function (options) {
             var def = $q.defer();
             var params = 'client_id=' + encodeURIComponent(options.client_id);
@@ -54,7 +54,7 @@ googleLoginService.factory('googleLogin', [
             var pollTimer = $interval(function () {
                 try {
                     $log.info(win.document.URL);
-                    if (win.document.URL.indexOf(context.redirect_url) != -1) {
+                    if (win.document.URL.indexOf(context.redirect_url) !== -1) {
                         win.close();
                         $interval.cancel(pollTimer);
                         pollTimer = false;
@@ -73,7 +73,7 @@ googleLoginService.factory('googleLogin', [
             }, 100);
 
             return def.promise;
-        }
+        };
         service.validateToken = function (token, def) {
             var http = $http({
                 url: 'https://www.googleapis.com/oauth2/v3/token',
@@ -98,7 +98,7 @@ googleLoginService.factory('googleLogin', [
                     def.reject({error: 'Access Token Not Found'});
                 }
             });
-        }
+        };
         service.getUserInfo = function (access_token, def) {
             var http = $http({
                 url: 'https://www.googleapis.com/oauth2/v3/userinfo',
@@ -133,7 +133,7 @@ googleLoginService.factory('googleLogin', [
             http.then(function (data) {
                 console.log(data);
             });
-        }
+        };
         service.startLogin = function () {
             var def = $q.defer();
             var promise = this.authorize({
@@ -141,7 +141,7 @@ googleLoginService.factory('googleLogin', [
                 client_secret: this.secret,
                 redirect_uri: this.redirect_url,
                 scope: this.scope
-            })
+            });
             promise.then(function (data) {
                 def.resolve(data);
             }, function (data) {
@@ -149,7 +149,7 @@ googleLoginService.factory('googleLogin', [
                 def.reject(data.error);
             });
             return def.promise;
-        }
+        };
         return service;
     }
 ]);

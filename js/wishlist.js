@@ -22,11 +22,11 @@ wishlistMod.controller('WishlistCtrl',
                         var list_id = list._id;
                         console.log('/app/wishlist_item/' + list_id + "/" + list.name);
                         $location.path('/app/wishlist_item/' + list_id + "/" + list.name);
-                    }
+                    };
                     $scope.editList = function (list) {
                         dataShare.broadcastData(list, 'edit_list');
                         $location.path('/app/wishlist_edit');
-                    }
+                    };
 
                 } else {
                     toast.showShortBottom('You Need To Be Logged In To Access This Page');

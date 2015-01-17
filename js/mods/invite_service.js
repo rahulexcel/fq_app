@@ -16,7 +16,7 @@ inviteService.factory('inviteHelper', [
                 def.reject(message);
             });
             return def.promise;
-        }
+        };
         service.lookUpFacebookFriends = function (data) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/friends/facebook/lookup', {
@@ -29,7 +29,7 @@ inviteService.factory('inviteHelper', [
                 def.reject(message);
             });
             return def.promise;
-        }
+        };
         return service;
     }
-])
+]);

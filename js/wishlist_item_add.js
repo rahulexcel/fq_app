@@ -18,7 +18,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                             $location.path('/app/item/' + data.id + "/" + $scope.list_id);
                         }
                     });
-                }
+                };
                 $scope.next = function () {
                     if ($scope.item.picture.length > 0) {
                         $ionicTabsDelegate.select(1);
@@ -28,17 +28,17 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                 };
                 $scope.removeLocation = function () {
                     $scope.item.location = {};
-                }
+                };
                 $scope.tab1 = function () {
                     $ionicTabsDelegate.select(0);
-                }
+                };
                 $scope.tab2 = function () {
                     if ($scope.item.picture.length > 0) {
                         $ionicTabsDelegate.select(1);
                     } else {
                         toast.showShortBottom('Add Item Picture');
                     }
-                }
+                };
 
                 $scope.$on('$destroy', function () {
                     $scope.modal.remove();
@@ -62,7 +62,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                         $scope.item.location = pos;
                         $scope.modal.hide();
                     }
-                }
+                };
                 $ionicModal.fromTemplateUrl('template/partial/map.html', {
                     scope: $scope,
                     animation: 'slide-in-up'
@@ -83,9 +83,9 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                             }
                         }, function () {
                             $scope.url_loading = false;
-                        })
+                        });
                     }
-                })
+                });
                 $scope.showMap = function () {
                     var height = $window.innerHeight * 1 - 44;
                     $scope.height = height + 'px';
@@ -95,7 +95,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
 
                     $scope.modal.show();
                     mapHelper.initMap($scope);
-                }
+                };
 
                 if ($localStorage.user.id) {
                     $scope.list_id = false;
@@ -123,7 +123,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     myFiles: false
                 };
                 var picture_width = $window.innerWidth;
-                picture_width = Math.ceil(picture_width * .95);
+                picture_width = Math.ceil(picture_width * 0.95);
                 $scope.picture_width = picture_width;
                 $scope.browseCamera = function () {
                     $ionicActionSheet.show({
@@ -152,7 +152,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                                 allowEdit: false
                             };
 
-                            if (index == 0) {
+                            if (index === 0) {
                                 options.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
                             }
 
@@ -199,53 +199,54 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                             return true;
                         }
                     });
-                }
+                };
 
                 $scope.$watch('file.myFiles', function (val) {
                     if (!val) {
                         return;
                     }
                     console.log($scope.file.myFiles);
-                    for (var i = 0; i < $scope.file.myFiles.length; i++) {
-                        var file = $scope.file.myFiles[i];
-                        var size = file.size;
+//                    for (var i = 0; i < $scope.file.myFiles.length; i++) {
+                    var i = 0;
+                    var file = $scope.file.myFiles[i];
+                    var size = file.size;
 
-                        var mb_size = Math.ceil((size / (1024 * 1024)));
-                        console.log(mb_size);
-                        if (mb_size > 5) {
-                            $scope.file = {
-                                myFiles: false
-                            };
-                            toast.showShortBottom('Upload File Of Size Less Than 5MB');
-                            return;
-                        }
+                    var mb_size = Math.ceil((size / (1024 * 1024)));
+                    console.log(mb_size);
+                    if (mb_size > 5) {
+                        $scope.file = {
+                            myFiles: false
+                        };
+                        toast.showShortBottom('Upload File Of Size Less Than 5MB');
+                        return;
+                    }
 
-                        $scope.file_upload = true;
-                        $scope.upload = $upload.upload({
-                            url: ajaxRequest.url('v1/picture/upload'),
-                            data: {user_id: $localStorage.user.id},
-                            file: file
-                        }).progress(function (evt) {
-                            var per = parseInt(100.0 * evt.loaded / evt.total) + '%';
-                            $scope.progoress_style = {width: per};
-                            $scope.progress = per;
+                    $scope.file_upload = true;
+                    $scope.upload = $upload.upload({
+                        url: ajaxRequest.url('v1/picture/upload'),
+                        data: {user_id: $localStorage.user.id},
+                        file: file
+                    }).progress(function (evt) {
+                        var per = parseInt(100.0 * evt.loaded / evt.total) + '%';
+                        $scope.progoress_style = {width: per};
+                        $scope.progress = per;
 //                            console.log('progress: ' +  + '% file :' + evt.config.file.name);
-                        }).success(function (data, status, headers, config) {
-                            var per = '100%';
-                            $scope.progoress_style = {width: per};
-                            $scope.progress = per;
+                    }).success(function (data, status, headers, config) {
+                        var per = '100%';
+                        $scope.progoress_style = {width: per};
+                        $scope.progress = per;
 
-                            console.log(data);
-                            if (data.data) {
-                                var pic = ajaxRequest.url('v1/picture/view/' + data.data);
-                                $scope.item.picture = pic;
-                            }
-                            $scope.file_upload = false;
-                            $scope.step1Class = 'red-back';
+                        console.log(data);
+                        if (data.data) {
+                            var pic = ajaxRequest.url('v1/picture/view/' + data.data);
+                            $scope.item.picture = pic;
+                        }
+                        $scope.file_upload = false;
+                        $scope.step1Class = 'red-back';
 
 //                            console.log('file ' + config.file.name + 'is uploaded successfully. Response: ' + data);
-                        });
-                    }
+                    });
+//                    }
 
                 });
             }

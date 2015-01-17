@@ -7,10 +7,10 @@ accountService.factory('accountHelper', [
         service.init_done = false;
         service.fbInit = function () {
             this.init_done = true;
-        }
+        };
         service.isFbInit = function () {
             return this.init_done;
-        }
+        };
 
         service.updatePassword = function (password) {
             var def = $q.defer();
@@ -24,7 +24,7 @@ accountService.factory('accountHelper', [
                 def.reject();
             });
             return def.promise;
-        }
+        };
         service.updateProfile = function (profile) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/account/update', {
@@ -39,7 +39,7 @@ accountService.factory('accountHelper', [
                 def.reject();
             });
             return def.promise;
-        }
+        };
         service.removePicture = function () {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/account/remove_picture', {
@@ -52,7 +52,7 @@ accountService.factory('accountHelper', [
                 def.reject();
             });
             return def.promise;
-        }
+        };
         service.updatePicture = function (filename) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/account/remove_picture', {
@@ -65,20 +65,21 @@ accountService.factory('accountHelper', [
                 def.reject();
             });
             return def.promise;
-        }
+        };
         service.create = function (user, type) {
             var def = $q.defer();
-            if (type == 'login') {
-                var ajax = ajaxRequest.send('v1/account/login', {user: user});
-            } else if (type == 'facebook') {
-                var ajax = ajaxRequest.send('v1/account/create/facebook', {user: user});
-            } else if (type == 'google') {
-                var ajax = ajaxRequest.send('v1/account/create/google', {user: user});
+            var ajax = false;
+            if (type === 'login') {
+                ajax = ajaxRequest.send('v1/account/login', {user: user});
+            } else if (type === 'facebook') {
+                ajax = ajaxRequest.send('v1/account/create/facebook', {user: user});
+            } else if (type === 'google') {
+                ajax = ajaxRequest.send('v1/account/create/google', {user: user});
             } else {
-                var ajax = ajaxRequest.send('v1/account/create', {user: user});
+                ajax = ajaxRequest.send('v1/account/create', {user: user});
             }
             ajax.then(function (data) {
-                if (data.name && data.name != 'XXX') {
+                if (data.name && data.name !== 'XXX') {
                     toast.showShortBottom('Welcome ' + data.name);
                 } else {
                     toast.showShortBottom('Welcome');
@@ -89,9 +90,9 @@ accountService.factory('accountHelper', [
                 data.type = type;
                 $localStorage.user = data;
                 var picture = data.picture;
-                if (picture.length == 0) {
+                if (picture.length === 0) {
                     data.picture = 'img/silhouette_default.jpg';
-                } else if (picture.indexOf('http') == -1) {
+                } else if (picture.indexOf('http') === -1) {
                     data.picture = ajaxRequest.url('v1/picture/view/' + data.picture);
                 }
                 def.resolve(data);
@@ -101,7 +102,7 @@ accountService.factory('accountHelper', [
                 def.reject(message);
             });
             return def.promise;
-        }
+        };
         return service;
     }
-])
+]);
