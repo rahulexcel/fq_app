@@ -11,10 +11,7 @@
                     <img ng-src='{{item.item_id.img| picture:picture_width}}' />
                     <div class="heart wishlist-product-img">
                         <div ng-if="!me_like" on-tap='like();'>
-                            <div ng-show="item.likes.length > 0">
-                                <img src="img/likehand.jpg" alt="Like">
-                            </div>
-                            <div ng-show="item.likes.length == 0">Be First To Like</div>
+                            <img src="img/likehand.jpg" alt="Like">
                         </div>
                         <div ng-if='!me_pin'>
                             <div on-tap='pin();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">Be First To Pin</div>
@@ -24,11 +21,9 @@
                 </div>
                 <div class="pro-info">
                     <div class="pro-name">
-                        <span class="category pro-breadcrumb" on-tap='viewCategory(product);'><div class="grey-color">Men >&nbsp;</div>Shoes</span>
                         <div ng-show="item.item_id.name.length > 0">{{item.item_id.name}}</div>
                         <span class="arrow" ng-show='item.item_id.brand.length > 0'>Arrow </span>
                         <span class="e-site" ng-show='item.item_id.website.length > 0'>
-                            <span class="arrow"  on-tap='viewBrand(product);'>Arrow</span>
                             <i class='site {{item.item_id.website}}'></i>
                             {{item.item_id.website}}
                         </span>
@@ -42,17 +37,16 @@
                         Rs.{{item.item_id.price}}
                     </div>
                     -->
-                    
-                    <!--social icon here-->
+
                     <div class="social-share">
-                        <div class="social-icon">
+                        <div class="social-icon" ng-if="isMobile && item.item_id.href.length > 0">
                             <i class="fa-lg red-color fa-2x" on-tap='whatsapp(item)'><img src='img/whatsapp.png' alt='whats_app'/></i>
                             <i class="fa fa-twitter fa-lg red-color fa-2x" on-tap='twitter(item)'></i>
                             <i class="fa fa-facebook fa-lg red-color fa-2x"  on-tap='facebook(item)'></i>
                             <i class="fa fa-share-alt fa-lg red-color fa-2x" on-tap='shareAll(item)'></i>
                         </div>
-                    <!--social icon closed here-->
-                        
+                        <!--social icon closed here-->
+
                         <div ng-if="!isMobile && item.item_id.href.length > 0">
                             <div class="fb-like" data-href="{{item.item_id.href}}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                             <div class="twitter">
@@ -62,66 +56,52 @@
                                 </a>
                             </div>
                         </div>
-                        <div ng-if="isMobile && item.item_id.href.length > 0">
-                            <i class="fa-lg red-color fa-2x" on-tap='whatsapp(item)'><img src='img/whatsapp.png' alt='whats_app'/></i>
-                            <i class="fa fa-twitter fa-lg red-color fa-2x" on-tap='twitter(item)'></i>
-                            <i class="fa fa-facebook fa-lg red-color fa-2x"  on-tap='facebook(item)'></i>
-                            <i class="fa fa-share-alt fa-lg red-color fa-2x" on-tap='shareAll(item)'></i>
-                        </div>
                     </div>
                     <button class="button pro-button signup-button red-back" ng-show="item.item_id.href.length > 0" on-tap="view(item);">BUY NOW</button>
                     <div class="clearfix"></div>
 
-                    <div ng-if="me_like">
-                        <span ng-if="item.likes.length > 1" on-tap="unlike();">You</span> and 
-                        <span on-tap='likeList();'>{{item.likes.length - 1}} Likes</span>
+                    <span ng-if="me_like">
+                        <span ng-if="item.likes.length > 1"><span on-tap="unlike();">You</span> and <span on-tap='likeList();'>{{item.likes.length - 1}} Likes</span></span>
                         <span ng-if="item.likes.length == 1" on-tap="unlike();">You Like</span>
-                    </div>
-                    <div ng-if='me_pin'>
-                        <div ng-if='item.item_id.pins.length > 1'>
+                    </span>
+                    <span ng-if='me_pin'>
+                        <span ng-if='item.item_id.pins.length > 1'>
                             <div on-tap='pinList();' ng-show="item.item_id.pins.length > 0">You and {{item.item_id.pins.length - 1}} Pins</div>                        
-                        </div>
-                        <div ng-if='item.item_id.pins.length == 1'>
+                        </span>
+                        <span ng-if='item.item_id.pins.length == 1'>
                             <div on-tap='pinList();' ng-show="item.item_id.pins.length > 0">You Pins</div>                        
-                        </div>
-                    </div>
+                        </span>
+                    </span>
                 </div>
             </div>
-<!-- empty div
-            <div class="username">
-                <div ng-show="item.description.length > 0">{{item.description}}</div>
-            </div>
--->
+            <!-- empty div
+                        <div class="username">
+                            <div ng-show="item.description.length > 0">{{item.description}}</div>
+                        </div>
+            -->
             <div class="username">
                 <div class="user_image">
                     <img ng-src='{{item.user_id.picture| picture:50}}'/>
                 </div>
                 <div class="user-info">
                     <span class="red-color info">{{item.user_id.name}}</span>
-                    <span class="grey-color info">1 clips <i class="fa fa-circle"></i> Added one hour ago</span>
-                    <span class="clip-follower info"> 
-                                <i class="ion-ios7-people fa-lg red-color"></i>&nbsp
-                                <div on-tap='followListList();'> {{item.list_id.followers.length - 1}} Followers 
-                                <span on-tap='unFollowUser(item.user_id._id);' class="user-unfollow black-font">Unfollow!</span>
-                                </div>
-                    </span>
-                    <div ng-if="me_follow_user">
-                        <span class="grey-color" ng-if="item.user_id.followers.length > 1">
-                            <i class="ion-ios7-people fa-lg red-color"></i>
-                            <span on-tap='followUserList();'>You and {{item.user_id.followers.length - 1}} followers</span>
-                        </span>
-                        <!--<span class="grey-color" on-tap='unFollowUser(item.user_id._id);' ng-if="item.user_id.followers.length == 1">You Follow</span>-->
-                        <span on-tap='unFollowUser(item.user_id._id);' class="user-unfollow black-font">Unfollow!</span>
-                    </div>
-                    <div ng-if="!me_follow_user">
-                        <span class="grey-color" ng-show="item.user_id.followers.length > 0">
-                            {{item.user_id.followers.length}} Followers
-                        </span>
-                        <span class="grey-color" ng-show="!item.user_id.followers || item.user_id.followers.length == 0">Be First To Follow User</span>
-                    </div>
+                    <span class="grey-color info">1 clips
+                        <div ng-if="me_follow_user">
+                            <span class="grey-color" ng-if="item.user_id.followers.length > 1">
+                                <i class="ion-ios7-people fa-lg red-color"></i>
+                                <span on-tap='followUserList();'>You and {{item.user_id.followers.length - 1}} followers</span>
+                            </span>
+                            <!--<span class="grey-color" on-tap='unFollowUser(item.user_id._id);' ng-if="item.user_id.followers.length == 1">You Follow</span>-->
+                            <span on-tap='unFollowUser(item.user_id._id);' class="user-unfollow black-font">Unfollow!</span>
+                        </div>
+                        <div ng-if="!me_follow_user">
+                            <span class="grey-color" ng-show="item.user_id.followers.length > 0">
+                                {{item.user_id.followers.length}} Followers
+                            </span>
+                            <span class="grey-color" ng-show="!item.user_id.followers || item.user_id.followers.length == 0">Be First To Follow User</span>
+                        </div>
                 </div>
-                <!-- Need To Show Below Button On Right Side Like List Follow Button -->
-                <button on-tap='followUser(item.user_id._id);' class="follow-btn black-font">FOLLOW</button>
+                <button ng-if="!me_follow_user" on-tap='followUser(item.user_id._id);' class="follow-btn black-font">FOLLOW</button>
                 <div class="clearfix"></div>
             </div>
             <div class="added-to username">
@@ -136,19 +116,24 @@
                             </span>
                             <span on-tap='unFollowList();' class="user-unfollow black-font" ng-if="item.list_id.followers.length == 1">Unfollow!</span>
                         </span>
+                        <span ng-if="item.list_id.followers.length == 1">
+                            <span class="clip-follower">{{item.list_id.products.length}} clips
+                            </span>
+                            <span on-tap='unFollowList();' class="user-unfollow black-font" ng-if="item.list_id.followers.length == 1">Unfollow!</span>
+                        </span>
                     </span>
                     <span class="info grey-color" ng-if="!me_follow_list">
                         <span class="clip-follower">{{item.list_id.products.length}}clips .&nbsp; 
                             <div on-tap='followList();' ng-show="item.list_id.followers.length > 0">
                                 <i class="ion-ios7-people fa-lg red-color"></i> {{item.list_id.followers.length}}  Followers
                             </div>
-                            <!--                        <span ng-show="!item.list_id.followers || item.list_id.followers.length == 0">
-                                                        Be First To Follow List
-                                                    </span>-->
+                            <span ng-show="!item.list_id.followers || item.list_id.followers.length == 0">
+                                Be First To Follow List
+                            </span>
                         </span>
                     </span>
                 </div>
-                <button on-tap='followList();' ng-if="!me_follow_list"  class="follow-btn black-font">FOLLOW</button>
+                <button on-tap='followList();' ng-if="!me_follow_list" class="follow-btn black-font">FOLLOW</button>
                 <div class="clearfix"></div>
             </div>
 
@@ -195,46 +180,7 @@
 
                     <div class="clearfix"></div>
                 </div>
-
             </div>
-
-
-            <!--            <div ng-if="!is_mobile">
-                            <div class ="profile-pic" ng-if="item.picture">
-                                <img ng-src="{{item.picture|picture:picture_width}}">
-                                <i ng-show="!file_upload" class="ion-edit profile-pic-edit" ng-file-select 
-                                   ng-model="file.myFiles" 
-                                   ng-multiple="false" 
-                                   ng-rejected-file-model="rejFiles"></i>
-                                <i ng-show="file_upload" class="fa fa-spin fa-spinner"></i>
-                            </div>            
-                            <div class="profile-pic" ng-if="!item.picture" ng-file-select 
-                                 ng-model="file.myFiles" 
-                                 ng-multiple="false" 
-                                 ng-rejected-file-model="rejFiles">
-                                <div class="profile-pic-not" align="center">
-                                    <i ng-show="!file_upload" class="fa fa-camera fa-2x"></i>
-                                    <i ng-show="file_upload" class="fa fa-spin fa-spinner"></i>
-                                </div>
-                                Add a Picture
-                            </div>
-                        </div>
-            
-                        <div ng-if='is_mobile'>
-                            <div class ="profile-pic" ng-if="item.picture">
-                                <img ng-src="{{item.picture|picture:picture_width}}">
-                                <i ng-show="!file_upload" class="ion-edit profile-pic-edit" on-tap='browseCamera();'></i>
-                                <i ng-show="file_upload" class="fa fa-spin fa-spinner"></i>
-                            </div>            
-                            <div class="profile-pic" ng-if="!item.picture"  on-tap='browseCamera();'>
-                                <div class="profile-pic-not" align="center">
-                                    <i ng-show="!file_upload" class="fa fa-camera fa-2x"></i>
-                                    <i ng-show="file_upload" class="fa fa-spin fa-spinner"></i>
-                                </div>
-                                Add a Picture
-                            </div>
-                        </div>-->
-
 
         </div>
 

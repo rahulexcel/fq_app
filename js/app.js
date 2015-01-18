@@ -256,6 +256,12 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                 window.analytics.trackView(toState.name)
             }
 
+            if ($localStorage.user) {
+                if (!$localStorage.user.api_key) {
+                    $localStorage.user = {};
+                }
+            }
+
 //        console.log(fromState);
             if (toState.name === 'app.signup' && fromState) {
                 if (fromState.name !== "") {

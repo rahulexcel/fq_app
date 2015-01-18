@@ -148,8 +148,8 @@ serviceMod.factory('toast', ['$ionicPopup', function ($ionicPopup) {
     }
 ]);
 serviceMod.factory('ajaxRequest',
-        ['$http', '$q', '$log', 'toast',
-            function ($http, $q, $log, toast) {
+        ['$http', '$q', '$log', 'toast', '$localStorage',
+            function ($http, $q, $log, toast, $localStorage) {
                 return {
                     url: function (api) {
                         return 'http://144.76.83.246:5000/' + api;
@@ -158,9 +158,22 @@ serviceMod.factory('ajaxRequest',
                         if (!angular.isDefined(method)) {
                             method = 'POST';
                         }
-                        if (method == 'POST') {
-                            var timestamp = new Date().getTime();
-                            data.timestamp = timestamp;
+                        if (method === 'POST') {
+                            var api_key = $localStorage.user.api_key;
+                            if (angular.isDefined(api_key) && api_key.length > 0) {
+                                var timestamp = new Date().getTime();
+                                var api_secret = $localStorage.user.api_secret;
+                                data.timestamp = timestamp;
+                                var hash = CryptoJS.HmacSHA1(JSON.stringify(data), api_secret);
+                                hash = hash.toString(CryptoJS.enc.Hex);
+                                var new_data = {
+                                    digest: hash,
+                                    data: data,
+                                    api_key: api_key
+                                }
+                                data = new_data;
+                            }
+
                         }
                         console.log('data to send');
                         console.log(data);
