@@ -1,6 +1,5 @@
 <ion-view>
     <ion-content>
-        <i class="fa fa-spinner fa-spin" ng-show='loading'></i>
         <ion-refresher
             pulling-text="Pull to refresh..."
             on-refresh="doRefresh()">
@@ -14,9 +13,11 @@
                             <img src="img/likehand.jpg" alt="Like">
                         </div>
                         <div ng-if='!me_pin'>
-                            <div on-tap='pin();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">Be First To Pin</div>
+                            <div on-tap='pin();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">
+                                <img src="img/heart_big.jpg" alt="Like">
+                            </div>
                         </div>
-                        <img src="img/heart_big.jpg" alt="Like">
+
                     </div>
                 </div>
                 <div class="pro-info">
@@ -159,7 +160,7 @@
                     </div>
 
                 </div>
-                <div class="load-more" ng-if='item.comments && !showMoreComment'>
+                <div class="load-more" ng-if='item.comments.length > 0 && !showMoreComment'>
                     <span class="red-color" on-tap='loadAllComments()'>Load More</span>
                 </div>
                 <div class="clearfix"></div>

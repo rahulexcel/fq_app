@@ -80,7 +80,27 @@ font-style: normal;
 .urabanladder  { background-image: url("../img/fav/urabanladder.png")  }
 .voiletbag  { background-image: url("../img/fav/voiletbag.png")  }
 .zanzaar  { background-image: url("../img/fav/zanzaar.png")  }
-
+.grey_bg{
+    background-color: #eee7dd;
+}
+.grey_bg .pane,.grey_bg .view{
+    background-color: #eee7dd;
+}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+.platform-ready .loading-gif {
+    display: none;
+}
+.loading-gif {
+    color: #777;
+    height: 50px;
+    left: 50%;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 100px;
+}
 .tab-item .icon{
     height: 15px;
     line-height: 32px !important;
@@ -179,7 +199,7 @@ Scroll On Product Page
     text-align: center;
 }
 
-#scroller li {
+.similar li {
     display: block;
     float: left;
     width: 200px;
@@ -188,6 +208,45 @@ Scroll On Product Page
     background-color: #fafafa;
     font-size: 14px;
     z-index: 9999;
+}
+#menu_scroller{
+    /*position: absolute;*/
+    z-index: 1;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    width: 5000px;
+    height: 50px;
+    background-color: #fff;
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    -o-text-size-adjust: none;
+    text-size-adjust: none;   
+}
+#menu_scroller ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+}
+
+#menu_scroller li{
+    display: block;
+    float: left;
+    width: 125px;
+    z-index: 9999;
+    text-align: center;
 }
 
 .hidden {
@@ -542,7 +601,7 @@ span.other-price{
     bottom: 2%;
     width: 100%;
     text-align: right;
-    
+
 }
 .category .drop-price{
     color:#06ACAC;
@@ -841,11 +900,11 @@ span i.fa-circle{
     border-bottom-style: none; 
 }
 .username{
-   padding: 10px;
-   border: 1px solid #ccc;
-   margin-bottom: 20px;
-   border-radius: .2em;
-   background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    border-radius: .2em;
+    background-color: #fff;
 }
 .user_image{
     float: left;
@@ -859,10 +918,10 @@ span i.fa-circle{
     float: left;
     width: 57%;
     margin-left: 10px;
-    }
+}
 
 .user-info span a{text-decoration: underline;}
- button.follow-btn{
+button.follow-btn{
     float: right;
     border: 1px solid #ccc;
     min-height: 33px;
@@ -880,13 +939,13 @@ span i.fa-circle{
     border-top: 1px solid #ccc;
     padding: 11px 0px;
     background-color: #fff;
-    
+
 }
 .comment-frm input{
     float: left;
     background-color: #DBDBDB;
     border-radius: .2em;
-   
+
 }
 .comment-frm button.follow-btn{
     margin:0px;
@@ -898,8 +957,8 @@ span.clip-follower{display: flex;}
     margin-right:10px;
 }
 span.info{
-float: left;
-width: 100%;
+    float: left;
+    width: 100%;
 }
 .user-unfollow{
     text-decoration: underline;
@@ -935,23 +994,22 @@ width: 100%;
     padding: 5px 25px;
 }
 ul.mine-list{
+    margin: 0px !important;
     border-bottom: 1px solid #ccc;
-    min-width: 500px;
-    padding: 5px 25px;
 }
 ul.mine-list li{
     border-right: 1px solid rgb(204, 204, 204);
     display: inline;
     line-height: 36px;
-    padding: 13px 10px;
+    /*padding: 13px 10px;*/
 }
 ul.mine-clip-list li{
     color: #A8A8A8;
-font-size: 1em;
-padding: 12px 22px;
-line-height: 21px;
-font-weight: normal;
-border-bottom: 1px solid #C8C8C5;
+    font-size: 1em;
+    padding: 12px 22px;
+    line-height: 21px;
+    font-weight: normal;
+    border-bottom: 1px solid #C8C8C5;
 }
 ul.mine-clip-list{
     border:1px solid #ccc;
@@ -961,11 +1019,11 @@ ul.mine-clip-list{
 }
 ul.mine-clip-list li span.mine-new{
     vertical-align: middle;
-padding-bottom: 20px;
+    padding-bottom: 20px;
 }
 .mine-container{
-  background-color: #EDE6DC;
-  padding:20px;
+    background-color: #EDE6DC;
+    padding:20px;
 }
 .mine-container .user-info,.mine-container button.edit-btn {
     margin: 0px;

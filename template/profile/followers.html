@@ -1,0 +1,20 @@
+<div class="username" ng-repeat="user in followers">
+    <div class="user_image">
+        <img ng-src='{{item.user_id.picture| picture:50}}'/>
+    </div>
+    <div class="user-info">
+        <span class="red-color info">{{item.user_id.name}}</span>
+        <span class="grey-color info">1 clips <i class="fa fa-circle"></i> Added one hour ago</span>
+        <span class="clip-follower info"> 
+            <i class="ion-ios7-people fa-lg red-color"></i>&nbsp
+            <div> 1 Followers 
+                <span class="user-unfollow black-font">Unfollow!</span>
+            </div>
+        </span>
+    </div>
+    <button on-tap='followUser(item.user_id._id);' class="follow-btn red-back">FOLLOW</button>
+    <div class="clearfix"></div>
+</div>
+<div ng-if="followers.length == 0">
+    No Followers
+</div>

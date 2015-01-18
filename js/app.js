@@ -13,7 +13,7 @@ var app = angular.module('starter',
             'RegisterMod',
             'AccountMod',
             'FeedbackMod',
-            'WishlistMod',
+            'ProfileMod',
             'InviteMod',
             'WishlistNewMod',
             'WishlistItemMod',
@@ -98,29 +98,49 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider", func
                         }
                     }
                 })
-                .state('app.wishlist', {
-                    url: '/wishlist',
+                .state('app.profile', {
+                    url: '/profile',
                     abstract: true,
                     views: {
                         'menuContent': {
-                            templateUrl: 'template/wishlist.html',
-                            controller: 'WishlistCtrl'
+                            templateUrl: 'template/profile.html',
+                            controller: 'ProfileCtrl'
                         }
                     }
                 })
-                .state('app.wishlist.mine', {
+                .state('app.profile.mine', {
                     url: '/mine',
                     views: {
-                        'tab-mine': {
-                            templateUrl: 'template/wishlist/mine.html'
+                        'tab-content': {
+                            templateUrl: 'template/profile/list_mine.html',
+                            controller: 'ProfileListMineCtrl'
                         }
                     }
                 })
-                .state('app.wishlist.their', {
-                    url: '/their',
+                .state('app.profile.followers', {
+                    url: '/followers',
                     views: {
-                        'tab-their': {
-                            templateUrl: 'template/wishlist/their.html'
+                        'tab-content': {
+                            templateUrl: 'template/profile/followers.html',
+                            controller: 'ProfileFollowerCtrl'
+                        }
+                    }
+                })
+                .state('app.profile.following', {
+                    url: '/following',
+                    views: {
+                        'tab-content': {
+                            templateUrl: 'template/profile/following.html',
+                            controller: 'ProfileFollowingCtrl'
+                        }
+                    }
+                })
+                .state('app.profile.pins', {
+                    url: '/pins',
+                    views: {
+                        'tab-content': {
+                            templateUrl: 'template/profile/pins.html',
+                            controller: 'ProfilePinCtrl'
                         }
                     }
                 })
@@ -239,7 +259,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             console.log(fromState.name + "from state");
 
             $rootScope.body_class = '';
-            if (toState.name === 'app.item') {
+            if (toState.name === 'app.item' || toState.name.indexOf('app.profile') != -1) {
                 $rootScope.body_class = 'grey_bg';
             }
 

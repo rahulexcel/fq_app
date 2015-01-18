@@ -1,0 +1,52 @@
+<ion-view>
+    <ion-nav-title>My Wishlist</ion-nav-title>
+    <ion-content>
+        <div ng-show="user">
+            <div class="username mine-username">
+                <div class="user_image">
+                    <img ng-src='{{user.picture| picture : 100: 100}}'/>
+                </div>
+                <div class="user-info">
+                    <span class="red-color info">{{user.name}}</span>
+                    <span ng-show="!me"><button class="button">Follow</button></span>
+                    <div class="clearfix"></div>      
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="follow-details">
+                <span>{{user.meta.followers}} <span class="grey-color">Followers</span></span>   
+                <span>{{user.meta.friends}} <span class="grey-color">Friends</span></span>
+                <span>{{user.meta.products}} <span class="grey-color">Pins</span></span>
+            </div>
+            <!-- Remove This Later-->
+            <style>
+                .wishlist .wishlist{
+                    border-bottom: 1px solid red !important;
+                }
+                .followers .followers{
+                    border-bottom: 1px solid red !important;
+                }
+                .following .following{
+                    border-bottom: 1px solid red !important;
+                }
+                .pins .pins{
+                    border-bottom: 1px solid red !important;
+                }
+                .profile .profile{
+                    border-bottom: 1px solid red !important;
+                }
+            </style>
+            <div id='menu_sliding' style="position: relative">
+                <ul id='menu_scroller' class="mine-list" ng-class="selected_class">
+                    <li class="wishlist" on-tap='menu_wishlist();'>MY WISHLIST</li>
+                    <li class="followers"><a href="#/app/profile/followers">FOLLOWERS</a></li>
+                    <li class="following"><a href="#/app/profile/following">FOLLOWINGS</a></li>
+                    <li class="pin"><a href="#/app/profile/pins">MY PINS</a></li>
+                    <li class="profile">PROFILE</li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+            <div ui-view="tab-content"></div>
+        </div>
+    </ion-content>
+</ion-view>
