@@ -705,14 +705,14 @@ i.up-price{
     border-radius: 0.3em;
 }
 .progress-info{
-    margin-left: 75px;
-    line-height: 34px;
+    margin-left: 61px;
+    line-height: 25px;
     vertical-align: middle;
     margin-right: 25px;
 }
 .progress-close{
     float: right;
-margin-top: 26px;
+margin-top: 41px;
 }
 #my-acc .item, .top-container .similar-product-label{
     border-style:none;
@@ -758,7 +758,7 @@ margin-top: 26px;
     padding:0px;
 }
 .top-container #my-acc .padding{
-    padding:10px 15px 5px;
+    padding:10px 15px 0px;
 }
 #my-acc .item-confirm-pass{
     border-bottom:2px solid #E1E1E1;
