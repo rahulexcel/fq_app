@@ -1049,7 +1049,7 @@ ul.mine-clip-list li span.mine-new{
     background-color: #EDE6DC;
     padding:20px;
 }
-.mine-container .user-info,.mine-container button.edit-btn {
+.mine-container .user-info,button.edit-btn {
     margin: 0px;
 }
 .mine-pins{
@@ -1082,4 +1082,13 @@ ul.mine-clip-list li span.mine-new{
     border-bottom: 1px solid #ccc;
     padding-right: 15px;
     padding-left: 15px;
+}
+.scroll-content .scroll .top-container ul{
+    margin:0px;
+}
+.scroll-content .scroll .top-container li{
+    line-height: normal;
+}
+ul.mine-clip-list li .user-info{
+    margin-left: 0px;
 }
