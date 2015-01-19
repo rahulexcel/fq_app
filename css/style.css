@@ -1059,6 +1059,9 @@ ul.mine-clip-list li span.mine-new{
     border-bottom-style:none;
     margin-right: 2%;
 }
+.mine-pins .pro-img>img{
+    width: 50%;
+}
 .list-section{
     margin: 12px 0px;
 }
@@ -1091,4 +1094,8 @@ ul.mine-clip-list li span.mine-new{
 }
 ul.mine-clip-list li .user-info{
     margin-left: 0px;
+}
+.result-empty{
+    margin: 10px auto;
+    text-align: center
 }
