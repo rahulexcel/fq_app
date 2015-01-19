@@ -257,6 +257,9 @@ Scroll On Product Page
     background-color:#da500f;
     color:#fff;
 }
+.white-back{
+    background-color: #fff;
+}
 .red-color,.bar.bar-stable .title {
     color:#da500f;
 }
@@ -264,8 +267,7 @@ Scroll On Product Page
     color:#838383;
 }
 .progress_parent{
-    width: 95%;
-    margin: 0px auto;
+    padding: 10px 15px;
 }
 .progress{
     background-color: #ccc;
@@ -700,8 +702,19 @@ i.up-price{
 .register{
     margin-top:10px;
     margin:2px 17px;
+    border-radius: 0.3em;
 }
-#my-acc .item{
+.progress-info{
+    margin-left: 61px;
+    line-height: 25px;
+    vertical-align: middle;
+    margin-right: 25px;
+}
+.progress-close{
+    float: right;
+margin-top: 41px;
+}
+#my-acc .item, .top-container .similar-product-label{
     border-style:none;
 }
 .update-info{
@@ -712,6 +725,7 @@ i.up-price{
 .list-my_acc .input-label{
     margin-top:5px;
 }
+
 .list-my_acc input,
 .feedback-container input{
     color:#8A8A8A;
@@ -742,6 +756,9 @@ i.up-price{
 }
 #my-acc .padding{
     padding:0px;
+}
+.top-container #my-acc .padding{
+    padding:10px 15px 0px;
 }
 #my-acc .item-confirm-pass{
     border-bottom:2px solid #E1E1E1;
@@ -910,7 +927,7 @@ span i.fa-circle{
 .user_image{
     float: left;
     width: 55px;
-    height: 55px;
+    height: 24px;
     overflow: hidden;
     text-align: center;
     vertical-align: middle;
@@ -1032,7 +1049,7 @@ ul.mine-clip-list li span.mine-new{
     background-color: #EDE6DC;
     padding:20px;
 }
-.mine-container .user-info,.mine-container button.edit-btn {
+.mine-container .user-info,button.edit-btn {
     margin: 0px;
 }
 .mine-pins{
@@ -1052,4 +1069,26 @@ ul.mine-clip-list li span.mine-new{
 }
 #menu_scroller li {
     line-height: 48px;
+}
+.top-container .list-my_acc{
+    margin-bottom: 0px;
+}
+.top-container .register
+{
+    border:1px solid #ccc;
+}
+.top-container #my-acc .item-myacc2
+{
+    border-bottom: 1px solid #ccc;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.scroll-content .scroll .top-container ul{
+    margin:0px;
+}
+.scroll-content .scroll .top-container li{
+    line-height: normal;
+}
+ul.mine-clip-list li .user-info{
+    margin-left: 0px;
 }
