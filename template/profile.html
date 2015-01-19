@@ -1,14 +1,14 @@
 <ion-view>
     <ion-nav-title>My Wishlist</ion-nav-title>
     <ion-content>
-        <div ng-show="user">
+        <div class="top-container" ng-show="user">
             <div class="username mine-username">
                 <div class="user_image">
                     <img ng-src='{{user.picture| picture : 100: 100}}'/>
                 </div>
                 <div class="user-info">
                     <span class="red-color info">{{user.name}}</span>
-                    <span ng-show="!me"><button class="button">Follow</button></span>
+                    <span ng-show="!me"><button class=" red-back">Follow</button></span>
                     <div class="clearfix"></div>      
                 </div>
                 <div class="clearfix"></div>
@@ -46,7 +46,7 @@
                 </ul>
             </div>
             <div class="clearfix"></div>
-            <div ui-view="tab-content"></div>
+            <div class="mine-content" ui-view="tab-content"></div>
         </div>
     </ion-content>
 </ion-view>
