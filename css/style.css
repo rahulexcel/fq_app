@@ -444,11 +444,12 @@ div#account-page button{
     font-weight: 900;
 }
 .pro-info{
-    width:99%;
+    width:100%;
     padding: 2px 10px 10px 15px;
     text-align: left;
     border-top:1px solid #d1d1d1;
     border-bottom:1px solid #d1d1d1;
+    background-color: #fff;
 }
 .pro-breadcrumb{
     width: 100%;
@@ -566,7 +567,7 @@ span.other-price{
     text-align: right;
     position:absolute;
     bottom:2%;
-    padding-right: 22px;
+    padding-right: 7px;
 }
 .social-share{
     float:right;
@@ -879,7 +880,7 @@ span i.fa-circle{
 #wishlist_new .item-private:last-child{
     border-style:none;
 }
-#wishlist_new .list{
+#wishlist_new .list,.top-container .username{
     margin-bottom:0px;
 }
 .clip-share {
@@ -916,7 +917,7 @@ span i.fa-circle{
 }
 .user-info{
     float: left;
-    width: 57%;
+    /*width: 57%;*/
     margin-left: 10px;
 }
 
@@ -957,8 +958,9 @@ span.clip-follower{display: flex;}
     margin-right:10px;
 }
 span.info{
-    float: left;
-    width: 100%;
+    /*float: left;
+    width: 100%; */
+    display: block;
 }
 .user-unfollow{
     text-decoration: underline;
@@ -967,16 +969,20 @@ span.info{
     float: right;
 }
 /*********************************social page closed *******************************/
+.mine-content{
+    margin:10px 15px;
+}
 .top-container .username button{
     border: 1px solid #CCC;
-    min-height: 31px;
-    min-width: 133px;
-    margin-top: 3px;
+    min-height: 39px;
+    min-width: 119px;
+    margin-top: 12px;
     border-radius: 0.3em;
 }
-.top-container .mine-username{
+ .mine-username{
     border-style: none;
     padding: 5px 25px;
+    margin-bottom: 0px;
 }
 .top-container .clip-label{
     font-size: inherit;
@@ -992,6 +998,7 @@ span.info{
     line-height: 36px;  
     min-width: 367px;
     padding: 5px 25px;
+    background-color: #fff;
 }
 ul.mine-list{
     margin: 0px !important;
@@ -1033,5 +1040,16 @@ ul.mine-clip-list li span.mine-new{
     float: left;
     border:1px solid #ccc;
     border-bottom-style:none;
-    margin-right: 5px
+    margin-right: 2%;
+}
+.list-section{
+    margin: 12px 0px;
+}
+.mine-pins .username{
+    border-style: none;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0px;
+}
+#menu_scroller li {
+    line-height: 48px;
 }
