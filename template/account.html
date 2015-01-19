@@ -32,23 +32,34 @@
     <div ng-show='rejFiles'>
         {{rejFiles}}
     </div>
-    <div class="progress_parent" ng-show='file_upload'>
-        <div class="progress" style="height: 2px">
-            <div ng-style="progoress_style" class='prog_inner red-back'>
-
-            </div>
-        </div>
+    <div class="progress_parent register white-back">
+        <div class="user_image">
+        <img src=""/>
+    </div>
+         
+                <i class="fa fa-times progress-close"></i>
+        <div class="progress-info">
+            
         <div>
             Uploading... <i class="fa fa-spinner fa-spin"></i><span ng-if="image_size != 0">{{image_size}} Mb</span>
         </div>
+        <div class="progress" style="height: 2px">
+            <div ng-style="progoress_style" class='prog_inner red-back'>
+            </div>
+           
+        </div>
+            </div>
+        
+        
+        <div class="clearfix"></div>
     </div>
 </div>
 <div id="my-acc">
 
-    Diactivate From Facebook or Google
-
+  <!--  Diactivate From Facebook or Google  ----->
+    
     <div class="update-info similar-product-label">Update Information</div>
-    <div class="register">
+    <div class="register white-back" >
         <form>
             <div class="list list-my_acc">
                 <label class="item item-input item-floating-label item-myacc1">
@@ -73,10 +84,10 @@
             </div>
         </form>
     </div>
-    <div class="update-info similar-product-label">Change Password</div>
-    <div class="register">
+    <div class="update-info similar-product-label white-back">Change Password</div>
+    <div class="register white-back">
         <form>
-            <div class="list list-my_ac">
+            <div class="list list-my_acc">
                 <label class="item item-input item-floating-label item-myacc1">
                     <span class="input-label">New Password</span>
                     <input autocomplete="off" type="password" ng-model='profile.password' placeholder="New Passowrd">
