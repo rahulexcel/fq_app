@@ -1,114 +1,156 @@
 <div class="top-container" ng-show="wishlist_mine">
     <div class="clip-label black-font add-to-clip">
-      
-          <!-- above part of this page is commented here
-        <div class="username mine-username">
+
+        <!-- above part of this page is commented here
+      <div class="username mine-username">
+          <div class="user_image">
+              <img ng-src='img/user-image.jpg'/>
+          </div>
+          <div class="user-info">
+              <span class="red-color info">Manish Prakash</span>
+              <span><button>EDIT PROFILE</button></span>
+              <div class="clearfix"></div>      
+          </div>
+          <div class="clearfix"></div>
+      </div>
+      <div class="follow-details">
+          <span>12 <span class="grey-color">Following</span></span>   
+          <span>39 <span class="grey-color">Followers</span></span>
+          <span>60 <span class="grey-color">Pins</span></span>
+      </div>
+      <ul class="mine-list">
+          <li>MY PINS</li>
+          <li>MY WISHLIST</li>
+          <li>FOLLOWERS</li>
+          <li>FOLLOWINGS</li>
+      </ul>
+      <div class="mine-container">
+          <ul class="mine-clip-list">
+              <li class="clip-font-color new add-new" on-tap='newList();'>
+                  <i class="fa fa-plus-square-o fa-3px"></i>
+                  <span class="mine-new">Create a New Clipboard</span>
+              </li>
+              <li ng-repeat='item1 in wishlist_mine track by item1._id'>
+                  <div class="black-font" on-tap='viewList(item1);'>{{item1.name}} <i ng-if="{{item1.type}} == 'private'" class="ion-ios7-locked"></i>
+                  </div>
+                  <div class="user-info"> 
+                      <span class="info">{{item1.meta.products}} clips <i class="fa fa-circle"></i> Created on <!--{{item1.created_at}}--> <!--12 jan'15 </span>
+                     <span class="info"><i class="ion-ios7-heart-outline red-color"></i>{{list.meta.likes}} 
+                          <i class="ion-ios7-people red-color"></i> {{item1.followers.length}}
+                      </span> 
+                      <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
+                      <div class="clearfix"></div>
+                  </div>
+                  <button class="edit-btn follow-btn">EDIT</button>
+                  <div class="clearfix"></div>
+              </li>
+          </ul>
+          
+           
+           ------------------------and closed here.plz remove comment after scroll is done-------->
+
+        <!------------ followers code here----------------->
+        <br>
+        followers code
+        <br>
+
+        <div class="username">
             <div class="user_image">
-                <img ng-src='img/user-image.jpg'/>
+                <img ng-src='{{item.user_id.picture| picture:50}}'/>
             </div>
             <div class="user-info">
-                <span class="red-color info">Manish Prakash</span>
-                <span><button>EDIT PROFILE</button></span>
-                <div class="clearfix"></div>      
+                <span class="red-color info">{{item.user_id.name}}</span>
+                <span class="grey-color info">1 clips <i class="fa fa-circle"></i> Added one hour ago</span>
+                <span class="clip-follower info"> 
+                    <i class="ion-ios7-people fa-lg red-color"></i>&nbsp
+                    <div> 1 Followers 
+                        <span class="user-unfollow black-font">Unfollow!</span>
+                    </div>
+                </span>
             </div>
+            <button on-tap='followUser(item.user_id._id);' class="follow-btn red-back">FOLLOW</button>
             <div class="clearfix"></div>
         </div>
-        <div class="follow-details">
-            <span>12 <span class="grey-color">Following</span></span>   
-            <span>39 <span class="grey-color">Followers</span></span>
-            <span>60 <span class="grey-color">Pins</span></span>
-        </div>
-        <ul class="mine-list">
-            <li>MY PINS</li>
-            <li>MY WISHLIST</li>
-            <li>FOLLOWERS</li>
-            <li>FOLLOWINGS</li>
-        </ul>
-        <div class="mine-container">
-            <ul class="mine-clip-list">
-                <li class="clip-font-color new add-new" on-tap='newList();'>
-                    <i class="fa fa-plus-square-o fa-3px"></i>
-                    <span class="mine-new">Create a New Clipboard</span>
-                </li>
-                <li ng-repeat='item1 in wishlist_mine track by item1._id'>
-                    <div class="black-font" on-tap='viewList(item1);'>{{item1.name}} <i ng-if="{{item1.type}} == 'private'" class="ion-ios7-locked"></i>
-                    </div>
-                    <div class="user-info"> 
-                        <span class="info">{{item1.meta.products}} clips <i class="fa fa-circle"></i> Created on <!--{{item1.created_at}}--> <!--12 jan'15 </span>
-                       <span class="info"><i class="ion-ios7-heart-outline red-color"></i>{{list.meta.likes}} 
-                            <i class="ion-ios7-people red-color"></i> {{item1.followers.length}}
-                        </span> 
-                        <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
-                        <div class="clearfix"></div>
-                    </div>
-                    <button class="edit-btn follow-btn">EDIT</button>
-                    <div class="clearfix"></div>
-                </li>
-            </ul>
-            
-             
-             ------------------------and closed here.plz remove comment after scroll is done-------->
 
-            <!------------ followers code here----------------->
-            <br>
-            followers code
-            <br>
-            
+        <!------------ followers code closed here----------------->
+
+        <!------------ pins code here----------------->
+        <br>
+        Pins code 
+        <br>
+        <br>
+
+
+        <div class="mine-pins">
+            <div class="pro-img">
+                <img ng-src='{{item.item_id.img| picture:picture_width}}' alt="product image here" />
+                <div class="heart wishlist-product-img">
+                    <div ng-if="!me_like" on-tap='like();'>
+                        <div ng-show="item.likes.length > 0">
+                            <img src="img/likehand.jpg" alt="Like">
+                        </div>
+                        <div ng-show="item.likes.length == 0">Be First To Like</div>
+                    </div>
+                    <div ng-if='!me_pin'>
+                        <div on-tap='pin();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">Be First To Pin</div>
+                    </div>
+                    <img src="img/heart_big.jpg" alt="Like">
+                </div>
+            </div>
+            <div class="pro-info">
+                <div class="pro-name">
+                    <span class="category pro-breadcrumb"><div class="grey-color">Men >&nbsp;</div>Shoes</span>
+                    <div>product name</div>
+                    <span class="e-site">
+                        <span class="arrow" >Arrow</span>
+                        <i class='site Flipkart'></i>
+                        Flipkart
+                    </span>
+                </div>
+            </div>
             <div class="username">
                 <div class="user_image">
                     <img ng-src='{{item.user_id.picture| picture:50}}'/>
                 </div>
                 <div class="user-info">
-                    <span class="red-color info">{{item.user_id.name}}</span>
-                    <span class="grey-color info">1 clips <i class="fa fa-circle"></i> Added one hour ago</span>
-                    <span class="clip-follower info"> 
-                        <i class="ion-ios7-people fa-lg red-color"></i>&nbsp
-                        <div> 1 Followers 
-                            <span class="user-unfollow black-font">Unfollow!</span>
+                    <span class="grey-color info">Added by Manish</span>
+                    <span class="red-color info">Manish kumar</span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+
+
+        <div class="mine-pins">
+            <div class="pro-img">
+                <img ng-src='{{item.item_id.img| picture:picture_width}}' alt="product image here" />
+                <div class="heart wishlist-product-img">
+                    <div ng-if="!me_like" on-tap='like();'>
+                        <div ng-show="item.likes.length > 0">
+                            <img src="img/likehand.jpg" alt="Like">
                         </div>
+                        <div ng-show="item.likes.length == 0">Be First To Like</div>
+                    </div>
+                    <div ng-if='!me_pin'>
+                        <div on-tap='pin();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">Be First To Pin</div>
+                    </div>
+                    <img src="img/heart_big.jpg" alt="Like">
+                </div>
+            </div>
+            <div class="pro-info">
+                <div class="pro-name">
+                    <span class="category pro-breadcrumb"><div class="grey-color">Men >&nbsp;</div>Shoes</span>
+                    <div>product name</div>
+                    <span class="e-site">
+                        <span class="arrow" >Arrow</span>
+                        <i class='site Flipkart'></i>
+                        Flipkart
                     </span>
                 </div>
-                <button on-tap='followUser(item.user_id._id);' class="follow-btn red-back">FOLLOW</button>
-                <div class="clearfix"></div>
             </div>
-            
-                <!------------ followers code closed here----------------->
-                
-                <!------------ pins code here----------------->
-                <br>
-                Pins code 
-                <br>
-                <br>
-                
-                
-                 <div class="mine-pins">
-                <div class="pro-img">
-                    <img ng-src='{{item.item_id.img| picture:picture_width}}' alt="product image here" />
-                    <div class="heart wishlist-product-img">
-                        <div ng-if="!me_like" on-tap='like();'>
-                            <div ng-show="item.likes.length > 0">
-                                <img src="img/likehand.jpg" alt="Like">
-                            </div>
-                            <div ng-show="item.likes.length == 0">Be First To Like</div>
-                        </div>
-                        <div ng-if='!me_pin'>
-                            <div on-tap='pin();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">Be First To Pin</div>
-                        </div>
-                        <img src="img/heart_big.jpg" alt="Like">
-                    </div>
-                </div>
-                <div class="pro-info">
-                    <div class="pro-name">
-                        <span class="category pro-breadcrumb"><div class="grey-color">Men >&nbsp;</div>Shoes</span>
-                        <div>product name</div>
-                        <span class="e-site">
-                            <span class="arrow" >Arrow</span>
-                            <i class='site Flipkart'></i>
-                            Flipkart
-                        </span>
-                    </div>
-                    </div>
-                     <div class="username">
+
+            <div class="username">
                 <div class="user_image">
                     <img ng-src='{{item.user_id.picture| picture:50}}'/>
                 </div>
@@ -118,61 +160,7 @@
                 </div>
                 <div class="clearfix"></div>
             </div>
-                  </div>
-                
-                
-                
-                 <div class="mine-pins">
-                <div class="pro-img">
-                    <img ng-src='{{item.item_id.img| picture:picture_width}}' alt="product image here" />
-                    <div class="heart wishlist-product-img">
-                        <div ng-if="!me_like" on-tap='like();'>
-                            <div ng-show="item.likes.length > 0">
-                                <img src="img/likehand.jpg" alt="Like">
-                            </div>
-                            <div ng-show="item.likes.length == 0">Be First To Like</div>
-                        </div>
-                        <div ng-if='!me_pin'>
-                            <div on-tap='pin();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">Be First To Pin</div>
-                        </div>
-                        <img src="img/heart_big.jpg" alt="Like">
-                    </div>
-                </div>
-                <div class="pro-info">
-                    <div class="pro-name">
-                        <span class="category pro-breadcrumb"><div class="grey-color">Men >&nbsp;</div>Shoes</span>
-                        <div>product name</div>
-                        <span class="e-site">
-                            <span class="arrow" >Arrow</span>
-                            <i class='site Flipkart'></i>
-                            Flipkart
-                        </span>
-                    </div>
-                    </div>
-                     
-                     <div class="username">
-                <div class="user_image">
-                    <img ng-src='{{item.user_id.picture| picture:50}}'/>
-                </div>
-                <div class="user-info">
-                    <span class="grey-color info">Added by Manish</span>
-                    <span class="red-color info">Manish kumar</span>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-                  </div>   
-               
-
-
-
-
-
-
-
-
-
-
-
-        </div>
-    </div>
+        </div>   
+  </div>
+</div>
 </div>
