@@ -1,58 +1,35 @@
 <div>
-    <div ng-if="!is_mobile">
-        <div class ="profile-pic" ng-if="login_data.picture">
-            <img ng-src="{{login_data.picture|picture:picture_width}}">
-            <i class="ion-edit profile-pic-edit" ng-file-select 
-               ng-model="file.myFiles" 
-               ng-multiple="false" 
-               ng-rejected-file-model="rejFiles"></i>
-        </div>            
-        <div class="profile-pic" ng-if="!login_data.picture" ng-file-select 
-             ng-model="file.myFiles" 
-             ng-multiple="false" 
-             ng-rejected-file-model="rejFiles">
-            <div class="profile-pic-not" align="center">
-                <i class="fa fa-camera fa-2x"></i>
-            </div>
-            Add a Picture
-        </div>
-    </div>
-    <div ng-if='is_mobile'>
-        <div class ="profile-pic" ng-if="login_data.picture">
-            <img ng-src="{{login_data.picture|picture:picture_width}}">
-            <i class="ion-edit profile-pic-edit" on-tap='browseCamera();'></i>
-        </div>            
-        <div class="profile-pic" ng-if="!login_data.picture"  on-tap='browseCamera();'>
-            <div class="profile-pic-not" align="center">
-                <i class="fa fa-camera fa-2x"></i>
-            </div>
-            Add a Picture
-        </div>
-    </div>
     <div ng-show='rejFiles'>
         {{rejFiles}}
     </div>
     <div class="progress_parent register white-back">
         <div class="user_image">
-            <img src=""/>
+            <img ng-src="{{login_data.picture|picture:picture_width}}"/>
         </div>
-        <i class="fa fa-times progress-close" ></i>
-        
-        <div class="progress-info">
-            Change profile image
-         </div>
-        <div class="progress-info" >
-            <div>
-                Uploading... <i class="fa fa-spinner fa-spin"></i>
-                <span ng-if="image_size != 0">{{image_size}} Mb</span>
+        <div ng-if="!is_mobile">
+            <div class="progress-info" ng-file-select 
+                 ng-model="file.myFiles" 
+                 ng-multiple="false" 
+                 ng-rejected-file-model="rejFiles">
+                Change profile image
+            </div>
+        </div>
+
+        <div ng-if='is_mobile'>
+            <div class="progress-info" on-tap='browseCamera();'>Change profile image</div>
+        </div>
+        <div  ng-show='file_upload'>
+            <div class="progress-info">
+                Uploading...
             </div>
             <div class="progress" style="height: 2px">
                 <div ng-style="progoress_style" class='prog_inner red-back'>
                 </div>
             </div>
+            <i class="fa fa-times progress-close" ></i>
         </div>
-        <div class="clearfix"></div>
     </div>
+    <div class="clearfix"></div>
 </div>
 <div id="my-acc">
 

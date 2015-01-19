@@ -1,5 +1,8 @@
 <div ng-if="pins.length == 0">
-    No Pins
+    <div class="result-empty">
+        <span class="info"><img src="img/favicon-not.jpg"/></span>
+        <span class="info grey-color">No Pins Created</span>
+    </div>
 </div>
 <div class="mine-pins" ng-repeat="pin in pins" on-tap='viewItem(pin.item_id._id,pin.list_id)'>
     <div class="pro-img">
@@ -11,7 +14,7 @@
     <div class="pro-info">
         <div class="pro-name">
             <div>{{pin.item_id.name}}</div>
-             <span class="info grey-color" ng-show="list.followers.length != 0">
+            <span class="info grey-color" ng-show="list.followers.length != 0">
                 <i class="ion-ios7-heart-outline red-color"></i> 17 {{list.meta.likes}} 
                 <i class="ion-thumbsup red-color"></i> 20 {{item1.followers.length}}
             </span> 

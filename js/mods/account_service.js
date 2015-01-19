@@ -46,7 +46,7 @@ accountService.factory('accountHelper', [
                 user_id: $localStorage.user.id
             });
             ajax.then(function (data) {
-                $localStorage.user.picture = 'img/silhouette_default.jpg';
+                $localStorage.user.picture = 'img/empty.png';
                 def.resolve();
             }, function () {
                 def.reject();
@@ -116,7 +116,7 @@ accountService.factory('accountHelper', [
                 $localStorage.user = data;
                 var picture = data.picture;
                 if (picture.length === 0) {
-                    data.picture = 'img/silhouette_default.jpg';
+                    data.picture = '';
                 } else if (picture.indexOf('http') === -1) {
                     data.picture = ajaxRequest.url('v1/picture/view/' + data.picture);
                 }

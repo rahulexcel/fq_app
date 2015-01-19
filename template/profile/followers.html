@@ -5,18 +5,16 @@
     <div class="user-info">
         <span class="red-color info">{{item.user_id.name}}</span>
         <span class="grey-color ">1 clips <i class="fa fa-circle"></i>
-         <i class="ion-ios7-people fa-lg red-color"></i>&nbsp 
-         1 Followers
-        
+            <i class="ion-ios7-people fa-lg red-color"></i>&nbsp 
+            1 Followers
+
         </span>
-         <span class="user-unfollow black-font info">Unfollow!</span>
+        <span class="user-unfollow black-font info">Unfollow!</span>
     </div>
     <button on-tap='followUser(item.user_id._id);' class="follow-btn red-back">FOLLOW</button>
     <div class="clearfix"></div>
-    
-    
 </div>
-<div class="result-empty">
+<div class="result-empty" ng-if="followers.length == 0">
     <span class="info"><img src="img/favicon-not.jpg"/></span>
     <span class="info grey-color">No Followers</span>
 </div>
