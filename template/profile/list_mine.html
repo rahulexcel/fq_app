@@ -1,0 +1,34 @@
+<div class="top-container" ng-show="wishlist_mine">
+    <ul class="mine-clip-list">
+        <!--
+        @sumit: Don't Need Below. Remove it
+        <li class="clip-font-color new add-new" on-tap='newList();'>
+            <i class="fa fa-plus-square-o fa-3px"></i>
+            <span class="mine-new">Create a New Clipboard</span>
+        </li>
+        -->
+        <li ng-repeat='item1 in wishlist_mine track by item1._id'>
+            <div class="black-font" on-tap='viewList(item1);'>
+                {{item1.name}} 
+                <i ng-if="item1.type == 'private'" class="ion-ios7-locked"></i>
+            </div>
+            <div class="user-info"> 
+                <span class="info">
+                    {{item1.meta.products}} clips <i class="fa fa-circle"></i> 
+                    Created on {{item1.created_at|prettyDate}} 
+                </span>
+                <span class="info">
+                    <i class="ion-ios7-heart-outline red-color"></i>{{list.meta.likes}} 
+                    <i class="ion-ios7-people red-color"></i> {{item1.followers.length}}
+                </span> 
+                <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
+                <div class="clearfix"></div>
+            </div>
+            <button ng-if="me" on-tap='editList(item1);' class="edit-btn follow-btn">EDIT</button>
+            <div class="clearfix"></div>
+        </li>
+    </ul>
+</div>
+<div ng-if="wishlist_mine.length == 0">
+    No Lists
+</div>

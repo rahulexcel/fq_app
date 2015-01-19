@@ -1,0 +1,42 @@
+<div ng-if="following_list.length == 0 && following_users.length == 0">
+    Empty
+</div>
+<br/>
+WISHLIST
+<div class="username" ng-repeat="list in lists_their">
+    <div class="user-info">
+        <span class="red-color info" on-tap='viewList(list)'>{{list.name}}</span>
+        <div>
+            <span ng-show="list.followers.length != 0">
+                Followers {{list.followers.length}}
+            </span>
+            <span ng-show="list.meta.products != 0">
+                Products {{list.meta.products}}
+            </span>
+            <span ng-show="list.meta.likes != 0">
+                Products {{list.meta.likes}}
+            </span>
+        </div>
+        <span class="clip-follower info"> 
+            <span ng-if="me" on-tap='unFollowList(list._id,$index);' class="user-unfollow black-font">Unfollow!</span>
+        </span>
+    </div>
+    <button ng-if="!me" class="follow-btn red-back">FOLLOW</button>
+    <button ng-if="!me" class="follow-btn red-back">EDIT</button>
+    <div class="clearfix"></div>
+</div>
+<br/>
+PEOPLE
+<div class="username" ng-repeat="user in following_users">
+    <div class="user_image">
+        <img ng-src='{{user.picture| picture:50}}'/>
+    </div>
+    <div class="user-info">
+        <span class="red-color info">{{user.name}}</span>
+        <span class="clip-follower info"> 
+            <span ng-if="me"  on-tap='unFollowUser(user._id,$index);' class="user-unfollow black-font">Unfollow!</span>
+        </span>
+    </div>
+    <button ng-if="!me" class="follow-btn red-back">FOLLOW</button>
+    <div class="clearfix"></div>
+</div>

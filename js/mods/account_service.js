@@ -1,8 +1,8 @@
 var accountService = angular.module('AccountService', ['ServiceMod']);
 
 accountService.factory('accountHelper', [
-    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', '$rootScope',
-    function (ajaxRequest, $q, toast, $localStorage, $location, $rootScope) {
+    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', '$rootScope', '$cordovaDevice',
+    function (ajaxRequest, $q, toast, $localStorage, $location, $rootScope, $cordovaDevice) {
         var service = {};
         service.init_done = false;
         service.fbInit = function () {
@@ -69,6 +69,20 @@ accountService.factory('accountHelper', [
         service.create = function (user, type) {
             var def = $q.defer();
             var ajax = false;
+            var device = {
+                type: 'Desktop'
+            };
+            if ($cordovaDevice && window.cordova && window.cordova.plugins) {
+                var device = {
+                    device: $cordovaDevice.getDevice(),
+                    cordova: $cordovaDevice.getCordova(),
+                    model: $cordovaDevice.getModel(),
+                    platform: $cordovaDevice.getPlatform(),
+                    uuid: $cordovaDevice.getUUID(),
+                    version: $cordovaDevice.getVersion()
+                };
+            }
+            user.device = device;
             if (type === 'login') {
                 ajax = ajaxRequest.send('v1/account/login', {user: user});
             } else if (type === 'facebook') {

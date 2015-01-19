@@ -120,6 +120,26 @@ friendService.factory('friendHelper', [
                 return def.promise;
             }
         };
+        service.fullProfile = function (user_id) {
+            var def = $q.defer();
+            var me = false;
+            if (!user_id) {
+                user_id = $localStorage.user.id;
+            }
+            if ($localStorage.user && user_id == $localStorage.user.id) {
+                me = true;
+            }
+            var ajax = ajaxRequest.send('v1/social/user/profile/full', {
+                user_id: user_id,
+                me: me
+            });
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        }
         return service;
     }
 ]);

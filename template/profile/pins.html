@@ -1,0 +1,35 @@
+<div ng-if="pins.length == 0">
+    No Pins
+</div>
+<div class="mine-pins" ng-repeat="pin in pins" on-tap='viewItem(pin.item_id._id,pin.list_id)'>
+    <div class="pro-img">
+        <img ng-src='{{pin.item_id.img| picture:120}}'/>
+        <div style="z-index: 99999" on-tap='pin(pin.item_id._id,pin.list_id);' class="heart wishlist-product-img">
+            <img src="img/heart_big.jpg" alt="Like">
+        </div>
+    </div>
+    <div class="pro-info">
+        <div class="pro-name">
+            <div>{{pin.item_id.name}}</div>
+            <span class="e-site" ng-show="pin.item_id.website.length > 0">
+                <i class='site {{pin.item_id.website}}'></i> {{pin.item_id.website}}
+            </span>
+        </div>
+    </div>
+    <div class="likes" ng-show="pin.likes.length.length > 0">
+        Likes {{pin.likes.length}}
+    </div>
+    <div class="likes" ng-show="pin.item_id.pins.length.length > 0">
+        Pin {{pin.item_id.pins.length}}
+    </div>
+    <div class="username">
+        <div class="user_image">
+            <img ng-src='{{user.picture| picture:50}}'/>
+        </div>
+        <div class="user-info">
+            <span class="grey-color info">Added by</span>
+            <span class="red-color info">{{user.name}}</span>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
