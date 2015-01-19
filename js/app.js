@@ -89,15 +89,15 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider", func
                         }
                     }
                 })
-                .state('app.account', {
-                    url: '/account',
-                    views: {
-                        'menuContent': {
-                            templateUrl: 'template/account.html',
-                            controller: 'AccountCtrl'
-                        }
-                    }
-                })
+//                .state('app.account', {
+//                    url: '/account',
+//                    views: {
+//                        'menuContent': {
+//                            templateUrl: 'template/account.html',
+//                            controller: 'AccountCtrl'
+//                        }
+//                    }
+//                })
                 .state('app.profile', {
                     url: '/profile',
                     abstract: true,
@@ -141,6 +141,15 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider", func
                         'tab-content': {
                             templateUrl: 'template/profile/pins.html',
                             controller: 'ProfilePinCtrl'
+                        }
+                    }
+                })
+                .state('app.profile.profile', {
+                    url: '/profile',
+                    views: {
+                        'tab-content': {
+                            templateUrl: 'template/account.html',
+                            controller: 'AccountCtrl'
                         }
                     }
                 })

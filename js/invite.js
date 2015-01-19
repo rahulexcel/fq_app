@@ -83,6 +83,5 @@ inviteMod.controller('InviteCtrl',
                         $location.path('/app/account');
                     }
                 };
-
             }
         ]);

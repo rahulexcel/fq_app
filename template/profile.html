@@ -39,14 +39,19 @@
             <div id='menu_sliding' style="position: relative">
                 <ul id='menu_scroller' class="mine-list" ng-class="selected_class">
                     <li class="wishlist" on-tap='menu_wishlist();'>MY WISHLIST</li>
-                    <li class="followers"><a href="#/app/profile/followers">FOLLOWERS</a></li>
-                    <li class="following"><a href="#/app/profile/following">FOLLOWINGS</a></li>
-                    <li class="pin"><a href="#/app/profile/pins">MY PINS</a></li>
-                    <li class="profile">PROFILE</li>
+                    <li class="followers" on-tap='menu_followers();'>FOLLOWERS</li>
+                    <li class="following" on-tap='menu_following();'>FOLLOWINGS</li>
+                    <li class="pin" on-tap='menu_pins();'>MY PINS</li>
+                    <li class="profile" on-tap='menu_profile();'>PROFILE</li>
                 </ul>
             </div>
             <div class="clearfix"></div>
             <div ui-view="tab-content"></div>
         </div>
+        <ion-infinite-scroll
+            ng-if='showScrollMore'
+            on-infinite="loadMoreData()"
+            distance="1%">
+        </ion-infinite-scroll>
     </ion-content>
 </ion-view>

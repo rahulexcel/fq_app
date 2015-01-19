@@ -83,7 +83,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                 list_id = data.id;
                                 if ($scope.item.item_id._id) {
                                     var ajax = itemHelper.pin($scope.item.item_id._id, list_id);
-                                    ajax.then(function () {
+                                    ajax.then(function (data) {
                                         $scope.status = 2;
                                         toast.showShortBottom('Product Added To Your Wishlist');
                                         $location.app('/app/wishlist_item/' + list_id + "/" + list_id + "/" + $scope.list.name);

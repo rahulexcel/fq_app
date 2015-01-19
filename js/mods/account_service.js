@@ -66,6 +66,17 @@ accountService.factory('accountHelper', [
             });
             return def.promise;
         };
+        service.logout = function () {
+            var def = $q.defer();
+            var ajax = false;
+            ajax = ajaxRequest.send('v1/account/logout', {api_key: $localStorage.user.api_key});
+            ajax.then(function (data) {
+                def.resolve();
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        }
         service.create = function (user, type) {
             var def = $q.defer();
             var ajax = false;

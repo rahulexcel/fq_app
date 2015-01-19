@@ -1,8 +1,8 @@
 var homeMod = angular.module('HomeMod', ['ServiceMod', 'ngStorage', 'ionic']);
 
 homeMod.controller('HomeCtrl',
-        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare',
-            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare) {
+        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper',
+            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper) {
                 $ionicNavBarDelegate.showBackButton(false);
                 if (timeStorage.get('category')) {
                     console.log('category from cache');
@@ -24,14 +24,21 @@ homeMod.controller('HomeCtrl',
 
                 $scope.logout = function () {
                     $scope.login = false;
-                    var email = '';
-                    if ($localStorage.user && $localStorage.user.email) {
-                        email = $localStorage.user.email;
-                    }
-                    $localStorage.user = {
-                        email: email
-                    };
-                    $rootScope.$broadcast('logout_event');
+                    var ajax = accountHelper.logout();
+                    $ionicLoading.show({
+                        template: 'Logging Out..'
+                    });
+                    ajax.finally(function () {
+                        var email = '';
+                        if ($localStorage.user && $localStorage.user.email) {
+                            email = $localStorage.user.email;
+                        }
+                        $localStorage.user = {
+                            email: email
+                        };
+                        $rootScope.$broadcast('logout_event');
+                        $ionicLoading.hide();
+                    });
                 };
 
                 $scope.$on('login_event', function () {
@@ -61,7 +68,7 @@ homeMod.controller('HomeCtrl',
                     $location.path('/app/profile/mine');
                 };
                 $scope.account = function () {
-                    $location.path('/app/account');
+                    $location.path('/app/profile/profile');
                 };
                 $scope.feedback = function () {
                     $location.path('/app/feedback');
