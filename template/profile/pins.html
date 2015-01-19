@@ -4,7 +4,7 @@
 <div class="mine-pins" ng-repeat="pin in pins" on-tap='viewItem(pin.item_id._id,pin.list_id)'>
     <div class="pro-img">
         <img ng-src='{{pin.item_id.img| picture:120}}'/>
-        <div style="z-index: 99999" on-tap='pin(pin.item_id._id,pin.list_id);' class="heart wishlist-product-img">
+        <div style="z-index: 99999" on-tap='pin(pin.item_id._id);' class="heart wishlist-product-img">
             <img src="img/heart_big.jpg" alt="Like">
         </div>
     </div>

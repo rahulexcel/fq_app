@@ -8,7 +8,10 @@ serviceMod.filter('prettyDate', function () {
 serviceMod.filter('picture', function () {
     return function (picture, width, height) {
         if (!angular.isDefined(picture)) {
-            return "";
+            return "img/empty.png";
+        }
+        if (picture.length == 0) {
+            return "img/empty.png";
         }
         if (!angular.isDefined(width)) {
             return picture;

@@ -11,25 +11,31 @@ profileMod.controller('ProfileCtrl',
                 $scope.user = false;
                 $scope.myScoll = false;
                 $scope.selected_class = '';
-                $scope.showScrollMore = false;
+
+                $scope.pin_status = {
+                    pin_page: 0,
+                    showMore: false
+                };
 
                 console.log('initiazling iscroll');
-                $scope.pin_page = 0;
                 angular.element(document.querySelector('#menu_scroller')).attr('style', 'width:625px');
                 $scope.myScroll = new IScroll('#menu_sliding', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
                 $rootScope.$on('$viewContentLoaded', function (event) {
                     var path = $location.path();
                     if (path === '/app/profile/mine') {
+                        $scope.pin_status.showMore = false;
                         $scope.selected_class = 'wishlist';
                     } else if (path === '/app/profile/followers') {
+                        $scope.pin_status.showMore = false;
                         $scope.selected_class = 'followers';
                     } else if (path === '/app/profile/following') {
+                        $scope.pin_status.showMore = false;
                         $scope.selected_class = 'following';
                     } else if (path === '/app/profile/pins') {
-                        $scope.pin_page = 0;
+                        $scope.pin_status.showMore = false;
                         $scope.selected_class = 'pins';
-                        $scope.showScrollMore = true;
                     } else if (path === '/app/profile/profile') {
+                        $scope.pin_status.showMore = false;
                         $scope.selected_class = 'profile';
                     }
                 });
@@ -50,10 +56,21 @@ profileMod.controller('ProfileCtrl',
                     $location.path('/app/profile/profile');
                 };
                 $scope.loadMoreData = function () {
-                    var ajax = friendHelper.loadMoreProfilePins(user_id, $scope.pin_page + 1);
+                    var ajax = friendHelper.loadMoreProfilePins(user_id, $scope.pin_status.pin_page + 1);
                     ajax.then(function (data) {
+                        $scope.pin_status.pin_page++;
+                        if (data.length > 0) {
+                            var pins = $scope.user.pins;
+                            for (var i = 0; i < data.length; i++) {
+                                pins.push(data[i]);
+                            }
+                            $scope.user.pins = pins;
+                        } else {
+                            console.log('remove scroll more');
+                            $scope.pin_status.showMore = false;
+                        }
                         $scope.$broadcast('scroll.infiniteScrollComplete');
-                        $scope.$broadcast('more_pins', data);
+                        $scope.$broadcast('more_pins');
                     }, function () {
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     });
