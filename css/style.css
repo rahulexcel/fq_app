@@ -565,11 +565,12 @@ span.other-price{
     margin: 15px auto 6px;
 }
 .wishlist-product-img{
-    width: 100%;
+    width: 20%;
     text-align: right;
     position:absolute;
     bottom:2%;
     padding-right: 7px;
+    right:9px;
 }
 .social-share{
     float:right;
@@ -748,7 +749,7 @@ margin-top: 41px;
     margin-top: 7px;
 }
 #my-acc .myacc-update{
-    min-height: 43px;
+    min-height: 42px;
     border-style: none;
     width: 120px;
     border-radius: 4px;
@@ -1059,6 +1060,9 @@ ul.mine-clip-list li span.mine-new{
     border-bottom-style:none;
     margin-right: 2%;
 }
+.mine-pins .pro-img>img{
+    width: 50%;
+}
 .list-section{
     margin: 12px 0px;
 }
@@ -1091,4 +1095,8 @@ ul.mine-clip-list li span.mine-new{
 }
 ul.mine-clip-list li .user-info{
     margin-left: 0px;
+}
+.result-empty{
+    margin: 10px auto;
+    text-align: center
 }
