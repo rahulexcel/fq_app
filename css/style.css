@@ -565,11 +565,12 @@ span.other-price{
     margin: 15px auto 6px;
 }
 .wishlist-product-img{
-    width: 100%;
+    width: 20%;
     text-align: right;
     position:absolute;
     bottom:2%;
     padding-right: 7px;
+    right:9px;
 }
 .social-share{
     float:right;
