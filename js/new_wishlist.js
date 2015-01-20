@@ -77,7 +77,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                         $scope.status = 2;
                                     });
                                 } else {
-                                    $location.path('/app/wishlist_item_add/' + list_id);
+                                    $location.path('/app/wishlist_item_add/' + list_id + "/step1");
                                 }
                             } else if ($scope.item) {
                                 list_id = data.id;
@@ -92,10 +92,10 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                         $scope.status = 2;
                                     });
                                 } else {
-                                    $location.path('/app/wishlist_item_add/' + list_id);
+                                    $location.path('/app/wishlist_item_add/' + list_id + "/step1");
                                 }
                             } else if ($scope.new_item) {
-                                $location.path('/app/wishlist_item_add/' + list_id);
+                                $location.path('/app/wishlist_item_add/' + list_id + "/step1");
                             } else {
                                 $location.path('/app/profile/mine');
                             }

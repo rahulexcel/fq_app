@@ -18,10 +18,12 @@ var app = angular.module('starter',
             'WishlistNewMod',
             'WishlistItemMod',
             'WishlistItemAddMod',
+            'NotifyService',
             'ngCordova'
         ]
         );
-app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider", function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
+    function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
         $ionicConfigProvider.views.maxCache(0);
         $stateProvider
                 .state('offline', {
@@ -203,7 +205,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider", func
                 .state('app.wishlist_item_add.step1', {
                     url: '/step1',
                     views: {
-                        'tab-step1': {
+                        'tab-content': {
                             templateUrl: 'template/item_add/step1.html'
                         }
                     }
@@ -211,7 +213,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider", func
                 .state('app.wishlist_item_add.step2', {
                     url: '/step2',
                     views: {
-                        'tab-step2': {
+                        'tab-content': {
                             templateUrl: 'template/item_add/step2.html'
                         }
                     }
@@ -236,7 +238,8 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider", func
                 });
         $urlRouterProvider.otherwise('/app/home');
     }]);
-app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location) {
+app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", 'notifyHelper',
+    function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location, notifyHelper) {
         console.log('angular ready');
         if (!$localStorage.user) {
             $localStorage.user = {};
@@ -292,8 +295,6 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                     $localStorage.user = {};
                 }
             }
-
-//        console.log(fromState);
             if (toState.name === 'app.signup' && fromState) {
                 if (fromState.name !== "") {
                     var url = fromState.url;
@@ -311,9 +312,11 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
 
                 }
             }
-//        console.log(toState);
-//        console.log(toParams);
-//        console.log(fromState);
-//        console.log(fromParams);
         });
+
+        document.addEventListener("deviceready", function () {
+            if ($localStorage.user.id)
+                notifyHelper.init();
+        }, false);
+
     }]);
