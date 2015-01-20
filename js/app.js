@@ -238,7 +238,9 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider", func
     }]);
 app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location) {
         console.log('angular ready');
-
+        if (!$localStorage.user) {
+            $localStorage.user = {};
+        }
         $rootScope.isReady = function () {
             $rootScope.display = {display: "block"};
         };

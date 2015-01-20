@@ -74,7 +74,7 @@ profileMod.controller('ProfileCtrl',
                     }, function () {
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     });
-                }
+                };
 
                 if (user_id) {
                     $ionicLoading.show({
