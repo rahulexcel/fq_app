@@ -1,8 +1,8 @@
-var notifyService = angular.module('NotifyService', ['ServiceMod']);
+var notifyService = angular.module('NotifyMod', ['ServiceMod']);
 
 notifyService.factory('notifyHelper', [
-    'ajaxRequest', '$q', '$localStorage', 'timeStorage', '$cordovaPush',
-    function (ajaxRequest, $q, $localStorage, timeStorage, $cordovaPush) {
+    'ajaxRequest', '$q', '$localStorage', '$cordovaPush',
+    function (ajaxRequest, $q, $localStorage, $cordovaPush) {
         var service = {};
         service.init = function () {
             $cordovaPush.register({
@@ -46,5 +46,5 @@ notifyService.factory('notifyHelper', [
                 }
             });
         }
-
+        return service;
     }]);
