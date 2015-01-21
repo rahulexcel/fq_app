@@ -161,7 +161,7 @@ serviceMod.factory('ajaxRequest',
                         if (!angular.isDefined(method)) {
                             method = 'POST';
                         }
-                        if (method === 'POST') {
+                        if (method === 'POST' && $localStorage.user) {
                             var api_key = $localStorage.user.api_key;
                             if (angular.isDefined(api_key) && api_key.length > 0) {
                                 var timestamp = new Date().getTime();

@@ -1,8 +1,8 @@
-var accountService = angular.module('AccountService', ['ServiceMod']);
+var accountService = angular.module('AccountService', ['ServiceMod', 'NotifyMod']);
 
 accountService.factory('accountHelper', [
-    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', '$rootScope', '$cordovaDevice',
-    function (ajaxRequest, $q, toast, $localStorage, $location, $rootScope, $cordovaDevice) {
+    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', '$rootScope', '$cordovaDevice', 'notifyHelper',
+    function (ajaxRequest, $q, toast, $localStorage, $location, $rootScope, $cordovaDevice, notifyHelper) {
         var service = {};
         service.init_done = false;
         service.fbInit = function () {
@@ -120,6 +120,7 @@ accountService.factory('accountHelper', [
                 } else if (picture.indexOf('http') === -1) {
                     data.picture = ajaxRequest.url('v1/picture/view/' + data.picture);
                 }
+                notifyHelper.init();
                 def.resolve(data);
                 $location.path('/app/invite');
                 $rootScope.$broadcast('login_event');

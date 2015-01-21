@@ -225,7 +225,7 @@ homeMod.controller('HomeCtrl',
                     if ($localStorage.user && $localStorage.user.id) {
                         if ($rootScope.list_id) {
                             dataShare.broadcastData({}, 'add_wishlist_item');
-                            $location.path('/app/wishlist_item_add/' + $rootScope.list_id);
+                            $location.path('/app/wishlist_item_add/' + $rootScope.list_id + "/step1");
                         } else {
                             $scope.wishlist_product.product = false;
                             $scope.wishlist_product.item = false;

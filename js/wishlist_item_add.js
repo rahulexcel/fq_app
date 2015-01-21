@@ -1,8 +1,8 @@
 var wishlistItemAddMod = angular.module('WishlistItemAddMod', ['ServiceMod', 'angularFileUpload', 'ngStorage', 'ionic', 'WishlistService', 'MapService']);
 
 wishlistItemAddMod.controller('WishlistItemAddCtrl',
-        ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$ionicActionSheet', '$ionicTabsDelegate', '$ionicPopup',
-            function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $ionicModal, $window, $ionicActionSheet, $ionicTabsDelegate, $ionicPopup) {
+        ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$cordovaCamera', '$ionicPopup',
+            function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $ionicModal, $window, $cordovaCamera, $ionicPopup) {
                 $scope.item = {
                     picture: '',
                     url: '',
@@ -11,6 +11,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     location: {
                     }
                 };
+
                 $scope.sendItem = function () {
                     var ajax = wishlistHelper.addItem(angular.copy($scope.item), $scope.list_id);
                     ajax.then(function (data) {
@@ -19,25 +20,30 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                         }
                     });
                 };
-                $scope.next = function () {
-                    if ($scope.item.picture.length > 0) {
-                        $ionicTabsDelegate.select(1);
+                $scope.step = 1;
+                $scope.step_type = false;
+                $scope.type = function (type) {
+                    if (type == 'camera') {
+                        $scope.showStep2(type);
+                        $scope.browseCamera('camera');
+                    } else if (type == 'gallery') {
+                        $scope.showStep2(type);
+                        $scope.browseCamera('gallery');
+                    } else if (type == 'url') {
+                        $scope.showStep2(type);
+                    } else if (type == 'near') {
+                        $scope.showStep2(type);
                     } else {
-                        toast.showShortBottom('Add Item Picture');
+                        toast.showShortBottom('Invalid Type');
                     }
                 };
+                $scope.showStep2 = function (type) {
+                    $scope.step_type = type;
+                    $scope.step = 2;
+                    $location.path('/app/wishlist_item_add/' + $scope.list_id + '/step2');
+                }
                 $scope.removeLocation = function () {
                     $scope.item.location = {};
-                };
-                $scope.tab1 = function () {
-                    $ionicTabsDelegate.select(0);
-                };
-                $scope.tab2 = function () {
-                    if ($scope.item.picture.length > 0) {
-                        $ionicTabsDelegate.select(1);
-                    } else {
-                        toast.showShortBottom('Add Item Picture');
-                    }
                 };
 
                 $scope.$on('$destroy', function () {
@@ -103,10 +109,16 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                         $scope.list_id = $stateParams.list_id;
                         var name = wishlistHelper.getListName($scope.list_id);
                         $scope.wishlist_name = name;
+                        if ($location.path().indexOf('step2') != -1) {
+                            if (!$scope.step_type) {
+                                $location.path('/app/wishlist_item_add/' + $scope.list_id + '/step1');
+                            }
+                        }
                     } else {
                         toast.showShortBottom('Invalid Page, Need List ID');
                         $location.path('/app/home');
                     }
+
                 } else {
                     toast.showShortBottom('You Need To Be Logged In To Access This Page');
                     $location.path('/app/register');
@@ -125,79 +137,60 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                 var picture_width = $window.innerWidth;
                 picture_width = Math.ceil(picture_width * 0.95);
                 $scope.picture_width = picture_width;
-                $scope.browseCamera = function () {
-                    $ionicActionSheet.show({
-                        buttons: [
-                            {text: 'Brower Pictures'},
-                            {text: 'Take Picture'}
-                        ],
-                        destructiveText: 'Remove Picture',
-                        titleText: 'Add Picture To Share',
-                        cancelText: 'Cancel',
-                        destructiveButtonClicked: function () {
-                            var picture = accountHelper.removePicture();
-                            picture.then(function () {
-                                $scope.login_data.picture = $localStorage.user.picture;
-                            });
-                        },
-                        buttonClicked: function (index) {
+                $scope.browseCamera = function (type) {
 
-                            var options = {
-                                quality: 100,
-                                destinationType: Camera.DestinationType.FILE_URI,
-                                sourceType: Camera.PictureSourceType.CAMERA,
-                                encodingType: Camera.EncodingType.JPEG,
-                                popoverOptions: CameraPopoverOptions,
-                                saveToPhotoAlbum: false,
-                                allowEdit: false
-                            };
+                    var options = {
+                        quality: 100,
+                        destinationType: Camera.DestinationType.FILE_URI,
+                        sourceType: Camera.PictureSourceType.CAMERA,
+                        encodingType: Camera.EncodingType.JPEG,
+                        popoverOptions: CameraPopoverOptions,
+                        saveToPhotoAlbum: false,
+                        allowEdit: false
+                    };
 
-                            if (index === 0) {
-                                options.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
-                            }
+                    if (type === 'gallery') {
+                        options.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
+                    }
 
-                            $cordovaCamera.getPicture(options).then(function (imageURI) {
-                                console.log(imageURI);
-                                $scope.progoress_style = {width: '0%'};
-                                $scope.progress = 0;
-                                $scope.file_upload = false;
-                                var promise = uploader.fileSize(imageURI);
-                                promise.then(function (size) {
-                                    console.log('size is ' + size);
-                                    $scope.image_size = size * 1;
-                                    if (size * 1 > 5) {
-                                        toast.showShortBottom('Upload File Of Size Less Than 5MB');
-                                    } else {
-                                        $scope.file_upload = true;
-                                        var ajax = uploader.upload(imageURI, {
-                                            user_id: $localStorage.user.id
-                                        });
-                                        ajax.then(function (data) {
-                                            var per = '100%';
-                                            $scope.progoress_style = {width: per};
-                                            $scope.progress = per;
-                                            console.log(data);
-                                            if (data && data.data) {
-                                                var pic = ajaxRequest.url('v1/picture/view/' + data.data);
-                                                $scope.login_data.picture = pic;
-                                            }
-                                            $scope.step1Class = 'red-back';
-                                            $scope.file_upload = false;
-                                        }, function (data) {
-
-                                        }, function (data) {
-                                            var per = data.progress + '%';
-                                            $scope.progoress_style = {width: per};
-                                            $scope.progress = per;
-                                        });
-                                    }
+                    $cordovaCamera.getPicture(options).then(function (imageURI) {
+                        $scope.progoress_style = {width: '0%'};
+                        $scope.progress = 0;
+                        $scope.file_upload = false;
+                        var promise = uploader.fileSize(imageURI);
+                        promise.then(function (size) {
+                            console.log('size is ' + size);
+                            $scope.image_size = size * 1;
+                            if (size * 1 > 5) {
+                                toast.showShortBottom('Upload File Of Size Less Than 5MB');
+                            } else {
+                                $scope.file_upload = true;
+                                var ajax = uploader.upload(imageURI, {
+                                    user_id: $localStorage.user.id
                                 });
+                                ajax.then(function (data) {
+                                    var per = '100%';
+                                    $scope.progoress_style = {width: per};
+                                    $scope.progress = per;
+                                    console.log(data);
+                                    if (data && data.data) {
+                                        var pic = ajaxRequest.url('v1/picture/view/' + data.data);
+                                        $scope.login_data.picture = pic;
+                                    }
+                                    $scope.step1Class = 'red-back';
+                                    $scope.file_upload = false;
+                                }, function (data) {
 
-                            }, function (err) {
-                                // error
-                            });
-                            return true;
-                        }
+                                }, function (data) {
+                                    var per = data.progress + '%';
+                                    $scope.progoress_style = {width: per};
+                                    $scope.progress = per;
+                                });
+                            }
+                        });
+
+                    }, function (err) {
+                        // error
                     });
                 };
 
@@ -205,6 +198,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     if (!val) {
                         return;
                     }
+                    $location.path('/app/wishlist_item_add/' + $scope.list_id + '/step2');
                     console.log($scope.file.myFiles);
 //                    for (var i = 0; i < $scope.file.myFiles.length; i++) {
                     var i = 0;

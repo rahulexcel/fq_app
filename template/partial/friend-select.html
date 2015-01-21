@@ -2,7 +2,7 @@
     <ion-header-bar>
         <h1 class="title">Select Friends</h1>
         <div class="button button-icon" on-tap="closeModel();">
-             <i class="fa fa-times close-tab-icon"></i>
+            <i class="fa fa-times close-tab-icon"></i>
         </div>
     </ion-header-bar>
     <ion-content>
@@ -17,12 +17,12 @@
             <img class="rounded" ng-if='friend.picture' ng-src='{{friend.picture|picture:50:50}}' style="max-width: 50px;max-height: 50px" />
             <span>{{friend.name}}</span>
         </ion-checkbox>
-
-
+    </ion-content>
+    <ion-footer-bar>
         <div class="padding">
             <button  on-tap='closeModel();' class="button signup-button red-back">
                 DONE
             </button>
         </div>
-    </ion-content>
+    </ion-footer-bar>
 </ion-modal-view>

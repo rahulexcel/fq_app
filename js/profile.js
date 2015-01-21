@@ -39,7 +39,7 @@ profileMod.controller('ProfileCtrl',
                         $scope.selected_class = 'profile';
                     }
                 });
-
+                $scope.me = false;
                 $scope.menu_wishlist = function () {
                     $location.path('/app/profile/mine');
                 };
@@ -74,7 +74,7 @@ profileMod.controller('ProfileCtrl',
                     }, function () {
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     });
-                }
+                };
 
                 if (user_id) {
                     $ionicLoading.show({
@@ -84,6 +84,9 @@ profileMod.controller('ProfileCtrl',
                     ajax.then(function (data) {
                         console.log(data);
                         $scope.user = data;
+                        if ($scope.user._id == $localStorage.user.id) {
+                            $scope.me = true;
+                        }
                         $ionicLoading.hide();
                         $scope.$broadcast('user_info');
                     }, function () {
