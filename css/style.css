@@ -253,14 +253,14 @@ Scroll On Product Page
     display: none;
 }
 
-.red-back{
+.red-back,[nav-bar-transition="ios"] [nav-bar="active"] .bar{
     background-color:#da500f;
     color:#fff;
 }
 .white-back{
     background-color: #fff;
 }
-.red-color,.bar.bar-stable .title {
+.red-color{
     color:#da500f;
 }
 .grey-color {
@@ -288,7 +288,7 @@ i.close-tab-icon{
 li a.internal-details,
 li a.internal-details,
 li.sub-cat-label>span,
-.filter-label,.black-font:hover,.black-font {
+.filter-label,.black-font:hover,.black-font{
     color:#000;
 }
 .button:hover,
@@ -296,25 +296,37 @@ li.sub-cat-label>span,
 .pro-button:hover ,
 .google-button,
 .fb-button,.pro-button,
-#my-acc .myacc-update {
+#my-acc .myacc-update,.bar.bar-stable .title,.white-color{
     color:#fff;
 }
 
 
 /**************************Side Menu*********************************/
-.scroll-content .scroll ul li.list-not-cat {
-    border-bottom-style:none; 
-}
 .scroll-content .scroll ul li {
     font-weight: bold;
     border-bottom: 1px solid #ececec; 
     line-height: 42px;
 }
-
+.scroll-content .scroll ul li.list-not-cat,.scroll-content .scroll #menu-bar-container ul li {
+    border-bottom-style:none; 
+}
+ul.default-list{
+border-top: 1px solid #ccc;
+}
 .scroll-content .scroll #menu-bar-container  ul li span{
     width: 100%;
     float: left;
 
+}
+#menu-bar-container .user-info{
+    margin-top: 8px;
+}
+#menu-bar-container .username{
+    background-color:#da500f;
+    color:#fff;
+    border-style: none;
+    margin-bottom: 0px;
+    border-radius:0;
 }
 span div.plus-minus ,.list-tick
 {
@@ -324,7 +336,7 @@ span div.plus-minus ,.list-tick
     margin: 0px 0 10px;
 }
 .scroll-content .scroll ul{
-    margin:  0px 20px;
+    padding:   0px 20px;
 }
 .scroll-content .scroll ul li a{
     text-decoration: none;
@@ -361,8 +373,8 @@ span.plus-minus{
 /**************************closed Side Menu*********************************/
 
 /**************************Sign up/login*********************************/
-.left-buttons .button{
-    color:#d94f0e;
+.left-buttons .button,.left-buttons .button:hover{
+    color:#fff;
 }
 div#account-page button{
     min-height: 40px;
@@ -410,7 +422,7 @@ div#account-page button{
     margin: 29px 0px 10px;
 }
 .login-click,
-.social-site-name{
+.social-site-name,span.info-name{
     font-weight: bold;
 }
 .check-account{
@@ -928,7 +940,6 @@ span i.fa-circle{
 .user_image{
     float: left;
     width: 55px;
-    height: 24px;
     overflow: hidden;
     text-align: center;
     vertical-align: middle;
@@ -939,7 +950,7 @@ span i.fa-circle{
     margin-left: 10px;
 }
 
-.user-info span a{text-decoration: underline;}
+.user-info span a, #menu-bar-container span.info-veiw{text-decoration: underline;}
 button.follow-btn{
     float: right;
     border: 1px solid #ccc;
@@ -992,9 +1003,8 @@ span.info{
 }
 .top-container .username button{
     border: 1px solid #CCC;
-    min-height: 39px;
-    min-width: 119px;
-    margin-top: 12px;
+    min-height: 34px;
+    min-width: 95px;
     border-radius: 0.3em;
 }
  .mine-username{
@@ -1099,4 +1109,9 @@ ul.mine-clip-list li .user-info{
 .result-empty{
     margin: 10px auto;
     text-align: center
+}
+.offline-msg{
+    width: 65%;
+margin: 50% auto;
+text-align: center;
 }
