@@ -18,7 +18,7 @@ var app = angular.module('starter',
             'WishlistNewMod',
             'WishlistItemMod',
             'WishlistItemAddMod',
-            'NotifyService',
+            'NotifyMod',
             'ngCordova'
         ]
         );

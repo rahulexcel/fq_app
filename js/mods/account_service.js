@@ -76,7 +76,7 @@ accountService.factory('accountHelper', [
                 def.reject();
             });
             return def.promise;
-        }
+        };
         service.create = function (user, type) {
             var def = $q.defer();
             var ajax = false;
