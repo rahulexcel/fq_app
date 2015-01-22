@@ -117,7 +117,8 @@ body{
     font-family: 'Open Sans', sans-serif;
 
 }
-img {
+img
+{
     max-width:100%;
     height:auto;
 }
@@ -682,7 +683,7 @@ i.up-price{
     border-bottom:3px solid black;
     left:0px;right:0px;
 }
-#show-fliter,.sortby-container{
+#show-fliter,.sortby-container,.offline-button{
     margin:0px 20px;
 }
 .sortby-container i.filter-icon ,
@@ -743,7 +744,7 @@ margin-top: 41px;
 .feedback-container input{
     color:#8A8A8A;
 }
-#my-acc .item-myacc1{
+#my-acc .item-myacc1,.item-myacc1{
     border-bottom:2px solid #FF7832;
     padding-bottom:0px;
 }
@@ -784,7 +785,6 @@ margin-top: 41px;
     min-height: 105px;
     padding-top:10px;
     color:#999999;
-    width: 95%;
     margin: 0px auto;
     position: relative;
 }
@@ -807,12 +807,16 @@ margin-top: 41px;
     border-radius:43px;
     width:71px;height:71px;
     margin: 0px auto;
+    text-align: center;
 }
 .profile-pic-not i{
     max-height: 150px;
     max-width: 150px;
     line-height: 2.4;
     color:#b2b2b2;
+}
+.profile-pic-back{
+    background-color:#F2F2F2;
 }
 /************************** closed My Account*********************************/
 
@@ -866,7 +870,7 @@ margin-top: 41px;
 .scroll-content .scroll #clip_1 ul{
     margin:0 0 15px;
 }
-#clip_1 .clip-it{
+#clip_1 .clip-it,.clip-it{
     padding:0 20px;
 }
 .scroll-content .scroll #clip_1 ul li{
@@ -1114,4 +1118,20 @@ ul.mine-clip-list li .user-info{
     width: 65%;
 margin: 50% auto;
 text-align: center;
+}
+/********************************* OFfline***************************/
+.scroll-content .scroll ul.offline-add-pin{
+    padding:0;
+}
+i.offline-icon{
+    margin-right: 15px;
+    vertical-align: middle;
+}
+.scroll-content .scroll ul.offline-add-pin li{
+    line-height: 57px;
+}
+.nearby-btn,.nearby-btn:hover{
+    width:100%;
+    color:#838383;
+    text-align: left;
 }
