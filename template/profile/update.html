@@ -1,0 +1,10 @@
+<ion-list can-swipe="true" show-delete="false">
+    <ion-item ng-repeat="item in items">
+        <img ng-src="{{item.img}}">
+        Hello, {{item.title}}!
+        <p>{{item.description}}</p>
+        <ion-option-button class="ion-trash-b button-assertive"
+                           ng-click="delete();">
+        </ion-option-button>
+    </ion-item>
+</ion-list>
