@@ -155,6 +155,15 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         }
                     }
                 })
+                .state('app.profile.update', {
+                    url: '/update',
+                    views: {
+                        'tab-content': {
+                            templateUrl: 'template/profile/update.html',
+                            controller: 'ProfileUpdateCtrl'
+                        }
+                    }
+                })
                 .state('app.wishlist_edit', {
                     url: '/wishlist_edit',
                     views: {

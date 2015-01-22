@@ -17,9 +17,6 @@ profileMod.controller('ProfileCtrl',
                     showMore: false
                 };
 
-                console.log('initiazling iscroll');
-                angular.element(document.querySelector('#menu_scroller')).attr('style', 'width:625px');
-                $scope.myScroll = new IScroll('#menu_sliding', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
                 $rootScope.$on('$viewContentLoaded', function (event) {
                     var path = $location.path();
                     if (path === '/app/profile/mine') {
@@ -37,9 +34,15 @@ profileMod.controller('ProfileCtrl',
                     } else if (path === '/app/profile/profile') {
                         $scope.pin_status.showMore = false;
                         $scope.selected_class = 'profile';
+                    } else if (path == '/app/profile/update') {
+                        $scope.pin_status.showMore = false;
+                        $scope.selected_class = 'update';
                     }
                 });
                 $scope.me = false;
+                $scope.menu_update = function () {
+                    $location.path('/app/profile/update');
+                }
                 $scope.menu_wishlist = function () {
                     $location.path('/app/profile/mine');
                 };
@@ -89,6 +92,17 @@ profileMod.controller('ProfileCtrl',
                         }
                         $ionicLoading.hide();
                         $scope.$broadcast('user_info');
+
+                        console.log('initiazling iscroll');
+                        var width = 125;
+                        if ($scope.me) {
+                            width = width * 6;
+                        } else {
+                            width = width * 5;
+                        }
+//                        angular.element(document.querySelector('#menu_scroller')).attr('style', 'width:' + width + 'px');
+                        $scope.myScroll = new IScroll('#menu_sliding', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
+
                     }, function () {
                         $ionicLoading.hide();
                     });

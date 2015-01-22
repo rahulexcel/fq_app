@@ -34,6 +34,9 @@
                 .profile .profile{
                     border-bottom: 1px solid red !important;
                 }
+                .update .update{
+                    border-bottom: 1px solid red !important;
+                }
             </style>
             <div id='menu_sliding' style="position: relative">
                 <ul id='menu_scroller' class="mine-list" ng-class="selected_class">
@@ -41,7 +44,8 @@
                     <li class="followers" on-tap='menu_followers();'>FOLLOWERS</li>
                     <li class="following" on-tap='menu_following();'>FOLLOWINGS</li>
                     <li class="pin" on-tap='menu_pins();'>MY PINS</li>
-                    <li class="profile" on-tap='menu_profile();'>PROFILE</li>
+                    <li ng-if="me" class="profile" on-tap='menu_profile();'>PROFILE</li>
+                    <li ng-if="me" class="update" on-tap='menu_update();'>UPDATES</li>
                 </ul>
             </div>
             <div class="clearfix"></div>
