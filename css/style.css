@@ -358,17 +358,17 @@ span.plus-minus{
     float: right;
 }
 .internal-details i{
-    margin-right:6px;
+    margin-right:7px;
     text-align: center;
-    font-size: 1.1em;
+    font-size: 1.5em;
 
 }
 .internal-details i.log-sign{
     margin-left:1px;
 }
 .internal-details img {
-    max-width: 2%;
-    margin-right: 10px;
+    max-width: 3%;
+    margin-right: 13px;
     margin-left: 5px;
 }
 /**************************closed Side Menu*********************************/
@@ -388,6 +388,8 @@ div#account-page button{
     padding-left:0px; 
     padding-right:42px;
     border-radius:5px;
+    border-color: #e25b47;
+    font-family: "Open Sans",sans-serif;
 }
 .fb-button{
     width:100%;
@@ -395,6 +397,8 @@ div#account-page button{
     padding-left:0px;
     padding-right:42px;
     border-radius: 5px;
+    border-color: #506da9;
+    font-family: "Open Sans",sans-serif;
 }
 .signup-button{
     min-height: 40px;
@@ -418,9 +422,11 @@ div#account-page button{
     width: 46px;
 }
 .alter{
-    text-align:center;
-    color:#959595;
+    text-align: center;
+    color: #999999;
     margin: 29px 0px 10px;
+    font-family: "Open Sans", regular;
+    font-size: 13px;
 }
 .login-click,
 .social-site-name,span.info-name{
@@ -715,8 +721,6 @@ i.up-price{
 
 .register{
     margin-top:10px;
-    margin:2px 17px;
-    border-radius: 0.3em;
 }
 .progress-info{
     margin-left: 61px;

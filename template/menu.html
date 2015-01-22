@@ -6,7 +6,7 @@
             </ion-nav-back-button>
             <ion-nav-title>
                 <div class="">
-                    <img src="img/logo-white.jpg" width="85px;" alt="Fashionig"/>
+                    <img src="img/logo-white.png"  alt="Fashionig"/>
                 </div>
             </ion-nav-title>
             <ion-nav-buttons side="left">
@@ -79,14 +79,13 @@
                     </li>
                 </ul>
                 <ul class="default-list">
-                    <li class="list-not-cat"><a class="internal-details" ng-if="!login" nav-clear menu-close href='#/app/signup'><i class="ion-person-add fa-lg red-color log-sign"></i>Join /Sign Up</a></li>
-                    <li class="list-not-cat"><a class="internal-details" ng-if="login" nav-clear menu-close on-tap='logout();'><i class="ion-log-out fa-lg red-color log-sign"></i>Logout</a></li>
-                    <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='account();'><a class="internal-details"><i class="ion-person fa-lg red-color"></i>My Account</a></li>
-                    <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='invite();'><a class="internal-details"><i class="ion-ios7-people fa-lg red-color"></i>Invite Friends</a></li>
-                    <li class="list-not-cat" nav-clear menu-close on-tap='feedback();'><a class="internal-details"><i class="ion-chatbubble-working fa-lg red-color"></i>Feedback</a></li>
+                    <li class="list-not-cat"><a class="internal-details" ng-if="!login" nav-clear menu-close href='#/app/signup'><i class="ion-person-add fa-2x red-color log-sign"></i>Join /Sign Up</a></li>
+                     <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='invite();'><a class="internal-details"><i class="ion-ios7-people fa-2x red-color"></i>Invite Friends</a></li>
+                    <li class="list-not-cat" nav-clear menu-close on-tap='feedback();'><a class="internal-details"><i class="ion-chatbubble-working fa-2x red-color"></i>Feedback</a></li>
                     <li class="list-not-cat" nav-clear menu-close on-tap='about();'>
                         <a class="internal-details"><img src="img/favicon.png" class="red-color" alt="" width="14px" height="20px"/>About Us</a>
                     </li>
+                    <li class="list-not-cat"><a class="internal-details" ng-if="login" nav-clear menu-close on-tap='logout();'><i class="ion-log-out fa-2x red-color log-sign"></i>Logout</a></li>
                     <div class="clearfix"></div>
                 </ul>
             </div>
