@@ -15,14 +15,10 @@
             </ion-nav-buttons>
             <ion-nav-buttons side="right">
                 <button on-tap='searchNow();' class="button button-icon">
-                    <i class="ion-ios7-search-strong red-color fa-2x"></i>
-                </button>
-                <button on-tap='wishlist();' class="button button-icon">
-                    <!--<img src="img/heart.png" alt="wishlist" width="31px"/>-->
-                    <i class="ion-person fa-2x red-color"></i>
+                    <i class="ion-ios7-search-strong white-color fa-lg"></i>
                 </button>
                 <button on-tap='addWishlistItem();' class="button button-icon">
-                    <i class="ion-plus fa-2x red-color"></i>
+                    <i class="ion-plus fa-lg white-color"></i>
                 </button>
             </ion-nav-buttons>
         </ion-nav-bar>
@@ -44,38 +40,55 @@
     <ion-side-menu side="left" expose-aside-when="large">
         <ion-content>
             <div id="menu-bar-container">
-            <i class="fa fa-spinner fa-spin" ng-show='category.length == 0'></i>
-            <ul ng-show='category.length >= 0'>
-                <li ng-repeat="cat in category">
-                    <span ng-click="selectCategory(cat)">{{cat.name}}</span><div class="clearfix"></div>
-                    <ul ng-show="cat.open" style="padding-left: 20px" ng-if='cat.data.length > 0'>
-                        <li class="sub-cat-label" ng-repeat="catSub in cat.data" >
-                            <span ng-click='selectCategory(catSub)'>{{catSub.name}}
-                            <div class="plus-minus" ng-if="catSub.data.length > 0">
-                                <i ng-show="!catSub.open">+</i>
-                                <i ng-show="catSub.open">-</i>
-                            </div>
-                            
-                            </span>
-                             <div class="clearfix"></div>
-                            <ul class="" ng-show="catSub.open" style="padding-left: 20px" ng-if='catSub.data.length > 0'>
-                                <li class="" nav-clear menu-close ng-repeat="catLast in catSub.data" >
-                                    <span  ng-click='selectCategory(catLast)'>{{catLast.name}}</span>        
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+
+
+                <!--Left menu loged in view profile-->
+                <div class="username" ng-if="login">
+                    <div class="user_image">
+                        <img src="img/user-img.png"/>
+                    </div>
+                    <div class="user-info">
+                        <span class="info info-name">Manish Prakash</span>
+                        <span class="info info-veiw" on-tap='wishlist();'>View Profile</span>
+                    </div>
                     <div class="clearfix"></div>
-                </li>
-                <li class="list-not-cat"><a class="internal-details" ng-if="!login" nav-clear menu-close href='#/app/signup'><i class="ion-person-add fa-lg red-color log-sign"></i>Join /Sign Up</a></li>
-                <li class="list-not-cat"><a class="internal-details" ng-if="login" nav-clear menu-close on-tap='logout();'><i class="ion-log-out fa-lg red-color log-sign"></i>Logout</a></li>
-                <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='account();'><a class="internal-details"><i class="ion-person fa-lg red-color"></i>My Account</a></li>
-                <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='invite();'><a class="internal-details"><i class="ion-ios7-people fa-lg red-color"></i>Invite Friends</a></li>
-                <li class="list-not-cat" nav-clear menu-close on-tap='feedback();'><a class="internal-details"><i class="ion-chatbubble-working fa-lg red-color"></i>Feedback</a></li>
-                <li class="list-not-cat" nav-clear menu-close on-tap='about();'>
-                    <a class="internal-details"><img src="img/favicon.png" class="red-color" alt="" width="14px" height="20px"/>About Us</a>
-                </li>
-            </ul>
+                </div>
+                <!--Left menu loged in view profile closed-->
+                <i class="fa fa-spinner fa-spin" ng-show='category.length == 0'></i>
+                <ul ng-show='category.length >= 0'>
+                    <li ng-repeat="cat in category">
+                        <span ng-click="selectCategory(cat)">{{cat.name}}</span><div class="clearfix"></div>
+                        <ul ng-show="cat.open" style="padding-left: 20px" ng-if='cat.data.length > 0'>
+                            <li class="sub-cat-label" ng-repeat="catSub in cat.data" >
+                                <span ng-click='selectCategory(catSub)'>{{catSub.name}}
+                                    <div class="plus-minus" ng-if="catSub.data.length > 0">
+                                        <i ng-show="!catSub.open">+</i>
+                                        <i ng-show="catSub.open">-</i>
+                                    </div>
+
+                                </span>
+                                <div class="clearfix"></div>
+                                <ul class="" ng-show="catSub.open" style="padding-left: 20px" ng-if='catSub.data.length > 0'>
+                                    <li class="" nav-clear menu-close ng-repeat="catLast in catSub.data" >
+                                        <span  ng-click='selectCategory(catLast)'>{{catLast.name}}</span>        
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </li>
+                </ul>
+                <ul class="default-list">
+                    <li class="list-not-cat"><a class="internal-details" ng-if="!login" nav-clear menu-close href='#/app/signup'><i class="ion-person-add fa-lg red-color log-sign"></i>Join /Sign Up</a></li>
+                    <li class="list-not-cat"><a class="internal-details" ng-if="login" nav-clear menu-close on-tap='logout();'><i class="ion-log-out fa-lg red-color log-sign"></i>Logout</a></li>
+                    <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='account();'><a class="internal-details"><i class="ion-person fa-lg red-color"></i>My Account</a></li>
+                    <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='invite();'><a class="internal-details"><i class="ion-ios7-people fa-lg red-color"></i>Invite Friends</a></li>
+                    <li class="list-not-cat" nav-clear menu-close on-tap='feedback();'><a class="internal-details"><i class="ion-chatbubble-working fa-lg red-color"></i>Feedback</a></li>
+                    <li class="list-not-cat" nav-clear menu-close on-tap='about();'>
+                        <a class="internal-details"><img src="img/favicon.png" class="red-color" alt="" width="14px" height="20px"/>About Us</a>
+                    </li>
+                    <div class="clearfix"></div>
+                </ul>
             </div>
         </ion-content>
     </ion-side-menu>
