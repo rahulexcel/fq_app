@@ -2,8 +2,8 @@
     <ion-content>
         <div class="list feedback-container">
 			<div class="feed-info">
-				<h4>RATE OUR APP</h4>
-				<p>if you love our app, please take a moment to rate it in the App store</p>
+				<h4 class="rate-app">RATE OUR APP</h4>
+				<p class="rate-descrip">If you love our app, please take a moment to rate it in the App store</p>
 				<button class="button signup-button feed-rate-btn" on-tap=""><img src="img/google_play.png"/>&nbsp;RATE NOW
                 </button>
 			</div>
@@ -12,7 +12,7 @@
                 <input type="text" ng-model='feedback.email' placeholder="Email Address">
             </label>
             <label class="item item-input item-floating-label">
-                <span class="input-label">Message</span>
+                <span class="input-label">Leave a feedback</span>
                 <textarea ng-model="feedback.text" style="width:100%;height: 25px" placeholder="Leave a feedback"></textarea>
             </label>
             <div class="feed-submit">

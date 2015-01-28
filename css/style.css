@@ -1,4 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);
+@import url(http://fonts.googleapis.com/css?family=Dosis:400,600);
 
 @media screen and (min-width: 1001px) {
     .category .product{
@@ -40,6 +41,9 @@ font-style: normal;
     background-size: contain;
     background-position: center center;
 }
+.has-header{
+    box-shadow: 0px 5px 7px -7px #0E0103 inset;
+}
 
 .site{
     background-repeat: no-repeat;
@@ -49,6 +53,47 @@ font-style: normal;
     width: 12px;
     line-height: 12px;
 }
+input::-webkit-input-placeholder { /* WebKit browsers */
+    color:   #999999;
+    font-size: 13px;
+    font-family: "open sans"
+}
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #999999;
+    font-size: 13px;
+    font-family: "open sans"
+}
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #999999;
+    font-size: 13px;
+    font-family: "open sans"
+}
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #999999;
+    font-size: 13px;
+    font-family: "open sans"
+}
+textarea::-webkit-input-placeholder { /* WebKit browsers */
+    color:   #999999;
+    font-size: 13px;
+    font-family: "open sans"
+}
+textarea:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #999999;
+    font-size: 13px;
+    font-family: "open sans"
+}
+textarea::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #999999;
+    font-size: 13px;
+    font-family: "open sans"
+}
+textarea:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #999999;
+    font-size: 13px;
+    font-family: "open sans"
+}
+
 .Flipkart  { background-image: url("../img/fav/flipkart.png");   }
 .Snapdeal  { background-image: url("../img/fav/snapdeal.png")  }
 .ShopClues  { background-image: url("../img/fav/shopclues.png")  }
@@ -92,6 +137,14 @@ font-style: normal;
 .platform-ready .loading-gif {
     display: none;
 }
+h4.rate-app{
+    font-family: "Dosis SemiBold", arial;
+font-size: 16px;
+}
+p.rate-descrip{
+    font-family: 'Open Sans', regular;
+font-size: 13px;
+}
 .loading-gif {
     color: #777;
     height: 50px;
@@ -100,6 +153,13 @@ font-style: normal;
     text-align: center;
     top: 50%;
     width: 100px;
+}
+.toggle-btn{
+    margin-left:-15px;
+}
+.bar .title {
+    font-family: 'Dosis';
+    font-size: 18px;
 }
 .tab-item .icon{
     height: 15px;
@@ -117,7 +177,8 @@ body{
     font-family: 'Open Sans', sans-serif;
 
 }
-img {
+img
+{
     max-width:100%;
     height:auto;
 }
@@ -311,7 +372,7 @@ li.sub-cat-label>span,
     border-bottom-style:none; 
 }
 ul.default-list{
-    border-top: 1px solid #ccc;
+border-top: 1px solid #ccc;
 }
 .scroll-content .scroll #menu-bar-container  ul li span{
     width: 100%;
@@ -357,17 +418,17 @@ span.plus-minus{
     float: right;
 }
 .internal-details i{
-    margin-right:6px;
+    margin-right:7px;
     text-align: center;
-    font-size: 1.1em;
+    font-size: 1.5em;
 
 }
 .internal-details i.log-sign{
     margin-left:1px;
 }
 .internal-details img {
-    max-width: 2%;
-    margin-right: 10px;
+    max-width: 3%;
+    margin-right: 13px;
     margin-left: 5px;
 }
 /**************************closed Side Menu*********************************/
@@ -387,6 +448,8 @@ div#account-page button{
     padding-left:0px; 
     padding-right:42px;
     border-radius:5px;
+    border-color: #e25b47;
+    font-family: "Open Sans",sans-serif;
 }
 .fb-button{
     width:100%;
@@ -394,6 +457,8 @@ div#account-page button{
     padding-left:0px;
     padding-right:42px;
     border-radius: 5px;
+    border-color: #506da9;
+    font-family: "Open Sans",sans-serif;
 }
 .signup-button{
     min-height: 40px;
@@ -403,6 +468,7 @@ div#account-page button{
     padding-left:0px;
     border-radius: 5px;
     font-weight: bold;
+    font-family: 'Dosis SemiBold', arial;
 }
 .fb-social-icon{
     float: left;
@@ -417,9 +483,11 @@ div#account-page button{
     width: 46px;
 }
 .alter{
-    text-align:center;
-    color:#959595;
+    text-align: center;
+    color: #999999;
     margin: 29px 0px 10px;
+    font-family: "Open Sans", regular;
+    font-size: 13px;
 }
 .login-click,
 .social-site-name,span.info-name{
@@ -441,6 +509,9 @@ div#account-page button{
 }
 .activated i{
     background-color:#E5E5E5;
+}
+.register-bottom{
+    font-size: 13px;
 }
 /************************** closed Sign up/login*********************************/
 
@@ -682,7 +753,7 @@ i.up-price{
     border-bottom:3px solid black;
     left:0px;right:0px;
 }
-#show-fliter,.sortby-container{
+#show-fliter,.sortby-container,.offline-button{
     margin:0px 20px;
 }
 .sortby-container i.filter-icon ,
@@ -714,8 +785,6 @@ i.up-price{
 
 .register{
     margin-top:10px;
-    margin:2px 17px;
-    border-radius: 0.3em;
 }
 .progress-info{
     margin-left: 61px;
@@ -725,7 +794,7 @@ i.up-price{
 }
 .progress-close{
     float: right;
-    margin-top: 41px;
+margin-top: 41px;
 }
 #my-acc .item, .top-container .similar-product-label{
     border-style:none;
@@ -743,7 +812,7 @@ i.up-price{
 .feedback-container input{
     color:#8A8A8A;
 }
-#my-acc .item-myacc1{
+#my-acc .item-myacc1,.item-myacc1{
     border-bottom:2px solid #FF7832;
     padding-bottom:0px;
 }
@@ -784,7 +853,6 @@ i.up-price{
     min-height: 105px;
     padding-top:10px;
     color:#999999;
-    width: 95%;
     margin: 0px auto;
     position: relative;
 }
@@ -807,12 +875,16 @@ i.up-price{
     border-radius:43px;
     width:71px;height:71px;
     margin: 0px auto;
+    text-align: center;
 }
 .profile-pic-not i{
     max-height: 150px;
     max-width: 150px;
     line-height: 2.4;
     color:#b2b2b2;
+}
+.profile-pic-back{
+    background-color:#F2F2F2;
 }
 /************************** closed My Account*********************************/
 
@@ -833,6 +905,11 @@ i.up-price{
     background-color:#f5f5f5;
     border:1px solid #e3e3e3;
     margin-top:10px;
+    ont-family: "Dosis SemiBold", arial;
+font-size: 18px;
+}
+.feed-info .feed-rate-btn:hover{
+    color:#000;
 }
 .feedback-container .item{
     border: 1px solid #E1E1E1;
@@ -845,9 +922,11 @@ i.up-price{
 .feed-submit {
     margin-top:24px;
 }
-.feedback-container .first-feed-label{
-    border-color:#FF7832;
+.feedback-container .input-label{
+    font-size: 15px;
+    font-family: "open sans";
 }
+
 /*********************************CLIP *******************************/
 .clip-font-color{
     color: #949494;
@@ -866,7 +945,7 @@ i.up-price{
 .scroll-content .scroll #clip_1 ul{
     margin:0 0 15px;
 }
-#clip_1 .clip-it{
+#clip_1 .clip-it,.clip-it{
     padding:0 20px;
 }
 .scroll-content .scroll #clip_1 ul li{
@@ -1007,7 +1086,7 @@ span.info{
     min-width: 95px;
     border-radius: 0.3em;
 }
-.mine-username{
+ .mine-username{
     border-style: none;
     padding: 5px 25px;
     margin-bottom: 0px;
@@ -1111,10 +1190,23 @@ ul.mine-clip-list li .user-info{
     text-align: center
 }
 .offline-msg{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    /* bring your own prefixes */
-    transform: translate(-50%, -50%);
-    text-align: center;
+    width: 65%;
+margin: 50% auto;
+text-align: center;
+}
+/********************************* OFfline***************************/
+.scroll-content .scroll ul.offline-add-pin{
+    padding:0;
+}
+i.offline-icon{
+    margin-right: 15px;
+    vertical-align: middle;
+}
+.scroll-content .scroll ul.offline-add-pin li{
+    line-height: 57px;
+}
+.nearby-btn,.nearby-btn:hover{
+    width:100%;
+    color:#838383;
+    text-align: left;
 }

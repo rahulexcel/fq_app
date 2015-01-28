@@ -1,13 +1,14 @@
+<div class="clip-label black-font add-to-clip">ADD PIN</div>
 <div>
-    <ul>
+    <ul class="default-list offline-add-pin">
 
-        <li ng-if="is_mobile" on-tap='type("camera")'>Camera</li>
-        <li ng-if="is_mobile" on-tap='type("gallary")'>Gallery</li>
-        <li ng-if="!is_mobile" ng-file-select 
+        <li class="clip-it"  on-tap='type("camera")'><i class="ion-ios7-camera grey-color fa-2x offline-icon"></i><span class="grey-color">Camera</span></li>
+        <li class="clip-it"  on-tap='type("gallary")'><i class="ion-image grey-color fa-2x offline-icon"></i><span class="grey-color">Gallery</span></li>
+        <li class="clip-it" ng-file-select 
             ng-model="file.myFiles" 
             ng-multiple="false" 
-            ng-rejected-file-model="rejFiles">Picture</li>
-        <li on-tap='type("url")'>URL</li>
-        <li on-tap='type("near")'>Near By</li>
+            ng-rejected-file-model="rejFiles"><i class="ion-ios7-camera grey-color fa-2x offline-icon"></i><span class="grey-color">Picture</span></li>
+        <li class="clip-it" on-tap='type("url")'><i class="fa fa-globe grey-color fa-2x offline-icon"></i><span class="grey-color">Website</span></li>
+        <li class="clip-it" on-tap='type("near")'><i class="ion-map fa-2x offline-icon grey-color"></i><span class="grey-color">Near By</span></li>
     </ul>
 </div>
