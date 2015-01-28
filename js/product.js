@@ -87,9 +87,10 @@ productMod.controller('ProductCtrl',
                     if (data.similar && data.similar.length > 0) {
                         console.log('initiazling iscroll');
                         angular.element(document.querySelector('#scroller')).attr('style', 'width:' + (data.similar.length * 200) + "px");
-                        $timeout(function () {
-                            $scope.myScroll = new IScroll('#similar', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
-                        }, 500);
+                        if (data.similar.length > 0)
+                            $timeout(function () {
+                                $scope.myScroll = new IScroll('#similar', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
+                            }, 500);
                     }
                     $scope.product_loading = false;
                     $scope.$broadcast('scroll.refreshComplete');

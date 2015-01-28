@@ -1,12 +1,12 @@
 <ion-side-menus enable-menu-with-back-views="true">
     <ion-side-menu-content>
-        <ion-nav-bar class="bar-stable" edge-drag-threshold='true'  drag-content ='true' ng-show="!showSearchBox">
+        <ion-nav-bar class="bar-stable" edge-drag-threshold='true'  drag-content ='false' ng-show="!showSearchBox">
             <ion-nav-back-button>
                 <i class="icon fa fa-chevron-left"></i>
             </ion-nav-back-button>
             <ion-nav-title>
                 <div class="">
-                    <img src="img/logo.png" width="85px;" alt="Fashionig"/>
+                    <img src="img/logo.png" width="85px;" alt="Fashion IQ"/>
                 </div>
             </ion-nav-title>
             <ion-nav-buttons side="left">
@@ -41,15 +41,14 @@
         <ion-content>
             <div id="menu-bar-container">
 
-
                 <!--Left menu loged in view profile-->
                 <div class="username" ng-if="login">
-                    <div class="user_image">
-                        <img src="img/user-img.png"/>
+                    <div class="user_image rounded">
+                        <img ng-src="{{user_details.picture|picture:50:50}}"/>
                     </div>
                     <div class="user-info">
-                        <span class="info info-name">Manish Prakash</span>
-                        <span class="info info-veiw" on-tap='wishlist();'>View Profile</span>
+                        <span class="info info-name">{{user_details.name}}</span>
+                        <span nav-clear menu-close class="info info-veiw" on-tap='account();'>View Profile</span>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -81,7 +80,7 @@
                 <ul class="default-list">
                     <li class="list-not-cat"><a class="internal-details" ng-if="!login" nav-clear menu-close href='#/app/signup'><i class="ion-person-add fa-lg red-color log-sign"></i>Join /Sign Up</a></li>
                     <li class="list-not-cat"><a class="internal-details" ng-if="login" nav-clear menu-close on-tap='logout();'><i class="ion-log-out fa-lg red-color log-sign"></i>Logout</a></li>
-                    <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='account();'><a class="internal-details"><i class="ion-person fa-lg red-color"></i>My Account</a></li>
+                    <!--<li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='account();'><a class="internal-details"><i class="ion-person fa-lg red-color"></i>My Account</a></li>-->
                     <li class="list-not-cat" ng-if="login" nav-clear menu-close on-tap='invite();'><a class="internal-details"><i class="ion-ios7-people fa-lg red-color"></i>Invite Friends</a></li>
                     <li class="list-not-cat" nav-clear menu-close on-tap='feedback();'><a class="internal-details"><i class="ion-chatbubble-working fa-lg red-color"></i>Feedback</a></li>
                     <li class="list-not-cat" nav-clear menu-close on-tap='about();'>

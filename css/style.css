@@ -311,7 +311,7 @@ li.sub-cat-label>span,
     border-bottom-style:none; 
 }
 ul.default-list{
-border-top: 1px solid #ccc;
+    border-top: 1px solid #ccc;
 }
 .scroll-content .scroll #menu-bar-container  ul li span{
     width: 100%;
@@ -725,7 +725,7 @@ i.up-price{
 }
 .progress-close{
     float: right;
-margin-top: 41px;
+    margin-top: 41px;
 }
 #my-acc .item, .top-container .similar-product-label{
     border-style:none;
@@ -1007,7 +1007,7 @@ span.info{
     min-width: 95px;
     border-radius: 0.3em;
 }
- .mine-username{
+.mine-username{
     border-style: none;
     padding: 5px 25px;
     margin-bottom: 0px;
@@ -1111,7 +1111,10 @@ ul.mine-clip-list li .user-info{
     text-align: center
 }
 .offline-msg{
-    width: 65%;
-margin: 50% auto;
-text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+    text-align: center;
 }
