@@ -743,11 +743,35 @@ i.up-price{
 .filter-label{
     float:left;
     margin-left:10px;
-    font-size:1.3em;
+    font-size:18px;
+    font-family: "Dosis SemiBold", arial;
 }
+.item-checkbox span.ng-binding{
+    font-family: "open sans";
+    font-size: 13px;
+}
+.filter-list .item-checkbox span.ng-binding{
+    margin-left:35px;
+}
+div#show-fliter .button .filter-icon:before{
+    font-size: 17px;
+}
+.filter-list{
+    padding:0px 10px;
+}
+.sortby-container .item-checkbox .checkbox{
+    position: static;
+    margin-top:0px;
+    float:right;
+    margin-top: 3px;
+}
+
 .filter-page:after{
-    border-bottom:3px solid black;
+    border-bottom:2px solid black;
     left:0px;right:0px;
+}
+.checkbox .checkbox-icon:before, .checkbox input:before {
+    border-color: #FFF;
 }
 #show-fliter,.sortby-container,.offline-button{
     margin:0px 20px;
@@ -755,25 +779,36 @@ i.up-price{
 .sortby-container i.filter-icon ,
 .col i.fa{
     line-height: 2;
+    margin-top:5px;
 }
 .filter-list,.sortby-container .item label{
     border-bottom: 1px solid #dcdcdc;
     line-height: 34px;
-    padding:0px 14px;
+}
+.filter-list div.ng-binding{
+    font-size: 12px;
 }
 .filter-list span.plus-minus{
     color:#919191;
 }
 .filter-list .item,.sortby-container .item{
-    padding:3px 10px;
+    padding:2px;
     border-style:none;
+    line-height: 34px;
 }
-.filter-list .item-content span ,
-.sortby-container .item-content span{
-    padding-left:30px;
+.sortby-container label.item{
+    padding:0px 10px;
 }
+
 .item-checkbox .checkbox {
     left:-6px;
+}
+.checkbox input:checked + .checkbox-icon:before, .checkbox input:checked:before {
+    background-color:#da500f;
+    border-color: #da500f;
+}
+.sortby-container .checkbox{
+    padding:0px;
 }
 /**************************Closed Filter & sort by*********************************/
 
@@ -901,7 +936,7 @@ i.up-price{
     background-color:#f5f5f5;
     border:1px solid #e3e3e3;
     margin-top:10px;
-    ont-family: "Dosis SemiBold", arial;
+    font-family: "Dosis SemiBold", arial;
     font-size: 18px;
 }
 .feed-info .feed-rate-btn:hover{
