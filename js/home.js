@@ -20,6 +20,7 @@ homeMod.controller('HomeCtrl',
                 $scope.login = false;
                 if ($localStorage.user && $localStorage.user.id) {
                     $scope.login = true;
+                    $scope.user_details = $localStorage.user;
                 }
 
                 $scope.logout = function () {

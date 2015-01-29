@@ -34,7 +34,7 @@ profileMod.controller('ProfileCtrl',
                     } else if (path === '/app/profile/profile') {
                         $scope.pin_status.showMore = false;
                         $scope.selected_class = 'profile';
-                    } else if (path == '/app/profile/update') {
+                    } else if (path === '/app/profile/update') {
                         $scope.pin_status.showMore = false;
                         $scope.selected_class = 'update';
                     }
@@ -42,7 +42,7 @@ profileMod.controller('ProfileCtrl',
                 $scope.me = false;
                 $scope.menu_update = function () {
                     $location.path('/app/profile/update');
-                }
+                };
                 $scope.menu_wishlist = function () {
                     $location.path('/app/profile/mine');
                 };
@@ -87,7 +87,7 @@ profileMod.controller('ProfileCtrl',
                     ajax.then(function (data) {
                         console.log(data);
                         $scope.user = data;
-                        if ($scope.user._id == $localStorage.user.id) {
+                        if ($scope.user._id === $localStorage.user.id) {
                             $scope.me = true;
                         }
                         $ionicLoading.hide();

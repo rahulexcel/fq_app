@@ -44,12 +44,12 @@
 
                 <!--Left menu loged in view profile-->
                 <div class="username" ng-if="login">
-                    <div class="user_image">
-                        <img src="img/user-img.png"/>
+                    <div class="user_image rounded">
+                        <img ng-src="{{user_details.picture|picture:50:50}}"/>
                     </div>
                     <div class="user-info">
-                        <span class="info info-name">Manish Prakash</span>
-                        <span class="info info-veiw" on-tap='wishlist();'>View Profile</span>
+                        <span class="info info-name">{{user_details.name}}</span>
+                        <span nav-clear menu-close class="info info-veiw" on-tap='account();'>View Profile</span>
                     </div>
                     <div class="clearfix"></div>
                 </div>

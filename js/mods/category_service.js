@@ -4,12 +4,13 @@ categoryService.factory('categoryHelper', [
     'ajaxRequest', '$q', '$ionicLoading',
     function (ajaxRequest, $q, $ionicLoading) {
         var service = {};
-        service.fetchProduct = function (data) {
+        service.fetchProduct = function (data, is_new) {
             var defer = $q.defer();
             var ajax = ajaxRequest.send('v1/catalog/products', angular.copy(data));
-            $ionicLoading.show({
-                template: 'Loading...'
-            });
+            if (is_new)
+                $ionicLoading.show({
+                    template: 'Loading...'
+                });
             ajax.then(function (data) {
                 var ret = {};
                 if (data.products) {
@@ -69,7 +70,8 @@ categoryService.factory('categoryHelper', [
                     }
                 }
                 ret.filters = filters;
-                $ionicLoading.hide();
+                if (is_new)
+                    $ionicLoading.hide();
                 defer.resolve(ret);
             }, function () {
                 defer.reject();

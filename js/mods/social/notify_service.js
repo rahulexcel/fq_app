@@ -1,8 +1,8 @@
 var notifyService = angular.module('NotifyMod', ['ServiceMod']);
 
 notifyService.factory('notifyHelper', [
-    'ajaxRequest', '$q', '$localStorage', '$cordovaPush',
-    function (ajaxRequest, $q, $localStorage, $cordovaPush) {
+    'ajaxRequest', '$q', '$localStorage', '$cordovaPush', '$rootScope',
+    function (ajaxRequest, $q, $localStorage, $cordovaPush, $rootScope) {
         var service = {};
         service.init = function () {
             if (window.cordova && window.cordova.plugins) {
@@ -13,7 +13,7 @@ notifyService.factory('notifyHelper', [
 
                 }, function (err) {
 
-                })
+                });
 
                 $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
                     switch (notification.event) {

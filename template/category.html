@@ -1,13 +1,12 @@
 <ion-view>
     <ion-nav-title>{{currentState.title}}</ion-nav-title> 
-    <ion-content scroll-watch on-scroll="on-scroll();">
-
+    <ion-content scroll-watch ng-class="!hideFilterBox ? 'has-footer' : ''">
         <ion-refresher
             pulling-text="Refresh..."
             on-refresh="refreshCategory()">
         </ion-refresher>
-        <div ng-show="showFilter" id="show-fliter" >
-           
+        <div ng-show="showFilter && products.length > 0" id="show-fliter" >
+
             <button class="button button-full button-clear filter-button filter-page" on-tap='showProductsFn()'>
                 <i class="icon ion-funnel filter-icon red-color"></i>
                 <span class="filter-label">FILTER</span>
@@ -29,7 +28,7 @@
 
             </div>
         </div>
-        <div ng-show="showSortBy" class="sortby-container">
+        <div ng-show="showSortBy && products.length > 0" class="sortby-container">
             <button class="button button-full button-clear filter-button filter-page" on-tap='showProductsFn()'>
                 <i class="fa fa-sort-alpha-desc filter-icon red-color"></i>
                 <span class="filter-label"> SORT BY</span>
@@ -42,7 +41,7 @@
             </ion-list>
         </div>
 
-        <div ng-show="showProducts" class="category" ng-show="!product_loading">
+        <div class="category" ng-show="!product_loading && showProducts">
 
             <div ng-show='currentState.filters.length > 0'>
                 Filters: 
@@ -51,7 +50,8 @@
                 </span>
             </div>
 
-            <div class="product" ng-repeat="prod in products track by $index">
+            <div class="product" collection-repeat="prod in products track by $index" collection-item-width="'50%'" collection-item-height="264">
+                <!--<div class="product" ng-repeat="prod in products track by $index">-->
                 <div class="clearfix"></div>
                 <div class="image" on-tap="openProduct(prod);">
                     <img ng-src="{{prod.img}}" />
@@ -75,17 +75,17 @@
                         <i class="fa fa-caret-up up-price" ng-if="prod.price_drop > 0">&nbsp; Rs.112{{product.price_drop}}</i>
                         <i class="fa fa-caret-down" ng-if="prod.price_drop < 0">&nbsp; Rs.112{{product.price_drop}}</i>
                     </div>
-                   <div class="clearfix"></div>
+                    <div class="clearfix"></div>
                 </div>
                 <div class="clearfix"></div>
             </div>
         </div>
         <div ng-show="currentState.page > 0 && !product_loading && products.length > 0 && showProducts" on-tap="nextPage(true);">Load Next Page</div>
+
         <ion-infinite-scroll
+            immediate-check='false'
             ng-if="currentState.page && showProducts && products.length > 0 && startPaging"
-            on-infinite="nextPage()"
-            icon="ion-loading-c"
-            >
+            on-infinite="nextPage()" distance='1%'>
         </ion-infinite-scroll>
     </ion-content>
     <ion-footer-bar class="bar-light" ng-show="products.length > 0 && !hideFilterBox">

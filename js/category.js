@@ -1,31 +1,34 @@
 var categoryMod = angular.module('CategoryMod', ['CategoryService', 'WishlistService', 'ionic']);
 
-categoryMod.directive('scrollWatch', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attrs) {
-            var start = scope.$eval(attrs.scrolling) || 0;
-
-            element.bind('scroll', function (e) {
-                if (e.detail.scrollTop >= start) {
-                    start = e.detail.scrollTop;
-                    scope.scroll_direction.direction = -1;
-                    scope.$evalAsync();
-                } else {
-                    scope.scroll_direction.direction = 1;
-                    scope.$evalAsync();
-                }
-            });
-        }
-    };
-});
+categoryMod.directive('scrollWatch', ['$window', function ($window) {
+        //not working with overflow-scroll=y
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                var start = scope.$eval(attrs.scrolling) || 0;
+                element.bind('scroll', function (e) {
+                    if (e.detail.scrollTop >= start) {
+                        start = e.detail.scrollTop;
+                        if (scope.scroll_direction.direction * 1 !== -1) {
+                            scope.scroll_direction.direction = -1;
+                            scope.$evalAsync();
+                        }
+                    } else {
+                        if (scope.scroll_direction.direction * 1 !== 1) {
+                            scope.scroll_direction.direction = 1;
+                            scope.$evalAsync();
+                        }
+                    }
+                });
+            }
+        };
+    }]);
 categoryMod.controller('CategoryCtrl',
         ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate',
-            '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$interval',
-            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $interval) {
+            '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$timeout',
+            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $timeout) {
 
                 var backView = false;
-
                 $rootScope.$on('login_event', function () {
                     console.log('category ctrl login event listener');
                     backView = $ionicHistory.backView();
@@ -38,7 +41,6 @@ categoryMod.controller('CategoryCtrl',
                         console.log(state);
                         var category = $localStorage.previous.state.category;
                         $scope.current_category = category;
-
                         $localStorage.previous = {};
                         backView = false;
                         if (state.function === 'wishlist') {
@@ -73,18 +75,13 @@ categoryMod.controller('CategoryCtrl',
 
 
                 var products = [];
-
                 $scope.showProducts = true;
                 $scope.showSortBy = false;
                 $scope.showFilter = false;
-
                 $scope.products = products;
                 $scope.next_page_url = false;
                 $scope.page = 0;
-
-
                 $scope.currentState = {};
-
                 $scope.showProductsFn = function () {
                     $scope.showProducts = true;
                     $scope.showSortBy = false;
@@ -98,8 +95,8 @@ categoryMod.controller('CategoryCtrl',
                         $scope.showProducts = false;
                         $scope.showSortBy = true;
                         $scope.showFilter = false;
+                        $ionicScrollDelegate.scrollTop();
                     }
-                    $ionicScrollDelegate.scrollTop();
                 };
                 $scope.showFiltersFn = function () {
                     if (!$scope.showProducts) {
@@ -108,8 +105,9 @@ categoryMod.controller('CategoryCtrl',
                         $scope.showProducts = false;
                         $scope.showSortBy = false;
                         $scope.showFilter = true;
+
+                        $ionicScrollDelegate.scrollTop();
                     }
-                    $ionicScrollDelegate.scrollTop();
                 };
                 $scope.open = function (obj) {
                     if (!obj.open) {
@@ -130,7 +128,6 @@ categoryMod.controller('CategoryCtrl',
                         $scope.hideFilterBox = false;
                     }
                 });
-
                 $scope.refreshCategory = function () {
                     $scope.product_loading = true;
                     var state = $scope.currentState;
@@ -144,19 +141,19 @@ categoryMod.controller('CategoryCtrl',
                         }
                         $scope.update(ret);
                         $scope.showProductsFn();
-                        $scope.$broadcast('scroll.refreshComplete');
+                        $timeout(function () {
+                            $scope.$broadcast('scroll.refreshComplete');
+                        }, 39);
                     }, function () {
                         $scope.$broadcast('scroll.refreshComplete');
                     });
                 };
-
                 $scope.removeFilter = function (filter) {
                     var url = filter.param;
                     $scope.product_loading = true;
                     var state = $scope.currentState;
                     var filters = state.filters;
                     var new_filters = [];
-
                     for (var i = 0; i < filters.length; i++) {
                         if (filters[i].param !== url) {
                             new_filters.push(filters[i]);
@@ -173,7 +170,6 @@ categoryMod.controller('CategoryCtrl',
                         $scope.showProductsFn();
                     });
                 };
-
                 $scope.doFilter = function (filter) {
                     if (!filter.param) {
                         var cat_id = filter.cat_id;
@@ -209,12 +205,10 @@ categoryMod.controller('CategoryCtrl',
                 $scope.doSort = function (sort) {
                     var url = sort.url;
                     $scope.product_loading = true;
-
                     var state = $scope.currentState;
                     state.page = -1;
                     $scope.currentState = state;
                     state.sortby = url;
-
                     var req = categoryHelper.fetchProduct(state);
                     req.then(function (ret) {
                         $scope.product_loading = false;
@@ -222,13 +216,11 @@ categoryMod.controller('CategoryCtrl',
                         $scope.showProductsFn();
                     });
                 };
-
                 $scope.$on('search_event', function () {
                     var text = $rootScope.search.text;
                     $scope.product_loading = true;
                     $scope.currentState.search = text;
                     var state = $scope.currentState;
-
                     var req = categoryHelper.fetchProduct(state);
                     req.then(function (ret) {
                         $rootScope.search.text = '';
@@ -238,9 +230,7 @@ categoryMod.controller('CategoryCtrl',
                         $scope.showProductsFn();
                     });
                 });
-
                 $scope.startPaging = false;
-
                 $scope.$watch('current_category', function (cat) {
                     console.log(cat);
                     if (cat) {
@@ -267,8 +257,7 @@ categoryMod.controller('CategoryCtrl',
                         var products = [];
                         $scope.products = products;
                         $scope.product_loading = true;
-                        var req = categoryHelper.fetchProduct(cat);
-
+                        var req = categoryHelper.fetchProduct(cat, true);
                         req.then(function (ret) {
                             $scope.product_loading = false;
                             $scope.update(ret);
@@ -279,28 +268,26 @@ categoryMod.controller('CategoryCtrl',
                 $scope.nextPage = function (force) {
                     console.log('next page');
                     if ($scope.currentState.page && ($scope.currentState.page * 1 !== -1 && $scope.currentState.page * 1 <= 10) || force) {
-                        $scope.product_loading = true;
                         var state = $scope.currentState;
                         state.page++;
                         var req = categoryHelper.fetchProduct(state);
                         req.then(function (ret) {
                             $scope.product_loading = false;
                             $scope.update(ret, true);
-                            $interval(function () {
+                            $timeout(function () {
                                 $scope.$broadcast('scroll.infiniteScrollComplete');
-                            }, 500);
+                            }, 30);
                         });
                     } else {
                         console.log('here');
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     }
                 };
-
                 $scope.page_size = 1;
                 $scope.page_range = 2;
                 $scope.current_start_page = 1;
-
                 $scope.update = function (ret, append) {
+
                     $scope.currentState.page = ret.page;
                     console.log(ret.products.length + 'products');
                     console.log('current page ' + ret.page);
@@ -326,7 +313,6 @@ categoryMod.controller('CategoryCtrl',
                     $scope.sortBy = ret.sortBy;
                     $scope.filters = ret.filters;
                 };
-
                 $scope.wishlist = function (product, $event) {
                     $event.preventDefault();
                     $event.stopPropagation();
@@ -355,6 +341,5 @@ categoryMod.controller('CategoryCtrl',
                     product.cat_name = $scope.current_category.name;
                     dataShare.broadcastData(product, 'product_open');
                 };
-
             }
         ]);

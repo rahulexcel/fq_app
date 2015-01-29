@@ -139,19 +139,15 @@ textarea:-ms-input-placeholder { /* Internet Explorer 10+ */
 }
 h4.rate-app{
     font-family: "Dosis SemiBold", arial;
-font-size: 16px;
+    font-size: 16px;
 }
 p.rate-descrip{
     font-family: 'Open Sans', regular;
-font-size: 13px;
+    font-size: 13px;
 }
 .loading-gif {
     color: #777;
     height: 50px;
-    left: 50%;
-    position: absolute;
-    text-align: center;
-    top: 50%;
     width: 100px;
 }
 .toggle-btn{
@@ -340,7 +336,7 @@ i.close-tab-icon{
 
     color: black;
     float: right;
-    font-size: 1.3em;
+    font-size: 1.7em;
     font-weight: normal;
 }
 .feed-info,.list-my_acc .input-label,
@@ -372,7 +368,7 @@ li.sub-cat-label>span,
     border-bottom-style:none; 
 }
 ul.default-list{
-border-top: 1px solid #ccc;
+    border-top: 1px solid #ccc;
 }
 .scroll-content .scroll #menu-bar-container  ul li span{
     width: 100%;
@@ -713,9 +709,6 @@ span.other-price{
 .button.button-block, .button.button-full{
     margin-top:0px;
 }
-.button.button-full{
-margin-bottom:0px;
-}
 .row,.col{
     padding-top:0px;
 }
@@ -750,10 +743,10 @@ i.up-price{
 .filter-label{
     float:left;
     margin-left:10px;
-    font-size:18px;
-    font-family: "Dosis SemiBold", arial;
+    font-size:1.3em;
 }
 .filter-page:after{
+    border-bottom:3px solid black;
     left:0px;right:0px;
 }
 #show-fliter,.sortby-container,.offline-button{
@@ -761,17 +754,12 @@ i.up-price{
 }
 .sortby-container i.filter-icon ,
 .col i.fa{
-    line-height: 40px;
+    line-height: 2;
 }
-.filter-list{
+.filter-list,.sortby-container .item label{
     border-bottom: 1px solid #dcdcdc;
     line-height: 34px;
     padding:0px 14px;
-}
-.sortby-container .item label{
-    border-bottom: 1px solid #dcdcdc;
-    line-height: 34px;
-    padding:0px;
 }
 .filter-list span.plus-minus{
     color:#919191;
@@ -780,22 +768,12 @@ i.up-price{
     padding:3px 10px;
     border-style:none;
 }
-.filter-list .item-content span{
+.filter-list .item-content span ,
+.sortby-container .item-content span{
     padding-left:30px;
 }
 .item-checkbox .checkbox {
-    position: static;
-    float:right;
-    margin-top:-5px;
-}
-.checkbox .checkbox-icon:before, .checkbox input:before {
-    border-color: #FFF;
-}
-.sortby-container .item label span{
-    font-size: 13px;
-}
-.sortby-container button.filter-page,#show-filter button.filter-page{
-   border-bottom: 2px solid #000;
+    left:-6px;
 }
 /**************************Closed Filter & sort by*********************************/
 
@@ -812,7 +790,7 @@ i.up-price{
 }
 .progress-close{
     float: right;
-margin-top: 41px;
+    margin-top: 41px;
 }
 #my-acc .item, .top-container .similar-product-label{
     border-style:none;
@@ -923,8 +901,8 @@ margin-top: 41px;
     background-color:#f5f5f5;
     border:1px solid #e3e3e3;
     margin-top:10px;
-    font-family: "Dosis SemiBold", arial;
-font-size: 18px;
+    ont-family: "Dosis SemiBold", arial;
+    font-size: 18px;
 }
 .feed-info .feed-rate-btn:hover{
     color:#000;
@@ -1104,7 +1082,7 @@ span.info{
     min-width: 95px;
     border-radius: 0.3em;
 }
- .mine-username{
+.mine-username{
     border-style: none;
     padding: 5px 25px;
     margin-bottom: 0px;
@@ -1209,8 +1187,8 @@ ul.mine-clip-list li .user-info{
 }
 .offline-msg{
     width: 65%;
-margin: 50% auto;
-text-align: center;
+    margin: 50% auto;
+    text-align: center;
 }
 /********************************* OFfline***************************/
 .scroll-content .scroll ul.offline-add-pin{
@@ -1227,4 +1205,16 @@ i.offline-icon{
     width:100%;
     color:#838383;
     text-align: left;
+}
+.centered{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
 }

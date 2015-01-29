@@ -247,8 +247,8 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                 });
         $urlRouterProvider.otherwise('/app/home');
     }]);
-app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", 'notifyHelper',
-    function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location, notifyHelper) {
+app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", 'notifyHelper', '$cordovaNetwork',
+    function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location, notifyHelper, $cordovaNetwork) {
         console.log('angular ready');
         if (!$localStorage.user) {
             $localStorage.user = {};
@@ -264,13 +264,19 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                 $cordovaSplashscreen.hide();
                 $cordovaNetwork.watchOffline();
                 $cordovaNetwork.watchOnline();
-                window.analytics.startTrackerWithId('UA-58649556-1')
+                window.analytics.startTrackerWithId('UA-58649556-1');
             }
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
 
         });
+        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+            if ($cordovaNetwork.isOffline()) {
+                $location.path('/offline');
+                return;
+            }
+        }
         $rootScope.$on('networkOffline', function () {
             $location.path('/offline');
         });
@@ -296,7 +302,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                 if ($cordovaNetwork.isOffline() && toState.name !== 'offline') {
                     return;
                 }
-                window.analytics.trackView(toState.name)
+                window.analytics.trackView(toState.name);
             }
 
             if ($localStorage.user) {

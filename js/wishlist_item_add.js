@@ -23,15 +23,15 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                 $scope.step = 1;
                 $scope.step_type = false;
                 $scope.type = function (type) {
-                    if (type == 'camera') {
+                    if (type === 'camera') {
                         $scope.showStep2(type);
                         $scope.browseCamera('camera');
-                    } else if (type == 'gallery') {
+                    } else if (type === 'gallery') {
                         $scope.showStep2(type);
                         $scope.browseCamera('gallery');
-                    } else if (type == 'url') {
+                    } else if (type === 'url') {
                         $scope.showStep2(type);
-                    } else if (type == 'near') {
+                    } else if (type === 'near') {
                         $scope.showStep2(type);
                     } else {
                         toast.showShortBottom('Invalid Type');
@@ -41,7 +41,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     $scope.step_type = type;
                     $scope.step = 2;
                     $location.path('/app/wishlist_item_add/' + $scope.list_id + '/step2');
-                }
+                };
                 $scope.removeLocation = function () {
                     $scope.item.location = {};
                 };
@@ -109,7 +109,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                         $scope.list_id = $stateParams.list_id;
                         var name = wishlistHelper.getListName($scope.list_id);
                         $scope.wishlist_name = name;
-                        if ($location.path().indexOf('step2') != -1) {
+                        if ($location.path().indexOf('step2') !== -1) {
                             if (!$scope.step_type) {
                                 $location.path('/app/wishlist_item_add/' + $scope.list_id + '/step1');
                             }

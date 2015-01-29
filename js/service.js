@@ -10,7 +10,7 @@ serviceMod.filter('picture', function () {
         if (!angular.isDefined(picture)) {
             return "img/empty.png";
         }
-        if (picture.length == 0) {
+        if (picture.length === 0) {
             return "img/empty.png";
         }
         if (!angular.isDefined(width)) {
@@ -173,7 +173,7 @@ serviceMod.factory('ajaxRequest',
                                     digest: hash,
                                     data: data,
                                     api_key: api_key
-                                }
+                                };
                                 data = new_data;
                             }
 
