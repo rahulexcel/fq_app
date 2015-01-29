@@ -1,10 +1,10 @@
 <ion-view>
-    <ion-content>
-        <ion-refresher
-            pulling-text="Update Product Info"
-            on-refresh="productInfo(true)">
-        </ion-refresher>
-        <ion-list>
+    <ion-content  overflow-scroll='true'>
+        <!--        <ion-refresher
+                    pulling-text="Update Product Info"
+                    on-refresh="productInfo(true)">
+                </ion-refresher>-->
+        <!--<ion-list>-->
             <!--<i class="fa fa-spinner fa-spin" ng-show='product_loading'></i>-->
             <div class="product" ng-show="product">
                 <div class="pro-img">
@@ -12,8 +12,8 @@
                     <div class="heart wishlist-product-img" on-tap="wishlist(product,$event);">
                         <img ng-show="!product.wishlist_status" src="img/heart_big.jpg" alt="wishlist"/>
                         <i class="fa fa-spinner fa-spin" ng-show="product.wishlist_status == 1"></i>
-<!--                        <i class="fa fa-times" ng-show="product.wishlist_status == 3"></i>
-                        <i class="fa fa-check" ng-show="product.wishlist_status == 2"></i>-->
+                        <!--                        <i class="fa fa-times" ng-show="product.wishlist_status == 3"></i>
+                                                <i class="fa fa-check" ng-show="product.wishlist_status == 2"></i>-->
                     </div>
                 </div>
                 <div class="pro-info">
@@ -21,8 +21,8 @@
                         <span class="category pro-breadcrumb" ng-show='product.cat_id' on-tap='viewCategory(product);'><div class="grey-color">{{product.parent_cat_name}} >&nbsp;</div>{{product.cat_name}}</span>
                         {{product.name}}
                         <div>
-                            
-                            
+
+
                             <span class="e-site">
                                 <span class="arrow" ng-show='product.cat_id' on-tap='viewBrand(product);'>{{product.brand}}</span>
                                 <i class='site {{product.website}}'></i>
@@ -111,6 +111,6 @@
                     <div class="clearfix"></div>
                 </div>
             </div>
-        </ion-list>
+        <!--</ion-list>-->
     </ion-content>
 </ion-view>
