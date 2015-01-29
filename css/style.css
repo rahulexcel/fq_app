@@ -139,19 +139,15 @@ textarea:-ms-input-placeholder { /* Internet Explorer 10+ */
 }
 h4.rate-app{
     font-family: "Dosis SemiBold", arial;
-font-size: 16px;
+    font-size: 16px;
 }
 p.rate-descrip{
     font-family: 'Open Sans', regular;
-font-size: 13px;
+    font-size: 13px;
 }
 .loading-gif {
     color: #777;
     height: 50px;
-    left: 50%;
-    position: absolute;
-    text-align: center;
-    top: 50%;
     width: 100px;
 }
 .toggle-btn{
@@ -372,7 +368,7 @@ li.sub-cat-label>span,
     border-bottom-style:none; 
 }
 ul.default-list{
-border-top: 1px solid #ccc;
+    border-top: 1px solid #ccc;
 }
 .scroll-content .scroll #menu-bar-container  ul li span{
     width: 100%;
@@ -794,7 +790,7 @@ i.up-price{
 }
 .progress-close{
     float: right;
-margin-top: 41px;
+    margin-top: 41px;
 }
 #my-acc .item, .top-container .similar-product-label{
     border-style:none;
@@ -906,7 +902,7 @@ margin-top: 41px;
     border:1px solid #e3e3e3;
     margin-top:10px;
     ont-family: "Dosis SemiBold", arial;
-font-size: 18px;
+    font-size: 18px;
 }
 .feed-info .feed-rate-btn:hover{
     color:#000;
@@ -1086,7 +1082,7 @@ span.info{
     min-width: 95px;
     border-radius: 0.3em;
 }
- .mine-username{
+.mine-username{
     border-style: none;
     padding: 5px 25px;
     margin-bottom: 0px;
@@ -1191,8 +1187,8 @@ ul.mine-clip-list li .user-info{
 }
 .offline-msg{
     width: 65%;
-margin: 50% auto;
-text-align: center;
+    margin: 50% auto;
+    text-align: center;
 }
 /********************************* OFfline***************************/
 .scroll-content .scroll ul.offline-add-pin{
@@ -1209,4 +1205,16 @@ i.offline-icon{
     width:100%;
     color:#838383;
     text-align: left;
+}
+.centered{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
 }

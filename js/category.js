@@ -7,7 +7,6 @@ categoryMod.directive('scrollWatch', ['$window', function ($window) {
             link: function (scope, element, attrs) {
                 var start = scope.$eval(attrs.scrolling) || 0;
                 element.bind('scroll', function (e) {
-                    console.log(e);
                     if (e.detail.scrollTop >= start) {
                         start = e.detail.scrollTop;
                         if (scope.scroll_direction.direction * 1 !== -1) {
@@ -26,8 +25,8 @@ categoryMod.directive('scrollWatch', ['$window', function ($window) {
     }]);
 categoryMod.controller('CategoryCtrl',
         ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate',
-            '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$interval',
-            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $interval) {
+            '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$timeout',
+            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $timeout) {
 
                 var backView = false;
                 $rootScope.$on('login_event', function () {
@@ -96,8 +95,8 @@ categoryMod.controller('CategoryCtrl',
                         $scope.showProducts = false;
                         $scope.showSortBy = true;
                         $scope.showFilter = false;
+                        $ionicScrollDelegate.scrollTop();
                     }
-                    $ionicScrollDelegate.scrollTop();
                 };
                 $scope.showFiltersFn = function () {
                     if (!$scope.showProducts) {
@@ -106,8 +105,9 @@ categoryMod.controller('CategoryCtrl',
                         $scope.showProducts = false;
                         $scope.showSortBy = false;
                         $scope.showFilter = true;
+
+                        $ionicScrollDelegate.scrollTop();
                     }
-                    $ionicScrollDelegate.scrollTop();
                 };
                 $scope.open = function (obj) {
                     if (!obj.open) {
@@ -141,7 +141,9 @@ categoryMod.controller('CategoryCtrl',
                         }
                         $scope.update(ret);
                         $scope.showProductsFn();
-                        $scope.$broadcast('scroll.refreshComplete');
+                        $timeout(function () {
+                            $scope.$broadcast('scroll.refreshComplete');
+                        }, 39);
                     }, function () {
                         $scope.$broadcast('scroll.refreshComplete');
                     });
@@ -266,16 +268,15 @@ categoryMod.controller('CategoryCtrl',
                 $scope.nextPage = function (force) {
                     console.log('next page');
                     if ($scope.currentState.page && ($scope.currentState.page * 1 !== -1 && $scope.currentState.page * 1 <= 10) || force) {
-                        $scope.product_loading = true;
                         var state = $scope.currentState;
                         state.page++;
                         var req = categoryHelper.fetchProduct(state);
                         req.then(function (ret) {
                             $scope.product_loading = false;
                             $scope.update(ret, true);
-                            $interval(function () {
+                            $timeout(function () {
                                 $scope.$broadcast('scroll.infiniteScrollComplete');
-                            }, 500);
+                            }, 30);
                         });
                     } else {
                         console.log('here');
