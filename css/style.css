@@ -340,7 +340,7 @@ i.close-tab-icon{
 
     color: black;
     float: right;
-    font-size: 1.7em;
+    font-size: 1.3em;
     font-weight: normal;
 }
 .feed-info,.list-my_acc .input-label,
@@ -713,6 +713,9 @@ span.other-price{
 .button.button-block, .button.button-full{
     margin-top:0px;
 }
+.button.button-full{
+margin-bottom:0px;
+}
 .row,.col{
     padding-top:0px;
 }
@@ -747,10 +750,10 @@ i.up-price{
 .filter-label{
     float:left;
     margin-left:10px;
-    font-size:1.3em;
+    font-size:18px;
+    font-family: "Dosis SemiBold", arial;
 }
 .filter-page:after{
-    border-bottom:3px solid black;
     left:0px;right:0px;
 }
 #show-fliter,.sortby-container,.offline-button{
@@ -758,12 +761,17 @@ i.up-price{
 }
 .sortby-container i.filter-icon ,
 .col i.fa{
-    line-height: 2;
+    line-height: 40px;
 }
-.filter-list,.sortby-container .item label{
+.filter-list{
     border-bottom: 1px solid #dcdcdc;
     line-height: 34px;
     padding:0px 14px;
+}
+.sortby-container .item label{
+    border-bottom: 1px solid #dcdcdc;
+    line-height: 34px;
+    padding:0px;
 }
 .filter-list span.plus-minus{
     color:#919191;
@@ -772,12 +780,22 @@ i.up-price{
     padding:3px 10px;
     border-style:none;
 }
-.filter-list .item-content span ,
-.sortby-container .item-content span{
+.filter-list .item-content span{
     padding-left:30px;
 }
 .item-checkbox .checkbox {
-    left:-6px;
+    position: static;
+    float:right;
+    margin-top:-5px;
+}
+.checkbox .checkbox-icon:before, .checkbox input:before {
+    border-color: #FFF;
+}
+.sortby-container .item label span{
+    font-size: 13px;
+}
+.sortby-container button.filter-page,#show-filter button.filter-page{
+   border-bottom: 2px solid #000;
 }
 /**************************Closed Filter & sort by*********************************/
 
@@ -905,7 +923,7 @@ margin-top: 41px;
     background-color:#f5f5f5;
     border:1px solid #e3e3e3;
     margin-top:10px;
-    ont-family: "Dosis SemiBold", arial;
+    font-family: "Dosis SemiBold", arial;
 font-size: 18px;
 }
 .feed-info .feed-rate-btn:hover{
