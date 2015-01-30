@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700,600);
 @import url(http://fonts.googleapis.com/css?family=Dosis:400,600);
 
 @media screen and (min-width: 1001px) {
@@ -377,10 +377,10 @@ li.sub-cat-label>span,
 
 
 /**************************Side Menu*********************************/
-.scroll-content .scroll ul li {
+.scroll-content .scroll #menu-bar-container ul li {
     font-weight: bold;
     border-bottom: 1px solid #ececec; 
-    line-height: 42px;
+    line-height: 39px;
 }
 .scroll-content .scroll ul li.list-not-cat,.scroll-content .scroll #menu-bar-container ul li {
     border-bottom-style:none; 
@@ -391,7 +391,12 @@ ul.default-list{
 .scroll-content .scroll #menu-bar-container  ul li span{
     width: 100%;
     float: left;
+    font-size: 12px;
+    font-weight: 600;
 
+}
+.list-not-cat{
+    font-size: 12px;
 }
 #menu-bar-container .user-info{
     margin-top: 8px;
@@ -416,11 +421,11 @@ span div.plus-minus ,.list-tick
 .scroll-content .scroll ul li a{
     text-decoration: none;
 }
-.scroll-content .scroll ul li ul li {
+.scroll-content .scroll #menu-bar-container ul li ul li {
     font-weight: normal;
     color: #999999;
     border-bottom-style:none;
-    line-height: 26px;
+    line-height: 35px;
 }
 i.fa-map-marker,i.fa-user {
     color:#db500d;
@@ -432,14 +437,12 @@ span.plus-minus{
     float: right;
 }
 .internal-details i{
-    margin-right:7px;
+    margin-right:8px;
     text-align: center;
     font-size: 1.5em;
 
 }
-.internal-details i.log-sign{
-    margin-left:1px;
-}
+
 .internal-details img {
     max-width: 3%;
     margin-right: 13px;
