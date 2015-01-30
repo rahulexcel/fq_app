@@ -47,7 +47,11 @@ font-style: normal;
 .has-header{
     /*box-shadow: 0px 5px 7px -7px #0E0103 inset;*/
 }
-
+#about-content{
+    padding: 25px 15px;
+    text-align: justify;
+    font-size: 13px;
+}
 .site{
     background-repeat: no-repeat;
     background-size: contain;
@@ -96,6 +100,10 @@ textarea:-ms-input-placeholder { /* Internet Explorer 10+ */
     font-size: 13px;
     font-family: "open sans"
 }
+.feedback-container textarea {
+    color:#8A8A8A;
+    font-size: 13px;
+}
 
 .Flipkart  { background-image: url("../img/fav/flipkart.png");   }
 .Snapdeal  { background-image: url("../img/fav/snapdeal.png")  }
@@ -141,8 +149,9 @@ textarea:-ms-input-placeholder { /* Internet Explorer 10+ */
     display: none;
 }
 h4.rate-app{
-    font-family: "Dosis SemiBold", arial;
-    font-size: 16px;
+    font-family: "Dosis";
+    font-size: 17px;
+    font-weight: bold;
 }
 p.rate-descrip{
     font-family: 'Open Sans', regular;
@@ -466,14 +475,17 @@ div#account-page button{
     font-family: "Open Sans",sans-serif;
 }
 .signup-button{
-    min-height: 40px;
-    max-height: 41px;
+    min-height: 38px;
+    max-height: 39px;
     width:100%;
     border-color: #da500f;
     padding-left:0px;
-    border-radius: 5px;
+    border-radius: 4px;
     font-weight: bold;
-    font-family: 'Dosis SemiBold', arial;
+    font-family: "Dosis";
+    line-height: 10px;
+    font-size: 18px;
+    border: 1px solid #FF8342;
 }
 .fb-social-icon{
     float: left;
@@ -771,7 +783,7 @@ i.up-price{
     float:left;
     margin-left:10px;
     font-size:18px;
-    font-family: "Dosis SemiBold", arial;
+    font-family: "Dosis";
 }
 .item-checkbox span.ng-binding{
     font-family: "open sans";
@@ -870,6 +882,7 @@ div#show-fliter .button .filter-icon:before{
 .list-my_acc input,
 .feedback-container input{
     color:#8A8A8A;
+    font-size: 13px;
 }
 #my-acc .item-myacc1,.item-myacc1{
     border-bottom:2px solid #FF7832;
@@ -949,23 +962,22 @@ div#show-fliter .button .filter-icon:before{
 
 /************************** Feedback *********************************/
 .feedback-container{
-    padding:0px 14px;
-    border-style:none;
-    border-top:2px solid #E1E1E1;
+    padding:0px 20px;
     /*box-shadow:-19px 44px 17px -43px #E1E1E1 inset;*/
 }
 .feed-info{
     text-align:center;padding:10px 0 5px;
 }
 .feed-info p{
-    line-height:28px;
+    line-height:24px;
 }
 .feed-rate-btn{
     background-color:#f5f5f5;
     border:1px solid #e3e3e3;
     margin-top:10px;
-    font-family: "Dosis SemiBold", arial;
+    font-family: "Dosis";
     font-size: 18px;
+    font-weight: bold;
 }
 .feed-info .feed-rate-btn:hover{
     color:#000;
