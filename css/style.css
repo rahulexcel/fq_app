@@ -150,6 +150,12 @@ p.rate-descrip{
     height: 50px;
     width: 100px;
 }
+.logo-container{
+    line-height: 39px;
+}
+.logo-container img{
+    vertical-align: middle;
+}
 .toggle-btn{
     margin-left:-15px;
 }
@@ -516,6 +522,12 @@ div#account-page button{
     float: right;
     width:44%;
 }
+.product-heading{
+    font-size: 13px;
+}
+.scroll-content .scroll #similar ul{
+    padding: 0px 7px;
+}
 .img-heart{
     position: absolute;
     top: 9px; right: 13px;
@@ -531,6 +543,9 @@ div#account-page button{
     border-top:1px solid #d1d1d1;
     border-bottom:1px solid #d1d1d1;
     background-color: #fff;
+}
+.product .pro-info,.scroll-content .scroll .similar ul li{
+    border-bottom-style: none;
 }
 .pro-breadcrumb{
     width: 100%;
@@ -556,14 +571,17 @@ div#account-page button{
     overflow: hidden;
     position: relative;
 }
+.pro-img img{
+    margin-bottom: -5px;
+}
 span.arrow{
     color:red;
 }
 span.e-site{
-    color:#959595;
+    color:#737373;
     width:100%;
     float: left;
-    font-size: 0.9em;
+    font-size: 10px;
 
 }
 .pro-price{
@@ -575,73 +593,75 @@ span.e-site{
 }
 .arrow ,
 .e-site{
-    font-size:0.8em;
+    font-size:10px;
 }
 .similar-product-label{
     text-align: left;
     padding: 11px 15px;
     background-color:#eee7dd;
     border-top: 1px solid #D1D1D1;
+    font-family: "Dosis",regular;
 }
 #scroller li {
-    width:150px;
+    width:118px;
     background-color:#fff;
-    padding: 0 10px;
-}
-#scroller li:first-child{
-    padding-left:0px;
+    padding: 0 10px 3px;;
 }
 #scroller{
     position: static;
-    height: 175px;
 }
 .other-sellers-img,
 .similar-price{
     float:left;
 }
 .other-sellers-img{
-    width: 50px;
+    width: 35px;
 }
 .other-seller-info{
-    margin-left:85px;
+    margin-left:47px;
 }
 .other_seller_container{
     border-bottom:2px solid #d1d1d1;
-    margin:16px 15px 0px;
+    margin:10px 15px 2px;
 }
 .other-seller-info .name{
     font-weight: bold;
     color:#000000;
     overflow: hidden;
     height: 20px;
+    font-size: 12px;
 }
 .other-seller-info button.pro-button{
-    min-height: 26px;
+    min-height: 24px;
+    font-size: 12px;
 }
 .variants .pro-button{
     min-height:34px;
 }
 span.other-price{
     line-height: 34px;
-    font-size: 1.2em;
+    font-size: 14px;
     font-weight: bold;
     color:#737373;
 }
 #similar .name,.category .name{
-    overflow:hidden;height:20px;
+    overflow:hidden;
+    height:20px;
     line-height:20px;
+    font-size: 11px;
 }
 .similar-price,.category .price{
     color:#737373;
     line-height: 20px;
     font-weight: bold;
+    font-size: 13px;
 }
 .similar-img{
     text-align: center;
-    height: 104px;
     overflow: hidden;
-    width: 60%;
-    margin: 15px auto 6px;
+    width: 50%;
+    margin: 10px auto 6px;
+    max-height: 61px;
 }
 .wishlist-product-img{
     width: 20%;
@@ -752,6 +772,7 @@ i.up-price{
 }
 .filter-list .item-checkbox span.ng-binding{
     margin-left:35px;
+    font-size: 12px;
 }
 div#show-fliter .button .filter-icon:before{
     font-size: 17px;
