@@ -61,22 +61,38 @@ productMod.controller('ProductCtrl',
 
                 $scope.productInfo = function (force) {
                     var product_id = $scope.product_id;
-
                     var cache_key = 'product_' + product_id;
                     if (timeStorage.get(cache_key) && !force) {
                         var data = timeStorage.get(cache_key);
                         $scope.processProductData(data);
+                        $scope.fetchLatest(data.product.href);
                     } else {
 
                         var ajax = productHelper.fetchProduct(product_id);
                         ajax.then(function (data) {
                             timeStorage.set(cache_key, data, 1);
                             $scope.processProductData(data);
+                            $scope.fetchLatest(data.product.href);
                         }, function () {
                             $scope.$broadcast('scroll.refreshComplete');
                         });
                     }
                 };
+                $scope.fetchLatest = function (href) {
+                    var ajax2 = productHelper.fetchLatest(href);
+                    ajax2.then(function (data) {
+                        console.log(data);
+                        
+                        var price = data.price;
+//                                var image = data.image;
+                        var more_images = data.more_images;
+
+                        price = Math.round(price);
+
+                        $scope.product.price = price;
+                        $scope.product.more_images = more_images;
+                    });
+                }
                 $scope.processProductData = function (data) {
                     console.log(data);
                     $scope.product = data.product;
@@ -86,7 +102,7 @@ productMod.controller('ProductCtrl',
                         $scope.product.similar = data.similar;
                     if (data.similar && data.similar.length > 0) {
                         console.log('initiazling iscroll');
-                        angular.element(document.querySelector('#scroller')).attr('style', 'width:' + (data.similar.length * 200) + "px");
+                        angular.element(document.querySelector('#scroller')).attr('style', 'width:' + (data.similar.length * 120) + "px");
                         if (data.similar.length > 0)
                             $timeout(function () {
                                 $scope.myScroll = new IScroll('#similar', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
