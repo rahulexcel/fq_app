@@ -1,8 +1,8 @@
 var productMod = angular.module('ProductMod', ['ionic', 'ProductService', 'ServiceMod']);
 
 productMod.controller('ProductCtrl',
-        ['$scope', '$stateParams', 'productHelper', 'dataShare', 'toast', '$localStorage', '$timeout', '$location', '$rootScope', 'socialJs', 'timeStorage',
-            function ($scope, $stateParams, productHelper, dataShare, toast, $localStorage, $timeout, $location, $rootScope, socialJs, timeStorage) {
+        ['$scope', '$stateParams', 'productHelper', 'dataShare', 'toast', '$localStorage', '$timeout', '$location', '$rootScope', 'socialJs', 'timeStorage', '$ionicSlideBoxDelegate',
+            function ($scope, $stateParams, productHelper, dataShare, toast, $localStorage, $timeout, $location, $rootScope, socialJs, timeStorage, $ionicSlideBoxDelegate) {
                 $scope.product_loading = true;
                 $scope.product = false;
                 $scope.variants = [];
@@ -65,6 +65,7 @@ productMod.controller('ProductCtrl',
                     if (timeStorage.get(cache_key) && !force) {
                         var data = timeStorage.get(cache_key);
                         $scope.processProductData(data);
+                        $ionicSlideBoxDelegate.update();
                         $scope.fetchLatest(data.product.href);
                     } else {
 
@@ -72,6 +73,7 @@ productMod.controller('ProductCtrl',
                         ajax.then(function (data) {
                             timeStorage.set(cache_key, data, 1);
                             $scope.processProductData(data);
+                            $ionicSlideBoxDelegate.update();
                             $scope.fetchLatest(data.product.href);
                         }, function () {
                             $scope.$broadcast('scroll.refreshComplete');
@@ -82,7 +84,7 @@ productMod.controller('ProductCtrl',
                     var ajax2 = productHelper.fetchLatest(href);
                     ajax2.then(function (data) {
                         console.log(data);
-                        
+
                         var price = data.price;
 //                                var image = data.image;
                         var more_images = data.more_images;
@@ -91,6 +93,7 @@ productMod.controller('ProductCtrl',
 
                         $scope.product.price = price;
                         $scope.product.more_images = more_images;
+                        $ionicSlideBoxDelegate.update();
                     });
                 }
                 $scope.processProductData = function (data) {
