@@ -41,8 +41,11 @@ font-style: normal;
     background-size: contain;
     background-position: center center;
 }
+.bar-header{
+    border-bottom-width: 0px;
+} 
 .has-header{
-    box-shadow: 0px 5px 7px -7px #0E0103 inset;
+    /*box-shadow: 0px 5px 7px -7px #0E0103 inset;*/
 }
 
 .site{
@@ -524,6 +527,7 @@ div#account-page button{
 }
 .product-heading{
     font-size: 13px;
+    display: block;
 }
 .scroll-content .scroll #similar ul{
     padding: 0px 7px;
@@ -548,23 +552,22 @@ div#account-page button{
     border-bottom-style: none;
 }
 .pro-breadcrumb{
-    width: 100%;
-    float: left;
     font-size: 0.8em;
     display: inline-flex;
 }
 .pro-name{
-    margin-bottom:8px;
+    margin-bottom:6px;
+    line-height: 15px;
 }
 .pro-button{
     float:right;
     line-height: 16px;
-    border-radius: 4px;
+    border-radius: 3px;
     border-style: none;
     font-family: "dosis";
 }
 .pro-info button{
-    min-height: 34px;
+    min-height: 31px;
     font-family: "dosis";
 }
 .pro-img{
@@ -577,7 +580,7 @@ div#account-page button{
     margin-bottom: -5px;
 }
 span.arrow{
-    color:red;
+    color:#da500f;
 }
 span.e-site{
     color:#737373;
@@ -590,7 +593,7 @@ span.e-site{
     font-size: 1.2em;
     line-height: 16px;color:#737373;
     font-weight: bold;
-    margin-bottom:5px;
+    margin-bottom:2px;
     float:left;
 }
 .arrow ,
@@ -599,10 +602,11 @@ span.e-site{
 }
 .similar-product-label{
     text-align: left;
-    padding: 11px 15px;
+    padding: 8px 15px;
     background-color:#eee7dd;
     border-top: 1px solid #D1D1D1;
     font-family: "Dosis",regular;
+    font-size: 16px;
 }
 #scroller li {
     width:118px;
@@ -664,7 +668,7 @@ span.other-price{
     overflow: hidden;
     width: 50%;
     margin: 10px auto 6px;
-    max-height: 61px;
+    max-height: 63px;
 }
 .wishlist-product-img{
     width: 20%;
@@ -682,10 +686,9 @@ span.other-price{
     font-size:1.7em;
 }
 .price-up-down{
-    float:left;
     width:135px;
     font-size:.8em;
-    line-height:20px;
+    line-height:18px;
     color:#06ACAC;
 }
 .similar-price-drop{
@@ -749,8 +752,9 @@ span.other-price{
     font-size:1.1em;
 }
 i.site {
-    margin-right: 3px;
+    margin-right: 5px;
     vertical-align: middle;
+    margin-left:7px;
 }
 i.close-icon-show{
     line-height: 45px;
@@ -948,7 +952,7 @@ div#show-fliter .button .filter-icon:before{
     padding:0px 14px;
     border-style:none;
     border-top:2px solid #E1E1E1;
-    box-shadow:-19px 44px 17px -43px #E1E1E1 inset;
+    /*box-shadow:-19px 44px 17px -43px #E1E1E1 inset;*/
 }
 .feed-info{
     text-align:center;padding:10px 0 5px;
@@ -987,7 +991,7 @@ div#show-fliter .button .filter-icon:before{
     color: #949494;
 }
 .add-to-clip{
-    box-shadow:0px 5px 7px -7px #0E0103 inset;
+   /* box-shadow:0px 5px 7px -7px #0E0103 inset; */
 }
 
 .clip-label{
