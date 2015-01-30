@@ -19,14 +19,13 @@
                 <div class="pro-info">
                     <div class="pro-name">
                         <span class="category pro-breadcrumb" ng-show='product.cat_id' on-tap='viewCategory(product);'><div class="grey-color">{{product.parent_cat_name}} >&nbsp;</div>{{product.cat_name}}</span>
-                        {{product.name}}
+                        <span class="product-heading">{{product.name}}</span>
                         <div>
 
 
                             <span class="e-site">
                                 <span class="arrow" ng-show='product.cat_id' on-tap='viewBrand(product);'>{{product.brand}}</span>
-                                <i class='site {{product.website}}'></i>
-                                {{product.website}}
+                                <i class='site {{product.website}}'></i>{{product.website}}
                             </span>
                             <div class="clearfix"></div>
                         </div>
@@ -101,7 +100,7 @@
                                 </div>
                                 <div>
                                     <span on-tap="openProduct(product);" class="other-price">Rs.{{variant.price}}</span>
-                                    <button class="button pro-button red-back" on-tap="buy(product);">Buy</button>
+                                    <button class="button pro-button red-back" on-tap="buy(product);">BUY</button>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
