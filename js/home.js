@@ -75,7 +75,7 @@ homeMod.controller('HomeCtrl',
                     $location.path('/app/feedback');
                 };
                 $scope.aboutus = function () {
-
+                    $location.path('/app/aboutus');
                 };
                 $scope.invite = function () {
                     $location.path('/app/invite');

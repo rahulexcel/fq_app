@@ -244,6 +244,15 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                             controller: 'FeedbackCtrl'
                         }
                     }
+                })
+                .state('app.aboutus', {
+                    url: '/aboutus',
+                    views: {
+                        'menuContent': {
+                            templateUrl: 'template/about.html',
+                            controller: 'FeedbackCtrl'
+                        }
+                    }
                 });
         $urlRouterProvider.otherwise('/app/home');
     }]);

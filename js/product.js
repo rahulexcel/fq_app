@@ -92,7 +92,11 @@ productMod.controller('ProductCtrl',
                         price = Math.round(price);
 
                         $scope.product.price = price;
-                        $scope.product.more_images = more_images;
+                        if (more_images && more_images.length > 0) {
+                            $scope.product.more_images = more_images;
+                        } else {
+                            $ionicSlideBoxDelegate.enableSlide(false);
+                        }
                         $ionicSlideBoxDelegate.update();
                     });
                 }
