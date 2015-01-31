@@ -66,7 +66,7 @@ productMod.controller('ProductCtrl',
                         var data = timeStorage.get(cache_key);
                         $scope.processProductData(data);
                         $ionicSlideBoxDelegate.update();
-                        $scope.fetchLatest(data.product.href);
+                        $scope.fetchLatest(data.product.org_href);
                     } else {
 
                         var ajax = productHelper.fetchProduct(product_id);
@@ -74,13 +74,16 @@ productMod.controller('ProductCtrl',
                             timeStorage.set(cache_key, data, 1);
                             $scope.processProductData(data);
                             $ionicSlideBoxDelegate.update();
-                            $scope.fetchLatest(data.product.href);
+                            $scope.fetchLatest(data.product.org_href);
                         }, function () {
                             $scope.$broadcast('scroll.refreshComplete');
                         });
                     }
                 };
                 $scope.fetchLatest = function (href) {
+                    if(!href){
+                        return;
+                    }
                     var ajax2 = productHelper.fetchLatest(href);
                     ajax2.then(function (data) {
                         console.log(data);
@@ -95,7 +98,6 @@ productMod.controller('ProductCtrl',
                         if (more_images && more_images.length > 0) {
                             $scope.product.more_images = more_images;
                         } else {
-                            $ionicSlideBoxDelegate.enableSlide(false);
                         }
                         $ionicSlideBoxDelegate.update();
                     });
