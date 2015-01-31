@@ -10,11 +10,12 @@
                 </div>
             </ion-nav-title>
             <ion-nav-buttons side="left">
-                <button class="button button-icon ion-navicon-round toggle-btn" menu-toggle="left">
+                <button class="button button-icon toggle-btn" menu-toggle="left">
+                    <i class="ion-navicon-round"></i>
                 </button>
             </ion-nav-buttons>
             <ion-nav-buttons side="right">
-                <button on-tap='searchNow();' class="button button-icon">
+                <button on-tap='searchNow();' class="button button-icon btn-search">
                     <i class="ion-search white-color fa-lg"></i>
                 </button>
                 <button on-tap='addWishlistItem();' class="button button-icon">
@@ -45,7 +46,7 @@
                 <!--Left menu loged in view profile-->
                 <div class="username" ng-if="login">
                     <div class="user_image rounded">
-                        <img ng-src="{{user_details.picture|picture:50:50}}"/>
+                        <img src="img/empty.png"/>
                     </div>
                     <div class="user-info">
                         <span class="info info-name">{{user_details.name}}</span>
