@@ -1,5 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700,600);
-@import url(http://fonts.googleapis.com/css?family=Dosis:400,600);
+@import url(http://fonts.googleapis.com/css?family=Dosis:400,700,600);
 
 @media screen and (min-width: 1001px) {
     .category .product{
@@ -46,6 +46,9 @@ font-style: normal;
 } 
 .has-header{
     /*box-shadow: 0px 5px 7px -7px #0E0103 inset;*/
+}
+.menu-content{
+    box-shadow: none;
 }
 #about-content{
     padding: 25px 15px;
@@ -170,6 +173,13 @@ p.rate-descrip{
 }
 .toggle-btn{
     margin-left:-15px;
+    
+}
+.toggle-btn i{
+    font-size: 27px;
+}
+.btn-search{
+    margin-right: -5px;
 }
 .bar .title {
     font-family: 'Dosis';
@@ -454,17 +464,32 @@ span.plus-minus{
 .left-buttons .button,.left-buttons .button:hover{
     color:#fff;
 }
+#account-page .padding{
+    padding: 5px 20px;
+}
+#account-page .item-input {
+    padding: 1px 20px;
+}
+#account-page .register{
+    margin-top:7px;
+}
+div#account-page .signup-button{
+    font-size: 18px;
+    font-weight: 600;
+}
 div#account-page button{
-    min-height: 40px;
-    max-height:43px;
-    overflow:hidden;
+   min-height: 35px;
+    max-height: 35px;
+    overflow: hidden;
+    line-height: 33px;
+    font-size: 14px;;
 }
 .google-button{
     width:100%;
     background-color:#e25b47;
     padding-left:0px; 
     padding-right:42px;
-    border-radius:5px;
+    border-radius:4px;
     border-color: #e25b47;
     font-family: "Open Sans",sans-serif;
 }
@@ -505,33 +530,36 @@ div#account-page button{
 .alter{
     text-align: center;
     color: #999999;
-    margin: 29px 0px 10px;
-    font-family: "Open Sans", regular;
+    margin: 16px 0px 0px;
+    font-family: "Open Sans";
     font-size: 13px;
 }
 .login-click,
 .social-site-name,span.info-name{
-    font-weight: bold;
+    font-weight: 600;
 }
 .check-account{
-    color:#bebebe;
+    color:#828282;
 }
 .brand-image{
     text-align:center;
-    margin: 31px 5px;
+    margin: 29px 20px;
 }
 .forget-pass{
     float:right;
-    padding-right:13px;
-    text-decoration: underline;
+    margin-right:13px;
     font-style: italic;
-    margin-bottom:7px;
+    margin-bottom:12px;
+    font-size: 11px;
+    border-bottom: 1px solid #DA500F;
+    line-height: 14px;
 }
 .activated i{
     background-color:#E5E5E5;
 }
 .register-bottom{
     font-size: 13px;
+    line-height: 10px;
 }
 /************************** closed Sign up/login*********************************/
 
@@ -771,6 +799,9 @@ i.site {
     vertical-align: middle;
     margin-left:7px;
 }
+.category i.site{
+    margin-left:0px;
+}
 i.close-icon-show{
     line-height: 45px;
 }
@@ -883,7 +914,7 @@ div#show-fliter .button .filter-icon:before{
 }
 
 .list-my_acc input,
-.feedback-container input{
+.feedback-container input,#account-page input{
     color:#8A8A8A;
     font-size: 13px;
 }
@@ -996,7 +1027,7 @@ div#show-fliter .button .filter-icon:before{
 .feed-submit {
     margin-top:24px;
 }
-.feedback-container .input-label{
+.feedback-container .input-label, #account-page .input-label{
     font-size: 15px;
     font-family: "open sans";
 }
@@ -1296,3 +1327,4 @@ i.offline-icon{
     transform: translate(-50%, -50%);
     text-align: center;
 }
+/*background: none repeat scroll 0px 0px transparent;*/
