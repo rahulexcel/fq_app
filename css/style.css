@@ -364,7 +364,7 @@ i.close-tab-icon{
 
     color: black;
     float: right;
-    font-size: 1.7em;
+    font-size: 19px;
     font-weight: normal;
 }
 .feed-info,.list-my_acc .input-label,
@@ -883,6 +883,10 @@ div#show-fliter .button .filter-icon:before{
 }
 .sortby-container .checkbox{
     padding:0px;
+}
+.filter-button{
+    min-height:38px; 
+    max-height:39px;
 }
 /**************************Closed Filter & sort by*********************************/
 
