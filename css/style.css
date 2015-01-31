@@ -457,6 +457,7 @@ span.plus-minus{
     max-width: 3%;
     margin-right: 12px;
     margin-left: 5px;
+    vertical-align: middle;
 }
 i.inv-frnd{
     margin-right: 5px;
@@ -887,6 +888,10 @@ div#show-fliter .button .filter-icon:before{
  .filter-list .checkbox input:checked + .checkbox-icon:before,.filter-list .checkbox input:checked:before {
     background-color:#da500f;
     border-color:#da500f;
+}
+.filter-list .checkbox input:after, .filter-list .checkbox-icon:after{
+    top: 29%;
+    left: 21%;
 }
 .sortby-container .checkbox input:after,.sortby-container .checkbox-icon:after {
     border-color: -moz-use-text-color -moz-use-text-color #da500f #da500f;
