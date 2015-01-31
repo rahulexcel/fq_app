@@ -455,8 +455,11 @@ span.plus-minus{
 
 .internal-details img {
     max-width: 3%;
-    margin-right: 13px;
+    margin-right: 12px;
     margin-left: 5px;
+}
+i.inv-frnd{
+    margin-right: 5px;
 }
 /**************************closed Side Menu*********************************/
 
