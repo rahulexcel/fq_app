@@ -425,7 +425,7 @@ span div.plus-minus ,.list-tick
 .scroll-content .scroll ul li ul{
     margin: 0px 0 10px;
 }
-.scroll-content .scroll ul{
+.scroll-content .scroll #menu-bar-container ul{
     padding:   0px 20px;
 }
 .scroll-content .scroll ul li a{
