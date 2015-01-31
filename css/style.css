@@ -509,14 +509,14 @@ div#account-page button{
     min-height: 38px;
     max-height: 39px;
     width:100%;
-    border-color: #da500f;
+    border-color: #DA500F;
     padding-left:0px;
     border-radius: 4px;
     font-weight: bold;
     font-family: "Dosis";
     line-height: 10px;
     font-size: 18px;
-    border: 1px solid #FF8342;
+    border: 1px solid #DA500F;
 }
 .fb-social-icon{
     float: left;
@@ -1013,6 +1013,9 @@ div#show-fliter .button .filter-icon:before{
 .feedback-container{
     padding:0px 20px;
     /*box-shadow:-19px 44px 17px -43px #E1E1E1 inset;*/
+}
+.sec-feed-label{
+    line-height: 35px;
 }
 .feed-info{
     text-align:center;padding:10px 0 5px;
