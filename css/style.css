@@ -877,9 +877,17 @@ div#show-fliter .button .filter-icon:before{
 .item-checkbox .checkbox {
     left:-6px;
 }
-.checkbox input:checked + .checkbox-icon:before, .checkbox input:checked:before {
+.sortby-container .checkbox input:checked + .checkbox-icon:before, .sortby-container .checkbox input:checked:before {
+    background-color:transparent;
+    border-color: transparent;
+}
+ .filter-list .checkbox input:checked + .checkbox-icon:before,.filter-list .checkbox input:checked:before {
     background-color:#da500f;
-    border-color: #da500f;
+    border-color:#da500f;
+}
+.sortby-container .checkbox input:after,.sortby-container .checkbox-icon:after {
+    border-color: -moz-use-text-color -moz-use-text-color #da500f #da500f;
+    border-width: 0px 0px 3px 3px;
 }
 .sortby-container .checkbox{
     padding:0px;
