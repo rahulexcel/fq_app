@@ -494,7 +494,7 @@ div#account-page button{
     padding-left:0px; 
     padding-right:42px;
     border-radius:4px;
-    border-color: #e25b47;
+    border-style: none;
     font-family: "Open Sans",sans-serif;
 }
 .fb-button{
@@ -503,7 +503,7 @@ div#account-page button{
     padding-left:0px;
     padding-right:42px;
     border-radius: 5px;
-    border-color: #506da9;
+    border-style:none;
     font-family: "Open Sans",sans-serif;
 }
 .signup-button{
@@ -523,13 +523,13 @@ div#account-page button{
     float: left;
     padding: 12.5px 0;
     background-color: #253b6c;
-    width: 46px;
+    width: 42px;
 }
 .g-social-icon{
     float: left;
     padding: 12.5px 0; 
     background-color: #a12b1d;
-    width: 46px;
+    width: 42px;
 }
 .alter{
     text-align: center;
@@ -892,6 +892,10 @@ div#show-fliter .button .filter-icon:before{
 .filter-list .checkbox input:after, .filter-list .checkbox-icon:after{
     top: 29%;
     left: 21%;
+}
+.filter-list .checkbox input:before,.filter-list .checkbox-icon:before{
+    width: 89%;
+    height:89%;
 }
 .sortby-container .checkbox input:after,.sortby-container .checkbox-icon:after {
     border-color: -moz-use-text-color -moz-use-text-color #da500f #da500f;
