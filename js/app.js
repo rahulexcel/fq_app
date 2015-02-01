@@ -18,6 +18,7 @@ var app = angular.module('starter',
             'WishlistNewMod',
             'WishlistItemMod',
             'WishlistItemAddMod',
+            'WishlistItemsMod',
             'NotifyMod',
             'ngCordova'
         ]
@@ -197,7 +198,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                     views: {
                         'menuContent': {
                             templateUrl: 'template/wishlist_items.html',
-                            controller: 'WishlistItemCtrl'
+                            controller: 'WishlistItemsCtrl'
                         }
                     }
                 })

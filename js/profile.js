@@ -100,7 +100,7 @@ profileMod.controller('ProfileCtrl',
                         } else {
                             width = width * 5;
                         }
-//                        angular.element(document.querySelector('#menu_scroller')).attr('style', 'width:' + width + 'px');
+                        angular.element(document.querySelector('#menu_scroller')).attr('style', 'width:' + width + 'px');
                         $scope.myScroll = new IScroll('#menu_sliding', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
 
                     }, function () {
