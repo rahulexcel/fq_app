@@ -1089,15 +1089,30 @@ div#show-fliter .button .filter-icon:before{
 .clip-label{
     line-height: 22px;
     padding:11px 20px;
-    font-weight: bold;
-    font-size: 1.2em;
+    font-weight: 600;
+    font-size: 16px;
+    font-family: "Dosis";
 
+}
+#clip_1 .similar-product-label{
+    border-top-style: none;
+    font-size: 13px;
+    font-family: "open sans";
 }
 .scroll-content .scroll #clip_1 ul{
     margin:0 0 15px;
 }
 #clip_1 .clip-it,.clip-it{
     padding:0 20px;
+}
+li.clip-it{
+    border-bottom: 1px solid #ccc;
+}
+#clip_1{
+    border-top:1px solid #999999;
+}
+.clip-info{
+    font-size: 13px;
 }
 .scroll-content .scroll #clip_1 ul li{
     color: #a8a8a8;
@@ -1120,6 +1135,7 @@ span i.fa-circle{
     padding-bottom: 20px;
     padding-left: 10px;
     float:none;
+    font-size: 13px;
 }
 .clip-des{
     border-color: #DA500F;
