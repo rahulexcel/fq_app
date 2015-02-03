@@ -773,9 +773,17 @@ span.other-price{
     color:#06ACAC;
     float: right;
     margin-right: 12px;
+    font-size: 11px;
 }
 .category .product{
     height:264px;
+}
+.category .bottom_box .e-site{
+    line-height: 12px;
+}
+.category .my-wishlist-img
+{
+    bottom: 0;
 }
 .category .product .image {
     height: 179px;
@@ -860,9 +868,13 @@ div#show-fliter .button .filter-icon:before{
 .checkbox .checkbox-icon:before, .checkbox input:before {
     border-color: #FFF;
 }
-#show-fliter,.sortby-container,.offline-button{
+#show-fliter,.sortby-container{
     margin:0px 20px;
 }
+.offline-button{
+    margin:0px 15px;
+}
+
 .sortby-container i.filter-icon ,
 .col i.fa{
     line-height: 2;
