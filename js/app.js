@@ -166,7 +166,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                     }
                 })
                 .state('app.wishlist_edit', {
-                    url: '/wishlist_edit',
+                    url: '/wishlist_edit', //needed for editing existing list
                     views: {
                         'menuContent': {
                             templateUrl: 'template/wishlist_new.html',
@@ -174,16 +174,15 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         }
                     }
                 })
-//            .state('app.wishlist_add', {
-//                url: '/wishlist_add',
-//                abstract: true,
-//                views: {
-//                    'menuContent': {
-//                        templateUrl: 'template/wishlist_new.html',
-//                        controller: 'WishlistNewCtrl'
-//                    }
-//                }
-//            })
+                .state('app.wishlist_add', {
+                    url: '/wishlist_add', //needed for adding new list
+                    views: {
+                        'menuContent': {
+                            templateUrl: 'template/wishlist_new.html',
+                            controller: 'WishlistNewCtrl'
+                        }
+                    }
+                })
                 .state('app.item', {
                     url: '/item/:item_id/:list_id',
                     views: {

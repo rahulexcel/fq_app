@@ -175,6 +175,7 @@ homeMod.controller('HomeCtrl',
                 };
                 $scope.tickList = function (list) {
                     var lists = $scope.lists.me;
+                    wishlistHelper.incListPriority(list._id);
                     for (var i = 0; i < lists.length; i++) {
                         if (lists[i]._id === list._id) {
                             lists[i].tick = true;

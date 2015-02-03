@@ -316,7 +316,6 @@ categoryMod.controller('CategoryCtrl',
                 $scope.wishlist = function (product, $event) {
                     $event.preventDefault();
                     $event.stopPropagation();
-                    console.log($scope);
                     if ($localStorage.user.id) {
                         $scope.wishlist_product.item = false;
                         $scope.wishlist_product.new_item = false;
@@ -331,6 +330,7 @@ categoryMod.controller('CategoryCtrl',
                             param: angular.copy(product),
                             category: angular.copy($scope.currentState)
                         };
+                        $location.path('/app/register');
                     }
                 };
                 $scope.openProduct = function (product) {

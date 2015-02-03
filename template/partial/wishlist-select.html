@@ -11,7 +11,6 @@
             on-refresh="refreshList()">
         </ion-refresher>
         <div id="clip_1">
-            <div ng-show="!lists">Loading</div>
             <div class="clip-label black-font add-to-clip"><span>ADD TO LIST</span></div>
             <div class="similar-product-label  clip-font-color clip-label clip-share">Your Lists</div>
             <ul>
@@ -19,7 +18,7 @@
                     <i class="fa fa-plus-square-o fa-3px"></i>
                     <span>Create a New Clipboard</span>
                 </li>
-                <li on-tap='tickList(list);' ng-repeat='list in lists.me'>
+                <li on-tap='tickList(list);' ng-repeat='list in lists.me| orderBy:sort_order'>
                     <div class="black-font">{{list.name}} <i ng-if="list.type == 'private'" class="ion-ios7-locked"></i>
                     </div>
                     <div> 

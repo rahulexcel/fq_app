@@ -6,7 +6,7 @@
             </ion-nav-back-button>
             <ion-nav-title>
                 <div class="logo-container">
-                    <img src="img/logo-white.png"  alt="Fashionig"/>
+                    <img src="img/logo-white.png"  alt="FashionIQ"/>
                 </div>
             </ion-nav-title>
             <ion-nav-buttons side="left">
@@ -17,6 +17,9 @@
             <ion-nav-buttons side="right">
                 <button on-tap='searchNow();' class="button button-icon btn-search">
                     <i class="ion-search white-color fa-lg"></i>
+                </button>
+                <button on-tap='wishlist();' class="button button-icon">
+                    <i class="ion-person fa-lg white-color"></i>
                 </button>
                 <button on-tap='addWishlistItem();' class="button button-icon">
                     <i class="ion-plus-round fa-lg white-color"></i>
@@ -44,6 +47,7 @@
 
 
                 <!--Left menu loged in view profile-->
+                <!--
                 <div class="username" ng-if="login">
                     <div class="user_image rounded">
                         <img src="img/empty.png"/>
@@ -54,6 +58,7 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+                -->
                 <!--Left menu loged in view profile closed-->
                 <i class="fa fa-spinner fa-spin" ng-show='category.length == 0'></i>
                 <ul ng-show='category.length >= 0'>

@@ -12,14 +12,20 @@
 
             <div class="mine-pins" ng-repeat="pin in items track by $index" on-tap='viewItem(pin.item_id._id,pin.list_id)'>
                 <div class="pro-img">
-                    <img ng-src='{{pin.item_id.img| picture:120}}'/>
-                    <div style="z-index: 99999" on-tap='pin(pin.item_id._id);' class="heart wishlist-product-img">
+                    <img ng-src='{{pin.img| picture:120}}'/>
+
+
+                    <div style="z-index: 99999;bottom:35%;font-size:2em" on-tap='delete(pin._id);' class="heart wishlist-product-img">
+                        <span>&times;</span>
+                    </div>
+                    <div style="z-index: 99999" on-tap='pin(pin._id);' class="heart wishlist-product-img">
                         <img src="img/heart_big.jpg" alt="Like">
                     </div>
                 </div>
+
                 <div class="pro-info">
                     <div class="pro-name">
-                        <div>{{pin.item_id.name}}</div>
+                        <div>{{pin.name}}</div>
                         <span class="info grey-color" ng-show="list.followers.length != 0">
                             <i class="ion-ios7-heart-outline red-color"></i> {{list.meta.likes}} 
                             <i class="ion-thumbsup red-color"></i> {{item1.followers.length}}

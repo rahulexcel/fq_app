@@ -8,7 +8,7 @@ wishlistService.factory('wishlistHelper', [
         service.getUrlImage = function (url) {
             var def = $q.defer();
 
-            var ajax = ajaxRequest.send('v1/picture/url/parse?url=' + encodeURIComponent(url), {}, 'GET');
+            var ajax = ajaxRequest.send('v1/picture/extract?url=' + encodeURIComponent(url), {}, 'GET');
             ajax.then(function (data) {
                 def.resolve(data);
             }, function (message) {
@@ -17,13 +17,14 @@ wishlistService.factory('wishlistHelper', [
             return def.promise;
         };
 
-        service.remove = function (product_id) {
+        service.remove = function (item_id, list_id) {
             var def = $q.defer();
 
             if ($localStorage.user && $localStorage.user.id) {
                 var ajax = ajaxRequest.send('v1/wishlist/item/remove', {
                     user_id: $localStorage.user.id,
-                    product_id: product_id
+                    item_id: item_id,
+                    list_id: list_id
                 });
                 ajax.then(function (data) {
                     def.resolve();
@@ -53,6 +54,32 @@ wishlistService.factory('wishlistHelper', [
             }
             return "";
         };
+        service.incListPriority = function (list_id) {
+            var user_wish_list_pri = timeStorage.get('user_wish_list_pri');
+            if (!user_wish_list_pri) {
+                user_wish_list_pri = {};
+            }
+            if (!user_wish_list_pri[list_id]) {
+                user_wish_list_pri[list_id] = 0;
+            }
+            user_wish_list_pri[list_id]++;
+            timeStorage.set('user_wish_list_pri', user_wish_list_pri, 24);
+        }
+        service.sortList = function (list) {
+            var me = list.me;
+            var user_wish_list_pri = timeStorage.get('user_wish_list_pri');
+            if (me && user_wish_list_pri) {
+                for (var i = 0; i < me.length; i++) {
+                    if (user_wish_list_pri[me[i]._id]) {
+                        me[i].sort_order = user_wish_list_pri[me[i]._id];
+                    } else {
+                        me[i].sort_order = 0;
+                    }
+                }
+                list.me = me;
+            }
+            return list;
+        }
         service.list = function (force, showLoading) {
             if (!angular.isDefined(showLoading)) {
                 showLoading = true;
@@ -63,10 +90,10 @@ wishlistService.factory('wishlistHelper', [
             var def = $q.defer();
             var user_wish_list = timeStorage.get('user_wish_list');
             if (user_wish_list && !force) {
-                return $q.when(angular.copy(user_wish_list));
+                return $q.when(this.sortList(angular.copy(user_wish_list)));
             } else if ($localStorage.user && $localStorage.user.id) {
                 if (user_wish_list) {
-                    def.notify(angular.copy(user_wish_list));
+                    def.notify(this.sortList(angular.copy(user_wish_list)));
                 }
                 if (showLoading)
                     $ionicLoading.show({
@@ -80,7 +107,7 @@ wishlistService.factory('wishlistHelper', [
                         $ionicLoading.hide();
                     timeStorage.set('user_wish_list', data, 12);
 
-                    def.resolve(data);
+                    def.resolve(this.sortList(data));
                 }, function (message) {
                     if (showLoading)
                         $ionicLoading.hide();

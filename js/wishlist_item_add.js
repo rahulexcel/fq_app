@@ -1,8 +1,8 @@
 var wishlistItemAddMod = angular.module('WishlistItemAddMod', ['ServiceMod', 'angularFileUpload', 'ngStorage', 'ionic', 'WishlistService', 'MapService']);
 
 wishlistItemAddMod.controller('WishlistItemAddCtrl',
-        ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$cordovaCamera', '$ionicPopup',
-            function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $ionicModal, $window, $cordovaCamera, $ionicPopup) {
+        ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$cordovaCamera', '$ionicPopup', '$timeout',
+            function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $ionicModal, $window, $cordovaCamera, $ionicPopup, $timeout) {
                 $scope.item = {
                     picture: '',
                     url: '',
@@ -13,12 +13,16 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                 };
 
                 $scope.sendItem = function () {
-                    var ajax = wishlistHelper.addItem(angular.copy($scope.item), $scope.list_id);
-                    ajax.then(function (data) {
-                        if (data.id) {
-                            $location.path('/app/item/' + data.id + "/" + $scope.list_id);
-                        }
-                    });
+                    if ($scope.item.length > 0) {
+                        var ajax = wishlistHelper.addItem(angular.copy($scope.item), $scope.list_id);
+                        ajax.then(function (data) {
+                            if (data.id) {
+                                $location.path('/app/item/' + data.id + "/" + $scope.list_id);
+                            }
+                        });
+                    } else {
+                        toast.showShortBottom('Upload A Picture');
+                    }
                 };
                 $scope.step = 1;
                 $scope.step_type = false;
@@ -77,19 +81,27 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                 });
                 console.log('started');
 
+                var timeout_promise = false;
                 $scope.$watch('item.url', function (val) {
                     if (val) {
-                        var ajax = wishlistHelper.getUrlImage(val);
-                        $scope.url_loading = true;
-                        ajax.then(function (data) {
-                            $scope.url_loading = false;
-                            if (data.image && data.image.image) {
-                                var image = data.image.image;
-                                $scope.item.picture = image;
-                            }
-                        }, function () {
-                            $scope.url_loading = false;
-                        });
+                        if (timeout_promise) {
+                            console.log($timeout.cancel(timeout_promise));
+                        }
+                        timeout_promise = $timeout(function () {
+                            console.log(val);
+                            var ajax = wishlistHelper.getUrlImage(val);
+                            $scope.url_loading = true;
+                            ajax.then(function (data) {
+                                $scope.url_loading = false;
+//                                console.log(data);
+//                                if (data.image && data.image.image) {
+//                                    var image = data.image.image;
+//                                    $scope.item.picture = image;
+//                                }
+                            }, function () {
+                                $scope.url_loading = false;
+                            });
+                        }, 500);
                     }
                 });
                 $scope.showMap = function () {
@@ -166,16 +178,21 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                             } else {
                                 $scope.file_upload = true;
                                 var ajax = uploader.upload(imageURI, {
-                                    user_id: $localStorage.user.id
+                                    user_id: $localStorage.user.id, size: 1
                                 });
                                 ajax.then(function (data) {
                                     var per = '100%';
                                     $scope.progoress_style = {width: per};
                                     $scope.progress = per;
                                     console.log(data);
+
                                     if (data && data.data) {
-                                        var pic = ajaxRequest.url('v1/picture/view/' + data.data);
-                                        $scope.login_data.picture = pic;
+                                        if (data.size.width < 320 || data.size.height < 320) {
+                                            toast.showShortBottom('Image Size Should Be More Than 320x320px');
+                                        } else {
+                                            var pic = ajaxRequest.url('v1/picture/view/' + data.data);
+                                            $scope.login_data.picture = pic;
+                                        }
                                     }
                                     $scope.step1Class = 'red-back';
                                     $scope.file_upload = false;
@@ -218,7 +235,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     $scope.file_upload = true;
                     $scope.upload = $upload.upload({
                         url: ajaxRequest.url('v1/picture/upload'),
-                        data: {user_id: $localStorage.user.id},
+                        data: {user_id: $localStorage.user.id, size: 1},
                         file: file
                     }).progress(function (evt) {
                         var per = parseInt(100.0 * evt.loaded / evt.total) + '%';
@@ -231,9 +248,14 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                         $scope.progress = per;
 
                         console.log(data);
-                        if (data.data) {
-                            var pic = ajaxRequest.url('v1/picture/view/' + data.data);
-                            $scope.item.picture = pic;
+
+                        if (data.size.width < 320 || data.size.height < 320) {
+                            toast.showShortBottom('Image Size Should Be More Than 320x320px');
+                        } else {
+                            if (data.data) {
+                                var pic = ajaxRequest.url('v1/picture/view/' + data.data);
+                                $scope.item.picture = pic;
+                            }
                         }
                         $scope.file_upload = false;
                         $scope.step1Class = 'red-back';
