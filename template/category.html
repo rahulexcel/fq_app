@@ -9,7 +9,7 @@
             <button class="button button-full button-clear filter-button filter-page" on-tap='showProductsFn()'>
                 <i class="icon ion-funnel filter-icon red-color"></i>
                 <span class="filter-label">FILTER</span>
-                <i class="fa fa-times close-icon-show close-tab-icon" on-tap='showProductsFn()'></i> 
+                <i class="ion-ios-close-empty close-icon-show close-tab-icon" on-tap='showProductsFn()'></i> 
             </button>
             <div class="filter-list" ng-repeat="filter_type in filters">
                 <div on-tap='open(filter_type);'>{{filter_type.type}}
@@ -31,7 +31,7 @@
             <button class="button button-full button-clear filter-button filter-page" on-tap='showProductsFn()'>
                 <i class="fa fa-sort-alpha-desc filter-icon red-color"></i>
                 <span class="filter-label"> SORT BY</span>
-                <i class="fa fa-times close-icon-show close-tab-icon" on-tap='showProductsFn()'></i>
+                <i class="ion-ios-close-empty close-icon-show close-tab-icon" on-tap='showProductsFn()'></i>
             </button>
             <ion-list>
                 <ion-item ng-repeat="sort in sortBy">

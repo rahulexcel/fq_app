@@ -364,7 +364,7 @@ i.close-tab-icon{
 
     color: black;
     float: right;
-    font-size: 19px;
+    font-size: 23px;
     font-weight: normal;
 }
 .feed-info,.list-my_acc .input-label,
@@ -861,12 +861,19 @@ div#show-fliter .button .filter-icon:before{
     line-height: 2;
     margin-top:5px;
 }
+.col i.fa{
+    margin-top: 3px !important;
+}
+.item{
+    color:#999999 !important;
+}
 .filter-list,.sortby-container .item label{
     border-bottom: 1px solid #dcdcdc;
     line-height: 34px;
 }
 .filter-list div.ng-binding{
     font-size: 12px;
+    color: #999999;
 }
 .filter-list span.plus-minus{
     color:#919191;
@@ -909,6 +916,9 @@ div#show-fliter .button .filter-icon:before{
 .filter-button{
     min-height:38px; 
     max-height:39px;
+}
+.col .filter-button {
+    font-size: 13px !important;
 }
 /**************************Closed Filter & sort by*********************************/
 

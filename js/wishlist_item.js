@@ -498,25 +498,6 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }
                     };
 
-                } else if ($stateParams.list_id) {
-                    $scope.wishlist_name = $stateParams.list_name;
-                    $scope.list_id = $stateParams.list_id;
-                    ajax = wishlistHelper.listItems($stateParams.list_id);
-                    ajax.then(function (data) {
-                        $scope.items = data;
-                        if (data.length === 0) {
-                            toast.showShortBottom('Not Items Found In Wishlist');
-                        }
-                        $scope.loading = false;
-                    }, function () {
-                        $scope.loading = false;
-                    });
-                    $scope.viewItem = function (item) {
-                        console.log(item);
-                        var item_id = item._id;
-//                            console.log('/app/item/' + item_id + "/" + $scope.list_id);
-                        $location.path('/app/item/' + item_id + "/" + $scope.list_id);
-                    };
                 }
                 $scope.buy = function (product) {
                     if (window.plugins) {
