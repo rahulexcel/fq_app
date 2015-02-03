@@ -224,7 +224,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
 
                 } else {
                     toast.showShortBottom('You Need To Be Logged In To Access This Page');
-                    $location.path('/app/register');
+                    $location.path('/app/signup');
                 }
 
 

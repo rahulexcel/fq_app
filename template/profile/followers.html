@@ -1,18 +1,18 @@
-<div class="username">
-    <div class="user_image">
-        <img src="img/user-img.png"/>
+<div ng-if='followers.length > 0'>
+    <div class="username" ng-repeat="user in followers">
+        <div class="user_image">
+            <img class="rounded" ng-src="{{user.picture:50:50}}"/>
+        </div>
+        <div class="user-info">
+            <span class="black-font info">{{user.name}}</span>
+            <span class="grey-color ">{{user.meta.products}} clips <i class="fa fa-circle"></i>
+                <i class="ion-ios7-people fa-lg red-color"></i>&nbsp  {{user.followers.length}} Followers
+            </span>
+            <span ng-if='false' on-tap='unFollowUser(user._id,$index)' class="user-unfollow black-font info">Unfollow!</span>
+        </div>
+        <button ng-if='true' on-tap='followUser(user._id);' class="follow-btn red-back">FOLLOW</button>
+        <div class="clearfix"></div>
     </div>
-    <div class="user-info">
-        <span class="black-font info">Manish Prakash{{item.user_id.name}}</span>
-        <span class="grey-color ">1 clips <i class="fa fa-circle"></i>
-            <i class="ion-ios7-people fa-lg red-color"></i>&nbsp 
-            1 Followers
-
-        </span>
-        <span class="user-unfollow black-font info">Unfollow!</span>
-    </div>
-    <button on-tap='followUser(item.user_id._id);' class="follow-btn red-back">FOLLOW</button>
-    <div class="clearfix"></div>
 </div>
 <div class="result-empty" ng-if="followers.length == 0">
     <span class="info"><img src="img/favicon-not.jpg"/></span>

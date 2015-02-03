@@ -103,7 +103,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
 //                    }
 //                })
                 .state('app.profile', {
-                    url: '/profile',
+                    url: '/profile/:user_id',
                     abstract: true,
                     views: {
                         'menuContent': {

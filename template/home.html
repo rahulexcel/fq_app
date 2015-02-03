@@ -1,32 +1,65 @@
 <ion-view>
     <ion-content>
 
-        <div class="mine-pins" ng-repeat="pin in social_data" on-tap='viewItem(pin._id,pin.original.list_id)'>
-            <div class="pro-img">
-                <img ng-src='{{pin.image| picture:120}}'/>
-                <div style="z-index: 99999" on-tap='pin(pin._id);' class="heart wishlist-product-img">
-                    <img src="img/heart_big.jpg">
+        <div class="pin_list pin_list_left">
+            <div class="pin" ng-if="$index % 2 == 0" ng-repeat="pin in social_data track by $index" on-tap='viewItem(pin._id,pin.original.list_id)'>
+                <div class="pin-img">
+                    <img ng-src='{{pin.image| picture:240}}'/>
+                    <div style="z-index: 99999" on-tap='pin(pin._id);' class="heart wishlist-product-img">
+                        <img src="img/heart.png">
+                    </div>
                 </div>
-            </div>
-            <div class="pro-info">
-                <div class="pro-name">
-                    <div>{{pin.name}}</div>
-                    <i class="ion-ios7-heart-outline red-color"></i> {{pin.pins}} 
-                    <i class="ion-thumbsup red-color"></i> {{pin.likes}}
+                <div class="pin-info">
+                    <div class="pin-name">
+                        <div>{{pin.name}}</div>
+                    </div>
+                    <div class="pin-status">
+                        <i class="ion-ios-heart-outline red-color"></i> {{pin.pins}} 
+                        <i class="ion-thumbsup red-color"></i> {{pin.likes}}
+                    </div>
                 </div>
-            </div>
-            <div class="username">
-                <div class="user_image">
-                    <img ng-src='{{pin.user.picture| picture:50}}'/>
+                <div class="pin-user" on-tap='profile(pin.original.user_id)'>
+                    <div class="user_image">
+                        <img class="rounded" ng-src='{{pin.user.picture| picture:35:35}}'/>
+                    </div>
+                    <div class="user-info">
+                        <span class="grey-color info">Added by</span>
+                        <span class="black-font info">{{pin.user.name}}</span>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
-                <div class="user-info">
-                    <span class="grey-color info">Added by</span>
-                    <span class="black-font info">{{pin.user.name}}</span>
-                </div>
-                <div class="clearfix"></div>
             </div>
         </div>
 
+        <div class="pin_list pin_list_right">
+            <div class="pin" ng-if="$index % 2 !== 0" ng-repeat="pin in social_data track by $index" on-tap='viewItem(pin._id,pin.original.list_id)'>
+                <div class="pin-img">
+                    <img ng-src='{{pin.image| picture:240}}'/>
+                    <div style="z-index: 99999" on-tap='pin(pin._id);' class="heart wishlist-product-img">
+                        <img src="img/heart.png">
+                    </div>
+                </div>
+                <div class="pin-info">
+                    <div class="pin-name">
+                        <div>{{pin.name}}</div>
+                    </div>
+                    <div class="pin-status">
+                        <i class="ion-ios-heart-outline red-color"></i> {{pin.pins}} 
+                        <i class="ion-thumbsup red-color"></i> {{pin.likes}}
+                    </div>
+                </div>
+                <div class="pin-user" on-tap='profile(pin.original.user_id)'>
+                    <div class="user_image">
+                        <img class="rounded" ng-src='{{pin.user.picture| picture:35:35}}'/>
+                    </div>
+                    <div class="user-info">
+                        <span class="grey-color info">Added by</span>
+                        <span class="black-font info">{{pin.user.name}}</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
 
     </ion-content>
 </ion-view>

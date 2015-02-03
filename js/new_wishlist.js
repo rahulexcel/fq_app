@@ -26,7 +26,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         if (!list) {
                             toast.showShortBottom('Invalid Request No List To Edit');
                             //put history in play here
-                            $location.path('/app/profile/mine');
+                            $location.path('/app/profile/me/mine');
                         } else {
                             $scope.list.type = list.type;
                             $scope.list.list_id = list._id;
@@ -97,7 +97,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                             } else if ($scope.new_item) {
                                 $location.path('/app/wishlist_item_add/' + list_id + "/step1");
                             } else {
-                                $location.path('/app/profile/mine');
+                                $location.path('/app/profile/me/mine');
                             }
                         }, function (data) {
                             toast.showShortBottom(data);

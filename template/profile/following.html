@@ -7,17 +7,16 @@
 <div class="list-section" ng-show="following_users.length > 0">PEOPLE</div>
 <div class="username"  ng-repeat="user in following_users">
     <div class="user_image">
-        <img ng-src='{{item.user_id.picture| picture:50}}'/>
+        <img class="rounded" ng-src='{{user.picture| picture:50:50}}'/>
     </div>
     <div class="user-info">
-        <span class="red-color info black-font">{{user.name}}</span>
-        <span class="grey-color ">1 pins <i class="fa fa-circle"></i>
-            <i class="ion-ios7-people fa-lg red-color"></i>&nbsp 
-            1 Followers
+        <span class="black-font info">{{user.name}}</span>
+        <span class="grey-color ">{{user.meta.products}} clips <i class="fa fa-circle"></i>
+            <i class="ion-ios7-people fa-lg red-color"></i>&nbsp  {{user.followers.length}} Followers
         </span>
-        <span ng-if="me" class="user-unfollow black-font info" on-tap='unFollowUser(user._id,$index);'>Unfollow!</span>
+        <span ng-if='true' on-tap='unFollowUser(user._id,$index)' class="user-unfollow black-font info">Unfollow!</span>
     </div>
-    <button ng-if="!me" on-tap='followUser(item.user_id._id);' class="follow-btn red-back">FOLLOW</button>
+    <button ng-if='false' on-tap='followUser(user._id);' class="follow-btn red-back">FOLLOW</button>
     <div class="clearfix"></div>
 </div>
 <div class="list-section" ng-show="lists_their.length > 0">WISHLIST</div>
@@ -44,8 +43,4 @@
     </div>
     <button ng-if="!me" class="follow-btn ">EDIT</button>
     <div class="clearfix"></div>
-</div>
-<div class="result-empty">
-    <span class="info"><img src="img/favicon-not.jpg"/></span>
-    <span class="info grey-color">No Followers</span>
 </div>

@@ -38,6 +38,7 @@ serviceMod.filter('picture', ['ajaxRequest', function (ajaxRequest) {
                     picture = picture.substring(0, picture.indexOf('?width='));
                 }
                 picture = picture + "?width=" + width;
+                console.log('height ' + height);
                 if (height) {
                     picture = picture + "&height=" + height;
                 }

@@ -165,7 +165,7 @@ productMod.controller('ProductCtrl',
                             param: angular.copy($scope.product)
                         };
                         toast.showShortBottom('Login To Create Wishlist');
-                        $location.path('/app/register');
+                        $location.path('/app/signup');
                     }
                 };
                 $scope.openProduct = function (product) {

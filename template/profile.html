@@ -7,7 +7,7 @@
                 </div>
                 <div class="user-info">
                     <span class="black-font info">{{user.name}}</span>
-                    <span><button class=" red-back">Follow</button></span>
+                    <span ng-if="!me"><button ng-if='!following' on-tap='followProfileUser();' class="red-back">Follow</button></span>
                     <div class="clearfix"></div>      
                 </div>
                 <div class="clearfix"></div>

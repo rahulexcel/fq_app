@@ -516,7 +516,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                 $scope.addComment = function () {
                     if (!$localStorage.user.id) {
                         toast.showShortBottom('SignUp/Login To Post A Comment');
-                        $location.app('/app/register');
+                        $location.app('/app/signup');
                     } else {
                         var comment = $scope.item.comment;
                         var picture = $scope.item.picture;

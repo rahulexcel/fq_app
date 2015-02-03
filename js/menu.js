@@ -65,11 +65,14 @@ menuMod.controller('MenuCtrl',
                     //$location.path('/#/app/home');
                     //$scope.current_category = cat;
                 };
+                $scope.profile = function (user_id) {
+                    $location.path('/app/profile/' + user_id + '/mine');
+                }
                 $scope.wishlist = function () {
-                    $location.path('/app/profile/mine');
+                    $location.path('/app/profile/me/mine');
                 };
                 $scope.account = function () {
-                    $location.path('/app/profile/profile');
+                    $location.path('/app/profile/me/profile');
                 };
                 $scope.feedback = function () {
                     $location.path('/app/feedback');
@@ -208,6 +211,7 @@ menuMod.controller('MenuCtrl',
                             var ajax2 = wishlistHelper.add($scope.wishlist_product.product._id, list._id);
                             ajax2.then(function () {
                                 $scope.wishlist_product.product.wishlist_status = 2;
+                                toast.showShortBottom('Added To Your Wishlist');
                             }, function (message) {
                                 $scope.wishlist_product.product.wishlist_status = 3;
                             });
@@ -243,7 +247,7 @@ menuMod.controller('MenuCtrl',
                         }
                     } else {
                         toast.showShortBottom('Login To Add Item To Your Wishlist');
-                        $location.path('/app/register');
+                        $location.path('/app/signup');
                     }
                 };
             }
