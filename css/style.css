@@ -568,9 +568,19 @@ div#account-page button{
 /************************** closed Sign up/login*********************************/
 
 /**************************product page*********************************/
+.slider-pager .slider-pager-page {
+    color: #FFF;
+    font-size: 8px;
+    width: 4px;
+}
 .fb-like,.twitter{
     float: right;
-    width:50%;
+}
+.twitter{
+    width: 84px !important;
+}
+.other-e-site{
+    line-height:19px;
 }
 
 .slider-pager{
@@ -675,25 +685,27 @@ span.e-site{
     float:left;
 }
 .other-sellers-img{
-    width: 35px;
+    width: 27px;
 }
 .other-seller-info{
     margin-left:47px;
 }
 .other_seller_container{
-    border-bottom:2px solid #d1d1d1;
+    border-bottom:1px solid #d1d1d1;
     margin:10px 15px 2px;
 }
 .other-seller-info .name{
     color:#000000;
     overflow: hidden;
-    height: 20px;
+    height: 12px;
     font-size: 12px;
+    line-height: 14px;
 }
 .other-seller-info button.pro-button{
     min-height: 24px;
     font-size: 12px;
     font-family: "dosis";
+    font-weight: 600;
 }
 .variants .pro-button{
     min-height:34px;
@@ -712,9 +724,10 @@ span.other-price{
 }
 .similar-price,.category .price{
     color:#737373;
-    line-height: 20px;
+    line-height: 7px;
     font-weight: bold;
     font-size: 13px;
+    margin-bottom: 5px;
 }
 .similar-img{
     text-align: center;
@@ -747,6 +760,7 @@ span.other-price{
 }
 .other-seller-price{
     margin-bottom: 5px;
+    margin-top: -5px;
 }
 .similar-price-drop{
     color:#06ACAC;
