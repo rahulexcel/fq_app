@@ -11,12 +11,12 @@
         <li  ng-if="!is_mobile" class="clip-it" ng-file-select 
             ng-model="file.myFiles" 
             ng-multiple="false" 
-            ng-rejected-file-model="rejFiles"><i class="ion-ios7-camera grey-color fa-2x offline-icon"></i><span class="grey-color">Picture</span></li>
+            ng-rejected-file-model="rejFiles"><i class="fa fa-camera grey-color fa-2x offline-icon"></i> <span class="grey-color">Picture</span></li>
         <li class="clip-it" on-tap='type("url")'>
-            <i class="fa fa-globe grey-color fa-2x offline-icon"></i><span class="grey-color">Website</span>
+            <i class="fa fa-globe grey-color fa-2x offline-icon"></i>&nbsp; <span class="grey-color">Website</span>
         </li>
         <li class="clip-it" on-tap='type("near")'>
-            <i class="ion-map fa-2x offline-icon grey-color"></i><span class="grey-color">Near By</span>
+            <i class="ion-map fa-2x offline-icon grey-color"></i>&nbsp; <span class="grey-color">Near By</span>
         </li>
     </ul>
 </div>
