@@ -1,8 +1,8 @@
 <ion-modal-view>
     <ion-header-bar>
-        <h1 class="title">Add To List</h1>
+        <h1 class="title">ADD TO LIST</h1>
         <div class="button button-icon " on-tap="closeWishlistModel();">
-            <i class="fa fa-times close-tab-icon"></i>
+            <i class="ion-ios-close-empty close-tab-icon"></i>
         </div>
     </ion-header-bar>
     <ion-content>
@@ -14,14 +14,14 @@
             <div class="clip-label black-font add-to-clip"><span>ADD TO LIST</span></div>
             <div class="similar-product-label  clip-font-color clip-label clip-share">Your Lists</div>
             <ul>
-                <li class="clip-font-color new add-new" on-tap='newList();'>
+                <li class="clip-font-color new add-new clip-it" on-tap='newList();'>
                     <i class="fa fa-plus-square-o fa-3px"></i>
                     <span>Create a New Clipboard</span>
                 </li>
-                <li on-tap='tickList(list);' ng-repeat='list in lists.me| orderBy:sort_order'>
+                <li on-tap='tickList(list);' ng-repeat='list in lists.me| orderBy:sort_order' class="clip-it">
                     <div class="black-font">{{list.name}} <i ng-if="list.type == 'private'" class="ion-ios7-locked"></i>
                     </div>
-                    <div> 
+                    <div class='clip-info'> 
                         <span ng-show='list.meta.products != 0'>{{list.meta.products}} clips <i class="fa fa-circle"></i> </span>
                         <span ng-show='list.meta.likes != 0'><i class="ion-ios7-heart-outline"></i>{{list.meta.likes}}</span> 
                         <span ng-show='list.followers.length != 0'><i class="ion-ios7-people"></i>{{list.followers.length}}</span> 
@@ -33,13 +33,13 @@
                 </li>
 
             </ul>
-        </div>
-    </ion-content>
-    <ion-footer-bar>
-        <div class="clip-it">
+            <div class="clip-it">
             <button on-tap='selectList();' class="button signup-button red-back disable-user-behavior">
                 CLIP IT
             </button>
-        </div>        
+        </div> 
+        </div>
+    </ion-content>
+    <ion-footer-bar>
     </ion-footer-bar>
 </ion-modal-view>
