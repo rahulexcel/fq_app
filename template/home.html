@@ -1,5 +1,32 @@
 <ion-view>
     <ion-content>
-        Under Development. Click on Left Menu
+
+        <div class="mine-pins" ng-repeat="pin in social_data" on-tap='viewItem(pin._id,pin.original.list_id)'>
+            <div class="pro-img">
+                <img ng-src='{{pin.image| picture:120}}'/>
+                <div style="z-index: 99999" on-tap='pin(pin._id);' class="heart wishlist-product-img">
+                    <img src="img/heart_big.jpg">
+                </div>
+            </div>
+            <div class="pro-info">
+                <div class="pro-name">
+                    <div>{{pin.name}}</div>
+                    <i class="ion-ios7-heart-outline red-color"></i> {{pin.pins}} 
+                    <i class="ion-thumbsup red-color"></i> {{pin.likes}}
+                </div>
+            </div>
+            <div class="username">
+                <div class="user_image">
+                    <img ng-src='{{pin.user.picture| picture:50}}'/>
+                </div>
+                <div class="user-info">
+                    <span class="grey-color info">Added by</span>
+                    <span class="black-font info">{{pin.user.name}}</span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+
     </ion-content>
 </ion-view>

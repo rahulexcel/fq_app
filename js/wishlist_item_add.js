@@ -1,5 +1,37 @@
 var wishlistItemAddMod = angular.module('WishlistItemAddMod', ['ServiceMod', 'angularFileUpload', 'ngStorage', 'ionic', 'WishlistService', 'MapService']);
 
+// View's logic placed in directive 
+wishlistItemAddMod.directive('preloadable', function () {
+    return {
+        link: function (scope, element) {
+            element.bind("load", function (e) {
+
+                // success, "onload" catched
+                // now we can do specific stuff:
+
+                var naturalWidth = this.naturalWidth * 1;
+                var naturalHeight = this.naturalHeight * 1;
+                console.log(this.src);
+                if (naturalWidth !== 0 && naturalHeight !== 0) {
+                    console.log(naturalHeight + "XXX" + naturalWidth);
+
+                    if (naturalWidth * 1 < 200 || naturalHeight * 1 < 200) {
+                        console.log('remove ' + this.src);
+                        scope.removeImage(this.src);
+                    } else {
+                        console.log('aspect ' + naturalWidth / naturalHeight);
+                        var aspect = naturalWidth / naturalHeight;
+                        if (aspect < .1 || aspect > 5) {
+                            console.log('remove ' + this.src);
+                            scope.removeImage(this.src);
+                        }
+                    }
+                }
+
+            });
+        }
+    };
+});
 wishlistItemAddMod.controller('WishlistItemAddCtrl',
         ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$cordovaCamera', '$ionicPopup', '$timeout',
             function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $ionicModal, $window, $cordovaCamera, $ionicPopup, $timeout) {
@@ -13,7 +45,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                 };
 
                 $scope.sendItem = function () {
-                    if ($scope.item.length > 0) {
+                    if ($scope.item.picture.length > 0) {
                         var ajax = wishlistHelper.addItem(angular.copy($scope.item), $scope.list_id);
                         ajax.then(function (data) {
                             if (data.id) {
@@ -82,22 +114,81 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                 console.log('started');
 
                 var timeout_promise = false;
+                var self = this;
+                self.to_remove_images = [];
+                self.remove_image_timer = false;
+                $scope.removeImage = function (url) {
+                    self.to_remove_images.push(url);
+                    if (self.remove_image_timer) {
+                        $timeout.cancel(self.remove_image_timer);
+                    }
+                    self.remove_image_timer = $timeout(function () {
+                        console.log('removing images...');
+                        var remove_images = self.to_remove_images;
+                        self.to_remove_images = [];
+
+                        var url_images = $scope.url_images;
+                        var new_url_images = [];
+                        for (var i = 0; i < url_images.length; i++) {
+//                        console.log(url + "!==" + url_images[i]);
+                            if (remove_images.indexOf(url_images[i]) !== -1) {
+                                new_url_images.push(url_images[i]);
+                            }
+                        }
+                        $scope.$evalAsync(function () {
+                            $scope.url_images = new_url_images;
+                        });
+                    }, 100);
+                };
+
+                $scope.url_images = [];
                 $scope.$watch('item.url', function (val) {
                     if (val) {
                         if (timeout_promise) {
                             console.log($timeout.cancel(timeout_promise));
                         }
                         timeout_promise = $timeout(function () {
-                            console.log(val);
+                            $scope.url_images = [];
                             var ajax = wishlistHelper.getUrlImage(val);
                             $scope.url_loading = true;
                             ajax.then(function (data) {
                                 $scope.url_loading = false;
-//                                console.log(data);
-//                                if (data.image && data.image.image) {
-//                                    var image = data.image.image;
-//                                    $scope.item.picture = image;
-//                                }
+                                var url_images = [];
+                                var max = 8;
+                                var j = 0;
+                                for (var i = 0; i < data.length; i++) {
+                                    if (j < max) {
+                                        (function (image_url) {
+                                            var img = new Image();
+                                            img.onload = function () {
+                                                var naturalWidth = img.naturalWidth * 1;
+                                                var naturalHeight = img.naturalHeight * 1;
+                                                if (naturalWidth !== 0 && naturalHeight !== 0) {
+                                                    console.log(naturalHeight + "XXX" + naturalWidth);
+
+                                                    if (naturalWidth * 1 < 200 || naturalHeight * 1 < 200) {
+                                                        console.log('remove ' + img.src);
+//                                                        scope.removeImage(img.src);
+                                                    } else {
+                                                        console.log('aspect ' + naturalWidth / naturalHeight);
+                                                        var aspect = naturalWidth / naturalHeight;
+                                                        if (aspect < .1 || aspect > 5) {
+                                                            console.log('remove ' + img.src);
+//                                                            scope.removeImage(img.src);
+                                                        } else {
+                                                            url_images.push(image_url);
+                                                            $scope.url_images = url_images;
+                                                            $scope.$evalAsync();
+                                                        }
+                                                    }
+                                                }
+                                            };
+
+                                            img.src = image_url;
+                                        })(data[i]);
+
+                                    }
+                                }
                             }, function () {
                                 $scope.url_loading = false;
                             });
@@ -187,11 +278,11 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                                     console.log(data);
 
                                     if (data && data.data) {
-                                        if (data.size.width < 320 || data.size.height < 320) {
-                                            toast.showShortBottom('Image Size Should Be More Than 320x320px');
+                                        if (data.size.width < 150 || data.size.height < 150) {
+                                            toast.showShortBottom('Image Size Should Be More Than 150x150px');
                                         } else {
                                             var pic = ajaxRequest.url('v1/picture/view/' + data.data);
-                                            $scope.login_data.picture = pic;
+                                            $scope.item.picture = pic;
                                         }
                                     }
                                     $scope.step1Class = 'red-back';
@@ -249,8 +340,8 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
 
                         console.log(data);
 
-                        if (data.size.width < 320 || data.size.height < 320) {
-                            toast.showShortBottom('Image Size Should Be More Than 320x320px');
+                        if (data.size.width < 150 || data.size.height < 150) {
+                            toast.showShortBottom('Image Size Should Be More Than 150x150px');
                         } else {
                             if (data.data) {
                                 var pic = ajaxRequest.url('v1/picture/view/' + data.data);

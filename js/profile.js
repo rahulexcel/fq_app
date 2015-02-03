@@ -1,7 +1,7 @@
 var profileMod = angular.module('ProfileMod', ['ServiceMod', 'ngStorage', 'ionic', 'FriendService']);
 profileMod.controller('ProfileCtrl',
-        ['$scope', '$localStorage', 'toast', '$location', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope',
-            function ($scope, $localStorage, toast, $location, $ionicLoading, friendHelper, $stateParams, $rootScope) {
+        ['$scope', '$localStorage', 'toast', '$location', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope', '$timeout',
+            function ($scope, $localStorage, toast, $location, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout) {
                 var user_id = false;
                 if ($localStorage.user.id) {
                     user_id = $localStorage.user.id;
@@ -85,7 +85,6 @@ profileMod.controller('ProfileCtrl',
                     });
                     var ajax = friendHelper.fullProfile(user_id);
                     ajax.then(function (data) {
-                        console.log(data);
                         $scope.user = data;
                         if ($scope.user._id === $localStorage.user.id) {
                             $scope.me = true;
@@ -101,7 +100,9 @@ profileMod.controller('ProfileCtrl',
                             width = width * 5;
                         }
                         angular.element(document.querySelector('#menu_scroller')).attr('style', 'width:' + width + 'px');
-                        $scope.myScroll = new IScroll('#menu_sliding', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
+                        $timeout(function () {
+                            $scope.myScroll = new IScroll('#menu_sliding', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
+                        }, 50);
 
                     }, function () {
                         $ionicLoading.hide();

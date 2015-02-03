@@ -9,6 +9,7 @@ var app = angular.module('starter',
             'ionic',
             'CategoryMod',
             'HomeMod',
+            'MenuMod',
             'ProductMod',
             'RegisterMod',
             'AccountMod',
@@ -30,20 +31,20 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                 .state('offline', {
                     url: '/offline',
                     templateUrl: 'template/offline.html',
-                    controller: 'HomeCtrl'
+                    controller: 'MenuCtrl'
                 })
                 .state('app', {
                     url: '/app',
                     abstract: true,
                     templateUrl: 'template/menu.html',
-                    controller: 'HomeCtrl'
+                    controller: 'MenuCtrl'
                 })
                 .state('app.home', {
                     url: '/home',
                     views: {
                         'menuContent': {
                             templateUrl: 'template/home.html',
-                            controller: 'CategoryCtrl'
+                            controller: 'HomeCtrl'
                         }
                     }
                 })
@@ -297,7 +298,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             console.log(fromState.name + "from state");
 
             $rootScope.body_class = '';
-            if (toState.name === 'app.item' || toState.name.indexOf('app.profile') != -1) {
+            if (toState.name === 'app.item' || toState.name === 'app.home' || toState.name.indexOf('app.profile') != -1) {
                 $rootScope.body_class = 'grey_bg';
             }
 

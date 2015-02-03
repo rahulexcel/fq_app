@@ -5,43 +5,49 @@ serviceMod.filter('prettyDate', function () {
         return prettyDate(date);
     };
 });
-serviceMod.filter('picture', function () {
-    return function (picture, width, height) {
-        if (!angular.isDefined(picture)) {
-            return "img/empty.png";
-        }
-        if (picture.length === 0) {
-            return "img/empty.png";
-        }
-        if (!angular.isDefined(width)) {
-            return picture;
-        }
-        if (picture.indexOf('facebook') !== -1) {
-            if (picture.indexOf('width=') !== -1) {
-                picture = picture.substring(0, picture.lastIndexOf('?width=') + "?width=".length);
-                picture = picture + width;
-            } else {
-                picture = picture.substring(0, picture.lastIndexOf('?'));
+serviceMod.filter('picture', ['ajaxRequest', function (ajaxRequest) {
+        return function (picture, width, height) {
+            if (!angular.isDefined(picture)) {
+                return "img/empty.png";
+            }
+            if (picture.length === 0) {
+                return "img/empty.png";
+            }
+            if (!angular.isDefined(width)) {
+                return picture;
+            }
+
+            if (picture.length == 32) {
+                //mongodb id
+                picture = ajaxRequest.url('v1/picture/view/' + picture);
+            }
+
+            if (picture.indexOf('facebook') !== -1) {
+                if (picture.indexOf('width=') !== -1) {
+                    picture = picture.substring(0, picture.lastIndexOf('?width=') + "?width=".length);
+                    picture = picture + width;
+                } else {
+                    picture = picture.substring(0, picture.lastIndexOf('?'));
+                    picture = picture + "?width=" + width;
+                }
+                if (height) {
+                    picture = picture + "&height=" + height;
+                }
+            } else if (picture.indexOf('picture/view') !== -1) {
+                if (picture.indexOf('width=') !== -1) {
+                    picture = picture.substring(0, picture.indexOf('?width='));
+                }
                 picture = picture + "?width=" + width;
-            }
-            if (height) {
-                picture = picture + "&height=" + height;
-            }
-        } else if (picture.indexOf('picture/view') !== -1) {
-            if (picture.indexOf('width=') !== -1) {
-                picture = picture.substring(0, picture.indexOf('?width='));
-            }
-            picture = picture + "?width=" + width;
-            if (height) {
-                picture = picture + "&height=" + height;
-            }
+                if (height) {
+                    picture = picture + "&height=" + height;
+                }
 
-        } else {
+            } else {
 
-        }
-        return picture;
-    };
-});
+            }
+            return picture;
+        };
+    }]);
 serviceMod.factory('socialJs', function () {
     var service = {};
     service.social_js = false;

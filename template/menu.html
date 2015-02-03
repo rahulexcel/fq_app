@@ -62,6 +62,7 @@
                 <!--Left menu loged in view profile closed-->
                 <i class="fa fa-spinner fa-spin" ng-show='category.length == 0'></i>
                 <ul ng-show='category.length >= 0'>
+                    <li><span ng-click="home()" nav-clear menu-close>HOME</span><div class="clearfix"></div></li>
                     <li ng-repeat="cat in category">
                         <span ng-click="selectCategory(cat)">{{cat.name}}</span><div class="clearfix"></div>
                         <ul ng-show="cat.open" style="padding-left: 20px" ng-if='cat.data.length > 0'>

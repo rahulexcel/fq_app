@@ -146,6 +146,7 @@ accountMod.controller('AccountCtrl',
                                                     var pic = ajaxRequest.url('v1/picture/view/' + data.data);
                                                     $scope.login_data.picture = pic;
                                                     $localStorage.user.picture = pic;
+                                                    $scope.$parent.user.picture = pic;
                                                     $scope.file_upload = false;
                                                 }, function () {
                                                     $scope.file_upload = false;
@@ -211,6 +212,7 @@ accountMod.controller('AccountCtrl',
                                 var pic = ajaxRequest.url('v1/picture/view/' + data.data);
                                 $scope.login_data.picture = pic;
                                 $localStorage.user.picture = pic;
+                                $scope.$parent.user.picture = pic;
                                 $scope.file_upload = false;
                             }, function () {
                                 $scope.file_upload = false;
