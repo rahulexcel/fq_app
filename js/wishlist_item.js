@@ -18,6 +18,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                 var picture_width = $window.innerWidth;
                 picture_width = Math.ceil(picture_width * 0.95);
                 $scope.picture_width = picture_width;
+                $scope.mine = false;
                 if ($stateParams.item_id) {
                     $scope.item_id = $stateParams.item_id;
                     $scope.list_id = $stateParams.list_id;
@@ -26,6 +27,12 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     $scope.me_follow_user = false;
                     $scope.me_follow_list = false;
                     $scope.checkData = function (data) {
+
+                        if ($localStorage.user.id)
+                            if (data.list_id.user_id === $localStorage.user.id) {
+                                $scope.mine = true;
+                            }
+
                         if (!data.likes) {
                             data.likes = [];
                         }
