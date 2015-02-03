@@ -570,7 +570,11 @@ div#account-page button{
 /**************************product page*********************************/
 .fb-like,.twitter{
     float: right;
-    width:44%;
+    width:50%;
+}
+
+.slider-pager{
+    bottom:9px;
 }
 .product-heading{
     font-size: 13px;
@@ -634,9 +638,8 @@ span.arrow{
 }
 span.e-site{
     color:#737373;
-    width:100%;
-    float: left;
     font-size: 10px;
+    display: block;
 
 }
 .pro-price{
@@ -645,6 +648,7 @@ span.e-site{
     font-weight: bold;
     margin-bottom:2px;
     float:left;
+    width: 100%;
 }
 .arrow ,
 .e-site{
@@ -655,7 +659,7 @@ span.e-site{
     padding: 8px 15px;
     background-color:#eee7dd;
     border-top: 1px solid #D1D1D1;
-    font-family: "Dosis",regular;
+    font-family: "Dosis";
     font-size: 16px;
 }
 #scroller li {
@@ -681,7 +685,6 @@ span.e-site{
     margin:10px 15px 2px;
 }
 .other-seller-info .name{
-    font-weight: bold;
     color:#000000;
     overflow: hidden;
     height: 20px;
@@ -696,7 +699,7 @@ span.e-site{
     min-height:34px;
 }
 span.other-price{
-    line-height: 34px;
+    line-height: 24px;
     font-size: 14px;
     font-weight: bold;
     color:#737373;
@@ -724,7 +727,7 @@ span.other-price{
     width: 20%;
     text-align: right;
     position:absolute;
-    bottom:21%;
+    bottom:3%;
     padding-right: 7px;
     right:9px;
 }
@@ -736,10 +739,14 @@ span.other-price{
     font-size:1.7em;
 }
 .price-up-down{
-    width:135px;
+    width:45%;
     font-size:.8em;
     line-height:18px;
     color:#06ACAC;
+    float: left;
+}
+.other-seller-price{
+    margin-bottom: 5px;
 }
 .similar-price-drop{
     color:#06ACAC;
