@@ -411,7 +411,7 @@ ul.default-list{
 #menu-bar-container .user-info{
     margin-top: 8px;
 }
-#menu-bar-container .username{
+#menu-bar-container .box{
     background-color:#da500f;
     color:#fff;
     border-style: none;
@@ -1202,7 +1202,7 @@ span i.fa-circle{
 #wishlist_new .item-private:last-child{
     border-style:none;
 }
-#wishlist_new .list,.top-container .username{
+#wishlist_new .list,.top-container .box{
     margin-bottom:0px;
 }
 .clip-share {
@@ -1222,7 +1222,7 @@ span i.fa-circle{
 {
     border-bottom-style: none; 
 }
-.username{
+.box{
     padding: 10px;
     border: 1px solid #ccc;
     margin-bottom: 20px;
@@ -1299,7 +1299,7 @@ span.info{
 .mine-content{
     margin:10px 15px;
 }
-.top-container .username button{
+.top-container .box button{
     border: 1px solid #DA500F;
     min-height: 34px;
     min-width: 95px;
@@ -1374,7 +1374,7 @@ ul.mine-clip-list li span.mine-new{
 .list-section{
     margin: 12px 0px;
 }
-.mine-pins .username{
+.mine-pins .box{
     border-style: none;
     border-bottom: 1px solid #ccc;
     padding-bottom: 0px;
