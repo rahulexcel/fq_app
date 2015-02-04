@@ -139,6 +139,9 @@ textarea {
 .urabanladder  { background-image: url("../img/fav/urabanladder.png")  }
 .voiletbag  { background-image: url("../img/fav/voiletbag.png")  }
 .zanzaar  { background-image: url("../img/fav/zanzaar.png")  }
+.shoppersstop  { background-image: url("../img/fav/shoppersstop.png")  }
+.yepme { background-image: url("../img/fav/yepme.png")  }
+.zovi { background-image: url("../img/fav/zovi.png")  }
 .grey_bg{
     background-color: #eee7dd;
 }
@@ -411,7 +414,7 @@ ul.default-list{
 #menu-bar-container .user-info{
     margin-top: 8px;
 }
-#menu-bar-container .username{
+#menu-bar-container .box{
     background-color:#da500f;
     color:#fff;
     border-style: none;
@@ -722,12 +725,18 @@ span.other-price{
     line-height:20px;
     font-size: 11px;
 }
+.category .name{
+    line-height:25px !important;
+}
 .similar-price,.category .price{
     color:#737373;
     line-height: 7px;
     font-weight: bold;
     font-size: 13px;
     margin-bottom: 5px;
+}
+.category .price{
+    line-height: 16px !important;
 }
 .similar-img{
     text-align: center;
@@ -767,6 +776,10 @@ span.other-price{
     float:right;
     line-height: 20px;
     font-size:.8em;
+}
+.drop-price i span{
+    font-family: "open sans";
+    font-weight: 600;
 }
 
 /**************************closed product page*********************************/
@@ -1192,7 +1205,7 @@ span i.fa-circle{
 #wishlist_new .item-private:last-child{
     border-style:none;
 }
-#wishlist_new .list,.top-container .username{
+#wishlist_new .list,.top-container .box{
     margin-bottom:0px;
 }
 .clip-share {
@@ -1212,7 +1225,7 @@ span i.fa-circle{
 {
     border-bottom-style: none; 
 }
-.username{
+.box{
     padding: 10px;
     border: 1px solid #ccc;
     margin-bottom: 20px;
@@ -1289,8 +1302,8 @@ span.info{
 .mine-content{
     margin:10px 15px;
 }
-.top-container .username button{
-    border: 1px solid #CCC;
+.top-container .box button{
+    border: 1px solid #DA500F;
     min-height: 34px;
     min-width: 95px;
     border-radius: 0.3em;
@@ -1364,7 +1377,7 @@ ul.mine-clip-list li span.mine-new{
 .list-section{
     margin: 12px 0px;
 }
-.mine-pins .username{
+.mine-pins .box{
     border-style: none;
     border-bottom: 1px solid #ccc;
     padding-bottom: 0px;

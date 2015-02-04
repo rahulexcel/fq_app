@@ -5,7 +5,7 @@
             on-refresh="doRefresh()">
         </ion-refresher>
         <div ng-show="item" id="wishlist_item">
-            <div class="username">
+            <div class="box">
                 <div class="pro-img">
                     <img ng-src='{{item.item_id.img| picture:picture_width}}' />
                     <div class="heart wishlist-product-img">
@@ -70,11 +70,11 @@
                 </div>
             </div>
             <!-- empty div
-                        <div class="username">
+                        <div class="box">
                             <div ng-show="item.description.length > 0">{{item.description}}</div>
                         </div>
             -->
-            <div class="username">
+            <div class="box">
                 <div class="user_image">
                     <img ng-src='{{item.user_id.picture| picture:50}}'/>
                 </div>
@@ -99,7 +99,7 @@
                 <button ng-if="!me_follow_user && !mine" on-tap='followUser(item.user_id._id);' class="follow-btn black-font">FOLLOW</button>
                 <div class="clearfix"></div>
             </div>
-            <div class="added-to username">
+            <div class="added-to box">
                 <div class="user-info">
                     <span class="info grey-color">Added to</span>
                     <span class="info black-font">{{item.list_id.name}}</span>
@@ -138,7 +138,7 @@
                     <i class="fa fa-spinner fa-spin"></i>
                 </div>
             </div>
-            <div class="user-comments username">
+            <div class="user-comments box">
                 <h4>Comments</h4>
                 <span class="grey-color" ng-if="item.comments.length == 0">Be the first to comment</span>
                 <div ng-repeat="comment in item.comments">

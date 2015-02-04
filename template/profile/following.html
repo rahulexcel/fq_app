@@ -5,7 +5,7 @@
     </div>
 </div>
 <div class="list-section" ng-show="following_users.length > 0">PEOPLE</div>
-<div class="username"  ng-repeat="user in following_users">
+<div class="box"  ng-repeat="user in following_users">
     <div class="user_image">
         <img class="rounded" ng-src='{{user.picture| picture:50:50}}'/>
     </div>
@@ -20,7 +20,7 @@
     <div class="clearfix"></div>
 </div>
 <div class="list-section" ng-show="lists_their.length > 0">WISHLIST</div>
-<div class="username" ng-repeat="list in lists_their">
+<div class="box" ng-repeat="list in lists_their">
     <div class="user-info">
         <span class="black-font info" on-tap='viewList(list)'>Accessories{{list.name}}
             <i  class="ion-ios7-locked grey-color"></i>
