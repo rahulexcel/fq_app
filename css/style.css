@@ -722,12 +722,18 @@ span.other-price{
     line-height:20px;
     font-size: 11px;
 }
+.category .name{
+    line-height:25px !important;
+}
 .similar-price,.category .price{
     color:#737373;
     line-height: 7px;
     font-weight: bold;
     font-size: 13px;
     margin-bottom: 5px;
+}
+.category .price{
+    line-height: 16px !important;
 }
 .similar-img{
     text-align: center;
@@ -767,6 +773,10 @@ span.other-price{
     float:right;
     line-height: 20px;
     font-size:.8em;
+}
+.drop-price i span{
+    font-family: "open sans";
+    font-weight: 600;
 }
 
 /**************************closed product page*********************************/
@@ -1289,7 +1299,7 @@ span.info{
     margin:10px 15px;
 }
 .top-container .username button{
-    border: 1px solid #CCC;
+    border: 1px solid #DA500F;
     min-height: 34px;
     min-width: 95px;
     border-radius: 0.3em;
