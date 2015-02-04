@@ -4,15 +4,21 @@ homeMod.controller('HomeCtrl',
         ['$scope', 'friendHelper', '$ionicLoading',
             function ($scope, friendHelper, $ionicLoading) {
                 $scope.social_data = [];
-                $ionicLoading.show({
-                    template: 'Loading...'
-                })
+                $scope.loading = true;
                 var ajax = friendHelper.home();
                 ajax.then(function (data) {
                     $scope.social_data = data;
-                    $ionicLoading.hide();
+                    $scope.loading = false;
                 }, function () {
-                    $ionicLoading.hide();
+                    $scope.loading = false;
                 });
+
+                $scope.getItemHeight = function (pin, index) {
+                    if (pin.dimension.height) {
+                        var height = pin.dimension.height;
+                        var width = pin.dimension.width;
+                        var pin_width = 236;
+                    }
+                }
             }
         ]);

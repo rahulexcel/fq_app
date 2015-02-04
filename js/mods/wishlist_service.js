@@ -81,6 +81,7 @@ wishlistService.factory('wishlistHelper', [
             return list;
         }
         service.list = function (force, showLoading) {
+            var self = this;
             if (!angular.isDefined(showLoading)) {
                 showLoading = true;
             }
@@ -90,10 +91,10 @@ wishlistService.factory('wishlistHelper', [
             var def = $q.defer();
             var user_wish_list = timeStorage.get('user_wish_list');
             if (user_wish_list && !force) {
-                return $q.when(this.sortList(angular.copy(user_wish_list)));
+                return $q.when(self.sortList(angular.copy(user_wish_list)));
             } else if ($localStorage.user && $localStorage.user.id) {
                 if (user_wish_list) {
-                    def.notify(this.sortList(angular.copy(user_wish_list)));
+                    def.notify(self.sortList(angular.copy(user_wish_list)));
                 }
                 if (showLoading)
                     $ionicLoading.show({
@@ -107,7 +108,7 @@ wishlistService.factory('wishlistHelper', [
                         $ionicLoading.hide();
                     timeStorage.set('user_wish_list', data, 12);
 
-                    def.resolve(this.sortList(data));
+                    def.resolve(self.sortList(data));
                 }, function (message) {
                     if (showLoading)
                         $ionicLoading.hide();
