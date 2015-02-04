@@ -4,6 +4,16 @@ friendService.factory('friendHelper', [
     'ajaxRequest', '$q', '$localStorage', 'timeStorage',
     function (ajaxRequest, $q, $localStorage, timeStorage) {
         var service = {};
+        service.home = function () {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/home', {});
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        }
         service.item_pins_list = function (item_id) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/social/item/pins', {
@@ -126,7 +136,7 @@ friendService.factory('friendHelper', [
             if (!user_id) {
                 user_id = $localStorage.user.id;
             }
-            if ($localStorage.user && user_id == $localStorage.user.id) {
+            if ($localStorage.user && user_id === $localStorage.user.id) {
                 me = true;
             }
             var ajax = ajaxRequest.send('v1/social/user/profile/full', {

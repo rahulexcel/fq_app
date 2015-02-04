@@ -2,13 +2,13 @@ profileMod.controller('ProfileFollowingCtrl',
         ['$scope', '$localStorage', 'toast', 'friendHelper', '$location', 'dataShare',
             function ($scope, $localStorage, toast, friendHelper, $location, dataShare) {
                 $scope.$on('user_info', function () {
-                    $scope.following_users = $scope.$parent.user.followers;
+                    $scope.following_users = $scope.$parent.user.following;
                     $scope.lists_their = $scope.$parent.user.lists_their;
                 })
-                $scope.following_users = $scope.$parent.user.followers;
+                $scope.following_users = $scope.$parent.user.following;
                 $scope.lists_their = $scope.$parent.user.lists_their;
                 $scope.me = false;
-                if ($scope.$parent.user._id == $localStorage.user.id) {
+                if ($scope.$parent.user._id === $localStorage.user.id) {
                     $scope.me = true;
                 }
 
@@ -46,7 +46,7 @@ profileMod.controller('ProfileFollowingCtrl',
                         var users = $scope.following_users;
                         users.splice(index, 1);
                         $scope.following_users = users;
-                        
+
                         $scope.request_process = false;
                     }, function () {
                         $scope.request_process = false;

@@ -330,7 +330,7 @@ categoryMod.controller('CategoryCtrl',
                             param: angular.copy(product),
                             category: angular.copy($scope.currentState)
                         };
-                        $location.path('/app/register');
+                        $location.path('/app/signup');
                     }
                 };
                 $scope.openProduct = function (product) {

@@ -55,7 +55,7 @@ accountService.factory('accountHelper', [
         };
         service.updatePicture = function (filename) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/account/remove_picture', {
+            var ajax = ajaxRequest.send('v1/account/update/picture', {
                 user_id: $localStorage.user.id,
                 picture: filename
             });

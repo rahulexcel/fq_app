@@ -7,7 +7,7 @@
                 </div>
                 <div class="user-info">
                     <span class="black-font info">{{user.name}}</span>
-                    <span><button class=" red-back">Follow</button></span>
+                    <span ng-if="!me"><button ng-if='!following' on-tap='followProfileUser();' class="red-back">Follow</button></span>
                     <div class="clearfix"></div>      
                 </div>
                 <div class="clearfix"></div>
@@ -38,7 +38,7 @@
                     border-bottom: 1px solid red !important;
                 }
             </style>
-            <div id='menu_sliding' style="position: relative">
+            <div id='menu_sliding' style="width: 100%">
                 <ul id='menu_scroller' class="mine-list" ng-class="selected_class">
                     <li class="wishlist" on-tap='menu_wishlist();'>MY WISHLIST</li>
                     <li class="followers" on-tap='menu_followers();'>FOLLOWERS</li>
