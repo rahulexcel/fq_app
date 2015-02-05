@@ -335,7 +335,9 @@ Scroll On Product Page
     height: 50px;
     text-align: center;
 }
-
+.menu-left{
+    border-right: 1px solid #CCC;
+}
 #menu_scroller li{
     display: block;
     float: left;
