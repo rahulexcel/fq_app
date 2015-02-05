@@ -3,7 +3,11 @@ var menuMod = angular.module('MenuMod', ['ServiceMod', 'ngStorage', 'ionic']);
 menuMod.controller('MenuCtrl',
         ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper',
             function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper) {
-                $ionicNavBarDelegate.showBackButton(false);
+//                $ionicNavBarDelegate.showBackButton(false);
+
+                $scope.$on('$ionicExposeAside', function () {
+                    $rootScope.$emit('custom_ionicExposeAside');
+                });
                 if (timeStorage.get('category')) {
                     console.log('category from cache');
                     $scope.category = timeStorage.get('category');

@@ -10,18 +10,24 @@ homeMod.directive('resize', ['$window', function ($window) {
     }]);
 
 homeMod.controller('HomeCtrl',
-        ['$scope', 'friendHelper', '$timeout',
-            function ($scope, friendHelper, $timeout) {
+        ['$scope', 'friendHelper', '$timeout', '$location', '$rootScope',
+            function ($scope, friendHelper, $timeout, $location, $rootScope) {
                 $scope.social_data = [];
                 $scope.loading = true;
                 $scope.windowWidth = 0;
 
                 $scope.hasMore = false;
                 $scope.page = 0;
+                $rootScope.$on('custom_ionicExposeAside', function () {
+                    $timeout(function () {
+                        $scope.displayPins();
+                    }, 1008);
+
+                });
                 $scope.$watch('windowWidth', function (newVaue) {
-                    console.log(newVaue);
                     $scope.displayPins();
                 });
+
                 $scope.loadMore = function () {
                     var ajax = friendHelper.home($scope.page);
                     ajax.then(function (data) {
@@ -39,9 +45,11 @@ homeMod.controller('HomeCtrl',
                             $scope.hasMore = false;
                         }
                         $scope.$broadcast('scroll.infiniteScrollComplete');
+                        $scope.$broadcast('scroll.refreshComplete');
 
                     }, function () {
                         $scope.$broadcast('scroll.infiniteScrollComplete');
+                        $scope.$broadcast('scroll.refreshComplete');
                         $scope.loading = false;
                     });
                 };
@@ -50,7 +58,7 @@ homeMod.controller('HomeCtrl',
                     $scope.page = 0;
                     $scope.loadMore();
                     ajax_data = [];
-                }
+                };
 
                 $scope.pinColumnWidth = function () {
                     if (pin_column === 0) {
@@ -148,11 +156,11 @@ homeMod.controller('HomeCtrl',
                         $scope.grid = grid;
                     }
 
-                }
+                };
 
                 $scope.getItemWidth = function () {
                     return pin_width + "px";
-                }
+                };
 
 
                 $scope.getItemHeight = function (pin, padding, only_image) {
@@ -174,5 +182,12 @@ homeMod.controller('HomeCtrl',
                         }
                     }
                 };
+
+                $scope.viewItem = function (pin_id, list_id) {
+                    $location.path('/app/item/' + pin_id + '/' + list_id);
+                };
+                $scope.viewList = function (list_id, list_name) {
+                    $location.path('/app/wishlist_item/' + list_id + '/' + list_name);
+                }
             }
         ]);

@@ -257,12 +257,13 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                 });
         $urlRouterProvider.otherwise('/app/home');
     }]);
-app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", 'notifyHelper', '$cordovaNetwork',
-    function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location, notifyHelper, $cordovaNetwork) {
+app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", 'notifyHelper', '$cordovaNetwork', '$ionicNavBarDelegate',
+    function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location, notifyHelper, $cordovaNetwork, $ionicNavBarDelegate) {
         console.log('angular ready');
         if (!$localStorage.user) {
             $localStorage.user = {};
         }
+        $rootScope.isBackButton = false;
         $rootScope.isReady = function () {
             $rootScope.display = {display: "block"};
         };

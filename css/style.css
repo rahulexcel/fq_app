@@ -185,12 +185,8 @@ p.rate-descrip{
 .logo-container img{
     vertical-align: middle;
 }
-.toggle-btn{
-    margin-left:-15px;
-
-}
 .toggle-btn i{
-    font-size: 27px;
+    font-size: 1.5em;
 }
 .btn-search{
     margin-right: -5px;
@@ -354,9 +350,9 @@ Scroll On Product Page
     display: none;
 }
 
-.red-back,[nav-bar-transition="ios"] [nav-bar="active"] .bar{
-    background-color:#da500f;
-    color:#fff;
+.red-back,.bar-header{
+    background-color:#da500f !important;
+    color:#fff !important;
 }
 .white-back{
     background-color: #fff;
@@ -1545,4 +1541,22 @@ i.offline-icon{
 }
 .pin .user_image{
     width: 35px;
+}
+.back-button{
+    color: white !important;    
+}
+.back-text{
+    display: none !important;
+}
+.floating_add{
+    border-radius: 50%;
+    display: block;
+    height: 50px;
+    padding-top: 15px;
+    position: absolute;
+    right: 2%;
+    text-align: center;
+    bottom: 2%;
+    width: 50px;
+    z-index: 99999;
 }

@@ -25,13 +25,13 @@
                             <i class="ion-thumbsup red-color"></i> {{pin.likes}}
                         </div>
                     </div>
-                    <div class="pin-user" on-tap='profile(pin.original.user_id)'>
-                        <div class="user_image">
+                    <div class="pin-user">
+                        <div class="user_image" on-tap='profile(pin.original.user_id)'>
                             <img class="rounded" ng-src='{{pin.user.picture| picture:35:35}}'/>
                         </div>
                         <div class="user-info">
-                            <span class="grey-color info">by {{pin.user.name}}</span>
-                            <span class="black-font info">in {{pin.list.name}}</span>
+                            <span on-tap='profile(pin.original.user_id)' class="grey-color info">by {{pin.user.name}}</span>
+                            <span on-tap='viewList(pin.original.list_id,pin.list.name)' class="black-font info">in {{pin.list.name}}</span>
                         </div>
                         <div class="clearfix"></div>
                     </div>
