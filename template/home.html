@@ -19,6 +19,7 @@
                     <div class="pin-info">
                         <div class="pin-name">
                             <div>{{pin.name}}</div>
+                            <div ng-bind-html='pin.description|nl2br'></div>
                         </div>
                         <div class="pin-status">
                             <i class="ion-ios-heart-outline red-color"></i> {{pin.pins}} 

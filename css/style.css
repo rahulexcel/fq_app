@@ -1524,10 +1524,12 @@ i.offline-icon{
 .pin-status{
     color: #777;
 }
+.pin_list_container{
+    margin: 0px auto;
+}
 .pin-info{
     border-bottom: 1px solid #ccc;
-    height: 50px;
-    overflow: hidden;
+    min-height: 50px;
 }
 .pin .user-info{
     font-size:.8em;
