@@ -1,6 +1,9 @@
 var categoryMod = angular.module('CategoryMod', ['CategoryService', 'WishlistService', 'ionic']);
 
 categoryMod.directive('imgLoader', function () {
+    // in many cases image height was more than image width
+    // in such cases, it was showing image half cut because it was reszing only by width and not by height
+    // so in such need to resize by height than width
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
