@@ -1,7 +1,23 @@
 var categoryMod = angular.module('CategoryMod', ['CategoryService', 'WishlistService', 'ionic']);
 
+categoryMod.directive('imgLoader', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            element.bind('load', function (e) {
+                var naturalWidth = this.naturalWidth * 1;
+                var naturalHeight = this.naturalHeight * 1;
+
+                if (naturalHeight > naturalWidth) {
+                    angular.element(element).attr('style', 'max-height:100%;width:auto');
+                }
+            });
+        }
+    };
+})
 categoryMod.directive('scrollWatch', ['$window', function ($window) {
         //not working with overflow-scroll=y
+        //not working on mahima's system so removed it for now
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {

@@ -1,6 +1,6 @@
 <ion-view>
     <ion-nav-title>{{currentState.title}}</ion-nav-title> 
-    <ion-content scroll-watch ng-class="!hideFilterBox ? 'has-footer' : ''">
+    <ion-content ng-class="!hideFilterBox ? 'has-footer' : ''">
         <ion-refresher
             pulling-text="Refresh..."
             on-refresh="refreshCategory()">
@@ -53,7 +53,7 @@
             <div class="product" ng-repeat="prod in products track by $index">
                 <div class="clearfix"></div>
                 <div class="image" on-tap="openProduct(prod);">
-                    <img ng-src="{{prod.img}}" />
+                    <img img-loader ng-src="{{prod.img}}" />
                     <div class="heart my-wishlist-img" on-tap="wishlist(prod,$event);">
                         <img ng-show='!prod.wishlist_status' src="img/heart.png"/>
                         <i class="fa fa-spinner fa-spin" ng-show="prod.wishlist_status == 1"></i>

@@ -1516,6 +1516,7 @@ i.offline-icon{
 .pin .user-info{
     font-size:.8em;
     line-height: 18px;
+    width: 115px;
 }
 .pin-user{
     padding: 5px;
