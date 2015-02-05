@@ -167,6 +167,9 @@ h4.rate-app{
     font-size: 17px;
     font-weight: bold;
 }
+.picture-icon{
+    font-size: 33px !important;
+}
 p.rate-descrip{
     font-family: 'Open Sans', regular;
     font-size: 13px;
@@ -1431,6 +1434,7 @@ ul.mine-clip-list li span.mine-new{
 }
 ul.mine-clip-list li .user-info{
     margin-left: 0px;
+    font-size: 13px;
 }
 .result-empty{
     margin: 10px auto;
