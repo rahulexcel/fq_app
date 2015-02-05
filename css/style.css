@@ -83,6 +83,13 @@ input:-ms-input-placeholder { /* Internet Explorer 10+ */
     font-size: 13px;
     font-family: "open sans"
 }
+.bar-footer .clip-it{
+    width: 100%;
+    padding: 0px 15px;
+}
+.bar-footer .clip-it button{
+    font-size: 18px;
+}
 textarea::-webkit-input-placeholder { /* WebKit browsers */
     color:   #999999;
     font-size: 13px;
