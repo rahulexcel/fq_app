@@ -4,9 +4,9 @@ friendService.factory('friendHelper', [
     'ajaxRequest', '$q', '$localStorage', 'timeStorage',
     function (ajaxRequest, $q, $localStorage, timeStorage) {
         var service = {};
-        service.home = function () {
+        service.home = function (page) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/home', {});
+            var ajax = ajaxRequest.send('v1/social/home', {page: page});
             ajax.then(function (data) {
                 def.resolve(data);
             }, function () {

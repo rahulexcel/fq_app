@@ -1487,11 +1487,11 @@ i.offline-icon{
     border: 1px solid #ccc;
     border-radius: 6px;
     /*float: left;*/
-    /*margin-bottom:10px;*/
-    max-width: 236px;
+    /*max-width: 236px;*/
     width: 100%;
     /*width: 98%;*/
     overflow: hidden;
+    margin: 0 auto 3px;
 }
 .pin-info{
     font-size: 0.9em;

@@ -43,7 +43,8 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     location: {
                     },
                     picture_size: {
-                    }
+                    },
+                    description: ''
                 };
 
                 $scope.sendItem = function () {
