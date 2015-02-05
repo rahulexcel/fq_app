@@ -36,7 +36,7 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                         ajax.finally(function () {
                             $ionicLoading.hide();
                         });
-                    }
+                    };
                     $scope.viewItem = function (item) {
                         var item_id = item._id;
 //                            console.log('/app/item/' + item_id + "/" + $scope.list_id);

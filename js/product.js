@@ -101,7 +101,7 @@ productMod.controller('ProductCtrl',
                         }
                         $ionicSlideBoxDelegate.update();
                     });
-                }
+                };
                 $scope.processProductData = function (data) {
                     console.log(data);
                     $scope.product = data.product;

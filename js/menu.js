@@ -67,7 +67,7 @@ menuMod.controller('MenuCtrl',
                 };
                 $scope.profile = function (user_id) {
                     $location.path('/app/profile/' + user_id + '/mine');
-                }
+                };
                 $scope.wishlist = function () {
                     $location.path('/app/profile/me/mine');
                 };
@@ -85,7 +85,7 @@ menuMod.controller('MenuCtrl',
                 };
                 $scope.home = function () {
                     $location.path('/app/home');
-                }
+                };
 
                 $rootScope.showSearchBox = false;
                 $rootScope.search = {

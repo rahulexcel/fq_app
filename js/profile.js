@@ -5,7 +5,7 @@ profileMod.controller('ProfileCtrl',
                 var user_id = false;
                 if ($stateParams.user_id) {
                     user_id = $stateParams.user_id;
-                    if (user_id == 'me') {
+                    if (user_id === 'me') {
                         user_id = $localStorage.user.id;
                     }
                 } else if ($localStorage.user.id) {
@@ -141,6 +141,6 @@ profileMod.controller('ProfileCtrl',
                     }, function () {
                         $scope.request_process = false;
                     });
-                }
+                };
             }
         ]);

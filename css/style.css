@@ -1475,12 +1475,13 @@ i.offline-icon{
 .pin_list .pin{
     text-align: left;
     background-color: white;
-    border-bottom: 1px solid #ccc;
+    border: 1px solid #ccc;
     border-radius: 6px;
     /*float: left;*/
-    margin-bottom:10px;
+    /*margin-bottom:10px;*/
     max-width: 236px;
-    width: 98%;
+    width: 100%;
+    /*width: 98%;*/
     overflow: hidden;
 }
 .pin-info{
@@ -1500,6 +1501,8 @@ i.offline-icon{
 }
 .pin-info{
     border-bottom: 1px solid #ccc;
+    height: 50px;
+    overflow: hidden;
 }
 .pin .user-info{
     font-size:.8em;
@@ -1507,6 +1510,8 @@ i.offline-icon{
 }
 .pin-user{
     padding: 5px;
+    height: 50px;
+    overflow: hidden;
 }
 .pin .user_image{
     width: 35px;

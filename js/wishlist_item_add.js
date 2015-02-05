@@ -41,6 +41,8 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     name: '',
                     price: '',
                     location: {
+                    },
+                    picture_size: {
                     }
                 };
 
@@ -283,6 +285,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                                         } else {
                                             var pic = ajaxRequest.url('v1/picture/view/' + data.data);
                                             $scope.item.picture = pic;
+                                            $scope.item.picture_size = data.size;
                                         }
                                     }
                                     $scope.step1Class = 'red-back';
@@ -346,6 +349,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                             if (data.data) {
                                 var pic = ajaxRequest.url('v1/picture/view/' + data.data);
                                 $scope.item.picture = pic;
+                                $scope.item.picture_size = data.size;
                             }
                         }
                         $scope.file_upload = false;
