@@ -874,6 +874,7 @@ i.up-price{
     margin-left:10px;
     font-size:18px;
     font-family: "Dosis";
+    font-weight: 600;
 }
 .item-checkbox span.ng-binding{
     font-family: "open sans";
@@ -927,7 +928,7 @@ div#show-fliter .button .filter-icon:before{
 }
 .filter-list div.ng-binding{
     font-size: 12px;
-    color: #999999;
+    color: #000000;
 }
 .filter-list span.plus-minus{
     color:#919191;
@@ -935,7 +936,7 @@ div#show-fliter .button .filter-icon:before{
 .filter-list .item,.sortby-container .item{
     padding:2px;
     border-style:none;
-    line-height: 34px;
+    line-height: 25px;
 }
 .sortby-container label.item{
     padding:0px 10px;
@@ -943,6 +944,7 @@ div#show-fliter .button .filter-icon:before{
 
 .item-checkbox .checkbox {
     left:-6px;
+    top:57%;
 }
 .sortby-container .checkbox input:checked + .checkbox-icon:before, .sortby-container .checkbox input:checked:before {
     background-color:transparent;
@@ -953,12 +955,12 @@ div#show-fliter .button .filter-icon:before{
     border-color:#da500f;
 }
 .checkbox input:after, .checkbox-icon:after{
-    top: 29%;
-    left: 21%;
+    top: 23%;
+    left: 18%;
 }
 .checkbox input:before,.checkbox-icon:before{
-    width: 89%;
-    height:89%;
+    width: 80%;
+    height:80%;
 }
 .sortby-container .checkbox input:after,.sortby-container .checkbox-icon:after {
     border-color: -moz-use-text-color -moz-use-text-color #da500f #da500f;
