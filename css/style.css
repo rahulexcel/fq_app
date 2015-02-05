@@ -89,6 +89,7 @@ input:-ms-input-placeholder { /* Internet Explorer 10+ */
 }
 .bar-footer .clip-it button{
     font-size: 18px;
+    font-weight: 600;
 }
 textarea::-webkit-input-placeholder { /* WebKit browsers */
     color:   #999999;
@@ -529,7 +530,7 @@ div#account-page button{
     border-color: #DA500F;
     padding-left:0px;
     border-radius: 4px;
-    font-weight: 600;
+    font-weight: bold;
     font-family: "Dosis";
     line-height: 10px;
     font-size: 18px;
