@@ -64,7 +64,7 @@
                 <ul ng-show='category.length >= 0'>
                     <li><span ng-click="home()" nav-clear menu-close>HOME</span><div class="clearfix"></div></li>
                     <li ng-repeat="cat in category">
-                        <span ng-click="selectCategory(cat)">{{cat.name}}</span><div class="clearfix"></div>
+                        <span ng-click="selectCategory(cat)">{{cat.name|uppercase}}</span><div class="clearfix"></div>
                         <ul ng-show="cat.open" style="padding-left: 20px" ng-if='cat.data.length > 0'>
                             <li class="sub-cat-label" ng-repeat="catSub in cat.data" >
                                 <span ng-click='selectCategory(catSub)'>{{catSub.name}}
