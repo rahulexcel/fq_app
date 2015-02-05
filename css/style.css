@@ -948,7 +948,7 @@ div#show-fliter .button .filter-icon:before{
 
 .item-checkbox .checkbox {
     left:-6px;
-    top:65%;
+    top:67%;
 }
 .sortby-container .checkbox input:checked + .checkbox-icon:before, .sortby-container .checkbox input:checked:before {
     background-color:transparent;
