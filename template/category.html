@@ -1,6 +1,6 @@
 <ion-view>
     <ion-nav-title>{{currentState.title}}</ion-nav-title> 
-    <ion-content scroll-watch ng-class="!hideFilterBox ? 'has-footer' : ''">
+    <ion-content ng-class="!hideFilterBox ? 'has-footer' : ''">
         <ion-refresher
             pulling-text="Refresh..."
             on-refresh="refreshCategory()">
