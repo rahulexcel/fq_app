@@ -19,13 +19,13 @@
                     <span>Create a New Clipboard</span>
                 </li>
                 <li on-tap='tickList(list);' ng-repeat='list in lists.me| orderBy:sort_order' class="clip-it">
-                    <div class="black-font">{{list.name}} <i ng-if="list.type == 'private'" class="ion-ios-locked"></i>
+                    <div class="black-font clip-name">{{list.name}} <i ng-if="list.type == 'private'" class="ion-ios-locked"></i>
                     </div>
                     <div class='clip-info'> 
                         <span ng-show='list.meta.products != 0'>{{list.meta.products}} clips <i class="fa fa-circle"></i> </span>
-                        <span ng-show='list.meta.likes != 0'><i class="ion-ios7-heart-outline"></i>{{list.meta.likes}}</span> 
-                        <span ng-show='list.followers.length != 0'><i class="ion-ios7-people"></i>{{list.followers.length}}</span> 
-                        <span>Created {{list.created_at| prettyDate}}</span>
+                        <span ng-show='list.meta.likes != 0'><i class="ion-ios-heart-outline red-color"></i> {{list.meta.likes}} </span> 
+                        <span ng-show='list.followers.length != 0'><i class="ion-ios-people red-color"></i> {{list.followers.length}} </span> 
+                        <span>Created {{list.created_at| prettyDate}} </span>
                         <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
                         <div class="clearfix"></div>
                     </div>

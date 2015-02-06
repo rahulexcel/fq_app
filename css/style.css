@@ -188,12 +188,10 @@ p.rate-descrip{
 .toggle-btn i{
     font-size: 1.5em;
 }
-.btn-search{
-    margin-right: -5px;
-}
 .bar .title {
     font-family: 'Dosis';
     font-size: 18px;
+    color:#fff;
 }
 .tab-item .icon{
     height: 15px;
@@ -385,7 +383,7 @@ i.close-tab-icon{
 li a.internal-details,
 li a.internal-details,
 li.sub-cat-label>span,
-.filter-label,.black-font:hover,.black-font{
+.filter-label,.black-font:hover,.black-font,.wishlist-private{
     color:#000;
 }
 .button:hover,
@@ -1021,7 +1019,7 @@ div#show-fliter .button .filter-icon:before{
 }
 
 input{
-    color:#8A8A8A !important;
+    color:#999999 !important;
     font-size: 13px !important;
 }
 #my-acc .item-myacc1,.item-myacc1{
@@ -1139,6 +1137,7 @@ input{
 .input-label{
     font-size: 15px !important;
     font-family: "open sans" !important;
+    color: #000;
 }
 
 /*********************************CLIP *******************************/
@@ -1158,7 +1157,7 @@ input{
 }
 .clip-label{
     line-height: 22px;
-    padding:11px 20px;
+    padding:7px 20px;
     font-weight: 600;
     font-size: 16px;
     font-family: "Dosis";
@@ -1181,14 +1180,12 @@ input{
 li.clip-it{
     border-bottom: 1px solid #ccc;
 }
-#clip_1{
-    border-top:1px solid #999999;
-}
 .clip-info{
-    font-size: 13px;
+    font-size: 11px;
+    color:#999999;
 }
 .scroll-content .scroll #clip_1 ul li{
-    color: #a8a8a8;
+    color: #999999;
     font-size: 1em;
     padding:12px 22px;
     line-height: 21px;
@@ -1316,7 +1313,11 @@ span.info{
     float: right;
 }
 #wishlist_new .item-checkbox .checkbox,.modal-wrapper .item-checkbox .checkbox{
-    left: 15px;
+    left: 16px;
+    top:60%;
+}
+#wishlist_new .item-checkbox .checkbox{
+    top:57% !important;
 }
 #wishlist_new div.item-content{
     font-size: 13px;
@@ -1335,6 +1336,10 @@ span.info{
     border-style: none;
     padding: 5px 25px;
     margin-bottom: 0px;
+}
+.clip-name{
+    font-size: 13px;
+    font-weight: 600;
 }
 .top-container .clip-label{
     font-size: inherit;
