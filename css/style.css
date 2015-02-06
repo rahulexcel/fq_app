@@ -1507,7 +1507,7 @@ i.offline-icon{
     width: 100%;
     /*width: 98%;*/
     overflow: hidden;
-    margin: 0 auto 3px;
+    margin: 0 auto 10px;
 }
 .pin-info{
     font-size: 0.9em;
@@ -1534,7 +1534,8 @@ i.offline-icon{
 .pin .user-info{
     font-size:.8em;
     line-height: 18px;
-    width: 115px;
+    width: 79%;
+    margin-left: 1%;
 }
 .pin-user{
     padding: 5px;
@@ -1542,7 +1543,8 @@ i.offline-icon{
     overflow: hidden;
 }
 .pin .user_image{
-    width: 35px;
+    max-width: 35px;
+    width: 20%;
 }
 .back-button{
     color: white !important;    
@@ -1558,7 +1560,10 @@ i.offline-icon{
     position: absolute;
     right: 2%;
     text-align: center;
-    bottom: 2%;
+    bottom: 50px;
     width: 50px;
     z-index: 99999;
+}
+.pin_list_container{
+    margin-top: 10px;
 }
