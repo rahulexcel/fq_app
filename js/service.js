@@ -216,7 +216,15 @@ serviceMod.factory('ajaxRequest',
                         });
                         http.error(function () {
                             $log.warn('500 Error');
-                            toast.showShortBottom('Unable to Complete Request! Check Your Network Connection Or Try Again');
+                            if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+                                if ($cordovaNetwork.isOffline()) {
+
+                                } else {
+                                    toast.showShortBottom('Unable to Complete Request! Check Your Network Connection Or Try Again');
+                                }
+                            } else {
+                                toast.showShortBottom('Unable to Complete Request! Check Your Network Connection Or Try Again');
+                            }
                             def.reject('500');
                         });
                         return def.promise;
