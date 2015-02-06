@@ -16,8 +16,7 @@ profileMod.controller('ProfileFollowingCtrl',
                 $scope.request_process = false;
                 $scope.viewList = function (list) {
                     var list_id = list._id;
-                    console.log('/app/wishlist_item/' + list_id + "/" + list.name);
-                    $location.path('/app/wishlist_item/' + list_id + "/" + list.name);
+                    $location.path('/app/wishlist_item/' + list_id + "/" + list.name + "/pins");
                 };
                 $scope.unFollowList = function (list_id, index) {
                     if ($scope.request_process) {

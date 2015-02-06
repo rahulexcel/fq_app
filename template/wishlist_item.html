@@ -1,4 +1,5 @@
 <ion-view>
+    <ion-nav-title>{{item.item_id.name}}</ion-nav-title> 
     <ion-content>
         <ion-refresher
             pulling-text="Pull to refresh..."
@@ -9,12 +10,15 @@
                 <div class="pro-img">
                     <img ng-src='{{item.item_id.img| picture:picture_width}}' />
                     <div class="heart wishlist-product-img">
+                        <div ng-if='mine' on-tap='delete();' class="red-back" style="width: 15px;height: 15px">
+                            <i class="ion-close"></i>
+                        </div>
                         <div ng-if="!me_like && !mine" on-tap='like();'>
-                            <img src="img/likehand.jpg" alt="Like">
+                            <img src="img/likehand.jpg" alt="">
                         </div>
                         <div ng-if='!me_pin && !mine'>
                             <div on-tap='pin();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">
-                                <img src="img/heart_big.jpg" alt="Like">
+                                <img src="img/heart_big.png" alt="">
                             </div>
                         </div>
 
@@ -69,11 +73,9 @@
                     </span>
                 </div>
             </div>
-            <!-- empty div
-                        <div class="box">
-                            <div ng-show="item.description.length > 0">{{item.description}}</div>
-                        </div>
-            -->
+            <div class="box" ng-show="item.item_id.description.length > 0">
+                <div>{{item.item_id.description}}</div>
+            </div>
             <div class="box">
                 <div class="user_image">
                     <img ng-src='{{item.user_id.picture| picture:50}}'/>

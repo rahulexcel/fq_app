@@ -1,46 +1,87 @@
 var wishlistItemsMod = angular.module('WishlistItemsMod', ['ServiceMod', 'ngStorage', 'ionic']);
 wishlistItemsMod.controller('WishlistItemsCtrl',
-        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', '$ionicLoading',
-            function ($scope, $localStorage, toast, wishlistHelper, $location, $stateParams, $ionicLoading) {
+        ['$scope', '$q', '$stateParams', 'wishlistHelper', '$ionicLoading', '$localStorage', 'toast', 'friendHelper',
+            function ($scope, $q, $stateParams, wishlistHelper, $ionicLoading, $localStorage, toast, friendHelper) {
                 if ($stateParams.list_id) {
                     $scope.wishlist_name = $stateParams.list_name;
                     $scope.list_id = $stateParams.list_id;
-                    var ajax = wishlistHelper.listItems($stateParams.list_id);
-                    $ionicLoading.show({
-                        template: 'Loading...'
-                    });
-                    ajax.then(function (data) {
-                        $ionicLoading.hide();
-
-                        $scope.list = data.list;
-                        if ($localStorage.user.id) {
-                            if (data.list.user_id === $localStorage.user.id) {
-                                $scope.mein = true;
+                    $scope.list_detail = false;
+                    $scope.follow = false;
+                    $scope.getData = function (page) {
+                        var defer = $q.defer();
+                        var ajax = wishlistHelper.listItems($stateParams.list_id);
+                        ajax.then(function (data) {
+                            var list = data.list;
+                            if (list.followers && $localStorage.user.id) {
+                                for (var i = 0; i < list.followers.length; i++) {
+                                    if (list.followers[i] === $localStorage.user.id) {
+                                        $scope.follow = true;
+                                        break;
+                                    }
+                                }
                             }
-                        }
-
-                        $scope.items = data.items;
-                        if (data.length === 0) {
-                            toast.showShortBottom('Not Items Found In Wishlist');
-                        }
-                        $scope.loading = false;
-                    }, function () {
-                        $ionicLoading.hide();
-                        $scope.loading = false;
-                    });
-                    $scope.delete = function (item_id) {
-                        var ajax = wishlistHelper.remove(item_id, $scope.list_id);
-                        $ionicLoading.show({
-                            template: 'Loading...'
+                            $scope.list_detail = list;
+                            var items = data.items;
+                            defer.resolve(items);
+                        }, function () {
+                            defer.reject();
                         });
-                        ajax.finally(function () {
-                            $ionicLoading.hide();
-                        });
+                        return defer.promise;
+                    }
+                    $scope.request_process = false;
+                    $scope.followList = function () {
+                        if (!$localStorage.user.id) {
+                            $localStorage.previous.state = {
+                                function: 'followList'
+                            };
+                            toast.showShortBottom('SignUp/Login To Follow List');
+                        } else {
+                            if ($scope.request_process) {
+                                toast.showProgress();
+                                return;
+                            }
+                            $scope.request_process = true;
+                            var list_id = $scope.list_id;
+                            var ajax = friendHelper.list_follow(list_id);
+                            $ionicLoading.show({
+                                template: 'Loading...'
+                            });
+                            ajax.then(function (data) {
+                                $scope.follow = true;
+                                $scope.request_process = false;
+                                $ionicLoading.hide();
+                            }, function () {
+                                $ionicLoading.hide();
+                                $scope.request_process = false;
+                            });
+                        }
                     };
-                    $scope.viewItem = function (item) {
-                        var item_id = item._id;
-//                            console.log('/app/item/' + item_id + "/" + $scope.list_id);
-                        $location.path('/app/item/' + item_id + "/" + $scope.list_id);
+                    $scope.unFollowList = function () {
+                        if (!$localStorage.user.id) {
+                            $localStorage.previous.state = {
+                                function: 'unFollowList'
+                            };
+                            toast.showShortBottom('SignUp/Login To UnFollow From List');
+                        } else {
+                            if ($scope.request_process) {
+                                toast.showProgress();
+                                return;
+                            }
+                            $scope.request_process = true;
+                            var list_id = $scope.list_id;
+                            var ajax = friendHelper.list_follow(list_id, 'remove');
+                            $ionicLoading.show({
+                                template: 'Loading...'
+                            });
+                            ajax.then(function (data) {
+                                $ionicLoading.hide();
+                                $scope.follow = false;
+                                $scope.request_process = false;
+                            }, function () {
+                                $ionicLoading.hide();
+                                $scope.request_process = false;
+                            });
+                        }
                     };
                 }
             }

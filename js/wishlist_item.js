@@ -438,6 +438,19 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             });
                         }
                     };
+                    $scope.delete = function () {
+                        $scope.request_process = true;
+                        var item_id = $scope.item_id;
+                        var ajax = wishlistHelper.remove(item_id, $scope.list_id);
+                        $ionicLoading.show({
+                            template: 'Loading...'
+                        });
+                        ajax.finally(function () {
+                            $scope.request_process = false;
+                            $ionicLoading.hide();
+                            $location.path('/app/home/trending');
+                        });
+                    };
                     $scope.like = function () {
                         if (!$localStorage.user.id) {
                             $localStorage.previous.state = {

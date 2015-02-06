@@ -21,6 +21,7 @@ var app = angular.module('starter',
             'WishlistItemAddMod',
             'WishlistItemsMod',
             'NotifyMod',
+            'PinMod',
             'ngCordova'
         ]
         );
@@ -41,10 +42,29 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                 })
                 .state('app.home', {
                     url: '/home',
+                    abstract: true,
                     views: {
                         'menuContent': {
                             templateUrl: 'template/home.html',
                             controller: 'HomeCtrl'
+                        }
+                    }
+                })
+                .state('app.home.trending', {
+                    url: '/trending',
+                    views: {
+                        'pin-content': {
+                            templateUrl: 'template/list/pins.html',
+                            controller: 'PinCtrl'
+                        }
+                    }
+                })
+                .state('app.item', {
+                    url: '/item/:item_id/:list_id',
+                    views: {
+                        'menuContent': {
+                            templateUrl: 'template/wishlist_item.html',
+                            controller: 'WishlistItemCtrl'
                         }
                     }
                 })
@@ -143,8 +163,8 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                     url: '/pins',
                     views: {
                         'tab-content': {
-                            templateUrl: 'template/profile/pins.html',
-                            controller: 'ProfilePinCtrl'
+                            templateUrl: 'template/list/pins.html',
+                            controller: 'PinCtrl'
                         }
                     }
                 })
@@ -184,21 +204,22 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         }
                     }
                 })
-                .state('app.item', {
-                    url: '/item/:item_id/:list_id',
-                    views: {
-                        'menuContent': {
-                            templateUrl: 'template/wishlist_item.html',
-                            controller: 'WishlistItemCtrl'
-                        }
-                    }
-                })
                 .state('app.wishlist_item', {
                     url: '/wishlist_item/:list_id/:list_name',
+                    abstract: true,
                     views: {
                         'menuContent': {
                             templateUrl: 'template/wishlist_items.html',
                             controller: 'WishlistItemsCtrl'
+                        }
+                    }
+                })
+                .state('app.wishlist_item.pins', {
+                    url: '/pins',
+                    views: {
+                        'pin-content': {
+                            templateUrl: 'template/list/pins.html',
+                            controller: 'PinCtrl'
                         }
                     }
                 })
@@ -255,7 +276,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         }
                     }
                 });
-        $urlRouterProvider.otherwise('/app/home');
+        $urlRouterProvider.otherwise('/app/home/trending');
     }]);
 app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", 'notifyHelper', '$cordovaNetwork', '$ionicNavBarDelegate',
     function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location, notifyHelper, $cordovaNetwork, $ionicNavBarDelegate) {
@@ -299,7 +320,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             console.log(fromState.name + "from state");
 
             $rootScope.body_class = '';
-            if (toState.name === 'app.item' || toState.name === 'app.home' || toState.name.indexOf('app.profile') != -1) {
+            if (toState.name === 'app.item' || toState.name === 'app.home' || toState.name.indexOf('app.profile') != -1 || toState.name.indexOf('app.wishlist_item') != -1) {
                 $rootScope.body_class = 'grey_bg';
             }
 

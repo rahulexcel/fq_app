@@ -23,6 +23,10 @@ profileMod.controller('ProfileCtrl',
                     showMore: false
                 };
 
+                $scope.getData = function (page) {
+                    return friendHelper.loadMoreProfilePins(user_id, page);
+                };
+
                 $rootScope.$on('$viewContentLoaded', function (event) {
                     var path = $location.path();
                     if (path === '/app/profile/' + user_id + '/mine') {
@@ -65,6 +69,7 @@ profileMod.controller('ProfileCtrl',
                     $location.path('/app/profile/' + user_id + '/profile');
                 };
                 $scope.loadMoreData = function () {
+                    //not used
                     var ajax = friendHelper.loadMoreProfilePins(user_id, $scope.pin_status.pin_page + 1);
                     ajax.then(function (data) {
                         $scope.pin_status.pin_page++;

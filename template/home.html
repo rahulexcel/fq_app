@@ -1,48 +1,6 @@
-<ion-view>
+<ion-view title='Trending'>
     <ion-spinner ng-if="loading"></ion-spinner>
     <ion-content>
-
-        <ion-refresher
-            pulling-text="Pull to refresh..."
-            on-refresh="doRefresh()">
-        </ion-refresher>
-        <div resize class="pin_list_container">
-            <div  class="pin_list"
-                  ng-repeat="column in grid" ng-style="{'width': pinColumnWidth()}" style="float: left;">
-                <div class="pin" ng-repeat="pin in column track by $index" ng-style="{height: getItemHeight(pin, true),'width': getItemWidth(true)}">
-                    <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" class="pin-img" ng-style="{'height': getItemHeight(pin, false,true),'width': getItemWidth(false)}">
-                        <img ng-src='{{pin.image| picture:240}}'/>
-                        <div style="z-index: 99999" on-tap='pin(pin._id);' class="heart wishlist-product-img">
-                            <img src="img/heart.png">
-                        </div>
-                    </div>
-                    <div class="pin-info">
-                        <div class="pin-name" on-tap='viewItem(pin._id,pin.original.list_id)'>
-                            <div>{{pin.name}}</div>
-                            <div ng-bind-html='pin.description | nl2br'></div>
-                        </div>
-                        <div class="pin-status">
-                            <i class="ion-ios-heart-outline red-color"></i> {{pin.pins}} 
-                            <i class="ion-thumbsup red-color"></i> {{pin.likes}}
-                        </div>
-                    </div>
-                    <div class="pin-user">
-                        <div class="user_image" on-tap='profile(pin.original.user_id)'>
-                            <img class="rounded" ng-src='{{pin.user.picture| picture:35:35}}'/>
-                        </div>
-                        <div class="user-info">
-                            <span on-tap='profile(pin.original.user_id)' class="grey-color info">by {{pin.user.name}}</span>
-                            <span on-tap='viewList(pin.original.list_id,pin.list.name)' class="black-font info">in {{pin.list.name}}</span>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div ui-view="pin-content"></div>
     </ion-content>
-    <ion-infinite-scroll
-        ng-if='hasMore'
-        on-infinite="loadMore()"
-        distance="1%">
-    </ion-infinite-scroll>
 </ion-view>
