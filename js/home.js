@@ -100,13 +100,13 @@ homeMod.controller('HomeCtrl',
                         pin_column = 1;
                         angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:100%;');
                     } else if (pin_column < 2) {
-                        pin_width = (window_width) / 2 - 2;
+                        pin_width = (window_width) / 2 - 10;
                         //2px padding
                         pin_column = 2;
                         angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:100%;');
                     } else {
                         pin_width = 240;
-                        angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:' + (pin_width * pin_column + 2 * pin_column) + 'px;');
+                        angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:' + (pin_width * pin_column + 10 * pin_column) + 'px;');
                     }
 
                     console.log(pin_column + 'pin columns');
@@ -166,6 +166,8 @@ homeMod.controller('HomeCtrl',
                     if (pin_width < 240) {
                         singleLine = Math.floor(pin_width * 24 / 240);
                     }
+
+                    console.log(singleLine + "words in single line");
                     var words = text.split(' ');
 
                     var line = 0;
