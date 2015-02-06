@@ -1273,7 +1273,7 @@ span i.fa-circle{
 button.follow-btn{
     float: right;
     border: 1px solid #ccc;
-    min-height: 33px;
+    min-height: 26px;
     margin: 12px 0px;
     border-radius: .2em;
 }
@@ -1352,6 +1352,7 @@ span.info{
     min-width: 367px;
     padding: 5px 25px;
     background-color: #fff;
+    font-size: 13px;
 }
 ul.mine-list{
     margin: 0px !important;
@@ -1408,6 +1409,7 @@ ul.mine-clip-list li span.mine-new{
 }
 #menu_scroller li {
     line-height: 48px;
+    font-size: 13px;
 }
 .top-container .list-my_acc{
     margin-bottom: 0px;
