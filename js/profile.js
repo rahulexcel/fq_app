@@ -3,6 +3,9 @@ profileMod.controller('ProfileCtrl',
         ['$scope', '$localStorage', 'toast', '$location', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope', '$timeout',
             function ($scope, $localStorage, toast, $location, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout) {
                 var user_id = false;
+                $scope.$on('logout_event', function () {
+                    $location.path('/app/home');
+                });
                 if ($stateParams.user_id) {
                     user_id = $stateParams.user_id;
                     if (user_id === 'me') {
@@ -93,13 +96,13 @@ profileMod.controller('ProfileCtrl',
                         if ($scope.user._id === $localStorage.user.id) {
                             $scope.me = true;
                         }
-
-                        for (var i = 0; i < data.followers.length; i++) {
-                            if (data.followers[i]._id === $localStorage.user.id) {
-                                $scope.following = true;
-                                break;
+                        if (data.followers)
+                            for (var i = 0; i < data.followers.length; i++) {
+                                if (data.followers[i]._id === $localStorage.user.id) {
+                                    $scope.following = true;
+                                    break;
+                                }
                             }
-                        }
 
                         $ionicLoading.hide();
                         $scope.$broadcast('user_info');
