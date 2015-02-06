@@ -14,7 +14,7 @@
                         <textarea ng-model='list.description' placeholder="List Description"></textarea>
                     </label>
                     <!----- code for private ---->
-                    <ion-checkbox ng-change='checkType();' ng-model="list.checked">Private</ion-checkbox> 
+                    <ion-checkbox ng-change='checkType();' ng-model="list.checked"><div class="wishlist-private">Private</div></ion-checkbox> 
                     <!--                <label class="item item-radio ng-valid item-private" ng-value="item.value" ng-model="list.type" ng-repeat="item in types" value="private">
                                         <div ng-if="item.value == 'private'" class="visibility-section">
                                             <input type="radio" name="radio-group" ng-value="item.value" ng-model="list.type" class="ng-valid ng-dirty ng-valid-parse ng-touched" value="private">
