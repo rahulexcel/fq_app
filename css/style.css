@@ -87,9 +87,14 @@ input:-ms-input-placeholder { /* Internet Explorer 10+ */
     width: 100%;
     padding: 0px 15px;
 }
-.bar-footer .clip-it button{
-    font-size: 18px;
-    font-weight: 600;
+.bar-footer button{
+    font-size: 18px !important;
+}
+.bar-footer .padding{
+    width: 100%;
+}
+.prev-btn{
+    font-weight: 600 !important;
 }
 textarea::-webkit-input-placeholder { /* WebKit browsers */
     color:   #999999;
@@ -376,6 +381,7 @@ i.close-tab-icon{
     float: right;
     font-size: 23px;
     font-weight: normal;
+    
 }
 .feed-info,.list-my_acc .input-label,
 .feed-rate-btn:hover,.feed-rate-btn,
@@ -392,7 +398,7 @@ li.sub-cat-label>span,
 .google-button,
 .fb-button,.pro-button,
 #my-acc .myacc-update,.bar.bar-stable .title,.white-color{
-    color:#fff;
+    color:#fff !important;
 }
 
 
@@ -553,8 +559,11 @@ div#account-page button{
     font-size: 13px;
 }
 .login-click,
-.social-site-name,span.info-name{
+.social-site-name,span.info-name,.social-close:before{
     font-weight: 600;
+}
+.private-label label:first-child{
+    border-top-style: none;
 }
 .check-account{
     color:#828282;
@@ -1183,6 +1192,9 @@ li.clip-it{
 .clip-info{
     font-size: 11px;
     color:#999999;
+}
+.clip-info i{
+    vertical-align: middle;
 }
 .scroll-content .scroll #clip_1 ul li{
     color: #999999;
