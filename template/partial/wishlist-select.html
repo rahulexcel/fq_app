@@ -19,7 +19,7 @@
                     <span>Create a New Clipboard</span>
                 </li>
                 <li on-tap='tickList(list);' ng-repeat='list in lists.me| orderBy:sort_order' class="clip-it">
-                    <div class="black-font">{{list.name}} <i ng-if="list.type == 'private'" class="ion-ios7-locked"></i>
+                    <div class="black-font">{{list.name}} <i ng-if="list.type == 'private'" class="ion-ios-locked"></i>
                     </div>
                     <div class='clip-info'> 
                         <span ng-show='list.meta.products != 0'>{{list.meta.products}} clips <i class="fa fa-circle"></i> </span>
