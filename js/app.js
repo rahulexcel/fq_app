@@ -22,7 +22,8 @@ var app = angular.module('starter',
             'WishlistItemsMod',
             'NotifyMod',
             'PinMod',
-            'ngCordova'
+            'ngCordova',
+            'pasvaz.bindonce'
         ]
         );
 app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
@@ -320,7 +321,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             console.log(fromState.name + "from state");
 
             $rootScope.body_class = '';
-            if (toState.name === 'app.item' || toState.name === 'app.home' || toState.name.indexOf('app.profile') != -1 || toState.name.indexOf('app.wishlist_item') != -1) {
+            if (toState.name === 'app.item' || toState.name.indexOf('app.home') !== -1 || toState.name.indexOf('app.profile') != -1 || toState.name.indexOf('app.wishlist_item') != -1) {
                 $rootScope.body_class = 'grey_bg';
             }
 

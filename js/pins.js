@@ -38,6 +38,8 @@ pinMod.controller('PinCtrl',
                         if (data.length > 0) {
                             $scope.page++;
                             for (var i = 0; i < data.length; i++) {
+                                var height = $scope.getItemHeight(data[i], true, false);
+                                data[i].pin_height = height;
                                 ajax_data.push(data[i]);
                             }
                             $scope.pin_count = ajax_data.length;
@@ -54,7 +56,9 @@ pinMod.controller('PinCtrl',
                         $scope.loading = false;
                     });
                 };
+//                $scope.start = function () {
                 $scope.loadMore();
+//                }
                 $scope.doRefresh = function () {
                     $scope.page = 0;
                     $scope.loadMore();
@@ -69,6 +73,7 @@ pinMod.controller('PinCtrl',
                 };
                 var timeout_promise = false;
                 $scope.resize = function () {
+                    console.log('resize');
                     if (timeout_promise) {
                         $timeout.cancel(timeout_promise);
                     }
@@ -77,17 +82,28 @@ pinMod.controller('PinCtrl',
                     }, 100);
                 };
                 var grid = [];
+                var grid1 = [];
+                var grid2 = [];
+                var grid3 = [];
+                var grid4 = [];
+                var grid5 = [];
                 var grid_space = [];
                 var cur_column = 0;
                 var ajax_data = [];
                 var level = 1;
                 var pin_column = 0;
                 var pin_width = 240;
+                $scope.pin_width = pin_width + "px";
                 var total_height = 0;
                 var total_pins = 0;
                 $scope.initPinsDisplay = function () {
                     grid_space = [];
                     grid = [];
+                    grid1 = [];
+                    grid2 = [];
+                    grid3 = [];
+                    grid4 = [];
+                    grid5 = [];
                     cur_column = 0;
                     level = 1;
                     pin_column = 0;
@@ -95,6 +111,9 @@ pinMod.controller('PinCtrl',
                     total_height = 0;
                     total_pins = 0;
                     var window_width = document.querySelector('.menu-content').clientWidth;
+                    if (window_width > 688) {
+                        window_width = window_width - 275;
+                    }
                     console.log(window_width);
                     pin_column = Math.floor(window_width / pin_width);
                     if (pin_column === 0) {
@@ -102,15 +121,21 @@ pinMod.controller('PinCtrl',
                         angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:100%;');
                     } else if (pin_column < 2) {
                         pin_width = (window_width) / 2 - 10;
+                        $scope.pin_width = pin_width + "px";
                         //2px padding
                         pin_column = 2;
                         angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:100%;');
                     } else {
                         pin_width = 240;
+                        $scope.pin_width = pin_width + "px";
                         angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:' + (pin_width * pin_column + 10 * pin_column) + 'px;');
                     }
-
-                    console.log(pin_column + 'pin columns');
+                    if (pin_column === 0) {
+                        $scope.col_width = '100%';
+                    } else {
+                        $scope.col_width = Math.round(100 / pin_column, 2) + "%";
+                    }
+//                    console.log(pin_column + 'pin columns');
                 };
                 $scope.initPinsDisplay();
                 $scope.displayPins = function (data) {
@@ -125,7 +150,8 @@ pinMod.controller('PinCtrl',
                     level = 1;
                     for (var i = 0; i < data.length; i++) {
                         var pin = data[i];
-                        var pin_height = $scope.getItemHeight(pin, true, false);
+                        //var pin_height = $scope.getItemHeight(pin, true, false);
+                        var pin_height = data[i].pin_height;
                         pin_height = pin_height.replace('px', '') * 1;
                         total_height += pin_height;
                         total_pins++;
@@ -135,9 +161,10 @@ pinMod.controller('PinCtrl',
                     console.log(avg_height + 'avg height');
                     for (var i = 0; i < data.length; i++) {
                         var pin = data[i];
-                        var pin_height = $scope.getItemHeight(pin, true, false);
+                        //var pin_height = $scope.getItemHeight(pin, true, false);
+                        var pin_height = data[i].pin_height;
                         pin_height = pin_height.replace('px', '') * 1;
-                        if (grid_space[cur_column] > avg_height * level) {
+                        if (grid_space[cur_column] + pin_height > avg_height * level) {
                             cur_column++;
                             if (cur_column >= pin_column) {
                                 level++;
@@ -150,10 +177,29 @@ pinMod.controller('PinCtrl',
                         if (!grid[cur_column]) {
                             grid[cur_column] = [];
                         }
-                        grid[cur_column].push(pin);
+                        //grid[cur_column].push(pin);
+                        console.log('column ' + cur_column);
+                        if (cur_column > 2) {
+                            cur_column = 0;
+                        }
+                        if (cur_column === 0) {
+                            grid1.push(pin);
+                        } else if (cur_column === 1) {
+                            grid2.push(pin);
+                        } else if (cur_column === 2) {
+                            grid3.push(pin);
+                        }
+//                        else if (cur_column === 3) {
+//                            grid4.push(pin);
+//                        } else if (cur_column === 4) {
+//                            grid5.push(pin);
+//                        }
                         grid_space[cur_column] += pin_height;
                         console.log(grid_space[cur_column] + 'grid space' + i + 'column ' + cur_column);
                         $scope.grid = grid;
+                        $scope.grid1 = grid1;
+                        $scope.grid2 = grid2;
+                        $scope.grid3 = grid3;
                     }
 
                 };
@@ -168,23 +214,23 @@ pinMod.controller('PinCtrl',
                         singleLine = Math.floor(pin_width * 24 / 240);
                     }
 
-                    console.log(singleLine + "words in single line");
+//                    console.log(singleLine + "words in single line");
                     var words = text.split(' ');
 
                     var line = 0;
                     var charPerLine = 0;
 
-                    console.log(words);
+//                    console.log(words);
 
                     for (var i = 0; i < words.length; i++) {
                         var word = words[i];
                         if (word.indexOf('\n') !== -1) {
-                            console.log('new line');
+//                            console.log('new line');
                             line = line + word.match(/\n/g).length;
                             charPerLine = 0;
                         } else {
                             var chars = words.length;
-                            console.log(charPerLine + "XXXX" + chars);
+//                            console.log(charPerLine + "XXXX" + chars);
                             if (charPerLine + chars + 1 < singleLine) {
                                 charPerLine += chars;
                             } else {
@@ -193,7 +239,7 @@ pinMod.controller('PinCtrl',
                             }
                         }
                     }
-                    console.log(line);
+//                    console.log(line);
                     if (line > 2) {
                         return 18 * (line - 2);
                     } else {

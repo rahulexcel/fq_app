@@ -11,16 +11,16 @@
                 <span class="filter-label">FILTER</span>
                 <i class="ion-ios-close-empty close-icon-show close-tab-icon" on-tap='showProductsFn()'></i> 
             </button>
-            <div class="filter-list" ng-repeat="filter_type in filters">
-                <div on-tap='open(filter_type);'>{{filter_type.type}}
-                    <span class="plus-minus" ng-if="filter_type.data.length > 0">
+            <div class="filter-list" bindonce ng-repeat="filter_type in filters">
+                <div class="filter_label" on-tap='open(filter_type);' bo-bind='filter_type.type'>
+                    <span class="plus-minus" bo-if="filter_type.data.length > 0">
                         <i ng-show="!filter_type.open">[ + ]</i>
                         <i ng-show="filter_type.open">[&nbsp;&nbsp;-&nbsp;&nbsp;]</i>
                     </span></div>
                 <div ng-show="filter_type.open">
                     <ion-list>
-                        <ion-item ng-repeat="filter in filter_type.data">
-                            <ion-checkbox on-tap="doFilter(filter);" ng-model="sort.checked">{{filter.name}}</ion-checkbox>
+                        <ion-item bindonce ng-repeat="filter in filter_type.data">
+                            <ion-checkbox on-tap="doFilter(filter);" ng-model="sort.checked" bo-bind='filter.name'></ion-checkbox>
                         </ion-item>
                     </ion-list>
                 </div>
@@ -50,34 +50,34 @@
             </div>
 
             <!--<div class="product" collection-repeat="prod in products track by $index" collection-item-width="'50%'" collection-item-height="264">-->
-            <div class="product" ng-repeat="prod in products track by $index">
+            <div class="product" bindonce ng-repeat="prod in products track by $index">
                 <div class="clearfix"></div>
                 <div class="image" on-tap="openProduct(prod);">
-                    <img img-loader ng-src="{{prod.img}}" />
+                    <img img-loader bo-src="prod.img" />
                     <div class="heart my-wishlist-img" on-tap="wishlist(prod,$event);">
-                        <img ng-show='!prod.wishlist_status' src="img/heart.png"/>
-                        <i class="fa fa-spinner fa-spin" ng-show="prod.wishlist_status == 1"></i>
+                        <img src="img/heart.png"/>
+                        <!--<i class="fa fa-spinner fa-spin" ng-show="prod.wishlist_status == 1"></i>-->
                     </div>
                 </div>
 
 
                 <div class="bottom_box">
-                    <div class="name" on-tap="openProduct(prod);">{{prod.name}}</div>
-                    <div class="website e-site grey-color"><i class='site {{prod.website}}'></i>{{prod.website}}</div>
-                    <div class="brand" ng-show="prod.brand.length > 0">{{prod.brand}}</div> 
+                    <div class="name" on-tap="openProduct(prod);" bo-bind='prod.name'></div>
+                    <div class="website e-site grey-color"><i class='site {{::prod.website}}'></i><span bo-bind='prod.website'></span></div>
+                    <div class="brand" bo-show="prod.brand.length > 0" bo-bind='prod.brand'></div> 
                     <div class="price">
-                        Rs.{{prod.price}}
+                        Rs.<span bo-bind='prod.price'></span>
                     </div>
                     <div class="drop-price" >
-                        <i class="fa fa-caret-up up-price" ng-if="prod.price_drop > 0">&nbsp;<span>Rs.112{{product.price_drop}}</span></i>
-                        <i class="fa fa-caret-down" ng-if="prod.price_drop < 0">&nbsp;<span>Rs.112{{product.price_drop}}</span></i>
+                        <i class="fa fa-caret-up up-price" bo-if="prod.price_drop > 0">&nbsp;<span bo-bind='prod.price_drop'></span></i>
+                        <i class="fa fa-caret-down" bo-if="prod.price_drop < 0">&nbsp;<span bo-bind='prod.price_drop'></span></i>
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="clearfix"></div>
             </div>
         </div>
-        <div ng-show="currentState.page > 0 && !product_loading && products.length > 0 && showProducts" on-tap="nextPage(true);">Load Next Page</div>
+        <!--<div ng-show="currentState.page > 0 && !product_loading && products.length > 0 && showProducts" on-tap="nextPage(true);">Load Next Page</div>-->
 
         <ion-infinite-scroll
             immediate-check='false'

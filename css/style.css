@@ -392,13 +392,19 @@ li.sub-cat-label>span,
 .filter-label,.black-font:hover,.black-font,.wishlist-private{
     color:#000;
 }
-.button:hover,
 .pro-info button:hover ,
 .pro-button:hover ,
 .google-button,
 .fb-button,.pro-button,
 #my-acc .myacc-update,.bar.bar-stable .title,.white-color{
     color:#fff !important;
+}
+
+.search_box .ion-close{
+    font-size:1em;
+}
+.search_box .ion-ios-arrow-forward{
+    font-size:1.3em;
 }
 
 
@@ -855,7 +861,7 @@ span.other-price{
     float:left;
 }
 .bar-light .button.button-clear {
-    color: #000;
+    color: #000 !important;
     font-size: 1em;
 }
 .bar .button.button-clear .icon:before,
@@ -945,6 +951,14 @@ div#show-fliter .button .filter-icon:before{
 }
 .filter-list span.plus-minus{
     color:#919191;
+}
+.filter-list .filter-label{
+    color:#999999 !important;
+}
+.filter-list .item label{
+    font-size:.92em;
+    color:black !important;
+    padding-left: 1%;
 }
 .filter-list .item,.sortby-container .item{
     padding:2px;
@@ -1521,7 +1535,7 @@ i.offline-icon{
     border: 1px solid #ccc;
     border-radius: 6px;
     /*float: left;*/
-    /*max-width: 236px;*/
+    max-width: 240px;
     width: 100%;
     /*width: 98%;*/
     overflow: hidden;

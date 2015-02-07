@@ -1,4 +1,4 @@
-var homeMod = angular.module('HomeMod', ['ServiceMod', 'ngStorage', 'ionic']);
+var homeMod = angular.module('HomeMod', ['ServiceMod', 'ngStorage', 'ionic','pasvaz.bindonce']);
 
 homeMod.controller('HomeCtrl',
         ['$scope', 'friendHelper',

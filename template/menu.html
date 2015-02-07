@@ -5,9 +5,10 @@
                 <i class="icon ion-arrow-left-c"></i>
             </ion-nav-back-button>
             <ion-nav-title>
-                <div class="logo-container">
-                    <img src="img/logo-white.png"  alt="FashionIQ"/>
-                </div>
+                <!--                <div class="logo-container">
+                                    <img src="img/logo-white.png"  alt="FashionIQ"/>
+                                </div>-->
+                FashionIQ
             </ion-nav-title>
             <ion-nav-buttons side="left">
                 <button class="button button-icon toggle-btn" menu-toggle="left"  ng-show='!$isBackButtonShown'>
@@ -29,14 +30,16 @@
         <!--        <div on-tap='addWishlistItem();' class="red-back floating_add">
                     <i class="ion-plus-round fa-lg white-color"></i>
                 </div>-->
-        <div style="width:100%" ng-show="showSearchBox">
+        <div style="width:100%" class="search_box" ng-show="showSearchBox">
             <div class="list">
 
                 <div class="item item-input-inset">
+                    <button on-tap='closeSearch();' class="button button-small button-icon ion-close">
+                    </button>
                     <label class="item-input-wrapper">
                         <input ng-model="search.text" type="text" placeholder="Search">
                     </label>
-                    <button on-tap='doSearch($event);' class="button button-small button-icon fa fa-chevron-right">
+                    <button on-tap='doSearch($event);' class="button button-small button-icon ion-ios-arrow-forward">
                     </button>
                 </div>
 
@@ -44,7 +47,7 @@
         </div>
         <ion-nav-view name="menuContent"></ion-nav-view>
     </ion-side-menu-content>
-    <ion-side-menu side="left" expose-aside-when="large">
+    <ion-side-menu side="left">
         <ion-content>
             <div id="menu-bar-container">
 
@@ -66,21 +69,21 @@
                 <i class="fa fa-spinner fa-spin" ng-show='category.length == 0'></i>
                 <ul ng-show='category.length >= 0'>
                     <li><span ng-click="home()" nav-clear menu-close>HOME</span><div class="clearfix"></div></li>
-                    <li ng-repeat="cat in category">
-                        <span ng-click="selectCategory(cat)">{{cat.name|uppercase}}</span><div class="clearfix"></div>
-                        <ul ng-show="cat.open" style="padding-left: 20px" ng-if='cat.data.length > 0'>
-                            <li class="sub-cat-label" ng-repeat="catSub in cat.data" >
-                                <span ng-click='selectCategory(catSub)'>{{catSub.name|uppercase}}
-                                    <div class="plus-minus" ng-if="catSub.data.length > 0">
+                    <li bindonce ng-repeat="cat in category">
+                        <span ng-click="selectCategory(cat)" bo-bind='cat.name|uppercase'></span><div class="clearfix"></div>
+                        <ul ng-show="cat.open" style="padding-left: 20px" bo-if='cat.data.length > 0'>
+                            <li class="sub-cat-label" bindonce ng-repeat="catSub in cat.data" >
+                                <span ng-click='selectCategory(catSub)' bo-bind='catSub.name|uppercase'>
+                                    <div class="plus-minus" bo-if="catSub.data.length > 0">
                                         <i ng-show="!catSub.open">+</i>
                                         <i ng-show="catSub.open">-</i>
                                     </div>
 
                                 </span>
                                 <div class="clearfix"></div>
-                                <ul class="" ng-show="catSub.open" style="padding-left: 20px" ng-if='catSub.data.length > 0'>
-                                    <li class="" nav-clear menu-close ng-repeat="catLast in catSub.data" >
-                                        <span  ng-click='selectCategory(catLast)'>{{catLast.name}}</span>        
+                                <ul class="" ng-show="catSub.open" style="padding-left: 20px" bo-if='catSub.data.length > 0'>
+                                    <li class="" nav-clear menu-close bindonce ng-repeat="catLast in catSub.data" >
+                                        <span  ng-click='selectCategory(catLast)' bo-bind='catLast.name'></span>        
                                     </li>
                                 </ul>
                             </li>

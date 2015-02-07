@@ -1,4 +1,4 @@
-var menuMod = angular.module('MenuMod', ['ServiceMod', 'ngStorage', 'ionic']);
+var menuMod = angular.module('MenuMod', ['ServiceMod', 'ngStorage', 'ionic', 'pasvaz.bindonce']);
 
 menuMod.controller('MenuCtrl',
         ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper',
@@ -94,6 +94,10 @@ menuMod.controller('MenuCtrl',
                 $rootScope.showSearchBox = false;
                 $rootScope.search = {
                     text: ''
+                };
+                
+                $scope.closeSearch = function () {
+                    $rootScope.showSearchBox = false;
                 };
                 $scope.searchNow = function () {
                     $rootScope.showSearchBox = true;

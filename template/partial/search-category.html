@@ -6,8 +6,7 @@
     </ion-header-bar>
     <ion-content>
         <ul>
-            <li on-tap='selectSearchCategory(cat)' ng-repeat='cat in category'>
-                {{cat.name}}
+            <li bindonce on-tap='selectSearchCategory(cat)' ng-repeat='cat in category' bo-html='cat.name'>
             </li>
         </ul>
     </ion-content>
