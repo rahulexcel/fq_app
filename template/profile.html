@@ -7,7 +7,7 @@
                 </div>
                 <div class="user-info">
                     <span class="black-font info semibold">{{user.name}}</span>
-                    <span ng-if="!me"><button ng-if='!following' on-tap='followProfileUser();' class="red-back">Follow</button></span>
+                    <span ng-if="!me"><button  ng-if='!following' on-tap='followProfileUser();' class="red-back profile-follow-btn">FOLLOW</button></span>
                     <span ng-if="me"><button class="red-back profile-btn">EDIT PROFILE</button></span>
                     <div class="clearfix"></div>      
                 </div>
@@ -18,33 +18,13 @@
                 <span>{{user.meta.friends}} <span class="grey-color">Friends</span></span>
                 <span>{{user.meta.products}} <span class="grey-color">Pins</span></span>
             </div>
-            <!-- Remove This Later-->
-            <style>
-                .wishlist .wishlist{
-                    border-bottom: 1px solid red !important;
-                }
-                .followers .followers{
-                    border-bottom: 1px solid red !important;
-                }
-                .following .following{
-                    border-bottom: 1px solid red !important;
-                }
-                .pins .pins{
-                    border-bottom: 1px solid red !important;
-                }
-                .profile .profile{
-                    border-bottom: 1px solid red !important;
-                }
-                .update .update{
-                    border-bottom: 1px solid red !important;
-                }
-            </style>
+            
             <div id='menu_sliding' style="width: 100%">
                 <ul id='menu_scroller' class="mine-list" ng-class="selected_class">
                     <li class="wishlist" on-tap='menu_wishlist();'>MY WISHLIST</li>
                     <li class="followers" on-tap='menu_followers();'>FOLLOWERS</li>
                     <li class="following" on-tap='menu_following();'>FOLLOWINGS</li>
-                    <li class="pin" on-tap='menu_pins();'>MY PINS</li>
+                    <li class="pins" on-tap='menu_pins();'>MY PINS</li>
                     <li ng-if="me" class="profile" on-tap='menu_profile();'>PROFILE</li>
                     <li ng-if="me" class="update" on-tap='menu_update();'>UPDATES</li>
                 </ul>
