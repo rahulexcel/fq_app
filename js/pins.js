@@ -35,11 +35,18 @@ pinMod.controller('PinCtrl',
                     var ajax = $scope.$parent.getData($scope.page);
                     ajax.then(function (data) {
                         $scope.loading = false;
+                        console.log(data);
                         if (data.length > 0) {
                             $scope.page++;
                             for (var i = 0; i < data.length; i++) {
                                 var height = $scope.getItemHeight(data[i], true, false);
                                 data[i].pin_height = height;
+                                if (!data[i].pins || data[i].pins.length === 0) {
+                                    data[i].pins = 0;
+                                }
+                                if (!data[i].likes || data[i].likes.length === 0) {
+                                    data[i].likes = 0;
+                                }
                                 ajax_data.push(data[i]);
                             }
                             $scope.pin_count = ajax_data.length;

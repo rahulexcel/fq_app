@@ -9,7 +9,7 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                     $scope.follow = false;
                     $scope.getData = function (page) {
                         var defer = $q.defer();
-                        var ajax = wishlistHelper.listItems($stateParams.list_id);
+                        var ajax = wishlistHelper.listItems($stateParams.list_id, page);
                         ajax.then(function (data) {
                             var list = data.list;
                             if (list.followers && $localStorage.user.id) {

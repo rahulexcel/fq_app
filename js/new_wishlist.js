@@ -71,7 +71,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                     ajax2.then(function () {
                                         $scope.status = 2;
                                         toast.showShortBottom('Product Added To Your Wishlist');
-                                        $location.path('/app/wishlist_item/' + list_id + "/" + list_id + "/" + $scope.list.name + '/pins');
+                                        $location.path('/app/wishlist_item/' + list_id + "/" + $scope.list.name + '/pins');
                                     }, function (message) {
                                         toast.showShortBottom(message);
                                         $scope.status = 2;
@@ -86,7 +86,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                     ajax.then(function (data) {
                                         $scope.status = 2;
                                         toast.showShortBottom('Product Added To Your Wishlist');
-                                        $location.path('/app/wishlist_item/' + list_id + "/" + list_id + "/" + $scope.list.name + '/pins');
+                                        $location.path('/app/wishlist_item/' + list_id + "/" + $scope.list.name + '/pins');
                                     }, function (message) {
                                         toast.showShortBottom(message);
                                         $scope.status = 2;
