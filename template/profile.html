@@ -3,11 +3,12 @@
         <div class="top-container" ng-show="user">
             <div class="box mine-username">
                 <div class="user_image">
-                    <img ng-src='{{user.picture| picture : 100: 100}}'/>
+                    <img ng-src='{{user.picture| picture : 100: 100}}' class="rounded"/>
                 </div>
                 <div class="user-info">
-                    <span class="black-font info">{{user.name}}</span>
+                    <span class="black-font info semibold">{{user.name}}</span>
                     <span ng-if="!me"><button ng-if='!following' on-tap='followProfileUser();' class="red-back">Follow</button></span>
+                    <span ng-if="me"><button class="red-back profile-btn">EDIT PROFILE</button></span>
                     <div class="clearfix"></div>      
                 </div>
                 <div class="clearfix"></div>
