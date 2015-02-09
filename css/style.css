@@ -43,6 +43,10 @@ font-style: normal;
     background-size: contain;
     background-position: center center;
 }
+.box-round{
+    border: 1px solid #CCC;
+    border-radius: 3px;
+}
 .bar-header{
     border-bottom-width: 0px;
 } 
@@ -349,6 +353,9 @@ Scroll On Product Page
     width: 125px;
     z-index: 9999;
     text-align: center;
+    line-height: 48px;
+    font-size: 11px;
+    font-weight: bold;
 }
 
 .hidden {
@@ -822,6 +829,7 @@ span.other-price{
     bottom: 2%;
     width: 100%;
     text-align: right;
+    right:10px;
 
 }
 .category .drop-price{
@@ -1036,18 +1044,25 @@ div#show-fliter .button .filter-icon:before{
 }
 .progress-close{
     float: right;
-    margin-top: 41px;
+    position: relative;
+    right: -25px;
+    bottom: 6px;
 }
 #my-acc .item, .top-container .similar-product-label{
     border-style:none;
 }
 .update-info{
-    font-weight:bold;
-    color:#585858;
+    font-family: "dosis";
+    font-size: 14px;
+    color:#b5b0a8;
     padding-left: 16px;
 }
 .list-my_acc .input-label{
     margin-top:5px;
+}
+.list-my_acc label{
+    padding-top: 0;
+    line-height: 5px;
 }
 
 input{
@@ -1055,11 +1070,10 @@ input{
     font-size: 13px !important;
 }
 #my-acc .item-myacc1,.item-myacc1{
-    border-bottom:2px solid #FF7832;
+    border-bottom:1px solid #CCC;
     padding-bottom:0px;
 }
 #my-acc .item-myacc2{
-    border-top:1px solid #f8dcd0;
     padding-top:15px;
 }
 #my-acc .item-floating-label span.myacc-gender-label {
@@ -1072,11 +1086,16 @@ input{
     margin-top: 7px;
 }
 #my-acc .myacc-update{
-    min-height: 42px;
+    min-height: 29px !important;
     border-style: none;
-    width: 120px;
-    border-radius: 4px;
-    margin-bottom:10px;
+    border-radius: 2px;
+    margin-bottom:0px;
+    font-family: "Dosis" !important;
+    font-weight: 600;
+    width: 112px !important;
+    max-height: 30px;
+    line-height: 30px;
+    margin-bottom: 10px;
 }
 #my-acc .padding{
     padding:0px;
@@ -1369,7 +1388,7 @@ span.info{
     border: 1px solid #DA500F;
     min-height: 34px;
     min-width: 95px;
-    border-radius: 0.3em;
+    border-radius: 3px;
 }
 .mine-username{
     border-style: none;
@@ -1389,8 +1408,8 @@ span.info{
     margin-right: 35px;
 }
 .follow-details {
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #EEE7DD;
+    border-bottom: 1px solid #EEE7DD;
     line-height: 36px;  
     min-width: 367px;
     padding: 5px 25px;
@@ -1399,10 +1418,10 @@ span.info{
 }
 ul.mine-list{
     margin: 0px !important;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #EEE7DD;
 }
 ul.mine-list li{
-    border-right: 1px solid rgb(204, 204, 204);
+    border-right: 1px solid #EEE7DD;
     display: inline;
     line-height: 36px;
     /*padding: 13px 10px;*/
@@ -1414,6 +1433,9 @@ ul.mine-clip-list li{
     line-height: 21px;
     font-weight: normal;
     border-bottom: 1px solid #C8C8C5;
+}
+ul.mine-clip-list li:last-child{
+    border-bottom-style: none;
 }
 ul.mine-clip-list{
     border:1px solid #ccc;
@@ -1450,10 +1472,6 @@ ul.mine-clip-list li span.mine-new{
     border-bottom: 1px solid #ccc;
     padding-bottom: 0px;
 }
-#menu_scroller li {
-    line-height: 48px;
-    font-size: 13px;
-}
 .top-container .list-my_acc{
     margin-bottom: 0px;
 }
@@ -1478,8 +1496,10 @@ ul.mine-clip-list li .user-info{
     font-size: 13px;
 }
 .result-empty{
-    margin: 10px auto;
-    text-align: center
+    margin: 25px auto;
+    text-align: center;
+    font-size: 12px;
+        
 }
 .offline-msg{
     width: 65%;
@@ -1616,8 +1636,34 @@ i.offline-icon{
     background-color: #F5F5F5 !important;
     margin-top: 5px;
     font-family: "Dosis" !important;
-    font-weight: bold;
+    font-weight: 600;
     width: 112px !important;
     border: 1px solid #E3E3E3 !important;
     color: #000 !important;
+    min-height: 29px !important;
 }
+.profile-follow-btn{
+    margin-top: 5px;
+    font-family: "Dosis" !important;
+    font-weight: 600;
+    width: 112px !important;
+    min-height: 29px !important;
+}
+.wishlist .wishlist{
+                    border-bottom: 1px solid red !important;
+                }
+ .followers .followers{
+                    border-bottom: 1px solid red !important;
+                }
+.following .following{
+                    border-bottom: 1px solid red !important;
+                }
+.pins .pins{
+                    border-bottom: 1px solid red !important;
+                }
+.profile .profile{
+                    border-bottom: 1px solid red !important;
+                }
+.update .update{
+                    border-bottom: 1px solid red !important;
+                }

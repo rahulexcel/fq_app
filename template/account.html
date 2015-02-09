@@ -2,12 +2,12 @@
     <div ng-show='rejFiles'>
         {{rejFiles}}
     </div>
-    <div class="progress_parent register white-back">
+    <div class="progress_parent register white-back box-round">
         <div class="user_image">
-            <img ng-src="{{login_data.picture|picture:picture_width}}"/>
+            <img ng-src="{{login_data.picture|picture:picture_width}}" class='rounded'/>
         </div>
         <div ng-if="!is_mobile">
-            <div class="progress-info" ng-file-select 
+            <div class="progress-info semibold" ng-file-select 
                  ng-model="file.myFiles" 
                  ng-multiple="false" 
                  ng-rejected-file-model="rejFiles">
@@ -18,15 +18,16 @@
         <div ng-if='is_mobile'>
             <div class="progress-info" on-tap='browseCamera();'>Change profile image</div>
         </div>
-        <div  ng-show='file_upload'>
+        <div ng-show='file_upload'>
             <div class="progress-info">
                 Uploading...
             </div>
-            <div class="progress" style="height: 2px">
+            <div class="progress-info progress" style="height: 2px">
+                <i class="fa fa-times progress-close" ></i>
                 <div ng-style="progoress_style" class='prog_inner red-back'>
                 </div>
             </div>
-            <i class="fa fa-times progress-close" ></i>
+            
         </div>
     </div>
     <div class="clearfix"></div>
@@ -36,7 +37,7 @@
     <!--  Diactivate From Facebook or Google  ----->
 
     <div class="update-info similar-product-label">Update Information</div>
-    <div class="register white-back" >
+    <div class="white-back box-round" >
         <form>
             <div class="list list-my_acc">
                 <label class="item item-input item-floating-label item-myacc1">
@@ -62,7 +63,7 @@
         </form>
     </div>
     <div class="update-info similar-product-label white-back">Change Password</div>
-    <div class="register white-back">
+    <div class="white-back box-round">
         <form>
             <div class="list list-my_acc">
                 <label class="item item-input item-floating-label item-myacc1">

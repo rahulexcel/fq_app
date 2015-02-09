@@ -3,7 +3,7 @@
         <li ng-repeat='item1 in wishlist_mine track by item1._id'>
             <div class="black-font" on-tap='viewList(item1);'>
                 {{item1.name}} 
-                <i ng-if="item1.type == 'private'" class="ion-ios7-locked"></i>
+                <i ng-if="item1.type == 'private'" class="ion-ios-locked"></i>
             </div>
             <div class="user-info"> 
                 <span class="info grey-color">
@@ -11,8 +11,8 @@
                     Created on {{item1.created_at|prettyDate}} 
                 </span>
                 <span class="info">
-                    <i class="ion-ios7-heart-outline red-color"></i> {{item1.meta.likes}} 
-                    <i class="ion-ios7-people red-color"></i> {{item1.followers.length}}
+                    <i class="ion-ios-heart-outline red-color"></i> {{item1.meta.likes}} 
+                    <i class="ion-ios-people red-color"></i> {{item1.followers.length}}
                 </span> 
                 <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
                 <div class="clearfix"></div>
@@ -24,7 +24,7 @@
 </div>
 <div ng-if="wishlist_mine.length == 0">
     <div class="result-empty">
-        <span class="info"><img src="img/favicon-not.jpg"/></span>
+        <span class="info"><img src="img/favicon-not.png"/></span>
         <span class="info grey-color">No Lists Created</span>
     </div>
 </div>
