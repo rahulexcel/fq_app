@@ -279,8 +279,8 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                 });
         $urlRouterProvider.otherwise('/app/home/trending');
     }]);
-app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", 'notifyHelper', '$cordovaNetwork', '$ionicNavBarDelegate',
-    function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location, notifyHelper, $cordovaNetwork, $ionicNavBarDelegate) {
+app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", 'notifyHelper', '$cordovaNetwork', '$ionicHistory', '$timeout', 'toast', '$ionicLoading',
+    function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location, notifyHelper, $cordovaNetwork, $ionicHistory, $timeout, toast, $ionicLoading) {
         console.log('angular ready');
         if (!$localStorage.user) {
             $localStorage.user = {};
@@ -289,6 +289,32 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
         $rootScope.isReady = function () {
             $rootScope.display = {display: "block"};
         };
+        var backPress = 0;
+        $ionicPlatform.onHardwareBackButton(function (e) {
+            var backView = $ionicHistory.backView();
+            $ionicLoading.hide();
+            if (backView) {
+                // there is a back view, go to it
+                backView.go();
+            } else {
+                // there is no back view, so close the app instead
+
+                if (backPress === 0) {
+                    backPress++;
+                    if ($location.path().indexOf('app/home') !== -1) {
+                        $location.path('/app/home/trending');
+                    }
+                    toast.showShortBottom('Press Back Again To Exit');
+                    $timeout(function () {
+                        backPress = 0;
+                    }, 3000);
+                } else {
+                    ionic.Platform.exitApp();
+                }
+            }
+            e.preventDefault();
+            return false;
+        });
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -302,6 +328,9 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
+
+            if ($localStorage.user.id)
+                notifyHelper.init();
 
         });
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -360,27 +389,4 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                 }
             }
         });
-        document.addEventListener("deviceready", function () {
-            if ($localStorage.user.id)
-                notifyHelper.init();
-        }, false);
-        if (window.plugins && window.plugins.webintent) {
-            window.plugins.webintent.hasExtra(window.plugins.webintent.EXTRA_TEXT,
-                    function (has) {
-                        alert('has data ' + has);
-                        if (has) {
-                            window.plugins.webintent.getExtra(window.plugins.webintent.EXTRA_TEXT,
-                                    function (data) {
-                                        console.log(data);
-                                        // url is the value of EXTRA_TEXT
-                                    }, function () {
-                                // There was no extra supplied.
-                            }
-                            );
-                        }
-                    }, function () {
-                // Something really bad happened.
-            }
-            );
-        }
     }]);

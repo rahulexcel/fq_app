@@ -126,6 +126,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }, function () {
                             $scope.loading = false;
                             $ionicLoading.hide();
+                            $location.path('/app/home/trending');
                         });
                     }
                     $scope.doRefresh = function () {
