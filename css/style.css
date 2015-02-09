@@ -31,7 +31,9 @@ font-weight: normal;
 font-style: normal;
 }
 */
-
+.semibold{
+    font-weight: 600;
+}
 .fa-spinner{
     background-image: url('../img/loading.gif');
     width: 16px;
@@ -909,7 +911,7 @@ div#show-fliter .button .filter-icon:before{
 .filter-list{
     padding:0px 10px;
 }
-.sortby-container .item-checkbox .checkbox{
+.sortby-container .item-checkbox .checkbox,.private-label .item-checkbox .checkbox{
     position: static;
     margin-top:0px;
     float:right;
@@ -920,7 +922,8 @@ div#show-fliter .button .filter-icon:before{
     border-bottom:2px solid black;
     left:0px;right:0px;
 }
-.sortby-container .checkbox .checkbox-icon:before, sortby-container .checkbox input:before {
+.sortby-container .checkbox .checkbox-icon:before, .sortby-container .checkbox input:before,
+.private-label .checkbox .checkbox-icon:before,.private-label .checkbox input:before {
     border-color: #FFF;
 }
 #show-fliter,.sortby-container{
@@ -993,16 +996,22 @@ div#show-fliter .button .filter-icon:before{
     width: 10px;
     height: 5px;
 }
+.private-label .checkbox input:after,.private-label .checkbox-icon:after{
+    top: 31%;
+    left: 18%;
+    width: 10px;
+    height: 5px;
+}
 
 .checkbox input:before,.checkbox-icon:before{
     width: 69%;
     height:69%;
 }
-.sortby-container .checkbox input:after,.sortby-container .checkbox-icon:after {
+.sortby-container .checkbox input:after,.sortby-container .checkbox-icon:after,.private-label .checkbox input:after,.private-label .checkbox-icon:after {
     border-color: -moz-use-text-color -moz-use-text-color #da500f #da500f;
     border-width: 0px 0px 2px 2px;
 }
-.sortby-container .checkbox{
+.sortby-container .checkbox,.private-label .checkbox{
     padding:0px;
 }
 .filter-button{
@@ -1266,6 +1275,10 @@ span i.fa-circle{
 }
 #wishlist_item i.site{
     margin-bottom: 2px;
+}
+.private-label .checkbox input:checked + .checkbox-icon:before,.private-label .checkbox input:checked:before{
+    background-color: #FFF;
+border-color: #FFF;
 }
 #wishlist_item .pro-info
 {
@@ -1598,4 +1611,13 @@ i.offline-icon{
 }
 .pin_list_container{
     margin-top: 10px;
+}
+.profile-btn{
+    background-color: #F5F5F5 !important;
+    margin-top: 5px;
+    font-family: "Dosis" !important;
+    font-weight: bold;
+    width: 112px !important;
+    border: 1px solid #E3E3E3 !important;
+    color: #000 !important;
 }
