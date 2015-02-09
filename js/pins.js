@@ -123,10 +123,7 @@ pinMod.controller('PinCtrl',
                     }
                     console.log(window_width);
                     pin_column = Math.floor(window_width / pin_width);
-                    if (pin_column === 0) {
-                        pin_column = 1;
-                        angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:100%;');
-                    } else if (pin_column < 2) {
+                    if (pin_column < 2) {
                         pin_width = (window_width) / 2 - 10;
                         $scope.pin_width = pin_width + "px";
                         //2px padding
@@ -137,12 +134,8 @@ pinMod.controller('PinCtrl',
                         $scope.pin_width = pin_width + "px";
                         angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:' + (pin_width * pin_column + 10 * pin_column) + 'px;');
                     }
-                    if (pin_column === 0) {
-                        $scope.col_width = '100%';
-                    } else {
-                        $scope.col_width = Math.round(100 / pin_column, 2) + "%";
-                    }
-//                    console.log(pin_column + 'pin columns');
+                    $scope.col_width = Math.round(100 / pin_column, 2) + "%";
+                    console.log(pin_column + 'pin columns');
                 };
                 $scope.initPinsDisplay();
                 $scope.displayPins = function (data) {
@@ -186,16 +179,17 @@ pinMod.controller('PinCtrl',
                         }
                         //grid[cur_column].push(pin);
                         console.log('column ' + cur_column);
-                        if (cur_column > 2) {
+                        if (cur_column > 1) {
                             cur_column = 0;
                         }
                         if (cur_column === 0) {
                             grid1.push(pin);
                         } else if (cur_column === 1) {
                             grid2.push(pin);
-                        } else if (cur_column === 2) {
-                            grid3.push(pin);
                         }
+//                        else if (cur_column === 2) {
+//                            grid3.push(pin);
+//                        }
 //                        else if (cur_column === 3) {
 //                            grid4.push(pin);
 //                        } else if (cur_column === 4) {
@@ -206,7 +200,7 @@ pinMod.controller('PinCtrl',
                         $scope.grid = grid;
                         $scope.grid1 = grid1;
                         $scope.grid2 = grid2;
-                        $scope.grid3 = grid3;
+//                        $scope.grid3 = grid3;
                     }
 
                 };
@@ -218,6 +212,7 @@ pinMod.controller('PinCtrl',
 
                     var singleLine = 34;
                     if (pin_width < 240) {
+                        singleLine = 30; //in mobile doesnt work properly always
                         singleLine = Math.floor(pin_width * 24 / 240);
                     }
 

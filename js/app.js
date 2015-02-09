@@ -319,7 +319,6 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
             console.log(toState.name + " to state");
             console.log(fromState.name + "from state");
-
             $rootScope.body_class = '';
             if (toState.name === 'app.item' || toState.name.indexOf('app.home') !== -1 || toState.name.indexOf('app.profile') != -1 || toState.name.indexOf('app.wishlist_item') != -1) {
                 $rootScope.body_class = 'grey_bg';
@@ -361,10 +360,27 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                 }
             }
         });
-
         document.addEventListener("deviceready", function () {
             if ($localStorage.user.id)
                 notifyHelper.init();
         }, false);
-
+        if (window.plugins && window.plugins.webintent) {
+            window.plugins.webintent.hasExtra(window.plugins.webintent.EXTRA_TEXT,
+                    function (has) {
+                        alert('has data ' + has);
+                        if (has) {
+                            window.plugins.webintent.getExtra(window.plugins.webintent.EXTRA_TEXT,
+                                    function (data) {
+                                        console.log(data);
+                                        // url is the value of EXTRA_TEXT
+                                    }, function () {
+                                // There was no extra supplied.
+                            }
+                            );
+                        }
+                    }, function () {
+                // Something really bad happened.
+            }
+            );
+        }
     }]);

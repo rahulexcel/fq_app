@@ -73,7 +73,7 @@
                         <span ng-click="selectCategory(cat)" bo-bind='cat.name|uppercase'></span><div class="clearfix"></div>
                         <ul ng-show="cat.open" style="padding-left: 20px" bo-if='cat.data.length > 0'>
                             <li class="sub-cat-label" bindonce ng-repeat="catSub in cat.data" >
-                                <span ng-click='selectCategory(catSub)' bo-bind='catSub.name|uppercase'>
+                                <span nav-clear menu-close ng-click='selectCategory(catSub)' bo-bind='catSub.name|uppercase'>
                                     <div class="plus-minus" bo-if="catSub.data.length > 0">
                                         <i ng-show="!catSub.open">+</i>
                                         <i ng-show="catSub.open">-</i>
@@ -83,7 +83,7 @@
                                 <div class="clearfix"></div>
                                 <ul class="" ng-show="catSub.open" style="padding-left: 20px" bo-if='catSub.data.length > 0'>
                                     <li class="" nav-clear menu-close bindonce ng-repeat="catLast in catSub.data" >
-                                        <span  ng-click='selectCategory(catLast)' bo-bind='catLast.name'></span>        
+                                        <span nav-clear menu-close  ng-click='selectCategory(catLast)' bo-bind='catLast.name'></span>        
                                     </li>
                                 </ul>
                             </li>

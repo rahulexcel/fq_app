@@ -1,8 +1,8 @@
 <!--<button ng-click='start();'>Start</button>-->
-<ion-refresher
+<!--<ion-refresher
     pulling-text="Pull to refresh..."
     on-refresh="doRefresh()">
-</ion-refresher>
+</ion-refresher>-->
 <div ng-if="pin_count == 0 && !loading">
     <div class="result-empty">
         <span class="info"><img src="img/favicon-not.jpg"/></span>
@@ -10,11 +10,9 @@
     </div>
 </div>
 <div resize class="pin_list_container">
-    <div bindonce ng-if='grid1.length > 0' class="pin_list" bo-style="{'width': col_width}" style="float: left;">
-
-        <!-- bo-style="{height: getItemHeight(pin, true), 'width': getItemWidth(true)}" -->
-        <!-- bo-style="{'height': getItemHeight(pin, false, true), 'width': getItemWidth(false)}" -->
-        <div class="pin"  ng-repeat="pin in grid1 track by $index" bo-style="{'height': pin.pin_height,'width': pin_width}">
+    <div bindonce ng-if='grid1.length > 0' class="pin_list" ng-style="{'width': col_width}" style="float: left;">
+        <!-- 'height': pin.pin_height -->
+        <div class="pin"  ng-repeat="pin in grid1 track by $index" bo-style="{'width': pin_width}">
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" class="pin-img">
                 <img bo-src='pin.image| picture:240'/>
                 <div style="z-index: 99999" on-tap='pin(pin._id);' class="heart wishlist-product-img">
@@ -43,11 +41,10 @@
             </div>
         </div>
     </div>
-    <div bindonce ng-if='grid2.length > 0' class="pin_list" bo-style="{'width': col_width}" style="float: left;">
+    <div bindonce ng-if='grid2.length > 0' class="pin_list" ng-style="{'width': col_width}" style="float: left;">
 
-        <!-- bo-style="{height: getItemHeight(pin, true), 'width': getItemWidth(true)}" -->
-        <!-- bo-style="{'height': getItemHeight(pin, false, true), 'width': getItemWidth(false)}" -->
-        <div class="pin"  ng-repeat="pin in grid2 track by $index" bo-style="{height: pin.pin_height,width: pin_width}">
+        <!-- height: pin.pin_height, -->
+        <div class="pin"  ng-repeat="pin in grid2 track by $index" bo-style="{width: pin_width}">
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" class="pin-img">
                 <img bo-src='pin.image| picture:240'/>
                 <div style="z-index: 99999" on-tap='pin(pin._id);' class="heart wishlist-product-img">
@@ -76,42 +73,42 @@
             </div>
         </div>
     </div>
-    <div bindonce ng-if='grid3.length > 0' class="pin_list" bo-style="{'width': col_width}" style="float: left;">
-
-        <!-- bo-style="{height: getItemHeight(pin, true), 'width': getItemWidth(true)}" -->
-        <!-- bo-style="{'height': getItemHeight(pin, false, true), 'width': getItemWidth(false)}" -->
-        <div class="pin"  ng-repeat="pin in grid3 track by $index" bo-style="{height: pin.pin_height,width: pin_width}">
-            <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" class="pin-img">
-                <img bo-src='pin.image| picture:240'/>
-                <div style="z-index: 99999" on-tap='pin(pin._id);' class="heart wishlist-product-img">
-                    <img src="img/heart.png">
+    <!--    <div bindonce ng-if='grid3.length > 0' class="pin_list" bo-style="{'width': col_width}" style="float: left;">
+    
+            <div class="pin"  ng-repeat="pin in grid3 track by $index" bo-style="{height: pin.pin_height,width: pin_width}">
+                <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" class="pin-img">
+                    <img bo-src='pin.image| picture:240'/>
+                    <div style="z-index: 99999" on-tap='pin(pin._id);' class="heart wishlist-product-img">
+                        <img src="img/heart.png">
+                    </div>
+                </div>
+                <div class="pin-info">
+                    <div class="pin-name" on-tap='viewItem(pin._id,pin.original.list_id)'>
+                        <div bo-bind='pin.name'></div>
+                        <div bo-html='pin.description | nl2br'></div>
+                    </div>
+                    <div class="pin-status">
+                        <i class="ion-ios-heart-outline red-color"></i> <i bo-bind='pin.pins'></i>
+                        <i class="ion-thumbsup red-color"></i> <i bo-bind='pin.likes'></i>
+                    </div>
+                </div>
+                <div class="pin-user">
+                    <div class="user_image" on-tap='profile(pin.original.user_id)'>
+                        <img class="rounded" bo-src='pin.user.picture| picture:35:35'/>
+                    </div>
+                    <div class="user-info">
+                        <span on-tap='profile(pin.original.user_id)' class="grey-color info" bo-bind='pin.user.name'>by </span>
+                        <span on-tap='viewList(pin.original.list_id,pin.list.name)' class="black-font info" bo-bind='pin.list.name'>in </span>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
             </div>
-            <div class="pin-info">
-                <div class="pin-name" on-tap='viewItem(pin._id,pin.original.list_id)'>
-                    <div bo-bind='pin.name'></div>
-                    <div bo-html='pin.description | nl2br'></div>
-                </div>
-                <div class="pin-status">
-                    <i class="ion-ios-heart-outline red-color"></i> <i bo-bind='pin.pins'></i>
-                    <i class="ion-thumbsup red-color"></i> <i bo-bind='pin.likes'></i>
-                </div>
-            </div>
-            <div class="pin-user">
-                <div class="user_image" on-tap='profile(pin.original.user_id)'>
-                    <img class="rounded" bo-src='pin.user.picture| picture:35:35'/>
-                </div>
-                <div class="user-info">
-                    <span on-tap='profile(pin.original.user_id)' class="grey-color info" bo-bind='pin.user.name'>by </span>
-                    <span on-tap='viewList(pin.original.list_id,pin.list.name)' class="black-font info" bo-bind='pin.list.name'>in </span>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-    </div>
+        </div>-->
     <div class="clearfix"></div>
 </div>
+<!--<div ng-click="loadMore();">Load More</div>-->
 <ion-infinite-scroll
+    <!--icon="ion-load-c"-->
     ng-if='hasMore'
     on-infinite="loadMore()"
     distance="1%">

@@ -1,8 +1,9 @@
 var notifyService = angular.module('NotifyMod', ['ServiceMod']);
 
 notifyService.factory('notifyHelper', [
-    'ajaxRequest', '$q', '$localStorage', '$cordovaPush', '$rootScope',
-    function (ajaxRequest, $q, $localStorage, $cordovaPush, $rootScope) {
+    'ajaxRequest', '$q', '$localStorage', '$cordovaPush', '$rootScope', '$timeout',
+    function (ajaxRequest, $q, $localStorage, $cordovaPush, $rootScope, $timeout) {
+        //parse push notification
         var service = {};
         service.init = function () {
             if (window.cordova && window.cordova.plugins) {
