@@ -1103,6 +1103,7 @@ input{
     max-height: 30px;
     line-height: 30px;
     margin-bottom: 10px;
+    font-size: 15px;
 }
 #my-acc .padding{
     padding:0px;
@@ -1328,18 +1329,24 @@ border-color: #FFF;
      width: 36px !important;
      margin:1px 15px 0px 0px;
 }
+.box .user_image_new{ 
+width: 36px !important;
+margin-left:10px;
+margin-right: 0px !important;
+}
 .user-info{
     float: left;
     /*width: 57%;*/
     margin-left: 10px;
+    line-height: 15px;
 }
 
 .user-info span a, #menu-bar-container span.info-veiw{text-decoration: underline;}
 button.follow-btn{
     float: right;
-    border: 1px solid #ccc;
+    border: 1px solid #ccc !important;
     min-height: 26px;
-    margin: 12px 0px;
+    margin: 7px 0px;
     border-radius: .2em;
 }
 .user-comments{
@@ -1397,7 +1404,7 @@ span.info{
 }
 .top-container .box button{
     border: 1px solid #DA500F;
-    min-height: 34px;
+    min-height: 30px;
     min-width: 95px;
     border-radius: 3px;
 }
@@ -1477,7 +1484,8 @@ ul.mine-clip-list li span.mine-new{
     width: 50%;
 }
 .list-section{
-    margin: 12px 0px;
+    margin: 10px 0px;
+    color:#B5B0A8;
 }
 .mine-pins .box{
     border-style: none;
@@ -1663,6 +1671,15 @@ i.offline-icon{
 }
 .result-empty span.grey-color{
     color: #c4c0bb;
+}
+.top-container .box button.follow-btn{
+    min-width: 0;
+}
+.font11{
+    font-size: 11px !important;
+}
+.font13{
+    font-size: 13px !important;
 }
 .wishlist .wishlist{
                     border-bottom: 1px solid #DA500F !important;

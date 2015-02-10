@@ -1,44 +1,44 @@
-<div class="list-section" ng-show="following_users.length > 0">PEOPLE</div>
-<div class="box"  ng-repeat="user in following_users">
-    <div class="user_image">
+<div class="list-section">PEOPLE</div>
+<div class="box"  >
+    <div class="user_image user_image_new">
         <img class="rounded" ng-src='{{user.picture| picture:50:50}}'/>
     </div>
     <div class="user-info">
-        <span class="black-font info">{{user.name}}</span>
-        <span class="grey-color ">{{user.meta.products}} clips <i class="fa fa-circle"></i>
-            <i class="ion-ios7-people fa-lg red-color"></i>&nbsp  {{user.followers.length}} Followers
+        <span class="black-font info font13">{{user.name}}</span>
+        <span class="grey-color font13">{{user.meta.products}} pins <i class="fa fa-circle"> </i>
+            <i class="ion-ios-people fa-lg red-color"></i>&nbsp  {{user.followers.length}} Followers
         </span>
-        <span ng-if='true' on-tap='unFollowUser(user._id,$index)' class="user-unfollow black-font info">Unfollow!</span>
+        <span ng-if='true' on-tap='unFollowUser(user._id,$index)' class="user-unfollow black-font info font11">Unfollow!</span>
     </div>
     <button ng-if='false' on-tap='followUser(user._id);' class="follow-btn red-back">FOLLOW</button>
     <div class="clearfix"></div>
 </div>
-<div class="list-section" ng-show="lists_their.length > 0">WISHLIST</div>
-<div class="box" ng-repeat="list in lists_their">
+<div class="list-section">WISHLIST</div>
+<div class="box">
     <div class="user-info">
-        <span class="black-font info" on-tap='viewList(list)'>Accessories{{list.name}}
-            <i  class="ion-ios7-locked grey-color"></i>
+        <span class="black-font info font13" on-tap='viewList(list)'>Accessories{{list.name}}
+            <i  class="ion-ios-locked grey-color"></i>
         </span>
         <div class=""> 
-            <span class="info grey-color">
+            <span class="info grey-color font11">
                 {{item1.meta.products}}1 clips <i class="fa fa-circle"></i> 
                 Created on {{item1.created_at|prettyDate}} 
             </span>
-            <span class="info grey-color" ng-show="list.followers.length != 0">
-                <i class="ion-ios7-heart-outline red-color"></i> 17 {{list.meta.likes}} 
-                <i class="ion-ios7-people red-color"></i> 20 {{item1.followers.length}}
+            <span class="info grey-color font11" ng-show="list.followers.length != 0">
+                <i class="ion-ios-heart-outline red-color"></i> 17 {{list.meta.likes}} 
+                <i class="ion-ios-people fa-lg red-color"></i> 20 {{item1.followers.length}}
             </span> 
             <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
             <div class="clearfix"></div>
         </div>
-        <span class="clip-follower info"> 
+        <span class="clip-follower info font11"> 
             <span ng-if="me" on-tap='unFollowList(list._id,$index);' class="user-unfollow black-font">Unfollow!</span>
         </span>
     </div>
     <button ng-if="!me" class="follow-btn ">EDIT</button>
     <div class="clearfix"></div>
 </div>
-<div>
+<div ng-if="following_list.length == 0 && following_users.length == 0">
     <div class="result-empty">
         <span class="info"><img src="img/favicon-not.png"/></span>
         <span class="info grey-color">Not Following</span>
