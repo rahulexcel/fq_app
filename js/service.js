@@ -17,7 +17,7 @@ serviceMod.filter('picture', ['ajaxRequest', function (ajaxRequest) {
                 return picture;
             }
 
-            if (picture.length == 32) {
+            if (picture.length <= 32) {
                 //mongodb id
                 picture = ajaxRequest.url('v1/picture/view/' + picture);
             }

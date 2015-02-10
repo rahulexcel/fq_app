@@ -79,7 +79,7 @@ friendService.factory('friendHelper', [
             });
             ajax.then(function (data) {
                 def.resolve(data);
-                if (type == 'type') {
+                if (type === 'add') {
                     notifyHelper.subscribe('user_follower_' + follow_user_id);
                     notifyHelper.sendAlert('user_' + follow_user_id, {
                         title: $localStorage.user.name + " is Following You Now",

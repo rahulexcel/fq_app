@@ -6,6 +6,7 @@ notifyService.factory('notifyHelper', [
         //parse push notification
         var service = {};
         service.delete = function (object_id) {
+            this.parseInit();
             var defer = $q.defer();
             var Update = Parse.Object.extend("Update");
             var query = new Parse.Query(Update);
@@ -25,8 +26,9 @@ notifyService.factory('notifyHelper', [
                 }
             });
             return defer.promise;
-        }
+        };
         service.getUpdate = function (user_id, count, skip) {
+            this.parseInit();
             if (!skip) {
                 skip = 0;
             }
@@ -35,7 +37,7 @@ notifyService.factory('notifyHelper', [
             var Update = Parse.Object.extend("Update");
             var query = new Parse.Query(Update);
             query.equalTo('user_id', user_id);
-            query.equalTo('read', false);
+//            query.equalTo('read', false);
             if (count)
             {
                 query.count({
@@ -47,18 +49,26 @@ notifyService.factory('notifyHelper', [
                     }
                 });
             } else {
-                query.ascending("score");
-                query.limit(10);
+                query.descending("score");
+                query.limit(limit);
                 query.skip(skip);
                 query.find({
                     success: function (res) {
-                        defer.resolve(res);
-
+                        var ret = [];
                         for (var i = 0; i < res.length; i++) {
-                            res.set('read', true);
-                            res.save();
-                        }
+                            ret.push({
+                                id: res[i].id,
+                                user_id: res[i].get('user_id'),
+                                data: res[i].get('data'),
+                                read: res[i].get('read'),
+                                time: res[i].get('time'),
+                                type: res[i].get('type')
+                            });
 
+                            res[i].set('read', true);
+                            res[i].save();
+                        }
+                        defer.resolve(ret);
                     },
                     error: function () {
                         defer.reject();
@@ -69,11 +79,12 @@ notifyService.factory('notifyHelper', [
             return defer.promise;
         };
         service.addUpdate = function (user_ids, type, data) {
+            this.parseInit();
             if (!angular.isArray(user_ids)) {
                 user_ids = [user_ids];
             }
             var defer = $q.defer();
-            if (user_ids.length == 0) {
+            if (user_ids.length === 0) {
                 defer.when();
             } else {
                 var Update = Parse.Object.extend("Update");
@@ -106,9 +117,9 @@ notifyService.factory('notifyHelper', [
                 }
             }
             return defer.promise;
-        }
+        };
         service.sendAlert = function (channel, data, expiry) {
-
+            this.parseInit();
             if (!expiry) {
                 expiry = 24;
             }
@@ -129,26 +140,47 @@ notifyService.factory('notifyHelper', [
                 }
             });
             return defer.promise;
-        }
+        };
         service.unsubscribe = function (name) {
+            this.parseInit();
             var defer = $q.defer();
-            ParsePushPlugin.unsubscribe(name, function (msg) {
-                defer.resolve(msg);
-            }, function (e) {
-                defer.reject(e);
-            });
+            if (typeof ParsePushPlugin === 'undefined') {
+                defer.reject();
+            } else {
+                ParsePushPlugin.unsubscribe(name, function (msg) {
+                    defer.resolve(msg);
+                }, function (e) {
+                    defer.reject(e);
+                });
+            }
             return defer.promise;
-        }
+        };
         service.subscribe = function (name) {
+            this.parseInit();
             var defer = $q.defer();
-            ParsePushPlugin.subscribe(name, function (msg) {
-                defer.resolve(msg);
-            }, function (e) {
-                defer.reject(e);
-            });
+            if (typeof ParsePushPlugin === 'undefined') {
+                defer.reject();
+            } else {
+                ParsePushPlugin.subscribe(name, function (msg) {
+                    defer.resolve(msg);
+                }, function (e) {
+                    defer.reject(e);
+                });
+            }
             return defer.promise;
-        }
+        };
+        service.init_done = false;
+        service.parseInit = function () {
+            if (!this.init_done) {
+                Parse.initialize('X5pqHF9dFQhbCxv8lQYHhH1KfXjzp2c4phg51ZPz', 'wjP6ghTt3b6dJ7lyrzIinTLMNe3fW6vy3LafCyVs');
+                this.init_done = true;
+            }
+        };
         service.init = function () {
+            this.parseInit();
+            if (typeof ParsePushPlugin === 'undefined') {
+                return;
+            }
             ParsePushPlugin.register({
                 appId: "X5pqHF9dFQhbCxv8lQYHhH1KfXjzp2c4phg51ZPz", clientKey: "8h7pfcLqc7fefx8781bl35nQdVxRKznhGNvWOonu", eventKey: "myEventKey"}, //will trigger receivePN[pnObj.myEventKey]
             function () {
@@ -216,6 +248,6 @@ notifyService.factory('notifyHelper', [
 //                    }
 //                });
 //            }
-        }
+        };
         return service;
     }]);

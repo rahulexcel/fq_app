@@ -1,7 +1,7 @@
 <div ng-if='followers.length > 0'>
     <div class="box" ng-repeat="user in followers">
         <div class="user_image">
-            <img class="rounded" ng-src="{{user.picture:50:50}}"/>
+            <img class="rounded" ng-src="{{user.picture|picture:50:50}}"/>
         </div>
         <div class="user-info">
             <span class="black-font info">{{user.name}}</span>

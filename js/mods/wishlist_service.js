@@ -64,7 +64,7 @@ wishlistService.factory('wishlistHelper', [
             }
             user_wish_list_pri[list_id]++;
             timeStorage.set('user_wish_list_pri', user_wish_list_pri, 24);
-        }
+        };
         service.sortList = function (list) {
             var me = list.me;
             var user_wish_list_pri = timeStorage.get('user_wish_list_pri');
@@ -79,7 +79,7 @@ wishlistService.factory('wishlistHelper', [
                 list.me = me;
             }
             return list;
-        }
+        };
         service.list = function (force, showLoading) {
             var self = this;
             if (!angular.isDefined(showLoading)) {

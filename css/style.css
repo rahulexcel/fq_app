@@ -387,7 +387,7 @@ Scroll On Product Page
     font-size: 11px;
 }
 .prog_inner{
-height: 3px;
+    height: 3px;
 }
 i.close-tab-icon{
 
@@ -395,7 +395,7 @@ i.close-tab-icon{
     float: right;
     font-size: 23px;
     font-weight: normal;
-    
+
 }
 .feed-info,.list-my_acc .input-label,
 .feed-rate-btn:hover,.feed-rate-btn,
@@ -1305,7 +1305,7 @@ span i.fa-circle{
 }
 .private-label .checkbox input:checked + .checkbox-icon:before,.private-label .checkbox input:checked:before{
     background-color: #FFF;
-border-color: #FFF;
+    border-color: #FFF;
 }
 #wishlist_item .pro-info
 {
@@ -1326,13 +1326,13 @@ border-color: #FFF;
     vertical-align: middle;
 }
 .user_image_new{
-     width: 48px !important;
-     margin:4px 15px 0px 0px;
+    width: 48px !important;
+    margin:4px 15px 0px 0px;
 }
 .box .user_image_new{ 
-width: 36px !important;
-margin-left:10px;
-margin-right: 0px !important;
+    width: 36px !important;
+    margin-left:10px;
+    margin-right: 0px !important;
 }
 .user-info{
     float: left;
@@ -1521,7 +1521,7 @@ ul.mine-clip-list li .user-info{
     margin: 25px auto;
     text-align: center;
     font-size: 12px;
-        
+
 }
 .offline-msg{
     width: 65%;
@@ -1688,27 +1688,35 @@ i.offline-icon{
     font-size: 10px;
 }
 .wishlist .wishlist{
-                    border-bottom: 1px solid #DA500F !important;
-                    color: #DA500F !important;
-                }
- .followers .followers{
-                    border-bottom: 1px solid #DA500F !important;
-                    color: #DA500F !important;
-                }
+    border-bottom: 1px solid #DA500F !important;
+    color: #DA500F !important;
+}
+.followers .followers{
+    border-bottom: 1px solid #DA500F !important;
+    color: #DA500F !important;
+}
 .following .following{
-                    border-bottom: 1px solid #DA500F !important;
-                    color: #DA500F !important;
-                }
+    border-bottom: 1px solid #DA500F !important;
+    color: #DA500F !important;
+}
 .pins .pins{
-                    border-bottom: 1px solid #DA500F !important;
-                    color: #DA500F !important;
-                }
+    border-bottom: 1px solid #DA500F !important;
+    color: #DA500F !important;
+}
 .profile .profile{
-                    border-bottom: 1px solid #DA500F !important;
-                    color: #DA500F !important;
-                }
+    border-bottom: 1px solid #DA500F !important;
+    color: #DA500F !important;
+}
 .update .update{
-                    border-bottom: 1px solid #DA500F !important;
-                    color: #DA500F !important;
-                }
- 
+    border-bottom: 1px solid #DA500F !important;
+    color: #DA500F !important;
+}
+.updates{
+    position: relative;
+}
+.updates .delete{
+    position: absolute;
+    right: 0px;
+    top:0px;
+    z-index: 99999;
+}

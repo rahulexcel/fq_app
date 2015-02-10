@@ -134,8 +134,8 @@ profileMod.controller('ProfileCtrl',
 
                 var self = this;
 
-                self.followUserID = function (user_id) {
-                    return friendHelper.user_follow(user_id);
+                self.followUserID = function (user_id, type) {
+                    return friendHelper.user_follow(user_id, type);
                 };
                 $scope.followProfileUser = function () {
                     if ($scope.request_process) {
@@ -145,6 +145,21 @@ profileMod.controller('ProfileCtrl',
                     $scope.request_process = true;
                     var ajax = self.followUserID(user_id);
                     ajax.then(function () {
+                        $scope.following = true;
+                        $scope.request_process = false;
+                    }, function () {
+                        $scope.request_process = false;
+                    });
+                };
+                $scope.unFollowProfileUser = function () {
+                    if ($scope.request_process) {
+                        toast.showProgress();
+                        return;
+                    }
+                    $scope.request_process = true;
+                    var ajax = self.followUserID(user_id, 'remove');
+                    ajax.then(function () {
+                        $scope.following = false;
                         $scope.request_process = false;
                     }, function () {
                         $scope.request_process = false;

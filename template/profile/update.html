@@ -1,10 +1,14 @@
-<ion-list can-swipe="true" show-delete="false">
-    <ion-item ng-repeat="item in items">
-        <img ng-src="{{item.img}}">
-        Hello, {{item.title}}!
-        <p>{{item.description}}</p>
-        <ion-option-button class="ion-trash-b button-assertive"
-                           ng-click="delete();">
-        </ion-option-button>
-    </ion-item>
-</ion-list>
+<div class="list card updates" ng-repeat="item in updates track by $index">
+    <div class="item item-avatar" ng-if="item.user">
+        <img class="rounded" ng-src="{{item.user.picture|picture:50:50}}">
+        <h2>{{item.user.name}}</h2>
+        <p>{{item.time|prettyDate}}</p>
+    </div>
+    <div class="item item-body">
+        <img ng-if="item.body.image" class="full-image" ng-src="{{item.body.image}}">
+        <div>
+            {{item.body.title}}
+        </div>
+    </div>
+    <button class="button-clear icon ion-close delete" on-tap='deleteItem(item,$index)'></button>
+</div>
