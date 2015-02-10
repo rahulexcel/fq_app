@@ -8,7 +8,7 @@
     </div>
     <div class="user-info">
         <span class="black-font info font13">{{user.name}}</span>
-        <span class="grey-color font13">{{user.meta.products}} pins <i class="fa fa-circle"> </i>
+        <span class="grey-color font13">{{user.meta.products}} pins &nbsp;<i class="fa fa-circle"> </i>&nbsp
             <i class="ion-ios-people fa-lg red-color"></i>&nbsp  {{user.followers.length}} Followers
         </span>
         <span ng-if='true' on-tap='unFollowUser(user._id,$index)' class="user-unfollow black-font info font11">Unfollow!</span>
@@ -27,12 +27,12 @@
         </span>
         <div class=""> 
             <span class="info grey-color font11">
-                {{item1.meta.products}}1 clips <i class="fa fa-circle"></i> 
+                {{item1.meta.products}}1 clips <i class="fa fa-circle"></i>&nbsp 
                 Created on {{item1.created_at|prettyDate}} 
             </span>
             <span class="info grey-color font11" ng-show="list.followers.length != 0">
-                <i class="ion-ios-heart-outline red-color"></i> 17 {{list.meta.likes}} 
-                <i class="ion-ios-people fa-lg red-color"></i> 20 {{item1.followers.length}}
+                <i class="ion-ios-heart-outline red-color"></i> 17 {{list.meta.likes}} &nbsp
+                <i class="ion-ios-people fa-lg red-color"></i>&nbsp 20 {{item1.followers.length}}
             </span> 
             <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
             <div class="clearfix"></div>
