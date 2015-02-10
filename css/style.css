@@ -1099,7 +1099,7 @@ input{
     margin-bottom:0px;
     font-family: "Dosis" !important;
     font-weight: 600;
-    width: 95px !important;
+    width: 84px !important;
     max-height: 30px;
     line-height: 30px;
     margin-bottom: 10px;
@@ -1326,8 +1326,8 @@ border-color: #FFF;
     vertical-align: middle;
 }
 .user_image_new{
-     width: 36px !important;
-     margin:1px 15px 0px 0px;
+     width: 48px !important;
+     margin:4px 15px 0px 0px;
 }
 .box .user_image_new{ 
 width: 36px !important;
@@ -1450,7 +1450,7 @@ ul.mine-list li{
 ul.mine-clip-list li{
     color: #A8A8A8;
     font-size: 1em;
-    padding: 12px 22px;
+    padding: 5px 15px;
     line-height: 21px;
     font-weight: normal;
     border-bottom: 1px solid #C8C8C5;
@@ -1682,6 +1682,10 @@ i.offline-icon{
 }
 .font13{
     font-size: 13px !important;
+}
+.ion-ios-locked{
+    color: #8D8D8D;
+    font-size: 10px;
 }
 .wishlist .wishlist{
                     border-bottom: 1px solid #DA500F !important;
