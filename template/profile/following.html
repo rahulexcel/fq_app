@@ -1,5 +1,7 @@
+<!--<div class="list-section" ng-show="following_users.length > 0">PEOPLE</div>-->
 <div class="list-section">PEOPLE</div>
-<div class="box"  >
+<!--<div class="box"  ng-repeat="user in following_users">-->
+<div class="box">
     <div class="user_image user_image_new">
         <img class="rounded" ng-src='{{user.picture| picture:50:50}}'/>
     </div>
@@ -13,6 +15,9 @@
     <button ng-if='false' on-tap='followUser(user._id);' class="follow-btn red-back">FOLLOW</button>
     <div class="clearfix"></div>
 </div>
+<!--<div class="list-section" ng-show="lists_their.length > 0">WISHLIST</div>
+<div class="box" ng-repeat="list in lists_their">
+-->
 <div class="list-section">WISHLIST</div>
 <div class="box">
     <div class="user-info">
