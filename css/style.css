@@ -376,11 +376,12 @@ Scroll On Product Page
     color:#838383;
 }
 .progress_parent{
-    padding: 5px 5px 5px 15px;
+    padding: 0px 5px 0px 15px;
 }
 .progress{
     background-color: #ccc;
     margin-top: 2px !important;
+    line-height: 10px !important;
 }
 .uploading{
     font-size: 11px;
@@ -1045,7 +1046,8 @@ div#show-fliter .button .filter-icon:before{
     vertical-align: middle;
     margin-right: 13px;
     font-size: 13px;
-    margin-top: 18px
+    line-height: 25px;
+    margin-top:12px;
 }
 .progress-close{
     float: right;
@@ -1659,21 +1661,31 @@ i.offline-icon{
     width: 112px !important;
     min-height: 29px !important;
 }
+.result-empty span.grey-color{
+    color: #c4c0bb;
+}
 .wishlist .wishlist{
-                    border-bottom: 1px solid red !important;
+                    border-bottom: 1px solid #DA500F !important;
+                    color: #DA500F !important;
                 }
  .followers .followers{
-                    border-bottom: 1px solid red !important;
+                    border-bottom: 1px solid #DA500F !important;
+                    color: #DA500F !important;
                 }
 .following .following{
-                    border-bottom: 1px solid red !important;
+                    border-bottom: 1px solid #DA500F !important;
+                    color: #DA500F !important;
                 }
 .pins .pins{
-                    border-bottom: 1px solid red !important;
+                    border-bottom: 1px solid #DA500F !important;
+                    color: #DA500F !important;
                 }
 .profile .profile{
-                    border-bottom: 1px solid red !important;
+                    border-bottom: 1px solid #DA500F !important;
+                    color: #DA500F !important;
                 }
 .update .update{
-                    border-bottom: 1px solid red !important;
+                    border-bottom: 1px solid #DA500F !important;
+                    color: #DA500F !important;
                 }
+ 
