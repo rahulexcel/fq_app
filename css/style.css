@@ -1594,7 +1594,7 @@ i.offline-icon{
 }
 .pin-info{
     border-bottom: 1px solid #ccc;
-    min-height: 50px;
+    /*min-height: 50px;*/
 }
 .pin .user-info{
     font-size:.9em;

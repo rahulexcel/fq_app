@@ -315,6 +315,27 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             e.preventDefault();
             return false;
         });
+
+        if (window.plugins && window.plugins.webintent) {
+            window.plugins.webintent.hasExtra(window.plugins.webintent.EXTRA_TEXT,
+                    function (has) {
+                        if (has) {
+                            window.plugins.webintent.getExtra(window.plugins.webintent.EXTRA_TEXT,
+                                    function (data) {
+                                        // url is the value of EXTRA_TEXT
+
+                                        console.log(data);
+                                    }, function () {
+                                // There was no extra supplied.
+                            }
+                            );
+                        }
+                    }, function () {
+                // Something really bad happened.
+            }
+            );
+        }
+
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -328,9 +349,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
-
-            if ($localStorage.user.id)
-                notifyHelper.init();
+            notifyHelper.init();
 
         });
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
