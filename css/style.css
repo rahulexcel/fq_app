@@ -1055,7 +1055,7 @@ div#show-fliter .button .filter-icon:before{
     font-family: "dosis";
     font-size: 14px;
     color:#b5b0a8;
-    padding-left: 16px;
+    padding-left: 0px;
 }
 .list-my_acc .input-label{
     margin-top:5px;
