@@ -1326,7 +1326,7 @@ border-color: #FFF;
 }
 .user_image_new{
      width: 36px !important;
-     margin-right: 15px;
+     margin:1px 15px 0px 0px;
 }
 .user-info{
     float: left;
