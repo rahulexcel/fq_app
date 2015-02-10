@@ -1,8 +1,8 @@
 var friendService = angular.module('FriendService', ['ServiceMod']);
 
 friendService.factory('friendHelper', [
-    'ajaxRequest', '$q', '$localStorage', 'timeStorage',
-    function (ajaxRequest, $q, $localStorage, timeStorage) {
+    'ajaxRequest', '$q', '$localStorage', 'timeStorage', 'notifyHelper',
+    function (ajaxRequest, $q, $localStorage, timeStorage, notifyHelper) {
         var service = {};
         service.home = function (page) {
             var def = $q.defer();
@@ -79,6 +79,20 @@ friendService.factory('friendHelper', [
             });
             ajax.then(function (data) {
                 def.resolve(data);
+                if (type == 'type') {
+                    notifyHelper.subscribe('user_follower_' + follow_user_id);
+                    notifyHelper.sendAlert('user_' + follow_user_id, {
+                        title: $localStorage.user.name + " is Following You Now",
+                        meta: {
+                            user: $localStorage.user
+                        }
+                    });
+                    notifyHelper.addUpdate(follow_user_id, 'follow_user', $localStorage.user);
+                } else {
+                    notifyHelper.unsubscribe('user_follower_' + follow_user_id);
+                    notifyHelper.addUpdate(follow_user_id, 'unfollow_user', $localStorage.user);
+                }
+
             }, function () {
                 def.reject();
             });
@@ -100,6 +114,26 @@ friendService.factory('friendHelper', [
             });
             ajax.then(function (data) {
                 def.resolve(data);
+                if (type == 'add') {
+                    notifyHelper.subscribe('list_' + list_id);
+                    notifyHelper.sendAlert('user_' + data.user_id, {
+                        title: $localStorage.user.name + " is Following You List " + data.name,
+                        meta: {
+                            user: $localStorage.user,
+                            list: data
+                        }
+                    });
+                    notifyHelper.addUpdate(data.user_id, 'follow_list', {
+                        user: $localStorage.user,
+                        list: data
+                    });
+                } else {
+                    notifyHelper.unsubscribe('list_' + list_id);
+                    notifyHelper.addUpdate(data.user_id, 'unfollow_list', {
+                        user: $localStorage.user,
+                        list: data
+                    });
+                }
             }, function () {
                 def.reject();
             });

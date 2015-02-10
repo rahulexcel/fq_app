@@ -1,8 +1,8 @@
 var wishlistService = angular.module('WishlistService', ['ServiceMod', 'ionic']);
 
 wishlistService.factory('wishlistHelper', [
-    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', 'timeStorage', '$ionicLoading',
-    function (ajaxRequest, $q, toast, $localStorage, $location, timeStorage, $ionicLoading) {
+    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', 'timeStorage', '$ionicLoading', 'notifyHelper',
+    function (ajaxRequest, $q, toast, $localStorage, $location, timeStorage, $ionicLoading, notifyHelper) {
         var service = {};
 
         service.getUrlImage = function (url) {
@@ -180,6 +180,64 @@ wishlistService.factory('wishlistHelper', [
                 });
                 ajax.then(function (data) {
                     def.resolve(data);
+
+                    if (data.list) {
+                        var followers = data.list.followers;
+                        var shared_ids = data.list.shared_ids;
+                        if (shared_ids.length > 0) {
+                            notifyHelper.addUpdate(shared_ids, 'item_add', data);
+                            for (var i = 0; i < shared_ids.length; i++) {
+                                notifyHelper.sendAlert('user_' + shared_ids[i], {
+                                    title: 'New Item Added',
+                                    alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+                                    type: 'item_add',
+                                    meta: {
+                                        wishlist_model: data.wishlist_model,
+                                        list: data.list,
+                                        user: $localStorage.user
+                                    }
+                                });
+                            }
+                        } else if (followers.length > 0) {
+                            //followers only if no shared ids
+                            notifyHelper.addUpdate(followers, 'item_add', data);
+                            notifyHelper.sendAlert('list_' + data.list._id, {
+                                title: 'New Item Added',
+                                alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+                                meta: {
+                                    type: 'item_add',
+                                    wishlist_model: data.wishlist_model,
+                                    list: data.list,
+                                    user: $localStorage.user
+                                }
+                            });
+
+
+                            var user_followers = data.user.followers;
+                            var filtered_user_followers = [];
+                            for (var i = 0; i < user_followers.length; i++) {
+                                var follower = user_followers[i];
+                                if (followers.indexOf(follower) === -1) {
+                                    filtered_user_followers.push(follower);
+                                }
+                                notifyHelper.addUpdate(filtered_user_followers, 'item_add_user', data);
+                                notifyHelper.sendAlert('user_follower_' + $localStorage.user.id, {
+                                    title: 'New Item Added',
+                                    alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+                                    meta: {
+                                        type: 'item_add_user',
+                                        wishlist_model: data.wishlist_model,
+                                        list: data.list,
+                                        user: $localStorage.user
+                                    }
+                                });
+                            }
+                        }
+
+
+                        //need to post to user followers as well
+                    }
+
                 }, function (message) {
                     def.reject({
                         login: 0,
