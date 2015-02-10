@@ -1340,7 +1340,9 @@ margin-right: 0px !important;
     margin-left: 10px;
     line-height: 15px;
 }
-
+#following-main .box{
+    padding-left:0px !important;
+}
 .user-info span a, #menu-bar-container span.info-veiw{text-decoration: underline;}
 button.follow-btn{
     float: right;
