@@ -3,7 +3,7 @@
         {{rejFiles}}
     </div>
     <div class="progress_parent register white-back box-round">
-        <div class="user_image">
+        <div class="user_image user_image_new">
             <img ng-src="{{login_data.picture|picture:picture_width}}" class='rounded'/>
         </div>
         <div ng-if="!is_mobile">
@@ -11,26 +11,29 @@
                  ng-model="file.myFiles" 
                  ng-multiple="false" 
                  ng-rejected-file-model="rejFiles">
-                Change profile image
+                <div ng-show='!file_upload'>Change profile image</div>
+                <div ng-show='file_upload'>
+                    <div class="uploading">
+                        Uploading...
+                    </div>
+                    <div class="progress-info progress" style="height: 3px">
+                        <i class="fa fa-times progress-close" ></i>
+                        <div ng-style="progoress_style" class='prog_inner red-back'>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <div class="clearfix"></div>
         </div>
 
         <div ng-if='is_mobile'>
             <div class="progress-info" on-tap='browseCamera();'>Change profile image</div>
+            <div class="clearfix"></div>
         </div>
-        <div ng-show='file_upload'>
-            <div class="progress-info">
-                Uploading...
-            </div>
-            <div class="progress-info progress" style="height: 2px">
-                <i class="fa fa-times progress-close" ></i>
-                <div ng-style="progoress_style" class='prog_inner red-back'>
-                </div>
-            </div>
-            
-        </div>
+        <div class="clearfix"></div>
     </div>
-    <div class="clearfix"></div>
+
 </div>
 <div id="my-acc">
 
