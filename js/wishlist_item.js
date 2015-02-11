@@ -56,6 +56,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 $scope.me_follow_list = true;
                             }
                         }
+                        console.log(data);
                         for (i = 0; i < data.likes.length; i++) {
                             if (data.likes[i].user_id === $localStorage.user.id) {
                                 $scope.me_like = true;
