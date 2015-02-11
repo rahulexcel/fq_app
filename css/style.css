@@ -1474,13 +1474,20 @@ ul.mine-list li{
 ul.mine-clip-list li{
     color: #A8A8A8;
     font-size: 1em;
-    padding: 5px 15px;
+    padding: 10px 15px;
     line-height: 21px;
     font-weight: normal;
     border-bottom: 1px solid #C8C8C5;
 }
 ul.mine-clip-list li:last-child{
     border-bottom-style: none;
+}
+.wish-icon{
+    margin-top:5px;
+}
+.wish-name{
+    line-height: 12px;
+    font-size: 14px;
 }
 ul.mine-clip-list{
     border:1px solid #ccc;

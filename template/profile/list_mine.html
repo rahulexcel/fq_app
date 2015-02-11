@@ -1,18 +1,18 @@
 <div class="top-container" ng-show="wishlist_mine.length > 0">
     <ul class="mine-clip-list">
         <li ng-repeat='item1 in wishlist_mine track by item1._id'>
-            <div class="black-font" on-tap='viewList(item1);'>
+            <div class="black-font wish-name" on-tap='viewList(item1);'>
                 {{item1.name}} 
                 <i ng-if="item1.type == 'private'" class="ion-ios-locked"></i>
             </div>
-            <div class="user-info"> 
-                <span class="info grey-color">
+            <div class="user-info grey-color"> 
+                <span class="info ">
                     {{item1.meta.products}} clips <i class="fa fa-circle"></i> 
                     Created on {{item1.created_at|prettyDate}} 
                 </span>
-                <span class="info grey-color">
+                <span class="info wish-icon">
                     <i class="ion-ios-heart-outline red-color"></i>&nbsp; {{item1.meta.likes}}&nbsp; 
-                    <i class="ion-ios-people red-color"></i>&nbsp; {{item1.followers.length}}
+                    <i class="ion-ios-people fa-lg red-color"></i>&nbsp; {{item1.followers.length}}
                 </span> 
                 <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
                 <div class="clearfix"></div>
