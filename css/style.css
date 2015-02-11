@@ -1697,7 +1697,7 @@ i.offline-icon{
 }
 .profile-follow-btn{
     margin-top: 5px;
-    width: 90px !important;
+    width: 80px !important;
     min-height: 29px !important;
 }
 .result-empty span.grey-color{
@@ -1719,6 +1719,9 @@ i.offline-icon{
 .wishlist .wishlist{
     border-bottom: 2px solid #DA500F !important;
     color: #DA500F !important;
+}
+.private-label .item-checkbox {
+    padding-left: 21px;
 }
 .followers .followers{
     border-bottom: 2px solid #DA500F !important;
