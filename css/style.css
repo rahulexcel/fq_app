@@ -1081,7 +1081,7 @@ input{
     padding-bottom:0px;
 }
 #my-acc .item-myacc2{
-    padding-top:15px;
+    padding-top:12px;
 }
 #my-acc .item-floating-label span.myacc-gender-label {
     opacity:1;top:0px;
@@ -1090,7 +1090,10 @@ input{
 }
 #my-acc .item-myacc2 select{
     float:right;
-    margin-top: 7px;
+    margin-top: 5px;
+}
+#my-acc form label{
+    height: 54px !important;
 }
 #my-acc .myacc-update{
     min-height: 29px !important;
