@@ -413,7 +413,9 @@ li.sub-cat-label>span,
 #my-acc .myacc-update,.bar.bar-stable .title,.white-color{
     color:#fff !important;
 }
-
+.grey-border{
+    border-color: #ccc !important;
+}
 .search_box .ion-close{
     font-size:1em;
 }
@@ -1081,7 +1083,7 @@ input{
     padding-bottom:0px;
 }
 #my-acc .item-myacc2{
-    padding-top:15px;
+    padding-top:12px;
 }
 #my-acc .item-floating-label span.myacc-gender-label {
     opacity:1;top:0px;
@@ -1090,7 +1092,10 @@ input{
 }
 #my-acc .item-myacc2 select{
     float:right;
-    margin-top: 7px;
+    margin-top: 5px;
+}
+#my-acc form label{
+    height: 54px !important;
 }
 #my-acc .myacc-update{
     min-height: 29px !important;
@@ -1339,6 +1344,11 @@ span i.fa-circle{
     /*width: 57%;*/
     margin-left: 10px;
     line-height: 15px;
+    margin-top: 2px;
+}
+.user-btn{
+  position: absolute;
+  right: 20px;
 }
 #following-main .box{
     padding-left:0px !important;
@@ -1427,6 +1437,14 @@ span.info{
 .follow-details>span{
     margin-right: 35px;
 }
+.follow-field{
+    float: left;
+    margin-right: 15px;
+    line-height: 14px;
+}
+.follow-field span{
+    display:block;
+}
 .follow-details {
     border-top: 1px solid #EEE7DD;
     border-bottom: 1px solid #EEE7DD;
@@ -1437,9 +1455,15 @@ span.info{
     font-size: 13px;
     height: 38px;
 }
+.user-info .follow-details{
+    border-style: none;
+    padding: 5px 0px;
+    min-width: 0px;
+}
 ul.mine-list{
     margin: 0px !important;
     border-bottom: 1px solid #EEE7DD;
+    border-top: 1px solid #EEE7DD;
 }
 ul.mine-list li{
     border-right: 1px solid #EEE7DD;
@@ -1450,13 +1474,20 @@ ul.mine-list li{
 ul.mine-clip-list li{
     color: #A8A8A8;
     font-size: 1em;
-    padding: 5px 15px;
+    padding: 10px 15px;
     line-height: 21px;
     font-weight: normal;
     border-bottom: 1px solid #C8C8C5;
 }
 ul.mine-clip-list li:last-child{
     border-bottom-style: none;
+}
+.wish-icon{
+    margin-top:5px;
+}
+.wish-name{
+    line-height: 12px;
+    font-size: 14px;
 }
 ul.mine-clip-list{
     border:1px solid #ccc;
@@ -1666,9 +1697,7 @@ i.offline-icon{
 }
 .profile-follow-btn{
     margin-top: 5px;
-    font-family: "Dosis" !important;
-    font-weight: 600;
-    width: 112px !important;
+    width: 90px !important;
     min-height: 29px !important;
 }
 .result-empty span.grey-color{
@@ -1688,27 +1717,27 @@ i.offline-icon{
     font-size: 10px;
 }
 .wishlist .wishlist{
-    border-bottom: 1px solid #DA500F !important;
+    border-bottom: 2px solid #DA500F !important;
     color: #DA500F !important;
 }
 .followers .followers{
-    border-bottom: 1px solid #DA500F !important;
+    border-bottom: 2px solid #DA500F !important;
     color: #DA500F !important;
 }
 .following .following{
-    border-bottom: 1px solid #DA500F !important;
+    border-bottom: 2px solid #DA500F !important;
     color: #DA500F !important;
 }
 .pins .pins{
-    border-bottom: 1px solid #DA500F !important;
+    border-bottom: 2px solid #DA500F !important;
     color: #DA500F !important;
 }
 .profile .profile{
-    border-bottom: 1px solid #DA500F !important;
+    border-bottom: 2px solid #DA500F !important;
     color: #DA500F !important;
 }
 .update .update{
-    border-bottom: 1px solid #DA500F !important;
+    border-bottom: 2px solid #DA500F !important;
     color: #DA500F !important;
 }
 .updates{
