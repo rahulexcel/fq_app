@@ -913,6 +913,8 @@ i.up-price{
     font-size:18px;
     font-family: "Dosis";
     font-weight: 600;
+    margin-top: 10px;
+    
 }
 .item-checkbox span.ng-binding{
     font-family: "open sans";
@@ -922,8 +924,10 @@ i.up-price{
     margin-left:25px;
     font-size: 12px;
 }
-div#show-fliter .button .filter-icon:before{
+div#show-fliter .filter-icon:before{
     font-size: 17px;
+    line-height: 2;
+    margin-top: 1px;
 }
 .filter-list{
     padding:0px 10px;
@@ -936,9 +940,16 @@ div#show-fliter .button .filter-icon:before{
 }
 
 .filter-page:after{
-    border-bottom:2px solid black;
+    
     left:0px;right:0px;
 }
+.filter-page{
+    border-bottom:2px solid black;
+}
+.filter-page button{
+    float:right;
+}
+
 .sortby-container .checkbox .checkbox-icon:before, .sortby-container .checkbox input:before,
 .private-label .checkbox .checkbox-icon:before,.private-label .checkbox input:before {
     border-color: #FFF;
