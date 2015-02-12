@@ -12,6 +12,7 @@
                 <button class="button button-clear filter-button" on-tap='showProductsFn()'>
                     <i class="ion-ios-close-empty close-icon-show close-tab-icon"></i> 
                 </button>
+                <div class="clearfix"></div>
             </div>
             <div class="filter-list" bindonce ng-repeat="filter_type in filters">
                 <div class="filter_label" on-tap='open(filter_type);' bo-bind='filter_type.type'>
@@ -36,6 +37,8 @@
                 <button class="button button-clear filter-button" on-tap='showProductsFn()'>
                     <i class="ion-ios-close-empty close-icon-show close-tab-icon"></i>
                 </button>
+                
+                <div class="clearfix"></div>
             </div>
             <ion-list>
                 <ion-item ng-repeat="sort in sortBy">

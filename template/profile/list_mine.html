@@ -1,12 +1,16 @@
 <div class="top-container" ng-show="wishlist_mine.length > 0">
     <ul class="mine-clip-list">
+        <li class="clip-font-color new add-new clip-it" on-tap='newList();'>
+                    <i class="fa fa-plus-square-o fa-3px grey-color"></i>
+                    <span class="grey-color">Create a New Clipboard</span>
+                </li>
         <li ng-repeat='item1 in wishlist_mine track by item1._id'>
             <div class="black-font wish-name" on-tap='viewList(item1);'>
                 {{item1.name}} 
                 <i ng-if="item1.type == 'private'" class="ion-ios-locked"></i>
             </div>
-            <div class="user-info grey-color"> 
-                <span class="info ">
+            <div class="user-info font11 grey-color"> 
+                <span class="info wishtime">
                     {{item1.meta.products}} clips <i class="fa fa-circle"></i> 
                     Created on {{item1.created_at|prettyDate}} 
                 </span>

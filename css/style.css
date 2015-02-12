@@ -252,7 +252,9 @@ img
     top:45px;
     position: relative;
 }
-
+.red-border{
+    border-color: #DA500F !important;
+}
 .right_menu{
     display: none;
     position: absolute;
@@ -353,7 +355,7 @@ Scroll On Product Page
     width: 125px;
     z-index: 9999;
     text-align: center;
-    line-height: 37px;
+    line-height: 34px;
     font-size: 11px;
     font-weight: bold;
 }
@@ -911,6 +913,8 @@ i.up-price{
     font-size:18px;
     font-family: "Dosis";
     font-weight: 600;
+    margin-top: 10px;
+    
 }
 .item-checkbox span.ng-binding{
     font-family: "open sans";
@@ -920,8 +924,10 @@ i.up-price{
     margin-left:25px;
     font-size: 12px;
 }
-div#show-fliter .button .filter-icon:before{
+div#show-fliter .filter-icon:before{
     font-size: 17px;
+    line-height: 2;
+    margin-top: 1px;
 }
 .filter-list{
     padding:0px 10px;
@@ -934,9 +940,16 @@ div#show-fliter .button .filter-icon:before{
 }
 
 .filter-page:after{
-    border-bottom:2px solid black;
+    
     left:0px;right:0px;
 }
+.filter-page{
+    border-bottom:2px solid black;
+}
+.filter-page button{
+    float:right;
+}
+
 .sortby-container .checkbox .checkbox-icon:before, .sortby-container .checkbox input:before,
 .private-label .checkbox .checkbox-icon:before,.private-label .checkbox input:before {
     border-color: #FFF;
@@ -1061,8 +1074,8 @@ div#show-fliter .button .filter-icon:before{
     border-style:none;
 }
 .update-info{
-    font-family: "dosis";
-    font-size: 14px;
+    font-family: "Dosis";
+    font-size: 13px;
     color:#b5b0a8;
     padding-left: 0px;
 }
@@ -1357,9 +1370,24 @@ span i.fa-circle{
 button.follow-btn{
     float: right;
     border: 1px solid #ccc !important;
-    min-height: 26px;
+    min-height: 22px !important;
     margin: 7px 0px;
     border-radius: .2em;
+    font-family: "Dosis";
+    font-weight: 600;
+    color:#000;
+    font-size: 13px;
+}
+button.follow-btn-red{
+    float: right;
+    border: 1px solid #DA500F !important;
+    min-height: 22px !important;
+    margin: 7px 0px;
+    border-radius: .2em;
+    color:#000;
+    font-size: 13px;
+    min-width: 70px !important;
+max-width: 70px !important;
 }
 .user-comments{
     border: 1px solid #ccc;
@@ -1439,8 +1467,9 @@ span.info{
 }
 .follow-field{
     float: left;
-    margin-right: 15px;
-    line-height: 14px;
+    margin-right: 12px;
+    line-height: 12px;
+    font-size: 11px;
 }
 .follow-field span{
     display:block;
@@ -1474,7 +1503,7 @@ ul.mine-list li{
 ul.mine-clip-list li{
     color: #A8A8A8;
     font-size: 1em;
-    padding: 10px 15px;
+    padding: 8px 15px;
     line-height: 21px;
     font-weight: normal;
     border-bottom: 1px solid #C8C8C5;
@@ -1483,11 +1512,15 @@ ul.mine-clip-list li:last-child{
     border-bottom-style: none;
 }
 .wish-icon{
-    margin-top:5px;
+    margin-top:4px;
 }
 .wish-name{
     line-height: 12px;
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 600;
+}
+.wishtime{
+    line-height: 11px;
 }
 ul.mine-clip-list{
     border:1px solid #ccc;
@@ -1517,8 +1550,9 @@ ul.mine-clip-list li span.mine-new{
     width: 50%;
 }
 .list-section{
-    margin: 10px 0px;
+    margin: 7px 0px;
     color:#B5B0A8;
+    font-family: "Dosis";
 }
 .mine-pins .box{
     border-style: none;
@@ -1685,6 +1719,12 @@ i.offline-icon{
 .pin_list_container{
     margin-top: 10px;
 }
+.box button.follow-btn{
+    margin:16px 0px 0px !important;
+}
+.box button.followers-btn{
+    margin: 7px 0 !important;
+}
 .profile-btn{
     background-color: #F5F5F5 !important;
     margin-top: 5px;
@@ -1696,12 +1736,13 @@ i.offline-icon{
     min-height: 29px !important;
 }
 .profile-follow-btn{
-    margin-top: 5px;
-    width: 80px !important;
-    min-height: 29px !important;
+    margin-top: 3px;
+    min-width: 71px !important;
+    min-height: 23px !important;
+    font-size: 12px;
 }
 .result-empty span.grey-color{
-    color: #c4c0bb;
+    color: #c4c0bb !important;
 }
 .top-container .box button.follow-btn{
     min-width: 0;
@@ -1760,4 +1801,7 @@ i.offline-icon{
     position: absolute;
     right: 1px;
     top: 1px;
+}
+.ion-ios-heart-outline:before{
+    font-weight: bold;
 }
