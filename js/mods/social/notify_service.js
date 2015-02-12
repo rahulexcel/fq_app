@@ -1,18 +1,42 @@
 var notifyService = angular.module('NotifyMod', ['ServiceMod']);
 
 notifyService.factory('notifyHelper', [
-    '$q', '$localStorage', '$rootScope', '$localStorage',
-    function ($q, $localStorage, $rootScope, $localStorage) {
+    '$q', '$localStorage', '$rootScope', '$localStorage', '$ionicPlatform', '$timeout',
+    function ($q, $localStorage, $rootScope, $localStorage, $ionicPlatform, $timeout) {
         //parse push notification
         var service = {};
-        service.checkForUpdates = function () {
-            if ($localStorage.user.id) {
+        service.continueUpdate = true;
+        service.doUpdates = function () {
+            var self = this;
+            if ($localStorage.user.id && this.continueUpdate) {
                 var ajax = this.getUpdate($localStorage.user.id, true);
                 ajax.then(function (count) {
                     $rootScope.profile_update = count;
+                    $timeout(function () {
+                        self.doUpdates();
+                    }, 5000);
                 });
             }
-        }
+        };
+        service.checkForUpdates = function () {
+            var self = this;
+            self.doUpdates();
+            $ionicPlatform.on('pause', function () {
+                self.continueUpdate = false;
+            });
+            $ionicPlatform.on('resume', function () {
+                self.continueUpdate = true;
+                self.doUpdates();
+            });
+            $ionicPlatform.on('online', function () {
+                self.continueUpdate = true;
+                self.doUpdates();
+            });
+            $ionicPlatform.on('offline', function () {
+                self.continueUpdate = false;
+                self.doUpdates();
+            });
+        };
         service.delete = function (object_id) {
             this.parseInit();
             var defer = $q.defer();
@@ -45,9 +69,9 @@ notifyService.factory('notifyHelper', [
             var Update = Parse.Object.extend("Update");
             var query = new Parse.Query(Update);
             query.equalTo('user_id', user_id);
-//            query.equalTo('read', false);
             if (count)
             {
+                query.equalTo('read', false);
                 query.count({
                     success: function (res) {
                         defer.resolve(res);
@@ -72,9 +96,10 @@ notifyService.factory('notifyHelper', [
                                 time: res[i].get('time'),
                                 type: res[i].get('type')
                             });
-
-                            res[i].set('read', true);
-                            res[i].save();
+                            if (!res[i].get('read')) {
+                                res[i].set('read', true);
+                                res[i].save();
+                            }
                         }
                         defer.resolve(ret);
                     },
@@ -185,6 +210,7 @@ notifyService.factory('notifyHelper', [
             }
         };
         service.init = function () {
+            this.doUpdates();
             this.parseInit();
             if (typeof ParsePushPlugin === 'undefined') {
                 return;

@@ -5,10 +5,10 @@
         <p>{{item.time|prettyDate}}</p>
     </div>
     <div class="item item-body">
-        <img ng-if="item.body.image" class="full-image" ng-src="{{item.body.image|picture:320}}">
         <div>
             {{item.body.title}}
         </div>
+        <img ng-if="item.body.image" class="full-image" ng-src="{{item.body.image|picture:320}}">
     </div>
     <button class="button-clear icon ion-close delete" on-tap='deleteItem(item,$index)'></button>
 </div>

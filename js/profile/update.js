@@ -24,16 +24,16 @@ profileMod.controller('ProfileUpdateCtrl',
                         var row = data[i];
 
                         var item = {};
+                        if (!row.data.user) {
+                            continue;
+                        }
+                        item.user = {
+                            picture: row.data.user.id,
+                            name: row.data.user.name,
+                            id: row.data.user.id
+                        };
                         item.objectId = row.id;
                         if (row.type === 'item_unlike' || row.type === 'item_like') {
-                            if (!row.data.user) {
-                                continue;
-                            }
-                            item.user = {
-                                picture: row.data.user.id,
-                                name: row.data.user.name,
-                                id: row.data.user.id
-                            };
                             if (row.type === 'item_unlike') {
                                 item.body = {
                                     title: row.data.user.name + ' unliked your item in list ' + row.data.data.list_id.name,
@@ -47,16 +47,30 @@ profileMod.controller('ProfileUpdateCtrl',
                             }
                         } else if (row.type === 'follow_user') {
                             item.body = {
-                                title: row.data.name + ' is following you!'
+                                title: row.user.name + ' is following you!'
                             };
                         } else if (row.type === 'unfollow_user') {
-                            item.user = {
-                                picture: row.data.id,
-                                name: row.data.name,
-                                id: row.data.id
-                            }
                             item.body = {
                                 title: row.data.name + ' stopped following you!'
+                            };
+                        } else if (row.type === 'follow_list') {
+                            item.body = {
+                                title: row.data.user.name + ' is following your list ' + row.data.list.name
+                            };
+                        } else if (row.type === 'unfollow_list') {
+                            item.body = {
+                                title: row.data.user.name + ' has stopped following your list ' + row.data.list.name
+                            };
+                        } else if (row.type === 'item_comment') {
+                            if (!row.data)
+                                continue;
+                            if (!row.data.data)
+                                continue;
+                            if (!row.data.data.data)
+                                continue;
+                            item.body = {
+                                title: 'Comment: ' + row.data.comment,
+                                image: row.data.data.data.item_id.img
                             };
                         }
                         item.time = row.time;
