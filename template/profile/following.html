@@ -1,6 +1,6 @@
 <div id="following-main">
 <!--<div class="list-section" ng-show="following_users.length > 0">PEOPLE</div>-->
-<div class="list-section">PEOPLE</div>
+<div class="list-section font13">PEOPLE</div>
 <!--<div class="box"  ng-repeat="user in following_users">-->
 <div class="box">
     <div class="user_image user_image_new">
@@ -13,13 +13,13 @@
         </span>
         <span ng-if='true' on-tap='unFollowUser(user._id,$index)' class="user-unfollow black-font info font11">Unfollow!</span>
     </div>
-    <button ng-if='false' on-tap='followUser(user._id);' class="follow-btn red-back">FOLLOW</button>
+    <button ng-if='false' on-tap='followUser(user._id);' class="follow-btn-red follow-btn red-back">FOLLOW</button>
     <div class="clearfix"></div>
 </div>
 <!--<div class="list-section" ng-show="lists_their.length > 0">WISHLIST</div>
 <div class="box" ng-repeat="list in lists_their">
 -->
-<div class="list-section">WISHLIST</div>
+<div class="list-section font13">WISHLIST</div>
 <div class="box">
     <div class="user-info">
         <span class="black-font info font13" on-tap='viewList(list)'>Accessories{{list.name}}
@@ -30,7 +30,7 @@
                 {{item1.meta.products}}1 clips <i class="fa fa-circle"></i>&nbsp 
                 Created on {{item1.created_at|prettyDate}} 
             </span>
-            <span class="info grey-color font11" ng-show="list.followers.length != 0">
+            <span class="info grey-color font11 wish-icon" ng-show="list.followers.length != 0">
                 <i class="ion-ios-heart-outline red-color"></i> 17 {{list.meta.likes}} &nbsp
                 <i class="ion-ios-people fa-lg red-color"></i>&nbsp 20 {{item1.followers.length}}
             </span> 
@@ -39,7 +39,7 @@
         </div>
         <span class="clip-follower info font11"> 
             <span ng-if="me" on-tap='unFollowList(list._id,$index);' class="user-unfollow black-font">Unfollow!</span>
-        </span>
+        </span> 
     </div>
     <button ng-if="!me" class="follow-btn ">EDIT</button>
     <div class="clearfix"></div>
