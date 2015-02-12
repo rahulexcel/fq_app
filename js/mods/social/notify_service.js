@@ -1,10 +1,18 @@
 var notifyService = angular.module('NotifyMod', ['ServiceMod']);
 
 notifyService.factory('notifyHelper', [
-    'ajaxRequest', '$q', '$localStorage', '$cordovaPush', '$rootScope', '$localStorage',
-    function (ajaxRequest, $q, $localStorage, $cordovaPush, $rootScope, $localStorage) {
+    '$q', '$localStorage', '$rootScope', '$localStorage',
+    function ($q, $localStorage, $rootScope, $localStorage) {
         //parse push notification
         var service = {};
+        service.checkForUpdates = function () {
+            if ($localStorage.user.id) {
+                var ajax = this.getUpdate($localStorage.user.id, true);
+                ajax.then(function (count) {
+                    $rootScope.profile_update = count;
+                });
+            }
+        }
         service.delete = function (object_id) {
             this.parseInit();
             var defer = $q.defer();

@@ -1347,8 +1347,8 @@ span i.fa-circle{
     margin-top: 2px;
 }
 .user-btn{
-  position: absolute;
-  right: 20px;
+    position: absolute;
+    right: 20px;
 }
 #following-main .box{
     padding-left:0px !important;
@@ -1751,4 +1751,13 @@ i.offline-icon{
     right: 0px;
     top:0px;
     z-index: 99999;
+}
+
+.profile_updates{
+    color: white;
+    font-size: 0.7em;
+    line-height: 10px;
+    position: absolute;
+    right: 3px;
+    top: 3px;
 }

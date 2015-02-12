@@ -1,10 +1,13 @@
 var menuMod = angular.module('MenuMod', ['ServiceMod', 'ngStorage', 'ionic', 'pasvaz.bindonce']);
 
 menuMod.controller('MenuCtrl',
-        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper',
-            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper) {
+        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', '$timeout', 'notifyHelper',
+            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, $timeout, notifyHelper) {
 //                $ionicNavBarDelegate.showBackButton(false);
 
+                if ($localStorage.user.id) {
+                    notifyHelper.checkForUpdates();
+                }
                 $scope.$on('$ionicExposeAside', function () {
                     $rootScope.$emit('custom_ionicExposeAside');
                 });
@@ -95,7 +98,7 @@ menuMod.controller('MenuCtrl',
                 $rootScope.search = {
                     text: ''
                 };
-                
+
                 $scope.closeSearch = function () {
                     $rootScope.showSearchBox = false;
                 };
