@@ -1063,7 +1063,7 @@ div#show-fliter .button .filter-icon:before{
     border-style:none;
 }
 .update-info{
-    font-family: "open sans";
+    font-family: "Dosis";
     font-size: 13px;
     color:#b5b0a8;
     padding-left: 0px;
@@ -1373,10 +1373,10 @@ button.follow-btn-red{
     min-height: 22px !important;
     margin: 7px 0px;
     border-radius: .2em;
-    font-family: "Dosis";
-    font-weight: 600;
     color:#000;
     font-size: 13px;
+    min-width: 70px !important;
+max-width: 70px !important;
 }
 .user-comments{
     border: 1px solid #ccc;
@@ -1541,6 +1541,7 @@ ul.mine-clip-list li span.mine-new{
 .list-section{
     margin: 7px 0px;
     color:#B5B0A8;
+    font-family: "Dosis";
 }
 .mine-pins .box{
     border-style: none;
@@ -1710,6 +1711,9 @@ i.offline-icon{
 .box button.follow-btn{
     margin:16px 0px 0px !important;
 }
+.box button.followers-btn{
+    margin: 7px 0 !important;
+}
 .profile-btn{
     background-color: #F5F5F5 !important;
     margin-top: 5px;
@@ -1724,8 +1728,7 @@ i.offline-icon{
     margin-top: 3px;
     min-width: 71px !important;
     min-height: 23px !important;
-    font-family: "Dosis";
-    font-weight: 600;
+    font-size: 12px;
 }
 .result-empty span.grey-color{
     color: #c4c0bb !important;
