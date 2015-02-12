@@ -1,8 +1,8 @@
 var itemService = angular.module('ItemService', ['ServiceMod']);
 
 itemService.factory('itemHelper', [
-    'ajaxRequest', '$q', 'toast', '$localStorage',
-    function (ajaxRequest, $q, toast, $localStorage) {
+    'ajaxRequest', '$q', 'toast', '$localStorage', 'notifyHelper',
+    function (ajaxRequest, $q, toast, $localStorage, notifyHelper) {
         var service = {};
         service.listComment = function (list_id, item_id) {
             var def = $q.defer();
@@ -74,6 +74,24 @@ itemService.factory('itemHelper', [
             });
             ajax.then(function (data) {
                 def.resolve(data);
+                if (type === 'add') {
+                    notifyHelper.sendAlert('user_' + data.list_id.user_id, {
+                        title: $localStorage.user.name + " is Following You Now",
+                        meta: {
+                            user: $localStorage.user
+                        }
+                    });
+                    notifyHelper.addUpdate(data.list_id.user_id, 'item_like', {
+                        user: $localStorage.user,
+                        data: data
+                    });
+                } else {
+                    notifyHelper.addUpdate(data.list_id.user_id, 'item_unlike', {
+                        user: $localStorage.user,
+                        data: data
+                    });
+                }
+
             }, function (data) {
                 def.reject(data);
             });

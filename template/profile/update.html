@@ -5,7 +5,7 @@
         <p>{{item.time|prettyDate}}</p>
     </div>
     <div class="item item-body">
-        <img ng-if="item.body.image" class="full-image" ng-src="{{item.body.image}}">
+        <img ng-if="item.body.image" class="full-image" ng-src="{{item.body.image|picture:320}}">
         <div>
             {{item.body.title}}
         </div>

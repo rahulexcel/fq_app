@@ -49,7 +49,7 @@ notifyService.factory('notifyHelper', [
                     }
                 });
             } else {
-                query.descending("score");
+                query.descending("time");
                 query.limit(limit);
                 query.skip(skip);
                 query.find({

@@ -25,12 +25,27 @@ profileMod.controller('ProfileUpdateCtrl',
 
                         var item = {};
                         item.objectId = row.id;
-                        if (row.type === 'follow_user') {
-                            item.user = {
-                                picture: row.data.id,
-                                name: row.data.name,
-                                id: row.data.id
+                        if (row.type === 'item_unlike' || row.type === 'item_like') {
+                            if (!row.data.user) {
+                                continue;
                             }
+                            item.user = {
+                                picture: row.data.user.id,
+                                name: row.data.user.name,
+                                id: row.data.user.id
+                            };
+                            if (row.type === 'item_unlike') {
+                                item.body = {
+                                    title: row.data.user.name + ' unliked your item in list ' + row.data.data.list_id.name,
+                                    image: row.data.data.item_id.img
+                                };
+                            } else if (row.type === 'item_like') {
+                                item.body = {
+                                    title: row.data.user.name + ' liked your item in list ' + row.data.data.list_id.name,
+                                    image: row.data.data.item_id.img
+                                };
+                            }
+                        } else if (row.type === 'follow_user') {
                             item.body = {
                                 title: row.data.name + ' is following you!'
                             };
