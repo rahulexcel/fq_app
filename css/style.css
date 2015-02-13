@@ -1316,7 +1316,7 @@ span i.fa-circle{
     width: 45px;
 }
 .wishlist_list_item{
-    margin-left:55px;
+    margin-left:55px !important;
     width: 100%;
     margin-right: 55px
 }
@@ -1511,7 +1511,7 @@ ul.mine-list li{
 ul.mine-clip-list li{
     color: #A8A8A8;
     font-size: 1em;
-    padding: 8px 15px;
+    padding: 10px 15px;
     line-height: 21px;
     font-weight: normal;
     border-bottom: 1px solid #d1d1d1;
@@ -1756,10 +1756,10 @@ i.offline-icon{
     min-width: 0;
 }
 .font11{
-    font-size: 0.83em !important;
+    font-size: 0.9em !important;
 }
 .font13{
-    font-size: 0.91em !important;
+    font-size: 0.95em !important;
 }
 .fa-circle{
     vertical-align: middle;
