@@ -1262,8 +1262,10 @@ li.clip-it{
     line-height: 21px;
     font-weight: normal;
 }
-span i.fa-circle{
+i.fa-circle{
     font-size:0.3em;
+    margin:0 1px;
+    vertical-align: middle;
 }
 .add-new img{
     margin-right: 34px;
@@ -1387,16 +1389,14 @@ button.follow-btn{
 button.follow-btn-red{
     float: right;
     border: 1px solid #DA500F !important;
-    min-height: 22px !important;
+    min-height: 26px !important;
     margin: 7px 0px;
     border-radius: .2em;
     color:#000;
     font-size: 0.85em;
     min-width: 70px !important;
     max-width: 70px !important;
-}
-.fa-circle{
-    margin:0 1px;
+    font-weight: 600;
 }
 .user-comments{
     border: 1px solid #d9d7d4;
@@ -1562,6 +1562,7 @@ ul.mine-clip-list li span.mine-new{
     margin: 7px 0px;
     color:#B5B0A8;
     font-family: "Dosis";
+    font-size: 1em;
 }
 .mine-pins .box{
     border-style: none;
@@ -1761,9 +1762,6 @@ i.offline-icon{
 }
 .font13{
     font-size: 0.95em !important;
-}
-.fa-circle{
-    vertical-align: middle;
 }
 .ion-ios-locked{
     color: #8D8D8D;
