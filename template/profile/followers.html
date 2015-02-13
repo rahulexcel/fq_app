@@ -1,5 +1,5 @@
-<div>
-    <div class="box box-follower">
+<div ng-if='followers.length > 0'>
+    <div class="box box-follower" ng-repeat="user in followers">
         <div class="user_image user_image_new">
             <img class="rounded" ng-src="{{user.picture|picture:45:45}}"/>
         </div>
