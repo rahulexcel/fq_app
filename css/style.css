@@ -44,7 +44,7 @@ font-style: normal;
     background-position: center center;
 }
 .box-round{
-    border: 1px solid #CCC;
+    border: 1px solid #d9d7d4;
     border-radius: 3px;
 }
 .bar-header{
@@ -72,22 +72,26 @@ font-style: normal;
 input::-webkit-input-placeholder { /* WebKit browsers */
     color:   #999999;
     font-size: 0.91em;
-    font-family: "open sans"
+    font-family: "open sans";
+    margin-top:7px;
 }
 input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     color:    #999999;
     font-size: 0.91em;
-    font-family: "open sans"
+    font-family: "open sans";
+    margin-top:7px;
 }
 input::-moz-placeholder { /* Mozilla Firefox 19+ */
     color:    #999999;
     font-size: 0.91em;
-    font-family: "open sans"
+    font-family: "open sans";
+    margin-top:7px;
 }
 input:-ms-input-placeholder { /* Internet Explorer 10+ */
     color:    #999999;
     font-size: 0.91em;
-    font-family: "open sans"
+    font-family: "open sans";
+    margin-top:7px;
 }
 .bar-footer .clip-it{
     width: 100%;
@@ -295,7 +299,7 @@ Scroll On Product Page
     float: left;
     width: 200px;
     height: 100%;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid #d9d7d4;
     background-color: #fafafa;
     font-size: 14px;
     z-index: 9999;
@@ -332,7 +336,7 @@ Scroll On Product Page
     text-align: center;
 }
 .menu-left{
-    border-right: 1px solid #CCC;
+    border-right: 1px solid #d9d7d4;
 }
 #menu_scroller li{
     display: block;
@@ -364,10 +368,10 @@ Scroll On Product Page
     color:#838383;
 }
 .progress_parent{
-    padding: 0px 5px 0px 15px;
+    padding: 10px 15px;
 }
 .progress{
-    background-color: #ccc;
+    background-color: #d9d7d4;
     margin-top: 2px !important;
     line-height: 10px !important;
 }
@@ -402,7 +406,7 @@ li.sub-cat-label>span,
     color:#fff !important;
 }
 .grey-border{
-    border-color: #ccc !important;
+    border-color: #d9d7d4 !important;
 }
 .search_box .ion-close{
     font-size:1em;
@@ -426,7 +430,7 @@ li.sub-cat-label>span,
     border-bottom-style:none; 
 }
 ul.default-list{
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #d9d7d4;
 }
 .scroll-content .scroll #menu-bar-container  ul li span{
     width: 100%;
@@ -1048,7 +1052,7 @@ div#show-fliter .filter-icon:before{
     margin-right: 13px;
     font-size: 0.91em;
     line-height: 25px;
-    margin-top:12px;
+    margin-top:8px;
 }
 .progress-close{
     float: right;
@@ -1061,7 +1065,7 @@ div#show-fliter .filter-icon:before{
 }
 .update-info{
     font-family: "Dosis";
-    font-size: 0.91em;
+    font-size: 1em;
     color:#b5b0a8;
     padding-left: 0px;
 }
@@ -1078,7 +1082,7 @@ input{
     font-size: 0.91em !important;
 }
 #my-acc .item-myacc1,.item-myacc1{
-    border-bottom:1px solid #CCC;
+    border-bottom:1px solid #d9d7d4;
     padding-bottom:0px;
 }
 #my-acc .item-myacc2{
@@ -1094,20 +1098,20 @@ input{
     margin-top: 5px;
 }
 #my-acc form label{
-    height: 54px !important;
+    height: 51px !important;
 }
 #my-acc .myacc-update{
-    min-height: 29px !important;
+    min-height: 27px !important;
     border-style: none;
     border-radius: 2px;
     margin-bottom:0px;
     font-family: "Dosis" !important;
     font-weight: 600;
-    width: 84px !important;
-    max-height: 30px;
-    line-height: 30px;
+    width: 71px !important;
+    max-height: 28px;
+    line-height: 26px;
     margin-bottom: 10px;
-    font-size: 1.08em;
+    font-size: 1em;
 }
 #my-acc .padding{
     padding:0px;
@@ -1242,7 +1246,7 @@ input{
     height: 70px;
 }
 li.clip-it{
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #d9d7d4;
 }
 .clip-info{
     font-size: 0.79em;
@@ -1336,27 +1340,22 @@ span i.fa-circle{
     border-bottom-style: none; 
 }
 .box{
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 10px 15px;
+    border: 1px solid #d9d7d4;
     margin-bottom: 20px;
     border-radius: .2em;
     background-color: #fff;
 }
 .user_image{
     float: left;
-    width: 55px;
+    width: 45px;
     overflow: hidden;
     text-align: center;
     vertical-align: middle;
 }
 .user_image_new{
-    width: 48px !important;
-    margin:4px 15px 0px 0px;
-}
-.box .user_image_new{ 
-    width: 36px !important;
-    margin-left:10px;
-    margin-right: 0px !important;
+    width: 35px !important;
+    margin:0px 15px 0px 0px;
 }
 .user-info{
     float: left;
@@ -1369,8 +1368,8 @@ span i.fa-circle{
     position: absolute;
     right: 20px;
 }
-#following-main .box{
-    padding-left:0px !important;
+.box-follower .user-info{
+    margin-left: 0px !important;
 }
 .user-info span a, #menu-bar-container span.info-veiw{text-decoration: underline;}
 button.follow-btn{
@@ -1380,9 +1379,8 @@ button.follow-btn{
     margin: 7px 0px;
     border-radius: .2em;
     font-family: "Dosis";
-    font-weight: 600;
     color:#000;
-    font-size: 0.8em;
+    font-size: 0.85em;
     background-color: #f5f5f5;
     
 }
@@ -1393,19 +1391,22 @@ button.follow-btn-red{
     margin: 7px 0px;
     border-radius: .2em;
     color:#000;
-    font-size: 0.8em;
+    font-size: 0.85em;
     min-width: 70px !important;
     max-width: 70px !important;
 }
+.fa-circle{
+    margin:0 1px;
+}
 .user-comments{
-    border: 1px solid #ccc;
+    border: 1px solid #d9d7d4;
     margin-bottom: 20px;
     padding:0px 10px;
     border-radius: .2em;
 }
 .comment-frm{
     margin-top: 5px;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #d9d7d4;
     padding: 11px 0px;
     background-color: #fff;
 
@@ -1531,7 +1532,7 @@ ul.mine-clip-list li:last-child{
     line-height: 11px;
 }
 ul.mine-clip-list{
-    border:1px solid #ccc;
+    border:1px solid #d1d1d1;
     background-color:  #fff;
     border-radius: 0.3em;
     margin-bottom: 15px;
@@ -1550,7 +1551,7 @@ ul.mine-clip-list li span.mine-new{
 .mine-pins{
     width:48%;
     float: left;
-    border:1px solid #ccc;
+    border:1px solid #d9d7d4;
     border-bottom-style:none;
     margin-right: 2%;
 }
@@ -1564,7 +1565,7 @@ ul.mine-clip-list li span.mine-new{
 }
 .mine-pins .box{
     border-style: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #d9d7d4;
     padding-bottom: 0px;
 }
 .top-container .list-my_acc{
@@ -1572,11 +1573,11 @@ ul.mine-clip-list li span.mine-new{
 }
 .top-container .register
 {
-    border:1px solid #ccc;
+    border:1px solid #d9d7d4;
 }
 .top-container #my-acc .item-myacc2
 {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #d9d7d4;
     padding-right: 15px;
     padding-left: 15px;
 }
@@ -1660,7 +1661,7 @@ i.offline-icon{
 .pin_list .pin{
     text-align: left;
     background-color: white;
-    border: 1px solid #ccc;
+    border: 1px solid #d9d7d4;
     border-radius: 6px;
     /*float: left;*/
     max-width: 240px;
@@ -1688,7 +1689,7 @@ i.offline-icon{
     margin: 0px auto;
 }
 .pin-info{
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #d9d7d4;
     /*min-height: 50px;*/
 }
 .pin .user-info{
