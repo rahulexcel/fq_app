@@ -4,7 +4,10 @@ profileMod.controller('ProfileFollowingCtrl',
                 $scope.$on('user_info', function () {
                     $scope.following_users = $scope.$parent.user.following;
                     $scope.lists_their = $scope.$parent.user.lists_their;
-                })
+                    if ($scope.$parent.user._id === $localStorage.user.id) {
+                        $scope.me = true;
+                    }
+                });
                 $scope.following_users = $scope.$parent.user.following;
                 $scope.lists_their = $scope.$parent.user.lists_their;
                 $scope.me = false;

@@ -6,6 +6,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                 $scope.loading = true;
                 $scope.items = [];
                 var ajax = false;
+                
                 $scope.$on('$destroy', function () {
                     mapHelper.destroy();
                 });
@@ -543,7 +544,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         $scope.item.comments = new_comments;
                         timeStorage.remove(cache_key);
                     });
-                }
+                };
                 $scope.addComment = function () {
                     if (!$localStorage.user.id) {
                         toast.showShortBottom('SignUp/Login To Post A Comment');

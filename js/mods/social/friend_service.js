@@ -182,6 +182,15 @@ friendService.factory('friendHelper', [
                 me: me
             });
             ajax.then(function (data) {
+                if (!data.meta.friends) {
+                    data.meta.friends = 0;
+                }
+                if (!data.meta.followers) {
+                    data.meta.followers = 0;
+                }
+                if (!data.meta.products) {
+                    data.meta.products = 0;
+                }
                 def.resolve(data);
             }, function () {
                 def.reject();

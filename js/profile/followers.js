@@ -3,7 +3,10 @@ profileMod.controller('ProfileFollowerCtrl',
             function ($scope, $localStorage, toast, friendHelper, $location, dataShare) {
                 $scope.$on('user_info', function () {
                     $scope.followers = $scope.$parent.user.followers;
-                })
+                    if ($scope.$parent.user._id === $localStorage.user.id) {
+                        $scope.me = true;
+                    }
+                });
                 $scope.followers = $scope.$parent.user.followers;
                 $scope.me = false;
                 if ($scope.$parent.user._id === $localStorage.user.id) {

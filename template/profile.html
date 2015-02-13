@@ -7,8 +7,8 @@
                 </div>
                 <div class="user-info">
                     <span class="black-font info semibold">
-                        <i ng-if="!me" class="ion-person-add fa-lg red-color"></i>
-                        <i ng-if="me" class="ion-person fa-lg red-color"></i>
+                        <i ng-if="me" class="ion-person-add fa-lg red-color"></i>
+                        <i ng-if="!me" class="ion-person fa-lg"></i>
                         &nbsp;{{user.name}}
                         <span ng-if="!me" class="user-btn"><button  ng-if='!following' on-tap='followProfileUser();' class="red-back profile-follow-btn">Follow</button></span>
                         <span ng-if="!me" class="user-btn"><button   ng-if='following' on-tap='unFollowProfileUser();' class="profile-follow-btn grey-border">Unfollow</button></span>

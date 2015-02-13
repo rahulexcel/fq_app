@@ -9,10 +9,10 @@
             <div class="box">
                 <div class="pro-img">
                     <img ng-src='{{item.item_id.img| picture:picture_width}}' />
+                    <div ng-if='mine' on-tap='delete();' class="grey_bg delete_item">
+                        <i class="ion-trash-a"></i>
+                    </div>
                     <div class="heart wishlist-product-img">
-                        <div ng-if='mine' on-tap='delete();' class="red-back" style="width: 15px;height: 15px">
-                            <i class="ion-close"></i>
-                        </div>
                         <div ng-if="!me_like && !mine" on-tap='like();'>
                             <img src="img/likehand.jpg" alt="">
                         </div>
