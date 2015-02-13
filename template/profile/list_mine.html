@@ -15,14 +15,14 @@
                     {{item1.name}} 
                     <i ng-if="item1.type == 'private'" class="ion-ios-locked"></i>
                 </div>
-                <div class="user-info font11 grey-color"> 
-                    <span class="info wishtime">
+                <div class="user-info grey-color"> 
+                    <span class="info wishtime font11">
                         {{item1.meta.products}} clips <i class="fa fa-circle"></i> 
                         Created on {{item1.created_at|prettyDate}} 
                     </span>
-                    <span class="info wish-icon">
-                        <i class="ion-ios-heart-outline red-color"></i>&nbsp; {{item1.meta.likes}}&nbsp; 
-                        <i class="ion-ios-people fa-lg red-color"></i>&nbsp; {{item1.followers.length}}
+                    <span class="info wish-icon font11">
+                        <i class="ion-ios-heart-outline red-color"></i>&nbsp;{{item1.meta.likes}}&nbsp;&nbsp; 
+                        <i class="ion-ios-people fa-lg red-color"></i>&nbsp;{{item1.followers.length}}
                     </span> 
                     <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
                     <div class="clearfix"></div>

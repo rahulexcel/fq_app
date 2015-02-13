@@ -343,6 +343,7 @@ Scroll On Product Page
     line-height: 34px;
     font-size: 0.79em;
     font-weight: bold;
+    height: 36px;
 }
 
 .hidden {
@@ -1374,14 +1375,16 @@ span i.fa-circle{
 .user-info span a, #menu-bar-container span.info-veiw{text-decoration: underline;}
 button.follow-btn{
     float: right;
-    border: 1px solid #ccc !important;
+    border: 1px solid #e3e3e3 !important;
     min-height: 22px !important;
     margin: 7px 0px;
     border-radius: .2em;
     font-family: "Dosis";
     font-weight: 600;
     color:#000;
-    font-size: 0.91em;
+    font-size: 0.8em;
+    background-color: #f5f5f5;
+    
 }
 button.follow-btn-red{
     float: right;
@@ -1390,7 +1393,7 @@ button.follow-btn-red{
     margin: 7px 0px;
     border-radius: .2em;
     color:#000;
-    font-size: 0.91em;
+    font-size: 0.8em;
     min-width: 70px !important;
     max-width: 70px !important;
 }
@@ -1474,7 +1477,7 @@ span.info{
     float: left;
     margin-right: 12px;
     line-height: 12px;
-    font-size: 0.94em;
+    font-size: 0.9em;
 }
 .follow-field span{
     display:block;
@@ -1511,16 +1514,16 @@ ul.mine-clip-list li{
     padding: 8px 15px;
     line-height: 21px;
     font-weight: normal;
-    border-bottom: 1px solid #C8C8C5;
+    border-bottom: 1px solid #d1d1d1;
 }
 ul.mine-clip-list li:last-child{
     border-bottom-style: none;
 }
 .wish-icon{
-    margin-top:4px;
+    margin-top:2px;
 }
 .wish-name{
-    line-height: 12px;
+    line-height: 14px;
     font-size: 0.91em;
     font-weight: 600;
 }
@@ -1757,6 +1760,9 @@ i.offline-icon{
 }
 .font13{
     font-size: 0.91em !important;
+}
+.fa-circle{
+    vertical-align: middle;
 }
 .ion-ios-locked{
     color: #8D8D8D;
