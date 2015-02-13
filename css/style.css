@@ -356,7 +356,7 @@ Scroll On Product Page
     z-index: 9999;
     text-align: center;
     line-height: 34px;
-    font-size: 11px;
+    font-size: 0.79em;
     font-weight: bold;
 }
 
@@ -1285,7 +1285,7 @@ span i.fa-circle{
     padding-bottom: 20px;
     padding-left: 10px;
     float:none;
-    font-size: 13px;
+    font-size: 0.91em;
 }
 .clip-des{
     border-color: #DA500F;
@@ -1469,7 +1469,7 @@ span.info{
     float: left;
     margin-right: 12px;
     line-height: 12px;
-    font-size: 11px;
+    font-size: 0.9em;
 }
 .follow-field span{
     display:block;
@@ -1739,7 +1739,7 @@ i.offline-icon{
     margin-top: 3px;
     min-width: 71px !important;
     min-height: 23px !important;
-    font-size: 12px;
+    font-size: 0.9em;
 }
 .result-empty span.grey-color{
     color: #c4c0bb !important;
@@ -1748,10 +1748,10 @@ i.offline-icon{
     min-width: 0;
 }
 .font11{
-    font-size: 11px !important;
+    font-size: 0.79 !important;
 }
 .font13{
-    font-size: 13px !important;
+    font-size: 0.91 !important;
 }
 .ion-ios-locked{
     color: #8D8D8D;
