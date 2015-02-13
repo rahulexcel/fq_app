@@ -14,7 +14,7 @@ notifyService.factory('notifyHelper', [
                     $rootScope.profile_update = count;
                     $timeout(function () {
                         self.doUpdates();
-                    }, 5000);
+                    }, 10000);
                 });
             }
         };

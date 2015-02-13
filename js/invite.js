@@ -4,6 +4,7 @@ inviteMod.controller('InviteCtrl',
         ['$scope', '$localStorage', '$location', 'toast', 'accountHelper', 'inviteHelper', 'dataShare', 'socialJs',
             function ($scope, $localStorage, $location, toast, accountHelper, inviteHelper, dataShare, socialJs) {
 
+//not using this
                 if (!$localStorage.user.id) {
                     $location.path('/app/home');
                     return;

@@ -7,9 +7,9 @@
                 </div>
                 <div class="user-info">
                     <span class="black-font info semibold">
-                        <i ng-if="me" class="ion-person-add fa-lg red-color"></i>
+                        <i ng-if="!me" class="ion-person-add fa-lg red-color"></i>
                         <i ng-if="!me" class="ion-person fa-lg"></i>
-                        &nbsp;{{user.name}}
+                        {{user.name}}
                         <span ng-if="!me" class="user-btn"><button  ng-if='!following' on-tap='followProfileUser();' class="red-back profile-follow-btn">Follow</button></span>
                         <span ng-if="!me" class="user-btn"><button   ng-if='following' on-tap='unFollowProfileUser();' class="profile-follow-btn grey-border">Unfollow</button></span>
                     </span><!--<span ng-if="me"><button class="red-back profile-btn">EDIT PROFILE</button></span>-->
@@ -35,6 +35,7 @@
                     <li class="following" on-tap='menu_following();'>FOLLOWINGS</li>
                     <li class="pins" on-tap='menu_pins();'><span ng-if="me">MY</span> PINS</li>
                     <li ng-if="me" class="profile" on-tap='menu_profile();'>PROFILE</li>
+                    <li ng-if="me" class="friends" on-tap='menu_friends();'>FRIENDS</li>
                     <li ng-if="me" class="update" on-tap='menu_update();'>UPDATES</li>
                 </ul>
             </div>

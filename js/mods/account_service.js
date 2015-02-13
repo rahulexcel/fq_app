@@ -1,8 +1,8 @@
 var accountService = angular.module('AccountService', ['ServiceMod', 'NotifyMod']);
 
 accountService.factory('accountHelper', [
-    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', '$rootScope', '$cordovaDevice', 'notifyHelper',
-    function (ajaxRequest, $q, toast, $localStorage, $location, $rootScope, $cordovaDevice, notifyHelper) {
+    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', '$rootScope', '$cordovaDevice', 'notifyHelper', 'inviteHelper', 'dataShare',
+    function (ajaxRequest, $q, toast, $localStorage, $location, $rootScope, $cordovaDevice, notifyHelper, inviteHelper, dataShare) {
         var service = {};
         service.init_done = false;
         service.fbInit = function () {
@@ -121,8 +121,34 @@ accountService.factory('accountHelper', [
                     data.picture = ajaxRequest.url('v1/picture/view/' + data.picture);
                 }
                 notifyHelper.init();
-                def.resolve(data);
-                $location.path('/app/invite');
+//                $location.path('/app/invite');
+
+                if ($localStorage.user.type === 'facebook') {
+                    var data1 = dataShare.getData();
+                    if (data1 && data1.data) {
+                        ajax = inviteHelper.lookUpFacebookFriends(data1.data);
+                        ajax.then(function () {
+                            def.resolve(data);
+                            $location.path('/app/home/trending');
+                        });
+                    } else {
+                        $location.path('/app/home/trending');
+                    }
+                } else if ($localStorage.user.type === 'google') {
+                    var data1 = dataShare.getData();
+                    if (data1 && data1.data) {
+                        ajax = inviteHelper.lookUpGoogleFriends(data1.data);
+                        ajax.then(function () {
+                            def.resolve(data);
+                            $location.path('/app/home/trending');
+                        });
+                    } else {
+                        $location.path('/app/home/trending');
+                    }
+                } else {
+                    $location.path('/app/home/trending');
+                }
+
                 $rootScope.$broadcast('login_event');
             }, function (message) {
                 def.reject(message);

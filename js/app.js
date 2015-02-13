@@ -187,6 +187,15 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         }
                     }
                 })
+                .state('app.profile.friends', {
+                    url: '/friends',
+                    views: {
+                        'tab-content': {
+                            templateUrl: 'template/profile/friends.html',
+                            controller: 'ProfileFriendCtrl'
+                        }
+                    }
+                })
                 .state('app.wishlist_edit', {
                     url: '/wishlist_edit', //needed for editing existing list
                     views: {

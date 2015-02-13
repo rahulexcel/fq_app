@@ -197,6 +197,45 @@ friendService.factory('friendHelper', [
             });
             return def.promise;
         };
+        service.loadMoreFriends = function (user_id, skip) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/user/friends', {
+                user_id: user_id,
+                skip: skip
+            });
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
+        service.loadMoreFollowers = function (user_id, skip) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/user/followers', {
+                user_id: user_id,
+                skip: skip
+            });
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
+        service.loadMoreFollowing = function (user_id, skip) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/user/following', {
+                user_id: user_id,
+                skip: skip
+            });
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
         service.loadMoreProfilePins = function (user_id, skip) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/social/user/profile/pins', {

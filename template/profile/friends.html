@@ -1,0 +1,25 @@
+<div class="result-empty" ng-if="friends.length == 0">
+    <span class="info"><img src="img/favicon-not.png"/></span>
+    <span class="info grey-color">No Friends</span>
+</div>
+
+<div ng-if='friends.length > 0'>
+    <div class="box" ng-repeat="user in friends">
+        <div class="user_image">
+            <img class="rounded" ng-src="{{user.picture|picture:35:35}}"/>
+        </div>
+        <div class="user-info">
+            <span class="black-font info wish-name">{{user.name}}</span>
+            <span class="grey-color font11">{{user.meta.products}} clips <i class="fa fa-circle"></i>
+                <i class="ion-ios7-people fa-lg red-color"></i>&nbsp  {{user.followers.length}} Followers
+            </span>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<ion-infinite-scroll
+    ng-if='friends.length > 0 && hasMore'
+    on-infinite="loadMoreFriends()"
+    distance="1%">
+</ion-infinite-scroll>

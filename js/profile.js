@@ -47,6 +47,9 @@ profileMod.controller('ProfileCtrl',
                     } else if (path === '/app/profile/' + user_id + '/update') {
                         $scope.pin_status.showMore = false;
                         $scope.selected_class = 'update';
+                    } else if (path === '/app/profile/' + user_id + '/friends') {
+                        $scope.pin_status.showMore = false;
+                        $scope.selected_class = 'friends';
                     }
                 });
                 $scope.me = false;
@@ -68,28 +71,10 @@ profileMod.controller('ProfileCtrl',
                 $scope.menu_profile = function () {
                     $location.path('/app/profile/' + user_id + '/profile');
                 };
-                $scope.loadMoreData = function () {
-                    //not used
-                    var ajax = friendHelper.loadMoreProfilePins(user_id, $scope.pin_status.pin_page + 1);
-                    ajax.then(function (data) {
-                        $scope.pin_status.pin_page++;
-                        if (data.length > 0) {
-                            var pins = $scope.user.pins;
-                            for (var i = 0; i < data.length; i++) {
-                                pins.push(data[i]);
-                            }
-                            $scope.user.pins = pins;
-                        } else {
-                            console.log('remove scroll more');
-                            $scope.pin_status.showMore = false;
-                        }
-                        $scope.$broadcast('scroll.infiniteScrollComplete');
-                        $scope.$broadcast('more_pins');
-                    }, function () {
-                        $scope.$broadcast('scroll.infiniteScrollComplete');
-                    });
+                $scope.menu_friends = function () {
+                    $location.path('/app/profile/' + user_id + '/friends');
                 };
-
+                
                 if (user_id) {
                     $ionicLoading.show({
                         template: 'Loading...'
@@ -125,7 +110,7 @@ profileMod.controller('ProfileCtrl',
 
                         var width = 125;
                         if ($scope.me) {
-                            width = width * 6;
+                            width = width * 7;
                         } else {
                             width = width * 5;
                         }
