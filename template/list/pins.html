@@ -10,9 +10,11 @@
     </div>
 </div>
 <div resize class="pin_list_container">
-    <div bindonce ng-if='grid1.length > 0' class="pin_list" ng-style="{'width': col_width}" style="float: left;">
+    <div bindonce class="pin_list" ng-style="{'width': col_width}" style="float: left;">
+    <!--<div bindonce ng-if='grid1.length > 0' class="pin_list" ng-style="{'width': col_width}" style="float: left;">
         <!-- 'height': pin.pin_height -->
-        <div class="pin"  ng-repeat="pin in grid1 track by $index" bo-style="{'width': pin_width}">
+       <!-- <div class="pin"  ng-repeat="pin in grid1 track by $index" bo-style="{'width': pin_width}"> -->
+        <div class="pin"  bo-style="{'width': pin_width}">
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" class="pin-img">
                 <img bo-src='pin.image| picture:240'/>
                 <div style="z-index: 99999" on-tap='pin(pin._id);' class="heart wishlist-product-img">

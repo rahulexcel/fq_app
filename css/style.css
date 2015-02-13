@@ -44,7 +44,7 @@ font-style: normal;
     background-position: center center;
 }
 .box-round{
-    border: 1px solid #CCC;
+    border: 1px solid #d9d7d4;
     border-radius: 3px;
 }
 .bar-header{
@@ -59,7 +59,7 @@ font-style: normal;
 #about-content{
     padding: 25px 15px;
     text-align: justify;
-    font-size: 13px;
+    font-size: 0.91em;
 }
 .site{
     background-repeat: no-repeat;
@@ -71,23 +71,27 @@ font-style: normal;
 }
 input::-webkit-input-placeholder { /* WebKit browsers */
     color:   #999999;
-    font-size: 13px;
-    font-family: "open sans"
+    font-size: 0.91em;
+    font-family: "open sans";
+    margin-top:7px;
 }
 input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     color:    #999999;
-    font-size: 13px;
-    font-family: "open sans"
+    font-size: 0.91em;
+    font-family: "open sans";
+    margin-top:7px;
 }
 input::-moz-placeholder { /* Mozilla Firefox 19+ */
     color:    #999999;
-    font-size: 13px;
-    font-family: "open sans"
+    font-size: 0.91em;
+    font-family: "open sans";
+    margin-top:7px;
 }
 input:-ms-input-placeholder { /* Internet Explorer 10+ */
     color:    #999999;
-    font-size: 13px;
-    font-family: "open sans"
+    font-size: 0.91em;
+    font-family: "open sans";
+    margin-top:7px;
 }
 .bar-footer .clip-it{
     width: 100%;
@@ -102,29 +106,14 @@ input:-ms-input-placeholder { /* Internet Explorer 10+ */
 .prev-btn{
     font-weight: 600 !important;
 }
-textarea::-webkit-input-placeholder { /* WebKit browsers */
+textarea::-webkit-input-placeholder,textarea:-moz-placeholder, textarea::-moz-placeholder, textarea:-ms-input-placeholder{ /* WebKit browsers */
     color:   #999999;
-    font-size: 13px;
-    font-family: "open sans"
-}
-textarea:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color:    #999999;
-    font-size: 13px;
-    font-family: "open sans"
-}
-textarea::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color:    #999999;
-    font-size: 13px;
-    font-family: "open sans"
-}
-textarea:-ms-input-placeholder { /* Internet Explorer 10+ */
-    color:    #999999;
-    font-size: 13px;
+    font-size: 0.91em;
     font-family: "open sans"
 }
 textarea {
     color:#8A8A8A !important;
-    font-size: 13px !important;
+    font-size: 0.91em !important;
 }
 
 .Flipkart  { background-image: url("../img/fav/flipkart.png");   }
@@ -183,7 +172,7 @@ h4.rate-app{
 }
 p.rate-descrip{
     font-family: 'Open Sans', regular;
-    font-size: 13px;
+    font-size: 0.91em;
 }
 .loading-gif {
     color: #777;
@@ -310,7 +299,7 @@ Scroll On Product Page
     float: left;
     width: 200px;
     height: 100%;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid #d9d7d4;
     background-color: #fafafa;
     font-size: 14px;
     z-index: 9999;
@@ -347,7 +336,7 @@ Scroll On Product Page
     text-align: center;
 }
 .menu-left{
-    border-right: 1px solid #CCC;
+    border-right: 1px solid #d9d7d4;
 }
 #menu_scroller li{
     display: block;
@@ -356,8 +345,9 @@ Scroll On Product Page
     z-index: 9999;
     text-align: center;
     line-height: 34px;
-    font-size: 11px;
+    font-size: 0.79em;
     font-weight: bold;
+    height: 36px;
 }
 
 .hidden {
@@ -378,15 +368,15 @@ Scroll On Product Page
     color:#838383;
 }
 .progress_parent{
-    padding: 0px 5px 0px 15px;
+    padding: 10px 15px;
 }
 .progress{
-    background-color: #ccc;
+    background-color: #d9d7d4;
     margin-top: 2px !important;
     line-height: 10px !important;
 }
 .uploading{
-    font-size: 11px;
+    font-size: 0.79em;
 }
 .prog_inner{
     height: 3px;
@@ -416,7 +406,7 @@ li.sub-cat-label>span,
     color:#fff !important;
 }
 .grey-border{
-    border-color: #ccc !important;
+    border-color: #d9d7d4 !important;
 }
 .search_box .ion-close{
     font-size:1em;
@@ -428,7 +418,7 @@ li.sub-cat-label>span,
 
 /**************************Side Menu*********************************/
 .scroll-content .scroll #menu-bar-container ul li ul li span{
-    font-size: 11px;
+    font-size: 0.79em;
     font-weight: normal;
 }
 .scroll-content .scroll #menu-bar-container ul li {
@@ -440,7 +430,7 @@ li.sub-cat-label>span,
     border-bottom-style:none; 
 }
 ul.default-list{
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #d9d7d4;
 }
 .scroll-content .scroll #menu-bar-container  ul li span{
     width: 100%;
@@ -580,7 +570,7 @@ div#account-page button{
     color: #999999;
     margin: 16px 0px 0px;
     font-family: "Open Sans";
-    font-size: 13px;
+    font-size: 0.91em;
 }
 .login-click,
 .social-site-name,span.info-name,.social-close:before{
@@ -601,7 +591,7 @@ div#account-page button{
     margin-right:13px;
     font-style: italic;
     margin-bottom:12px;
-    font-size: 11px;
+    font-size: 0.79em;
     border-bottom: 1px solid #DA500F;
     line-height: 14px;
 }
@@ -609,7 +599,7 @@ div#account-page button{
     background-color:#E5E5E5;
 }
 .register-bottom{
-    font-size: 13px;
+    font-size: 0.91em;
     line-height: 10px;
 }
 /************************** closed Sign up/login*********************************/
@@ -634,7 +624,7 @@ div#account-page button{
     bottom:9px;
 }
 .product-heading{
-    font-size: 13px;
+    font-size: 0.91em;
     display: block;
 }
 .scroll-content .scroll #similar ul{
@@ -767,7 +757,7 @@ span.other-price{
     overflow:hidden;
     height:20px;
     line-height:20px;
-    font-size: 11px;
+    font-size: 0.79em;
 }
 .category .name{
     line-height:25px !important;
@@ -776,7 +766,7 @@ span.other-price{
     color:#737373;
     line-height: 7px;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 0.91em;
     margin-bottom: 5px;
 }
 .category .price{
@@ -845,7 +835,7 @@ span.other-price{
     color:#01b899;
     float: right;
     margin-right: 12px;
-    font-size: 11px;
+    font-size: 0.79em;
 }
 .category .product{
     height:264px;
@@ -918,7 +908,7 @@ i.up-price{
 }
 .item-checkbox span.ng-binding{
     font-family: "open sans";
-    font-size: 13px;
+    font-size: 0.91em;
 }
 .filter-list .item-checkbox span.ng-binding{
     margin-left:25px;
@@ -1047,7 +1037,7 @@ div#show-fliter .filter-icon:before{
     max-height:39px;
 }
 .col .filter-button {
-    font-size: 13px !important;
+    font-size: 0.91em !important;
 }
 /**************************Closed Filter & sort by*********************************/
 
@@ -1060,9 +1050,9 @@ div#show-fliter .filter-icon:before{
     line-height: 20pxpx;
     vertical-align: middle;
     margin-right: 13px;
-    font-size: 13px;
+    font-size: 0.91em;
     line-height: 25px;
-    margin-top:12px;
+    margin-top:8px;
 }
 .progress-close{
     float: right;
@@ -1075,7 +1065,7 @@ div#show-fliter .filter-icon:before{
 }
 .update-info{
     font-family: "Dosis";
-    font-size: 13px;
+    font-size: 1em;
     color:#b5b0a8;
     padding-left: 0px;
 }
@@ -1089,10 +1079,10 @@ div#show-fliter .filter-icon:before{
 
 input{
     color:#999999 !important;
-    font-size: 13px !important;
+    font-size: 0.91em !important;
 }
 #my-acc .item-myacc1,.item-myacc1{
-    border-bottom:1px solid #CCC;
+    border-bottom:1px solid #d9d7d4;
     padding-bottom:0px;
 }
 #my-acc .item-myacc2{
@@ -1108,20 +1098,20 @@ input{
     margin-top: 5px;
 }
 #my-acc form label{
-    height: 54px !important;
+    height: 51px !important;
 }
 #my-acc .myacc-update{
-    min-height: 29px !important;
+    min-height: 27px !important;
     border-style: none;
     border-radius: 2px;
     margin-bottom:0px;
     font-family: "Dosis" !important;
     font-weight: 600;
-    width: 84px !important;
-    max-height: 30px;
-    line-height: 30px;
+    width: 71px !important;
+    max-height: 28px;
+    line-height: 26px;
     margin-bottom: 10px;
-    font-size: 15px;
+    font-size: 1em;
 }
 #my-acc .padding{
     padding:0px;
@@ -1212,7 +1202,7 @@ input{
     margin-top:24px;
 }
 .input-label{
-    font-size: 15px !important;
+    font-size: 0.94em !important;
     font-family: "open sans" !important;
     color: #000;
 }
@@ -1242,7 +1232,7 @@ input{
 }
 #clip_1 .similar-product-label,.modal-wrapper .similar-product-label{
     border-top-style: none;
-    font-size: 13px;
+    font-size: 0.91em;
     font-family: "open sans";
 }
 #wishlist_new .similar-product-label{
@@ -1256,10 +1246,10 @@ input{
     height: 70px;
 }
 li.clip-it{
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #d9d7d4;
 }
 .clip-info{
-    font-size: 11px;
+    font-size: 0.79em;
     color:#999999;
 }
 .clip-info i{
@@ -1272,8 +1262,10 @@ li.clip-it{
     line-height: 21px;
     font-weight: normal;
 }
-span i.fa-circle{
+i.fa-circle{
     font-size:0.3em;
+    margin:0 1px;
+    vertical-align: middle;
 }
 .add-new img{
     margin-right: 34px;
@@ -1283,7 +1275,7 @@ span i.fa-circle{
     padding-bottom: 20px;
     padding-left: 10px;
     float:none;
-    font-size: 13px;
+    font-size: 0.91em;
 }
 .clip-des{
     border-color: #DA500F;
@@ -1330,7 +1322,7 @@ span i.fa-circle{
     width: 45px;
 }
 .wishlist_list_item{
-    margin-left:55px;
+    margin-left:55px !important;
     width: 100%;
     margin-right: 55px
 }
@@ -1350,27 +1342,22 @@ span i.fa-circle{
     border-bottom-style: none; 
 }
 .box{
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 10px 15px;
+    border: 1px solid #d9d7d4;
     margin-bottom: 20px;
     border-radius: .2em;
     background-color: #fff;
 }
 .user_image{
     float: left;
-    width: 55px;
+    width: 45px;
     overflow: hidden;
     text-align: center;
     vertical-align: middle;
 }
 .user_image_new{
-    width: 48px !important;
-    margin:4px 15px 0px 0px;
-}
-.box .user_image_new{ 
-    width: 36px !important;
-    margin-left:10px;
-    margin-right: 0px !important;
+    width: 45px !important;
+    margin:0px 15px 0px 0px;
 }
 .user-info{
     float: left;
@@ -1383,41 +1370,43 @@ span i.fa-circle{
     position: absolute;
     right: 20px;
 }
-#following-main .box{
-    padding-left:0px !important;
+.box-follower .user-info{
+    margin-left: 0px !important;
 }
 .user-info span a, #menu-bar-container span.info-veiw{text-decoration: underline;}
 button.follow-btn{
     float: right;
-    border: 1px solid #ccc !important;
+    border: 1px solid #e3e3e3 !important;
     min-height: 22px !important;
     margin: 7px 0px;
     border-radius: .2em;
     font-family: "Dosis";
-    font-weight: 600;
     color:#000;
-    font-size: 13px;
+    font-size: 0.85em;
+    background-color: #f5f5f5;
+    
 }
 button.follow-btn-red{
     float: right;
     border: 1px solid #DA500F !important;
-    min-height: 22px !important;
+    min-height: 26px !important;
     margin: 7px 0px;
     border-radius: .2em;
     color:#000;
-    font-size: 13px;
+    font-size: 0.85em;
     min-width: 70px !important;
     max-width: 70px !important;
+    font-weight: 600;
 }
 .user-comments{
-    border: 1px solid #ccc;
+    border: 1px solid #d9d7d4;
     margin-bottom: 20px;
     padding:0px 10px;
     border-radius: .2em;
 }
 .comment-frm{
     margin-top: 5px;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #d9d7d4;
     padding: 11px 0px;
     background-color: #fff;
 
@@ -1456,7 +1445,7 @@ span.info{
     top:57% !important;
 }
 #wishlist_new div.item-content{
-    font-size: 13px;
+    font-size: 0.91em;
 }
 /*********************************social page closed *******************************/
 .mine-content{
@@ -1474,7 +1463,7 @@ span.info{
     margin-bottom: 0px;
 }
 .clip-name{
-    font-size: 13px;
+    font-size: 0.91em;
     font-weight: 600;
 }
 .top-container .clip-label{
@@ -1489,7 +1478,7 @@ span.info{
     float: left;
     margin-right: 12px;
     line-height: 12px;
-    font-size: 11px;
+    font-size: 0.93em;
 }
 .follow-field span{
     display:block;
@@ -1501,7 +1490,7 @@ span.info{
     min-width: 367px;
     padding: 5px 25px;
     background-color: #fff;
-    font-size: 13px;
+    font-size: 0.91em;
     height: 38px;
 }
 .user-info .follow-details{
@@ -1523,27 +1512,27 @@ ul.mine-list li{
 ul.mine-clip-list li{
     color: #A8A8A8;
     font-size: 1em;
-    padding: 8px 15px;
+    padding: 10px 15px;
     line-height: 21px;
     font-weight: normal;
-    border-bottom: 1px solid #C8C8C5;
+    border-bottom: 1px solid #d1d1d1;
 }
 ul.mine-clip-list li:last-child{
     border-bottom-style: none;
 }
 .wish-icon{
-    margin-top:4px;
+    margin-top:2px;
 }
 .wish-name{
-    line-height: 12px;
-    font-size: 13px;
+    line-height: 14px;
+    font-size: 0.91em;
     font-weight: 600;
 }
 .wishtime{
     line-height: 11px;
 }
 ul.mine-clip-list{
-    border:1px solid #ccc;
+    border:1px solid #d1d1d1;
     background-color:  #fff;
     border-radius: 0.3em;
     margin-bottom: 15px;
@@ -1562,7 +1551,7 @@ ul.mine-clip-list li span.mine-new{
 .mine-pins{
     width:48%;
     float: left;
-    border:1px solid #ccc;
+    border:1px solid #d9d7d4;
     border-bottom-style:none;
     margin-right: 2%;
 }
@@ -1573,10 +1562,11 @@ ul.mine-clip-list li span.mine-new{
     margin: 7px 0px;
     color:#B5B0A8;
     font-family: "Dosis";
+    font-size: 1em;
 }
 .mine-pins .box{
     border-style: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #d9d7d4;
     padding-bottom: 0px;
 }
 .top-container .list-my_acc{
@@ -1584,11 +1574,11 @@ ul.mine-clip-list li span.mine-new{
 }
 .top-container .register
 {
-    border:1px solid #ccc;
+    border:1px solid #d9d7d4;
 }
 .top-container #my-acc .item-myacc2
 {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #d9d7d4;
     padding-right: 15px;
     padding-left: 15px;
 }
@@ -1600,7 +1590,7 @@ ul.mine-clip-list li span.mine-new{
 }
 ul.mine-clip-list li .user-info{
     margin-left: 0px;
-    font-size: 13px;
+    font-size: 0.91em;
 }
 .result-empty{
     margin: 25px auto;
@@ -1672,7 +1662,7 @@ i.offline-icon{
 .pin_list .pin{
     text-align: left;
     background-color: white;
-    border: 1px solid #ccc;
+    border: 1px solid #d9d7d4;
     border-radius: 6px;
     /*float: left;*/
     max-width: 240px;
@@ -1700,7 +1690,7 @@ i.offline-icon{
     margin: 0px auto;
 }
 .pin-info{
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #d9d7d4;
     /*min-height: 50px;*/
 }
 .pin .user-info{
@@ -1759,7 +1749,7 @@ i.offline-icon{
     margin-top: 3px;
     min-width: 71px !important;
     min-height: 23px !important;
-    font-size: 12px;
+    font-size: 0.9em;
 }
 .result-empty span.grey-color{
     color: #c4c0bb !important;
@@ -1768,10 +1758,10 @@ i.offline-icon{
     min-width: 0;
 }
 .font11{
-    font-size: 11px !important;
+    font-size: 0.9em !important;
 }
 .font13{
-    font-size: 13px !important;
+    font-size: 0.95em !important;
 }
 .ion-ios-locked{
     color: #8D8D8D;
@@ -1824,6 +1814,7 @@ i.offline-icon{
 }
 .ion-ios-heart-outline:before{
     font-weight: bold;
+    font-size: 0.8em;
 }
 
 .delete_item{
