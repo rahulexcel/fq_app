@@ -76,7 +76,11 @@ menuMod.controller('MenuCtrl',
                     $location.path('/app/profile/' + user_id + '/mine');
                 };
                 $scope.wishlist = function () {
-                    $location.path('/app/profile/me/mine');
+                    if ($rootScope.profile_update > 0) {
+                        $location.path('/app/profile/me/update');
+                    } else {
+                        $location.path('/app/profile/me/mine');
+                    }
                 };
                 $scope.account = function () {
                     $location.path('/app/profile/me/profile');

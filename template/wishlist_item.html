@@ -9,10 +9,10 @@
             <div class="box">
                 <div class="pro-img">
                     <img ng-src='{{item.item_id.img| picture:picture_width}}' />
+                    <div ng-if='mine' on-tap='delete();' class="grey_bg delete_item">
+                        <i class="ion-trash-a"></i>
+                    </div>
                     <div class="heart wishlist-product-img">
-                        <div ng-if='mine' on-tap='delete();' class="red-back" style="width: 15px;height: 15px">
-                            <i class="ion-close"></i>
-                        </div>
                         <div ng-if="!me_like && !mine" on-tap='like();'>
                             <img src="img/likehand.jpg" alt="">
                         </div>
@@ -143,7 +143,7 @@
             <div class="user-comments box">
                 <h4>Comments</h4>
                 <span class="grey-color" ng-if="item.comments.length == 0">Be the first to comment</span>
-                <div ng-repeat="comment in item.comments">
+                <div ng-repeat="comment in item.comments track by $index">
                     <div>
                         <div class="user_image">
                             <img ng-src='{{comment.picture|picture:50}}' style="max-width: 50px;max-height: 50px;" />
@@ -151,12 +151,13 @@
                         <div class="user-info">
                             <div>{{comment.comment}}</div>
                             <div>{{comment.created_at| prettyDate}}</div>
+                            <div on-tap='removeComment(comment);'>&times;</div>
                         </div>
                         <div class="clearfix"></div>
                     </div>
 
                 </div>
-                <div class="load-more" ng-if='item.comments.length > 0 && !showMoreComment'>
+                <div class="load-more" ng-if='item.comments.length > 5 && !showMoreComment'>
                     <span class="red-color" on-tap='loadAllComments()'>Load More</span>
                 </div>
                 <div class="clearfix"></div>

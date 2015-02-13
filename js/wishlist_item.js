@@ -6,6 +6,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                 $scope.loading = true;
                 $scope.items = [];
                 var ajax = false;
+                
                 $scope.$on('$destroy', function () {
                     mapHelper.destroy();
                 });
@@ -528,6 +529,22 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         window.open(product.href);
                     }
                 };
+                $scope.removeComment = function (comment) {
+                    var ajax = itemHelper.removeComment($scope.item_id, $scope.list_id, comment._id);
+                    ajax.then(function (data) {
+                        var comments = $scope.item.comments;
+                        console.log(comment);
+                        console.log(comments);
+                        var new_comments = [];
+                        for (var i = 0; i < comments.length; i++) {
+                            if (comments[i]._id !== comment._id) {
+                                new_comments.push(comments[i]);
+                            }
+                        }
+                        $scope.item.comments = new_comments;
+                        timeStorage.remove(cache_key);
+                    });
+                };
                 $scope.addComment = function () {
                     if (!$localStorage.user.id) {
                         toast.showShortBottom('SignUp/Login To Post A Comment');
@@ -539,7 +556,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         ajax.then(function (data) {
                             var comments = $scope.item.comments;
                             comments.unshift({
-                                _id: -1,
+                                _id: data.comment_id,
                                 user_id: $localStorage.user.id,
                                 comment: $scope.item.comment,
                                 picture: $localStorage.user.picture,

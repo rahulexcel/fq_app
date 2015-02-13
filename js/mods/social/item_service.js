@@ -37,6 +37,21 @@ itemService.factory('itemHelper', [
             });
             ajax.then(function (data) {
                 def.resolve(data);
+                if (type === 'add') {
+                    notifyHelper.sendAlert('user_' + data.data.list_id.user_id, {
+                        title: $localStorage.user.name + " comment on your",
+                        alert: comment,
+                        meta: {
+                            user: $localStorage.user,
+                            data: data
+                        }
+                    });
+                    notifyHelper.addUpdate(data.data.list_id.user_id, 'item_comment', {
+                        user: $localStorage.user,
+                        data: data,
+                        comment: comment
+                    });
+                }
             }, function (data) {
                 def.reject(data);
             });

@@ -1,7 +1,7 @@
 var profileMod = angular.module('ProfileMod', ['ServiceMod', 'ngStorage', 'ionic', 'FriendService']);
 profileMod.controller('ProfileCtrl',
-        ['$scope', '$localStorage', 'toast', '$location', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope', '$timeout',
-            function ($scope, $localStorage, toast, $location, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout) {
+        ['$scope', '$localStorage', 'toast', '$location', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope', '$timeout', 'wishlistHelper',
+            function ($scope, $localStorage, toast, $location, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout, wishlistHelper) {
                 var user_id = false;
                 $scope.$on('logout_event', function () {
                     $location.path('/app/home');
@@ -97,6 +97,17 @@ profileMod.controller('ProfileCtrl',
                     $scope.following = false;
                     var ajax = friendHelper.fullProfile(user_id);
                     ajax.then(function (data) {
+
+                        if (data.lists_mine) {
+                            for (var i = 0; i < data.lists_mine.length; i++) {
+                                var name = data.lists_mine[i].name;
+                                var list_symbol = name.substring(0, 1).toUpperCase();
+                                var bg_color = wishlistHelper.getRandomColor();
+                                data.lists_mine[i].list_symbol = list_symbol;
+                                data.lists_mine[i].bg_color = bg_color;
+                            }
+                        }
+
                         $scope.user = data;
                         if ($scope.user._id === $localStorage.user.id) {
                             $scope.me = true;

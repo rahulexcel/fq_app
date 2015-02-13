@@ -1,14 +1,23 @@
-<div class="list card updates" ng-repeat="item in updates track by $index">
-    <div class="item item-avatar" ng-if="item.user">
+<div bindonce class="list card updates" ng-repeat="item in updates track by $index">
+    <div on-tap='account(item.user);' class="item item-avatar" bo-if="item.user">
         <img class="rounded" ng-src="{{item.user.picture|picture:50:50}}">
-        <h2>{{item.user.name}}</h2>
-        <p>{{item.time|prettyDate}}</p>
+        <h2 bo-bind='item.user.name'></h2>
+        <p bo-html='item.time|prettyDate'></p>
     </div>
-    <div class="item item-body">
-        <img ng-if="item.body.image" class="full-image" ng-src="{{item.body.image|picture:320}}">
-        <div>
-            {{item.body.title}}
-        </div>
+    <div class="item item-body" on-tap='openUpdate(item);'>
+        <p bo-bind='item.body.title'></p>
+        <img bo-if="item.body.image" class="full-image" ng-src="{{item.body.image|picture:320}}">
     </div>
     <button class="button-clear icon ion-close delete" on-tap='deleteItem(item,$index)'></button>
 </div>
+
+<div class="result-empty" ng-if="updates.length == 0">
+    <span class="info"><img src="img/favicon-not.png"/></span>
+    <span class="info grey-color">No Updates</span>
+</div>
+
+<ion-infinite-scroll
+    ng-if='updates.length > 0 && hasMore'
+    on-infinite="loadMoreUpdates()"
+    distance="1%">
+</ion-infinite-scroll>

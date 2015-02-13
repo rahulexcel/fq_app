@@ -4,7 +4,11 @@ wishlistService.factory('wishlistHelper', [
     'ajaxRequest', '$q', 'toast', '$localStorage', '$location', 'timeStorage', '$ionicLoading', 'notifyHelper',
     function (ajaxRequest, $q, toast, $localStorage, $location, timeStorage, $ionicLoading, notifyHelper) {
         var service = {};
-
+        service.getRandomColor = function () {
+            var colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#795548', '#9e9e9e', '#607d8b'];
+            var index = Math.floor(Math.random() * (colors.length + 1));
+            return colors[index];
+        };
         service.getUrlImage = function (url) {
             var def = $q.defer();
 
@@ -106,6 +110,16 @@ wishlistService.factory('wishlistHelper', [
                 ajax.then(function (data) {
                     if (showLoading)
                         $ionicLoading.hide();
+
+                    if (data.me) {
+                        for (var i = 0; i < data.me.length; i++) {
+                            var name = data.me[i].name;
+                            var list_symbol = name.substring(0, 1).toUpperCase();
+                            var bg_color = service.getRandomColor();
+                            data.me[i].list_symbol = list_symbol;
+                            data.me[i].bg_color = bg_color;
+                        }
+                    }
                     timeStorage.set('user_wish_list', data, 12);
 
                     def.resolve(self.sortList(data));
@@ -184,8 +198,13 @@ wishlistService.factory('wishlistHelper', [
                     if (data.list) {
                         var followers = data.list.followers;
                         var shared_ids = data.list.shared_ids;
+                        console.log(followers);
+                        console.log(shared_ids);
                         if (shared_ids.length > 0) {
-                            notifyHelper.addUpdate(shared_ids, 'item_add', data);
+                            notifyHelper.addUpdate(shared_ids, 'item_add', {
+                                data: data,
+                                user: $localStorage.user
+                            });
                             for (var i = 0; i < shared_ids.length; i++) {
                                 notifyHelper.sendAlert('user_' + shared_ids[i], {
                                     title: 'New Item Added',
@@ -198,29 +217,38 @@ wishlistService.factory('wishlistHelper', [
                                     }
                                 });
                             }
-                        } else if (followers.length > 0) {
-                            //followers only if no shared ids
-                            notifyHelper.addUpdate(followers, 'item_add', data);
-                            notifyHelper.sendAlert('list_' + data.list._id, {
-                                title: 'New Item Added',
-                                alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
-                                meta: {
-                                    type: 'item_add',
-                                    wishlist_model: data.wishlist_model,
-                                    list: data.list,
+                        } else {
+                            if (followers.length > 0) {
+                                //followers only if no shared ids
+                                notifyHelper.addUpdate(followers, 'item_add', {
+                                    data: data,
                                     user: $localStorage.user
-                                }
-                            });
+                                });
+                                notifyHelper.sendAlert('list_' + data.list._id, {
+                                    title: 'New Item Added',
+                                    alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+                                    meta: {
+                                        type: 'item_add',
+                                        wishlist_model: data.wishlist_model,
+                                        list: data.list,
+                                        user: $localStorage.user
+                                    }
+                                });
 
+                            }
 
                             var user_followers = data.user.followers;
+                            console.log(user_followers);
                             var filtered_user_followers = [];
                             for (var i = 0; i < user_followers.length; i++) {
                                 var follower = user_followers[i];
                                 if (followers.indexOf(follower) === -1) {
                                     filtered_user_followers.push(follower);
                                 }
-                                notifyHelper.addUpdate(filtered_user_followers, 'item_add_user', data);
+                                notifyHelper.addUpdate(filtered_user_followers, 'item_add_user', {
+                                    data: data,
+                                    user: $localStorage.user
+                                });
                                 notifyHelper.sendAlert('user_follower_' + $localStorage.user.id, {
                                     title: 'New Item Added',
                                     alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,

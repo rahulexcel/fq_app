@@ -2,13 +2,15 @@ profileMod.controller('ProfileListMineCtrl',
         ['$scope', '$localStorage', 'toast', '$location', 'dataShare',
             function ($scope, $localStorage, toast, $location, dataShare) {
 
-
                 $scope.$on('user_info', function () {
                     $scope.wishlist_mine = $scope.$parent.user.lists_mine;
-                })
+                    if ($scope.$parent.user._id === $localStorage.user.id) {
+                        $scope.me = true;
+                    }
+                });
                 $scope.wishlist_mine = $scope.$parent.user.lists_mine;
                 $scope.me = false;
-                if ($scope.$parent.user._id == $localStorage.user.id) {
+                if ($scope.$parent.user._id === $localStorage.user.id) {
                     $scope.me = true;
                 }
 
