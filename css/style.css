@@ -1477,7 +1477,7 @@ span.info{
     float: left;
     margin-right: 12px;
     line-height: 12px;
-    font-size: 0.9em;
+    font-size: 0.93em;
 }
 .follow-field span{
     display:block;
@@ -1756,7 +1756,7 @@ i.offline-icon{
     min-width: 0;
 }
 .font11{
-    font-size: 0.79em !important;
+    font-size: 0.83em !important;
 }
 .font13{
     font-size: 0.91em !important;
