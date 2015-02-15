@@ -7,12 +7,12 @@
                 </div>
                 <div class="user-info">
                     <span class="black-font info semibold">
-                        <i ng-if="!me" class="ion-person-add fa-lg red-color"></i>
-                        <i ng-if="!me" class="ion-person fa-lg"></i>
+                        <i ng-if="!me && is_friend === false" on-tap="addFriend();" class="ion-person-add fa-lg red-color"></i>
+                        <i ng-if="!me && is_friend === true" on-tap="unFriend();" class="ion-person fa-lg"></i>
                         {{user.name}}
-                        <span ng-if="!me" class="user-btn"><button  ng-if='!following' on-tap='followProfileUser();' class="red-back profile-follow-btn">Follow</button></span>
-                        <span ng-if="!me" class="user-btn"><button   ng-if='following' on-tap='unFollowProfileUser();' class="profile-follow-btn grey-border">Unfollow</button></span>
-                    </span><!--<span ng-if="me"><button class="red-back profile-btn">EDIT PROFILE</button></span>-->
+                        <span ng-if="!me" class="user-btn"><button  ng-if='!is_following' on-tap='followProfileUser();' class="red-back profile-follow-btn">Follow</button></span>
+                        <span ng-if="!me" class="user-btn"><button   ng-if='is_following' on-tap='unFollowProfileUser();' class="profile-follow-btn grey-border">Unfollow</button></span>
+                    </span>
                     <div class="follow-details">
                         <div class="follow-field"><span>{{user.meta.friends}}</span><span class="grey-color semibold">Following</span></div>
                         <div class="follow-field"><span>{{user.meta.followers}}</span>  <span class="grey-color semibold">Followers</span></div>
@@ -22,30 +22,19 @@
                 </div>
                 <div class="clearfix"></div>
             </div>
-            <!-- <div class="follow-details">
-                 <span>{{user.meta.followers}} <span class="grey-color">Followers</span></span>   
-                 <span>{{user.meta.friends}} <span class="grey-color">Friends</span></span>
-                 <span>{{user.meta.products}} <span class="grey-color">Pins</span></span>
-             </div>
-            -->
-            <div id='menu_sliding' style="width: 100%;background-color: white;">
+            <div id='menu_sliding'>
                 <ul id='menu_scroller' class="mine-list" ng-class="selected_class">
+                    <li ng-if="me" class="friends" on-tap='menu_friends();'>FRIENDS <span ng-if="friend_request_count">({{friend_request_count}})</span></li>
                     <li class="wishlist" on-tap='menu_wishlist();'><span ng-if="me">MY</span> WISHLIST</li>
                     <li class="followers" on-tap='menu_followers();'>FOLLOWERS</li>
                     <li class="following" on-tap='menu_following();'>FOLLOWINGS</li>
                     <li class="pins" on-tap='menu_pins();'><span ng-if="me">MY</span> PINS</li>
                     <li ng-if="me" class="profile" on-tap='menu_profile();'>PROFILE</li>
-                    <li ng-if="me" class="friends" on-tap='menu_friends();'>FRIENDS</li>
-                    <li ng-if="me" class="update" on-tap='menu_update();'>UPDATES</li>
+                    <li ng-if="me" class="update" style="border-right: none" on-tap='menu_update();'>UPDATES</li>
                 </ul>
             </div>
             <div class="clearfix"></div>
             <div class="mine-content" ui-view="tab-content"></div>
         </div>
-        <!--        <ion-infinite-scroll
-                    ng-if='pin_status.showMore'
-                    on-infinite="loadMoreData()"
-                    distance="1%">
-                </ion-infinite-scroll>-->
     </ion-content>
 </ion-view>

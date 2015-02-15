@@ -327,6 +327,12 @@ Scroll On Product Page
     -o-text-size-adjust: none;
     text-size-adjust: none;   
 }
+#menu_sliding{
+    border-bottom: 1px solid #EEE7DD;
+    border-top: 1px solid #EEE7DD;
+    background-color: #fff;
+    width: 100%;
+}
 #menu_scroller ul {
     list-style: none;
     padding: 0;
@@ -347,7 +353,7 @@ Scroll On Product Page
     line-height: 34px;
     font-size: 0.79em;
     font-weight: bold;
-    height: 36px;
+    height: 39px;
 }
 
 .hidden {
@@ -1384,7 +1390,7 @@ button.follow-btn{
     color:#000;
     font-size: 0.85em;
     background-color: #f5f5f5;
-    
+
 }
 button.follow-btn-red{
     float: right;
@@ -1500,8 +1506,6 @@ span.info{
 }
 ul.mine-list{
     margin: 0px !important;
-    border-bottom: 1px solid #EEE7DD;
-    border-top: 1px solid #EEE7DD;
 }
 ul.mine-list li{
     border-right: 1px solid #EEE7DD;
@@ -1778,6 +1782,19 @@ i.offline-icon{
     border-bottom: 2px solid #DA500F !important;
     color: #DA500F !important;
 }
+.trending .trending{
+    border-bottom: 2px solid #DA500F !important;
+    color: #DA500F !important;
+}
+.latest .latest{
+    border-bottom: 2px solid #DA500F !important;
+    color: #DA500F !important;
+}
+.feed .feed{
+    border-bottom: 2px solid #DA500F !important;
+    color: #DA500F !important;
+}
+
 .following .following{
     border-bottom: 2px solid #DA500F !important;
     color: #DA500F !important;
@@ -1793,6 +1810,12 @@ i.offline-icon{
 .update .update{
     border-bottom: 2px solid #DA500F !important;
     color: #DA500F !important;
+}
+.home_content #menu_scroller{
+    width: 100% !important;
+}
+.home_content #menu_scroller li{
+    width: 33% !important;
 }
 .updates{
     position: relative;
@@ -1829,4 +1852,8 @@ i.offline-icon{
     top: 3%;
     width: 42px;
     z-index: 9999;
+}
+.item-content p{
+    overflow: visible;
+    white-space: normal;
 }

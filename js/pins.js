@@ -178,8 +178,8 @@ pinMod.controller('PinCtrl',
                             grid[cur_column] = [];
                         }
                         //grid[cur_column].push(pin);
-                        console.log('column ' + cur_column);
-                        if (cur_column > 1) {
+                        console.log('pin_height ' + i + "XXXX" + pin_height);
+                        if (cur_column > 2) {
                             cur_column = 0;
                         }
                         if (cur_column === 0) {
@@ -187,20 +187,20 @@ pinMod.controller('PinCtrl',
                         } else if (cur_column === 1) {
                             grid2.push(pin);
                         }
-//                        else if (cur_column === 2) {
-//                            grid3.push(pin);
-//                        }
+                        else if (cur_column === 2) {
+                            grid3.push(pin);
+                        }
 //                        else if (cur_column === 3) {
 //                            grid4.push(pin);
 //                        } else if (cur_column === 4) {
 //                            grid5.push(pin);
 //                        }
                         grid_space[cur_column] += pin_height;
-                        console.log(grid_space[cur_column] + 'grid space' + i + 'column ' + cur_column);
+//                        console.log(grid_space[cur_column] + 'grid space' + i + 'column ' + cur_column);
                         $scope.grid = grid;
                         $scope.grid1 = grid1;
                         $scope.grid2 = grid2;
-//                        $scope.grid3 = grid3;
+                        $scope.grid3 = grid3;
                     }
 
                 };

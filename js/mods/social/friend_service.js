@@ -4,9 +4,22 @@ friendService.factory('friendHelper', [
     'ajaxRequest', '$q', '$localStorage', 'timeStorage', 'notifyHelper',
     function (ajaxRequest, $q, $localStorage, timeStorage, notifyHelper) {
         var service = {};
-        service.home = function (page) {
+        service.home_trending = function (page) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/home', {page: page});
+            var ajax = ajaxRequest.send('v1/social/home/trending', {page: page});
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        }
+        service.home_feed = function (page) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/home/feed', {
+                page: page,
+                user_id: $localStorage.user.id
+            });
             ajax.then(function (data) {
                 def.resolve(data);
             }, function () {
@@ -168,7 +181,7 @@ friendService.factory('friendHelper', [
                 return def.promise;
             }
         };
-        service.fullProfile = function (user_id) {
+        service.fullProfile = function (user_id, my_id) {
             var def = $q.defer();
             var me = false;
             if (!user_id) {
@@ -179,7 +192,8 @@ friendService.factory('friendHelper', [
             }
             var ajax = ajaxRequest.send('v1/social/user/profile/full', {
                 user_id: user_id,
-                me: me
+                me: me,
+                my_id: my_id
             });
             ajax.then(function (data) {
                 if (!data.meta.friends) {
@@ -243,6 +257,96 @@ friendService.factory('friendHelper', [
                 skip: skip
             });
             ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
+        service.unFriend = function (me_id, friend_id) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/user/unfriend', {
+                me_id: me_id,
+                friend_id: friend_id
+            });
+            ajax.then(function (data) {
+                notifyHelper.addUpdate(friend_id, 'un_friend', {
+                    user: $localStorage.user
+                });
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
+        service.declineFriendRequest = function (from_friend_id) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/user/declinefriendrequest', {
+                from_user_id: from_friend_id,
+                to_user_id: $localStorage.user.id
+            });
+            ajax.then(function (data) {
+                notifyHelper.addUpdate(from_friend_id, 'add_friend', {
+                    user: $localStorage.user,
+                    data: from_friend_id
+                });
+                notifyHelper.sendAlert('user_' + from_friend_id, {
+                    title: $localStorage.user.name + ' decliend your friend request',
+                    meta: {
+                        type: 'add_friend',
+                        user: $localStorage.user
+                    }
+                });
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
+        service.acceptFriendRequest = function (from_friend_id) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/user/acceptfriendrequest', {
+                from_user_id: from_friend_id,
+                to_user_id: $localStorage.user.id
+            });
+            ajax.then(function (data) {
+                notifyHelper.addUpdate(from_friend_id, 'add_friend', {
+                    user: $localStorage.user,
+                    data: from_friend_id
+                });
+                notifyHelper.sendAlert('user_' + from_friend_id, {
+                    title: $localStorage.user.name + ' has sent you a friend request',
+                    meta: {
+                        type: 'add_friend',
+                        user: $localStorage.user
+                    }
+                });
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
+        service.addFriend = function (to_user_id, from_user_id) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/user/addfriend', {
+                from_user_id: from_user_id,
+                to_user_id: to_user_id
+            });
+            ajax.then(function (data) {
+                if (data.status === 'sent') {
+                    notifyHelper.addUpdate(to_user_id, 'add_friend', {
+                        user: $localStorage.user,
+                        data: to_user_id
+                    });
+                    notifyHelper.sendAlert('user_' + to_user_id, {
+                        title: $localStorage.user.name + ' has sent you a friend request',
+                        meta: {
+                            type: 'add_friend',
+                            user: $localStorage.user
+                        }
+                    });
+                }
                 def.resolve(data);
             }, function () {
                 def.reject();

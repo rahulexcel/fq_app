@@ -14,7 +14,7 @@ notifyService.factory('notifyHelper', [
                     $rootScope.profile_update = count;
                     $timeout(function () {
                         self.doUpdates();
-                    }, 10000);
+                    }, 60000);
                 });
             }
         };
@@ -96,10 +96,16 @@ notifyService.factory('notifyHelper', [
                                 time: res[i].get('time'),
                                 type: res[i].get('type')
                             });
+                            var profile_update = $rootScope.profile_update;
                             if (!res[i].get('read')) {
                                 res[i].set('read', true);
                                 res[i].save();
+                                profile_update--;
+                                if (profile_update < 0) {
+                                    profile_update = 0;
+                                }
                             }
+                            $rootScope.profile_update = profile_update;
                         }
                         defer.resolve(ret);
                     },

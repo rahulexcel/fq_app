@@ -205,10 +205,10 @@ wishlistService.factory('wishlistHelper', [
                         console.log(followers);
                         console.log(shared_ids);
                         if (shared_ids.length > 0) {
-                            notifyHelper.addUpdate(shared_ids, 'item_add', {
-                                data: data,
-                                user: $localStorage.user
-                            });
+//                            notifyHelper.addUpdate(shared_ids, 'item_add', {
+//                                data: data,
+//                                user: $localStorage.user
+//                            });
                             for (var i = 0; i < shared_ids.length; i++) {
                                 notifyHelper.sendAlert('user_' + shared_ids[i], {
                                     title: 'New Item Added',
@@ -224,10 +224,10 @@ wishlistService.factory('wishlistHelper', [
                         } else {
                             if (followers.length > 0) {
                                 //followers only if no shared ids
-                                notifyHelper.addUpdate(followers, 'item_add', {
-                                    data: data,
-                                    user: $localStorage.user
-                                });
+//                                notifyHelper.addUpdate(followers, 'item_add', {
+//                                    data: data,
+//                                    user: $localStorage.user
+//                                });
                                 notifyHelper.sendAlert('list_' + data.list._id, {
                                     title: 'New Item Added',
                                     alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
@@ -249,10 +249,10 @@ wishlistService.factory('wishlistHelper', [
                                 if (followers.indexOf(follower) === -1) {
                                     filtered_user_followers.push(follower);
                                 }
-                                notifyHelper.addUpdate(filtered_user_followers, 'item_add_user', {
-                                    data: data,
-                                    user: $localStorage.user
-                                });
+//                                notifyHelper.addUpdate(filtered_user_followers, 'item_add_user', {
+//                                    data: data,
+//                                    user: $localStorage.user
+//                                });
                                 notifyHelper.sendAlert('user_follower_' + $localStorage.user.id, {
                                     title: 'New Item Added',
                                     alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,

@@ -1,5 +1,10 @@
 <ion-view title='Trending'>
-    <ion-content overflow-scroll='false'>
+    <ion-content overflow-scroll='false' class="home_content">
+        <ul id='menu_scroller' class="mine-list" ng-class="selected_class">
+            <li class="trending" on-tap='menu_trending();'>TENDING</li>
+            <li class="feed" on-tap='menu_feed();'>FEED</li>
+            <li class="latest" on-tap='menu_latest();' style="border-right: none">LATEST</li>
+        </ul>
         <div ui-view="pin-content"></div>
     </ion-content>
 </ion-view>

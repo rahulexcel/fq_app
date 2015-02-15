@@ -1,7 +1,7 @@
 var profileMod = angular.module('ProfileMod', ['ServiceMod', 'ngStorage', 'ionic', 'FriendService']);
 profileMod.controller('ProfileCtrl',
-        ['$scope', '$localStorage', 'toast', '$location', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope', '$timeout', 'wishlistHelper',
-            function ($scope, $localStorage, toast, $location, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout, wishlistHelper) {
+        ['$scope', '$localStorage', 'toast', '$location', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope', '$timeout', 'wishlistHelper', '$ionicPopup', 'notifyHelper', '$ionicScrollDelegate',
+            function ($scope, $localStorage, toast, $location, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout, wishlistHelper, $ionicPopup, notifyHelper, $ionicScrollDelegate) {
                 var user_id = false;
                 $scope.$on('logout_event', function () {
                     $location.path('/app/home');
@@ -17,6 +17,7 @@ profileMod.controller('ProfileCtrl',
                 $scope.user = false;
                 $scope.myScoll = false;
                 $scope.selected_class = '';
+                $scope.friend_requests = [];
 
                 $scope.pin_status = {
                     pin_page: 0,
@@ -51,38 +52,46 @@ profileMod.controller('ProfileCtrl',
                         $scope.pin_status.showMore = false;
                         $scope.selected_class = 'friends';
                     }
+                    $ionicScrollDelegate.resize();
                 });
                 $scope.me = false;
                 $scope.menu_update = function () {
                     $location.path('/app/profile/' + user_id + '/update');
+                    $ionicScrollDelegate.resize();
                 };
                 $scope.menu_wishlist = function () {
                     $location.path('/app/profile/' + user_id + '/mine');
+                    $ionicScrollDelegate.resize();
                 };
                 $scope.menu_followers = function () {
                     $location.path('/app/profile/' + user_id + '/followers');
+                    $ionicScrollDelegate.resize();
                 };
                 $scope.menu_following = function () {
                     $location.path('/app/profile/' + user_id + '/following');
+                    $ionicScrollDelegate.resize();
                 };
                 $scope.menu_pins = function () {
                     $location.path('/app/profile/' + user_id + '/pins');
+                    $ionicScrollDelegate.resize();
                 };
                 $scope.menu_profile = function () {
                     $location.path('/app/profile/' + user_id + '/profile');
+                    $ionicScrollDelegate.resize();
                 };
                 $scope.menu_friends = function () {
                     $location.path('/app/profile/' + user_id + '/friends');
+                    $ionicScrollDelegate.resize();
                 };
-                
+
                 if (user_id) {
                     $ionicLoading.show({
                         template: 'Loading...'
                     });
-                    $scope.following = false;
-                    var ajax = friendHelper.fullProfile(user_id);
+                    var ajax = friendHelper.fullProfile(user_id, $localStorage.user.id);
                     ajax.then(function (data) {
-
+                        $scope.is_following = data.is_following;
+                        $scope.is_friend = data.is_friend;
                         if (data.lists_mine) {
                             for (var i = 0; i < data.lists_mine.length; i++) {
                                 var name = data.lists_mine[i].name;
@@ -92,18 +101,18 @@ profileMod.controller('ProfileCtrl',
                                 data.lists_mine[i].bg_color = bg_color;
                             }
                         }
+                        $scope.friend_requests = data.friend_requests;
+
+                        $scope.friend_request_count = 0;
+                        if (data.friend_requests)
+                        {
+                            $scope.friend_request_count = data.friend_requests.length;
+                        }
 
                         $scope.user = data;
                         if ($scope.user._id === $localStorage.user.id) {
                             $scope.me = true;
                         }
-                        if (data.followers)
-                            for (var i = 0; i < data.followers.length; i++) {
-                                if (data.followers[i]._id === $localStorage.user.id) {
-                                    $scope.following = true;
-                                    break;
-                                }
-                            }
 
                         $ionicLoading.hide();
                         $scope.$broadcast('user_info');
@@ -112,7 +121,7 @@ profileMod.controller('ProfileCtrl',
                         if ($scope.me) {
                             width = width * 7;
                         } else {
-                            width = width * 5;
+                            width = width * 4;
                         }
                         angular.element(document.querySelector('#menu_scroller')).attr('style', 'width:' + width + 'px');
                         $timeout(function () {
@@ -132,6 +141,80 @@ profileMod.controller('ProfileCtrl',
 
                 self.followUserID = function (user_id, type) {
                     return friendHelper.user_follow(user_id, type);
+                };
+                $scope.acceptFriendRequest = function (from_user_id) {
+                    var ajax = friendHelper.acceptFriendRequest(from_user_id);
+                    ajax.then(function () {
+                        $scope.$broadcast('friend_request');
+                        toast.showShortBottom('Friend Request Accepted');
+                    });
+                };
+                $scope.declineFriendRequest = function (from_user_id) {
+                    var ajax = friendHelper.declineFriendRequest(from_user_id);
+                    ajax.then(function () {
+                        $scope.friend_request_count--;
+                        if ($scope.friend_request_count < 0) {
+                            $scope.friend_request_count = 0;
+                        }
+                        $scope.$broadcast('friend_request');
+                        toast.showShortBottom('Friend Request Declined');
+                    });
+                };
+                $scope.addFriend = function () {
+                    var ajax = friendHelper.addFriend(user_id, $localStorage.user.id);
+                    ajax.then(function (data) {
+                        if (data.status === 'sent') {
+                            $scope.is_friend = 2;
+                            toast.showShortBottom('Friend Request Sent');
+                        } else if (data.status === 'pending') {
+                            var created_at = data.date;
+
+                            var old_time = new Date(created_at).getTime();
+                            var now = new Date().getTime();
+                            if (now - old_time > 1000 * 60 * 60 * 24) {
+                                $ionicPopup.confirm({
+                                    title: 'Friend Request',
+                                    template: 'You have alredy sent Friend Request on "' + prettyDate(created_at) + "\". Click OK to remaind"
+                                }).then(function (res) {
+                                    if (res) {
+                                        notifyHelper.sendAlert('user_' + user_id, {
+                                            title: $localStorage.user.name + ' has sent you a friend request',
+                                            meta: {
+                                                type: 'add_friend',
+                                                user: $localStorage.user
+                                            }
+                                        });
+                                        toast.showShortBottom('Remainder Sent!');
+                                    }
+                                });
+                            } else {
+                                toast.showShortBottom('Your Friend Request Is Pending!');
+                            }
+                        } else if (data.status === 'declined') {
+                            var created_at = data.date;
+                            $ionicPopup.alert({
+                                title: 'Friend Request',
+                                template: 'Your Friend Request Was Declined on "' + prettyDate(created_at) + "\" cannot send again!"
+                            }).then(function (res) {
+                            });
+
+                        }
+                    }, function () {
+                        $scope.is_friend = 2;
+                    });
+                };
+                $scope.unFriend = function (friend_user_id) {
+                    if (!friend_user_id) {
+                        friend_user_id = user_id;
+                    }
+                    var ajax = friendHelper.unFriend($localStorage.user.id, friend_user_id);
+                    ajax.then(function () {
+                        $scope.is_friend = 2;
+                        $scope.$broadcast('unfriend');
+                        toast.showShortBottom('Friend Removed');
+                    }, function () {
+                        $scope.is_friend = 2;
+                    });
                 };
                 $scope.followProfileUser = function () {
                     if ($scope.request_process) {

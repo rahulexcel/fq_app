@@ -1,16 +1,19 @@
-<div bindonce class="list card updates" ng-repeat="item in updates track by $index">
-    <div on-tap='account(item.user);' class="item item-avatar" bo-if="item.user">
-        <img class="rounded" ng-src="{{item.user.picture|picture:50:50}}">
-        <h2 bo-bind='item.user.name'></h2>
-        <p bo-html='item.time|prettyDate'></p>
-    </div>
-    <div class="item item-body" on-tap='openUpdate(item);'>
-        <p bo-bind='item.body.title'></p>
-        <img bo-if="item.body.image" class="full-image" ng-src="{{item.body.image|picture:320}}">
-    </div>
-    <button class="button-clear icon ion-close delete" on-tap='deleteItem(item,$index)'></button>
-</div>
+<ion-list can-swipe="me">
+    <ion-item class="item-thumbnail-left" bindonce ng-repeat="item in updates track by $index">
+        <img on-tap='account(item.user);' bo-if="item.user" class="rounded" ng-src="{{item.user.picture|picture:50:50}}">
+        <p>{{item.body.title}}</p>
+        <div style="font-size: .82em">by <span bo-bind='item.user.name'></span> &nbsp;&nbsp; <span bo-html='item.time|prettyDate'></span></div>
+        <button class="button button-small grey_bg" on-tap='openUpdate(item);'>Open</button>
+        <!--
+        <div class="item item-body" on-tap='openUpdate(item);'>
+            <p bo-bind='item.body.title'></p>
+            <img bo-if="item.body.image" class="full-image" ng-src="{{item.body.image|picture:320}}">
+        </div>
+        -->
+        <ion-option-button class="ion-close-circled red-back fa-2x" on-tap='deleteItem(item,$index)'></ion-option-button>
 
+    </ion-item>
+</ion-list>
 <div class="result-empty" ng-if="updates.length == 0">
     <span class="info"><img src="img/favicon-not.png"/></span>
     <span class="info grey-color">No Updates</span>

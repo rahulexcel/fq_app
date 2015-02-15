@@ -54,5 +54,8 @@ profileMod.controller('ProfileFollowingCtrl',
                         $scope.request_process = false;
                     });
                 };
+                $scope.profile = function (user_id) {
+                    $location.path('/app/profile/' + user_id + '/mine');
+                };
             }
         ]);

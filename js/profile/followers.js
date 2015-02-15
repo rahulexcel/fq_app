@@ -13,6 +13,26 @@ profileMod.controller('ProfileFollowerCtrl',
                     $scope.me = true;
                 }
 
+                $scope.hasMore = true;
+                $scope.page = 0;
+                $scope.loadMoreFollowers = function () {
+                    $scope.page = $scope.page + 1;
+                    var ajax = friendHelper.loadMoreFollowers($scope.$parent.user._id, $scope.page);
+                    ajax.then(function (data) {
+                        if (data.length > 0) {
+                            for (var i = 0; i < data.length; i++) {
+                                $scope.followers.push(data[i]);
+                            }
+                        } else {
+                            $scope.hasMore = false;
+                        }
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
+                    }, function () {
+                        $scope.hasMore = false;
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
+                    });
+                };
+
                 $scope.followUser = function (user_id, index) {
                     if ($scope.request_process) {
                         toast.showProgress();
@@ -26,6 +46,9 @@ profileMod.controller('ProfileFollowerCtrl',
                     }, function () {
                         $scope.request_process = false;
                     });
+                };
+                $scope.profile = function (user_id) {
+                    $location.path('/app/profile/' + user_id + '/mine');
                 };
             }
         ]);

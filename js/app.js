@@ -60,6 +60,15 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         }
                     }
                 })
+                .state('app.home.feed', {
+                    url: '/feed',
+                    views: {
+                        'pin-content': {
+                            templateUrl: 'template/list/pins.html',
+                            controller: 'PinCtrl'
+                        }
+                    }
+                })
                 .state('app.item', {
                     url: '/item/:item_id/:list_id',
                     views: {
