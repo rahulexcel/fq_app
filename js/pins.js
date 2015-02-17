@@ -15,14 +15,15 @@ pinMod.filter('nl2br', ['$sce', function ($sce) {
         };
     }]);
 pinMod.controller('PinCtrl',
-        ['$scope', '$timeout', '$location', '$rootScope',
-            function ($scope, $timeout, $location, $rootScope) {
+        ['$scope', '$timeout', '$location', '$rootScope', '$localStorage', 'friendHelper', 'toast',
+            function ($scope, $timeout, $location, $rootScope, $localStorage, friendHelper, toast) {
                 var ajax_data = [];
                 $scope.loading = true;
                 $scope.windowWidth = 0;
                 $scope.hasMore = false;
                 $scope.page = 0;
                 $scope.pin_count = 0;
+                $scope.total_pin_count = 0;
                 $rootScope.$on('custom_ionicExposeAside', function () {
                     $timeout(function () {
                         $scope.displayPins();
@@ -31,6 +32,10 @@ pinMod.controller('PinCtrl',
                 $scope.$watch('windowWidth', function (newVaue) {
                     $scope.displayPins();
                 });
+                $scope.doRefresh = function () {
+                    $scope.page = 0;
+                    $scope.loadMore();
+                };
                 $scope.loadMore = function () {
                     var ajax = $scope.$parent.getData($scope.page);
                     ajax.then(function (data) {
@@ -50,13 +55,26 @@ pinMod.controller('PinCtrl',
                                 ajax_data.push(data[i]);
                             }
                             $scope.pin_count = ajax_data.length;
+                            $scope.total_pin_count += ajax_data.length;
                             $scope.displayPins(data);
                             $scope.hasMore = true;
                         } else {
                             $scope.hasMore = false;
+
+                            //for home page feed
+                            if ($scope.$parent.selected_class === 'feed') {
+                                var ajax2 = $scope.$parent.loadTopLists();
+                                ajax2.then(function (data2) {
+                                    $scope.top_lists = data2;
+                                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                                    $scope.$broadcast('scroll.refreshComplete');
+                                });
+
+                            } else {
+                                $scope.$broadcast('scroll.infiniteScrollComplete');
+                                $scope.$broadcast('scroll.refreshComplete');
+                            }
                         }
-                        $scope.$broadcast('scroll.infiniteScrollComplete');
-                        $scope.$broadcast('scroll.refreshComplete');
                     }, function () {
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                         $scope.$broadcast('scroll.refreshComplete');
@@ -278,7 +296,32 @@ pinMod.controller('PinCtrl',
                     $location.path('/app/item/' + pin_id + '/' + list_id);
                 };
                 $scope.viewList = function (list_id, list_name) {
-                    $location.path('/app/wishlist_item/pins/' + list_id + '/' + list_name);
+                    $location.path('/app/wishlist_item/' + list_id + '/' + list_name + "/pins");
+                };
+                $scope.followList = function (list_id, index) {
+                    if (!$localStorage.user.id) {
+                        toast.showShortBottom('SignUp/Login To Follow List');
+                    } else {
+                        if ($scope.request_process) {
+                            toast.showProgress();
+                            return;
+                        }
+                        $scope.request_process = true;
+                        var ajax = friendHelper.list_follow(list_id);
+                        ajax.then(function (data) {
+                            var top_lists = $scope.top_lists;
+                            var new_top_list = [];
+                            for (var i = 0; i < top_lists.length; i++) {
+                                if (i !== index) {
+                                    new_top_list.push(top_lists[i]);
+                                }
+                            }
+                            $scope.top_lists = new_top_list;
+                            $scope.request_process = false;
+                        }, function () {
+                            $scope.request_process = false;
+                        });
+                    }
                 };
             }
         ]);

@@ -1,6 +1,6 @@
 <div id="following-main">
     <div class="list-section" ng-show="following_users.length > 0">PEOPLE</div>
-    <div class="box"  ng-repeat="user in following_users">
+    <div class="box"  ng-repeat="user in following_users track by $index">
         <div on-tap="profile(user._id);" class="user_image">
             <img class="rounded" ng-src='{{user.picture| picture:45:45}}'/>
         </div>
@@ -11,28 +11,28 @@
             </span>
             <span ng-if='true' on-tap='unFollowUser(user._id,$index)' class="user-unfollow black-font info font11">Unfollow!</span>
         </div>
-        <button ng-if='false' on-tap='followUser(user._id);' class="follow-btn-red follow-btn red-back">FOLLOW</button>
+        <button ng-if='!me' on-tap='followUser(user._id);' class="follow-btn-red follow-btn red-back">FOLLOW</button>
         <div class="clearfix"></div>
     </div>
     <div class="list-section" ng-show="lists_their.length > 0">WISHLIST</div>
-    <div class="box" ng-repeat="list in lists_their">
+    <div class="box" ng-repeat="list in lists_their  track by $index">
         <div class="wishlist_icon" on-tap='viewList(item1);'>
-            <div class="round_icon" style="background-color: #000;">
+            <div class="round_icon" ng-style="{'background-color': item1.bg_color}">
                 {{list.list_symbol}}
             </div>
         </div>
         <div class="user-info wishlist_list_item">
             <span class="black-font info font13" on-tap='viewList(list)'>{{list.name}}
-                <i  class="ion-ios-locked grey-color"></i>
+                <i ng-if="item1.type == 'private'" class="ion-ios-locked grey-color"></i>
             </span>
             <div class=""> 
                 <span class="info grey-color font11">
-                    {{item1.meta.products}} <i class="fa fa-circle"></i>
-                    Created on {{item1.created_at|prettyDate}} 
+                    {{list.meta.products}} clips <i class="fa fa-circle"></i>
+                    Created on {{list.created_at|prettyDate}} 
                 </span>
                 <span class="info grey-color font11 wish-icon" ng-show="list.followers.length != 0">
                     <i class="ion-ios-heart-outline red-color"></i>{{list.meta.likes}} &nbsp
-                    <i class="ion-ios-people fa-lg red-color"></i>&nbsp {{item1.followers.length}}
+                    <i class="ion-ios-people fa-lg red-color"></i>&nbsp {{list.followers.length}}
                 </span> 
                 <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
                 <div class="clearfix"></div>

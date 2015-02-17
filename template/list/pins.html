@@ -1,12 +1,16 @@
-<!--<button ng-click='start();'>Start</button>-->
-<!--<ion-refresher
+<ion-refresher
     pulling-text="Pull to refresh..."
     on-refresh="doRefresh()">
-</ion-refresher>-->
-<div ng-if="pin_count == 0 && !loading">
-    <div class="result-empty">
-        <span class="info"><img src="img/favicon-not.png"/></span>
-        <span class="info grey-color">No Pins</span>
+</ion-refresher>
+<div ng-if="total_pin_count == 0 && !loading">
+    <div style="text-align: center" ng-show="selected_class === 'feed'">
+        Follow People and Lists To Build Your Feed
+    </div>
+    <div ng-show="selected_class !== 'feed'">
+        <div class="result-empty">
+            <span class="info"><img src="img/favicon-not.png"/></span>
+            <span class="info grey-color">No Pins</span>
+        </div>
     </div>
 </div>
 <div resize class="pin_list_container">
@@ -107,6 +111,41 @@
     </div>
     <div class="clearfix"></div>
 </div>
+
+
+<div id="following-main">
+    <div class="list-section" ng-show="top_lists.length > 0">TOP LISTS</div>
+    <div class="box" ng-repeat="item1 in top_lists track by $index">
+        <div class="wishlist_icon" on-tap='viewList(item1._id,item1.name);'>
+            <div class="round_icon" ng-style="{'background-color': item1.bg_color}">
+                {{item1.list_symbol}}
+            </div>
+        </div>
+        <div class="user-info wishlist_list_item">
+            <span class="black-font info font13" on-tap='viewList(item1._id,item1.name);'>{{item1.name}}
+                <i ng-if="item1.type == 'private'" class="ion-ios-locked grey-color"></i>
+            </span>
+            <div class=""> 
+                <span class="info grey-color font11">
+                    {{item1.meta.products}} clips <i class="fa fa-circle"></i>
+                    Created on {{item1.created_at|prettyDate}} 
+                </span>
+                <span class="info grey-color font11 wish-icon">
+                    <i class="ion-ios-heart-outline red-color"></i>{{item1.meta.likes}} &nbsp
+                    <i class="ion-ios-people fa-lg red-color"></i>&nbsp {{item1.followers.length}}
+                </span> 
+                <div class="clearfix"></div>
+            </div>
+            <div style="position: absolute;right: 15px;z-index: 99999;top:20px;">
+                <button on-tap='followList(item1._id,$index);' class="edit-btn follow-btn">FOLLOW</button>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+
+
 <!--<div ng-click="loadMore();">Load More</div>-->
 <ion-infinite-scroll
     ng-if='hasMore'

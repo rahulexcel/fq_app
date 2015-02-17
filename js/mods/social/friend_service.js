@@ -1,12 +1,53 @@
 var friendService = angular.module('FriendService', ['ServiceMod']);
 
 friendService.factory('friendHelper', [
-    'ajaxRequest', '$q', '$localStorage', 'timeStorage', 'notifyHelper',
-    function (ajaxRequest, $q, $localStorage, timeStorage, notifyHelper) {
+    'ajaxRequest', '$q', '$localStorage', 'timeStorage', 'notifyHelper', 'wishlistHelper',
+    function (ajaxRequest, $q, $localStorage, timeStorage, notifyHelper, wishlistHelper) {
         var service = {};
+        service.top_users = function (page) {
+            var def = $q.defer();
+            var id = -1;
+            if ($localStorage.user.id) {
+                id = $localStorage.user.id;
+            }
+            var ajax = ajaxRequest.send('v1/feeds/user/top', {
+                page: page,
+                user_id: id
+            });
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.resolve([]);
+            });
+            return def.promise;
+        };
+        service.top_lists = function (page) {
+            var def = $q.defer();
+            var id = -1;
+            if ($localStorage.user.id) {
+                id = $localStorage.user.id;
+            }
+            var ajax = ajaxRequest.send('v1/feeds/list/top', {
+                page: page,
+                user_id: id
+            });
+            ajax.then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var row = data[i];
+                    var list_symbol = row.name.substring(0, 1).toUpperCase();
+                    var bg_color = wishlistHelper.getRandomColor();
+                    data[i].list_symbol = list_symbol;
+                    data[i].bg_color = bg_color;
+                }
+                def.resolve(data);
+            }, function () {
+                def.resolve([]);
+            });
+            return def.promise;
+        };
         service.home_trending = function (page) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/home/trending', {page: page});
+            var ajax = ajaxRequest.send('v1/feeds/trending', {page: page});
             ajax.then(function (data) {
                 def.resolve(data);
             }, function () {
@@ -16,7 +57,7 @@ friendService.factory('friendHelper', [
         }
         service.home_feed = function (page) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/home/feed', {
+            var ajax = ajaxRequest.send('v1/feeds/my', {
                 page: page,
                 user_id: $localStorage.user.id
             });

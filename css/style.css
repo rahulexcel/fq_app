@@ -1348,6 +1348,7 @@ i.fa-circle{
     border-bottom-style: none; 
 }
 .box{
+    position: relative;
     padding: 10px 15px;
     border: 1px solid #d9d7d4;
     margin-bottom: 20px;
