@@ -2,14 +2,39 @@ profileMod.controller('ProfileFriendCtrl',
         ['$scope', '$localStorage', 'toast', '$location', 'friendHelper',
             function ($scope, $localStorage, toast, $location, friendHelper) {
                 $scope.$on('user_info', function () {
-                    $scope.friends = $scope.$parent.user.friends;
-                    $scope.friend_requests = $scope.$parent.friend_requests;
+                    var friends = $scope.$parent.user.friends;
+                    if (friends) {
+                        for (var i = 0; i < friends.length; i++) {
+                            friends[i].is_friend = true;
+                        }
+                    }
+                    $scope.friends = friends;
+                    var friend_requests = $scope.$parent.friend_requests;
+                    if (friend_requests) {
+                        for (var i = 0; i < friend_requests.length; i++) {
+                            friend_requests[i].is_request = true;
+                        }
+                    }
+                    $scope.friend_requests = friend_requests;
                     if ($scope.$parent.user._id === $localStorage.user.id) {
                         $scope.me = true;
                     }
                 });
-                $scope.friends = $scope.$parent.user.friends;
-                $scope.friend_requests = $scope.$parent.friend_requests;
+                var friends = $scope.$parent.user.friends;
+                if (friends) {
+                    for (var i = 0; i < friends.length; i++) {
+                        friends[i].is_friend = true;
+                    }
+                }
+                $scope.friends = friends;
+
+                var friend_requests = $scope.$parent.friend_requests;
+                if (friend_requests) {
+                    for (var i = 0; i < friend_requests.length; i++) {
+                        friend_requests[i].is_request = true;
+                    }
+                }
+                $scope.friend_requests = friend_requests;
                 $scope.me = false;
                 if ($scope.$parent.user._id === $localStorage.user.id) {
                     $scope.me = true;
@@ -69,10 +94,6 @@ profileMod.controller('ProfileFriendCtrl',
                 };
                 $scope.declineFriendRequest = function (from_user_id, index) {
                     $scope.$parent.declineFriendRequest(from_user_id);
-                    $scope.friend_index = index;
-                };
-                $scope.unFriend = function (friend_id, index) {
-                    $scope.$parent.unFriend(friend_id);
                     $scope.friend_index = index;
                 };
             }

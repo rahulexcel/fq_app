@@ -65,6 +65,9 @@ pinMod.controller('PinCtrl',
                             if ($scope.$parent.selected_class === 'feed') {
                                 var ajax2 = $scope.$parent.loadTopLists();
                                 ajax2.then(function (data2) {
+                                    for (var i = 0; i < data2.length; i++) {
+                                        data2[i].is_following = false;
+                                    }
                                     $scope.top_lists = data2;
                                     $scope.$broadcast('scroll.infiniteScrollComplete');
                                     $scope.$broadcast('scroll.refreshComplete');

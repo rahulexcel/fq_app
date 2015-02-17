@@ -1,31 +1,29 @@
 profileMod.controller('ProfileListMineCtrl',
-        ['$scope', '$localStorage', 'toast', '$location', 'dataShare',
-            function ($scope, $localStorage, toast, $location, dataShare) {
+        ['$scope', '$localStorage',
+            function ($scope, $localStorage) {
 
                 $scope.$on('user_info', function () {
-                    $scope.wishlist_mine = $scope.$parent.user.lists_mine;
+                    var wishlists = $scope.$parent.user.lists_mine;
+                    if (wishlists) {
+                        for (var i = 0; i < wishlists.length; i++) {
+                            wishlists[i].can_edit = true;
+                        }
+                    }
+                    $scope.wishlist_mine = wishlists;
                     if ($scope.$parent.user._id === $localStorage.user.id) {
                         $scope.me = true;
                     }
                 });
-                $scope.wishlist_mine = $scope.$parent.user.lists_mine;
+                var wishlists = $scope.$parent.user.lists_mine;
+                if (wishlists) {
+                    for (var i = 0; i < wishlists.length; i++) {
+                        wishlists[i].can_edit = true;
+                    }
+                }
+                $scope.wishlist_mine = wishlists;
                 $scope.me = false;
                 if ($scope.$parent.user._id === $localStorage.user.id) {
                     $scope.me = true;
                 }
-
-                $scope.viewList = function (list) {
-                    var list_id = list._id;
-                    $location.path('/app/wishlist_item/' + list_id + "/" + list.name + '/pins');
-                };
-                $scope.editList = function (list) {
-                    if ($scope.me) {
-                        dataShare.broadcastData(list, 'edit_list');
-                        $location.path('/app/wishlist_edit');
-                    } else {
-                        toast.showShortBottom('You Cannot Edit This List');
-                    }
-                };
-
             }
         ]);

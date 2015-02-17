@@ -51,6 +51,9 @@ profileMod.controller('ProfileCtrl',
                     } else if (path === '/app/profile/' + user_id + '/friends') {
                         $scope.pin_status.showMore = false;
                         $scope.selected_class = 'friends';
+                    } else if (path === '/app/profile/' + user_id + '/recommended') {
+                        $scope.pin_status.showMore = false;
+                        $scope.selected_class = 'recommended';
                     }
                     $ionicScrollDelegate.resize();
                 });
@@ -81,6 +84,10 @@ profileMod.controller('ProfileCtrl',
                 };
                 $scope.menu_friends = function () {
                     $location.path('/app/profile/' + user_id + '/friends');
+                    $ionicScrollDelegate.resize();
+                };
+                $scope.menu_recommended = function () {
+                    $location.path('/app/profile/' + user_id + '/recommended');
                     $ionicScrollDelegate.resize();
                 };
 
@@ -119,7 +126,7 @@ profileMod.controller('ProfileCtrl',
 
                         var width = 125;
                         if ($scope.me) {
-                            width = width * 7;
+                            width = width * 8;
                         } else {
                             width = width * 4;
                         }
@@ -199,19 +206,6 @@ profileMod.controller('ProfileCtrl',
                             });
 
                         }
-                    }, function () {
-                        $scope.is_friend = 2;
-                    });
-                };
-                $scope.unFriend = function (friend_user_id) {
-                    if (!friend_user_id) {
-                        friend_user_id = user_id;
-                    }
-                    var ajax = friendHelper.unFriend($localStorage.user.id, friend_user_id);
-                    ajax.then(function () {
-                        $scope.is_friend = 2;
-                        $scope.$broadcast('unfriend');
-                        toast.showShortBottom('Friend Removed');
                     }, function () {
                         $scope.is_friend = 2;
                     });

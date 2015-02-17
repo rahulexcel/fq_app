@@ -1311,11 +1311,25 @@ i.fa-circle{
 /*********************************CLIP closed *******************************/
 
 /*********************************Social page *******************************/
-
+.list_stats{
+    border-top: 1px solid #d9d7d4;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+}
+.list_stats div.col{
+    border-right: 1px solid #d9d7d4;
+}
+.list_stats div.col:last{
+    border-right: none;
+}
 .wishlist_icon{
     position: absolute;
     width: 50px;
-    ;z-index: 99999;
+    z-index: 99999;
+    text-align: center;
 }
 .wishlist_icon .round_icon{
     border-radius: 100%;
@@ -1328,9 +1342,22 @@ i.fa-circle{
     width: 45px;
 }
 .wishlist_list_item{
-    margin-left:55px !important;
+    padding-left:55px !important;
     width: 100%;
-    margin-right: 55px
+    padding-right: 55px !important;
+}
+.sub_box{
+    min-height: 45px;
+    position: relative;
+}
+.sub_box .action{
+    line-height: 45px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    width: 55px;
+    z-index: 9999;
 }
 
 #wishlist_item{
@@ -1809,6 +1836,14 @@ i.offline-icon{
     color: #DA500F !important;
 }
 .update .update{
+    border-bottom: 2px solid #DA500F !important;
+    color: #DA500F !important;
+}
+.friends .friends{
+    border-bottom: 2px solid #DA500F !important;
+    color: #DA500F !important;
+}
+.recommended .recommended{
     border-bottom: 2px solid #DA500F !important;
     color: #DA500F !important;
 }

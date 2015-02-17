@@ -205,6 +205,15 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         }
                     }
                 })
+                .state('app.profile.recommended', {
+                    url: '/recommended',
+                    views: {
+                        'tab-content': {
+                            templateUrl: 'template/profile/recommended.html',
+                            controller: 'ProfileRecommendedCtrl'
+                        }
+                    }
+                })
                 .state('app.wishlist_edit', {
                     url: '/wishlist_edit', //needed for editing existing list
                     views: {

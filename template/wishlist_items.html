@@ -1,15 +1,25 @@
 <ion-view>
     <ion-nav-title>{{wishlist_name}}</ion-nav-title>
     <ion-content overflow-scroll='false'>
-        <div  ng-show='list_detail' class="box" style="background-color: white">
-            <div class="list_name">{{list_detail.name}}</div>
-            <div class="list_desc">{{list_detail.description}}</div>
-            <div class="list_stats">
-                {{list_detail.meta.products}} clips | {{list_detail.followers.length}} followers | {{list_detail.meta.likes}} likes
+        <div ng-show='list_detail' style="background-color: white">
+            <div class="padding">
+                <div class="list_name" style="font-weight:bold">{{list_detail.name}}</div>
+                <div class="list_desc">{{list_detail.description}}</div>
             </div>
-            <div>
-                <button on-tap='followList()' ng-if="!follow" class="button">Follow</button>
-                <button on-tap='unFollowList()' ng-if="follow" class="button">UnFollow</button>
+            <div class="list_stats row">
+                <div class="col">
+                    {{list_detail.meta.products}}&nbsp;clips
+                </div>
+                <div class="col">
+                    <i class="ion-ios-people fa-lg red-color"></i>&nbsp; {{list_detail.followers.length}} followers
+                </div>
+                <div class="col">
+                    <i class="ion-ios-heart-outline red-color"></i>&nbsp;{{list_detail.meta.likes}} likes
+                </div>
+                <div class="col" style="padding: 0px">
+                    <button on-tap='followList()' ng-if="!follow" style="height: 100%;margin: 0px;padding: 0px" class="button button-full button-small button-icon ion-ios-people fa-2x red-color"></button>
+                    <button on-tap='unFollowList()' ng-if="follow" style="height: 100%;margin: 0px;padding: 0px" class="button button-full button-small button-icon ion-ios-people-outline grey-color fa-2x"></button>                    
+                </div>
             </div>
         </div>
         <div ui-view="pin-content"></div>

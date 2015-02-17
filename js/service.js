@@ -1,5 +1,131 @@
 var serviceMod = angular.module('ServiceMod', ['ngStorage', 'ionic']);
+serviceMod.directive("userBox", ['$location', 'toast', 'friendHelper', '$localStorage',
+    function ($location, toast, friendHelper, $localStorage) {
+        var obj = {
+            scope: {user: '=', me: '=', index: '@', users: '='},
+            templateUrl: 'template/directive/user.html',
+            controller: function ($scope) {
+                $scope.profile = function () {
+                    $location.path('/app/profile/' + $scope.user._id + '/profile');
+                };
+                $scope.unFriend = function () {
+                    var friend_user_id = $scope.user._id;
+                    var ajax = friendHelper.unFriend($localStorage.user.id, friend_user_id);
+                    ajax.then(function () {
+                        $scope.is_friend = 2;
+//                        $scope.$broadcast('unfriend');
 
+                        if ($scope.index) {
+                            var users = $scope.users;
+                            users.slice($scope.index, 1);
+                            $scope.users = users;
+                        }
+                        toast.showShortBottom('Friend Removed');
+                    }, function () {
+                        $scope.is_friend = 2;
+                    });
+                };
+                $scope.unFollowUser = function () {
+                    var user_id = $scope.user._id;
+                    if ($scope.request_process) {
+                        toast.showProgress();
+                        return;
+                    }
+                    $scope.request_process = true;
+                    var ajax = friendHelper.user_follow(user_id, 'remove');
+                    ajax.then(function () {
+                        if ($scope.index) {
+                            var users = $scope.users;
+                            users.splice($scope.index, 1);
+                            $scope.users = users;
+                        }
+                        $scope.request_process = false;
+                    }, function () {
+                        $scope.request_process = false;
+                    });
+                };
+                $scope.followUser = function () {
+                    var user_id = $scope.user._id;
+                    if ($scope.request_process) {
+                        toast.showProgress();
+                        return;
+                    }
+                    $scope.request_process = true;
+                    var ajax = friendHelper.user_follow(user_id);
+                    ajax.then(function () {
+                        if ($scope.index) {
+                            toast.showShortBottom('You Are Now Following ' + $scope.users[index].name);
+                        } else {
+                            toast.showShortBottom('Following Now');
+                        }
+                        $scope.request_process = false;
+                    }, function () {
+                        $scope.request_process = false;
+                    });
+                };
+            },
+            link: {
+                pre: function ($scope) {
+
+                }
+            }
+        };
+        return obj;
+    }]);
+serviceMod.directive("listBox",
+        ['wishlistHelper', '$location', 'dataShare', 'toast', 'friendHelper',
+            function (wishlistHelper, $location, dataShare, toast, friendHelper) {
+                var obj = {
+                    scope: {list: '=', me: '=', index: '@', lists: '='},
+                    templateUrl: 'template/directive/list.html',
+                    link: {
+                        pre: function ($scope) {
+                            if (!$scope.list.list_symbol) {
+                                var name = $scope.list.name;
+                                var char = name.substring(0, 1);
+                                var color = wishlistHelper.getRandomColor();
+                                $scope.list.list_symbol = char;
+                                $scope.list.bg_color = color;
+                            }
+                        }
+                    },
+                    controller: function ($scope) {
+                        $scope.viewList = function () {
+                            var list = $scope.list;
+                            $location.path('/app/wishlist_item/' + list._id + "/" + list.name + '/pins');
+                        };
+                        $scope.editList = function () {
+                            var list = $scope.list;
+                            if ($scope.me) {
+                                dataShare.broadcastData(list, 'edit_list');
+                                $location.path('/app/wishlist_edit');
+                            } else {
+                                toast.showShortBottom('You Cannot Edit This List');
+                            }
+                        };
+                        $scope.unFollowList = function () {
+                            var list_id = $scope.list._id;
+                            if ($scope.request_process) {
+                                toast.showProgress();
+                                return;
+                            }
+                            $scope.request_process = true;
+                            var ajax = friendHelper.list_follow(list_id, 'remove');
+                            ajax.then(function (data) {
+                                var lists = $scope.lists;
+                                if ($scope.index)
+                                    lists.splice($scope.index, 1);
+                                $scope.lists = lists;
+                                $scope.request_process = false;
+                            }, function () {
+                                $scope.request_process = false;
+                            });
+                        };
+                    }
+
+                };
+                return obj;
+            }]);
 serviceMod.filter('prettyDate', function () {
     return function (date) {
         return prettyDate(date);
@@ -79,7 +205,6 @@ serviceMod.factory('socialJs', function () {
         }(document, "script", "twitter-wjs"));
     };
     return service;
-
 });
 serviceMod.factory('timeStorage', ['$localStorage', function ($localStorage) {
         var timeStorage = {};
@@ -144,7 +269,6 @@ serviceMod.factory('dataShare', ['$rootScope', '$timeout', function ($rootScope,
             var data = shareService.data;
             return data;
         };
-
         return shareService;
     }
 ]);
@@ -248,7 +372,6 @@ serviceMod.factory('ajaxRequest',
                 };
             }
         ]);
-
 serviceMod.factory('uploader', ['$q', 'ajaxRequest',
     function ($q, ajaxRequest) {
         return {
@@ -267,7 +390,6 @@ serviceMod.factory('uploader', ['$q', 'ajaxRequest',
                     }, function () {
                         def.resolve(0);
                     });
-
                 }, function (err) {
                     def.resolve(0);
                 });
@@ -384,7 +506,6 @@ serviceMod.factory('uploader', ['$q', 'ajaxRequest',
                         context.upload_defer.resolve(obj);
                         context.ft = false;
                     };
-
                     var fail = function (error) {                     // error.code == FileTransferError.ABORT_ERR
                         context.upload_defer.reject("An error has occurred: Code = " + error.code);
                         context.ft = false;
@@ -404,7 +525,6 @@ serviceMod.factory('uploader', ['$q', 'ajaxRequest',
         };
     }
 ]);
-
 /*
  * The whenReady directive allows you to execute the content of a when-ready
  * attribute after the element is ready (i.e. when it's done loading all sub directives and DOM
@@ -442,7 +562,6 @@ serviceMod.directive('whenReady', ['$interpolate', function ($interpolate) {
                 var expressions = $attributes.whenReady.split(';');
                 var waitForInterpolation = false;
                 var hasReadyCheckExpression = false;
-
                 function evalExpressions(expressions) {
                     expressions.forEach(function (expression) {
                         $scope.$eval(expression);
@@ -465,7 +584,6 @@ serviceMod.directive('whenReady', ['$interpolate', function ($interpolate) {
                     requestAnimationFrame(function checkIfReady() {
                         var isInterpolated = false;
                         var isReadyCheckTrue = false;
-
                         if (waitForInterpolation && $element.text().indexOf($interpolate.startSymbol()) >= 0) { // if the text still has {{placeholders}}
                             isInterpolated = false;
                         }

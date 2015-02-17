@@ -1,0 +1,17 @@
+<div class='sub_box'>
+    <div on-tap="profile();" class="user_image">
+        <img class="rounded" ng-src='{{user.picture| picture:45:45}}'/>
+    </div>
+    <div class="user-info">
+        <span  on-tap="profile();" class="black-font info font13">{{user.name}}</span>
+        <span class="grey-color font11">{{user.meta.products}} pins <i class="fa fa-circle"></i>
+            <i class="ion-ios-people fa-lg red-color"></i>&nbsp  {{user.followers.length}} Followers
+        </span>
+    </div>
+    <div class="action">
+        <i ng-if='user.is_following === true' on-tap='unFollowUser();' class="icon black-font ion-ios-people-outline fa-2x"></i>
+        <i ng-if='user.is_following === false' on-tap='followUser();' class="icon red-color ion-ios-people fa-2x"></i>
+        <i ng-if='user.is_friend === true' on-tap='unFriend();' class="icon black-font ion-ios-person-outline fa-2x"></i>
+    </div>
+    <div class="clearfix"></div>
+</div>

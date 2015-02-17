@@ -11,7 +11,7 @@ friendService.factory('friendHelper', [
                 id = $localStorage.user.id;
             }
             var ajax = ajaxRequest.send('v1/feeds/user/top', {
-                page: page,
+                skip: page,
                 user_id: id
             });
             ajax.then(function (data) {
@@ -28,7 +28,7 @@ friendService.factory('friendHelper', [
                 id = $localStorage.user.id;
             }
             var ajax = ajaxRequest.send('v1/feeds/list/top', {
-                page: page,
+                skip: page,
                 user_id: id
             });
             ajax.then(function (data) {
