@@ -5,16 +5,16 @@
             pulling-text="Refresh..."
             on-refresh="refreshCategory()">
         </ion-refresher>
-        <div ng-show="showFilter && products.length > 0" id="show-fliter" >
+        <ion-spinner ng-if='product_loading'></ion-spinner>
+        <div ng-show="showFilter && products.length > 0" id="show-fliter" class="filterby-container">
             <div class="filter-page">
-                <i class="icon ion-funnel filter-icon red-color"></i>
-                <span class="filter-label">FILTER</span>
+                <span class="filter-label"> <i class="icon ion-funnel filter-icon red-color"></i>&nbsp;FILTER</span>
                 <button class="button button-clear filter-button" on-tap='showProductsFn()'>
                     <i class="ion-ios-close-empty close-icon-show close-tab-icon"></i> 
                 </button>
                 <div class="clearfix"></div>
             </div>
-            <div class="filter-list" bindonce ng-repeat="filter_type in filters">
+            <div class="filter-list" bindonce ng-repeat="filter_type in filters track by $index">
                 <div class="filter_label" on-tap='open(filter_type);' bo-bind='filter_type.type'>
                     <span class="plus-minus" bo-if="filter_type.data.length > 0">
                         <i ng-show="!filter_type.open">[ + ]</i>
@@ -23,7 +23,7 @@
                 <div ng-show="filter_type.open">
                     <ion-list>
                         <ion-item bindonce ng-repeat="filter in filter_type.data">
-                            <ion-checkbox on-tap="doFilter(filter);" ng-model="sort.checked" bo-bind='filter.name'></ion-checkbox>
+                            <ion-checkbox on-tap="doFilter(filter);" ng-model="filter.checked">{{filter.name}}</ion-checkbox>
                         </ion-item>
                     </ion-list>
                 </div>
@@ -32,16 +32,15 @@
         </div>
         <div ng-show="showSortBy && products.length > 0" class="sortby-container">
             <div class="filter-page">
-                <i class="fa fa-sort-alpha-desc filter-icon red-color"></i>
-                <span class="filter-label"> SORT BY</span>
+                <span class="filter-label"><i class="fa fa-sort-alpha-desc filter-icon red-color"></i>&nbsp;SORT BY</span>
                 <button class="button button-clear filter-button" on-tap='showProductsFn()'>
                     <i class="ion-ios-close-empty close-icon-show close-tab-icon"></i>
                 </button>
-                
+
                 <div class="clearfix"></div>
             </div>
             <ion-list>
-                <ion-item ng-repeat="sort in sortBy">
+                <ion-item ng-repeat="sort in sortBy track by $index">
                     <ion-checkbox on-tap="doSort(sort);" ng-model="sort.checked">{{sort.name}}</ion-checkbox>
                 </ion-item>
             </ion-list>
@@ -54,6 +53,11 @@
                 <span ng-repeat="filter in currentState.filters">
                     {{filter.name}} <i class="fa fa-times" on-tap='removeFilter(filter)'></i>
                 </span>
+            </div>
+
+            <div class="result-empty" ng-if="products.length == 0">
+                <span class="info"><img src="img/favicon-not.png"/></span>
+                <span class="info grey-color">No Products Found</span>
             </div>
 
             <!--<div class="product" collection-repeat="prod in products track by $index" collection-item-width="'50%'" collection-item-height="264">-->
@@ -96,13 +100,13 @@
         <div class="row">
             <div class="col" ng-if="sortBy.length > 0">
                 <button class="button button-full button-clear filter-button" on-tap="showSortByFn();">
-                    <i class="fa fa-sort-alpha-desc  filter-icon red-color"></i>
+                    <i class="fa fa-sort-alpha-desc red-color"></i>
                     Sort By
                 </button>
             </div>
             <div class="col" ng-if="filters.length > 0">
                 <button class="button button-full button-clear filter-button" on-tap="showFiltersFn();">
-                    <i class="icon ion-funnel filter-icon red-color"></i>
+                    <i class="icon ion-funnel red-color"></i>
                     Filter
                 </button>
             </div>

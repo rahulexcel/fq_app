@@ -1,4 +1,23 @@
 var serviceMod = angular.module('ServiceMod', ['ngStorage', 'ionic']);
+serviceMod.directive('imgLoader', function () {
+    // in many cases image height was more than image width
+    // in such cases, it was showing image half cut because it was reszing only by width and not by height
+    // so in such need to resize by height than width
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            element.bind('load', function (e) {
+                var naturalWidth = this.naturalWidth * 1;
+                var naturalHeight = this.naturalHeight * 1;
+
+                console.log(naturalWidth + "XXX" + naturalHeight + " src" + this.src);
+                if (naturalHeight > naturalWidth) {
+                    angular.element(element).attr('style', 'max-height:100%;width:auto');
+                }
+            });
+        }
+    };
+});
 serviceMod.directive("userBox", ['$location', 'toast', 'friendHelper', '$localStorage',
     function ($location, toast, friendHelper, $localStorage) {
         var obj = {
@@ -33,12 +52,13 @@ serviceMod.directive("userBox", ['$location', 'toast', 'friendHelper', '$localSt
                     }
                     $scope.request_process = true;
                     var ajax = friendHelper.user_follow(user_id, 'remove');
-                    ajax.then(function () {
+                    ajax.then(function (follow_user) {
                         if ($scope.index) {
                             var users = $scope.users;
                             users.splice($scope.index, 1);
                             $scope.users = users;
                         }
+                        toast.showShortBottom('You Stopped Following ' + follow_user.name);
                         $scope.request_process = false;
                     }, function () {
                         $scope.request_process = false;
@@ -52,12 +72,13 @@ serviceMod.directive("userBox", ['$location', 'toast', 'friendHelper', '$localSt
                     }
                     $scope.request_process = true;
                     var ajax = friendHelper.user_follow(user_id);
-                    ajax.then(function () {
-                        if ($scope.index) {
-                            toast.showShortBottom('You Are Now Following ' + $scope.users[index].name);
-                        } else {
-                            toast.showShortBottom('Following Now');
-                        }
+                    ajax.then(function (follow_user) {
+//                        if (angular.isDefined($scope.index)) {
+//                            var users = $scope.users;
+//                            users.splice($scope.index, 1);
+//                            $scope.users = users;
+//                        }
+                        toast.showShortBottom('You Are Now Following ' + follow_user.name);
                         $scope.request_process = false;
                     }, function () {
                         $scope.request_process = false;
@@ -117,6 +138,27 @@ serviceMod.directive("listBox",
                                     lists.splice($scope.index, 1);
                                 $scope.lists = lists;
                                 $scope.request_process = false;
+                                toast.showShortBottom('You Have Stopped Following ' + data.name);
+
+                            }, function () {
+                                $scope.request_process = false;
+                            });
+                        };
+                        $scope.followList = function () {
+                            var list_id = $scope.list._id;
+                            if ($scope.request_process) {
+                                toast.showProgress();
+                                return;
+                            }
+                            $scope.request_process = true;
+                            var ajax = friendHelper.list_follow(list_id);
+                            ajax.then(function (data) {
+                                var lists = $scope.lists;
+                                if ($scope.index)
+                                    lists.splice($scope.index, 1);
+                                $scope.lists = lists;
+                                $scope.request_process = false;
+                                toast.showShortBottom('You Are Now Following ' + data.name);
                             }, function () {
                                 $scope.request_process = false;
                             });

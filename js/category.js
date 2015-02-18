@@ -1,23 +1,4 @@
 var categoryMod = angular.module('CategoryMod', ['CategoryService', 'WishlistService', 'ionic']);
-
-categoryMod.directive('imgLoader', function () {
-    // in many cases image height was more than image width
-    // in such cases, it was showing image half cut because it was reszing only by width and not by height
-    // so in such need to resize by height than width
-    return {
-        restrict: 'A',
-        link: function (scope, element, attrs) {
-            element.bind('load', function (e) {
-                var naturalWidth = this.naturalWidth * 1;
-                var naturalHeight = this.naturalHeight * 1;
-
-                if (naturalHeight > naturalWidth) {
-                    angular.element(element).attr('style', 'max-height:100%;width:auto');
-                }
-            });
-        }
-    };
-})
 categoryMod.directive('scrollWatch', ['$window', function ($window) {
         //not working with overflow-scroll=y
         //not working on mahima's system so removed it for now
@@ -329,8 +310,33 @@ categoryMod.controller('CategoryCtrl',
                         $scope.current_start_page = 1;
                     }
                     $scope.next_page_url = ret.page;
+                    if ($scope.currentState.sortby && ret.sortBy && ret.sortBy.length > 0) {
+                        for (var i = 0; i < ret.sortBy.length; i++) {
+                            if (ret.sortBy[i].url === $scope.currentState.sortby) {
+                                ret.sortBy[i].checked = true;
+                            } else {
+                                ret.sortBy[i].checked = false;
+                            }
+                        }
+                    }
+                    if ($scope.currentState.filters && ret.filters && ret.filters.length > 0) {
+                        for (var i = 0; i < ret.filters.length; i++) {
+                            var data = ret.filters[i].data;
+                            for (var k = 0; k < $scope.currentState.filters.length; k++) {
+                                for (var j = 0; j < data.length; j++) {
+                                    console.log($scope.currentState.filters[k].param + "======" + data[j].param);
+                                    if ($scope.currentState.filters[k].param === data[j].param) {
+                                        ret.filters[i].open = true;
+                                        ret.filters[i].data[j].checked = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     $scope.sortBy = ret.sortBy;
                     $scope.filters = ret.filters;
+                    console.log($scope.currentState);
                 };
                 $scope.wishlist = function (product, $event) {
                     $event.preventDefault();

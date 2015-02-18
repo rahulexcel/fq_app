@@ -20,7 +20,7 @@
 </div>
 
 <div ng-if='friends.length > 0'>
-    <div class="list-section" ng-show="friends.length > 0">FRIENDS</div>
+    <div class="list-section" ng-show="friends.length > 0">YOUR FRIENDS</div>
     <div class="box" ng-repeat="user in friends track by $index">
         <div user-box user="user" users="friends" index="{{$index}}" me="me"></div>
     </div>

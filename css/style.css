@@ -1,5 +1,39 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700,600);
-@import url(http://fonts.googleapis.com/css?family=Dosis:400,700,600);
+/*@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600);*/
+/*@import url(http://fonts.googleapis.com/css?family=Dosis:400,600);*/
+
+/*@font-face {
+  font-family: "Ionicons";
+  src: url("../fonts/ionicons.eot?v=2.0.1");
+  src: url("../fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"), url("../fonts/ionicons.ttf?v=2.0.1") format("truetype"), url("../fonts/ionicons.woff?v=2.0.1") format("woff"), url("../fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
+  font-weight: normal;
+  font-style: normal; }*/
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans'), url(../font/open_sans_400.woff2) format('woff2'), url(../font/open_sans_400.woff) format('woff');
+}
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(../font/open_sans_600.woff2) format('woff2'), url(../font/open_sans_600.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Dosis';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Dosis Regular'), local('Dosis-Regular'), url(../font/Dosis_400.woff2) format('woff2'), url(../font/Dosis_400.woff) format('woff');
+}
+@font-face {
+    font-family: 'Dosis';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Dosis SemiBold'), local('Dosis-SemiBold'), url(../font/Dosis_600.woff2) format('woff2'), url(../font/Dosis_600.woff) format('woff');
+}
+
 
 @media screen and (min-width: 1001px) {
     .category .product{
@@ -19,18 +53,6 @@
 
     }
 }
-/*	  @font-face {
-font-family: 'OpenSansRegular';
-src: url('../fonts/OpenSansRegular.eot');
-src: url('../fonts/OpenSansRegular.eot') format('embedded-opentype'),
-url('../fonts/OpenSansRegular.woff2') format('woff2'),
-url('../fonts/OpenSansRegular.woff') format('woff'),
-url('../fonts/OpenSansRegular.ttf') format('truetype'),
-url('../fonts/OpenSansRegular.svg#OpenSansRegular') format('svg');
-font-weight: normal;
-font-style: normal;
-}
-*/
 .semibold{
     font-weight: 600;
 }
@@ -612,7 +634,6 @@ div#account-page button{
 
 /**************************product page*********************************/
 .slider-pager .slider-pager-page {
-    color: #FFF;
     font-size: 8px;
     width: 4px;
 }
@@ -632,6 +653,7 @@ div#account-page button{
 .product-heading{
     font-size: 0.91em;
     display: block;
+    line-height: 1.5em;
 }
 .scroll-content .scroll #similar ul{
     padding: 0px 7px;
@@ -658,6 +680,7 @@ div#account-page button{
 .pro-breadcrumb{
     font-size: 0.8em;
     display: inline-flex;
+    line-height: 2em;
 }
 .pro-name{
     margin-bottom:6px;
@@ -690,6 +713,7 @@ span.arrow{
     margin-right: 7px;
 }
 span.e-site{
+    line-height: 2em;
     color:#737373;
     font-size: 10px;
     display: block;
@@ -716,7 +740,7 @@ span.e-site{
     font-size: 16px;
 }
 #scroller li {
-    width:118px;
+    width:150px;
     background-color:#fff;
     padding: 0 10px 3px;;
 }
@@ -728,10 +752,13 @@ span.e-site{
     float:left;
 }
 .other-sellers-img{
-    width: 27px;
+    width: 30%;
+    float:left;
 }
 .other-seller-info{
-    margin-left:47px;
+    width: 69%;
+    padding-left: 1%;
+    float: left;
 }
 .other_seller_container{
     border-bottom:1px solid #d1d1d1;
@@ -739,8 +766,6 @@ span.e-site{
 }
 .other-seller-info .name{
     color:#000000;
-    overflow: hidden;
-    height: 12px;
     font-size: 12px;
     line-height: 14px;
 }
@@ -760,10 +785,10 @@ span.other-price{
     color:#737373;
 }
 #similar .name,.category .name{
-    overflow:hidden;
-    height:20px;
-    line-height:20px;
     font-size: 0.79em;
+    height: 32px;
+    line-height: 14px;
+    overflow: hidden;
 }
 .category .name{
     line-height:25px !important;
@@ -781,9 +806,8 @@ span.other-price{
 .similar-img{
     text-align: center;
     overflow: hidden;
-    width: 50%;
     margin: 10px auto 6px;
-    max-height: 63px;
+    max-height: 200px;
 }
 .wishlist-product-img{
     width: 20%;
@@ -920,20 +944,16 @@ i.up-price{
     margin-left:25px;
     font-size: 12px;
 }
-div#show-fliter .filter-icon:before{
-    font-size: 17px;
-    line-height: 2;
-    margin-top: 1px;
-}
 .filter-list{
     padding:0px 10px;
 }
+/*
 .sortby-container .item-checkbox .checkbox,.private-label .item-checkbox .checkbox{
     position: static;
     margin-top:0px;
     float:right;
     margin-top: 3px;
-}
+}*/
 
 .filter-page:after{
 
@@ -945,11 +965,11 @@ div#show-fliter .filter-icon:before{
 .filter-page button{
     float:right;
 }
-
+/*
 .sortby-container .checkbox .checkbox-icon:before, .sortby-container .checkbox input:before,
 .private-label .checkbox .checkbox-icon:before,.private-label .checkbox input:before {
     border-color: #FFF;
-}
+}*/
 #show-fliter,.sortby-container{
     margin:0px 20px;
 }
@@ -957,7 +977,6 @@ div#show-fliter .filter-icon:before{
     margin:0px 15px;
 }
 
-.sortby-container i.filter-icon ,
 .col i.fa{
     line-height: 2;
     margin-top:5px;
@@ -992,21 +1011,31 @@ div#show-fliter .filter-icon:before{
     border-style:none;
     line-height: 25px;
 }
+.checkbox input:checked + .checkbox-icon:before,.checkbox input:checked:before {
+    background-color:#da500f;
+    border-color:#da500f;
+}
+
+.filterby-container .item-checkbox .item-content{
+    padding-left: 25px;
+}
+
+.sortby-container .item-checkbox .item-content{
+    padding-left: 60px;
+}
+
+/*
 .sortby-container label.item{
     padding:0px 10px;
 }
-
 .item-checkbox .checkbox {
     left:-6px;
     top:67%;
 }
+
 .sortby-container .checkbox input:checked + .checkbox-icon:before, .sortby-container .checkbox input:checked:before {
     background-color:transparent;
     border-color: transparent;
-}
-.checkbox input:checked + .checkbox-icon:before,.checkbox input:checked:before {
-    background-color:#da500f;
-    border-color:#da500f;
 }
 .checkbox input:after, .checkbox-icon:after{
     top: 22%;
@@ -1014,12 +1043,15 @@ div#show-fliter .filter-icon:before{
     width: 10px;
     height: 5px;
 }
+
 .sortby-container .checkbox input:after,.sortby-container .checkbox-icon:after{
     top: 49%;
     left: 18%;
     width: 10px;
     height: 5px;
-}
+}*/
+
+/*
 .private-label .checkbox input:after,.private-label .checkbox-icon:after{
     top: 31%;
     left: 18%;
@@ -1031,13 +1063,13 @@ div#show-fliter .filter-icon:before{
     width: 69%;
     height:69%;
 }
-.sortby-container .checkbox input:after,.sortby-container .checkbox-icon:after,.private-label .checkbox input:after,.private-label .checkbox-icon:after {
+.private-label .checkbox input:after,.private-label .checkbox-icon:after {
     border-color: -moz-use-text-color -moz-use-text-color #da500f #da500f;
     border-width: 0px 0px 2px 2px;
 }
 .sortby-container .checkbox,.private-label .checkbox{
     padding:0px;
-}
+}*/
 .filter-button{
     min-height:38px; 
     max-height:39px;

@@ -15,21 +15,21 @@ productMod.controller('ProductCtrl',
                     $scope.isMobile = true;
 
                     $scope.shareAll = function (product) {
-                        window.plugins.socialsharing.share(product.name, null, product.img, product.href, function () {
+                        window.plugins.socialsharing.share(product.name, null, product.img, product.desktop_href, function () {
                         }, function () {
                             toast.showShortBottom('Unable to Share');
                         });
                     };
                     $scope.twitter = function (product) {
                         window.plugins.socialsharing.shareViaTwitter(
-                                product.name, product.img, product.href, function () {
+                                product.name, product.img, product.desktop_href, function () {
                                 }, function () {
                             toast.showShortBottom('Unable to Share');
                         });
                     };
                     $scope.whatsapp = function (product) {
                         window.plugins.socialsharing.shareViaWhatsApp(
-                                product.name, product.img, product.href, function () {
+                                product.name, product.img, product.desktop_href, function () {
                                 }, function () {
                             toast.showShortBottom('Unable to Share');
                         });
@@ -44,7 +44,7 @@ productMod.controller('ProductCtrl',
                         }
                         facebookConnectPlugin.showDialog({
                             method: 'share',
-                            href: product.href,
+                            href: product.desktop_href,
                             message: product.name,
                             picture: product.img
                         }, function (data) {
@@ -58,6 +58,9 @@ productMod.controller('ProductCtrl',
                     $scope.isMobile = false;
                     socialJs.addSocialJs();
                 }
+                $scope.viewBrand = function (product) {
+
+                };
 
                 $scope.productInfo = function (force) {
                     var product_id = $scope.product_id;
@@ -81,13 +84,11 @@ productMod.controller('ProductCtrl',
                     }
                 };
                 $scope.fetchLatest = function (href) {
-                    if(!href){
+                    if (!href) {
                         return;
                     }
                     var ajax2 = productHelper.fetchLatest(href);
                     ajax2.then(function (data) {
-                        console.log(data);
-
                         var price = data.price;
 //                                var image = data.image;
                         var more_images = data.more_images;
@@ -103,7 +104,6 @@ productMod.controller('ProductCtrl',
                     });
                 };
                 $scope.processProductData = function (data) {
-                    console.log(data);
                     $scope.product = data.product;
                     if (data.variants)
                         $scope.product.variants = data.variants;
@@ -111,7 +111,7 @@ productMod.controller('ProductCtrl',
                         $scope.product.similar = data.similar;
                     if (data.similar && data.similar.length > 0) {
                         console.log('initiazling iscroll');
-                        angular.element(document.querySelector('#scroller')).attr('style', 'width:' + (data.similar.length * 120) + "px");
+                        angular.element(document.querySelector('#scroller')).attr('style', 'width:' + (data.similar.length * 160) + "px");
                         if (data.similar.length > 0)
                             $timeout(function () {
                                 $scope.myScroll = new IScroll('#similar', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});

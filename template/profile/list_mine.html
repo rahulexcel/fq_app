@@ -1,4 +1,5 @@
 <div class="top-container" ng-show="wishlist_mine.length > 0">
+    <div class="list-section">YOUR LISTS</div>
     <ul class="mine-clip-list">
         <li ng-repeat='item1 in wishlist_mine track by item1._id' style="position: relative">
             <div list-box list="item1" lists="wishlist_mine" index="{{$index}}" me="me"></div>

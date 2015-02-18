@@ -222,49 +222,51 @@ wishlistService.factory('wishlistHelper', [
                                 });
                             }
                         } else {
-                            if (data.list.type == 'public') {
+                            if (data.list.type === 'public') {
+                                //no need to send alert for public lists. 
+                                //these items will be shown in feed
                                 if (followers.length > 0) {
                                     //followers only if no shared ids
 //                                notifyHelper.addUpdate(followers, 'item_add', {
 //                                    data: data,
 //                                    user: $localStorage.user
 //                                });
-                                    notifyHelper.sendAlert('list_' + data.list._id, {
-                                        title: 'New Item Added',
-                                        alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
-                                        meta: {
-                                            type: 'item_add',
-                                            wishlist_model: data.wishlist_model,
-                                            list: data.list,
-                                            user: $localStorage.user
-                                        }
-                                    });
+//                                    notifyHelper.sendAlert('list_' + data.list._id, {
+//                                        title: 'New Item Added',
+//                                        alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+//                                        meta: {
+//                                            type: 'item_add',
+//                                            wishlist_model: data.wishlist_model,
+//                                            list: data.list,
+//                                            user: $localStorage.user
+//                                        }
+//                                    });
 
                                 }
 
-                                var user_followers = data.user.followers;
-                                console.log(user_followers);
-                                var filtered_user_followers = [];
-                                for (var i = 0; i < user_followers.length; i++) {
-                                    var follower = user_followers[i];
-                                    if (followers.indexOf(follower) === -1) {
-                                        filtered_user_followers.push(follower);
-                                    }
+//                                var user_followers = data.user.followers;
+//                                console.log(user_followers);
+//                                var filtered_user_followers = [];
+//                                for (var i = 0; i < user_followers.length; i++) {
+//                                    var follower = user_followers[i];
+//                                    if (followers.indexOf(follower) === -1) {
+//                                        filtered_user_followers.push(follower);
+//                                    }
 //                                notifyHelper.addUpdate(filtered_user_followers, 'item_add_user', {
 //                                    data: data,
 //                                    user: $localStorage.user
 //                                });
-                                    notifyHelper.sendAlert('user_follower_' + $localStorage.user.id, {
-                                        title: 'New Item Added',
-                                        alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
-                                        meta: {
-                                            type: 'item_add_user',
-                                            wishlist_model: data.wishlist_model,
-                                            list: data.list,
-                                            user: $localStorage.user
-                                        }
-                                    });
-                                }
+//                                    notifyHelper.sendAlert('user_follower_' + $localStorage.user.id, {
+//                                        title: 'New Item Added',
+//                                        alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+//                                        meta: {
+//                                            type: 'item_add_user',
+//                                            wishlist_model: data.wishlist_model,
+//                                            list: data.list,
+//                                            user: $localStorage.user
+//                                        }
+//                                    });
+//                            }
                             }
                         }
 

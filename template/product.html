@@ -1,21 +1,20 @@
 <ion-view>
     <ion-nav-title>{{product.name}}</ion-nav-title> 
-    <ion-content  overflow-scroll='true'>
-        <!--        <ion-refresher
-                    pulling-text="Update Product Info"
-                    on-refresh="productInfo(true)">
-                </ion-refresher>-->
-        <!--<ion-list>-->
-        <!--<i class="fa fa-spinner fa-spin" ng-show='product_loading'></i>-->
+    <ion-content>
+        <ion-refresher
+            pulling-text="Update Product Info"
+            on-refresh="productInfo(true)">
+        </ion-refresher>
+        <ion-spinner ng-show='product_loading'></ion-spinner>
         <div class="product" ng-show="product">
             <div class="pro-img">
                 <div class="pro-img">
                     <ion-slide-box ng-if="product.more_images" show-pager="true" style="height: 255px">
                         <ion-slide>
-                            <img ng-src='{{product.img}}'/>
+                            <img img-loader ng-src='{{product.img}}'/>
                         </ion-slide>
                         <ion-slide ng-repeat="img in product.more_images">
-                            <img ng-src='{{img}}'/>
+                            <img img-loader ng-src='{{img}}'/>
                         </ion-slide>
                     </ion-slide-box>
                     <img ng-if="!product.more_images" ng-src='{{product.img}}'/>
@@ -49,7 +48,7 @@
                     Rs.{{product.price}}
                 </div>
                 <div class="price-up-down" >
-                    <i class="fa fa-caret-up up-price" ng-if="product.price_drop > 0">&nbsp;Price Rise of Rs.112{{product.price_drop}}</i>
+                    <i class="fa fa-caret-up up-price" ng-if="product.price_drop > 0">&nbsp;Price Rise of {{product.price_drop}}</i>
                     <i class="fa fa-caret-down" ng-if="product.price_drop < 0">&nbsp;Price Drop of Rs.{{product.price_drop}}</i>
                 </div>
                 <div class="social-share">
@@ -82,7 +81,7 @@
                     <ul id="scroller" class="variants">
                         <li on-tap="openProduct(variant);" ng-repeat="variant in product.similar" style="float: left">
                             <div class="similar-img">
-                                <img ng-src='{{variant.image}}'/>
+                                <img img-loader ng-src='{{variant.image}}'/>
                             </div>
                             <div class="name">
                                 {{variant.name}}
@@ -104,7 +103,7 @@
                 <div ng-repeat="variant in product.variants" style="float: none;">
                     <div class="other_seller_container">
                         <div on-tap="openProduct(product);" class="other-sellers-img">
-                            <img ng-src='{{variant.img}}'/>
+                            <img img-loader ng-src='{{variant.img}}'/>
                         </div>
                         <div class="other-seller-info">
                             <div class="name" on-tap="openProduct(variant);">
@@ -125,6 +124,5 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-        <!--</ion-list>-->
     </ion-content>
 </ion-view>
