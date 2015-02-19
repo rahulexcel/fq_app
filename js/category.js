@@ -27,7 +27,7 @@ categoryMod.controller('CategoryCtrl',
         ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate',
             '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$timeout',
             function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $timeout) {
-
+                var i = 0;
                 var backView = false;
                 $rootScope.$on('login_event', function () {
                     console.log('category ctrl login event listener');
@@ -301,7 +301,7 @@ categoryMod.controller('CategoryCtrl',
 //                            $scope.current_start_page = ret.page - $scope.page_range;
 //                        }
 //
-                        for (var i = 0; i < ret.products.length; i++) {
+                        for (i = 0; i < ret.products.length; i++) {
                             products.push(ret.products[i]);
                         }
                         $scope.products = products;
@@ -311,7 +311,7 @@ categoryMod.controller('CategoryCtrl',
                     }
                     $scope.next_page_url = ret.page;
                     if ($scope.currentState.sortby && ret.sortBy && ret.sortBy.length > 0) {
-                        for (var i = 0; i < ret.sortBy.length; i++) {
+                        for (i = 0; i < ret.sortBy.length; i++) {
                             if (ret.sortBy[i].url === $scope.currentState.sortby) {
                                 ret.sortBy[i].checked = true;
                             } else {
@@ -320,7 +320,7 @@ categoryMod.controller('CategoryCtrl',
                         }
                     }
                     if ($scope.currentState.filters && ret.filters && ret.filters.length > 0) {
-                        for (var i = 0; i < ret.filters.length; i++) {
+                        for (i = 0; i < ret.filters.length; i++) {
                             var data = ret.filters[i].data;
                             for (var k = 0; k < $scope.currentState.filters.length; k++) {
                                 for (var j = 0; j < data.length; j++) {

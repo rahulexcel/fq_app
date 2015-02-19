@@ -54,7 +54,7 @@ friendService.factory('friendHelper', [
                 def.reject();
             });
             return def.promise;
-        }
+        };
         service.home_feed = function (page) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/feeds/my', {
@@ -67,7 +67,7 @@ friendService.factory('friendHelper', [
                 def.reject();
             });
             return def.promise;
-        }
+        };
         service.item_pins_list = function (item_id) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/social/item/pins', {
@@ -172,7 +172,7 @@ friendService.factory('friendHelper', [
             });
             ajax.then(function (data) {
                 def.resolve(data);
-                if (type == 'add') {
+                if (type === 'add') {
                     notifyHelper.subscribe('list_' + list_id);
                     notifyHelper.sendAlert('user_' + data.user_id, {
                         title: $localStorage.user.name + " is Following You List " + data.name,

@@ -5,11 +5,13 @@
             pulling-text="Update Product Info"
             on-refresh="productInfo(true)">
         </ion-refresher>
-        <ion-spinner ng-show='product_loading'></ion-spinner>
+        <div class="center_spinner">
+            <ion-spinner ng-show='product_loading'></ion-spinner>
+        </div>
         <div class="product" ng-show="product">
-            <div class="pro-img">
+            <div class="pro-img padding">
                 <div class="pro-img">
-                    <ion-slide-box ng-if="product.more_images" show-pager="true" style="height: 255px">
+                    <ion-slide-box ng-if="product.more_images" show-pager="true" style="height: 350px">
                         <ion-slide>
                             <img img-loader ng-src='{{product.img}}'/>
                         </ion-slide>
@@ -18,25 +20,16 @@
                         </ion-slide>
                     </ion-slide-box>
                     <img ng-if="!product.more_images" ng-src='{{product.img}}'/>
-                    <div class="heart wishlist-product-img" on-tap="wishlist(product,$event);">
-                        <img ng-show="!product.wishlist_status" src="img/heart_big.png" alt=""/>
-                        <i class="fa fa-spinner fa-spin" ng-show="product.wishlist_status == 1"></i>
-                    </div>
                 </div>
-                <div class="heart wishlist-product-img" on-tap="wishlist(product,$event);">
-                    <img ng-show="!product.wishlist_status" src="img/heart_big.png" alt=""/>
-                    <i class="fa fa-spinner fa-spin" ng-show="product.wishlist_status == 1"></i>
-                    <!--                        <i class="fa fa-times" ng-show="product.wishlist_status == 3"></i>
-                                            <i class="fa fa-check" ng-show="product.wishlist_status == 2"></i>-->
+                <div class="wishlist-product-img-big red-back" on-tap="wishlist(product,$event);">
+                    <i class="ion-ios-heart"></i>
                 </div>
             </div>
-            <div class="pro-info">
+            <div class="pro-info padding">
                 <div class="pro-name">
-                    <span class="category pro-breadcrumb" ng-show='product.cat_id && product.parent_cat_name' on-tap='viewCategory(product);'><div class="grey-color">{{product.parent_cat_name}} >&nbsp;</div>{{product.cat_name}}</span>
+                    <span class="category pro-breadcrumb" ng-show='product.cat_id && product.parent_cat_name' on-tap='viewCategory(product);'><span class="grey-color">{{product.parent_cat_name}} >&nbsp;</span>{{product.cat_name}}</span>
                     <span class="product-heading">{{product.name}}</span>
                     <div>
-
-
                         <span class="e-site">
                             <span class="arrow" ng-show='product.cat_id' on-tap='viewBrand(product);'>{{product.brand}}</span>
                             <i class='site {{product.website}}'></i>{{product.website}}
@@ -62,10 +55,10 @@
                         </div>
                     </div>
                     <div ng-if="isMobile">
-                        <i class="fa-lg red-color fa-2x" on-tap='whatsapp(product)'><img src='img/whatsapp.png' alt=''/></i>
-                        <i class="fa fa-twitter fa-lg red-color fa-2x" on-tap='twitter(product)'></i>
-                        <i class="fa fa-facebook fa-lg red-color fa-2x"  on-tap='facebook(product)'></i>
-                        <i class="fa fa-share-alt fa-lg red-color fa-2x" on-tap='shareAll(product)'></i>
+                        <i class="ion-social-whatsapp-outline red-color" on-tap='whatsapp(product)'></i>
+                        <i class="ion-social-twitter red-color" on-tap='twitter(product)'></i>
+                        <i class="ion-social-facebook red-color"  on-tap='facebook(product)'></i>
+                        <i class="ion-android-share-alt red-color" on-tap='shareAll(product)'></i>
                     </div>
                 </div>
                 <button class="button pro-button signup-button red-back" on-tap="buy(product);">BUY NOW</button>

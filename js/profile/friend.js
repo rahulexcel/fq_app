@@ -1,17 +1,18 @@
 profileMod.controller('ProfileFriendCtrl',
         ['$scope', '$localStorage', 'toast', '$location', 'friendHelper',
             function ($scope, $localStorage, toast, $location, friendHelper) {
+                var i = 0;
                 $scope.$on('user_info', function () {
                     var friends = $scope.$parent.user.friends;
                     if (friends) {
-                        for (var i = 0; i < friends.length; i++) {
+                        for (i = 0; i < friends.length; i++) {
                             friends[i].is_friend = true;
                         }
                     }
                     $scope.friends = friends;
                     var friend_requests = $scope.$parent.friend_requests;
                     if (friend_requests) {
-                        for (var i = 0; i < friend_requests.length; i++) {
+                        for (i = 0; i < friend_requests.length; i++) {
                             friend_requests[i].is_request = true;
                         }
                     }
@@ -22,7 +23,7 @@ profileMod.controller('ProfileFriendCtrl',
                 });
                 var friends = $scope.$parent.user.friends;
                 if (friends) {
-                    for (var i = 0; i < friends.length; i++) {
+                    for (i = 0; i < friends.length; i++) {
                         friends[i].is_friend = true;
                     }
                 }
@@ -30,7 +31,7 @@ profileMod.controller('ProfileFriendCtrl',
 
                 var friend_requests = $scope.$parent.friend_requests;
                 if (friend_requests) {
-                    for (var i = 0; i < friend_requests.length; i++) {
+                    for (i = 0; i < friend_requests.length; i++) {
                         friend_requests[i].is_request = true;
                     }
                 }
@@ -67,7 +68,7 @@ profileMod.controller('ProfileFriendCtrl',
                     var index = $scope.friend_index * 1;
                     var friend_requests = $scope.friend_requests;
                     var new_friend_requests = [];
-                    for (var i = 0; i < friend_requests.length; i++) {
+                    for (i = 0; i < friend_requests.length; i++) {
                         if (i !== index) {
                             new_friend_requests.push(friend_requests[i]);
                         }

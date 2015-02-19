@@ -339,8 +339,8 @@ serviceMod.factory('toast', ['$ionicPopup', function ($ionicPopup) {
     }
 ]);
 serviceMod.factory('ajaxRequest',
-        ['$http', '$q', '$log', 'toast', '$localStorage',
-            function ($http, $q, $log, toast, $localStorage) {
+        ['$http', '$q', '$log', 'toast', '$localStorage', '$ionicLoading',
+            function ($http, $q, $log, toast, $localStorage, $ionicLoading) {
                 return {
                     url: function (api) {
                         return 'http://144.76.83.246:5000/' + api;
@@ -398,6 +398,7 @@ serviceMod.factory('ajaxRequest',
                         });
                         http.error(function () {
                             $log.warn('500 Error');
+                            $ionicLoading.hide();
                             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
                                 if ($cordovaNetwork.isOffline()) {
 

@@ -80,11 +80,12 @@ accountService.factory('accountHelper', [
         service.create = function (user, type) {
             var def = $q.defer();
             var ajax = false;
+            var data = false;
             var device = {
                 type: 'Desktop'
             };
             if ($cordovaDevice && window.cordova && window.cordova.plugins) {
-                var device = {
+                device = {
                     device: $cordovaDevice.getDevice(),
                     cordova: $cordovaDevice.getCordova(),
                     model: $cordovaDevice.getModel(),
@@ -124,7 +125,7 @@ accountService.factory('accountHelper', [
 //                $location.path('/app/invite');
 
                 if ($localStorage.user.type === 'facebook') {
-                    var data1 = dataShare.getData();
+                    data1 = dataShare.getData();
                     if (data1 && data1.data) {
                         ajax = inviteHelper.lookUpFacebookFriends(data1.data);
                         ajax.then(function () {
@@ -135,7 +136,7 @@ accountService.factory('accountHelper', [
                         $location.path('/app/home/trending');
                     }
                 } else if ($localStorage.user.type === 'google') {
-                    var data1 = dataShare.getData();
+                    data1 = dataShare.getData();
                     if (data1 && data1.data) {
                         ajax = inviteHelper.lookUpGoogleFriends(data1.data);
                         ajax.then(function () {

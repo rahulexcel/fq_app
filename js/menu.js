@@ -94,6 +94,9 @@ menuMod.controller('MenuCtrl',
                 $scope.profile = function (user_id) {
                     $location.path('/app/profile/' + user_id + '/mine');
                 };
+                $scope.signup = function () {
+                    $location.path('/app/signup');
+                };
                 $scope.wishlist = function () {
                     if ($rootScope.profile_update > 0) {
                         $location.path('/app/profile/me/update');

@@ -3,8 +3,9 @@ profileMod.controller('ProfileFollowingCtrl',
             function ($scope, $localStorage) {
                 $scope.$on('user_info', function () {
                     var following_users = $scope.$parent.user.following;
+                    var i = 0;
                     if (following_users) {
-                        for (var i = 0; i < following_users.length; i++) {
+                        for (i = 0; i < following_users.length; i++) {
                             following_users[i].is_following = true;
                         }
                     }
@@ -12,7 +13,7 @@ profileMod.controller('ProfileFollowingCtrl',
 
                     var wishlists = $scope.$parent.user.lists_their;
                     if (wishlists) {
-                        for (var i = 0; i < wishlists.length; i++) {
+                        for (i = 0; i < wishlists.length; i++) {
                             wishlists[i].is_following = true;
                         }
                     }
@@ -23,14 +24,14 @@ profileMod.controller('ProfileFollowingCtrl',
                 });
                 var following_users = $scope.$parent.user.following;
                 if (following_users) {
-                    for (var i = 0; i < following_users.length; i++) {
+                    for (i = 0; i < following_users.length; i++) {
                         following_users[i].is_following = true;
                     }
                 }
                 $scope.following_users = following_users;
                 var wishlists = $scope.$parent.user.lists_their;
                 if (wishlists) {
-                    for (var i = 0; i < wishlists.length; i++) {
+                    for (i = 0; i < wishlists.length; i++) {
                         wishlists[i].is_following = true;
                     }
                 }

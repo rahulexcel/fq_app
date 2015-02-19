@@ -80,7 +80,7 @@ profileMod.controller('ProfileUpdateCtrl',
                     }, function () {
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     });
-                }
+                };
                 $scope.updateItems = function (data, append) {
                     console.log(data);
                     if (data.length === 0) {
@@ -150,7 +150,7 @@ profileMod.controller('ProfileUpdateCtrl',
                             } else if (row.type === 'add_friend') {
                                 item.body = {
                                     title: item.user.name + " has sent you a friend request",
-                                    friend_request: false,
+                                    friend_request: false
                                 };
                             } else if (row.type === 'un_friend') {
                                 item.body = {

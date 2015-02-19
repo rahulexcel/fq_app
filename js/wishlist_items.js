@@ -27,7 +27,7 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                             defer.reject();
                         });
                         return defer.promise;
-                    }
+                    };
                     $scope.request_process = false;
                     $scope.followList = function () {
                         if (!$localStorage.user.id) {

@@ -3,7 +3,6 @@ var pinMod = angular.module('PinMod', []);
 pinMod.directive('resize', ['$window', function ($window) {
         return function (scope, element) {
             angular.element($window).bind('resize', function () {
-                console.log('resiez');
                 scope.resize();
             });
         };
@@ -15,9 +14,8 @@ pinMod.filter('nl2br', ['$sce', function ($sce) {
         };
     }]);
 pinMod.controller('PinCtrl',
-        ['$scope', '$timeout', '$location', '$rootScope', '$localStorage', 'friendHelper', 'toast',
-            function ($scope, $timeout, $location, $rootScope, $localStorage, friendHelper, toast) {
-                var ajax_data = [];
+        ['$scope', '$timeout', '$location', '$rootScope', '$localStorage', 'friendHelper', 'toast', 'itemHelper',
+            function ($scope, $timeout, $location, $rootScope, $localStorage, friendHelper, toast, itemHelper) {
                 $scope.loading = true;
                 $scope.windowWidth = 0;
                 $scope.hasMore = false;
@@ -106,6 +104,7 @@ pinMod.controller('PinCtrl',
                         $timeout.cancel(timeout_promise);
                     }
                     timeout_promise = $timeout(function () {
+                        $scope.initPinsDisplay();
                         $scope.displayPins();
                     }, 100);
                 };
@@ -156,7 +155,7 @@ pinMod.controller('PinCtrl',
                         angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:' + (pin_width * pin_column + 10 * pin_column) + 'px;');
                     }
                     $scope.col_width = Math.round(100 / pin_column, 2) + "%";
-                    console.log(pin_column + 'pin columns');
+//                    console.log(pin_column + 'pin columns');
                 };
                 $scope.initPinsDisplay();
                 $scope.displayPins = function (data) {
@@ -179,7 +178,7 @@ pinMod.controller('PinCtrl',
                     }
 
                     var avg_height = total_height / pin_column;
-                    console.log(avg_height + 'avg height');
+//                    console.log(avg_height + 'avg height');
                     for (var i = 0; i < data.length; i++) {
                         var pin = data[i];
                         //var pin_height = $scope.getItemHeight(pin, true, false);
@@ -199,7 +198,7 @@ pinMod.controller('PinCtrl',
                             grid[cur_column] = [];
                         }
                         //grid[cur_column].push(pin);
-                        console.log('pin_height ' + i + "XXXX" + pin_height);
+//                        console.log('pin_height ' + i + "XXXX" + pin_height);
                         if (cur_column > 2) {
                             cur_column = 0;
                         }
@@ -320,6 +319,26 @@ pinMod.controller('PinCtrl',
                                 }
                             }
                             $scope.top_lists = new_top_list;
+                            $scope.request_process = false;
+                        }, function () {
+                            $scope.request_process = false;
+                        });
+                    }
+                };
+                $scope.like = function (item) {
+                    var item_id = item._id;
+                    var list_id = item.original.list_id;
+                    if (!$localStorage.user.id) {
+                        toast.showShortBottom('SignUp/Login To Like Item');
+                    } else {
+                        if ($scope.request_process) {
+                            toast.showProgress();
+                            return;
+                        }
+                        $scope.request_process = true;
+                        var ajax = itemHelper.like(item_id, list_id);
+                        ajax.then(function (data) {
+                            toast.showShortBottom('Item Liked');
                             $scope.request_process = false;
                         }, function () {
                             $scope.request_process = false;

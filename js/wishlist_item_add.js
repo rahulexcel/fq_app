@@ -21,7 +21,7 @@ wishlistItemAddMod.directive('preloadable', function () {
                     } else {
                         console.log('aspect ' + naturalWidth / naturalHeight);
                         var aspect = naturalWidth / naturalHeight;
-                        if (aspect < .1 || aspect > 5) {
+                        if (aspect < 0.1 || aspect > 5) {
                             console.log('remove ' + this.src);
                             scope.removeImage(this.src);
                         }
@@ -175,7 +175,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                                                     } else {
                                                         console.log('aspect ' + naturalWidth / naturalHeight);
                                                         var aspect = naturalWidth / naturalHeight;
-                                                        if (aspect < .1 || aspect > 5) {
+                                                        if (aspect < 0.1 || aspect > 5) {
                                                             console.log('remove ' + img.src);
 //                                                            scope.removeImage(img.src);
                                                         } else {

@@ -90,12 +90,11 @@ productMod.controller('ProductCtrl',
                     var ajax2 = productHelper.fetchLatest(href);
                     ajax2.then(function (data) {
                         var price = data.price;
-//                                var image = data.image;
                         var more_images = data.more_images;
 
                         price = Math.round(price);
-
-                        $scope.product.price = price;
+                        if (price > 0)
+                            $scope.product.price = price;
                         if (more_images && more_images.length > 0) {
                             $scope.product.more_images = more_images;
                         } else {

@@ -2,7 +2,9 @@
     pulling-text="Pull to refresh..."
     on-refresh="doRefresh()">
 </ion-refresher>
-<ion-spinner ng-if='loading'></ion-spinner>
+<div class="center_spinner">
+    <ion-spinner ng-if='loading'></ion-spinner>
+</div>
 <div ng-if="total_pin_count == 0 && !loading">
     <div style="text-align: center" ng-show="selected_class === 'feed'">
         Follow People and Lists To Build Your Feed
@@ -17,11 +19,11 @@
 <div resize class="pin_list_container">
     <div bindonce ng-if='grid1.length > 0' class="pin_list" ng-style="{'width': col_width}" style="float: left;">
         <!-- 'height': pin.pin_height -->
-        <div class="pin"  ng-repeat="pin in grid1 track by $index" bo-style="{'width': pin_width}"> 
+        <div class="pin"  ng-repeat="pin in grid1 track by $index" ng-style="{'width': pin_width}"> 
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" class="pin-img">
                 <img bo-src='pin.image| picture:240'/>
-                <div style="z-index: 99999" on-tap='pin(pin._id);' class="heart wishlist-product-img">
-                    <img src="img/heart.png">
+                <div on-tap='like(pin); $event.stopPropagation();' class="like-heart red-back">
+                    <i class="ion-thumbsup"></i>
                 </div>
             </div>
             <div class="pin-info">
@@ -49,11 +51,11 @@
     <div bindonce ng-if='grid2.length > 0' class="pin_list" ng-style="{'width': col_width}" style="float: left;">
 
         <!-- height: pin.pin_height, -->
-        <div class="pin"  ng-repeat="pin in grid2 track by $index" bo-style="{width: pin_width}">
+        <div class="pin"  ng-repeat="pin in grid2 track by $index" ng-style="{width: pin_width}">
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" class="pin-img">
                 <img bo-src='pin.image| picture:240'/>
-                <div style="z-index: 99999" on-tap='pin(pin._id);' class="heart wishlist-product-img">
-                    <img src="img/heart.png">
+                <div on-tap='like(pin); $event.stopPropagation();' class="like-heart red-back">
+                    <i class="ion-thumbsup"></i>
                 </div>
             </div>
             <div class="pin-info">
@@ -81,11 +83,11 @@
     <div bindonce ng-if='grid3.length > 0' class="pin_list" ng-style="{'width': col_width}" style="float: left;">
 
         <!-- height: pin.pin_height, -->
-        <div class="pin"  ng-repeat="pin in grid3 track by $index" bo-style="{width: pin_width}">
+        <div class="pin"  ng-repeat="pin in grid3 track by $index" ng-style="{width: pin_width}">
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" class="pin-img">
                 <img bo-src='pin.image| picture:240'/>
-                <div style="z-index: 99999" on-tap='pin(pin._id);' class="heart wishlist-product-img">
-                    <img src="img/heart.png">
+                <div ng-click='like(pin); $event.stopPropagation();' class="like-heart red-back">
+                    <i class="ion-thumbsup"></i>
                 </div>
             </div>
             <div class="pin-info">
@@ -114,7 +116,7 @@
 </div>
 
 
-<div id="following-main">
+<div id="following-main" ng-if="selected_class === 'feed'">
     <div class="list-section" ng-show="top_lists.length > 0">TOP LISTS</div>
     <div class="box" ng-repeat="item1 in top_lists track by $index">
         <div list-box list="item1" lists="top_lists" index="{{$index}}" me="false"></div>

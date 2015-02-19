@@ -120,7 +120,7 @@ googleLoginService.factory('googleLogin', [
                 };
                 def.resolve(user);
             });
-        }
+        };
         service.getUserFriends = function () {
             var access_token = this.access_token;
             var http = $http({

@@ -12,7 +12,7 @@ productService.factory('productHelper', [
                     defer.resolve(data.data.data);
             });
             return defer.promise;
-        }
+        };
         service.fetchProduct = function (id) {
             var defer = $q.defer();
             var ajax = ajaxRequest.send('v1/product/view', {
@@ -36,7 +36,7 @@ productService.factory('productHelper', [
 
                 var similar = [];
 
-                for (var i = 0; i < data.similar.length; i++) {
+                for (i = 0; i < data.similar.length; i++) {
                     similar.push({
                         _id: data.similar[i]._id,
                         brand: data.similar[i].brand,

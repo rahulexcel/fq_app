@@ -5,7 +5,9 @@
             pulling-text="Refresh..."
             on-refresh="refreshCategory()">
         </ion-refresher>
-        <ion-spinner ng-if='product_loading'></ion-spinner>
+        <div class="center_spinner">
+            <ion-spinner ng-if='product_loading'></ion-spinner>
+        </div>
         <div ng-show="showFilter && products.length > 0" id="show-fliter" class="filterby-container">
             <div class="filter-page">
                 <span class="filter-label"> <i class="icon ion-funnel filter-icon red-color"></i>&nbsp;FILTER</span>
@@ -65,8 +67,8 @@
                 <div class="clearfix"></div>
                 <div class="image" on-tap="openProduct(prod);">
                     <img img-loader bo-src="prod.img" />
-                    <div class="heart my-wishlist-img" on-tap="wishlist(prod,$event);">
-                        <img src="img/heart.png"/>
+                    <div class="heart my-wishlist-img red-back" on-tap="wishlist(prod,$event);">
+                        <i class="ion-ios-heart"></i>
                         <!--<i class="fa fa-spinner fa-spin" ng-show="prod.wishlist_status == 1"></i>-->
                     </div>
                 </div>

@@ -8,20 +8,25 @@
         <div ng-show="item" id="wishlist_item">
             <div class="box">
                 <div class="pro-img">
-                    <img ng-src='{{item.item_id.img| picture:picture_width}}' />
+                    <ion-slide-box ng-if="item.item_id.more_images" show-pager="true" style="height: 350px">
+                        <ion-slide>
+                            <img img-loader ng-src='{{item.item_id.img| picture:picture_width}}'/>
+                        </ion-slide>
+                        <ion-slide ng-repeat="img in item.item_id.more_images">
+                            <img img-loader ng-src='{{img}}'/>
+                        </ion-slide>
+                    </ion-slide-box>
+                    <img ng-if="!item.item_id.more_images" img-loader ng-src='{{item.item_id.img| picture:picture_width}}' />
                     <div ng-if='mine' on-tap='delete();' class="grey_bg delete_item">
                         <i class="ion-trash-a"></i>
                     </div>
-                    <div class="heart wishlist-product-img">
-                        <div ng-if="!me_like && !mine" on-tap='like();'>
-                            <img src="img/likehand.jpg" alt="">
+                    <div class="like-heart-big red-back" ng-if="!me_like && !mine" on-tap='like();'>
+                        <i class="ion-thumbsup"></i>
+                    </div>
+                    <div class="red-back wishlist-product-img-big" ng-if='!me_pin && !mine'>
+                        <div on-tap='pin();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">
+                            <i class="ion-ios-heart"></i>
                         </div>
-                        <div ng-if='!me_pin && !mine'>
-                            <div on-tap='pin();' ng-show="item.item_id.pins.length == 0 || !item.item_id.pins">
-                                <img src="img/heart_big.png" alt="">
-                            </div>
-                        </div>
-
                     </div>
                 </div>
                 <div class="pro-info">
@@ -33,16 +38,16 @@
                             {{item.item_id.website}}
                         </span>
                     </div>
-                    <div class="pro-price" ng-show="item.item_id.price.length > 0">
+                    <div class="pro-price" ng-show="item.item_id.price * 1 > 0">
                         Rs.{{item.item_id.price}}
                     </div>
 
                     <div class="social-share">
                         <div class="social-icon" ng-if="isMobile && item.item_id.href.length > 0">
-                            <i class="fa-lg red-color fa-2x" on-tap='whatsapp(item)'><img src='img/whatsapp.png' alt='whats_app'/></i>
-                            <i class="fa fa-twitter fa-lg red-color fa-2x" on-tap='twitter(item)'></i>
-                            <i class="fa fa-facebook fa-lg red-color fa-2x"  on-tap='facebook(item)'></i>
-                            <i class="fa fa-share-alt fa-lg red-color fa-2x" on-tap='shareAll(item)'></i>
+                            <i class="ion-social-whatsapp-outline red-color" on-tap='whatsapp(item)'></i>
+                            <i class="ion-social-twitter red-color" on-tap='twitter(item)'></i>
+                            <i class="ion-social-facebook red-color"  on-tap='facebook(item)'></i>
+                            <i class="ion-android-share-alt red-color" on-tap='shareAll(item)'></i>
                         </div>
                         <!--social icon closed here-->
 
@@ -71,25 +76,31 @@
                             <div on-tap='pinList();' ng-show="item.item_id.pins.length > 0">You Pins</div>                        
                         </span>
                     </span>
+                    <span ng-if="!me_like">
+                        <span ng-if="item.likes.length > 0"><span on-tap='likeList();'>{{item.likes.length}} Likes</span></span>
+                    </span>
+                    <span ng-if='!me_pin'>
+                        <span ng-if='item.item_id.pins.length > 0'>
+                            <div on-tap='pinList();'>{{item.item_id.pins.length}} Pins</div>                        
+                        </span>
+                    </span>
                 </div>
             </div>
             <div class="box" ng-show="item.item_id.description.length > 0">
                 <div>{{item.item_id.description}}</div>
             </div>
             <div class="box">
-                <div class="user_image">
+                <div class="user_image"  on-tap="profile(item.user_id);">
                     <img ng-src='{{item.user_id.picture| picture:50}}'/>
                 </div>
-                <div class="user-info">
-                    <span class="red-color info">{{item.user_id.name}}</span>
-                    <span class="grey-color info">1 clips
+                <div class="center_box" style="margin-left: 50px;margin-right: 20px">
+                    <span class="red-color info" on-tap="profile(item.user_id);">{{item.user_id.name}}</span>
+                    <span class="grey-color info">
                         <div ng-if="me_follow_user">
                             <span class="grey-color" ng-if="item.user_id.followers.length > 1">
                                 <i class="ion-ios7-people fa-lg red-color"></i>
                                 <span on-tap='followUserList();'>You and {{item.user_id.followers.length - 1}} followers</span>
                             </span>
-                            <!--<span class="grey-color" on-tap='unFollowUser(item.user_id._id);' ng-if="item.user_id.followers.length == 1">You Follow</span>-->
-                            <span on-tap='unFollowUser(item.user_id._id);' class="user-unfollow black-font">Unfollow!</span>
                         </div>
                         <div ng-if="!me_follow_user && !mine">
                             <span class="grey-color" ng-show="item.user_id.followers.length > 0">
@@ -98,25 +109,24 @@
                             <span class="grey-color" ng-show="!item.user_id.followers || item.user_id.followers.length == 0">Be First To Follow User</span>
                         </div>
                 </div>
-                <button ng-if="!me_follow_user && !mine" on-tap='followUser(item.user_id._id);' class="follow-btn black-font">FOLLOW</button>
+                <button ng-if="!me_follow_user && !mine" on-tap='followUser(item.user_id._id);' class="abs-follow-button button-icon red-color ion-ios-people fa-2x"></button>
+                <button ng-if="me_follow_user" on-tap='unFollowUser(item.user_id._id);' class="abs-follow-button black-font ion-ios-people-outline fa-2x"></button>
                 <div class="clearfix"></div>
             </div>
             <div class="added-to box">
-                <div class="user-info">
-                    <span class="info grey-color">Added to</span>
-                    <span class="info black-font">{{item.list_id.name}}</span>
+                <div class="center_box" style="margin-right: 20px">
+                    <span class="info grey-color">Added To List</span>
+                    <span class="info black-font" on-tap="viewList(item.list_id.__id,item.list_id.name)" >{{item.list_id.name}}</span>
                     <span class="grey-color" ng-if="me_follow_list">
                         <span ng-if="item.list_id.followers.length > 1">
                             <span class="clip-follower">{{item.list_id.products.length}} clips . 
                                 <i class="ion-ios7-people fa-lg red-color"></i>You and 
                                 <div on-tap='followListList();'>{{item.list_id.followers.length - 1}}Followers</div>
                             </span>
-                            <span on-tap='unFollowList();' class="user-unfollow black-font" ng-if="item.list_id.followers.length == 1">Unfollow!</span>
                         </span>
                         <span ng-if="item.list_id.followers.length == 1">
                             <span class="clip-follower">{{item.list_id.products.length}} clips
                             </span>
-                            <span on-tap='unFollowList();' class="user-unfollow black-font" ng-if="item.list_id.followers.length == 1">Unfollow!</span>
                         </span>
                     </span>
                     <span class="info grey-color" ng-if="!me_follow_list && !mine">
@@ -130,7 +140,8 @@
                         </span>
                     </span>
                 </div>
-                <button on-tap='followList();' ng-if="!me_follow_list && !mine" class="follow-btn black-font">FOLLOW</button>
+                <button ng-if="me_follow_list" on-tap='unFollowList();' class="abs-follow-button button-icon black-font ion-ios-people-outline fa-2x"></button>
+                <button on-tap='followList();' ng-if="!me_follow_list && !mine" class="abs-follow-button button-icon red-color ion-ios-people fa-2x"></button>
                 <div class="clearfix"></div>
             </div>
 
@@ -169,7 +180,7 @@
                         <label class="item-input-wrapper">
                             <input ng-model="item.comment" keyboard-attach type="text" placeholder="Write a comment" class="black-font"/>
                         </label>
-                        <button on-tap='addComment();' class="follow-btn black-font">COMMENT</button>
+                        <button on-tap='addComment();' class="follow-btn">COMMENT</button>
                     </div>
 
 
