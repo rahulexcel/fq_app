@@ -31,11 +31,12 @@ profileMod.controller('ProfileCtrl',
                 var start_index = 0;
                 $rootScope.$on('$viewContentLoaded', function (event) {
                     var path = $location.path();
-                    $scope.selected_class = 'friends';
-                    path = path.replace('me', user_id);
+                    //$scope.selected_class = 'wishlist';
+                    path = path.replace('/me', '/' + user_id);
                     if (path === '/app/profile/' + user_id + '/mine') {
                         $scope.pin_status.showMore = false;
-                        $scope.selected_class = 'friends';
+                        $scope.selected_class = 'wishlist';
+                        start_index = 0;
                     } else if (path === '/app/profile/' + user_id + '/followers') {
                         $scope.pin_status.showMore = false;
                         $scope.selected_class = 'followers';
@@ -59,11 +60,11 @@ profileMod.controller('ProfileCtrl',
                     } else if (path === '/app/profile/' + user_id + '/friends') {
                         $scope.pin_status.showMore = false;
                         $scope.selected_class = 'friends';
-                        start_index = 0;
+                        start_index = 1;
                     } else if (path === '/app/profile/' + user_id + '/recommended') {
                         $scope.pin_status.showMore = false;
                         $scope.selected_class = 'recommended';
-                        start_index = 1;
+                        start_index = 2;
                     }
                     $ionicScrollDelegate.resize();
                 });
@@ -107,6 +108,9 @@ profileMod.controller('ProfileCtrl',
                     });
                     var ajax = friendHelper.fullProfile(user_id, $localStorage.user.id);
                     ajax.then(function (data) {
+                        $localStorage.user.gender = data.gender;
+                        $localStorage.user.picture = data.picture;
+                        $localStorage.user.name = data.name;
                         $scope.is_following = data.is_following;
                         $scope.is_friend = data.is_friend;
                         if (data.lists_mine) {
@@ -146,6 +150,9 @@ profileMod.controller('ProfileCtrl',
                             var startX = 0;
                             if (start_index !== 0) {
                                 startX = start_index * 125 - window_width;
+                                if (startX < 0) {
+                                    startX = 0;
+                                }
                             }
                             $scope.myScroll = new IScroll('#menu_sliding', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true, startX: startX * -1});
                         }, 50);

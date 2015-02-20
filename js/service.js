@@ -10,7 +10,7 @@ serviceMod.directive('imgLoader', function () {
                 var naturalWidth = this.naturalWidth * 1;
                 var naturalHeight = this.naturalHeight * 1;
 
-                console.log(naturalWidth + "XXX" + naturalHeight + " src" + this.src);
+//                console.log(naturalWidth + "XXX" + naturalHeight + " src" + this.src);
                 if (naturalHeight > naturalWidth) {
                     angular.element(element).attr('style', 'max-height:100%;width:auto');
                 }
@@ -339,8 +339,8 @@ serviceMod.factory('toast', ['$ionicPopup', function ($ionicPopup) {
     }
 ]);
 serviceMod.factory('ajaxRequest',
-        ['$http', '$q', '$log', 'toast', '$localStorage', '$ionicLoading',
-            function ($http, $q, $log, toast, $localStorage, $ionicLoading) {
+        ['$http', '$q', '$log', 'toast', '$localStorage', '$ionicLoading', '$cordovaNetwork',
+            function ($http, $q, $log, toast, $localStorage, $ionicLoading, $cordovaNetwork) {
                 return {
                     url: function (api) {
                         return 'http://144.76.83.246:5000/' + api;

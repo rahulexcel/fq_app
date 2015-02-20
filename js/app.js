@@ -28,7 +28,7 @@ var app = angular.module('starter',
         );
 app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
     function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-        $ionicConfigProvider.views.maxCache(0);
+//        $ionicConfigProvider.views.maxCache(3);
         $stateProvider
                 .state('offline', {
                     url: '/offline',
@@ -119,6 +119,24 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                     views: {
                         'menuContent': {
                             templateUrl: 'template/register.html',
+                            controller: 'RegisterCtrl'
+                        }
+                    }
+                })
+                .state('app.login', {
+                    url: '/login',
+                    views: {
+                        'menuContent': {
+                            templateUrl: 'template/login.html',
+                            controller: 'RegisterCtrl'
+                        }
+                    }
+                })
+                .state('app.forgot', {
+                    url: '/forgot',
+                    views: {
+                        'menuContent': {
+                            templateUrl: 'template/forgot.html',
                             controller: 'RegisterCtrl'
                         }
                     }
@@ -317,7 +335,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             $rootScope.display = {display: "block"};
         };
         var backPress = 0;
-        $ionicPlatform.onHardwareBackButton(function (e) {
+        $ionicPlatform.registerBackButtonAction(function (e) {
             var backView = $ionicHistory.backView();
             $ionicLoading.hide();
             if (backView) {
@@ -341,7 +359,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             }
             e.preventDefault();
             return false;
-        });
+        }, 101);
 
         if (window.plugins && window.plugins.webintent) {
             window.plugins.webintent.hasExtra(window.plugins.webintent.EXTRA_TEXT,

@@ -61,7 +61,7 @@ productMod.controller('ProductCtrl',
                 $scope.viewBrand = function (product) {
 
                 };
-
+                $scope.product_detail_loading = false;
                 $scope.productInfo = function (force) {
                     var product_id = $scope.product_id;
                     var cache_key = 'product_' + product_id;
@@ -71,9 +71,10 @@ productMod.controller('ProductCtrl',
                         $ionicSlideBoxDelegate.update();
                         $scope.fetchLatest(data.product.org_href);
                     } else {
-
+                        $scope.product_detail_loading = true;
                         var ajax = productHelper.fetchProduct(product_id);
                         ajax.then(function (data) {
+                            $scope.product_detail_loading = false;
                             timeStorage.set(cache_key, data, 1);
                             $scope.processProductData(data);
                             $ionicSlideBoxDelegate.update();

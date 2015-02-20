@@ -7,11 +7,17 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                     $scope.list_id = $stateParams.list_id;
                     $scope.list_detail = false;
                     $scope.follow = false;
+                    $scope.my_list = false;
                     $scope.getData = function (page) {
                         var defer = $q.defer();
                         var ajax = wishlistHelper.listItems($stateParams.list_id, page);
                         ajax.then(function (data) {
                             var list = data.list;
+                            if ($localStorage.user.id) {
+                                if (data.list.user_id._id === $localStorage.user.id) {
+                                    $scope.my_list = true;
+                                }
+                            }
                             if (list.followers && $localStorage.user.id) {
                                 for (var i = 0; i < list.followers.length; i++) {
                                     if (list.followers[i] === $localStorage.user.id) {

@@ -54,24 +54,29 @@ registerMod.controller('RegisterCtrl',
                     }
                 });
 
-                $scope.show_register = true;
-                $scope.show_login = false;
-                $scope.show_forgot = false;
+//                $scope.show_register = true;
+//                $scope.show_login = false;
+//                $scope.show_forgot = false;
 
                 $scope.showForgot = function () {
-                    $scope.show_register = false;
-                    $scope.show_login = false;
-                    $scope.show_forgot = true;
+//                    $scope.show_register = false;
+//                    $scope.show_login = false;
+//                    $scope.show_forgot = true;
+
+                    $location.path('/app/forgot');
                 };
                 $scope.showRegister = function () {
-                    $scope.show_register = true;
-                    $scope.show_login = false;
-                    $scope.show_forgot = false;
+//                    $scope.show_register = true;
+//                    $scope.show_login = false;
+//                    $scope.show_forgot = false;
+                    $location.path('/app/signup');
                 };
                 $scope.showLogin = function () {
-                    $scope.show_register = false;
-                    $scope.show_login = true;
-                    $scope.show_forgot = false;
+//                    $scope.show_register = false;
+//                    $scope.show_login = true;
+//                    $scope.show_forgot = false;
+
+                    $location.path('/app/login');
                 };
                 $scope.forgot = function () {
                     var email = $scope.forgot_obj.email;

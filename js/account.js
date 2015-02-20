@@ -87,7 +87,7 @@ accountMod.controller('AccountCtrl',
                     myFiles: false
                 };
                 $scope.browseCamera = function () {
-                    $ionicActionSheet.show({
+                    var actionSheet = $ionicActionSheet.show({
                         buttons: [
                             {text: 'Brower Pictures'},
                             {text: 'Take Picture'}
@@ -96,13 +96,14 @@ accountMod.controller('AccountCtrl',
                         titleText: 'Update Your Profile Picture',
                         cancelText: 'Cancel',
                         destructiveButtonClicked: function () {
+                            actionSheet();
                             var picture = accountHelper.removePicture();
                             picture.then(function () {
                                 $scope.login_data.picture = $localStorage.user.picture;
                             });
                         },
                         buttonClicked: function (index) {
-
+                            actionSheet();
                             var options = {
                                 quality: 100,
                                 destinationType: Camera.DestinationType.FILE_URI,

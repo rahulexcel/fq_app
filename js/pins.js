@@ -302,7 +302,8 @@ pinMod.controller('PinCtrl',
                 };
                 $scope.followList = function (list_id, index) {
                     if (!$localStorage.user.id) {
-                        toast.showShortBottom('SignUp/Login To Follow List');
+                        toast.showShortBottom('SignUp To Follow List');
+                        $location.path('/app/signup');
                     } else {
                         if ($scope.request_process) {
                             toast.showProgress();
@@ -329,7 +330,8 @@ pinMod.controller('PinCtrl',
                     var item_id = item._id;
                     var list_id = item.original.list_id;
                     if (!$localStorage.user.id) {
-                        toast.showShortBottom('SignUp/Login To Like Item');
+                        toast.showShortBottom('SignUp To Like Item');
+                        $location.path('/app/signup');
                     } else {
                         if ($scope.request_process) {
                             toast.showProgress();

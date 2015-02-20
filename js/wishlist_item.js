@@ -168,61 +168,61 @@ wishlistItemMod.controller('WishlistItemCtrl',
 
                     if (window.plugins && window.plugins.socialsharing) {
                         $scope.isMobile = true;
-                        var href = product.href;
-                        if (product.desktop_href) {
-                            href = product.desktop_href;
-                        }
                         $scope.shareAll = function (product) {
-                            window.plugins.socialsharing.share(product.name, null, product.picture, href, function () {
-                            }, function () {
-                                toast.showShortBottom('Unable to Share');
-                            });
+                            if (product.item_id.type === 'product') {
+                                var product = $scope.item.item_id;
+                                var href = product.href;
+                                window.plugins.socialsharing.share(product.name, null, product.picture, href, function () {
+                                }, function () {
+                                    toast.showShortBottom('Unable to Share');
+                                });
+                            }
                         };
                         $scope.twitter = function (product) {
-                            var href = product.href;
-                            if (product.desktop_href) {
-                                href = product.desktop_href;
+                            if (product.item_id.type === 'product') {
+                                var product = $scope.item.item_id;
+                                var href = product.href;
+                                window.plugins.socialsharing.shareViaTwitter(
+                                        product.name, product.picture, href, function () {
+                                        }, function () {
+                                    toast.showShortBottom('Unable to Share! App Not Found');
+                                });
                             }
-                            window.plugins.socialsharing.shareViaTwitter(
-                                    product.name, product.picture, href, function () {
-                                    }, function () {
-                                toast.showShortBottom('Unable to Share! App Not Found');
-                            });
                         };
                         $scope.whatsapp = function (product) {
-                            var href = product.href;
-                            if (product.desktop_href) {
-                                href = product.desktop_href;
+                            if (product.item_id.type === 'product') {
+                                var product = $scope.item.item_id;
+                                var href = product.href;
+                                window.plugins.socialsharing.shareViaWhatsApp(
+                                        product.name, product.picture, href, function () {
+                                        }, function () {
+                                    toast.showShortBottom('Unable to Share! App Not Found');
+                                });
                             }
-                            window.plugins.socialsharing.shareViaWhatsApp(
-                                    product.name, product.picture, href, function () {
-                                    }, function () {
-                                toast.showShortBottom('Unable to Share! App Not Found');
-                            });
                         };
 
                         $scope.facebook = function (product) {
-                            if (window.cordova.platformId === "browser") {
-                                if (!accountHelper.isFbInit()) {
-                                    facebookConnectPlugin.browserInit('765213543516434');
-                                    accountHelper.fbInit();
+                            if (product.item_id.type === 'product') {
+                                var product = $scope.item.item_id;
+                                var href = product.href;
+                                if (window.cordova.platformId === "browser") {
+                                    if (!accountHelper.isFbInit()) {
+                                        facebookConnectPlugin.browserInit('765213543516434');
+                                        accountHelper.fbInit();
+                                    }
                                 }
+                                facebookConnectPlugin.showDialog({
+                                    method: 'share',
+                                    href: href,
+                                    message: product.name,
+                                    picture: product.picture
+                                }, function (data) {
+                                    console.log(data);
+                                }, function (data) {
+                                    console.log(data);
+                                    toast.showShortBottom('Unable to Share');
+                                });
                             }
-                            var href = product.href;
-                            if (product.desktop_href) {
-                                href = product.desktop_href;
-                            }
-                            facebookConnectPlugin.showDialog({
-                                method: 'share',
-                                href: href,
-                                message: product.name,
-                                picture: product.picture
-                            }, function (data) {
-                                console.log(data);
-                            }, function (data) {
-                                console.log(data);
-                                toast.showShortBottom('Unable to Share');
-                            });
                         };
                     } else {
                         $scope.isMobile = false;

@@ -1,6 +1,6 @@
 <div id="following-main">
     <div class="list-section" ng-show="top_users.length > 0">
-        <div style="float: left">TOP USERS</div>
+        <div style="float: left;width: 50%">TOP USERS</div>
         <div ng-if="hasMore" style="float: right" on-tap="loadMore();">More</div>
         <div class="clearfix"></div>
     </div>
@@ -8,7 +8,7 @@
         <div user-box user="user" users="top_users" index="{{$index}}" me="me"></div>
     </div>
     <div class="list-section" ng-show="top_lists.length > 0">
-        <div style="float: left">TOP LISTS</div>
+        <div style="float: left;width: 50%">TOP LISTS</div>
         <div ng-if="hasMore" style="float: right" on-tap="loadMore();">More</div>
         <div class="clearfix"></div>
     </div>

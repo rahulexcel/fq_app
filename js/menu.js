@@ -1,13 +1,20 @@
 var menuMod = angular.module('MenuMod', ['ServiceMod', 'ngStorage', 'ionic', 'pasvaz.bindonce']);
 
 menuMod.controller('MenuCtrl',
-        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', '$timeout', 'notifyHelper', '$ionicSideMenuDelegate',
-            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, $timeout, notifyHelper, $ionicSideMenuDelegate) {
+        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', '$timeout', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork',
+            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, $timeout, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork) {
 //                $ionicNavBarDelegate.showBackButton(false);
 
                 if ($localStorage.user.id) {
                     notifyHelper.checkForUpdates();
                 }
+                $scope.checkOffline = function () {
+                    if ($cordovaNetwork.isOnline()) {
+                        $location.app('/app/home/trending');
+                    } else {
+                        toast.showShortBottom('Still Offline...');
+                    }
+                };
                 $scope.$on('$ionicExposeAside', function () {
                     $rootScope.$emit('custom_ionicExposeAside');
                 });
@@ -36,7 +43,9 @@ menuMod.controller('MenuCtrl',
                     $ionicLoading.show({
                         template: 'Logging Out..'
                     });
+                    $ionicSideMenuDelegate.toggleLeft(true);
                     ajax.finally(function () {
+                        $ionicLoading.hide();
                         var email = '';
                         if ($localStorage.user && $localStorage.user.email) {
                             email = $localStorage.user.email;
@@ -45,7 +54,6 @@ menuMod.controller('MenuCtrl',
                             email: email
                         };
                         $rootScope.$broadcast('logout_event');
-                        $ionicLoading.hide();
                     });
                 };
 
@@ -59,6 +67,7 @@ menuMod.controller('MenuCtrl',
 
                 $scope.selectCategory = function (cat) {
                     console.log('select category');
+                    console.log(cat);
                     if (cat.sub_cat_id === 1 || cat.cat_id === -1) {
                         if (cat.open) {
                             cat.open = !cat.open;
@@ -99,9 +108,17 @@ menuMod.controller('MenuCtrl',
                 };
                 $scope.wishlist = function () {
                     if ($rootScope.profile_update > 0) {
-                        $location.path('/app/profile/me/update');
+                        if ($localStorage.user.id) {
+                            $location.path('/app/profile/' + $localStorage.user.id + '/update');
+                        } else {
+                            $location.path('/app/profile/me/update');
+                        }
                     } else {
-                        $location.path('/app/profile/me/mine');
+                        if ($localStorage.user.id) {
+                            $location.path('/app/profile/' + $localStorage.user.id + '/mine');
+                        } else {
+                            $location.path('/app/profile/me/mine');
+                        }
                     }
                 };
                 $scope.account = function () {

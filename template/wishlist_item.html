@@ -130,7 +130,7 @@
                         </span>
                     </span>
                     <span class="info grey-color" ng-if="!me_follow_list && !mine">
-                        <span class="clip-follower">{{item.list_id.products.length}}clips .&nbsp; 
+                        <span class="clip-follower">{{item.list_id.products.length}} clips .&nbsp; 
                             <div on-tap='followList();' ng-show="item.list_id.followers.length > 0">
                                 <i class="ion-ios7-people fa-lg red-color"></i> {{item.list_id.followers.length}}  Followers
                             </div>
@@ -175,16 +175,12 @@
                 <div class="comment-frm">
 
 
-
                     <div class="item item-input-inset">
                         <label class="item-input-wrapper">
                             <input ng-model="item.comment" keyboard-attach type="text" placeholder="Write a comment" class="black-font"/>
                         </label>
                         <button on-tap='addComment();' class="follow-btn">COMMENT</button>
                     </div>
-
-
-
 
 
                     <div class="clearfix"></div>

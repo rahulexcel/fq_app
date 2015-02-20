@@ -9,15 +9,12 @@
             <i ng-if="list.type == 'private'" class="ion-ios-locked grey-color"></i>
         </span>
         <div class=""> 
-            <span class="info grey-color font11">
-                {{list.meta.products}} clips <i class="fa fa-circle"></i>
-                Created on {{list.created_at|prettyDate}} 
-            </span>
             <span class="info grey-color font11 wish-icon">
-                <span ng-show="list.meta.likes != 0"><i class="ion-ios-heart-outline red-color"></i>&nbsp;{{list.meta.likes}} &nbsp;</span>
-                <span ng-show="list.followers.length != 0"><i class="ion-ios-people fa-lg red-color"></i>&nbsp; {{list.followers.length}}</span>
-            </span> 
-            <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
+                <span>{{list.meta.products}} clips </span>
+                <span><i class="ion-thumbsup red-color"></i> {{list.meta.likes}} likes </span> 
+                <span><i class="ion-ios-people red-color"></i> {{list.followers.length}} followers </span> 
+            </span>
+            <div class="info grey-color font11">Created {{list.created_at| prettyDate}} </div>
             <div class="clearfix"></div>
         </div>
         <div class="action"> 

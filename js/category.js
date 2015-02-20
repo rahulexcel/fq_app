@@ -76,6 +76,7 @@ categoryMod.controller('CategoryCtrl',
 
                 var products = [];
                 $scope.showProducts = true;
+                $scope.currentProducts = [];
                 $scope.showSortBy = false;
                 $scope.showFilter = false;
                 $scope.products = products;
@@ -129,13 +130,12 @@ categoryMod.controller('CategoryCtrl',
                     }
                 });
                 $scope.refreshCategory = function () {
-                    $scope.product_loading = true;
                     var state = $scope.currentState;
                     state.page = -1;
                     $scope.currentState = state;
                     var req = categoryHelper.fetchProduct(state);
                     req.then(function (ret) {
-                        $scope.product_loading = false;
+                        $scope.currentProducts = ret.products;
                         if (ret.products.length === 0) {
                             toast.showShortBottom('Product Not Found Matching Current Filter');
                         }
@@ -170,25 +170,60 @@ categoryMod.controller('CategoryCtrl',
                         $scope.showProductsFn();
                     });
                 };
-                $scope.doFilter = function (filter) {
-                    if (!filter.param) {
-                        var cat_id = filter.cat_id;
-                        var sub_cat_id = filter.sub_cat_id;
-                        var cat_name = filter.cat_name;
-                        var search = $scope.currentState.search;
-                        $location.path('/app/category/' + cat_id + '/' + sub_cat_id + '/' + cat_name + '/' + search);
+                $scope.filterClick = function (filter_type, filter) {
+//                    console.log(filter);
+//                    console.log(filter_type);
+
+                    var type = filter_type.type.toLowerCase();
+                    var multi_support = ['brand', 'website', 'color', 'size'];
+                    if (multi_support.indexOf(type) !== -1) {
+                        console.log('multi');
                     } else {
-                        var url = filter.param;
-                        var name = filter.name;
-                        $scope.product_loading = true;
-                        var state = $scope.currentState;
-                        if (!state.filters) {
-                            state.filters = [];
+                        console.log('no multi');
+                        for (var i = 0; i < filter_type.data.length; i++) {
+                            console.log(filter_type.data[i].param + "XXXX" + filter.param);
+                            if (filter_type.data[i].param === filter.param) {
+
+                            } else {
+                                filter_type.data[i].selected = false;
+                            }
                         }
-                        state.filters.push({
-                            name: name,
-                            param: url
-                        });
+                    }
+
+                };
+                $scope.doFilter = function (filter) {
+//                    if (!filter.param) {
+//                        var cat_id = filter.cat_id;
+//                        var sub_cat_id = filter.sub_cat_id;
+//                        var cat_name = filter.cat_name;
+//                        var search = $scope.currentState.search;
+//                        $location.path('/app/category/' + cat_id + '/' + sub_cat_id + '/' + cat_name + '/' + search);
+//                    } else {
+
+                    var filters = $scope.filters;
+
+                    var selected = false;
+                    var state = $scope.currentState;
+                    for (var i = 0; i < filters.length; i++) {
+                        var data = filters[i].data;
+                        for (var k = 0; k < data.length; k++) {
+                            if (data[k].selected) {
+                                var filter = data[k];
+                                var url = filter.param;
+                                var name = filter.name;
+                                $scope.product_loading = true;
+                                selected = true;
+                                if (!state.filters) {
+                                    state.filters = [];
+                                }
+                                state.filters.push({
+                                    name: name,
+                                    param: url
+                                });
+                            }
+                        }
+                    }
+                    if (selected) {
                         state.page = -1;
                         $scope.showProductsFn();
                         $scope.currentState = state;
@@ -200,21 +235,53 @@ categoryMod.controller('CategoryCtrl',
                             }
                             $scope.update(ret);
                         });
+                    } else {
+                        toast.showShortBottom('No Filter Selected');
+                    }
+//                    }
+                };
+                $scope.sortClick = function (sort) {
+                    var sortBy = $scope.sortBy;
+                    for (var i = 0; i < sortBy.length; i++) {
+                        if (sortBy[i].url === sort.url) {
+
+                        } else {
+                            sortBy[i].selected = false;
+                        }
+                    }
+                    $scope.sortBy = sortBy;
+                };
+                $scope.doApply = function () {
+                    if ($scope.showSortBy) {
+                        $scope.doSort();
+                    } else {
+                        $scope.doFilter();
                     }
                 };
-                $scope.doSort = function (sort) {
-                    $scope.showProductsFn();
-                    var url = sort.url;
-                    $scope.product_loading = true;
-                    var state = $scope.currentState;
-                    state.page = -1;
-                    $scope.currentState = state;
-                    state.sortby = url;
-                    var req = categoryHelper.fetchProduct(state);
-                    req.then(function (ret) {
-                        $scope.product_loading = false;
-                        $scope.update(ret);
-                    });
+                $scope.doSort = function () {
+                    var sort = false;
+                    var sortBy = $scope.sortBy;
+                    for (var i = 0; i < sortBy.length; i++) {
+                        if (sortBy[i].selected) {
+                            sort = sortBy[i];
+                        }
+                    }
+                    if (sort) {
+                        $scope.showProductsFn();
+                        var url = sort.url;
+                        $scope.product_loading = true;
+                        var state = $scope.currentState;
+                        state.page = -1;
+                        $scope.currentState = state;
+                        state.sortby = url;
+                        var req = categoryHelper.fetchProduct(state);
+                        req.then(function (ret) {
+                            $scope.product_loading = false;
+                            $scope.update(ret);
+                        });
+                    } else {
+                        toast.showShortBottom('Nothing To Do...');
+                    }
                 };
                 $scope.$on('search_event', function () {
                     $scope.showProductsFn();
@@ -288,11 +355,13 @@ categoryMod.controller('CategoryCtrl',
                 $scope.current_start_page = 1;
                 $scope.update = function (ret, append) {
 
+                    $scope.currentProducts = ret.products;
                     $scope.currentState.page = ret.page;
                     console.log(ret.products.length + 'products');
                     console.log('current page ' + ret.page);
                     $scope.page_size = ret.products.length;
                     if ($scope.products && append) {
+                        console.log('appending products');
                         var products = $scope.products;
 //                        if (ret.page > $scope.page_range) {
 //                            for (var i = 0; i < ret.products.length; i++) {
@@ -306,16 +375,20 @@ categoryMod.controller('CategoryCtrl',
                         }
                         $scope.products = products;
                     } else {
+                        console.log('replacing products');
                         $scope.products = ret.products;
                         $scope.current_start_page = 1;
                     }
                     $scope.next_page_url = ret.page;
+                    if (!$scope.currentState.sortby || $scope.currentState.sortby.length === 0) {
+                        $scope.currentState.sortby = 'popular';
+                    }
                     if ($scope.currentState.sortby && ret.sortBy && ret.sortBy.length > 0) {
                         for (i = 0; i < ret.sortBy.length; i++) {
                             if (ret.sortBy[i].url === $scope.currentState.sortby) {
-                                ret.sortBy[i].checked = true;
+                                ret.sortBy[i].selected = true;
                             } else {
-                                ret.sortBy[i].checked = false;
+                                ret.sortBy[i].selected = false;
                             }
                         }
                     }
@@ -324,10 +397,9 @@ categoryMod.controller('CategoryCtrl',
                             var data = ret.filters[i].data;
                             for (var k = 0; k < $scope.currentState.filters.length; k++) {
                                 for (var j = 0; j < data.length; j++) {
-                                    console.log($scope.currentState.filters[k].param + "======" + data[j].param);
                                     if ($scope.currentState.filters[k].param === data[j].param) {
                                         ret.filters[i].open = true;
-                                        ret.filters[i].data[j].checked = true;
+                                        ret.filters[i].data[j].selected = true;
                                         break;
                                     }
                                 }
@@ -347,6 +419,7 @@ categoryMod.controller('CategoryCtrl',
                         $scope.wishlist_product.product = product;
                         $scope.$parent.showWishlist();
                     } else {
+                        toast.showShortBottom('SignUp To Add Item To Wishlist');
                         if (!$localStorage.previous) {
                             $localStorage.previous = {};
                         }

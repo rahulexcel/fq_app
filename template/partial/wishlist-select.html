@@ -11,7 +11,7 @@
             on-refresh="refreshList()">
         </ion-refresher>
         <div id="clip_1">
-            <div class="clip-label black-font add-to-clip"><span>ADD TO LIST</span></div>
+            <!--<div class="clip-label black-font add-to-clip"><span>ADD TO LIST</span></div>-->
             <div class="similar-product-label  clip-font-color clip-label clip-share">Your Lists</div>
             <ul>
                 <li class="clip-font-color new add-new clip-it" on-tap='newList();'>
@@ -37,10 +37,10 @@
                         <div class="black-font clip-name">{{list.name}} <i ng-if="list.type == 'private'" class="ion-ios-locked"></i>
                         </div>
                         <div class='clip-info'> 
-                            <span ng-show='list.meta.products != 0'>{{list.meta.products}} clips <i class="fa fa-circle"></i> </span>
-                            <span ng-show='list.meta.likes != 0'><i class="ion-ios-heart-outline red-color"></i> {{list.meta.likes}} </span> 
-                            <span ng-show='list.followers.length != 0'><i class="ion-ios-people red-color"></i> {{list.followers.length}} </span> 
-                            <span>Created {{list.created_at| prettyDate}} </span>
+                            <span>{{list.meta.products}} clips </span>
+                            <span><i class="ion-thumbsup red-color"></i> {{list.meta.likes}} likes </span> 
+                            <span><i class="ion-ios-people red-color"></i> {{list.followers.length}} followers </span> 
+                            <div>Created {{list.created_at| prettyDate}} </div>
                             <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
                             <div class="clearfix"></div>
                         </div>

@@ -24,9 +24,9 @@
             </div>
             <div id='menu_sliding'>
                 <ul id='menu_scroller' class="mine-list" ng-class="selected_class">
+                    <li class="wishlist" on-tap='menu_wishlist();'><span ng-if="me">MY</span> WISHLIST</li>
                     <li ng-if="me" class="friends" on-tap='menu_friends();'>FRIENDS <span ng-if="friend_request_count">({{friend_request_count}})</span></li>
                     <li ng-if="me" class="recommended" on-tap='menu_recommended();'>RECOMMENDATION</li>
-                    <li class="wishlist" on-tap='menu_wishlist();'><span ng-if="me">MY</span> WISHLIST</li>
                     <li class="followers" on-tap='menu_followers();'>FOLLOWERS</li>
                     <li class="following" on-tap='menu_following();'>FOLLOWINGS</li>
                     <li class="pins" on-tap='menu_pins();'><span ng-if="me">MY</span> PINS</li>

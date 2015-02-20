@@ -5,16 +5,13 @@
             pulling-text="Update Product Info"
             on-refresh="productInfo(true)">
         </ion-refresher>
-        <div class="center_spinner">
-            <ion-spinner ng-show='product_loading'></ion-spinner>
+        <div class="center_spinner" ng-if="product_loading">
+            <ion-spinner></ion-spinner>
         </div>
         <div class="product" ng-show="product">
             <div class="pro-img padding">
                 <div class="pro-img">
                     <ion-slide-box ng-if="product.more_images" show-pager="true" style="height: 350px">
-                        <ion-slide>
-                            <img img-loader ng-src='{{product.img}}'/>
-                        </ion-slide>
                         <ion-slide ng-repeat="img in product.more_images">
                             <img img-loader ng-src='{{img}}'/>
                         </ion-slide>
@@ -45,7 +42,7 @@
                     <i class="fa fa-caret-down" ng-if="product.price_drop < 0">&nbsp;Price Drop of Rs.{{product.price_drop}}</i>
                 </div>
                 <div class="social-share">
-                    <div ng-if="!isMobile && product.desktop_href">
+                    <div ng-if="!isMobile && item.item_id.type === 'product'">
                         <div class="fb-like" data-href="{{product.desktop_href}}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                         <div class="twitter">
                             <a class="twitter-share-button"
@@ -54,7 +51,7 @@
                             </a>
                         </div>
                     </div>
-                    <div ng-if="isMobile">
+                    <div ng-if="isMobile && item.item_id.type === 'product'">
                         <i class="ion-social-whatsapp-outline red-color" on-tap='whatsapp(product)'></i>
                         <i class="ion-social-twitter red-color" on-tap='twitter(product)'></i>
                         <i class="ion-social-facebook red-color"  on-tap='facebook(product)'></i>
@@ -63,6 +60,10 @@
                 </div>
                 <button class="button pro-button signup-button red-back" on-tap="buy(product);">BUY NOW</button>
                 <div class="clearfix"></div>
+            </div>
+
+            <div class="center_spinner" ng-if='product_detail_loading'>
+                <ion-spinner></ion-spinner>
             </div>
 
             <div class="clearfix"></div>

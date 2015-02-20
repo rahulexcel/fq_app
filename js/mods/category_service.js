@@ -7,10 +7,10 @@ categoryService.factory('categoryHelper', [
         service.fetchProduct = function (data, is_new) {
             var defer = $q.defer();
             var ajax = ajaxRequest.send('v1/catalog/products', angular.copy(data));
-            if (is_new)
-                $ionicLoading.show({
-                    template: 'Loading...'
-                });
+//            if (is_new)
+//                $ionicLoading.show({
+//                    template: 'Loading...'
+//                });
             ajax.then(function (data) {
                 var ret = {};
                 if (data.products) {
@@ -70,12 +70,12 @@ categoryService.factory('categoryHelper', [
                     }
                 }
                 ret.filters = filters;
-                if (is_new)
-                    $ionicLoading.hide();
+//                if (is_new)
+//                    $ionicLoading.hide();
                 defer.resolve(ret);
             }, function () {
                 defer.reject();
-                $ionicLoading.hide();
+//                $ionicLoading.hide();
             });
             return defer.promise;
         };

@@ -80,7 +80,7 @@ accountService.factory('accountHelper', [
         service.create = function (user, type) {
             var def = $q.defer();
             var ajax = false;
-            var data = false;
+            var data1 = false;
             var device = {
                 type: 'Desktop'
             };
@@ -124,13 +124,18 @@ accountService.factory('accountHelper', [
                 notifyHelper.init();
 //                $location.path('/app/invite');
 
+                var redirect_url = '/app/home/trending';
+                if ($localStorage.previous && $localStorage.previous.url) {
+                    redirect_url = $localStorage.previous.url;
+                }
+
                 if ($localStorage.user.type === 'facebook') {
                     data1 = dataShare.getData();
                     if (data1 && data1.data) {
                         ajax = inviteHelper.lookUpFacebookFriends(data1.data);
                         ajax.then(function () {
                             def.resolve(data);
-                            $location.path('/app/home/trending');
+                            $location.path(redirect_url);
                         });
                     } else {
                         $location.path('/app/home/trending');
@@ -141,13 +146,13 @@ accountService.factory('accountHelper', [
                         ajax = inviteHelper.lookUpGoogleFriends(data1.data);
                         ajax.then(function () {
                             def.resolve(data);
-                            $location.path('/app/home/trending');
+                            $location.path(redirect_url);
                         });
                     } else {
-                        $location.path('/app/home/trending');
+                        $location.path(redirect_url);
                     }
                 } else {
-                    $location.path('/app/home/trending');
+                    $location.path(redirect_url);
                 }
 
                 $rootScope.$broadcast('login_event');

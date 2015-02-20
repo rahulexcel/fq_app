@@ -445,7 +445,9 @@ ul.default-list{
 }
 span div.plus-minus ,.list-tick
 {
-    float:right;
+    position: absolute;
+    right: 0;
+    top: 14px;
 }
 .scroll-content .scroll ul li ul{
     margin: 0px 0 10px;
@@ -497,10 +499,10 @@ i.inv-frnd{
     padding: 5px 20px;
 }
 #account-page .item-input {
-    padding: 1px 20px;
+    padding: 0px 20px;
 }
 #account-page .register{
-    margin-top:7px;
+    margin-top:0px;
 }
 div#account-page .signup-button{
     font-size: 18px;
@@ -585,6 +587,7 @@ div#account-page button{
     font-size: 0.79em;
     border-bottom: 1px solid #DA500F;
     line-height: 14px;
+    margin-top: 5px;
 }
 .activated i{
     background-color:#E5E5E5;
@@ -749,12 +752,12 @@ span.other-price{
 }
 #similar .name,.category .name{
     font-size: 0.79em;
-    height: 32px;
-    line-height: 14px;
+    max-height: 32px;
+    line-height: 14px !important;
     overflow: hidden;
 }
 .category .name{
-    line-height:25px !important;
+    line-height:25px;
 }
 .similar-price,.category .price{
     color:#737373;
@@ -762,6 +765,7 @@ span.other-price{
     font-weight: bold;
     font-size: 0.91em;
     margin-bottom: 5px;
+    width: 100%;
 }
 .category .price{
     line-height: 16px !important;
@@ -822,10 +826,6 @@ span.other-price{
 .category .bottom_box .e-site{
     line-height: 12px;
 }
-.category .my-wishlist-img
-{
-    bottom: 0;
-}
 .category .product .image {
     height: 179px;
     margin: 0 auto;
@@ -842,9 +842,9 @@ span.other-price{
 .button.button-block, .button.button-full{
     margin-top:0px;
 }
-.row,.col{
+/*.row,.col{
     padding-top:0px;
-}
+}*/
 .filter-icon {
     float:left;
 }
@@ -1094,7 +1094,7 @@ input{
     margin-bottom:0px;
     font-family: "Dosis" !important;
     font-weight: 600;
-    width: 71px !important;
+    /*width: 71px !important;*/
     max-height: 28px;
     line-height: 26px;
     margin-bottom: 10px;
@@ -1169,7 +1169,7 @@ input{
 .feed-rate-btn{
     background-color:#f5f5f5;
     border:1px solid #e3e3e3;
-    margin-top:10px;
+    line-height: 38px;
     font-family: "Dosis";
     font-size: 18px;
     font-weight: bold;
@@ -1238,6 +1238,7 @@ li.clip-it{
 .clip-info{
     font-size: 0.79em;
     color:#999999;
+    line-height: 12px;
 }
 .clip-info i{
     vertical-align: middle;
@@ -1250,7 +1251,7 @@ li.clip-it{
     font-weight: normal;
 }
 i.fa-circle{
-    font-size:0.3em;
+    font-size:3px;
     margin:0 1px;
     vertical-align: middle;
 }
@@ -1297,8 +1298,9 @@ i.fa-circle{
     padding: 0px;
     margin: 0px;
     text-align: center;
-    line-height: 40px;
+    line-height: 30px;
     height: 40px;
+    font-size:1em;
 }
 .list_stats div.col{
     border-right: 1px solid #d9d7d4;
@@ -1326,6 +1328,7 @@ i.fa-circle{
     padding-left:55px !important;
     width: 100%;
     padding-right: 55px !important;
+    position: relative;
 }
 .sub_box{
     min-height: 45px;
@@ -1588,6 +1591,7 @@ ul.mine-clip-list li span.mine-new{
     color:#B5B0A8;
     font-family: "Dosis";
     font-size: 1em;
+    width: 100%;
 }
 .mine-pins .box{
     border-style: none;
@@ -1624,8 +1628,7 @@ ul.mine-clip-list li .user-info{
 
 }
 .offline-msg{
-    width: 65%;
-    margin: 50% auto;
+    width: 100%;
     text-align: center;
 }
 /********************************* OFfline***************************/
@@ -1707,6 +1710,7 @@ i.offline-icon{
 .pin-img{
     position: relative;
     text-align: center;
+    min-height: 50px;
 }
 .pin-status{
     color: #777;
@@ -1869,9 +1873,9 @@ i.offline-icon{
     right: 1px;
     top: 1px;
 }
-.ion-ios-heart-outline:before{
-    font-weight: bold;
-    font-size: 0.8em;
+.clip-info i{
+    /*font-weight: bold;*/
+    font-size: 1.5em;
 }
 
 .delete_item{
@@ -1892,7 +1896,6 @@ i.offline-icon{
     white-space: normal;
 }
 .like-heart{
-    border: 10px none;
     border-radius: 100%;
     bottom: 15px;
     height: 20px;
@@ -1938,11 +1941,15 @@ i.offline-icon{
     text-align: center;
     font-size:.8em;
     right:10px;
-    line-height: 20px;
 
 }
 .center_spinner{
+    padding-top: 10px;
     width: 100%;
     margin: 0px auto;
     text-align: center;
+}
+.profile_update_image{
+    float: left;
+    height: 45px;
 }

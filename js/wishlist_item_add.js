@@ -33,8 +33,8 @@ wishlistItemAddMod.directive('preloadable', function () {
     };
 });
 wishlistItemAddMod.controller('WishlistItemAddCtrl',
-        ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$cordovaCamera', '$ionicPopup', '$timeout',
-            function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $ionicModal, $window, $cordovaCamera, $ionicPopup, $timeout) {
+        ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$cordovaCamera', '$ionicPopup', '$timeout', 'uploader',
+            function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $ionicModal, $window, $cordovaCamera, $ionicPopup, $timeout, uploader) {
                 $scope.item = {
                     picture: '',
                     url: '',
@@ -344,17 +344,21 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
 
                         console.log(data);
 
-                        if (data.size.width < 150 || data.size.height < 150) {
-                            toast.showShortBottom('Image Size Should Be More Than 150x150px');
+                        if (data.error === 1) {
+                            toast.showShortBottom(data.message);
                         } else {
-                            if (data.data) {
-                                var pic = ajaxRequest.url('v1/picture/view/' + data.data);
-                                $scope.item.picture = pic;
-                                $scope.item.picture_size = data.size;
+                            if (data.size.width < 150 || data.size.height < 150) {
+                                toast.showShortBottom('Image Size Should Be More Than 150x150px');
+                            } else {
+                                if (data.data) {
+                                    var pic = ajaxRequest.url('v1/picture/view/' + data.data);
+                                    $scope.item.picture = pic;
+                                    $scope.item.picture_size = data.size;
+                                }
                             }
+                            $scope.file_upload = false;
+                            $scope.step1Class = 'red-back';
                         }
-                        $scope.file_upload = false;
-                        $scope.step1Class = 'red-back';
 
 //                            console.log('file ' + config.file.name + 'is uploaded successfully. Response: ' + data);
                     });

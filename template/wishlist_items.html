@@ -8,15 +8,15 @@
             </div>
             <div class="list_stats row">
                 <div class="col">
-                    {{list_detail.meta.products}}&nbsp;clips
+                    {{list_detail.meta.products}} clips
                 </div>
                 <div class="col">
-                    <i class="ion-ios-people fa-lg red-color"></i>&nbsp; {{list_detail.followers.length}} followers
+                    <i class="ion-ios-people fa-lg red-color"></i>&nbsp; {{list_detail.followers.length}}
                 </div>
                 <div class="col">
                     <i class="ion-ios-heart-outline red-color"></i>&nbsp;{{list_detail.meta.likes}} likes
                 </div>
-                <div class="col" style="padding: 0px">
+                <div class="col" style="padding: 0px" ng-if="!my_list">
                     <button on-tap='followList()' ng-if="!follow" style="height: 100%;margin: 0px;padding: 0px" class="button button-full button-small button-icon ion-ios-people fa-2x red-color"></button>
                     <button on-tap='unFollowList()' ng-if="follow" style="height: 100%;margin: 0px;padding: 0px" class="button button-full button-small button-icon ion-ios-people-outline grey-color fa-2x"></button>                    
                 </div>

@@ -38,6 +38,7 @@ friendService.factory('friendHelper', [
                     var bg_color = wishlistHelper.getRandomColor();
                     data[i].list_symbol = list_symbol;
                     data[i].bg_color = bg_color;
+                    data[i].is_following = false;
                 }
                 def.resolve(data);
             }, function () {
