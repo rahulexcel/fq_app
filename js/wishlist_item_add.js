@@ -65,9 +65,9 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     if (type === 'camera') {
                         $scope.showStep2(type);
                         $scope.browseCamera('camera');
-                    } else if (type === 'gallery') {
+                    } else if (type === 'gallary') {
                         $scope.showStep2(type);
-                        $scope.browseCamera('gallery');
+                        $scope.browseCamera('gallary');
                     } else if (type === 'url') {
                         $scope.showStep2(type);
                     } else if (type === 'near') {

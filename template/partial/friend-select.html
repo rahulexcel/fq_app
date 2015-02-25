@@ -2,7 +2,7 @@
     <ion-header-bar>
         <h1 class="title">SELECT FRIENDS</h1>
         <div class="button button-icon" on-tap="closeModel();">
-            <i class="ion-ios-close-empty close-tab-icon white-color social-close"></i>
+            <i class="ion-android-close close-tab-icon white-color social-close"></i>
         </div>
     </ion-header-bar>
     <ion-content>
@@ -13,12 +13,14 @@
         <i class="fa fa-spinner fa-spin" ng-show='!friend_load'></i>
         <div class="clip-label black-font add-to-clip"><span>PRIVATE</span></div>
         <div class="similar-product-label  clip-font-color clip-label clip-share">Share this with</div>
-        <div class="private-label">
-        <ion-checkbox ng-model='friend.checked' on-tap='selectFriend(friend)' ng-repeat='friend in friends'>
-            <img class="rounded" ng-if='friend.picture' ng-src='{{friend.picture|picture:50:50}}' style="max-width: 50px;max-height: 50px" />
-            <span>{{friend.name}}</span>
-        </ion-checkbox>
-         </div>
+        <div class="list">
+            <div on-tap='selectFriend(friend)' class="item item-avatar" ng-repeat='friend in friends'>
+                <img class="rounded" ng-if='friend.picture' ng-src='{{friend.picture|picture:50:50}}' style="max-width: 50px;max-height: 50px" />
+                <p>{{friend.name}}</p>
+                <div class="display_status">{{user.status}}</div>
+                <i style="right: 5px" ng-show="friend.checked" class="ion-checkmark list-tick red-color"></i>
+            </div>
+        </div>
     </ion-content>
     <ion-footer-bar>
         <div class="padding">

@@ -1,0 +1,44 @@
+<ion-refresher
+    pulling-text="Refresh..."
+    on-refresh="refreshCategory()">
+</ion-refresher>
+<div class="center_spinner">
+    <ion-spinner ng-if='product_loading'></ion-spinner>
+</div>
+
+<div class="category" ng-show="!product_loading && showProducts">
+
+    <div class="result-empty" ng-if="products.length == 0">
+        <span class="info"><img src="img/favicon-not.png"/></span>
+        <span class="info grey-color">No Products Found</span>
+    </div>
+
+    <div class="product" bindonce ng-repeat="prod in products track by prod._id">
+        <div class="image" on-tap="openProduct(prod);">
+            <!--<img img-loader bo-src="prod.img" />-->
+            <img image-lazy-src="{{prod.img}}"/>
+            <div class="heart my-wishlist-img red-back" on-tap="wishlist(prod,$event);">
+                <i class="ion-ios-heart"></i>
+            </div>
+        </div>
+        <div class="bottom_box">
+            <div class="name" on-tap="openProduct(prod);" bo-bind='prod.name'></div>
+            <div class="website e-site grey-color"><i class='site {{::prod.website}}'></i><span bo-bind='prod.website'></span></div>
+            <div class="brand" bo-show="prod.brand.length > 0" bo-bind='prod.brand'></div> 
+            <div class="price">
+                Rs.<span bo-bind='prod.price'></span>
+            </div>
+            <div class="drop-price" >
+                <i class="fa fa-caret-up up-price" bo-if="prod.price_drop > 0">&nbsp;<span bo-bind='prod.price_drop'></span></i>
+                <i class="fa fa-caret-down" bo-if="prod.price_drop < 0">&nbsp;<span bo-bind='prod.price_drop'></span></i>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<button class="button button-full button-clear" ng-show="page >= 2 && !product_loading && showProducts" on-tap="nextPage();">Load More</button>
+<ion-infinite-scroll
+    ng-if="page < 2 && !product_loading && showProducts"
+    on-infinite="nextPage()" distance='1%'>
+</ion-infinite-scroll>

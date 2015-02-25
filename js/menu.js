@@ -1,8 +1,8 @@
 var menuMod = angular.module('MenuMod', ['ServiceMod', 'ngStorage', 'ionic', 'pasvaz.bindonce']);
 
 menuMod.controller('MenuCtrl',
-        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', '$timeout', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork',
-            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, $timeout, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork) {
+        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork',
+            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork) {
 //                $ionicNavBarDelegate.showBackButton(false);
 
                 if ($localStorage.user.id) {
@@ -39,6 +39,9 @@ menuMod.controller('MenuCtrl',
 
                 $scope.logout = function () {
                     $scope.login = false;
+                    if (window.analytics) {
+                        window.analytics.trackEvent('Menu', 'Logout');
+                    }
                     var ajax = accountHelper.logout();
                     $ionicLoading.show({
                         template: 'Logging Out..'
@@ -102,18 +105,30 @@ menuMod.controller('MenuCtrl',
                 };
                 $scope.profile = function (user_id) {
                     $location.path('/app/profile/' + user_id + '/mine');
+                    if (window.analytics) {
+                        window.analytics.trackEvent('Menu', 'Profile');
+                    }
                 };
                 $scope.signup = function () {
                     $location.path('/app/signup');
+                    if (window.analytics) {
+                        window.analytics.trackEvent('Menu', 'SignUp');
+                    }
                 };
                 $scope.wishlist = function () {
                     if ($rootScope.profile_update > 0) {
+                        if (window.analytics) {
+                            window.analytics.trackEvent('Profile', 'Updates');
+                        }
                         if ($localStorage.user.id) {
                             $location.path('/app/profile/' + $localStorage.user.id + '/update');
                         } else {
                             $location.path('/app/profile/me/update');
                         }
                     } else {
+                        if (window.analytics) {
+                            window.analytics.trackEvent('Profile', 'Top');
+                        }
                         if ($localStorage.user.id) {
                             $location.path('/app/profile/' + $localStorage.user.id + '/mine');
                         } else {
@@ -122,18 +137,28 @@ menuMod.controller('MenuCtrl',
                     }
                 };
                 $scope.account = function () {
+                    if (window.analytics) {
+                        window.analytics.trackEvent('Profile', 'Left Menu');
+                        window.analytics.trackEvent('Menu', 'Profile');
+                    }
                     $location.path('/app/profile/me/profile');
                 };
                 $scope.feedback = function () {
                     $location.path('/app/feedback');
                 };
                 $scope.aboutus = function () {
+                    if (window.analytics) {
+                        window.analytics.trackEvent('Menu', 'About');
+                    }
                     $location.path('/app/aboutus');
                 };
                 $scope.invite = function () {
                     $location.path('/app/invite');
                 };
                 $scope.home = function () {
+                    if (window.analytics) {
+                        window.analytics.trackEvent('Menu', 'Home');
+                    }
                     $location.path('/app/home');
                 };
 
@@ -143,9 +168,15 @@ menuMod.controller('MenuCtrl',
                 };
 
                 $scope.closeSearch = function () {
+                    if (window.analytics) {
+                        window.analytics.trackEvent('Search', 'Search Closed');
+                    }
                     $rootScope.showSearchBox = false;
                 };
                 $scope.searchNow = function () {
+                    if (window.analytics) {
+                        window.analytics.trackEvent('Search', 'Search Top');
+                    }
                     $rootScope.showSearchBox = true;
                 };
                 $scope.$on('$destroy', function () {
@@ -170,6 +201,10 @@ menuMod.controller('MenuCtrl',
                             $scope.$broadcast('search_product_event');
                         } else {
                             $scope.modal.show();
+                        }
+
+                        if (window.analytics) {
+                            window.analytics.trackEvent('Search', 'Search Do');
                         }
 
                     } else {

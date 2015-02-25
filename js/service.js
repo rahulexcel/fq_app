@@ -25,7 +25,7 @@ serviceMod.directive("userBox", ['$location', 'toast', 'friendHelper', '$localSt
             templateUrl: 'template/directive/user.html',
             controller: function ($scope) {
                 $scope.profile = function () {
-                    $location.path('/app/profile/' + $scope.user._id + '/profile');
+                    $location.path('/app/profile/' + $scope.user._id + '/mine');
                 };
                 $scope.unFriend = function () {
                     var friend_user_id = $scope.user._id;
@@ -118,8 +118,8 @@ serviceMod.directive("listBox",
                         $scope.editList = function () {
                             var list = $scope.list;
                             if ($scope.me) {
-                                dataShare.broadcastData(list, 'edit_list');
-                                $location.path('/app/wishlist_edit');
+//                                dataShare.broadcastData(list, 'edit_list');
+                                $location.path('/app/wishlist_edit/' + list._id);
                             } else {
                                 toast.showShortBottom('You Cannot Edit This List');
                             }
@@ -145,6 +145,9 @@ serviceMod.directive("listBox",
                             });
                         };
                         $scope.followList = function () {
+                            if (window.analytics) {
+                                window.analytics.trackEvent('Follow List', 'Profile Page', $location.path());
+                            }
                             var list_id = $scope.list._id;
                             if ($scope.request_process) {
                                 toast.showProgress();
@@ -173,7 +176,7 @@ serviceMod.filter('prettyDate', function () {
         return prettyDate(date);
     };
 });
-serviceMod.filter('picture', ['ajaxRequest', function (ajaxRequest) {
+serviceMod.filter('picture', ['ajaxRequest', 'CDN', function (ajaxRequest, CDN) {
         return function (picture, width, height) {
             if (!angular.isDefined(picture)) {
                 return "img/empty.png";
@@ -208,12 +211,23 @@ serviceMod.filter('picture', ['ajaxRequest', function (ajaxRequest) {
                 if (height) {
                     picture = picture + "&height=" + height;
                 }
+                picture = CDN.cdnize(picture);
 
             } else {
 
             }
             return picture;
         };
+    }]);
+serviceMod.factory('CDN', ['ajaxRequest', function (ajaxRequest) {
+        var service = {};
+        service.cdnize = function (url) {
+            var cdn = 'http://dyc4yp9si5syy.cloudfront.net/';
+            var server = ajaxRequest.url('');
+            url = url.replace(server, cdn);
+            return url;
+        };
+        return service;
     }]);
 serviceMod.factory('socialJs', function () {
     var service = {};
@@ -391,7 +405,7 @@ serviceMod.factory('ajaxRequest',
                                     $log.log('Ajax Mongo Error ' + data.message);
                                     data.message = 'Unknown! Try Again Later';
                                 }
-                                toast.showShortBottom('Error: ' + data.message);
+                                toast.showShortBottom(data.message);
                                 $log.warn(data.message);
                                 def.reject(data.message);
                             }

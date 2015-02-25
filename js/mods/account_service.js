@@ -25,6 +25,19 @@ accountService.factory('accountHelper', [
             });
             return def.promise;
         };
+        service.updateStatus = function (status) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/account/update/status', {
+                user_id: $localStorage.user.id,
+                status: status
+            });
+            ajax.then(function () {
+                def.resolve();
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
         service.updateProfile = function (profile) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/account/update', {

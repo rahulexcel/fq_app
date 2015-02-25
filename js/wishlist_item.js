@@ -306,6 +306,9 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         });
                     };
                     $scope.likeList = function () {
+                        if (window.analytics) {
+                            window.analytics.trackEvent('Like List', 'Items Page', $location.path());
+                        }
                         var list_id = $scope.item.list_id._id;
                         var item_id = $scope.item.item_id._id;
                         $scope.modal.show();
@@ -325,6 +328,9 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         });
                     };
                     $scope.followListList = function () {
+                        if (window.analytics) {
+                            window.analytics.trackEvent('Follow List', 'Items Page', $location.path());
+                        }
                         var list_id = $scope.item.list_id._id;
                         $scope.modal.show();
                         $ionicLoading.show({
@@ -344,6 +350,9 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     };
 
                     $scope.followUserList = function () {
+                        if (window.analytics) {
+                            window.analytics.trackEvent('User Follow', 'Items Page', $location.path());
+                        }
                         var user_id = $scope.item.user_id._id;
                         $scope.modal.show();
                         $ionicLoading.show({
@@ -362,6 +371,9 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         });
                     };
                     $scope.followUser = function (user_id, showLoading) {
+                        if (window.analytics) {
+                            window.analytics.trackEvent('Follow User', 'Items Page', $location.path());
+                        }
                         if (!$localStorage.user.id) {
                             $localStorage.previous.state = {
                                 function: 'followUser'
@@ -398,6 +410,9 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }
                     };
                     $scope.followList = function () {
+                        if (window.analytics) {
+                            window.analytics.trackEvent('Follow List', 'Items Page', $location.path());
+                        }
                         if (!$localStorage.user.id) {
                             $localStorage.previous.state = {
                                 function: 'followList'
@@ -504,6 +519,9 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         });
                     };
                     $scope.like = function () {
+                        if (window.analytics) {
+                            window.analytics.trackEvent('Like', 'Items Page', $location.path());
+                        }
                         if (!$localStorage.user.id) {
                             $localStorage.previous.state = {
                                 function: 'like'
@@ -558,6 +576,9 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         });
                     });
                     $scope.pin = function () {
+                        if (window.analytics) {
+                            window.analytics.trackEvent('Pin', 'Items Page', $location.path());
+                        }
                         if (!$localStorage.user.id) {
                             $localStorage.previous.state = {
                                 function: 'pin'

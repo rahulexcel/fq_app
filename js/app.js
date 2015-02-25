@@ -4,6 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // netstat -tulpn
+
 var app = angular.module('starter',
         [
             'ionic',
@@ -23,12 +24,13 @@ var app = angular.module('starter',
             'NotifyMod',
             'PinMod',
             'ngCordova',
-            'pasvaz.bindonce'
+            'pasvaz.bindonce',
+            'HomeCatMod'
         ]
         );
 app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
     function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-//        $ionicConfigProvider.views.maxCache(3);
+        $ionicConfigProvider.views.maxCache(2);
         $stateProvider
                 .state('offline', {
                     url: '/offline',
@@ -66,6 +68,15 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         'pin-content': {
                             templateUrl: 'template/list/pins.html',
                             controller: 'PinCtrl'
+                        }
+                    }
+                })
+                .state('app.home.latest', {
+                    url: '/latest',
+                    views: {
+                        'pin-content': {
+                            templateUrl: 'template/category_home.html',
+                            controller: 'HomeCatCtrl'
                         }
                     }
                 })
@@ -233,7 +244,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                     }
                 })
                 .state('app.wishlist_edit', {
-                    url: '/wishlist_edit', //needed for editing existing list
+                    url: '/wishlist_edit/:list_id', //needed for editing existing list
                     views: {
                         'menuContent': {
                             templateUrl: 'template/wishlist_new.html',
@@ -329,6 +340,10 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
         console.log('angular ready');
         if (!$localStorage.user) {
             $localStorage.user = {};
+        } else {
+            if ($localStorage.user.id)
+                if (window.analytics)
+                    window.analytics.setUserId($localStorage.user.id)
         }
         $rootScope.isBackButton = false;
         $rootScope.isReady = function () {
@@ -413,7 +428,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             console.log(toState.name + " to state");
             console.log(fromState.name + "from state");
             $rootScope.body_class = '';
-            if (toState.name === 'app.item' || toState.name.indexOf('app.home') !== -1 || toState.name.indexOf('app.profile') !== -1 || (toState.name.indexOf('app.wishlist_item') !== -1 && toState.name.indexOf('app.wishlist_item_add') === -1)) {
+            if (toState.name === 'app.item' || toState.name.indexOf('app.home.trending') !== -1 || toState.name.indexOf('app.home.feed') !== -1 || toState.name.indexOf('app.profile') !== -1 || (toState.name.indexOf('app.wishlist_item') !== -1 && toState.name.indexOf('app.wishlist_item_add') === -1)) {
                 $rootScope.body_class = 'grey_bg';
             }
 

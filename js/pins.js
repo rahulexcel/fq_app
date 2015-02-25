@@ -1,4 +1,4 @@
-var pinMod = angular.module('PinMod', []);
+var pinMod = angular.module('PinMod', ['ionicLazyLoad']);
 
 pinMod.directive('resize', ['$window', function ($window) {
         return function (scope, element) {
@@ -34,6 +34,7 @@ pinMod.controller('PinCtrl',
                     $scope.page = 0;
                     $scope.loadMore();
                 };
+                var colors = ['#b71c1c', '#880e4f', '#4a148c', '#311b92', '#0d47a1', '#004d40', '#827717', '#1b5e20', '#827717', '#f57f17', '#e65100', '#546e7a', '#757575'];
                 $scope.loadMore = function () {
                     var ajax = $scope.$parent.getData($scope.page);
                     ajax.then(function (data) {
@@ -42,8 +43,16 @@ pinMod.controller('PinCtrl',
                         if (data.length > 0) {
                             $scope.page++;
                             for (var i = 0; i < data.length; i++) {
-                                var height = $scope.getItemHeight(data[i], true, false);
+
+                                var index = Math.floor(Math.random() * (colors.length + 1));
+                                var color = colors[index];
+                                if (!color) {
+                                    color = colors[0];
+                                }
+
+                                var height = $scope.getItemHeight(data[i], false, true);
                                 data[i].pin_height = height;
+                                data[i].pin_color = color;
                                 if (!data[i].pins || data[i].pins.length === 0) {
                                     data[i].pins = 0;
                                 }
@@ -277,6 +286,7 @@ pinMod.controller('PinCtrl',
                     } else {
                         ret = 250 + 100;
                     }
+                    //added 100px for text below image
 
                     if (only_image) {
                         return (ret - 100) + "px";
@@ -295,12 +305,21 @@ pinMod.controller('PinCtrl',
                     }
                 };
                 $scope.viewItem = function (pin_id, list_id) {
+                    if (window.analytics) {
+                        window.analytics.trackEvent('View Item', 'Pins Page', $location.path());
+                    }
                     $location.path('/app/item/' + pin_id + '/' + list_id);
                 };
                 $scope.viewList = function (list_id, list_name) {
+                    if (window.analytics) {
+                        window.analytics.trackEvent('View List', 'Pins Page', $location.path());
+                    }
                     $location.path('/app/wishlist_item/' + list_id + '/' + list_name + "/pins");
                 };
                 $scope.followList = function (list_id, index) {
+                    if (window.analytics) {
+                        window.analytics.trackEvent('Follow List', 'Pins Page', $location.path());
+                    }
                     if (!$localStorage.user.id) {
                         toast.showShortBottom('SignUp To Follow List');
                         $location.path('/app/signup');
@@ -327,6 +346,12 @@ pinMod.controller('PinCtrl',
                     }
                 };
                 $scope.like = function (item) {
+
+
+                    if (window.analytics) {
+                        window.analytics.trackEvent('Like', 'Pins Page', $location.path());
+                    }
+
                     var item_id = item._id;
                     var list_id = item.original.list_id;
                     if (!$localStorage.user.id) {

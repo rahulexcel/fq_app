@@ -12,7 +12,7 @@
     <div ng-show="selected_class !== 'feed'">
         <div class="result-empty">
             <span class="info"><img src="img/favicon-not.png"/></span>
-            <span class="info grey-color">No Pins</span>
+            <span class="info grey-color">No Clips</span>
         </div>
     </div>
 </div>
@@ -21,7 +21,8 @@
         <!-- 'height': pin.pin_height -->
         <div class="pin"  ng-repeat="pin in grid1 track by $index" ng-style="{'width': pin_width}"> 
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" class="pin-img">
-                <img bo-src='pin.image| picture:240'/>
+                <!--<img bo-src='pin.image| picture:240'/>-->
+                <img image-lazy-src="{{pin.image| picture:240}}" pin-color="{{::pin.pin_color}}" image-height="{{::pin.pin_height}}" />
                 <div on-tap='like(pin); $event.stopPropagation();' class="like-heart red-back">
                     <i class="ion-thumbsup"></i>
                 </div>
@@ -53,7 +54,8 @@
         <!-- height: pin.pin_height, -->
         <div class="pin"  ng-repeat="pin in grid2 track by $index" ng-style="{width: pin_width}">
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" class="pin-img">
-                <img bo-src='pin.image| picture:240'/>
+                <!--<img bo-src='pin.image| picture:240'/>-->
+                <img image-lazy-src="{{pin.image| picture:240}}" pin-color="{{::pin.pin_color}}" image-height="{{::pin.pin_height}}" />
                 <div on-tap='like(pin); $event.stopPropagation();' class="like-heart red-back">
                     <i class="ion-thumbsup"></i>
                 </div>
@@ -85,7 +87,8 @@
         <!-- height: pin.pin_height, -->
         <div class="pin"  ng-repeat="pin in grid3 track by $index" ng-style="{width: pin_width}">
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" class="pin-img">
-                <img bo-src='pin.image| picture:240'/>
+                <!--<img bo-src='pin.image| picture:240'/>-->
+                <img image-lazy-src="{{pin.image| picture:240}}" pin-color="{{::pin.pin_color}}" image-height="{{::pin.pin_height}}" />
                 <div ng-click='like(pin); $event.stopPropagation();' class="like-heart red-back">
                     <i class="ion-thumbsup"></i>
                 </div>

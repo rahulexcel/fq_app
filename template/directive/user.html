@@ -3,10 +3,11 @@
         <img class="rounded" ng-src='{{user.picture| picture:45:45}}'/>
     </div>
     <div class="user-info">
-        <span  on-tap="profile();" class="black-font info font13">{{user.name}}</span>
-        <span class="grey-color font11">{{user.meta.products}} pins <i class="fa fa-circle"></i>
+        <div  on-tap="profile();" class="black-font info font13">{{user.name}}</div>
+        <div class="display_status">{{user.status}}</div>
+        <div class="grey-color font11">{{user.meta.products}} clips 
             <i class="ion-ios-people fa-lg red-color"></i>&nbsp  {{user.followers.length}} Followers
-        </span>
+        </div>
     </div>
     <div class="action">
         <i ng-if='user.is_following === true' on-tap='unFollowUser();' class="icon black-font ion-ios-people-outline fa-2x"></i>

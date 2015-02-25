@@ -46,6 +46,16 @@ friendService.factory('friendHelper', [
             });
             return def.promise;
         };
+        service.home_latest = function (page) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/feeds/latest', {page: page});
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
         service.home_trending = function (page) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/feeds/trending', {page: page});

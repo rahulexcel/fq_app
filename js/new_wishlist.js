@@ -1,13 +1,13 @@
 var wishlistnewMod = angular.module('WishlistNewMod', ['ServiceMod', 'ngStorage', 'ionic', 'WishlistService', 'FriendService', 'ItemService']);
 
 wishlistnewMod.controller('WishlistNewCtrl',
-        ['$scope', '$localStorage', 'toast', 'wishlistHelper', 'dataShare', '$location', '$ionicModal', 'friendHelper', 'timeStorage', 'itemHelper',
-            function ($scope, $localStorage, toast, wishlistHelper, dataShare, $location, $ionicModal, friendHelper, timeStorage, itemHelper) {
+        ['$scope', '$localStorage', 'toast', 'wishlistHelper', 'dataShare', '$location', '$ionicModal', 'friendHelper', 'timeStorage', 'itemHelper', '$stateParams',
+            function ($scope, $localStorage, toast, wishlistHelper, dataShare, $location, $ionicModal, friendHelper, timeStorage, itemHelper, $stateParams) {
                 if ($localStorage.user.id) {
                     $scope.product = false;
                     $scope.item = false;
                     $scope.new_item = false;
-
+                    $scope.selected_friends = [];
                     $scope.types = [
                         {text: 'Private', value: 'private'},
                         {text: 'Public', value: 'public'}
@@ -22,23 +22,44 @@ wishlistnewMod.controller('WishlistNewCtrl',
                     };
                     var path = $location.path();
                     if (path.indexOf('wishlist_edit') !== -1) {
-                        var list = dataShare.getData();
-                        if (!list) {
+                        if (!$stateParams.list_id) {
                             toast.showShortBottom('Invalid Request No List To Edit');
                             //put history in play here
                             $location.path('/app/profile/me/mine');
                         } else {
-                            $scope.list.type = list.type;
-                            $scope.list.list_id = list._id;
-                            $scope.list.name = list.name;
-                            $scope.list.description = list.description;
-                            $scope.list.shared_ids = list.shared_ids;
-                            $scope.list.update = true;
-                            if (list.type === 'private') {
-                                $scope.list.checked = true;
-                            } else {
-                                $scope.list.checked = false;
-                            }
+
+                            var list_id = $stateParams.list_id;
+                            var ajax = wishlistHelper.list(true, true);
+                            ajax.then(function (lists) {
+                                var list = false;
+                                lists = lists.me;
+                                for (var i = 0; i < lists.length; i++) {
+                                    if (lists[i]._id === list_id) {
+                                        list = lists[i];
+                                    }
+                                }
+                                if (!list) {
+                                    toast.showShortBottom('List Not Found');
+                                    $location.path('/app/profile/me/mine');
+                                    return;
+                                }
+
+                                $scope.list.type = list.type;
+                                $scope.list.list_id = list._id;
+                                $scope.list.name = list.name;
+                                $scope.list.description = list.description;
+                                $scope.list.shared_ids = list.shared_ids;
+                                $scope.list.update = true;
+                                if (list.type === 'private') {
+                                    $scope.list.checked = true;
+                                } else {
+                                    $scope.list.checked = false;
+                                }
+                            }, function () {
+                                toast.showShortBottom('List Not Found');
+                                $location.path('/app/profile/me/mine');
+                                return;
+                            });
                         }
                     } else {
                         var product = dataShare.getData();
@@ -136,9 +157,6 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         $scope.friend_load = true;
                     });
                     $scope.processFriendList = function (data) {
-                        console.log('herer');
-                        console.log(data);
-
                         data.unshift({
                             id: -1,
                             name: 'Only Me'
@@ -159,26 +177,63 @@ wishlistnewMod.controller('WishlistNewCtrl',
                     $scope.selectFriend = function (friend) {
                         if (friend) {
                             var id = friend.id;
-                            friend.checked = true;
-                            if (id === -1) {
-                                var friends = $scope.friends;
-                                for (var i = 0; i < friends.length; i++) {
-                                    if (i === 0) {
-                                        continue;
-                                    } else {
-                                        friends[i].checked = false;
+                            if (!friend.checked) {
+                                friend.checked = true;
+                                if (id === -1) {
+                                    var friends = $scope.friends;
+                                    for (var i = 0; i < friends.length; i++) {
+                                        if (i === 0) {
+                                            continue;
+                                        } else {
+                                            friends[i].checked = false;
+                                        }
+                                    }
+                                    $scope.friends = friends;
+                                    $scope.list.shared_ids = [];
+//                                    $scope.modal.hide();
+                                } else {
+                                    $scope.friends[0].checked = false; //remove only me
+                                    var shared_ids = $scope.list.shared_ids;
+                                    if (shared_ids.indexOf(id) === -1) {
+                                        shared_ids.push(id);
+                                    }
+                                    $scope.list.shared_ids = shared_ids;
+                                    $scope.selected_friends = [];
+                                    var friends = $scope.friends;
+                                    for (var i = 0; i < shared_ids.length; i++) {
+                                        for (var j = 0; j < friends.length; j++) {
+                                            if (shared_ids[i] === friends[j].id) {
+                                                $scope.selected_friends.push(friends[j]);
+                                                break;
+                                            }
+                                        }
+
+                                    }
+                                    console.log($scope.selected_friends);
+                                }
+                            } else {
+                                friend.checked = false;
+                                if (id !== -1) {
+                                    var shared_ids = $scope.list.shared_ids;
+                                    var new_shared_ids = [];
+                                    for (var i = 0; i < shared_ids.length; i++) {
+                                        if (shared_ids[i] === id) {
+                                            new_shared_ids.push(id);
+                                        }
+                                    }
+                                    $scope.list.shared_ids = new_shared_ids;
+                                    $scope.selected_friends = [];
+                                    var friends = $scope.friends;
+                                    for (var i = 0; i < new_shared_ids.length; i++) {
+                                        for (var j = 0; j < friends.length; j++) {
+                                            if (new_shared_ids[i] === friends[j.id]) {
+                                                $scope.selected_friends.push(friends[j]);
+                                                break;
+                                            }
+                                        }
+
                                     }
                                 }
-                                $scope.friends = friends;
-                                $scope.list.shared_ids = [];
-                                $scope.modal.hide();
-                            } else {
-                                $scope.friends[0].checked = false;
-                                var shared_ids = $scope.list.shared_ids;
-                                if (shared_ids.indexOf(id) === -1) {
-                                    shared_ids.push(id);
-                                }
-                                $scope.list.shared_ids = shared_ids;
                             }
                         } else {
                             $scope.list.shared_ids = [];
@@ -191,9 +246,13 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         $scope.modal.remove();
                     });
                     $scope.closeModel = function () {
-                        if ($scope.list.shared_ids.length > 0) {
-                            $scope.list.type = 'public';
-                            $scope.list.checked = false;
+                        if ($scope.list.shared_ids.length === 0) {
+                            if ($scope.friends[0].checked) {
+
+                            } else {
+                                $scope.list.type = 'public';
+                                $scope.list.checked = false;
+                            }
                         }
                         $scope.modal.hide();
                     };

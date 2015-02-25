@@ -6,7 +6,11 @@ categoryService.factory('categoryHelper', [
         var service = {};
         service.fetchProduct = function (data, is_new) {
             var defer = $q.defer();
-            var ajax = ajaxRequest.send('v1/catalog/products', angular.copy(data));
+            if (data.search) {
+                var ajax = ajaxRequest.send('v1/catalog/search', angular.copy(data));
+            } else {
+                var ajax = ajaxRequest.send('v1/catalog/products', angular.copy(data));
+            }
 //            if (is_new)
 //                $ionicLoading.show({
 //                    template: 'Loading...'

@@ -1,6 +1,6 @@
 <ion-view>
     <ion-nav-title>{{currentState.title}}</ion-nav-title> 
-    <ion-content ng-class="!hideFilterBox ? 'has-footer' : ''">
+    <ion-content lazy-scroll ng-class="!hideFilterBox ? 'has-footer' : ''">
         <ion-refresher
             pulling-text="Refresh..."
             on-refresh="refreshCategory()">
@@ -18,15 +18,16 @@
             </div>
             <div class="filter-list" ng-repeat="filter_type in filters">
                 <div class="filter_label" on-tap='open(filter_type);'>
-                    <span ng-bind='filter_type.type'></span>
-                    <span class="plus-minus" ng-if="filter_type.data.length > 0">
+                    <div style="float: left" ng-bind='filter_type.type'></div>
+                    <div class="plus-minus" style="float: right;width: 10%" ng-if="filter_type.data.length > 0">
                         <i ng-show="!filter_type.open">[ + ]</i>
                         <i ng-show="filter_type.open">[ - ]</i>
-                    </span></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
                 <div ng-show="filter_type.open">
                     <ion-list>
                         <ion-item ng-repeat="filter in filter_type.data track by $index">
-                            <!--on-tap="doFilter(filter);"-->
                             <ion-checkbox on-tap="filterClick(filter_type,filter);" ng-model="filter.selected" ng-value="filter.param">{{filter.name}}</ion-checkbox>
                         </ion-item>
                     </ion-list>
@@ -54,11 +55,12 @@
         <div class="category" ng-show="!product_loading && showProducts">
 
             <div ng-show='currentState.filters.length > 0'>
-                Filters: 
-                <span ng-repeat="filter in currentState.filters">
-                    {{filter.name}} <i class="fa fa-times" on-tap='removeFilter(filter)'></i>
-                </span>
+                <!--Filters:--> 
+                <div on-tap='removeFilter(filter)' class="select_filter red-back" ng-repeat="filter in currentState.filters">
+                    {{filter.name}} <i class="ion-android-close"></i>
+                </div>
             </div>
+            <div class="clearfix"></div>
 
             <div class="result-empty" ng-if="products.length == 0">
                 <span class="info"><img src="img/favicon-not.png"/></span>
@@ -66,16 +68,13 @@
             </div>
 
             <div class="product" bindonce ng-repeat="prod in products track by prod._id">
-                <div class="clearfix"></div>
                 <div class="image" on-tap="openProduct(prod);">
-                    <img img-loader bo-src="prod.img" />
+                    <!--<img img-loader bo-src="prod.img" />-->
+                    <img image-lazy-src="{{prod.img}}"/>
                     <div class="heart my-wishlist-img red-back" on-tap="wishlist(prod,$event);">
                         <i class="ion-ios-heart"></i>
-                        <i class="fa fa-spinner fa-spin" ng-show="prod.wishlist_status == 1"></i>
                     </div>
                 </div>
-
-
                 <div class="bottom_box">
                     <div class="name" on-tap="openProduct(prod);" bo-bind='prod.name'></div>
                     <div class="website e-site grey-color"><i class='site {{::prod.website}}'></i><span bo-bind='prod.website'></span></div>
@@ -89,64 +88,35 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <div class="clearfix"></div>
             </div>
-
-            <!--            <div class="product" ng-repeat="prod in products track by $index">
-                            <div class="clearfix"></div>
-                            <div class="image" on-tap="openProduct(prod);">
-                                <img img-loader ng-src="{{prod.img}}" />
-                                <div class="heart my-wishlist-img red-back" on-tap="wishlist(prod,$event);">
-                                    <i class="ion-ios-heart"></i>
-                                    <i class="fa fa-spinner fa-spin" ng-show="prod.wishlist_status == 1"></i>
-                                </div>
-                            </div>
-            
-            
-                            <div class="bottom_box">
-                                <div class="name" on-tap="openProduct(prod);" ng-bind='prod.name'></div>
-                                <div class="website e-site grey-color"><i class='site {{prod.website}}'></i><span ng-bind='prod.website'></span></div>
-                                <div class="brand" ng-show="prod.brand.length > 0" ng-bind='prod.brand'></div> 
-                                <div class="price">
-                                    Rs.<span ng-bind='prod.price'></span>
-                                </div>
-                                <div class="drop-price" >
-                                    <i class="fa fa-caret-up up-price" ng-if="prod.price_drop > 0">&nbsp;<span ng-bind='prod.price_drop'></span></i>
-                                    <i class="fa fa-caret-down" ng-if="prod.price_drop < 0">&nbsp;<span ng-bind='prod.price_drop'></span></i>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>-->
         </div>
         <div class="clearfix"></div>
-        <button class="button button-full button-clear" ng-show="page >= 10 && !product_loading && currentProducts.length > 0 && currentState.page && showProducts && products.length > 0 && startPaging" on-tap="nextPage();">Load More</button>
-
+        <button class="button button-full button-clear" ng-show="page >= 10 && !product_loading && currentProducts && currentState.page && showProducts && products.length > 0 && startPaging" on-tap="nextPage();">Load More</button>
         <ion-infinite-scroll
             immediate-check='false'
-            ng-if="page < 10 && !product_loading && currentProducts.length > 0 && currentState.page && showProducts && products.length > 0 && startPaging"
+            ng-if="page < 10 && !product_loading && currentProducts && currentState.page && showProducts && products.length > 0 && startPaging"
             on-infinite="nextPage()" distance='1%'>
         </ion-infinite-scroll>
+        <br/>
     </ion-content>
-    <ion-footer-bar class="bar-light" ng-show="products.length > 0 && !hideFilterBox">
+    <ion-footer-bar class="bar-light" ng-show="products.length > 0 && !hideFilterBox && isCategoryPage">
         <div class="clearfix"></div>
         <div class="row" ng-show="false">
             <div class="col"></div>
         </div>
         <div class="row" ng-show="showSortBy || showFilter">
             <div class="col">
-                <button class="button button-full button-clear filter-button" on-tap="doApply()">
-                    <i class="ion-android-done red-color"></i>
-                    Apply
-                </button>
-            </div>
-            <div class="col">
                 <button class="button button-full button-clear filter-button" on-tap="showProductsFn();">
                     <i class="ion-close-round red-color"></i>
                     Close
                 </button>
             </div>
-
+            <div class="col">
+                <button class="button button-full button-clear filter-button" on-tap="doApply()">
+                    <i class="ion-android-done-all red-color"></i>
+                    Apply
+                </button>
+            </div>
         </div>
         <div class="row" ng-show="!showFilter && !showSortBy">
             <div class="col" ng-if="sortBy.length > 0">

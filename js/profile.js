@@ -1,7 +1,7 @@
 var profileMod = angular.module('ProfileMod', ['ServiceMod', 'ngStorage', 'ionic', 'FriendService']);
 profileMod.controller('ProfileCtrl',
-        ['$scope', '$localStorage', 'toast', '$location', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope', '$timeout', 'wishlistHelper', '$ionicPopup', 'notifyHelper', '$ionicScrollDelegate',
-            function ($scope, $localStorage, toast, $location, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout, wishlistHelper, $ionicPopup, notifyHelper, $ionicScrollDelegate) {
+        ['$scope', '$localStorage', 'toast', '$location', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope', '$timeout', 'wishlistHelper', '$ionicPopup', 'notifyHelper', '$ionicScrollDelegate', 'accountHelper',
+            function ($scope, $localStorage, toast, $location, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout, wishlistHelper, $ionicPopup, notifyHelper, $ionicScrollDelegate, accountHelper) {
                 var user_id = false;
                 $scope.$on('logout_event', function () {
                     $location.path('/app/home');
@@ -260,6 +260,23 @@ profileMod.controller('ProfileCtrl',
                     }, function () {
                         $scope.request_process = false;
                     });
+                };
+                $scope.status_edit = false;
+                $scope.editStatus = function () {
+                    $scope.status_edit = true;
+                };
+                $scope.updateStatus = function () {
+                    if ($scope.user.status.length > 50) {
+                        toast.showShortBottom('Should Be Less Than 50 Characters');
+                    } else {
+                        $scope.status_edit = false;
+                        var ajax = accountHelper.updateStatus($scope.user.status);
+                        ajax.then(function () {
+                            toast.showShortBottom('Status Updated!');
+                        }, function () {
+
+                        });
+                    }
                 };
             }
         ]);

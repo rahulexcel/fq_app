@@ -1,8 +1,8 @@
 var productMod = angular.module('ProductMod', ['ionic', 'ProductService', 'ServiceMod']);
 
 productMod.controller('ProductCtrl',
-        ['$scope', '$stateParams', 'productHelper', 'dataShare', 'toast', '$localStorage', '$timeout', '$location', '$rootScope', 'socialJs', 'timeStorage', '$ionicSlideBoxDelegate',
-            function ($scope, $stateParams, productHelper, dataShare, toast, $localStorage, $timeout, $location, $rootScope, socialJs, timeStorage, $ionicSlideBoxDelegate) {
+        ['$scope', '$stateParams', 'productHelper', 'dataShare', 'toast', '$localStorage', '$timeout', '$location', '$rootScope', 'socialJs', 'timeStorage', '$ionicSlideBoxDelegate', 'ajaxRequest', 'CDN',
+            function ($scope, $stateParams, productHelper, dataShare, toast, $localStorage, $timeout, $location, $rootScope, socialJs, timeStorage, $ionicSlideBoxDelegate, ajaxRequest, CDN) {
                 $scope.product_loading = true;
                 $scope.product = false;
                 $scope.variants = [];
@@ -104,6 +104,9 @@ productMod.controller('ProductCtrl',
                     });
                 };
                 $scope.processProductData = function (data) {
+//                    var img = data.product.img;
+                    var prod_id = data.product._id;
+                    data.product.img = CDN.cdnize(ajaxRequest.url('v1/picture/images/' + prod_id));
                     $scope.product = data.product;
                     if (data.variants)
                         $scope.product.variants = data.variants;
@@ -149,6 +152,9 @@ productMod.controller('ProductCtrl',
                 };
 
                 $scope.wishlist = function (product, $event) {
+                    if (window.analytics) {
+                        window.analytics.trackEvent('Pin', 'Product Page', $location.path());
+                    }
                     $event.preventDefault();
                     $event.stopPropagation();
                     if ($localStorage.user.id) {

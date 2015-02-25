@@ -12,6 +12,9 @@
             <div class="pro-img padding">
                 <div class="pro-img">
                     <ion-slide-box ng-if="product.more_images" show-pager="true" style="height: 350px">
+                        <ion-slide>
+                            <img img-loader ng-src='{{product.img}}'/>
+                        </ion-slide>
                         <ion-slide ng-repeat="img in product.more_images">
                             <img img-loader ng-src='{{img}}'/>
                         </ion-slide>
@@ -24,8 +27,8 @@
             </div>
             <div class="pro-info padding">
                 <div class="pro-name">
-                    <span class="category pro-breadcrumb" ng-show='product.cat_id && product.parent_cat_name' on-tap='viewCategory(product);'><span class="grey-color">{{product.parent_cat_name}} >&nbsp;</span>{{product.cat_name}}</span>
-                    <span class="product-heading">{{product.name}}</span>
+                    <div class="category pro-breadcrumb" ng-show='product.cat_id && product.parent_cat_name' on-tap='viewCategory(product);'><span class="grey-color">{{product.parent_cat_name}} >&nbsp; {{product.cat_name}}</span></div>
+                    <div class="product-heading">{{product.name}}</div>
                     <div>
                         <span class="e-site">
                             <span class="arrow" ng-show='product.cat_id' on-tap='viewBrand(product);'>{{product.brand}}</span>
