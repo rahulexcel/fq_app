@@ -2,8 +2,8 @@ var accountMod = angular.module('AccountMod',
         ['ngCordova', 'AccountService', 'ServiceMod', 'ngStorage', 'angularFileUpload', 'ionic']);
 
 accountMod.controller('AccountCtrl',
-        ['$scope', '$localStorage', '$location', 'toast', 'accountHelper', '$upload', 'ajaxRequest', '$ionicActionSheet', '$cordovaCamera', 'uploader', '$window',
-            function ($scope, $localStorage, $location, toast, accountHelper, $upload, ajaxRequest, $ionicActionSheet, $cordovaCamera, uploader, $window) {
+        ['$scope', '$localStorage', '$location', 'toast', 'accountHelper', '$upload', 'ajaxRequest', '$ionicActionSheet', '$cordovaCamera', 'uploader', '$window', '$ionicBackdrop',
+            function ($scope, $localStorage, $location, toast, accountHelper, $upload, ajaxRequest, $ionicActionSheet, $cordovaCamera, uploader, $window, $ionicBackdrop) {
 
 
                 $scope.$on('logout_event', function () {
@@ -131,30 +131,39 @@ accountMod.controller('AccountCtrl',
                                     if (size * 1 > 5) {
                                         toast.showShortBottom('Upload File Of Size Less Than 5MB');
                                     } else {
+                                        $ionicBackdrop.retain();
                                         $scope.file_upload = true;
                                         var ajax = uploader.upload(imageURI, {
                                             user_id: $localStorage.user.id
                                         });
                                         ajax.then(function (data) {
-                                            var per = '100%';
+                                            var per = '99%';
                                             $scope.progoress_style = {width: per};
                                             $scope.progress = per;
                                             console.log(data);
                                             if (data && data.data) {
-
                                                 var ajax = accountHelper.updatePicture(data.data);
                                                 ajax.then(function () {
+                                                    var per = '100%';
+                                                    $scope.progoress_style = {width: per};
+                                                    $scope.progress = per;
+                                                    $ionicBackdrop.release();
                                                     var pic = ajaxRequest.url('v1/picture/view/' + data.data);
                                                     $scope.login_data.picture = pic;
                                                     $localStorage.user.picture = pic;
                                                     $scope.$parent.user.picture = pic;
                                                     $scope.file_upload = false;
+                                                    $scope.$evalAsync();
                                                 }, function () {
+                                                    var per = '100%';
+                                                    $scope.progoress_style = {width: per};
+                                                    $scope.progress = per;
+                                                    $ionicBackdrop.release();
                                                     $scope.file_upload = false;
                                                 });
                                             }
                                         }, function (data) {
-
+                                            $ionicBackdrop.release();
                                         }, function (data) {
                                             var per = data.progress + '%';
                                             $scope.progoress_style = {width: per};
@@ -192,6 +201,7 @@ accountMod.controller('AccountCtrl',
                     }
 
                     $scope.file_upload = true;
+                    $ionicBackdrop.retain();
                     $scope.upload = $upload.upload({
                         url: ajaxRequest.url('v1/picture/upload'),
                         data: {user_id: $localStorage.user.id},
@@ -202,19 +212,23 @@ accountMod.controller('AccountCtrl',
                         $scope.progress = per;
 //                            console.log('progress: ' +  + '% file :' + evt.config.file.name);
                     }).success(function (data, status, headers, config) {
-                        var per = '100%';
+                        var per = '99%';
                         $scope.progoress_style = {width: per};
                         $scope.progress = per;
 
-                        console.log(data);
                         if (data.data) {
                             var ajax = accountHelper.updatePicture(data.data);
                             ajax.then(function () {
+                                var per = '100%';
+                                $scope.progoress_style = {width: per};
+                                $scope.progress = per;
+                                $ionicBackdrop.release();
                                 var pic = ajaxRequest.url('v1/picture/view/' + data.data);
                                 $scope.login_data.picture = pic;
                                 $localStorage.user.picture = pic;
                                 $scope.$parent.user.picture = pic;
                                 $scope.file_upload = false;
+                                $scope.$evalAsync();
                             }, function () {
                                 $scope.file_upload = false;
                             });

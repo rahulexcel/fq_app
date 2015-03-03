@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <div class="wishlist_list_item">
-                        <div style="font-size: 1.2em;padding-top: 11px;">Create a New Clipboard</div>
+                        <div style="font-size: 1em;padding-top: 11px;">Create a New Wishlist</div>
                         <div class="clearfix"></div>
                     </div>
                 </li>
@@ -38,8 +38,8 @@
                         </div>
                         <div class='clip-info'> 
                             <span>{{list.meta.products}} clips </span>
-                            <span><i class="ion-thumbsup red-color"></i> {{list.meta.likes}} likes </span> 
-                            <span><i class="ion-ios-people red-color"></i> {{list.followers.length}} followers </span> 
+                            <span> <!-- <i class="ion-thumbsup red-color"></i> -->{{list.meta.likes}} likes </span> 
+                            <span> <!--<i class="ion-ios-people red-color"></i> --> {{list.followers.length}} followers </span> 
                             <div>Created {{list.created_at| prettyDate}} </div>
                             <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
                             <div class="clearfix"></div>

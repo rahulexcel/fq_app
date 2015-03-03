@@ -46,9 +46,15 @@ friendService.factory('friendHelper', [
             });
             return def.promise;
         };
-        service.home_latest = function (page) {
+        service.home_latest = function (page, women) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/feeds/latest', {page: page});
+            var url = '';
+            if (women) {
+                url = 'v1/feeds/latest?father=home_latest_women';
+            } else {
+                url = 'v1/feeds/latest?father=home_latest_men';
+            }
+            var ajax = ajaxRequest.send(url, {page: page});
             ajax.then(function (data) {
                 def.resolve(data);
             }, function () {

@@ -18,12 +18,35 @@
 <input type='text' ng-model='dynamic' />-->
 
 <ion-view  cache-view="false" title='Trending'>
-    <ion-content lazy-scroll overflow-scroll='false' class="home_content">
-        <ul id='menu_scroller' class="mine-list" ng-class="selected_class">
+    <ion-header-bar class="home_header">
+        <ul id='home_ul' class="mine-list" ng-class="selected_class">
             <li class="trending" on-tap='menu_trending();'>TENDING</li>
             <li class="feed" on-tap='menu_feed();'>FEED</li>
             <li class="latest" on-tap='menu_latest();' style="border-right: none">LATEST</li>
         </ul>
-        <div ng-style="{'border-top': bg_col}" ui-view="pin-content"></div>
+    </ion-header-bar>
+    <ion-content lazy-scroll overflow-scroll='false' class="home_content" style="top:88px">
+        <div ui-view="pin-content"></div>
     </ion-content>
+
+    <ion-footer-bar class="bar-light" ng-if="selected_class == 'latest'">
+        <div class="clearfix"></div>
+        <div class="row" ng-show="false">
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="button button-full button-clear filter-button" on-tap="showMen();">
+                    <i class="ion-female red-color"></i>
+                    MEN
+                </button>
+            </div>
+            <div class="col">
+                <button class="button button-full button-clear filter-button" on-tap="showWomen();">
+                    <i class="ion-male red-color"></i>
+                    WOMEN
+                </button>
+            </div>
+        </div>
+    </ion-footer-bar>
 </ion-view>

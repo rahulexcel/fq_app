@@ -62,10 +62,9 @@ wishlistnewMod.controller('WishlistNewCtrl',
                             });
                         }
                     } else {
-                        var product = dataShare.getData();
+                        var product = $scope.$parent.wishlist_product;
                         if (!product) {
                             toast.showShortBottom('Invalid Request No Product');
-                            //put history in play here
                             $location.path('/app/home');
                         } else {
                             console.log(product.product);
@@ -75,6 +74,9 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                 $scope.item = product.item;
                             } else if (product.new_item) {
                                 $scope.new_item = true;
+                            } else {
+                                toast.showShortBottom('Invalid Request No Product');
+                                $location.path('/app/home');
                             }
                         }
                     }
@@ -85,8 +87,8 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         var ajax = wishlistHelper.create(angular.copy($scope.list));
                         ajax.then(function (data) {
                             timeStorage.remove('user_wish_list');
+                            list_id = data.id;
                             if ($scope.product) {
-                                list_id = data.id;
                                 if ($scope.product._id) {
                                     var ajax2 = wishlistHelper.add($scope.product._id, list_id);
                                     ajax2.then(function () {
@@ -101,7 +103,6 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                     $location.path('/app/wishlist_item_add/' + list_id + "/step1");
                                 }
                             } else if ($scope.item) {
-                                list_id = data.id;
                                 if ($scope.item.item_id._id) {
                                     var ajax = itemHelper.pin($scope.item.item_id._id, list_id);
                                     ajax.then(function (data) {
@@ -109,7 +110,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                         toast.showShortBottom('Product Added To Your Wishlist');
                                         $location.path('/app/wishlist_item/' + list_id + "/" + $scope.list.name + '/pins');
                                     }, function (message) {
-                                        toast.showShortBottom(message);
+//                                        toast.showShortBottom(message);
                                         $scope.status = 2;
                                     });
                                 } else {
@@ -121,7 +122,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                 $location.path('/app/profile/me/mine');
                             }
                         }, function (data) {
-                            toast.showShortBottom(data);
+//                            toast.showShortBottom(data);
                             $scope.status = 3;
                         });
                     };
@@ -130,6 +131,9 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         if (!$scope.list.checked) {
                             $scope.list.type = 'public';
                         } else {
+                            if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+                                cordova.plugins.Keyboard.close();
+                            }
                             $scope.list.type = 'private';
                             if ($scope.friends && $scope.friends.length > 0)
                                 $scope.modal.show();

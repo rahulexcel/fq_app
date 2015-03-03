@@ -33,8 +33,8 @@ wishlistItemAddMod.directive('preloadable', function () {
     };
 });
 wishlistItemAddMod.controller('WishlistItemAddCtrl',
-        ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$cordovaCamera', '$ionicPopup', '$timeout', 'uploader',
-            function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $ionicModal, $window, $cordovaCamera, $ionicPopup, $timeout, uploader) {
+        ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$cordovaCamera', '$ionicPopup', '$timeout', 'uploader', '$ionicBackdrop',
+            function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $ionicModal, $window, $cordovaCamera, $ionicPopup, $timeout, uploader, $ionicBackdrop) {
                 $scope.item = {
                     picture: '',
                     url: '',
@@ -44,7 +44,8 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     },
                     picture_size: {
                     },
-                    description: ''
+                    description: '',
+                    file_name: ""
                 };
 
                 $scope.sendItem = function () {
@@ -68,6 +69,8 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     } else if (type === 'gallary') {
                         $scope.showStep2(type);
                         $scope.browseCamera('gallary');
+                    } else if (type === 'image_url') {
+                        $scope.showStep2(type);
                     } else if (type === 'url') {
                         $scope.showStep2(type);
                     } else if (type === 'near') {
@@ -152,49 +155,67 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                         }
                         timeout_promise = $timeout(function () {
                             $scope.url_images = [];
-                            var ajax = wishlistHelper.getUrlImage(val);
-                            $scope.url_loading = true;
-                            ajax.then(function (data) {
-                                $scope.url_loading = false;
-                                var url_images = [];
-                                var max = 8;
-                                var j = 0;
-                                for (var i = 0; i < data.length; i++) {
-                                    if (j < max) {
-                                        (function (image_url) {
-                                            var img = new Image();
-                                            img.onload = function () {
-                                                var naturalWidth = img.naturalWidth * 1;
-                                                var naturalHeight = img.naturalHeight * 1;
-                                                if (naturalWidth !== 0 && naturalHeight !== 0) {
-                                                    console.log(naturalHeight + "XXX" + naturalWidth);
 
-                                                    if (naturalWidth * 1 < 200 || naturalHeight * 1 < 200) {
-                                                        console.log('remove ' + img.src);
-//                                                        scope.removeImage(img.src);
-                                                    } else {
-                                                        console.log('aspect ' + naturalWidth / naturalHeight);
-                                                        var aspect = naturalWidth / naturalHeight;
-                                                        if (aspect < 0.1 || aspect > 5) {
+                            if ($scope.step_type === 'image_url') {
+                                var ajax = wishlistHelper.saveImageUrl(val);
+                                $scope.url_loading = true;
+                                ajax.then(function (data) {
+                                    $scope.url_loading = false;
+                                    if (data) {
+                                        var pic = ajaxRequest.url('v1/picture/view/' + data.data);
+                                        $scope.item.picture = pic;
+                                        $scope.item.picture_size = data.size;
+                                        $scope.item.file_name = data.data;
+                                    }
+                                }, function () {
+                                    $scope.url_loading = false;
+                                });
+                            } else {
+                                var ajax = wishlistHelper.getUrlImage(val);
+                                $scope.url_loading = true;
+                                ajax.then(function (data) {
+                                    $scope.url_loading = false;
+                                    var url_images = [];
+                                    var max = 8;
+                                    var j = 0;
+                                    for (var i = 0; i < data.length; i++) {
+                                        if (j < max) {
+                                            (function (image_url) {
+                                                var img = new Image();
+                                                img.onload = function () {
+                                                    var naturalWidth = img.naturalWidth * 1;
+                                                    var naturalHeight = img.naturalHeight * 1;
+                                                    if (naturalWidth !== 0 && naturalHeight !== 0) {
+                                                        console.log(naturalHeight + "XXX" + naturalWidth);
+
+                                                        if (naturalWidth * 1 < 200 || naturalHeight * 1 < 200) {
                                                             console.log('remove ' + img.src);
-//                                                            scope.removeImage(img.src);
+//                                                        scope.removeImage(img.src);
                                                         } else {
-                                                            url_images.push(image_url);
-                                                            $scope.url_images = url_images;
-                                                            $scope.$evalAsync();
+                                                            console.log('aspect ' + naturalWidth / naturalHeight);
+                                                            var aspect = naturalWidth / naturalHeight;
+                                                            if (aspect < 0.1 || aspect > 5) {
+                                                                console.log('remove ' + img.src);
+//                                                            scope.removeImage(img.src);
+                                                            } else {
+                                                                url_images.push(image_url);
+                                                                $scope.url_images = url_images;
+                                                                $scope.$evalAsync();
+                                                            }
                                                         }
                                                     }
-                                                }
-                                            };
+                                                };
 
-                                            img.src = image_url;
-                                        })(data[i]);
+                                                img.src = image_url;
+                                            })(data[i]);
 
+                                        }
                                     }
-                                }
-                            }, function () {
-                                $scope.url_loading = false;
-                            });
+                                }, function () {
+                                    $scope.url_loading = false;
+                                });
+                            }
+
                         }, 500);
                     }
                 });
@@ -255,7 +276,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                         allowEdit: false
                     };
 
-                    if (type === 'gallery') {
+                    if (type === 'gallary') {
                         options.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
                     }
 
@@ -272,14 +293,17 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                             } else {
                                 $scope.file_upload = true;
                                 var ajax = uploader.upload(imageURI, {
-                                    user_id: $localStorage.user.id, size: 1
+                                    user_id: $localStorage.user.id,
+                                    size: 1,
+                                    temp: true
                                 });
+                                $ionicBackdrop.retain();
                                 ajax.then(function (data) {
                                     var per = '100%';
                                     $scope.progoress_style = {width: per};
                                     $scope.progress = per;
                                     console.log(data);
-
+                                    $ionicBackdrop.release();
                                     if (data && data.data) {
                                         if (data.size.width < 150 || data.size.height < 150) {
                                             toast.showShortBottom('Image Size Should Be More Than 150x150px');
@@ -287,12 +311,13 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                                             var pic = ajaxRequest.url('v1/picture/view/' + data.data);
                                             $scope.item.picture = pic;
                                             $scope.item.picture_size = data.size;
+                                            $scope.item.file_name = data.data;
                                         }
                                     }
                                     $scope.step1Class = 'red-back';
                                     $scope.file_upload = false;
                                 }, function (data) {
-
+                                    $ionicBackdrop.release();
                                 }, function (data) {
                                     var per = data.progress + '%';
                                     $scope.progoress_style = {width: per};
@@ -310,6 +335,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     if (!val) {
                         return;
                     }
+                    $scope.step_type = 'gallary';
                     $location.path('/app/wishlist_item_add/' + $scope.list_id + '/step2');
                     console.log($scope.file.myFiles);
 //                    for (var i = 0; i < $scope.file.myFiles.length; i++) {
@@ -328,9 +354,10 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     }
 
                     $scope.file_upload = true;
+                    $ionicBackdrop.retain();
                     $scope.upload = $upload.upload({
                         url: ajaxRequest.url('v1/picture/upload'),
-                        data: {user_id: $localStorage.user.id, size: 1},
+                        data: {user_id: $localStorage.user.id, size: 1, temp: true},
                         file: file
                     }).progress(function (evt) {
                         var per = parseInt(100.0 * evt.loaded / evt.total) + '%';
@@ -338,6 +365,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                         $scope.progress = per;
 //                            console.log('progress: ' +  + '% file :' + evt.config.file.name);
                     }).success(function (data, status, headers, config) {
+                        $ionicBackdrop.release();
                         var per = '100%';
                         $scope.progoress_style = {width: per};
                         $scope.progress = per;
@@ -354,6 +382,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                                     var pic = ajaxRequest.url('v1/picture/view/' + data.data);
                                     $scope.item.picture = pic;
                                     $scope.item.picture_size = data.size;
+                                    $scope.item.file_name = data.data;
                                 }
                             }
                             $scope.file_upload = false;

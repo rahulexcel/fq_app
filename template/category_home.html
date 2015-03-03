@@ -2,13 +2,13 @@
     pulling-text="Refresh..."
     on-refresh="refreshCategory()">
 </ion-refresher>
-<div class="center_spinner">
-    <ion-spinner ng-if='product_loading'></ion-spinner>
+<div class="center_spinner" ng-if='product_loading'>
+    <ion-spinner></ion-spinner>
 </div>
 
-<div class="category" ng-show="!product_loading && showProducts">
+<div class="category">
 
-    <div class="result-empty" ng-if="products.length == 0">
+    <div class="result-empty" ng-if="products.length == 0 && !product_loading">
         <span class="info"><img src="img/favicon-not.png"/></span>
         <span class="info grey-color">No Products Found</span>
     </div>

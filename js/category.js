@@ -28,6 +28,7 @@ categoryMod.controller('CategoryCtrl',
             function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $timeout, $ionicPlatform, timeStorage, ajaxRequest, CDN) {
                 var i = 0;
                 var backView = false;
+                $scope.isCategoryPage = true;
                 $rootScope.$on('login_event', function () {
                     console.log('category ctrl login event listener');
                     backView = $ionicHistory.backView();
@@ -119,7 +120,7 @@ categoryMod.controller('CategoryCtrl',
                         $ionicScrollDelegate.scrollTop();
                     }
                 };
-                $scope.open = function (obj) {
+                $scope.openFilter = function (obj) {
                     if (!obj.open) {
                         obj.open = true;
                     } else {
@@ -167,6 +168,29 @@ categoryMod.controller('CategoryCtrl',
                             new_filters.push(filters[i]);
                         }
                     }
+
+
+                    var filters = $scope.filters;
+
+                    for (var i = 0; i < filters.length; i++) {
+                        var data = filters[i].data;
+                        var type = filters[i].type;
+                        for (var k = 0; k < data.length; k++) {
+                            var filter1 = data[k];
+                            var url1 = filter1.param;
+                            if (url === url1) {
+                                if (multi_support.indexOf(type) === -1) {
+                                    filters[i].visible = true;
+                                    filters[i].data[k].selected = false;
+                                }
+                            }
+
+                        }
+                    }
+                    $scope.filters = filters;
+
+
+
                     $scope.currentState.filters = new_filters;
                     var req = categoryHelper.fetchProduct(state);
                     req.then(function (ret) {
@@ -178,18 +202,19 @@ categoryMod.controller('CategoryCtrl',
                         $scope.showProductsFn();
                     });
                 };
+                var multi_support = ['designer_brands', 'premium_brands', 'website', 'size', 'brand'];
                 $scope.filterClick = function (filter_type, filter) {
 //                    console.log(filter);
 //                    console.log(filter_type);
 
                     var type = filter_type.type.toLowerCase();
-                    var multi_support = ['brand', 'website', 'color', 'size'];
+                    console.log(type);
                     if (multi_support.indexOf(type) !== -1) {
                         console.log('multi');
                     } else {
                         console.log('no multi');
                         for (var i = 0; i < filter_type.data.length; i++) {
-                            console.log(filter_type.data[i].param + "XXXX" + filter.param);
+//                            console.log(filter_type.data[i].param + "XXXX" + filter.param);
                             if (filter_type.data[i].param === filter.param) {
 
                             } else {
@@ -212,8 +237,10 @@ categoryMod.controller('CategoryCtrl',
 
                     var selected = false;
                     var state = $scope.currentState;
+                    state.filters = [];
                     for (var i = 0; i < filters.length; i++) {
                         var data = filters[i].data;
+                        var type = filters[i].key;
                         for (var k = 0; k < data.length; k++) {
                             if (data[k].selected) {
                                 var filter = data[k];
@@ -221,16 +248,23 @@ categoryMod.controller('CategoryCtrl',
                                 var name = filter.name;
                                 $scope.product_loading = true;
                                 selected = true;
-                                if (!state.filters) {
-                                    state.filters = [];
-                                }
                                 state.filters.push({
                                     name: name,
                                     param: url
                                 });
+
+
+                                if (multi_support.indexOf(type) === -1) {
+                                    filters[i].visible = false;
+                                    console.log('do filter multi support');
+                                } else {
+                                    console.log('do filter multi support non');
+                                }
+
                             }
                         }
                     }
+                    $scope.filters = filters;
                     if (selected) {
                         state.page = -1;
                         $scope.showProductsFn();
@@ -347,6 +381,71 @@ categoryMod.controller('CategoryCtrl',
                             }
                             $scope.currentState.filters = [];
                         }
+
+                        if (cat.search.length === 0) {
+                            var req = categoryHelper.fetchFilters(cat);
+                            req.then(function (ret) {
+
+                                if (!$scope.currentState.sortby || $scope.currentState.sortby.length === 0) {
+                                    $scope.currentState.sortby = 'popular';
+                                }
+                                if ($scope.currentState.sortby && ret.sortBy && ret.sortBy.length > 0) {
+                                    for (i = 0; i < ret.sortBy.length; i++) {
+                                        if (ret.sortBy[i].url === $scope.currentState.sortby) {
+                                            ret.sortBy[i].selected = true;
+                                        } else {
+                                            ret.sortBy[i].selected = false;
+                                        }
+                                    }
+                                }
+                                $scope.sortBy = ret.sortBy;
+                                var filters = ret.filters;
+                                prev_state_data = timeStorage.get('category_' + cat.cat_id + "_" + cat.sub_cat_id);
+                                if (!$scope.filters)
+                                    $scope.filters = [];
+                                var final_filters = $scope.filters;
+                                if (prev_state_data && prev_state_data.filters) {
+                                    var prev_filters = prev_state_data.filters;
+                                    for (var i = 0; i < filters.length; i++) {
+                                        var data = filters[i].data;
+                                        var type = filters[i].key;
+//                                        console.log('type ' + type);
+                                        for (var k = 0; k < data.length; k++) {
+                                            var filter1 = data[k];
+                                            var url1 = filter1.param;
+                                            var found = false;
+                                            for (var j = 0; j < prev_filters.length; j++) {
+                                                var url = prev_filters[j].param;
+//                                                console.log(url + "XXXXX" + url1 + "yyy");
+                                                if (url + "" === url1 + "") {
+                                                    found = true;
+                                                    console.log('foundddd');
+//                                                    if (multi_support.indexOf(type) === -1) {
+//                                                    }
+                                                    break;
+                                                }
+                                            }
+                                            if (found) {
+                                                filters[i].open = true;
+                                                filters[i].data[k].selected = true;
+                                                console.log(type + " typeee");
+                                                if (multi_support.indexOf(type) === -1) {
+                                                    console.log('page load non multi support');
+                                                    filters[i].visible = false;
+                                                }
+                                                break;
+                                            }
+
+                                        }
+                                    }
+                                }
+                                for (var i = 0; i < filters.length; i++) {
+                                    final_filters.push(filters[i]);
+                                }
+                                $scope.filters = final_filters;
+                            });
+
+                        }
 //                        $ionicNavBarDelegate.title(cat.name);
                         var products = [];
                         $scope.products = products;
@@ -380,6 +479,8 @@ categoryMod.controller('CategoryCtrl',
                 $scope.page_size = 1;
                 $scope.page_range = 2;
                 $scope.current_start_page = 1;
+                var self = this;
+                self.product_ids = [];
                 $scope.update = function (ret, append) {
 
                     if (ret.products.length > 0)
@@ -394,53 +495,65 @@ categoryMod.controller('CategoryCtrl',
                         console.log('appending products');
                         var products = $scope.products;
                         for (i = 0; i < ret.products.length; i++) {
-                            var image = ret.products[i]._id;
-                            ret.products[i].img = CDN.cdnize(ajaxRequest.url('v1/picture/images/' + image));
-                            products.push(ret.products[i]);
+                            if (self.product_ids.indexOf(ret.products[i]._id) === -1) {
+                                var image = ret.products[i]._id;
+                                ret.products[i].img = CDN.cdnize(ajaxRequest.url('v1/picture/images/' + image));
+                                self.product_ids.push(ret.products[i]._id);
+                                products.push(ret.products[i]);
+                            }
                         }
                         $scope.products = products;
                     } else {
                         var products = [];
+                        self.product_ids = [];
                         for (i = 0; i < ret.products.length; i++) {
-                            var image = ret.products[i]._id;
-                            ret.products[i].img = CDN.cdnize(ajaxRequest.url('v1/picture/images/' + image));
-                            products.push(ret.products[i]);
+                            if (self.product_ids.indexOf(ret.products[i]._id) === -1) {
+                                var image = ret.products[i]._id;
+                                ret.products[i].img = CDN.cdnize(ajaxRequest.url('v1/picture/images/' + image));
+                                self.product_ids.push(ret.products[i]._id);
+                                products.push(ret.products[i]);
+                            }
                         }
                         $scope.products = products;
                         console.log('replacing products');
 //                        $scope.products = ret.products;
                         $scope.current_start_page = 1;
                     }
-//                    $scope.next_page_url = ret.page;
-//                    if (!$scope.currentState.sortby || $scope.currentState.sortby.length === 0) {
-//                        $scope.currentState.sortby = 'popular';
-//                    }
-//                    if ($scope.currentState.sortby && ret.sortBy && ret.sortBy.length > 0) {
-//                        for (i = 0; i < ret.sortBy.length; i++) {
-//                            if (ret.sortBy[i].url === $scope.currentState.sortby) {
-//                                ret.sortBy[i].selected = true;
-//                            } else {
-//                                ret.sortBy[i].selected = false;
-//                            }
-//                        }
-//                    }
-//                    if ($scope.currentState.filters && ret.filters && ret.filters.length > 0) {
-//                        for (i = 0; i < ret.filters.length; i++) {
-//                            var data = ret.filters[i].data;
-//                            for (var k = 0; k < $scope.currentState.filters.length; k++) {
-//                                for (var j = 0; j < data.length; j++) {
-//                                    if ($scope.currentState.filters[k].param === data[j].param) {
-//                                        ret.filters[i].open = true;
-//                                        ret.filters[i].data[j].selected = true;
-//                                        break;
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                    $scope.sortBy = ret.sortBy;
-//                    $scope.filters = ret.filters;
-                    console.log($scope.currentState);
+                    $scope.next_page_url = ret.page;
+                    console.log(ret);
+                    if (!$scope.filters) {
+                        $scope.filters = [];
+                    }
+                    if (ret.filters && ret.filters.length > 0 && ret.filters[0].data.length > 0) {
+                        var exist_filters = $scope.filters;
+                        var has_sec = false;
+                        for (var i = 0; i < exist_filters.length; i++) {
+                            if (exist_filters[i].type === 'Secondary Colors') {
+                                has_sec = true;
+                            }
+                        }
+                        if (!has_sec) {
+                            for (i = 0; i < ret.filters.length; i++) {
+                                ret.filters[i].type = 'Secondary Colors';
+                                exist_filters.unshift(ret.filters[i]);
+                            }
+                            $scope.filters = exist_filters;
+                        }
+                    } else {
+                        var new_filters = [];
+                        var has_sec = false;
+                        var exist_filters = $scope.filters;
+                        for (var i = 0; i < exist_filters.length; i++) {
+                            if (exist_filters[i].type === 'Secondary Colors') {
+                                has_sec = true;
+                            } else {
+                                new_filters.push(exist_filters[i]);
+                            }
+                        }
+                        if (has_sec) {
+                            $scope.filters = new_filters;
+                        }
+                    }
                 };
                 $scope.wishlist = function (product, $event) {
                     if (window.analytics) {
@@ -458,8 +571,7 @@ categoryMod.controller('CategoryCtrl',
                         if (!$localStorage.previous) {
                             $localStorage.previous = {};
                         }
-                        $localStorage.previous.state = {
-                            function: 'wishlist',
+                        $localStorage.previous.state = {function: 'wishlist',
                             param: angular.copy(product),
                             category: angular.copy($scope.currentState)
                         };
@@ -473,6 +585,7 @@ categoryMod.controller('CategoryCtrl',
                     product = angular.copy(product);
                     product.cat_name = $scope.current_category.name;
                     dataShare.broadcastData(product, 'product_open');
-                };
+                }
+                ;
             }
         ]);

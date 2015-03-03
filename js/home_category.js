@@ -18,10 +18,20 @@ homecatMod.controller('HomeCatCtrl',
                     $scope.products = [];
                     self.fetchProduct();
                 };
+                var self = this;
+                self.women = true;
+                $scope.showWomen = function () {
+                    self.women = true;
+                    self.fetchProduct();
+                };
+                $scope.showMen = function () {
+                    self.women = false;
+                    self.fetchProduct();
+                };
                 self.fetchProduct = function () {
                     var page = $scope.page;
                     $scope.product_loading = true;
-                    var ajax = friendHelper.home_latest(page);
+                    var ajax = friendHelper.home_latest(page, self.women);
                     ajax.then(function (data) {
                         $scope.product_loading = false;
                         if (data.length === 0) {

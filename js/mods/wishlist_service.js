@@ -1,8 +1,8 @@
-var wishlistService = angular.module('WishlistService', ['ServiceMod', 'ionic']);
+var wishlistService = angular.module('WishlistService', ['ServiceMod', 'ionic', 'ngCordova']);
 
 wishlistService.factory('wishlistHelper', [
-    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', 'timeStorage', '$ionicLoading', 'notifyHelper',
-    function (ajaxRequest, $q, toast, $localStorage, $location, timeStorage, $ionicLoading, notifyHelper) {
+    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', 'timeStorage', '$ionicLoading', 'notifyHelper', '$cordovaDialogs', '$ionicPopup',
+    function (ajaxRequest, $q, toast, $localStorage, $location, timeStorage, $ionicLoading, notifyHelper, $cordovaDialogs, $ionicPopup) {
         var service = {};
         service.getRandomColor = function () {
             var colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#795548', '#9e9e9e', '#607d8b'];
@@ -12,6 +12,17 @@ wishlistService.factory('wishlistHelper', [
                 color = colors[0];
             }
             return color;
+        };
+        service.saveImageUrl = function (url) {
+            var def = $q.defer();
+
+            var ajax = ajaxRequest.send('v1/picture/get_url?url=' + encodeURIComponent(url), {}, 'GET');
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function (message) {
+                def.reject();
+            });
+            return def.promise;
         };
         service.getUrlImage = function (url) {
             var def = $q.defer();
@@ -300,9 +311,48 @@ wishlistService.factory('wishlistHelper', [
             });
             return def.promise;
         };
+
+        service.showPriceAlertDialog = function (product_id, name) {
+            if ($localStorage.price_alert_always) {
+                service.setPriceAlert(product_id);
+            } else {
+                if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+                    $ionicPopup.confirm({
+                        template: 'Do you want to recieve alerts when price drop for ' + name,
+                        title: 'Price Alert'
+                    }).then(function () {
+                        service.setPriceAlert(product_id);
+                    });
+                } else {
+                    $cordovaDialogs.confirm('Do you want to recieve alerts when price drop for ' + name, 'Price Alert', ['Ok', 'Always', 'Cancel'])
+                            .then(function (index) {
+                                if (index === 0) {
+                                    service.setPriceAlert(product_id);
+                                } else if (index === 1) {
+                                    $localStorage.price_alert_always = true;
+                                    service.setPriceAlert(product_id);
+                                } else {
+
+                                }
+                            });
+                }
+            }
+        };
+        service.setPriceAlert = function (product_id) {
+            var ajax = ajaxRequest.send('v1/wishlist/item/price_alert', {
+                user_id: $localStorage.user.id,
+                product_id: product_id
+            });
+            ajax.then(function () {
+                toast.showShortBottom('Price Alert Has Been Setup');
+            }, function () {
+                toast.showShortBottom('UnExpected Error In Price Alert');
+            });
+        };
         service.add = function (product_id, list_id) {
             var def = $q.defer();
 
+            var self = this;
             if ($localStorage.user && $localStorage.user.id) {
                 var ajax = ajaxRequest.send('v1/wishlist/item/add', {
                     user_id: $localStorage.user.id,
@@ -312,6 +362,77 @@ wishlistService.factory('wishlistHelper', [
                 });
                 ajax.then(function (data) {
                     def.resolve(data);
+                    self.showPriceAlertDialog(product_id, data.wishlist_model.name);
+
+                    if (data.list) {
+                        var followers = data.list.followers;
+                        var shared_ids = data.list.shared_ids;
+                        console.log(followers);
+                        console.log(shared_ids);
+                        if (shared_ids.length > 0) {
+                            for (var i = 0; i < shared_ids.length; i++) {
+                                notifyHelper.sendAlert('user_' + shared_ids[i], {
+                                    title: 'New Item Added',
+                                    alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+                                    type: 'item_add',
+                                    meta: {
+                                        wishlist_model: data.wishlist_model,
+                                        list: data.list,
+                                        user: $localStorage.user
+                                    }
+                                });
+                            }
+                        } else {
+                            if (data.list.type === 'public') {
+                                if (followers.length > 0) {
+                                    //followers only if no shared ids
+//                                notifyHelper.addUpdate(followers, 'item_add', {
+//                                    data: data,
+//                                    user: $localStorage.user
+//                                });
+//                                    notifyHelper.sendAlert('list_' + data.list._id, {
+//                                        title: 'New Item Added',
+//                                        alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+//                                        meta: {
+//                                            type: 'item_add',
+//                                            wishlist_model: data.wishlist_model,
+//                                            list: data.list,
+//                                            user: $localStorage.user
+//                                        }
+//                                    });
+
+                                }
+
+//                                var user_followers = data.user.followers;
+//                                console.log(user_followers);
+//                                var filtered_user_followers = [];
+//                                for (var i = 0; i < user_followers.length; i++) {
+//                                    var follower = user_followers[i];
+//                                    if (followers.indexOf(follower) === -1) {
+//                                        filtered_user_followers.push(follower);
+//                                    }
+//                                notifyHelper.addUpdate(filtered_user_followers, 'item_add_user', {
+//                                    data: data,
+//                                    user: $localStorage.user
+//                                });
+//                                    notifyHelper.sendAlert('user_follower_' + $localStorage.user.id, {
+//                                        title: 'New Item Added',
+//                                        alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+//                                        meta: {
+//                                            type: 'item_add_user',
+//                                            wishlist_model: data.wishlist_model,
+//                                            list: data.list,
+//                                            user: $localStorage.user
+//                                        }
+//                                    });
+//                            }
+                            }
+                        }
+
+
+                        //need to post to user followers as well
+                    }
+
                 }, function (message) {
                     def.reject({
                         login: 0,

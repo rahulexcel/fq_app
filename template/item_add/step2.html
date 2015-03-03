@@ -6,7 +6,7 @@
     <span ng-show='item.location.lat' on-tap='removeLocation();'>Remove Location</span>
 </div>
 
-<div ng-hide="step_type == 'url'">
+<div ng-if="step_type == 'camera' || step_type == 'gallary'">
     <div ng-if="!is_mobile">
         <div class ="profile-pic" ng-if="item.picture">
             <img ng-src="{{item.picture|picture:picture_width}}">
@@ -28,7 +28,7 @@
     </div>
 
     <div ng-if='is_mobile'>
-        <div class ="profile-pic" ng-if="item.picture">
+        <div class ="profile-pic padding" ng-if="item.picture">
             <img ng-src="{{item.picture|picture:picture_width}}">
             <i class="ion-edit profile-pic-edit" on-tap='browseCamera();'></i>
         </div>            
@@ -49,27 +49,34 @@
             </div>
         </div>
         <div>
-            Uploading... <i class="fa fa-spinner fa-spin"></i>
+            Uploading... 
         </div>
     </div>
 </div>
 <div class="list">
+    <div ng-if="step_type == 'image_url'">
+        <label class="item item-input item-floating-label">
+            <span class="input-label">Image URL</span>
+            <input type="url" ng-model="item.url" placeholder="Image URL">
+        </label>                    
+        <div class ="profile-pic padding" ng-if="item.picture">
+            <img ng-src="{{item.picture|picture:picture_width}}">
+        </div>
+    </div>
     <div class="" ng-if="step_type == 'url'">
         <label class="item item-input item-floating-label">
             <span class="input-label">URL</span>
             <input type="url" ng-model="item.url" placeholder="Website Address">
         </label>                    
     </div>
-    <div>
-        <i class="fa fa-spinner" ng-show='url_loading'></i>
-    </div>
     <div class="row" ng-if="step_type == 'url' && $index % 3 == 0" ng-repeat="img in url_images track by $index">
         <div style="height: 200px;border: 1px solid #777" class="col-33" ng-repeat="i in [$index, $index + 1, $index + 2, $index + 3]">
             <img ng-src="{{url_images[i]}}">
         </div>
     </div>
-
-
+    <div class="center_spinner" ng-if='url_loading'>
+        <ion-spinner></ion-spinner>
+    </div>
 
     <!--    
     don't need price, name. no one has time to do this

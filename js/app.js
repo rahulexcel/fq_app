@@ -30,7 +30,7 @@ var app = angular.module('starter',
         );
 app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
     function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-        $ionicConfigProvider.views.maxCache(2);
+//        $ionicConfigProvider.views.maxCache(2);
         $stateProvider
                 .state('offline', {
                     url: '/offline',

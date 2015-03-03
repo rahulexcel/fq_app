@@ -1491,7 +1491,7 @@ span.info{
 }
 /*********************************social page closed *******************************/
 .mine-content{
-    margin:10px 15px;
+    /*margin:10px 15px;*/
 }
 .top-container .box button{
     border: 1px solid #DA500F;
@@ -2005,4 +2005,32 @@ i.offline-icon{
     text-overflow: ellipsis;
     white-space:  nowrap;
     overflow: hidden;
+}
+.home_header{
+    top: 44px;
+    background-color: white;
+    height: 38px;
+    margin: 0;
+    padding: 0;
+    top: 44px;
+}
+
+#home_ul{
+    background-color: #fff;
+    height: 38px;
+    width: 100%;
+    z-index: 1;
+}
+#home_ul li{
+    display: block;
+    float: left;
+    font-size: 0.79em;
+    font-weight: bold;
+    height: 39px;
+    line-height: 34px;
+    text-align: center;
+    width: 33%;
+    z-index: 9999;
+    color: black;
+    border-bottom: 1px solid #eee7dd;
 }

@@ -14,8 +14,8 @@ pinMod.filter('nl2br', ['$sce', function ($sce) {
         };
     }]);
 pinMod.controller('PinCtrl',
-        ['$scope', '$timeout', '$location', '$rootScope', '$localStorage', 'friendHelper', 'toast', 'itemHelper',
-            function ($scope, $timeout, $location, $rootScope, $localStorage, friendHelper, toast, itemHelper) {
+        ['$scope', '$timeout', '$location', '$rootScope', '$localStorage', 'friendHelper', 'toast', 'itemHelper', '$window',
+            function ($scope, $timeout, $location, $rootScope, $localStorage, friendHelper, toast, itemHelper, $window) {
                 $scope.loading = true;
                 $scope.windowWidth = 0;
                 $scope.hasMore = false;
@@ -150,7 +150,7 @@ pinMod.controller('PinCtrl',
                     if (window_width > 688) {
                         window_width = window_width - 275;
                     }
-                    console.log(window_width);
+                    console.log('window width ' + window_width);
                     pin_column = Math.floor(window_width / pin_width);
                     if (pin_column < 2) {
                         pin_width = (window_width) / 2 - 10;
@@ -164,7 +164,7 @@ pinMod.controller('PinCtrl',
                         angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:' + (pin_width * pin_column + 10 * pin_column) + 'px;');
                     }
                     $scope.col_width = Math.round(100 / pin_column, 2) + "%";
-//                    console.log(pin_column + 'pin columns');
+                    console.log(pin_column + 'pin columns');
                 };
                 $scope.initPinsDisplay();
                 $scope.displayPins = function (data) {
