@@ -1,4 +1,8 @@
 <div class="padding">
+    <ion-refresher
+        pulling-text="Pull to refresh..."
+        on-refresh="doRefresh()">
+    </ion-refresher>
     <ion-list can-swipe="me">
         <ion-item class="item-thumbnail-left" bindonce ng-repeat="item in updates track by $index">
             <img on-tap='account(item.user);' bo-if="item.user" class="rounded" ng-src="{{item.user.picture|picture:50:50}}">

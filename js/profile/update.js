@@ -65,20 +65,28 @@ profileMod.controller('ProfileUpdateCtrl',
                     $scope.$parent.declineFriendRequest(from_user_id);
                     $scope.friend_index = index;
                 };
-
+                $scope.doRefresh = function () {
+                    $scope.page = 0;
+                    $scope.getItems($scope.page);
+                };
                 $scope.updates = [];
                 $scope.page = 0;
-                var ajax = notifyHelper.getUpdate($localStorage.user.id, false, $scope.page);
-                ajax.then(function (data) {
-                    $scope.updateItems(data);
-                });
+                $scope.getItems = function () {
+                    var ajax = notifyHelper.getUpdate($localStorage.user.id, false, $scope.page);
+                    ajax.then(function (data) {
+                        $scope.updateItems(data);
+                    });
+                };
+                $scope.getItems(0);
                 $scope.loadMoreUpdates = function () {
                     var ajax = notifyHelper.getUpdate($localStorage.user.id, false, $scope.page++);
                     ajax.then(function (data) {
                         $scope.updateItems(data, true);
+                        $scope.$broadcast('scroll.refreshComplete');
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     }, function () {
                         $scope.$broadcast('scroll.infiniteScrollComplete');
+                        $scope.$broadcast('scroll.refreshComplete');
                     });
                 };
                 $scope.updateItems = function (data, append) {
@@ -117,7 +125,7 @@ profileMod.controller('ProfileUpdateCtrl',
                                 }
                             } else if (row.type === 'follow_user') {
                                 item.body = {
-                                    title: row.user.name + ' is following you!'
+                                    title: row.data.user.name + ' is following you!'
                                 };
                             } else if (row.type === 'unfollow_user') {
                                 item.body = {

@@ -20,6 +20,9 @@
                     <button on-tap='followList()' ng-if="!follow" style="height: 100%;margin: 0px;padding: 0px" class="button button-full button-small button-icon ion-ios-people fa-2x red-color"></button>
                     <button on-tap='unFollowList()' ng-if="follow" style="height: 100%;margin: 0px;padding: 0px" class="button button-full button-small button-icon ion-ios-people-outline grey-color fa-2x"></button>                    
                 </div>
+                <div class="col"  style="padding: 0px" ng-if="my_list">
+                    <button on-tap='deleteList()' style="height: 100%;margin: 0px;padding: 0px" class="button button-full button-small button-icon ion-trash-b fa-2x red-color"></button>
+                </div>
             </div>
         </div>
         <div ui-view="pin-content"></div>

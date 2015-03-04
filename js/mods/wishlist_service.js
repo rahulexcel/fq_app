@@ -178,6 +178,27 @@ wishlistService.factory('wishlistHelper', [
             }
             return def.promise;
         };
+        service.delete = function (list_id) {
+            var def = $q.defer();
+            if ($localStorage.user && $localStorage.user.id) {
+                var ajax = ajaxRequest.send('v1/wishlist/list/delete', {
+                    list_id: list_id,
+                    user_id: $localStorage.user.id
+                });
+                ajax.then(function (data) {
+                    def.resolve(data);
+                }, function (message) {
+                    def.reject(message);
+                });
+            } else {
+                $location.path('/app/signup');
+                toast.showShortBottom('SignUp To Setup Wishlist and Price Alerts');
+                def.reject({
+                    login: 1
+                });
+            }
+            return def.promise;
+        };
         service.create = function (list) {
             var def = $q.defer();
             if ($localStorage.user && $localStorage.user.id) {

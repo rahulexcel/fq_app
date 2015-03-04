@@ -151,7 +151,8 @@ friendService.factory('friendHelper', [
             ajax.then(function (data) {
                 def.resolve(data);
                 if (type === 'add') {
-                    notifyHelper.subscribe('user_follower_' + follow_user_id);
+//                    notifyHelper.subscribe('user_follower_' + follow_user_id);
+// will use only user based channel
                     notifyHelper.sendAlert('user_' + follow_user_id, {
                         title: $localStorage.user.name + " is Following You Now",
                         meta: {
@@ -162,9 +163,11 @@ friendService.factory('friendHelper', [
                         user: $localStorage.user
                     });
                 } else {
-                    notifyHelper.unsubscribe('user_follower_' + follow_user_id);
+//                    notifyHelper.unsubscribe('user_follower_' + follow_user_id);
                     notifyHelper.addUpdate(follow_user_id, 'unfollow_user', {
-                        user: $localStorage.user
+                        meta: {
+                            user: $localStorage.user
+                        }
                     });
                 }
 

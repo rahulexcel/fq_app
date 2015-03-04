@@ -1,13 +1,26 @@
 var wishlistItemsMod = angular.module('WishlistItemsMod', ['ServiceMod', 'ngStorage', 'ionic']);
 wishlistItemsMod.controller('WishlistItemsCtrl',
-        ['$scope', '$q', '$stateParams', 'wishlistHelper', '$ionicLoading', '$localStorage', 'toast', 'friendHelper',
-            function ($scope, $q, $stateParams, wishlistHelper, $ionicLoading, $localStorage, toast, friendHelper) {
+        ['$scope', '$q', '$stateParams', 'wishlistHelper', '$ionicLoading', '$localStorage', 'toast', 'friendHelper', '$location', '$ionicBackdrop',
+            function ($scope, $q, $stateParams, wishlistHelper, $ionicLoading, $localStorage, toast, friendHelper, $location, $ionicBackdrop) {
                 if ($stateParams.list_id) {
                     $scope.wishlist_name = $stateParams.list_name;
                     $scope.list_id = $stateParams.list_id;
                     $scope.list_detail = false;
                     $scope.follow = false;
                     $scope.my_list = false;
+
+                    $scope.deleteList = function () {
+                        $ionicBackdrop.retain();
+                        var ajax = wishlistHelper.delete($stateParams.list_id);
+                        ajax.then(function () {
+                            $ionicBackdrop.release();
+                            toast.showShortBottom('WishList Deleted');
+                            $location.path('/app/profile/me/mine');
+                        }, function () {
+                            $ionicBackdrop.release();
+                        });
+                    };
+
                     $scope.getData = function (page) {
                         var defer = $q.defer();
                         var ajax = wishlistHelper.listItems($stateParams.list_id, page);

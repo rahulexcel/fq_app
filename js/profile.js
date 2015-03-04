@@ -108,9 +108,6 @@ profileMod.controller('ProfileCtrl',
                     });
                     var ajax = friendHelper.fullProfile(user_id, $localStorage.user.id);
                     ajax.then(function (data) {
-                        $localStorage.user.gender = data.gender;
-                        $localStorage.user.picture = data.picture;
-                        $localStorage.user.name = data.name;
                         $scope.is_following = data.is_following;
                         $scope.is_friend = data.is_friend;
                         if (data.lists_mine) {
@@ -133,6 +130,9 @@ profileMod.controller('ProfileCtrl',
                         $scope.user = data;
                         if ($scope.user._id === $localStorage.user.id) {
                             $scope.me = true;
+                            $localStorage.user.gender = data.gender;
+                            $localStorage.user.picture = data.picture;
+                            $localStorage.user.name = data.name;
                         }
 
                         $ionicLoading.hide();
@@ -241,7 +241,8 @@ profileMod.controller('ProfileCtrl',
                     $scope.request_process = true;
                     var ajax = self.followUserID(user_id);
                     ajax.then(function () {
-                        $scope.following = true;
+                        toast.showShortBottom('Following Now!');
+                        $scope.is_following = true;
                         $scope.request_process = false;
                     }, function () {
                         $scope.request_process = false;
@@ -255,7 +256,8 @@ profileMod.controller('ProfileCtrl',
                     $scope.request_process = true;
                     var ajax = self.followUserID(user_id, 'remove');
                     ajax.then(function () {
-                        $scope.following = false;
+                        toast.showShortBottom('Stopped Following Now!');
+                        $scope.is_following = false;
                         $scope.request_process = false;
                     }, function () {
                         $scope.request_process = false;

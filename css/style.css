@@ -1408,6 +1408,9 @@ i.fa-circle{
     line-height: 15px;
     margin-top: 2px;
 }
+.user-info .display_status{
+    font-size:0.9em;
+}
 .user-btn{
     position: absolute;
     right: 20px;
