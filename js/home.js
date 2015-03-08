@@ -57,8 +57,8 @@ var homeMod = angular.module('HomeMod', ['ServiceMod', 'ngStorage', 'ionic', 'pa
 //    }
 //});
 homeMod.controller('HomeCtrl',
-        ['$scope', 'friendHelper', '$location', '$ionicNavBarDelegate', '$rootScope', '$ionicScrollDelegate',
-            function ($scope, friendHelper, $location, $ionicNavBarDelegate, $rootScope, $ionicScrollDelegate) {
+        ['$scope', 'friendHelper', '$location', '$ionicNavBarDelegate', '$rootScope', '$ionicScrollDelegate', '$localStorage', '$interval', '$ionicPlatform', '$timeout',
+            function ($scope, friendHelper, $location, $ionicNavBarDelegate, $rootScope, $ionicScrollDelegate, $localStorage, $interval, $ionicPlatform, $timeout) {
                 $scope.dynamic = '';
                 $scope.xyz = '123';
 
@@ -68,6 +68,37 @@ homeMod.controller('HomeCtrl',
                 self.type = 'trending';
                 $scope.selected_class = 'trending';
                 $scope.bg_col = 'none';
+
+                $scope.feed_unread = 0;
+
+                var self = this;
+                self.skipFeedCheck = false;
+                if ($localStorage.user.id) {
+                    self.skipFeedCheck = true;
+                }
+                self.checkFeedCount = function () {
+                    var ajax = friendHelper.home_feed_count();
+                    ajax.then(function (data) {
+                        $scope.feed_unread = data;
+                    });
+                };
+                $timeout(function () {
+                    self.checkFeedCount();
+                });
+                var feed_interval = $interval(function () {
+                    if (!self.skipFeedCheck)
+                        self.checkFeedCount();
+                }, 10000);
+                $ionicPlatform.on('pause', function () {
+                    self.skipFeedCheck = true;
+                });
+                $ionicPlatform.on('resume', function () {
+                    self.skipFeedCheck = false;
+                });
+                $scope.$on('$destroy', function () {
+                    $interval.cancel(feed_interval);
+                });
+
                 $scope.getData = function (page) {
                     var path = $location.path();
                     if (path === '/app/home/trending') {
@@ -90,6 +121,15 @@ homeMod.controller('HomeCtrl',
                         return friendHelper.home_feed(page);
                     } else {
                     }
+                };
+
+                $scope.showMen = function () {
+                    $localStorage.latest_show = 'men';
+                    $scope.$broadcast('show_men');
+                };
+                $scope.showWomen = function () {
+                    $localStorage.latest_show = 'women';
+                    $scope.$broadcast('show_women');
                 };
 
                 $rootScope.$on('$viewContentLoaded', function (event) {

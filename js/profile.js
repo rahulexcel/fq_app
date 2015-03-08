@@ -110,15 +110,6 @@ profileMod.controller('ProfileCtrl',
                     ajax.then(function (data) {
                         $scope.is_following = data.is_following;
                         $scope.is_friend = data.is_friend;
-                        if (data.lists_mine) {
-                            for (var i = 0; i < data.lists_mine.length; i++) {
-                                var name = data.lists_mine[i].name;
-                                var list_symbol = name.substring(0, 1).toUpperCase();
-                                var bg_color = wishlistHelper.getRandomColor();
-                                data.lists_mine[i].list_symbol = list_symbol;
-                                data.lists_mine[i].bg_color = bg_color;
-                            }
-                        }
                         $scope.friend_requests = data.friend_requests;
 
                         $scope.friend_request_count = 0;

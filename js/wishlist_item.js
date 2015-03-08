@@ -6,6 +6,9 @@ wishlistItemMod.controller('WishlistItemCtrl',
                 $scope.loading = true;
                 $scope.items = [];
                 var ajax = false;
+                $scope.$on('logout_event', function () {
+                    $location.path('/app/signup');
+                });
 
                 $scope.$on('$destroy', function () {
                     mapHelper.destroy();

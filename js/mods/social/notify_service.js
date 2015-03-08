@@ -1,8 +1,7 @@
 var notifyService = angular.module('NotifyMod', ['ServiceMod']);
-
 notifyService.factory('notifyHelper', [
-    '$q', '$localStorage', '$rootScope', '$localStorage', '$ionicPlatform', '$timeout',
-    function ($q, $localStorage, $rootScope, $localStorage, $ionicPlatform, $timeout) {
+    '$q', '$localStorage', '$rootScope', '$localStorage', '$ionicPlatform', '$timeout', '$cordovaPush', 'ajaxRequest', '$cordovaAppVersion', '$cordovaDevice', '$ionicPopup', '$location',
+    function ($q, $localStorage, $rootScope, $localStorage, $ionicPlatform, $timeout, $cordovaPush, ajaxRequest, $cordovaAppVersion, $cordovaDevice, $ionicPopup, $location) {
         //parse push notification
         var service = {};
         service.continueUpdate = true;
@@ -46,6 +45,7 @@ notifyService.factory('notifyHelper', [
                 success: function (obj) {
                     obj.destroy({
                         success: function (res) {
+                            console.log('deleted');
                             defer.resolve(res);
                         },
                         error: function () {
@@ -64,6 +64,7 @@ notifyService.factory('notifyHelper', [
             if (!skip) {
                 skip = 0;
             }
+
             var limit = 10;
             var defer = $q.defer();
             var Update = Parse.Object.extend("Update");
@@ -162,51 +163,58 @@ notifyService.factory('notifyHelper', [
             if (!expiry) {
                 expiry = 24;
             }
-            expiry = new Date().getTime() + expiry * 60 * 60 * 1000;
-            var defer = $q.defer();
-            Parse.Push.send({
-                channels: [channel],
-                data: data,
-                expiration_time: new Date(expiry)
-            }, {
-                success: function () {
-                    defer.resolve();
-                },
-                error: function (error) {
-                    console.error('send alert error ');
-                    console.error(error);
-                    defer.reject(error);
-                }
+            expiry = expiry * 60 * 60;
+            data.time = new Date().getTime();
+            return ajaxRequest.send('v1/notify/alert', {
+                user_id: channel.replace('user_', ''),
+                expiry: expiry,
+                data: data
             });
-            return defer.promise;
+//            expiry = new Date().getTime() + expiry * 1000;
+//            var defer = $q.defer();
+//            Parse.Push.send({
+//                channels: [channel],
+//                data: data,
+//                expiration_time: new Date(expiry)
+//            }, {
+//                success: function () {
+//                    defer.resolve();
+//                },
+//                error: function (error) {
+//                    console.error('send alert error ');
+//                    console.error(error);
+//                    defer.reject(error);
+//                }
+//            });
+//            return defer.promise;
         };
         service.unsubscribe = function (name) {
-            this.parseInit();
-            var defer = $q.defer();
-            if (typeof ParsePushPlugin === 'undefined') {
-                defer.reject();
-            } else {
-                ParsePushPlugin.unsubscribe(name, function (msg) {
-                    defer.resolve(msg);
-                }, function (e) {
-                    defer.reject(e);
-                });
-            }
-            return defer.promise;
+//            this.parseInit();
+//            var defer = $q.defer();
+//            if (typeof ParsePushPlugin === 'undefined') {
+//                defer.reject();
+//            } else {
+//                ParsePushPlugin.unsubscribe(name, function (msg) {
+//                    defer.resolve(msg);
+//                }, function (e) {
+//                    defer.reject(e);
+//                });
+//            }
+//            return defer.promise;
         };
         service.subscribe = function (name) {
-            this.parseInit();
-            var defer = $q.defer();
-            if (typeof ParsePushPlugin === 'undefined') {
-                defer.reject();
-            } else {
-                ParsePushPlugin.subscribe(name, function (msg) {
-                    defer.resolve(msg);
-                }, function (e) {
-                    defer.reject(e);
-                });
-            }
-            return defer.promise;
+//            this.parseInit();
+//            var defer = $q.defer();
+//            if (typeof ParsePushPlugin === 'undefined') {
+//                defer.reject();
+//            } else {
+//                ParsePushPlugin.subscribe(name, function (msg) {
+//                    defer.resolve(msg);
+//                }, function (e) {
+//                    defer.reject(e);
+//                });
+//            }
+//            return defer.promise;
         };
         service.init_done = false;
         service.parseInit = function () {
@@ -215,79 +223,130 @@ notifyService.factory('notifyHelper', [
                 this.init_done = true;
             }
         };
+        service.openItem = function (row) {
+            if (row.type === 'add_friend' || row.type === 'accept_friend' || row.type === 'decline_friend') {
+                $location.path('/app/profile/' + row.user.id + '/friends');
+            } else if (row.type === 'item_unlike' || row.type === 'item_like') {
+                if (row.data.item_id) {
+                    $location.path('/app/item/' + row.data.item_id._id + "/" + row.data.list_id._id);
+                } else {
+                    $location.path('/app/item/' + row.data.data.item_id._id + "/" + row.data.data.list_id._id);
+                }
+            } else if (row.type === 'follow_user') {
+                $location.path('/app/profile/' + row.user.id + '/mine');
+            } else if (row.type === 'unfollow_user') {
+                $location.path('/app/profile/' + row.user.id + '/mine');
+            } else if (row.type === 'follow_list') {
+                $location.path('/app/wishlist_item/' + row.data.list._id + "/" + row.data.list.name);
+            } else if (row.type === 'unfollow_list') {
+                $location.path('/app/wishlist_item/' + row.data.list._id + "/" + row.data.list.name);
+            } else if (row.type === 'item_comment') {
+                if (row.data.data.item_id) {
+                    $location.path('/app/item/' + row.data.data.item_id._id + "/" + row.data.data.list_id._id);
+                } else {
+                    $location.path('/app/item/' + row.data.data.data.item_id._id + "/" + row.data.data.data.list_id._id);
+                }
+            } else if (row.type === 'item_add_user' || row.type === 'item_add') {
+                $location.path('/app/item/' + row.data.data.wishlist_model._id + "/" + row.data.data.list_id._id);
+            } else if (row.type === 'item_like' || row.type === 'item_unlike') {
+                $location.path('/app/item/' + row.data.data.data.item_id._id + "/" + row.data.data.data.list_id._id);
+            } else if (row.type === 'list_created' || row.type === 'list_left') {
+                $location.path('/app/wishlist_item/' + row.list._id + "/" + row.list.name);
+            }
+        };
         service.init = function () {
             this.doUpdates();
             this.parseInit();
-            if (typeof ParsePushPlugin === 'undefined') {
-                return;
-            }
-            ParsePushPlugin.register({
-                appId: "X5pqHF9dFQhbCxv8lQYHhH1KfXjzp2c4phg51ZPz", clientKey: "8h7pfcLqc7fefx8781bl35nQdVxRKznhGNvWOonu", eventKey: "myEventKey"}, //will trigger receivePN[pnObj.myEventKey]
-            function () {
-                console.log('successfully registered device!');
-                if ($localStorage.user.id) {
-                    ParsePushPlugin.subscribe('LoginChannel', function (msg) {
-                        ParsePushPlugin.subscribe('user_' + $localStorage.user.id, function (msg) {
+//            this.sendAlert('54ac08520167b1f12f7453f8', {
+//                title: 'Test Title',
+//                message: 'Test Message',
+//                meta: {
+//                    user: $localStorage.user,
+//                    type: 'add_friend'
+//                },
+//                bigPicture: 'http://graph.facebook.com/manisharies.iitg/picture?type=large'
+//            });
 
-                        }, function (e) {
-
-                        });
-                    }, function (e) {
-
-                    });
-                }
-            }, function (e) {
-                console.log('error registering device: ' + e);
-            });
-
-            ParsePushPlugin.on('receivePN', function (pn) {
-                console.log('yo2 i got this push notification:' + JSON.stringify(pn));
-                var data = pn;
-            });
+//if (typeof ParsePushPlugin === 'undefined') {
+//                return;
+//            }
+//            ParsePushPlugin.register({
+//                appId: "X5pqHF9dFQhbCxv8lQYHhH1KfXjzp2c4phg51ZPz", clientKey: "8h7pfcLqc7fefx8781bl35nQdVxRKznhGNvWOonu", eventKey: "myEventKey"}, //will trigger receivePN[pnObj.myEventKey]
+//            function () {
+//                console.log('successfully registered device!');
+//                if ($localStorage.user.id) {
+//                    ParsePushPlugin.subscribe('LoginChannel', function (msg) {
+//                        ParsePushPlugin.subscribe('user_' + $localStorage.user.id, function (msg) {
+//
+//                        }, function (e) {
+//
+//                        });
+//                    }, function (e) {
+//
+//                    });
+//                }
+//            }, function (e) {
+//                console.log('error registering device: ' + e);
+//            });
+//
+//            ParsePushPlugin.on('receivePN', function (pn) {
+//                console.log('yo2 i got this push notification:' + JSON.stringify(pn));
+//                var data = pn;
+//            });
 
 //            return;
-//            if (window.cordova && window.cordova.plugins) {
-//                $cordovaPush.register({
-//                    "senderID": "124787039157",
-//                    "ecb": "onNotification"
-//                }).then(function (result) {
-//
-//                }, function (err) {
-//
-//                });
-//
-//                $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
-//                    switch (notification.event) {
-//                        case 'registered':
-//                            if (notification.regid.length > 0) {
-//
-//                                if ($localStorage.user.id && $localStorage.user.api_key) {
-//                                    ajaxRequest.send('v1/social/gcm', {
-//                                        user_id: $localStorage.user.id,
-//                                        api_key: $localStorage.user.api_key,
-//                                        reg_id: notification.regid
-//                                    });
-//                                }
-//
-//                                console.log('registration ID = ' + notification.regid);
-//                            }
-//                            break;
-//
-//                        case 'message':
-//                            // this is the actual push notification. its format depends on the data model from the push server
+
+
+            if (window.cordova && window.cordova.plugins) {
+                $cordovaPush.register({
+                    "senderID": "124787039157"
+                }).then(function (result) {
+
+                }, function (err) {
+
+                });
+                $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
+                    switch (notification.event) {
+                        case 'registered':
+                            if (notification.regid.length > 0) {
+                                if ($localStorage.user.id) {
+                                    var device = {
+                                        cordova: $cordovaDevice.getCordova(),
+                                        model: $cordovaDevice.getModel(),
+                                        platform: $cordovaDevice.getPlatform(),
+                                        version: $cordovaDevice.getVersion()
+                                    };
+                                    $cordovaAppVersion.getAppVersion().then(function (version) {
+                                        device.appVersion = version;
+                                        ajaxRequest.send('v1/notify/register', {
+                                            user_id: $localStorage.user.id,
+                                            reg_id: notification.regid,
+                                            device: device
+                                        });
+                                    });
+                                }
+
+                                console.log('registration ID = ' + notification.regid);
+                            }
+                            break;
+                        case 'message':
+                            console.log(notification);
+                            var meta = notification.payload.meta;
+                            $timeout(function () {
+                                service.openItem(meta);
+                            });
+                            // this is the actual push notification. its format depends on the data model from the push server
 //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
-//                            break;
-//
-//                        case 'error':
-//                            alert('GCM error = ' + notification.msg);
-//                            break;
-//
-//                        default:
-//                            alert('An unknown GCM event has occurred');
-//                            break;
-//                    }
-//                });
-//            }
+                            break;
+                        case 'error':
+                            console.log('GCM error = ' + notification.msg);
+                            break;
+                        default:
+                            console.log('An unknown GCM event has occurred');
+                            break;
+                    }
+                });
+            }
         };
         return service;
     }]);

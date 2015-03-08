@@ -24,8 +24,8 @@ categoryMod.directive('scrollWatch', ['$window', function ($window) {
         };
     }]);
 categoryMod.controller('CategoryCtrl',
-        ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$timeout', '$ionicPlatform', 'timeStorage', 'ajaxRequest', 'CDN',
-            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $timeout, $ionicPlatform, timeStorage, ajaxRequest, CDN) {
+        ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$timeout', '$ionicPlatform', 'timeStorage', 'ajaxRequest', 'CDN', '$ionicModal',
+            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $timeout, $ionicPlatform, timeStorage, ajaxRequest, CDN, $ionicModal) {
                 var i = 0;
                 var backView = false;
                 $scope.isCategoryPage = true;
@@ -84,40 +84,63 @@ categoryMod.controller('CategoryCtrl',
                 $scope.page = 0;
                 $scope.currentState = {};
                 var backButton = false;
+
+                $ionicModal.fromTemplateUrl('template/partial/category_filter.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    $scope.filter_modal = modal;
+                });
+
+                $ionicModal.fromTemplateUrl('template/partial/category_sort.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    $scope.sort_modal = modal;
+                });
+                $scope.$on('$destroy', function () {
+                    $scope.sort_modal.remove();
+                    $scope.filter_modal.remove();
+                });
                 $scope.showProductsFn = function () {
                     if (backButton) {
                         backButton();
                     }
-                    $scope.showProducts = true;
-                    $scope.showSortBy = false;
-                    $scope.showFilter = false;
-                    $ionicScrollDelegate.scrollTop();
+//                    $scope.showProducts = true;
+//                    $scope.showSortBy = false;
+//                    $scope.showFilter = false;
+                    $scope.sort_modal.hide();
+                    $scope.filter_modal.hide();
+//                    $ionicScrollDelegate.scrollTop();
                 };
                 $scope.showSortByFn = function () {
                     if (!$scope.showProducts) {
                         $scope.showProductsFn();
                     } else {
-                        backButton = $ionicPlatform.registerBackButtonAction(function () {
-                            $scope.showProductsFn();
-                        }, 99999);
-                        $scope.showProducts = false;
-                        $scope.showSortBy = true;
-                        $scope.showFilter = false;
-                        $ionicScrollDelegate.scrollTop();
+//                        backButton = $ionicPlatform.registerBackButtonAction(function () {
+//                            $scope.showProductsFn();
+//                        }, 99999);
+                        $scope.sort_modal.show();
+                        //$scope.showProducts = false;
+                        //$scope.showSortBy = true;
+                        //$scope.showFilter = false;
+
+//                        $ionicScrollDelegate.scrollTop();
                     }
                 };
                 $scope.showFiltersFn = function () {
                     if (!$scope.showProducts) {
                         $scope.showProductsFn();
                     } else {
-                        backButton = $ionicPlatform.registerBackButtonAction(function () {
-                            $scope.showProductsFn();
-                        }, 99999);
-                        $scope.showProducts = false;
-                        $scope.showSortBy = false;
-                        $scope.showFilter = true;
-
-                        $ionicScrollDelegate.scrollTop();
+//                        backButton = $ionicPlatform.registerBackButtonAction(function () {
+//                            $scope.showProductsFn();
+//                        }, 99999);
+                        $scope.filter_modal.show();
+//                        $scope.showProducts = false;
+//                        $scope.showSortBy = false;
+//                        $scope.showFilter = true;
+//
+//                        $ionicScrollDelegate.scrollTop();
                     }
                 };
                 $scope.openFilter = function (obj) {
@@ -585,7 +608,6 @@ categoryMod.controller('CategoryCtrl',
                     product = angular.copy(product);
                     product.cat_name = $scope.current_category.name;
                     dataShare.broadcastData(product, 'product_open');
-                }
-                ;
+                };
             }
         ]);

@@ -126,6 +126,7 @@ textarea {
 .fashionara  { background-image: url("../img/fav/fashionara.png")  }
 .koovs  { background-image: url("../img/fav/koovs.png")  }
 .myntra  { background-image: url("../img/fav/myntra.png")  }
+.paytm  { background-image: url("../img/fav/paytm.png")  }
 .prettysecrets  { background-image: url("../img/fav/prettysecrets.png")  }
 .shopnineteen  { background-image: url("../img/fav/shopnineteen.png")  }
 .trendin  { background-image: url("../img/fav/trendin.png")  }
@@ -292,7 +293,7 @@ Scroll On Product Page
     float: left;
     width: 200px;
     height: 100%;
-    border-right: 1px solid #d9d7d4;
+    /*border-right: 1px solid #d9d7d4;*/
     background-color: #fafafa;
     font-size: 14px;
     z-index: 9999;
@@ -841,7 +842,8 @@ span.other-price{
 .category .product .image {
     height: 179px;
     margin: 0 auto;
-    width: 165px;
+    /*width: 165px;*/
+    width: 90%;
     position: relative;
     overflow: hidden;
 }
@@ -1215,7 +1217,7 @@ input{
 }
 #wishlist_new .item textArea{
     padding-top: 11px;
-    line-height: 10px;
+    line-height: 22px;
 }
 #wishlist_new .item-floating-label{
     padding-left:22px;
@@ -1316,6 +1318,7 @@ i.fa-circle{
 }
 .list_stats div.col{
     border-right: 1px solid #d9d7d4;
+    height: 40px;
 }
 .list_stats div.col:last{
     border-right: none;
@@ -1392,7 +1395,8 @@ i.fa-circle{
 }
 .user_image{
     float: left;
-    width: 45px;
+    width: 50px;
+    height: 50px;
     overflow: hidden;
     text-align: center;
     vertical-align: middle;
@@ -1956,7 +1960,8 @@ i.offline-icon{
     text-align: center;
     font-size:.8em;
     right:10px;
-
+    line-height: 23px;
+    margin: 0px auto;
 }
 .center_spinner{
     padding-top: 10px;
@@ -2008,6 +2013,7 @@ i.offline-icon{
     text-overflow: ellipsis;
     white-space:  nowrap;
     overflow: hidden;
+    line-height: 20px;
 }
 .home_header{
     top: 44px;

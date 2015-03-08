@@ -8,20 +8,23 @@
                 FashionIQ
             </ion-nav-title>
             <ion-nav-buttons side="left">
-                <button class="button button-icon toggle-btn" menu-toggle="left"  ng-show='!$isBackButtonShown'>
+                <button class="button button-icon toggle-btn" menu-toggle="left">
                     <i class="ion-navicon"></i>
                 </button>
             </ion-nav-buttons>
             <ion-nav-buttons side="right">
-                <button on-tap='searchNow();' class="button button-icon btn-search">
+                <button ng-show="!ajax_on" on-tap='searchNow();' class="button button-icon btn-search">
                     <i class="ion-search white-color fa-lg"></i>
                 </button>
-                <button on-tap='wishlist();' class="button button-icon">
+                <button ng-show="!ajax_on" on-tap='wishlist();' class="button button-icon">
                     <i class="ion-person fa-lg white-color"></i>
                     <div class="profile_updates" ng-if='profile_update > 0'>{{profile_update}}</div>
                 </button>
-                <button on-tap='addWishlistItem();' class="button button-icon">
+                <button ng-show="!ajax_on" on-tap='addWishlistItem();' class="button button-icon">
                     <i class="ion-plus-round fa-lg white-color"></i>
+                </button>
+                <button on-tap="clearAjax();" ng-show="ajax_on" class="button button-clear">
+                    <ion-spinner icon="dots" style="fill:white"></ion-spinner>
                 </button>
             </ion-nav-buttons>
         </ion-nav-bar>
@@ -77,7 +80,7 @@
                                 </span>
                                 <div class="clearfix"></div>
                                 <ul class="" ng-show="catSub.open" style="padding-left: 20px" bo-if='catSub.data.length > 0'>
-                                    <li class="" nav-clear menu-close bindonce ng-repeat="catLast in catSub.data" >
+                                    <li class="" bindonce ng-repeat="catLast in catSub.data" >
                                         <span class="subCat"  ng-click='selectCategory(catLast)' bo-bind='catLast.name'></span>        
                                     </li>
                                 </ul>
@@ -97,7 +100,7 @@
                         <div class="internal-details"><img src="img/favicon.png" class="red-color" alt="" />About Us</div>
                     </li>
                     <li class="list-not-cat">
-                        <div class="internal-details" nav-clear menu-close ng-if="login" nav-clear menu-close on-tap='logout();'><i class="ion-log-out red-color log-sign"></i>Logout</div>
+                        <div class="internal-details" nav-clear menu-close ng-if="login" on-tap='logout();'><i class="ion-log-out red-color log-sign"></i>Logout</div>
                     </li>
                     <div class="clearfix"></div>
                 </ul>

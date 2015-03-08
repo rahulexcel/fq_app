@@ -1,6 +1,6 @@
 profileMod.controller('ProfileUpdateCtrl',
-        ['$scope', '$localStorage', 'notifyHelper', '$location', '$ionicListDelegate', 'toast',
-            function ($scope, $localStorage, notifyHelper, $location, $ionicListDelegate, toast) {
+        ['$scope', '$localStorage', 'notifyHelper', '$location', '$ionicListDelegate', 'toast', 'notifyHelper',
+            function ($scope, $localStorage, notifyHelper, $location, $ionicListDelegate, toast, notifyHelper) {
                 $scope.$on('user_info', function () {
                     $scope.followers = $scope.$parent.user.followers;
                     if ($scope.$parent.user._id === $localStorage.user.id) {
@@ -16,6 +16,7 @@ profileMod.controller('ProfileUpdateCtrl',
                     notifyHelper.delete(item.objectId);
                     var updates = $scope.updates;
                     var new_updates = [];
+                    console.log(index);
                     for (var i = 0; i < updates.length; i++) {
                         if (i !== index * 1) {
                             new_updates.push(updates[i]);
@@ -29,26 +30,6 @@ profileMod.controller('ProfileUpdateCtrl',
                     $location.path('/app/profile/' + user.id + '/mine');
                 };
                 $scope.hasMore = true;
-                $scope.openUpdate = function (item) {
-                    var row = item.meta;
-                    if (row.type === 'add_friend') {
-                        $location.path('/app/profile/me/friends');
-                    } else if (row.type === 'item_unlike' || row.type === 'item_like') {
-                        $location.path('/app/item/' + row.data.data.item_id._id + "/" + row.data.data.list_id._id);
-                    } else if (row.type === 'follow_user') {
-                        $location.path('/app/profile/' + row.user.id + '/mine');
-                    } else if (row.type === 'unfollow_user') {
-                        $location.path('/app/profile/' + row.user.id + '/mine');
-                    } else if (row.type === 'follow_list') {
-                        $location.path('/app/wishlist_item/' + row.data.list._id + "/" + row.data.list.name);
-                    } else if (row.type === 'unfollow_list') {
-                        $location.path('/app/wishlist_item/' + row.data.list._id + "/" + row.data.list.name);
-                    } else if (row.type === 'item_comment') {
-                        $location.path('/app/item/' + row.data.data.data.item_id._id + "/" + row.data.data.data.list_id._id);
-                    } else if (row.type === 'item_add_user' || row.type === 'item_add') {
-                        $location.path('/app/item/' + row.data.data.wishlist_model._id + "/" + row.data.data.list_id._id);
-                    }
-                };
                 $scope.$on('friend_request', function () {
                     var index = $scope.friend_index;
                     if ($scope.updates[index]) {
@@ -89,6 +70,10 @@ profileMod.controller('ProfileUpdateCtrl',
                         $scope.$broadcast('scroll.refreshComplete');
                     });
                 };
+                $scope.openUpdate = function (item) {
+                    var row = item.meta;
+                    notifyHelper.openItem(row);
+                };
                 $scope.updateItems = function (data, append) {
                     console.log(data);
                     if (data.length === 0) {
@@ -123,6 +108,10 @@ profileMod.controller('ProfileUpdateCtrl',
                                         image: row.data.data.item_id.img
                                     };
                                 }
+                            } else if (row.type === 'list_created') {
+                                item.body = {
+                                    title: row.data.user.name + ' has shared a list with you!'
+                                };
                             } else if (row.type === 'follow_user') {
                                 item.body = {
                                     title: row.data.user.name + ' is following you!'
@@ -155,15 +144,26 @@ profileMod.controller('ProfileUpdateCtrl',
                                     title: 'Item added to list ' + row.data.data.list.name + ' by ' + row.data.user.name,
                                     image: row.data.data.wishlist_model.img
                                 };
+                            } else if (row.type === 'list_left') {
+                                item.body = {
+                                    title: item.user.name + " has left your list " + item.list.name
+                                };
                             } else if (row.type === 'add_friend') {
                                 item.body = {
                                     title: item.user.name + " has sent you a friend request",
-                                    friend_request: false
+                                    friend_request: true
+                                };
+                            } else if (row.type === 'accept_friend') {
+                                item.body = {
+                                    title: item.user.name + " has accepted your friend request",
+                                };
+                            } else if (row.type === 'decline_friend') {
+                                item.body = {
+                                    title: item.user.name + " has declined your friend request",
                                 };
                             } else if (row.type === 'un_friend') {
                                 item.body = {
                                     title: item.user.name + " has remove you from his friend list",
-                                    friend_request: false
                                 };
                             }
                             item.time = row.time;

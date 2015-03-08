@@ -233,11 +233,17 @@ accountMod.controller('AccountCtrl',
                                 $scope.file_upload = false;
                             });
                         }
-
-//                            console.log('file ' + config.file.name + 'is uploaded successfully. Response: ' + data);
                     });
-//                    }
 
                 });
+                $scope.updateFacebookImage = function () {
+                    var ajax = accountHelper.updateFacebookPics();
+                    ajax.then(function (data) {
+                        $localStorage.user.picture = data;
+                        $scope.login_data.picture = data;
+                        $scope.$parent.user.picture = data;
+                        $scope.$evalAsync();
+                    });
+                };
             }
         ]);

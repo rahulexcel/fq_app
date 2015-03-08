@@ -8,7 +8,7 @@
         <div class="center_spinner" ng-if="product_loading">
             <ion-spinner></ion-spinner>
         </div>
-        <div class="product" ng-show="product">
+        <div class="product" ng-show="product" id="{{product._id}}">
             <div class="pro-img padding">
                 <div class="pro-img">
                     <ion-slide-box ng-if="product.more_images" show-pager="true" style="height: 350px">
@@ -32,7 +32,7 @@
                     <div>
                         <span class="e-site">
                             <span class="arrow" ng-show='product.cat_id' on-tap='viewBrand(product);'>{{product.brand}}</span>
-                            <i class='site {{product.website}}'></i>{{product.website}}
+                            <i class='site {{product.website}}'></i><span on-tap='viewWebsite(product);'>{{product.website}}</span>
                         </span>
                         <div class="clearfix"></div>
                     </div>
@@ -74,8 +74,8 @@
                 <div class="similar-product-label">
                     SIMILAR PRODUCTS
                 </div>
-                <div id="similar" class="similar">
-                    <ul id="scroller" class="variants">
+                <div id="similar" class="similar similar_{{product._id}}">
+                    <ul id="scroller" class="variants scroller_{{product._id}}">
                         <li on-tap="openProduct(variant);" ng-repeat="variant in product.similar" style="float: left">
                             <div class="similar-img">
                                 <img img-loader ng-src='{{variant.image}}'/>

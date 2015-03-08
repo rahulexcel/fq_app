@@ -83,7 +83,7 @@ categoryService.factory('categoryHelper', [
 //                });
             ajax.then(function (data) {
                 var ret = {};
-                if (data.products) {
+                if (angular.isDefined(data.products)) {
                     ret.products = data.products;
                     ret.page = data.current_page;
                 } else {
@@ -92,7 +92,7 @@ categoryService.factory('categoryHelper', [
                 }
 
                 var sortBy = [];
-                if (data.sort) {
+                if (angular.isDefined(data.sort) && angular.isArray(data.sort)) {
                     for (var i = 0; i < data.sort.length; i++) {
                         var name = data.sort[i].text;
                         var param = data.sort[i].param;
@@ -104,7 +104,7 @@ categoryService.factory('categoryHelper', [
                 }
                 ret.sortBy = sortBy;
                 var filters = [];
-                if (data.filters) {
+                if (angular.isDefined(data.filters)) {
                     for (var filter in data.filters) {
                         var filter_values = data.filters[filter];
                         if (data.filters[filter].data && data.filters[filter].data.length > 0) {

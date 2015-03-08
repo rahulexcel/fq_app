@@ -1,5 +1,4 @@
 var wishlistService = angular.module('WishlistService', ['ServiceMod', 'ionic', 'ngCordova']);
-
 wishlistService.factory('wishlistHelper', [
     'ajaxRequest', '$q', 'toast', '$localStorage', '$location', 'timeStorage', '$ionicLoading', 'notifyHelper', '$cordovaDialogs', '$ionicPopup',
     function (ajaxRequest, $q, toast, $localStorage, $location, timeStorage, $ionicLoading, notifyHelper, $cordovaDialogs, $ionicPopup) {
@@ -15,7 +14,6 @@ wishlistService.factory('wishlistHelper', [
         };
         service.saveImageUrl = function (url) {
             var def = $q.defer();
-
             var ajax = ajaxRequest.send('v1/picture/get_url?url=' + encodeURIComponent(url), {}, 'GET');
             ajax.then(function (data) {
                 def.resolve(data);
@@ -26,7 +24,6 @@ wishlistService.factory('wishlistHelper', [
         };
         service.getUrlImage = function (url) {
             var def = $q.defer();
-
             var ajax = ajaxRequest.send('v1/picture/extract?url=' + encodeURIComponent(url), {}, 'GET');
             ajax.then(function (data) {
                 def.resolve(data);
@@ -35,10 +32,8 @@ wishlistService.factory('wishlistHelper', [
             });
             return def.promise;
         };
-
         service.remove = function (item_id, list_id) {
             var def = $q.defer();
-
             if ($localStorage.user && $localStorage.user.id) {
                 var ajax = ajaxRequest.send('v1/wishlist/item/remove', {
                     user_id: $localStorage.user.id,
@@ -125,7 +120,6 @@ wishlistService.factory('wishlistHelper', [
                 ajax.then(function (data) {
                     if (showLoading)
                         $ionicLoading.hide();
-
                     if (data.me) {
                         for (var i = 0; i < data.me.length; i++) {
                             var name = data.me[i].name;
@@ -135,8 +129,16 @@ wishlistService.factory('wishlistHelper', [
                             data.me[i].bg_color = bg_color;
                         }
                     }
+//                    if (data.shared) {
+//                        for (var i = 0; i < data.shared.length; i++) {
+//                            var name = data.shared[i].name;
+//                            var list_symbol = name.substring(0, 1).toUpperCase();
+//                            var bg_color = service.getRandomColor();
+//                            data.shared[i].list_symbol = list_symbol;
+//                            data.shared[i].bg_color = bg_color;
+//                        }
+//                    }
                     timeStorage.set('user_wish_list', data, 12);
-
                     def.resolve(self.sortList(data));
                 }, function (message) {
                     if (showLoading)
@@ -206,6 +208,25 @@ wishlistService.factory('wishlistHelper', [
                 var ajax = ajaxRequest.send('v1/wishlist/add', list);
                 ajax.then(function (data) {
                     def.resolve(data);
+                    if (list.type === 'shared' && !list._id) {
+                        var shared_ids = list.shared_ids;
+                        for (var i = 0; i < shared_ids.length; i++) {
+                            notifyHelper.sendAlert('user_' + shared_ids[i], {
+                                title: 'New Wishlist Shared',
+                                message: $localStorage.user.name + " has shared a list with you",
+                                meta: {
+                                    user: $localStorage.user,
+                                    list: data,
+                                    type: 'list_created'
+                                }
+                            });
+                            notifyHelper.addUpdate(shared_ids[i], 'list_created', {
+                                user: $localStorage.user,
+                                list: data
+                            });
+                        }
+                    }
+
                 }, function (message) {
                     def.reject(message);
                 });
@@ -218,9 +239,9 @@ wishlistService.factory('wishlistHelper', [
             }
             return def.promise;
         };
+        //uploading custom image
         service.addItem = function (item, list_id) {
             var def = $q.defer();
-
             if ($localStorage.user && $localStorage.user.id) {
                 var ajax = ajaxRequest.send('v1/wishlist/item/add', {
                     user_id: $localStorage.user.id,
@@ -230,75 +251,73 @@ wishlistService.factory('wishlistHelper', [
                 });
                 ajax.then(function (data) {
                     def.resolve(data);
-
                     if (data.list) {
                         var followers = data.list.followers;
                         var shared_ids = data.list.shared_ids;
                         console.log(followers);
                         console.log(shared_ids);
                         if (shared_ids.length > 0) {
-//                            notifyHelper.addUpdate(shared_ids, 'item_add', {
-//                                data: data,
-//                                user: $localStorage.user
-//                            });
+                            shared_ids.push(data.list.user_id);
                             for (var i = 0; i < shared_ids.length; i++) {
-                                notifyHelper.sendAlert('user_' + shared_ids[i], {
-                                    title: 'New Item Added',
-                                    alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
-                                    type: 'item_add',
-                                    meta: {
-                                        wishlist_model: data.wishlist_model,
-                                        list: data.list,
-                                        user: $localStorage.user
-                                    }
-                                });
+                                if (shared_ids[i] !== $localStorage.user.id) {
+                                    notifyHelper.sendAlert('user_' + shared_ids[i], {
+                                        title: 'New Item Added',
+                                        alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+                                        type: 'item_add',
+                                        bigPicture: data.wishlist_model.href,
+                                        meta: {
+                                            wishlist_model: data.wishlist_model,
+                                            list: data.list,
+                                            user: $localStorage.user,
+                                            type: 'item_add'
+                                        }
+                                    });
+                                }
                             }
                         } else {
                             if (data.list.type === 'public') {
                                 //no need to send alert for public lists. 
                                 //these items will be shown in feed
                                 if (followers.length > 0) {
+                                    console.log(followers);
                                     //followers only if no shared ids
-//                                notifyHelper.addUpdate(followers, 'item_add', {
-//                                    data: data,
-//                                    user: $localStorage.user
-//                                });
-//                                    notifyHelper.sendAlert('list_' + data.list._id, {
-//                                        title: 'New Item Added',
-//                                        alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
-//                                        meta: {
-//                                            type: 'item_add',
-//                                            wishlist_model: data.wishlist_model,
-//                                            list: data.list,
-//                                            user: $localStorage.user
-//                                        }
-//                                    });
+                                    for (var i = 0; i < followers.length; i++) {
+                                        notifyHelper.sendAlert('user_' + followers[i], {
+                                            title: 'New Item Added',
+                                            alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+                                            meta: {
+                                                type: 'item_add',
+                                                wishlist_model: data.wishlist_model,
+                                                list: data.list,
+                                                user: $localStorage.user
+                                            }
+                                        });
+                                    }
 
                                 }
 
-//                                var user_followers = data.user.followers;
-//                                console.log(user_followers);
-//                                var filtered_user_followers = [];
-//                                for (var i = 0; i < user_followers.length; i++) {
-//                                    var follower = user_followers[i];
-//                                    if (followers.indexOf(follower) === -1) {
-//                                        filtered_user_followers.push(follower);
-//                                    }
-//                                notifyHelper.addUpdate(filtered_user_followers, 'item_add_user', {
-//                                    data: data,
-//                                    user: $localStorage.user
-//                                });
-//                                    notifyHelper.sendAlert('user_follower_' + $localStorage.user.id, {
-//                                        title: 'New Item Added',
-//                                        alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
-//                                        meta: {
-//                                            type: 'item_add_user',
-//                                            wishlist_model: data.wishlist_model,
-//                                            list: data.list,
-//                                            user: $localStorage.user
-//                                        }
-//                                    });
-//                            }
+                                var user_followers = data.user.followers;
+                                console.log(user_followers);
+                                var filtered_user_followers = [];
+                                for (var i = 0; i < user_followers.length; i++) {
+                                    var follower = user_followers[i];
+                                    if (followers.indexOf(follower) === -1) {
+                                        filtered_user_followers.push(follower);
+                                    }
+                                }
+                                console.log(filtered_user_followers);
+                                for (var i = 0; i < filtered_user_followers.length; i++) {
+                                    notifyHelper.sendAlert('user_' + filtered_user_followers[i], {
+                                        title: 'New Item Added',
+                                        alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+                                        meta: {
+                                            type: 'item_add',
+                                            wishlist_model: data.wishlist_model,
+                                            list: data.list,
+                                            user: $localStorage.user
+                                        }
+                                    });
+                                }
                             }
                         }
 
@@ -323,7 +342,6 @@ wishlistService.factory('wishlistHelper', [
         };
         service.viewItem = function (item_id, list_id) {
             var def = $q.defer();
-
             var ajax = ajaxRequest.send('v1/wishlist/item/view/' + item_id + "/" + list_id, {}, 'GET');
             ajax.then(function (data) {
                 def.resolve(data);
@@ -332,19 +350,11 @@ wishlistService.factory('wishlistHelper', [
             });
             return def.promise;
         };
-
         service.showPriceAlertDialog = function (product_id, name) {
             if ($localStorage.price_alert_always) {
                 service.setPriceAlert(product_id);
             } else {
                 if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-                    $ionicPopup.confirm({
-                        template: 'Do you want to recieve alerts when price drop for ' + name,
-                        title: 'Price Alert'
-                    }).then(function () {
-                        service.setPriceAlert(product_id);
-                    });
-                } else {
                     $cordovaDialogs.confirm('Do you want to recieve alerts when price drop for ' + name, 'Price Alert', ['Ok', 'Always', 'Cancel'])
                             .then(function (index) {
                                 if (index === 0) {
@@ -356,6 +366,14 @@ wishlistService.factory('wishlistHelper', [
 
                                 }
                             });
+                } else {
+                    $ionicPopup.confirm({
+                        template: 'Do you want to recieve alerts when price drop for ' + name,
+                        title: 'Price Alert'
+                    }).then(function (data) {
+                        if (data)
+                            service.setPriceAlert(product_id);
+                    });
                 }
             }
         };
@@ -370,9 +388,36 @@ wishlistService.factory('wishlistHelper', [
                 toast.showShortBottom('UnExpected Error In Price Alert');
             });
         };
+        service.leaveList = function (list) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/wishlist/leave_list', {
+                user_id: $localStorage.user.id,
+                list_id: list._id
+            });
+            ajax.then(function () {
+                def.resolve();
+                if (list.user_id) {
+                    notifyHelper.sendAlert('user_' + list.user_id._id, {
+                        title: 'Left Your List',
+                        message: $localStorage.user.name + " left your list " + list.name,
+                        meta: {
+                            user: $localStorage.user,
+                            list: list,
+                            type: 'list_left'
+                        }
+                    });
+                    notifyHelper.addUpdate(list.user_id._id, 'list_left', {
+                        user: $localStorage.user,
+                        list: list
+                    });
+                }
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
         service.add = function (product_id, list_id) {
             var def = $q.defer();
-
             var self = this;
             if ($localStorage.user && $localStorage.user.id) {
                 var ajax = ajaxRequest.send('v1/wishlist/item/add', {
@@ -384,69 +429,79 @@ wishlistService.factory('wishlistHelper', [
                 ajax.then(function (data) {
                     def.resolve(data);
                     self.showPriceAlertDialog(product_id, data.wishlist_model.name);
-
                     if (data.list) {
                         var followers = data.list.followers;
                         var shared_ids = data.list.shared_ids;
                         console.log(followers);
                         console.log(shared_ids);
                         if (shared_ids.length > 0) {
+                            shared_ids.push(data.list.user_id);
                             for (var i = 0; i < shared_ids.length; i++) {
-                                notifyHelper.sendAlert('user_' + shared_ids[i], {
-                                    title: 'New Item Added',
-                                    alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
-                                    type: 'item_add',
-                                    meta: {
+                                if (shared_ids[i] !== $localStorage.user.id) {
+                                    console.log(shared_ids[i]);
+                                    notifyHelper.sendAlert('user_' + shared_ids[i], {
+                                        title: 'New Item Added',
+                                        alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+                                        bigPicture: data.wishlist_model.href,
+                                        meta: {
+                                            wishlist_model: data.wishlist_model,
+                                            list: data.list,
+                                            user: $localStorage.user,
+                                            type: 'item_add'
+                                        }
+                                    });
+                                    notifyHelper.addUpdate('user_' + shared_ids[i], 'item_add', {
                                         wishlist_model: data.wishlist_model,
                                         list: data.list,
                                         user: $localStorage.user
-                                    }
-                                });
+                                    });
+                                }
                             }
                         } else {
                             if (data.list.type === 'public') {
+                                //no need to send alert for public lists. 
+                                //these items will be shown in feed
                                 if (followers.length > 0) {
+                                    console.log(followers);
                                     //followers only if no shared ids
-//                                notifyHelper.addUpdate(followers, 'item_add', {
-//                                    data: data,
-//                                    user: $localStorage.user
-//                                });
-//                                    notifyHelper.sendAlert('list_' + data.list._id, {
-//                                        title: 'New Item Added',
-//                                        alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
-//                                        meta: {
-//                                            type: 'item_add',
-//                                            wishlist_model: data.wishlist_model,
-//                                            list: data.list,
-//                                            user: $localStorage.user
-//                                        }
-//                                    });
+                                    for (var i = 0; i < followers.length; i++) {
+                                        notifyHelper.sendAlert('user_' + followers[i], {
+                                            title: 'New Item Added',
+                                            alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+                                            meta: {
+                                                type: 'item_add',
+                                                wishlist_model: data.wishlist_model,
+                                                list: data.list,
+                                                user: $localStorage.user
+                                            }
+                                        });
+                                    }
 
                                 }
 
-//                                var user_followers = data.user.followers;
-//                                console.log(user_followers);
-//                                var filtered_user_followers = [];
-//                                for (var i = 0; i < user_followers.length; i++) {
-//                                    var follower = user_followers[i];
-//                                    if (followers.indexOf(follower) === -1) {
-//                                        filtered_user_followers.push(follower);
-//                                    }
-//                                notifyHelper.addUpdate(filtered_user_followers, 'item_add_user', {
-//                                    data: data,
-//                                    user: $localStorage.user
-//                                });
-//                                    notifyHelper.sendAlert('user_follower_' + $localStorage.user.id, {
-//                                        title: 'New Item Added',
-//                                        alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
-//                                        meta: {
-//                                            type: 'item_add_user',
-//                                            wishlist_model: data.wishlist_model,
-//                                            list: data.list,
-//                                            user: $localStorage.user
-//                                        }
-//                                    });
-//                            }
+                                var user_followers = data.user.followers;
+                                console.log(user_followers);
+                                var filtered_user_followers = [];
+                                for (var i = 0; i < user_followers.length; i++) {
+                                    var follower = user_followers[i];
+                                    if (followers.indexOf(follower) === -1) {
+                                        filtered_user_followers.push(follower);
+                                    }
+                                }
+                                console.log(filtered_user_followers);
+                                for (var i = 0; i < filtered_user_followers.length; i++) {
+                                    notifyHelper.sendAlert('user_' + filtered_user_followers[i], {
+                                        title: 'New Item Added',
+                                        alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+                                        meta: {
+                                            type: 'item_add',
+                                            wishlist_model: data.wishlist_model,
+                                            list: data.list,
+                                            user: $localStorage.user
+                                        }
+                                    });
+                                }
+
                             }
                         }
 

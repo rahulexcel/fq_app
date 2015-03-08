@@ -1,17 +1,24 @@
 var productService = angular.module('ProductService', ['ServiceMod']);
 
 productService.factory('productHelper', [
-    'ajaxRequest', '$q', '$http',
-    function (ajaxRequest, $q, $http) {
+    'ajaxRequest', '$q', '$http', 'timeStorage',
+    function (ajaxRequest, $q, $http, timeStorage) {
         var service = {};
         service.fetchLatest = function (url) {
             var defer = $q.defer();
-            var ajax = $http.get(ajaxRequest.url('v1/parseurl') + "?url=" + url);
-            ajax.then(function (data) {
-                if (data.data && data.data.data)
-                    defer.resolve(data.data.data);
-            });
-            return defer.promise;
+            var key = 'product_latest_' + url;
+            if (timeStorage.get(key)) {
+                return $q.when(timeStorage.get(key));
+            } else {
+                var ajax = $http.get(ajaxRequest.url('v1/parseurl') + "?url=" + url);
+                ajax.then(function (data) {
+                    if (data.data && data.data.data) {
+                        timeStorage.set(key, data.data.data, 24);
+                        defer.resolve(data.data.data);
+                    }
+                });
+                return defer.promise;
+            }
         };
         service.fetchProduct = function (id) {
             var defer = $q.defer();

@@ -1,5 +1,5 @@
 <ion-view cache-view="false" title='{{user.name}} | Profile'>
-    <ion-content overflow-scroll='false'>
+    <ion-content lazy-scroll overflow-scroll='false'>
         <div class="top-container" ng-show="user">
             <div class="box mine-username">
                 <div class="user_profile_center">
@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <div class="grey-color" ng-if="!status_edit">
-                            <span ng-if="!user.status || user.status.length === 0 && me">Set Your Status</span>
+                            <span ng-if="(!user.status || user.status.length === 0)  && me">Set Your Status</span>
                             <span ng-if="user.status && user.status.length !== 0">{{user.status}}</span>
                             <i ng-if="me" style="opacity: 0.7" class="ion-edit red-color" on-tap="editStatus();"></i>
                         </div>

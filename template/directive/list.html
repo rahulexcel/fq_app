@@ -1,12 +1,19 @@
 <div class='sub_box'>
     <div class="wishlist_icon" on-tap='viewList();'>
-        <div class="round_icon" ng-style="{'background-color': list.bg_color}">
+        <div ng-if="list.bg_color" class="round_icon" ng-style="{'background-color': list.bg_color}">
             {{list.list_symbol}}
+        </div>
+        <div ng-if="list.user_id.picture">
+            <div class="round_icon">
+                <img class="rounded" ng-src="{{list.user_id.picture|picture:50:50}}" />
+            </div>
         </div>
     </div>
     <div class="user-info wishlist_list_item">
-        <span class="black-font info font13" on-tap='viewList(list)'>{{list.name}}
+        <span class="black-font info font13" on-tap='viewList(list)'>
             <i ng-if="list.type == 'private'" class="ion-ios-locked grey-color"></i>
+            <i ng-if="list.type == 'shared'" class="ion-android-share-alt grey-color"></i>
+            {{list.name}}
         </span>
         <div class=""> 
             <span class="info grey-color font11 wish-icon">
@@ -14,7 +21,10 @@
                 <span><i class="ion-thumbsup red-color"></i> {{list.meta.likes}} likes </span> 
                 <span><i class="ion-ios-people red-color"></i> {{list.followers.length}} followers </span> 
             </span>
-            <div class="info grey-color font11">Created {{list.created_at| prettyDate}} </div>
+            <div class="info grey-color font11">
+                Created {{list.created_at| prettyDate}} 
+                <span ng-if="list.user_id.name">by {{list.user_id.name}}</span>
+            </div>
             <div class="clearfix"></div>
         </div>
         <div class="action"> 

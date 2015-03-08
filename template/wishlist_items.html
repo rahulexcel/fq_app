@@ -10,18 +10,27 @@
                 <div class="col">
                     {{list_detail.meta.products}} clips
                 </div>
-                <div class="col">
+                <div class="col" ng-if="list_detail.type == 'public'">
                     <i class="ion-ios-people fa-lg red-color"></i>&nbsp; {{list_detail.followers.length}}
                 </div>
                 <div class="col">
                     <i class="ion-ios-heart-outline red-color"></i>&nbsp;{{list_detail.meta.likes}} likes
                 </div>
-                <div class="col" style="padding: 0px" ng-if="!my_list">
+                <div class="col" style="padding: 0px" ng-if="!my_list && list_detail.type != 'shared'">
                     <button on-tap='followList()' ng-if="!follow" style="height: 100%;margin: 0px;padding: 0px" class="button button-full button-small button-icon ion-ios-people fa-2x red-color"></button>
                     <button on-tap='unFollowList()' ng-if="follow" style="height: 100%;margin: 0px;padding: 0px" class="button button-full button-small button-icon ion-ios-people-outline grey-color fa-2x"></button>                    
                 </div>
                 <div class="col"  style="padding: 0px" ng-if="my_list">
-                    <button on-tap='deleteList()' style="height: 100%;margin: 0px;padding: 0px" class="button button-full button-small button-icon ion-trash-b fa-2x red-color"></button>
+                    <button on-tap='deleteList()' style="height: 100%;margin: 0px;padding: 0px;font-size:1.5em" class="button button-full button-small button-icon ion-trash-b red-color"></button>
+                </div>
+                <div class="col"  style="padding: 0px" ng-if="my_list">
+                    <button on-tap='editList()' style="height: 100%;margin: 0px;padding: 0px;font-size:1.5em" class="button button-full button-small button-icon ion-edit red-color"></button>
+                </div>
+                <div class="col"  style="padding: 0px" ng-if="list_detail.type == 'shared'">
+                    <button on-tap='listMembers()' style="height: 100%;margin: 0px;padding: 0px;font-size:1.5em" class="button button-full button-small button-icon ion-person-stalker red-color"></button>
+                </div>
+                <div class="col"  style="padding: 0px" ng-if="!my_list && list_detail.type == 'shared'">
+                    <button on-tap='leaveList()' style="height: 100%;margin: 0px;padding: 0px;font-size:1.5em" class="button button-full button-small button-icon ion-android-share red-color"></button>
                 </div>
             </div>
         </div>

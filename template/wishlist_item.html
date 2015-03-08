@@ -6,14 +6,14 @@
             on-refresh="doRefresh()">
         </ion-refresher>
         <div ng-show="item" id="wishlist_item">
-            <div class="box">
+            <div class="box"  style="padding: 2px">
                 <div class="pro-img">
                     <ion-slide-box ng-if="item.item_id.more_images" show-pager="true" style="height: 350px">
                         <ion-slide>
                             <img img-loader ng-src='{{item.item_id.img| picture:picture_width}}'/>
                         </ion-slide>
                         <ion-slide ng-repeat="img in item.item_id.more_images">
-                            <img img-loader ng-src='{{img}}'/>
+                            <img img-loader ng-src='{{img|picture}}'/>
                         </ion-slide>
                     </ion-slide-box>
                     <img ng-if="!item.item_id.more_images" img-loader ng-src='{{item.item_id.img| picture:picture_width}}' />
@@ -30,8 +30,8 @@
                     </div>
                 </div>
                 <div class="pro-info">
-                    <div class="pro-name">
-                        <div ng-show="item.item_id.name.length > 0">{{item.item_id.name}}</div>
+                    <div class="pro-name" ng-if="item.item_id.name.length > 0">
+                        <div>{{item.item_id.name}}</div>
                         <span class="arrow" ng-show='item.item_id.brand.length > 0'>Arrow </span>
                         <span class="e-site" ng-show='item.item_id.website.length > 0'>
                             <i class='site {{item.item_id.website}}'></i>
@@ -91,9 +91,9 @@
             </div>
             <div class="box">
                 <div class="user_image"  on-tap="profile(item.user_id);">
-                    <img ng-src='{{item.user_id.picture| picture:50}}'/>
+                    <img class="rounded" ng-src='{{item.user_id.picture| picture:50:50}}'/>
                 </div>
-                <div class="center_box" style="margin-left: 50px;margin-right: 20px">
+                <div class="center_box" style="margin-left: 55px;margin-right: 20px">
                     <span class="red-color info" on-tap="profile(item.user_id);">{{::item.user_id.name}}</span>
                     <div class="display_status">
                         {{::item.user_id.status}}
@@ -113,7 +113,7 @@
                         </div>
                 </div>
                 <button ng-if="!me_follow_user && !mine" on-tap='followUser(item.user_id._id);' class="abs-follow-button button-icon red-color ion-ios-people fa-2x"></button>
-                <button ng-if="me_follow_user" on-tap='unFollowUser(item.user_id._id);' class="abs-follow-button black-font ion-ios-people-outline fa-2x"></button>
+                <button ng-if="me_follow_user" on-tap='unFollowUser(item.user_id._id);' class="abs-follow-button button-icon black-font ion-ios-people-outline fa-2x"></button>
                 <div class="clearfix"></div>
             </div>
             <div class="added-to box">
@@ -158,14 +158,14 @@
                 <h4>Comments</h4>
                 <span class="grey-color" ng-if="item.comments.length == 0">Be the first to comment</span>
                 <div ng-repeat="comment in item.comments track by $index">
-                    <div>
-                        <div class="user_image">
-                            <img ng-src='{{comment.picture|picture:50}}' style="max-width: 50px;max-height: 50px;" />
+                    <div style="position: relative;min-height: 50px">
+                        <div class="user_image" style="position: absolute;left: 0px">
+                            <img class="rounded" ng-src='{{comment.picture|picture:50:50}}' style="max-width: 50px;max-height: 50px;" />
                         </div>
-                        <div class="user-info">
+                        <div class="user-info" style="margin-left: 55px;width: 100%;margin-right: 5px">
                             <div>{{comment.comment}}</div>
-                            <div>{{comment.created_at| prettyDate}}</div>
-                            <div on-tap='removeComment(comment);'>&times;</div>
+                            <div class="grey-color" style="font-size:0.7em">{{comment.created_at| prettyDate}}</div>
+                            <div style="position: absolute;top: 0px;right:0px;font-size:1.5em" class="grey-color" on-tap='removeComment(comment);'>&times;</div>
                         </div>
                         <div class="clearfix"></div>
                     </div>

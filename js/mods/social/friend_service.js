@@ -72,6 +72,18 @@ friendService.factory('friendHelper', [
             });
             return def.promise;
         };
+        service.home_feed_count = function () {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/feeds/my/count', {
+                user_id: $localStorage.user.id
+            }, true);
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
         service.home_feed = function (page) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/feeds/my', {
@@ -154,9 +166,11 @@ friendService.factory('friendHelper', [
 //                    notifyHelper.subscribe('user_follower_' + follow_user_id);
 // will use only user based channel
                     notifyHelper.sendAlert('user_' + follow_user_id, {
-                        title: $localStorage.user.name + " is Following You Now",
+                        title: 'New Follower',
+                        message: $localStorage.user.name + " is Following You Now",
                         meta: {
-                            user: $localStorage.user
+                            user: $localStorage.user,
+                            type: 'follow_user'
                         }
                     });
                     notifyHelper.addUpdate(follow_user_id, 'follow_user', {
@@ -165,9 +179,7 @@ friendService.factory('friendHelper', [
                 } else {
 //                    notifyHelper.unsubscribe('user_follower_' + follow_user_id);
                     notifyHelper.addUpdate(follow_user_id, 'unfollow_user', {
-                        meta: {
-                            user: $localStorage.user
-                        }
+                        user: $localStorage.user
                     });
                 }
 
@@ -195,10 +207,12 @@ friendService.factory('friendHelper', [
                 if (type === 'add') {
                     notifyHelper.subscribe('list_' + list_id);
                     notifyHelper.sendAlert('user_' + data.user_id, {
-                        title: $localStorage.user.name + " is Following You List " + data.name,
+                        title: 'New List Follower',
+                        message: $localStorage.user.name + " is Following You List " + data.name,
                         meta: {
                             user: $localStorage.user,
-                            list: data
+                            list: data,
+                            type: 'follow_list'
                         }
                     });
                     notifyHelper.addUpdate(data.user_id, 'follow_list', {
@@ -347,14 +361,15 @@ friendService.factory('friendHelper', [
                 to_user_id: $localStorage.user.id
             });
             ajax.then(function (data) {
-                notifyHelper.addUpdate(from_friend_id, 'add_friend', {
+                notifyHelper.addUpdate(from_friend_id, 'decline_friend', {
                     user: $localStorage.user,
                     data: from_friend_id
                 });
                 notifyHelper.sendAlert('user_' + from_friend_id, {
-                    title: $localStorage.user.name + ' decliend your friend request',
+                    title: 'Friend Request Declined',
+                    message: $localStorage.user.name + ' decliend your friend request',
                     meta: {
-                        type: 'add_friend',
+                        type: 'decline_friend',
                         user: $localStorage.user
                     }
                 });
@@ -371,14 +386,15 @@ friendService.factory('friendHelper', [
                 to_user_id: $localStorage.user.id
             });
             ajax.then(function (data) {
-                notifyHelper.addUpdate(from_friend_id, 'add_friend', {
+                notifyHelper.addUpdate(from_friend_id, 'accept_friend', {
                     user: $localStorage.user,
                     data: from_friend_id
                 });
                 notifyHelper.sendAlert('user_' + from_friend_id, {
-                    title: $localStorage.user.name + ' has sent you a friend request',
+                    title: 'Friend Request Accepted',
+                    message: $localStorage.user.name + ' has sent you a friend request',
                     meta: {
-                        type: 'add_friend',
+                        type: 'accept_friend',
                         user: $localStorage.user
                     }
                 });
@@ -401,7 +417,8 @@ friendService.factory('friendHelper', [
                         data: to_user_id
                     });
                     notifyHelper.sendAlert('user_' + to_user_id, {
-                        title: $localStorage.user.name + ' has sent you a friend request',
+                        title: 'Friend Request',
+                        message: $localStorage.user.name + ' has sent you a friend request',
                         meta: {
                             type: 'add_friend',
                             user: $localStorage.user

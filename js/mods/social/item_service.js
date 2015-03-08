@@ -38,20 +38,31 @@ itemService.factory('itemHelper', [
             ajax.then(function (data) {
                 def.resolve(data);
                 if (type === 'add') {
-                    if (user_id !== $localStorage.user.id) {
-                        notifyHelper.sendAlert('user_' + data.data.list_id.user_id, {
-                            title: $localStorage.user.name + " comment on your",
-                            alert: comment,
-                            meta: {
+                    var comments = data.data.comments;
+                    var notify_ids = [];
+                    notify_ids.push(data.data.list_id.user_id);
+                    for (var i = 0; i < comments.length; i++) {
+                        notify_ids.push(comments[i].user_id);
+                    }
+                    for (var i = 0; i < notify_ids.length; i++) {
+                        var u_id = notify_ids[i];
+                        if (u_id !== $localStorage.user.id) {
+                            notifyHelper.sendAlert('user_' + u_id, {
+                                title: 'New Comment',
+                                message: $localStorage.user.name + " comment on your",
+                                alert: comment,
+                                meta: {
+                                    user: $localStorage.user,
+                                    data: data,
+                                    type: 'item_comment'
+                                }
+                            });
+                            notifyHelper.addUpdate(data.data.list_id.user_id, 'item_comment', {
                                 user: $localStorage.user,
-                                data: data
-                            }
-                        });
-                        notifyHelper.addUpdate(data.data.list_id.user_id, 'item_comment', {
-                            user: $localStorage.user,
-                            data: data,
-                            comment: comment
-                        });
+                                data: data,
+                                comment: comment
+                            });
+                        }
                     }
                 }
             }, function (data) {
@@ -93,9 +104,13 @@ itemService.factory('itemHelper', [
                 def.resolve(data);
                 if (type === 'add') {
                     notifyHelper.sendAlert('user_' + data.list_id.user_id, {
-                        title: $localStorage.user.name + " is Following You Now",
+                        title: 'Likes Your Clip',
+                        message: $localStorage.user.name + " likes your clip",
+                        bigPicture: data.item_id.href,
                         meta: {
-                            user: $localStorage.user
+                            user: $localStorage.user,
+                            type: 'item_like',
+                            data: data
                         }
                     });
                     notifyHelper.addUpdate(data.list_id.user_id, 'item_like', {

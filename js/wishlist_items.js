@@ -1,17 +1,51 @@
 var wishlistItemsMod = angular.module('WishlistItemsMod', ['ServiceMod', 'ngStorage', 'ionic']);
 wishlistItemsMod.controller('WishlistItemsCtrl',
-        ['$scope', '$q', '$stateParams', 'wishlistHelper', '$ionicLoading', '$localStorage', 'toast', 'friendHelper', '$location', '$ionicBackdrop',
-            function ($scope, $q, $stateParams, wishlistHelper, $ionicLoading, $localStorage, toast, friendHelper, $location, $ionicBackdrop) {
+        ['$scope', '$q', '$stateParams', 'wishlistHelper', '$ionicLoading', '$localStorage', 'toast', 'friendHelper', '$location', '$ionicBackdrop', '$ionicPopup', '$ionicModal',
+            function ($scope, $q, $stateParams, wishlistHelper, $ionicLoading, $localStorage, toast, friendHelper, $location, $ionicBackdrop, $ionicPopup, $ionicModal) {
                 if ($stateParams.list_id) {
                     $scope.wishlist_name = $stateParams.list_name;
                     $scope.list_id = $stateParams.list_id;
                     $scope.list_detail = false;
                     $scope.follow = false;
                     $scope.my_list = false;
+                    $scope.$on('logout_event', function () {
+                        $location.path('/app/signup');
+                    });
+                    $ionicModal.fromTemplateUrl('template/partial/user-follow.html', {
+                        scope: $scope,
+                        animation: 'slide-in-up'
+                    }).then(function (modal) {
+                        $scope.friend_list_model = modal;
+                    });
+                    $scope.$on('$destroy', function () {
+                        $scope.friend_list_model.remove();
+                    });
+                    $scope.listMembers = function () {
+                        $scope.user_follow_title = 'Wishlist Members';
+                        $scope.friend_list_model.show();
+                    };
+                    $scope.closeModel = function () {
+                        $scope.friend_list_model.hide();
+                    };
 
+                    $scope.leaveList = function () {
+                        $ionicPopup.confirm({
+                            title: 'Are you sure you want to leave this wishlist?',
+                        }).then(function (res) {
+                            var ajax = wishlistHelper.leaveList($scope.list_detail);
+                            ajax.then(function () {
+                                toast.showShortBottom('Your Have Left The Wishlist');
+                                $location.path('/app/profile/me/mine');
+                            });
+                        });
+
+                    };
+                    $scope.editList = function () {
+                        $location.path('/app/wishlist_edit/' + $scope.list_id);
+                    };
                     $scope.deleteList = function () {
                         $ionicBackdrop.retain();
-                        var ajax = wishlistHelper.delete($stateParams.list_id);
+                        var ajax = wishlistHelper.delete($scope.list_id);
                         ajax.then(function () {
                             $ionicBackdrop.release();
                             toast.showShortBottom('WishList Deleted');
@@ -21,11 +55,41 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                         });
                     };
 
+                    $scope.users = [];
+
                     $scope.getData = function (page) {
                         var defer = $q.defer();
                         var ajax = wishlistHelper.listItems($stateParams.list_id, page);
                         ajax.then(function (data) {
                             var list = data.list;
+
+                            if (list.type === 'private') {
+                                if (data.list.user_id._id !== $localStorage.user.id) {
+                                    toast.showShortBottom('You Cannot Access This List!');
+                                    $location.path('/app/profile/me/mine');
+                                    return;
+                                }
+                            } else if (list.type === 'shared') {
+                                $scope.users = [];
+                                $scope.users.push(data.list.user_id);
+                                if (data.list.user_id._id !== $localStorage.user.id) {
+                                    var shared_ids = data.list.shared_ids;
+                                    var found = false;
+                                    for (var i = 0; i < shared_ids.length; i++) {
+                                        $scope.users.push(shared_ids[i]);
+                                        if (shared_ids[i]._id === $localStorage.user.id) {
+                                            found = true;
+                                        }
+                                    }
+                                    if (!found)
+                                    {
+                                        toast.showShortBottom('You Cannot Access This List!');
+                                        $location.path('/app/profile/me/mine');
+                                        return;
+                                    }
+                                }
+                            }
+
                             if ($localStorage.user.id) {
                                 if (data.list.user_id._id === $localStorage.user.id) {
                                     $scope.my_list = true;
@@ -68,6 +132,7 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                             ajax.then(function (data) {
                                 $scope.follow = true;
                                 $scope.request_process = false;
+                                toast.showShortBottom('Following List Now');
                                 $ionicLoading.hide();
                             }, function () {
                                 $ionicLoading.hide();
@@ -96,6 +161,7 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                                 $ionicLoading.hide();
                                 $scope.follow = false;
                                 $scope.request_process = false;
+                                toast.showShortBottom('UnFollowing List Now');
                             }, function () {
                                 $ionicLoading.hide();
                                 $scope.request_process = false;

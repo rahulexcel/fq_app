@@ -31,11 +31,13 @@ pinMod.controller('PinCtrl',
                     $scope.displayPins();
                 });
                 $scope.doRefresh = function () {
+                    console.log('do refresh');
                     $scope.page = 0;
                     $scope.loadMore();
                 };
                 var colors = ['#b71c1c', '#880e4f', '#4a148c', '#311b92', '#0d47a1', '#004d40', '#827717', '#1b5e20', '#827717', '#f57f17', '#e65100', '#546e7a', '#757575'];
                 $scope.loadMore = function () {
+                    console.log('load more');
                     var ajax = $scope.$parent.getData($scope.page);
                     ajax.then(function (data) {
                         $scope.loading = false;
@@ -59,12 +61,19 @@ pinMod.controller('PinCtrl',
                                 if (!data[i].likes || data[i].likes.length === 0) {
                                     data[i].likes = 0;
                                 }
+                                if ($localStorage.user.id && $localStorage.user.id === data[i].original.user_id) {
+                                    data[i].canLike = false;
+                                } else {
+                                    data[i].canLike = true;
+                                }
                                 ajax_data.push(data[i]);
                             }
                             $scope.pin_count = ajax_data.length;
                             $scope.total_pin_count += ajax_data.length;
                             $scope.displayPins(data);
                             $scope.hasMore = true;
+                            $scope.$broadcast('scroll.infiniteScrollComplete');
+                            $scope.$broadcast('scroll.refreshComplete');
                         } else {
                             $scope.hasMore = false;
 
@@ -96,8 +105,9 @@ pinMod.controller('PinCtrl',
 //                }
                 $scope.doRefresh = function () {
                     $scope.page = 0;
-                    $scope.loadMore();
+                    $scope.initPinsDisplay();
                     ajax_data = [];
+                    $scope.loadMore();
                 };
                 $scope.pinColumnWidth = function () {
                     if (pin_column === 0) {
@@ -108,7 +118,6 @@ pinMod.controller('PinCtrl',
                 };
                 var timeout_promise = false;
                 $scope.resize = function () {
-                    console.log('resize');
                     if (timeout_promise) {
                         $timeout.cancel(timeout_promise);
                     }
@@ -165,6 +174,10 @@ pinMod.controller('PinCtrl',
                     }
                     $scope.col_width = Math.round(100 / pin_column, 2) + "%";
                     console.log(pin_column + 'pin columns');
+                    $scope.grid1 = grid1;
+                    $scope.grid2 = grid2;
+                    $scope.grid3 = grid3;
+
                 };
                 $scope.initPinsDisplay();
                 $scope.displayPins = function (data) {

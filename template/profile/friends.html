@@ -11,9 +11,9 @@
                     <i class="ion-ios7-people fa-lg red-color"></i>&nbsp;  {{user.from_user_id.followers.length}} Followers
                 </span>
                 <div ng-show="!user.friend_request">
-                    <span class="ion-person-add" on-tap="acceptFriendRequest(user.from_user_id._id,$index);">Accept</span>
+                    <span class="ion-android-done red-color" on-tap="acceptFriendRequest(user.from_user_id._id,$index);">&nbsp;Accept</span>
                     &nbsp;&nbsp;
-                    <span class="ion-ios-person-outline" on-tap="declineFriendRequest(user.from_user_id._id,$index);">Decline</span>
+                    <span class="ion-android-close grey-color" on-tap="declineFriendRequest(user.from_user_id._id,$index);">&nbsp;Decline</span>
                 </div>
             </div>
             <div class="clearfix"></div>

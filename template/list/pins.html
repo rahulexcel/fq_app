@@ -23,7 +23,7 @@
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" bo-style="{'height': pin.pin_height,'background-color': pin.pin_color}" class="pin-img">
                 <!--<img bo-src='pin.image| picture:240'/>-->
                 <img image-lazy-src="{{pin.image| picture:240}}" pin-color="{{::pin.pin_color}}" image-height="{{::pin.pin_height}}" />
-                <div on-tap='like(pin); $event.stopPropagation();' class="like-heart red-back">
+                <div on-tap='like(pin); $event.stopPropagation();' class="like-heart red-back" bo-if="pin.canLike">
                     <i class="ion-thumbsup"></i>
                 </div>
             </div>
@@ -33,8 +33,8 @@
                     <div bo-html='pin.description | nl2br'></div>
                 </div>
                 <div class="pin-status">
-                    <i class="ion-ios-heart-outline red-color"></i> <i bo-bind='pin.pins'></i>
-                    <i class="ion-thumbsup red-color"></i> <i bo-bind='pin.likes'></i>
+                    <i class="ion-ios-heart-outline red-color"></i> <i bo-bind='pin.meta.pins'></i>
+                    <i class="ion-thumbsup red-color"></i> <i bo-bind='pin.meta.likes'></i>
                 </div>
             </div>
             <div class="pin-user">
@@ -56,7 +56,7 @@
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" bo-style="{'height': pin.pin_height,'background-color': pin.pin_color}" class="pin-img">
                 <!--<img bo-src='pin.image| picture:240'/>-->
                 <img image-lazy-src="{{pin.image| picture:240}}" pin-color="{{::pin.pin_color}}" bo-style="{'height': pin.pin_height}" image-height="{{::pin.pin_height}}" />
-                <div on-tap='like(pin); $event.stopPropagation();' class="like-heart red-back">
+                <div on-tap='like(pin); $event.stopPropagation();' class="like-heart red-back" bo-if="pin.canLike">
                     <i class="ion-thumbsup"></i>
                 </div>
             </div>
@@ -66,8 +66,8 @@
                     <div bo-html='pin.description | nl2br'></div>
                 </div>
                 <div class="pin-status">
-                    <i class="ion-ios-heart-outline red-color"></i> <i bo-bind='pin.pins'></i>
-                    <i class="ion-thumbsup red-color"></i> <i bo-bind='pin.likes'></i>
+                    <i class="ion-ios-heart-outline red-color"></i> <i bo-bind='pin.meta.pins'></i>
+                    <i class="ion-thumbsup red-color"></i> <i bo-bind='pin.meta.likes'></i>
                 </div>
             </div>
             <div class="pin-user">
@@ -89,7 +89,7 @@
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" bo-style="{'height': pin.pin_height}" class="pin-img">
                 <!--<img bo-src='pin.image| picture:240'/>-->
                 <img image-lazy-src="{{pin.image| picture:240}}" pin-color="{{::pin.pin_color}}" image-height="{{::pin.pin_height}}" />
-                <div ng-click='like(pin); $event.stopPropagation();' class="like-heart red-back">
+                <div ng-click='like(pin); $event.stopPropagation();' class="like-heart red-back"  bo-if="pin.canLike">
                     <i class="ion-thumbsup"></i>
                 </div>
             </div>
@@ -99,8 +99,8 @@
                     <div bo-html='pin.description | nl2br'></div>
                 </div>
                 <div class="pin-status">
-                    <i class="ion-ios-heart-outline red-color"></i> <i bo-bind='pin.pins'></i>
-                    <i class="ion-thumbsup red-color"></i> <i bo-bind='pin.likes'></i>
+                    <i class="ion-ios-heart-outline red-color"></i> <i bo-bind='pin.meta.pins'></i>
+                    <i class="ion-thumbsup red-color"></i> <i bo-bind='pin.meta.likes'></i>
                 </div>
             </div>
             <div class="pin-user">

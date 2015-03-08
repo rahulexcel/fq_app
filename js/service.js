@@ -101,12 +101,16 @@ serviceMod.directive("listBox",
                     templateUrl: 'template/directive/list.html',
                     link: {
                         pre: function ($scope) {
-                            if (!$scope.list.list_symbol) {
-                                var name = $scope.list.name;
-                                var char = name.substring(0, 1);
-                                var color = wishlistHelper.getRandomColor();
-                                $scope.list.list_symbol = char;
-                                $scope.list.bg_color = color;
+                            if ($scope.list.user_id.picture) {
+
+                            } else {
+                                if (!$scope.list.list_symbol) {
+                                    var name = $scope.list.name;
+                                    var char = name.substring(0, 1);
+                                    var color = wishlistHelper.getRandomColor();
+                                    $scope.list.list_symbol = char;
+                                    $scope.list.bg_color = color;
+                                }
                             }
                         }
                     },
@@ -187,7 +191,8 @@ serviceMod.filter('picture', ['ajaxRequest', 'CDN', function (ajaxRequest, CDN) 
             if (!angular.isDefined(width)) {
                 return picture;
             }
-            if (picture.length <= 32) {
+            //if (picture.length <= 32) {
+            if (picture.indexOf('http') === -1) {
                 //mongodb id
                 picture = ajaxRequest.url('v1/picture/view/' + picture);
             }
@@ -353,15 +358,21 @@ serviceMod.factory('toast', ['$ionicPopup', function ($ionicPopup) {
     }
 ]);
 serviceMod.factory('ajaxRequest',
-        ['$http', '$q', '$log', 'toast', '$localStorage', '$ionicLoading', '$cordovaNetwork',
-            function ($http, $q, $log, toast, $localStorage, $ionicLoading, $cordovaNetwork) {
+        ['$http', '$q', '$log', 'toast', '$localStorage', '$ionicLoading', '$cordovaNetwork', '$rootScope',
+            function ($http, $q, $log, toast, $localStorage, $ionicLoading, $cordovaNetwork, $rootScope) {
                 return {
                     url: function (api) {
                         return 'http://144.76.83.246:5000/' + api;
                     },
                     send: function (api, data, method) {
+                        var silent = false;
                         if (!angular.isDefined(method)) {
                             method = 'POST';
+                        } else {
+                            if (method === true) {
+                                silent = true;
+                                method = 'POST';
+                            }
                         }
                         if (method === 'POST' && $localStorage.user) {
                             var api_key = $localStorage.user.api_key;
@@ -384,16 +395,18 @@ serviceMod.factory('ajaxRequest',
                         console.log(data);
                         var def = $q.defer();
 //                        delete $http.defaults.headers.common['X-Requested-With'];
+                        if (!silent)
+                            $rootScope.ajax_on = true;
                         var http = $http({
                             url: this.url(api),
                             method: method,
                             headers: {'Content-Type': 'application/json;charset=utf-8'},
                             cache: false,
-                            data: JSON.stringify(data)
+                            data: JSON.stringify(data),
+                            timeout: 10000
                         });
                         http.success(function (data) {
-//                            def.resolve(data);
-//                            return;
+                            $rootScope.ajax_on = false;
                             if (data.error === 0) {
                                 if (data.data) {
                                     def.resolve(data.data);
@@ -411,6 +424,7 @@ serviceMod.factory('ajaxRequest',
                             }
                         });
                         http.error(function () {
+                            $rootScope.ajax_on = false;
                             $log.warn('500 Error');
                             $ionicLoading.hide();
                             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {

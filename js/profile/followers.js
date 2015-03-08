@@ -5,7 +5,8 @@ profileMod.controller('ProfileFollowerCtrl',
                     var followers = $scope.$parent.user.followers;
                     if (followers) {
                         for (var i = 0; i < followers.length; i++) {
-                            followers[i].is_following = false;
+                            if (followers[i])
+                                followers[i].is_following = false;
                         }
                     }
                     $scope.followers = followers;
@@ -16,7 +17,8 @@ profileMod.controller('ProfileFollowerCtrl',
                 var followers = $scope.$parent.user.followers;
                 if (followers) {
                     for (var i = 0; i < followers.length; i++) {
-                        followers[i].is_following = false;
+                        if (followers[i])
+                            followers[i].is_following = false;
                     }
                 }
                 $scope.followers = followers;

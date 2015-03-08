@@ -47,6 +47,9 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     description: '',
                     file_name: ""
                 };
+                $scope.$on('logout_event', function () {
+                    $location.path('/app/signup');
+                });
 
                 $scope.sendItem = function () {
                     if ($scope.item.picture.length > 0) {

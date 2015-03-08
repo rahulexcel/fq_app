@@ -1,8 +1,8 @@
 var menuMod = angular.module('MenuMod', ['ServiceMod', 'ngStorage', 'ionic', 'pasvaz.bindonce']);
 
 menuMod.controller('MenuCtrl',
-        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork',
-            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork) {
+        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork', '$ionicPlatform',
+            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork, $ionicPlatform) {
 //                $ionicNavBarDelegate.showBackButton(false);
 
                 if ($localStorage.user.id) {
@@ -30,6 +30,21 @@ menuMod.controller('MenuCtrl',
                         timeStorage.set('category', data, 24);
                     });
                 }
+                $ionicModal.fromTemplateUrl('template/partial/user-follow.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    $scope.friend_list_model = modal;
+                });
+                $rootScope.$on('facebook_friends_found', function () {
+                    //called from inviteHelper on login/register
+                    console.log('facebook friends broadcast');
+                    var friends = dataShare.getData();
+                    $scope.users = friends;
+                    $scope.friend_list_model.show();
+                    $scope.user_follow_title = 'New Facebook Friends Added';
+
+                });
 
                 $scope.login = false;
                 if ($localStorage.user && $localStorage.user.id) {
@@ -46,7 +61,7 @@ menuMod.controller('MenuCtrl',
                     $ionicLoading.show({
                         template: 'Logging Out..'
                     });
-                    $ionicSideMenuDelegate.toggleLeft(true);
+                    $ionicSideMenuDelegate.toggleLeft(false);
                     ajax.finally(function () {
                         $ionicLoading.hide();
                         var email = '';
@@ -79,7 +94,8 @@ menuMod.controller('MenuCtrl',
                         }
                         return;
                     }
-                    $ionicSideMenuDelegate.toggleLeft(true);
+                    console.log('toggline left menu');
+                    $ionicSideMenuDelegate.toggleLeft(false);
                     $location.path('/app/category/' + cat.cat_id + '/' + cat.sub_cat_id + '/' + cat.name);
 
                     var category = $scope.category;
@@ -166,24 +182,31 @@ menuMod.controller('MenuCtrl',
                 $rootScope.search = {
                     text: ''
                 };
-
+                var searchBack = false;
                 $scope.closeSearch = function () {
                     if (window.analytics) {
                         window.analytics.trackEvent('Search', 'Search Closed');
                     }
                     $rootScope.showSearchBox = false;
+                    if (searchBack)
+                        searchBack();
                 };
                 $scope.searchNow = function () {
                     if (window.analytics) {
                         window.analytics.trackEvent('Search', 'Search Top');
                     }
                     $rootScope.showSearchBox = true;
+                    searchBack = $ionicPlatform.registerBackButtonAction(function () {
+                        $rootScope.showSearchBox = false;
+                    }, 99999);
                 };
                 $scope.$on('$destroy', function () {
                     $scope.modal.remove();
+                    $scope.friend_list_model.remove();
                 });
                 $scope.closeModel = function () {
                     $scope.modal.hide();
+                    $scope.friend_list_model.hide();
                 };
                 $ionicModal.fromTemplateUrl('template/partial/search-category.html', {
                     scope: $scope,
@@ -279,6 +302,18 @@ menuMod.controller('MenuCtrl',
                         }
                     }
                     $scope.lists.me = lists;
+
+                    var lists = $scope.lists.shared;
+                    for (var i = 0; i < lists.length; i++) {
+                        if (lists[i]._id === list._id) {
+                            lists[i].tick = true;
+                        } else {
+                            lists[i].tick = false;
+                        }
+                    }
+                    $scope.lists.shared = lists;
+
+
 //                    list.tick = true;
                 };
                 $scope.selectList = function () {
@@ -291,6 +326,17 @@ menuMod.controller('MenuCtrl',
                             break;
                         }
                     }
+
+                    if (!list) {
+                        var lists = $scope.lists.shared;
+                        for (var i = 0; i < lists.length; i++) {
+                            if (lists[i].tick) {
+                                list = lists[i];
+                                break;
+                            }
+                        }
+                    }
+
                     if (!list) {
                         toast.showShortBottom('No List Selected');
                     } else {
@@ -338,6 +384,9 @@ menuMod.controller('MenuCtrl',
                         toast.showShortBottom('Login To Add Item To Your Wishlist');
                         $location.path('/app/signup');
                     }
+                };
+                $scope.clearAjax = function () {
+                    $rootScope.ajax_on = false;
                 };
             }
         ]);

@@ -1,0 +1,14 @@
+<div class="list card">
+    <div class="item item-avatar" ng-if="notification.meta.user">
+        <img ng-src="{{notification.meta.user.picture|picture:50:50}}">
+        <h2>{{notification.meta.user.name}}</h2>
+        <p>{{notification.meta.time|prettyDate}}</p>
+    </div>
+
+    <div class="item item-body">
+        <img ng-if="notification.bigPicture" class="full-image" ng-src="{{notification.bigPicture}}">
+        <p>
+            {{notification.message}}
+        </p>
+    </div>
+</div>

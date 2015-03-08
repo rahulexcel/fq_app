@@ -172,7 +172,9 @@ registerMod.controller('RegisterCtrl',
                             var promise = def.promise;
                             facebookConnectPlugin.api('/me/friends', null, function (data) {
                                 console.log(data);
+                                //toast.showShortBottom('Finding Your Facebook Friends...');
                                 dataShare.broadcastData(data, 'facebook_friends');
+                                //code written in create function below
                                 def.resolve();
                             }, function (data) {
                                 def.resolve();

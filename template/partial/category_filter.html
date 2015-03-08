@@ -1,0 +1,58 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">FILTER</h1>
+        <div class="button button-icon" on-tap="showProductsFn();">
+            <i class="ion-android-close close-tab-icon white-color social-close"></i>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div id="show-fliter" class="filterby-container">
+<!--            <div class="filter-page">
+                <span class="filter-label"> <i class="icon ion-funnel filter-icon red-color"></i>&nbsp;FILTER</span>
+                <button class="button button-clear filter-button" on-tap='showProductsFn()'>
+                    <i class="ion-ios-close-empty close-icon-show close-tab-icon"></i> 
+                </button>
+                <div class="clearfix"></div>
+            </div>-->
+            <div class="filter-list" ng-show='filter_type.visible' ng-repeat="filter_type in filters">
+                <div style="display:none">{{filter_type}}</div>
+                <div class="filter_label" on-tap='openFilter(filter_type);' ng-show='filter_type.visible'>
+                    <div style="float: left" ng-bind='filter_type.type'></div>
+                    <div class="plus-minus" style="float: right;width: 10%" ng-if="filter_type.data.length > 0">
+                        <i ng-show="!filter_type.open">[ + ]</i>
+                        <i ng-show="filter_type.open">[ - ]</i>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div ng-show="filter_type.open">
+                    <ion-list>
+                        <ion-item ng-repeat="filter in filter_type.data track by $index">
+                            <ion-checkbox on-tap="filterClick(filter_type,filter);" ng-model="filter.selected" ng-value="filter.param">{{filter.name}}</ion-checkbox>
+                        </ion-item>
+                    </ion-list>
+                </div>
+
+            </div>
+        </div>
+    </ion-content>
+    <ion-footer-bar class="bar-light">
+        <div class="clearfix"></div>
+        <div class="row" ng-show="false">
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="button button-full button-clear filter-button" on-tap="showProductsFn();">
+                    <i class="ion-close-round red-color"></i>
+                    Close
+                </button>
+            </div>
+            <div class="col">
+                <button class="button button-full button-clear filter-button" on-tap="doApply()">
+                    <i class="ion-android-done-all red-color"></i>
+                    Apply
+                </button>
+            </div>
+        </div>
+    </ion-footer-bar>
+</ion-modal-view>

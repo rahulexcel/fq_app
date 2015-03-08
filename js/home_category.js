@@ -1,8 +1,8 @@
 var homecatMod = angular.module('HomeCatMod', ['ServiceMod']);
 
 homecatMod.controller('HomeCatCtrl',
-        ['$scope', 'friendHelper', 'ajaxRequest', 'CDN',
-            function ($scope, friendHelper, ajaxRequest, CDN) {
+        ['$scope', 'friendHelper', 'ajaxRequest', 'CDN', '$localStorage', '$location',
+            function ($scope, friendHelper, ajaxRequest, CDN, $localStorage, $location) {
                 $scope.currentState = {};
                 $scope.product_loading = false;
                 $scope.showProducts = false;
@@ -10,8 +10,17 @@ homecatMod.controller('HomeCatCtrl',
                 $scope.products = [];
                 var self = this;
                 $scope.nextPage = function () {
+                    console.log('neexxx');
                     $scope.page++;
                     self.fetchProduct();
+                };
+                $scope.openProduct = function (product) {
+                    var id = product._id;
+                    console.log('open product ');
+                    $location.path('/app/product/' + id);
+//                    product = angular.copy(product);
+//                    product.cat_name = $scope.current_category.name;
+//                    dataShare.broadcastData(product, 'product_open');
                 };
                 $scope.refreshCategory = function () {
                     $scope.page = 0;
@@ -20,14 +29,21 @@ homecatMod.controller('HomeCatCtrl',
                 };
                 var self = this;
                 self.women = true;
-                $scope.showWomen = function () {
-                    self.women = true;
-                    self.fetchProduct();
-                };
-                $scope.showMen = function () {
+                if ($localStorage.latest_show && $localStorage.latest_show == 'men') {
                     self.women = false;
+                }
+                $scope.$on('show_women', function () {
+                    self.women = true;
+                    $scope.page = 0;
+                    $scope.products = [];
                     self.fetchProduct();
-                };
+                });
+                $scope.$on('show_men', function () {
+                    self.women = false;
+                    $scope.page = 0;
+                    $scope.products = [];
+                    self.fetchProduct();
+                });
                 self.fetchProduct = function () {
                     var page = $scope.page;
                     $scope.product_loading = true;

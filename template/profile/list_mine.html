@@ -1,13 +1,21 @@
 <div class="padding">
+    <div class="top-container" ng-show="wishlist_shared.length > 0">
+        <div class="list-section">WISHLISTS SHARED WITH YOU</div>
+        <ul class="mine-clip-list">
+            <li ng-repeat='item1 in wishlist_shared track by item1._id' style="position: relative">
+                <div list-box list="item1" lists="wishlist_mine" index="{{$index}}" me="me"></div>
+            </li>
+        </ul>
+    </div>
     <div class="top-container" ng-show="wishlist_mine.length > 0">
-        <div class="list-section">YOUR LISTS</div>
+        <div class="list-section"><span ng-if="me">YOUR </span>WISHLISTS</div>
         <ul class="mine-clip-list">
             <li ng-repeat='item1 in wishlist_mine track by item1._id' style="position: relative">
                 <div list-box list="item1" lists="wishlist_mine" index="{{$index}}" me="me"></div>
             </li>
         </ul>
     </div>
-    <div ng-if="wishlist_mine.length == 0">
+    <div ng-if="wishlist_mine.length == 0 && wishlist_shared.length == 0">
         <div class="result-empty">
             <span class="info"><img src="img/favicon-not.png"/></span>
             <span class="info grey-color">No Lists Created</span>

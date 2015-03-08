@@ -1,8 +1,8 @@
 var inviteService = angular.module('InviteService', ['ServiceMod']);
 
 inviteService.factory('inviteHelper', [
-    'ajaxRequest', '$q', 'toast', '$localStorage',
-    function (ajaxRequest, $q, toast, $localStorage) {
+    'ajaxRequest', '$q', '$localStorage', 'dataShare',
+    function (ajaxRequest, $q, $localStorage, dataShare) {
         var service = {};
         service.lookUpGoogleFriends = function (data) {
             var def = $q.defer();
@@ -24,6 +24,7 @@ inviteService.factory('inviteHelper', [
                 fb_data: data
             });
             ajax.then(function (data) {
+                dataShare.broadcastData(data, 'facebook_friends_found', true);
                 def.resolve(data);
             }, function (message) {
                 def.reject(message);

@@ -12,7 +12,7 @@
         </ion-refresher>
         <div id="clip_1">
             <!--<div class="clip-label black-font add-to-clip"><span>ADD TO LIST</span></div>-->
-            <div class="similar-product-label  clip-font-color clip-label clip-share">Your Lists</div>
+            <div class="similar-product-label  clip-font-color clip-label clip-share">Your Wishlist(s)</div>
             <ul>
                 <li class="clip-font-color new add-new clip-it" on-tap='newList();'>
                     <div class="wishlist_icon">
@@ -25,7 +25,7 @@
                         <div class="clearfix"></div>
                     </div>
                 </li>
-                <li on-tap='tickList(list);' ng-repeat='list in lists.me| orderBy:sort_order' class="clip-it">
+                <li on-tap='tickList(list);' ng-repeat='list in lists.me | orderBy:sort_order' class="clip-it">
 
                     <div class="wishlist_icon">
                         <div class="round_icon" ng-style="{'background-color': list.bg_color}">
@@ -34,13 +34,44 @@
                     </div>
                     <div class="wishlist_list_item">
 
-                        <div class="black-font clip-name">{{list.name}} <i ng-if="list.type == 'private'" class="ion-ios-locked"></i>
+                        <div class="black-font clip-name">{{list.name}} 
+                            <i ng-if="list.type == 'shared'" class="ion-android-share-alt grey-color"></i>
+                            <i ng-if="list.type == 'private'" class="ion-ios-locked grey-color"></i>
                         </div>
                         <div class='clip-info'> 
                             <span>{{list.meta.products}} clips </span>
                             <span> <!-- <i class="ion-thumbsup red-color"></i> -->{{list.meta.likes}} likes </span> 
                             <span> <!--<i class="ion-ios-people red-color"></i> --> {{list.followers.length}} followers </span> 
                             <div>Created {{list.created_at| prettyDate}} </div>
+                            <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </li>
+            </ul>
+
+
+            <div ng-if="lists.shared.length > 0" class="similar-product-label  clip-font-color clip-label clip-share">Wishlist(s) Shared With You</div>
+            <ul>
+                <li on-tap='tickList(list);' ng-repeat='list in lists.shared | orderBy:sort_order' class="clip-it">
+
+                    <div class="wishlist_icon">
+                        <div class="round_icon">
+                            <img ng-src="{{list.user_id.picture|picture:50:50}}" class="rounded" />
+                        </div>
+                    </div>
+                    <div class="wishlist_list_item">
+
+                        <div class="black-font clip-name">{{list.name}} <i class="ion-android-share-alt grey-color"></i>
+                        </div>
+                        <div class='clip-info'> 
+                            <span>{{list.meta.products}} clips </span>
+                            <span> <!-- <i class="ion-thumbsup red-color"></i> -->{{list.meta.likes}} likes </span> 
+                            <span> <!--<i class="ion-ios-people red-color"></i> --> {{list.followers.length}} followers </span> 
+                            <div>
+                                Created {{list.created_at| prettyDate}} by {{list.user_id.name}}
+                            </div>
                             <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
                             <div class="clearfix"></div>
                         </div>

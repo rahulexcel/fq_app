@@ -11,7 +11,31 @@ accountService.factory('accountHelper', [
         service.isFbInit = function () {
             return this.init_done;
         };
-
+        service.updateFacebookPics = function () {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/account/update/facebook_image', {
+                user_id: $localStorage.user.id
+            });
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
+        service.facebookFriends = function (data, email) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/account/facebook_friends', {
+                email: email,
+                friends: data
+            });
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
         service.updatePassword = function (password) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/account/update', {
@@ -151,7 +175,7 @@ accountService.factory('accountHelper', [
                             $location.path(redirect_url);
                         });
                     } else {
-                        $location.path('/app/home/trending');
+                        $location.path(redirect_url);
                     }
                 } else if ($localStorage.user.type === 'google') {
                     data1 = dataShare.getData();
