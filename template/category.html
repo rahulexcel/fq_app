@@ -68,10 +68,10 @@
                         </div>-->
         </div>
         <div class="clearfix"></div>
-        <button class="button button-full button-clear" ng-show="page >= 10 && !product_loading && currentProducts && currentState.page && showProducts && products.length > 0 && startPaging" on-tap="nextPage();">Load More</button>
+        <!--<button class="button button-full button-clear" ng-show="page >= 10 && !product_loading && currentProducts && currentState.page && showProducts && products.length > 0 && startPaging" on-tap="nextPage();">Load More</button>-->
         <ion-infinite-scroll
             immediate-check='false'
-            ng-if="page < 10 && !product_loading && currentProducts && currentState.page && showProducts && products.length > 0 && startPaging"
+            ng-if="!product_loading && currentProducts && currentState.page && showProducts && products.length > 0 && startPaging"
             on-infinite="nextPage()" distance='1%'>
         </ion-infinite-scroll>
         <br/>
