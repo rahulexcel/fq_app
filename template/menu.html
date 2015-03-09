@@ -13,10 +13,10 @@
                 </button>
             </ion-nav-buttons>
             <ion-nav-buttons side="right">
-                <button ng-show="!ajax_on" on-tap='searchNow();' class="button button-icon btn-search">
+                <button on-tap='searchNow();' class="button button-icon btn-search">
                     <i class="ion-search white-color fa-lg"></i>
                 </button>
-                <button ng-show="!ajax_on" on-tap='wishlist();' class="button button-icon">
+                <button on-tap='wishlist();' class="button button-icon">
                     <i class="ion-person fa-lg white-color"></i>
                     <div class="profile_updates" ng-if='profile_update > 0'>{{profile_update}}</div>
                 </button>
@@ -46,7 +46,7 @@
         <ion-nav-view name="menuContent"></ion-nav-view>
     </ion-side-menu-content>
     <ion-side-menu side="left" expose-aside-when="large">
-        <ion-content>
+        <ion-content delegate-handle="left_menu">
             <div id="menu-bar-container">
 
 

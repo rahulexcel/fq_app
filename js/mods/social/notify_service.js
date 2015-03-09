@@ -158,15 +158,29 @@ notifyService.factory('notifyHelper', [
             }
             return defer.promise;
         };
+        service.channelQueue = [];
+        service.queueAlert = function (channel) {
+            channel = channel.replace('user_', '')
+            service.channelQueue.push(channel);
+        };
+        service.sendQueue = function (data, expiry) {
+            var queue = service.channelQueue;
+            service.channelQueue = [];
+            if (queue.length > 0)
+                service.sendAlert(queue, data, expiry);
+        };
         service.sendAlert = function (channel, data, expiry) {
             this.parseInit();
             if (!expiry) {
                 expiry = 24;
             }
+            if (!angular.isArray(channel)) {
+                channel = channel.replace('user_', '')
+            }
             expiry = expiry * 60 * 60;
             data.time = new Date().getTime();
             return ajaxRequest.send('v1/notify/alert', {
-                user_id: channel.replace('user_', ''),
+                user_id: channel,
                 expiry: expiry,
                 data: data
             });

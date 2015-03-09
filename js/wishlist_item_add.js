@@ -266,6 +266,9 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                 };
                 var picture_width = $window.innerWidth;
                 picture_width = Math.ceil(picture_width * 0.95);
+                if (picture_width > 480) {
+                    picture_width = 480;
+                }
                 $scope.picture_width = picture_width;
                 $scope.browseCamera = function (type) {
 
