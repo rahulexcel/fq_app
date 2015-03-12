@@ -294,11 +294,13 @@ wishlistService.factory('wishlistHelper', [
                         notifyHelper.sendQueue({
                             title: 'New Item Added',
                             alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+                            bigPicture : data.wishlist_model.org_img,
                             meta: {
                                 type: 'item_add',
                                 wishlist_model: data.wishlist_model,
                                 list: data.list,
-                                user: $localStorage.user
+                                user: $localStorage.user,
+                                item_id: data.wishlist_model._id
                             }
                         });
 
@@ -420,11 +422,6 @@ wishlistService.factory('wishlistHelper', [
                                 if (shared_ids[i] !== $localStorage.user.id) {
                                     console.log(shared_ids[i]);
                                     notifyHelper.queueAlert('user_' + shared_ids[i]);
-                                    notifyHelper.addUpdate('user_' + shared_ids[i], 'item_add', {
-                                        wishlist_model: data.wishlist_model,
-                                        list: data.list,
-                                        user: $localStorage.user
-                                    });
                                 }
                             }
                         } else {
@@ -459,11 +456,13 @@ wishlistService.factory('wishlistHelper', [
                         notifyHelper.sendQueue({
                             title: 'New Item Added',
                             alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+                            bigPicture : data.wishlist_model.org_img,
                             meta: {
                                 type: 'item_add',
                                 wishlist_model: data.wishlist_model,
                                 list: data.list,
-                                user: $localStorage.user
+                                user: $localStorage.user,
+                                item_id: data.wishlist_model._id
                             }
                         });
 

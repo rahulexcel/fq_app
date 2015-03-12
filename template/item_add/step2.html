@@ -1,12 +1,12 @@
+
 <div ng-if="step_type == 'near'">
     <button class="button grey-color nearby-btn icon ion-location " on-tap="showMap();" ng-class="{
                 'red-color' : done, 'grey-color': !done}">
-        SEARCH LOCATION
+        SET LOCATION
     </button>
-    <span ng-show='item.location.lat' on-tap='removeLocation();'>Remove Location</span>
+    <small ng-show='item.location.lat' on-tap='removeLocation();'>Remove Location</small>
 </div>
-
-<div ng-if="step_type == 'camera' || step_type == 'gallary'">
+<div ng-if="step_type == 'camera' || step_type == 'gallary' || step_type == 'near'">
     <div ng-if="!is_mobile">
         <div class ="profile-pic" ng-if="item.picture">
             <img ng-src="{{item.picture|picture:picture_width}}">

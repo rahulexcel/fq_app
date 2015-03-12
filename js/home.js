@@ -118,6 +118,9 @@ homeMod.controller('HomeCtrl',
                     if (self.type === 'trending') {
                         return friendHelper.home_trending(page);
                     } else if (self.type === 'feed') {
+                        if (page == 0) {
+                            $scope.feed_unread = 0;
+                        }
                         return friendHelper.home_feed(page);
                     } else {
                     }

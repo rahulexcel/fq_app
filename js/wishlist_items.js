@@ -77,13 +77,14 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                                     var found = false;
                                     for (var i = 0; i < shared_ids.length; i++) {
                                         $scope.users.push(shared_ids[i]);
+                                        console.log(shared_ids[i]._id + " ==== " + $localStorage.user.id);
                                         if (shared_ids[i]._id === $localStorage.user.id) {
                                             found = true;
                                         }
                                     }
                                     if (!found)
                                     {
-                                        toast.showShortBottom('You Cannot Access This List!');
+                                        toast.showShortBottom('You Are Not A Member of This List!');
                                         $location.path('/app/profile/me/mine');
                                         return;
                                     }

@@ -114,7 +114,7 @@ productMod.controller('ProductCtrl',
                 self.product_info_done = false;
                 $scope.product_detail_loading = false;
                 $scope.productInfo = function (force) {
-                    if (self.product_info_done) {
+                    if (self.product_info_done && !force) {
                         return;
                     }
                     self.product_info_done = true;
@@ -169,7 +169,18 @@ productMod.controller('ProductCtrl',
                 $scope.processProductData = function (data) {
 //                    var img = data.product.img;
                     var prod_id = data.product._id;
-                    data.product.img = CDN.cdnize(ajaxRequest.url('v1/picture/images/' + prod_id));
+//                    data.product.img = CDN.cdnize(ajaxRequest.url('v1/picture/images/' + prod_id));
+
+                    var more_images = false;
+                    var more_images_price = false;
+                    if ($scope.product.more_images) {
+                        more_images = $scope.product.more_images;
+                        more_images_price = $scope.product.price;
+                    }
+                    if (more_images) {
+                        data.product.more_images = more_images;
+                        data.product.price = more_images_price;
+                    }
                     $scope.product = data.product;
                     if (data.variants)
                         $scope.product.variants = data.variants;
@@ -179,7 +190,7 @@ productMod.controller('ProductCtrl',
                         console.log('initiazling iscroll');
                         if (data.similar.length > 0)
                             $timeout(function () {
-                                angular.element(document.querySelector('.scroller_' + data.product._id)).attr('style', 'width:' + (data.similar.length * 160) + "px");
+                                angular.element(document.querySelector('.scroller_' + data.product._id)).attr('style', 'width:' + (data.similar.length * 152) + "px");
                                 $scope.myScroll = new IScroll('.similar_' + data.product._id, {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
                             }, 100);
                     }
@@ -204,6 +215,8 @@ productMod.controller('ProductCtrl',
                         $scope.fetchLatest(data.org_href);
                 });
                 $scope.buy = function (product) {
+                    if (!product.href)
+                        product.href = product.url;
                     if (window.plugins) {
                         window.open(product.href, '_system');
                     } else {

@@ -20,7 +20,7 @@ itemService.factory('itemHelper', [
         service.removeComment = function (item_id, list_id, comment_id) {
             return this.comment(item_id, list_id, '', '', 'remove', comment_id);
         };
-        service.comment = function (item_id, list_id, comment, picture, type, comment_id) {
+        service.comment = function (item_id, list_id, comment, picture, type, comment_id, item_picture) {
             if (!type) {
                 type = 'add';
             }
@@ -42,26 +42,30 @@ itemService.factory('itemHelper', [
                     var notify_ids = [];
                     notify_ids.push(data.data.list_id.user_id);
                     for (var i = 0; i < comments.length; i++) {
-                        notify_ids.push(comments[i].user_id);
+                        if (comments[i].user_id)
+                            notify_ids.push(comments[i].user_id);
                     }
+                    var sent_id = [];
                     for (var i = 0; i < notify_ids.length; i++) {
                         var u_id = notify_ids[i];
-                        if (u_id !== $localStorage.user.id) {
+                        if (u_id !== $localStorage.user.id && sent_id.indexOf(u_id) === -1) {
                             notifyHelper.sendAlert('user_' + u_id, {
                                 title: 'New Comment',
-                                message: $localStorage.user.name + " comment on your",
+                                message: $localStorage.user.name + " comment on your clip",
                                 alert: comment,
+                                bigPicture: ajaxRequest.url('v1/picture/view/' + item_picture) + "?width=480",
                                 meta: {
                                     user: $localStorage.user,
                                     data: data,
                                     type: 'item_comment'
                                 }
                             });
-                            notifyHelper.addUpdate(data.data.list_id.user_id, 'item_comment', {
+                            notifyHelper.addUpdate(u_id, 'item_comment', {
                                 user: $localStorage.user,
                                 data: data,
                                 comment: comment
                             });
+                            sent_id.push(u_id);
                         }
                     }
                 }

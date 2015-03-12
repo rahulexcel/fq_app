@@ -136,6 +136,9 @@ textarea {
 .shoppersstop  { background-image: url("../img/fav/shoppersstop.png")  }
 .yepme { background-image: url("../img/fav/yepme.png")  }
 .zovi { background-image: url("../img/fav/zovi.png")  }
+.bewakoof { background-image: url("../img/fav/bewakoof.png")  }
+.urbanladder { background-image: url("../img/fav/urbanladder.png")  }
+
 .grey_bg{
     background-color: #eee7dd;
 }
@@ -207,6 +210,7 @@ img
     float: left;
     margin-right:5px;
     margin-left: 5px;
+    margin-bottom: 5px;
 }
 .category .product{
 
@@ -746,7 +750,7 @@ span.e-site{
 .other-seller-info .name{
     color:#000000;
     font-size: 12px;
-    line-height: 14px;
+    line-height: 1.5;
 }
 .other-seller-info button.pro-button{
     min-height: 24px;
@@ -763,18 +767,22 @@ span.other-price{
     font-weight: bold;
     color:#737373;
 }
-#similar .name,.category .name{
+#similar .name{
     font-size: 0.79em;
     max-height: 32px;
-    line-height: 14px !important;
+    line-height: 1.2 !important;
     overflow: hidden;
 }
 .category .name{
     line-height:25px;
+    font-size: 0.79em;
+    max-height: 40px;
+    line-height: 1.2 !important;
+    overflow: hidden;
 }
 .similar-price,.category .price{
     color:#737373;
-    line-height: 7px;
+    line-height: 1.2;
     font-weight: bold;
     font-size: 0.91em;
     margin-bottom: 5px;
@@ -837,7 +845,7 @@ span.other-price{
     height:264px;
 }
 .category .bottom_box .e-site{
-    line-height: 12px;
+    /*line-height: 12px;*/
 }
 .category .product .image {
     height: 179px;
@@ -1734,7 +1742,10 @@ i.offline-icon{
     min-height: 50px;
 }
 .pin-status{
-    color: #777;
+    color: #999;
+}
+.pin-status .ion-thumbsup{
+    padding-left: 5px;
 }
 .pin_list_container{
     margin: 0px auto;
@@ -1750,9 +1761,10 @@ i.offline-icon{
 }
 .pin .user-info{
     font-size:.9em;
-    line-height: 18px;
+    line-height: 15px;
     width: 78%;
     margin-left: 2%;
+    margin-top: 0px;
 }
 .pin-user{
     padding: 5px;

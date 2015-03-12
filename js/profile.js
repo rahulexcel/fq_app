@@ -266,6 +266,22 @@ profileMod.controller('ProfileCtrl',
                         var ajax = accountHelper.updateStatus($scope.user.status);
                         ajax.then(function () {
                             toast.showShortBottom('Status Updated!');
+                            for (var i = 0; i < $scope.friends.length; i++) {
+                                notifyHelper.queueAlert($scope.friends[i]._id);
+                                notifyHelper.addUpdate($scope.friends[i]._id, 'status_update', {
+                                    user: $localStorage.user,
+                                    status: $scope.user.status
+                                });
+                            }
+                            notifyHelper.sendQueue({
+                                title: 'Status Update',
+                                alert: $localStorage.user.name + " Updated Status To '" + $scope.user.status + "'",
+                                meta: {
+                                    type: 'status_update',
+                                    user: $localStorage.user,
+                                    status: $scope.user.status
+                                }
+                            });
                         }, function () {
 
                         });

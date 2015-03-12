@@ -1,8 +1,8 @@
 var mapService = angular.module('MapService', ['ServiceMod', 'ionic']);
 
 mapService.factory('mapHelper', [
-    '$rootScope',
-    function ($rootScope) {
+    '$rootScope', '$timeout',
+    function ($rootScope, $timeout) {
         var service = {};
         service.map = false;
         service.center = false;
@@ -11,6 +11,7 @@ mapService.factory('mapHelper', [
         service.listener1 = false;
         service.listener2 = false;
         service.listener3 = false;
+        service.script_loaded = false;
         service.position = {};
         service.getPosition = function () {
             return this.position;
@@ -25,32 +26,46 @@ mapService.factory('mapHelper', [
                 this.map = null;
             }
         };
-        service.showMap = function (location) {
-            loadScript();
+        service.showMap = function (location, canvas_id) {
+            if (!service.script_loaded) {
+                loadScript();
+            } else {
+                $rootScope.$broadcast('map_init');
+            }
             var context = this;
+            console.log(location);
             $rootScope.$on('map_init', function () {
+                console.log('map init recieved');
+                service.script_loaded = true;
                 var mapOptions = {
                     zoom: location.zoom,
                     center: new google.maps.LatLng(location.lat, location.lng)
                 };
-
-                context.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-                context.marker = new google.maps.Marker({
-                    map: context.map,
-                    draggable: true,
-                    animation: google.maps.Animation.DROP,
-                    position: new google.maps.LatLng(location.lat, location.lng)
+                $timeout(function () {
+                    console.log(canvas_id);
+                    console.log(document.getElementById(canvas_id));
+                    context.map = new google.maps.Map(document.getElementById(canvas_id), mapOptions);
+                    context.marker = new google.maps.Marker({
+                        map: context.map,
+                        draggable: true,
+                        animation: google.maps.Animation.DROP,
+                        position: new google.maps.LatLng(location.lat, location.lng)
+                    });
                 });
             });
         };
-        service.initMap = function ($scope) {
-            loadScript();
-
+        service.initMap = function ($scope, canvas_id) {
+            if (!service.script_loaded) {
+                loadScript();
+            } else {
+                $rootScope.$broadcast('map_init');
+            }
             $scope.done = false;
 
             var context = this;
             $rootScope.$on('map_init', function () {
+                console.log('map init recieved');
+                service.script_loaded = true;
                 if (context.position.lat) {
                     context.center = new google.maps.LatLng(context.position.lat, context.position.lng);
                     context.zoom = context.position.zoom;
@@ -83,8 +98,9 @@ mapService.factory('mapHelper', [
                     zoom: context.zoom,
                     center: context.center
                 };
-
-                context.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+                console.log(canvas_id);
+                console.log(document.getElementById(canvas_id));    
+                context.map = new google.maps.Map(document.getElementById(canvas_id), mapOptions);
 
                 context.marker = new google.maps.Marker({
                     map: context.map,
@@ -121,22 +137,16 @@ mapService.factory('mapHelper', [
         return service;
     }]);
 
-var scriptLoaded = false;
 function loadScript() {
-    if (scriptLoaded) {
-        initializeMap();
-    } else {
-        scriptLoaded = true;
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
 
 
 
-        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBs5KzFvREmBYJ0dIvLyQTodZP0_WpUCQw&' +
-                'callback=initializeMap';
+    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBs5KzFvREmBYJ0dIvLyQTodZP0_WpUCQw&' +
+            'callback=initializeMap';
 
-        document.body.appendChild(script);
-    }
+    document.body.appendChild(script);
 }
 function initializeMap() {
     var elem = angular.element(document.querySelector('[ng-app]'));

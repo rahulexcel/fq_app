@@ -109,6 +109,7 @@ accountService.factory('accountHelper', [
             ajax = ajaxRequest.send('v1/account/logout', {api_key: $localStorage.user.api_key});
             ajax.then(function (data) {
                 def.resolve();
+                $rootScope.profile_update = 0;
             }, function () {
                 def.reject();
             });

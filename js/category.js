@@ -57,12 +57,14 @@ categoryMod.controller('CategoryCtrl',
                     };
                     $rootScope.search.text = '';
                     $rootScope.showSearchBox = false;
+                    $scope.products = [];
                 } else if ($stateParams.father_key) {
                     console.log('setting category via search params');
                     $scope.current_category = {
                         father_key: $stateParams.father_key,
                         search: $stateParams.search
                     };
+                    $scope.products = [];
                 } else if ($stateParams.cat_id && $stateParams.sub_cat_id) {
                     console.log('setting category via state params');
                     $scope.current_category = {
@@ -70,6 +72,7 @@ categoryMod.controller('CategoryCtrl',
                         cat_id: $stateParams.cat_id,
                         sub_cat_id: $stateParams.sub_cat_id
                     };
+                    $scope.products = [];
                 }
 
 
@@ -225,7 +228,7 @@ categoryMod.controller('CategoryCtrl',
                         $scope.showProductsFn();
                     });
                 };
-                var multi_support = ['designer_brands', 'premium_brands', 'website', 'size', 'brand'];
+                var multi_support = ['designer_brands', 'premium_brands', 'website', 'size', 'brand', 'color'];
                 $scope.filterClick = function (filter_type, filter) {
 //                    console.log(filter);
 //                    console.log(filter_type);
@@ -483,7 +486,7 @@ categoryMod.controller('CategoryCtrl',
                 });
                 $scope.nextPage = function (force) {
                     console.log('next page');
-                    if ($scope.currentState.page && ($scope.currentState.page * 1 !== -1 && $scope.currentState.page * 1 <= 10) || force) {
+                    if ($scope.currentState.page && ($scope.currentState.page * 1 !== -1) || force) {
                         var state = $scope.currentState;
                         state.page++;
                         var req = categoryHelper.fetchProduct(state);
@@ -520,7 +523,7 @@ categoryMod.controller('CategoryCtrl',
                         for (i = 0; i < ret.products.length; i++) {
                             if (self.product_ids.indexOf(ret.products[i]._id) === -1) {
                                 var image = ret.products[i]._id;
-                                ret.products[i].img = CDN.cdnize(ajaxRequest.url('v1/picture/images/' + image));
+//                                ret.products[i].img = CDN.cdnize(ajaxRequest.url('v1/picture/images/' + image));
                                 self.product_ids.push(ret.products[i]._id);
                                 products.push(ret.products[i]);
                             }
@@ -532,7 +535,7 @@ categoryMod.controller('CategoryCtrl',
                         for (i = 0; i < ret.products.length; i++) {
                             if (self.product_ids.indexOf(ret.products[i]._id) === -1) {
                                 var image = ret.products[i]._id;
-                                ret.products[i].img = CDN.cdnize(ajaxRequest.url('v1/picture/images/' + image));
+//                                ret.products[i].img = CDN.cdnize(ajaxRequest.url('v1/picture/images/' + image));
                                 self.product_ids.push(ret.products[i]._id);
                                 products.push(ret.products[i]);
                             }

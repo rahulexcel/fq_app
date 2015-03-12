@@ -179,6 +179,8 @@ notifyService.factory('notifyHelper', [
             }
             expiry = expiry * 60 * 60;
             data.time = new Date().getTime();
+            if (data.alert)
+                data.message = data.alert;
             return ajaxRequest.send('v1/notify/alert', {
                 user_id: channel,
                 expiry: expiry,
@@ -238,7 +240,13 @@ notifyService.factory('notifyHelper', [
             }
         };
         service.openItem = function (row) {
-            if (row.type === 'add_friend' || row.type === 'accept_friend' || row.type === 'decline_friend') {
+            if (row.type === 'price_alert') {
+                if (window.plugins) {
+                    window.open(row.data.url, '_system');
+                } else {
+                    window.open(row.data.url);
+                }
+            } else if (row.type === 'add_friend' || row.type === 'accept_friend' || row.type === 'decline_friend') {
                 $location.path('/app/profile/' + row.user.id + '/friends');
             } else if (row.type === 'item_unlike' || row.type === 'item_like') {
                 if (row.data.item_id) {
@@ -255,6 +263,7 @@ notifyService.factory('notifyHelper', [
             } else if (row.type === 'unfollow_list') {
                 $location.path('/app/wishlist_item/' + row.data.list._id + "/" + row.data.list.name);
             } else if (row.type === 'item_comment') {
+                console.log(row.data.data);
                 if (row.data.data.item_id) {
                     $location.path('/app/item/' + row.data.data.item_id._id + "/" + row.data.data.list_id._id);
                 } else {
@@ -266,6 +275,8 @@ notifyService.factory('notifyHelper', [
                 $location.path('/app/item/' + row.data.data.data.item_id._id + "/" + row.data.data.data.list_id._id);
             } else if (row.type === 'list_created' || row.type === 'list_left') {
                 $location.path('/app/wishlist_item/' + row.list._id + "/" + row.list.name);
+            } else if (row.type === 'status_update' || row.type === 'pic_update') {
+                $location.path('/app/profile/' + row.user.id + '/mine');
             }
         };
         service.init = function () {

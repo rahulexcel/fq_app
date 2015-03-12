@@ -54,6 +54,7 @@ pinMod.controller('PinCtrl',
 
                                 var height = $scope.getItemHeight(data[i], false, true);
                                 data[i].pin_height = height;
+                                data[i].pin_height_full = $scope.getItemHeight(data[i], true, false);
                                 data[i].pin_color = color;
                                 if (!data[i].pins || data[i].pins.length === 0) {
                                     data[i].pins = 0;
@@ -61,10 +62,37 @@ pinMod.controller('PinCtrl',
                                 if (!data[i].likes || data[i].likes.length === 0) {
                                     data[i].likes = 0;
                                 }
+
+                                if ($localStorage.user.id && $localStorage.user.id === data[i].original.user_id) {
+                                    data[i].canPin = false;
+                                } else {
+                                    if (data[i].pins && data[i].pins.length > 0) {
+                                        data[i].canPin = true;
+                                        for (var m = 0; m < data[i].pins.length; m++) {
+                                            if (data[i].pins[m] === $localStorage.user.id) {
+                                                data[i].canPin = false;
+                                                break;
+                                            }
+                                        }
+                                    } else {
+                                        data[i].canPin = true;
+                                    }
+                                }
+
                                 if ($localStorage.user.id && $localStorage.user.id === data[i].original.user_id) {
                                     data[i].canLike = false;
                                 } else {
-                                    data[i].canLike = true;
+                                    if (data[i].likes && data[i].likes.length > 0) {
+                                        data[i].canLike = true;
+                                        for (var m = 0; m < data[i].likes.length; m++) {
+                                            if (data[i].likes[m].user_id === $localStorage.user.id) {
+                                                data[i].canLike = false;
+                                                break;
+                                            }
+                                        }
+                                    } else {
+                                        data[i].canLike = true;
+                                    }
                                 }
                                 ajax_data.push(data[i]);
                             }
@@ -139,6 +167,7 @@ pinMod.controller('PinCtrl',
                 var pin_column = 0;
                 var pin_width = 240;
                 $scope.pin_width = pin_width + "px";
+                $scope.pin_width_no = pin_width;
                 var total_height = 0;
                 var total_pins = 0;
                 $scope.initPinsDisplay = function () {
@@ -164,12 +193,14 @@ pinMod.controller('PinCtrl',
                     if (pin_column < 2) {
                         pin_width = (window_width) / 2 - 10;
                         $scope.pin_width = pin_width + "px";
+                        $scope.pin_width_no = pin_width;
                         //2px padding
                         pin_column = 2;
                         angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:100%;');
                     } else {
                         pin_width = 240;
                         $scope.pin_width = pin_width + "px";
+                        $scope.pin_width_no = pin_width;
                         angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:' + (pin_width * pin_column + 10 * pin_column) + 'px;');
                     }
                     $scope.col_width = Math.round(100 / pin_column, 2) + "%";

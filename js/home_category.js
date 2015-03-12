@@ -58,7 +58,7 @@ homecatMod.controller('HomeCatCtrl',
                         var products = $scope.products;
                         for (var i = 0; i < data.length; i++) {
                             var image = data[i]._id;
-                            data[i].img = CDN.cdnize(ajaxRequest.url('v1/picture/images/' + image));
+                            //data[i].img = CDN.cdnize(ajaxRequest.url('v1/picture/images/' + image));
                             products.push(data[i]);
                         }
                         $scope.products = products;
@@ -72,5 +72,28 @@ homecatMod.controller('HomeCatCtrl',
                     });
                 };
                 self.fetchProduct();
+                $scope.wishlist = function (product, $event) {
+                    if (window.analytics) {
+                        window.analytics.trackEvent('Pin', 'Latest Page', $location.path());
+                    }
+                    $event.preventDefault();
+                    $event.stopPropagation();
+                    if ($localStorage.user.id) {
+                        $scope.wishlist_product.item = false;
+                        $scope.wishlist_product.new_item = false;
+                        $scope.wishlist_product.product = product;
+                        $scope.$parent.showWishlist();
+                    } else {
+                        toast.showShortBottom('SignUp To Add Item To Wishlist');
+                        if (!$localStorage.previous) {
+                            $localStorage.previous = {};
+                        }
+                        $localStorage.previous.state = {function: 'wishlist',
+                            param: angular.copy(product),
+                            category: angular.copy($scope.currentState)
+                        };
+                        $location.path('/app/signup');
+                    }
+                };
             }
         ]);

@@ -9,6 +9,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                 $scope.$on('logout_event', function () {
                     $location.path('/app/signup');
                 });
+                $scope.login = $localStorage.user;
 
                 $scope.$on('$destroy', function () {
                     mapHelper.destroy();
@@ -49,83 +50,97 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     $scope.me_follow_user = false;
                     $scope.me_follow_list = false;
                     $scope.checkData = function (data) {
+                        if (!data._id) {
+                            toast.showShortBottom('Looks Like Clip Has Been Deleted By Owner');
+                            $location.app('/app/home');
+                        } else {
 
-                        if ($localStorage.user.id)
-                            if (data.list_id.user_id === $localStorage.user.id) {
-                                $scope.mine = true;
-                            }
+                            if ($localStorage.user.id)
+                                if (data.list_id.user_id === $localStorage.user.id) {
+                                    $scope.mine = true;
+                                }
 
 
-                        if (!data.list_id.products) {
-                            data.list_id.products = [];
-                        }
-                        if (!data.likes) {
-                            data.likes = [];
-                        }
-                        if (!data.item_id.pins) {
-                            data.item_id.pins = [];
-                        }
-                        if (!data.list_id.followers) {
-                            data.list_id.followers = [];
-                        }
-                        if (!data.user_id.followers) {
-                            data.user_id.followers = [];
-                        }
-                        var i = 0;
-                        for (i = 0; i < data.user_id.followers.length; i++) {
-                            if (data.user_id.followers[i] === $localStorage.user.id) {
-                                $scope.me_follow_user = true;
+                            if (!data.list_id.products) {
+                                data.list_id.products = [];
                             }
-                        }
-                        for (i = 0; i < data.list_id.followers.length; i++) {
-                            if (data.list_id.followers[i] === $localStorage.user.id) {
-                                $scope.me_follow_list = true;
+                            if (!data.likes) {
+                                data.likes = [];
                             }
-                        }
-                        for (i = 0; i < data.likes.length; i++) {
-                            if (data.likes[i].user_id === $localStorage.user.id) {
-                                $scope.me_like = true;
-                                break;
+                            if (!data.item_id.pins) {
+                                data.item_id.pins = [];
                             }
-                        }
-                        for (i = 0; i < data.item_id.pins.length; i++) {
-                            if (data.item_id.pins[i].user_id === $localStorage.user.id) {
-                                $scope.me_pin = true;
-                                break;
+                            if (!data.list_id.followers) {
+                                data.list_id.followers = [];
                             }
-                        }
+                            if (!data.user_id.followers) {
+                                data.user_id.followers = [];
+                            }
+                            var i = 0;
+                            for (i = 0; i < data.user_id.followers.length; i++) {
+                                if (data.user_id.followers[i] === $localStorage.user.id) {
+                                    $scope.me_follow_user = true;
+                                }
+                            }
+                            for (i = 0; i < data.list_id.followers.length; i++) {
+                                if (data.list_id.followers[i] === $localStorage.user.id) {
+                                    $scope.me_follow_list = true;
+                                }
+                            }
+                            for (i = 0; i < data.likes.length; i++) {
+                                if (data.likes[i].user_id === $localStorage.user.id) {
+                                    $scope.me_like = true;
+                                    break;
+                                }
+                            }
+                            for (i = 0; i < data.item_id.pins.length; i++) {
+                                if (data.item_id.pins[i].user_id === $localStorage.user.id) {
+                                    $scope.me_pin = true;
+                                    break;
+                                }
+                            }
 
-                        var comments = data.comments;
-                        for (i = 0; i < comments.length; i++) {
-                            if (!comments[i].picture || comments[i].picture.length === 0)
-                                comments[i].picture = 'img/favicon.png';
-                        }
-
-                        $scope.item = data;
-                        if (data.location && data.location.lat) {
-                            mapHelper.showMap(data.location);
-                        }
-                        if ($localStorage.previous && $localStorage.previous.state) {
-                            var state = $localStorage.previous.state;
-                            if (state === 'unFollowUser') {
-                                $scope.unFollowUser(data.user_id._id);
-                            } else if (state === 'followUser') {
-                                $scope.followUser(data.user_id._id);
-                            } else if (state === 'followList') {
-                                $scope.followList();
-                            } else if (state === 'unFollowList') {
-                                $scope.unFollowList();
-                            } else if (state === 'unlike') {
-                                $scope.unlike();
-                            } else if (state === 'like') {
-                                $scope.like();
-                            } else if (state === 'pin') {
-                                $scope.pin();
+                            var comments = data.comments;
+                            for (i = 0; i < comments.length; i++) {
+                                if (!comments[i].picture || comments[i].picture.length === 0)
+                                    comments[i].picture = 'img/favicon.png';
                             }
-                        }
-                        $scope.loading = false;
-                        if (data.item_id.type === 'product') {
-                            $scope.fetchLatest(data.item_id.href);
+
+                            $scope.item = data;
+                            if (data.item_id.location && data.item_id.location.length > 0) {
+                                var lat = data.item_id.location[1];
+                                var lng = data.item_id.location[0];
+                                data.item_id.location = {
+                                    lat: lat,
+                                    lng: lng,
+                                    zoom: data.item_id.zoom
+                                };
+                            }
+                            if (data.item_id.location && data.item_id.location.lat) {
+                                mapHelper.showMap(data.item_id.location, 'map-canvas_' + data.item_id._id);
+                            }
+                            if ($localStorage.previous && $localStorage.previous.state) {
+                                var state = $localStorage.previous.state;
+                                if (state === 'unFollowUser') {
+                                    $scope.unFollowUser(data.user_id._id);
+                                } else if (state === 'followUser') {
+                                    $scope.followUser(data.user_id._id);
+                                } else if (state === 'followList') {
+                                    $scope.followList();
+                                } else if (state === 'unFollowList') {
+                                    $scope.unFollowList();
+                                } else if (state === 'unlike') {
+                                    $scope.unlike();
+                                } else if (state === 'like') {
+                                    $scope.like();
+                                } else if (state === 'pin') {
+                                    $scope.pin();
+                                }
+                            }
+                            $scope.loading = false;
+                            if (data.item_id.type === 'product') {
+                                $scope.fetchLatest(data.item_id.href);
+                            }
                         }
                     };
 
@@ -626,7 +641,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     } else {
                         var comment = $scope.item.comment;
                         var picture = $scope.item.picture;
-                        var ajax = itemHelper.comment($scope.item_id, $scope.list_id, comment, picture);
+                        var ajax = itemHelper.comment($scope.item_id, $scope.list_id, comment, picture, 'add', false, $scope.item.item_id.img);
                         ajax.then(function (data) {
                             var comments = $scope.item.comments;
                             comments.unshift({

@@ -53,6 +53,14 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
 
                 $scope.sendItem = function () {
                     if ($scope.item.picture.length > 0) {
+
+                        if ($scope.type === 'near') {
+                            if (!$scope.item.location.lat) {
+                                toast.showShortBottom('Select A Location');
+                                return;
+                            }
+                        }
+
                         var ajax = wishlistHelper.addItem(angular.copy($scope.item), $scope.list_id);
                         ajax.then(function (data) {
                             if (data.id) {
@@ -77,6 +85,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     } else if (type === 'url') {
                         $scope.showStep2(type);
                     } else if (type === 'near') {
+                        $scope.showMap();
                         $scope.showStep2(type);
                     } else {
                         toast.showShortBottom('Invalid Type');
@@ -100,7 +109,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     if (!pos.lat) {
                         var confirmPopup = $ionicPopup.confirm({
                             title: 'Warning',
-                            template: 'No Location Set?'
+                            template: 'No Location Set? Move Pin To Set Location.'
                         });
                         confirmPopup.then(function (res) {
                             if (res) {
@@ -230,7 +239,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     $scope.setHeight = {};
 
                     $scope.modal.show();
-                    mapHelper.initMap($scope);
+                    mapHelper.initMap($scope, 'map-canvas');
                 };
 
                 if ($localStorage.user.id) {
@@ -341,7 +350,8 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     if (!val) {
                         return;
                     }
-                    $scope.step_type = 'gallary';
+                    if ($scope.step_type !== 'near')
+                        $scope.step_type = 'gallary';
                     $location.path('/app/wishlist_item_add/' + $scope.list_id + '/step2');
                     console.log($scope.file.myFiles);
 //                    for (var i = 0; i < $scope.file.myFiles.length; i++) {

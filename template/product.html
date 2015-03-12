@@ -99,7 +99,7 @@
                 </div>
                 <div ng-repeat="variant in product.variants" style="float: none;">
                     <div class="other_seller_container">
-                        <div on-tap="openProduct(product);" class="other-sellers-img">
+                        <div on-tap="openProduct(variant);" class="other-sellers-img">
                             <img img-loader ng-src='{{variant.img}}'/>
                         </div>
                         <div class="other-seller-info">
@@ -110,8 +110,8 @@
                                 <span class="e-site"> <i class="site {{variant.website}}"></i>{{variant.website}} </span>
                             </div>
                             <div class="other-seller-price">
-                                <span on-tap="openProduct(product);" class="other-price">Rs.{{variant.price}}</span>
-                                <button class="button pro-button red-back" on-tap="buy(product);">BUY</button>
+                                <span on-tap="openProduct(variant);" class="other-price">Rs.{{variant.price}}</span>
+                                <button class="button pro-button red-back" on-tap="buy(variant);">BUY</button>
                             </div>
                             <div class="clearfix"></div>
                         </div>

@@ -7,6 +7,7 @@ profileMod.controller('ProfileUpdateCtrl',
                         $scope.me = true;
                     }
                 });
+                $scope.loading = false;
                 $scope.followers = $scope.$parent.user.followers;
                 $scope.me = false;
                 if ($scope.$parent.user._id === $localStorage.user.id) {
@@ -53,14 +54,17 @@ profileMod.controller('ProfileUpdateCtrl',
                 $scope.updates = [];
                 $scope.page = 0;
                 $scope.getItems = function () {
+                    $scope.loading = true;
                     var ajax = notifyHelper.getUpdate($localStorage.user.id, false, $scope.page);
                     ajax.then(function (data) {
+                        $scope.loading = false;
                         $scope.updateItems(data);
                     });
                 };
                 $scope.getItems(0);
                 $scope.loadMoreUpdates = function () {
-                    var ajax = notifyHelper.getUpdate($localStorage.user.id, false, $scope.page++);
+                    $scope.page++;
+                    var ajax = notifyHelper.getUpdate($localStorage.user.id, false, $scope.page);
                     ajax.then(function (data) {
                         $scope.updateItems(data, true);
                         $scope.$broadcast('scroll.refreshComplete');
@@ -90,13 +94,29 @@ profileMod.controller('ProfileUpdateCtrl',
                             if (!row.data.user) {
                                 continue;
                             }
+                            if (row.type === 'price_alert') {
+                                row.data.user = $localStorage.user;
+                            }
                             item.user = {
                                 picture: row.data.user.picture,
                                 name: row.data.user.name,
                                 id: row.data.user.id
                             };
                             item.objectId = row.id;
-                            if (row.type === 'item_unlike' || row.type === 'item_like') {
+                            if (row.type === 'price_alert') {
+                                item.body = {
+                                    title: 'Price Changed for ' + row.data.name + ' from Rs.' + row.data.price + " to Rs." + row.data.price_found,
+                                    image: row.data.img
+                                };
+                            } else if (row.type === 'pic_update') {
+                                item.body = {
+                                    title: row.data.user.name + ' updated profile picture'
+                                };
+                            } else if (row.type === 'status_update') {
+                                item.body = {
+                                    title: row.data.user.name + ' updated status : ' + row.status,
+                                };
+                            } else if (row.type === 'item_unlike' || row.type === 'item_like') {
                                 if (row.type === 'item_unlike') {
                                     item.body = {
                                         title: row.data.user.name + ' unliked your item in list ' + row.data.data.list_id.name,

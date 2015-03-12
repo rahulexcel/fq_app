@@ -40,9 +40,11 @@ menuMod.controller('MenuCtrl',
                     //called from inviteHelper on login/register
                     console.log('facebook friends broadcast');
                     var friends = dataShare.getData();
-                    $scope.users = friends;
-                    $scope.friend_list_model.show();
-                    $scope.user_follow_title = 'New Facebook Friends Added';
+                    if (friends.length > 0) {
+                        $scope.users = friends;
+                        $scope.friend_list_model.show();
+                        $scope.user_follow_title = 'New Facebook Friends Added';
+                    }
 
                 });
 
