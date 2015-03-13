@@ -5,6 +5,10 @@
             pulling-text="Pull to refresh..."
             on-refresh="doRefresh()">
         </ion-refresher>
+        <div class="result-empty" ng-if="!clip_loading && !item.item_id">
+            <span class="info"><img src="img/favicon-not.png"/></span>
+            <span class="info grey-color">Clip Not Found</span>
+        </div>
         <div ng-show="item" id="wishlist_item">
             <div class="box"  style="padding: 2px">
                 <div class="pro-img">

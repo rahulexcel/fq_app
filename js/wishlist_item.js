@@ -144,6 +144,8 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }
                     };
 
+
+                    $scope.clip_loading = false;
                     $scope.loadAllComments = function () {
                         var ajax = itemHelper.listComment($scope.list_id, $scope.item_id);
                         ajax.then(function (data) {
@@ -162,8 +164,10 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         $ionicLoading.show({
                             template: 'Loading...'
                         });
+                        $scope.clip_loading = true;
                         ajax = wishlistHelper.viewItem($stateParams.item_id, $stateParams.list_id);
                         ajax.then(function (data) {
+                            $scope.clip_loading = false;
                             timeStorage.set(cache_key, data, 1);
                             $scope.checkData(data);
                             $ionicLoading.hide();
@@ -174,8 +178,10 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         });
                     }
                     $scope.doRefresh = function () {
+                        $scope.clip_loading = true;
                         ajax = wishlistHelper.viewItem($stateParams.item_id, $stateParams.list_id);
                         ajax.then(function (data) {
+                            $scope.clip_loading = false;
                             timeStorage.set(cache_key, data, 1);
                             $scope.checkData(data);
                             $scope.$broadcast('scroll.refreshComplete');
