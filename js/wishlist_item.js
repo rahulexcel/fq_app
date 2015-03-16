@@ -1,7 +1,7 @@
 var wishlistItemMod = angular.module('WishlistItemMod', ['ServiceMod', 'ngStorage', 'ionic', 'WishlistService', 'MapService', 'ItemService', 'FriendService']);
 wishlistItemMod.controller('WishlistItemCtrl',
-        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$window', 'socialJs', 'itemHelper', 'friendHelper', 'timeStorage', '$ionicLoading', '$ionicModal', '$ionicSlideBoxDelegate', 'productHelper',
-            function ($scope, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $window, socialJs, itemHelper, friendHelper, timeStorage, $ionicLoading, $ionicModal, $ionicSlideBoxDelegate, productHelper) {
+        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$window', 'socialJs', 'itemHelper', 'friendHelper', 'timeStorage', '$ionicLoading', '$ionicModal', '$ionicSlideBoxDelegate', 'productHelper', 'CDN',
+            function ($scope, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $window, socialJs, itemHelper, friendHelper, timeStorage, $ionicLoading, $ionicModal, $ionicSlideBoxDelegate, productHelper, CDN) {
                 $scope.wishlist = [];
                 $scope.loading = true;
                 $scope.items = [];
@@ -189,64 +189,77 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             $scope.$broadcast('scroll.refreshComplete');
                         });
                     };
-
                     if (window.plugins && window.plugins.socialsharing) {
                         $scope.isMobile = true;
                         $scope.shareAll = function (product) {
-                            if (product.item_id.type === 'product') {
-                                var product = $scope.item.item_id;
-                                var href = product.href;
-                                window.plugins.socialsharing.share(product.name, null, product.picture, href, function () {
-                                }, function () {
-                                    toast.showShortBottom('Unable to Share');
-                                });
+                            var share_url = 'http://fashioniq.in/m/i/' + $stateParams.item_id + "/" + $stateParams.list_id;
+                            var picture = $scope.item.item_id.img;
+                            var name = $scope.item.item_id.name;
+                            picture = CDN.cdnize(picture);
+                            if (name.length === 0) {
+                                name = 'Awesome Clip!';
                             }
-                        };
-                        $scope.twitter = function (product) {
-                            if (product.item_id.type === 'product') {
-                                var product = $scope.item.item_id;
-                                var href = product.href;
-                                window.plugins.socialsharing.shareViaTwitter(
-                                        product.name, product.picture, href, function () {
-                                        }, function () {
-                                    toast.showShortBottom('Unable to Share! App Not Found');
-                                });
-                            }
+                            window.plugins.socialsharing.share(name, null, picture, share_url, function () {
+                            }, function () {
+                                toast.showShortBottom('Unable to Share');
+                            });
                         };
                         $scope.whatsapp = function (product) {
-                            if (product.item_id.type === 'product') {
-                                var product = $scope.item.item_id;
-                                var href = product.href;
-                                window.plugins.socialsharing.shareViaWhatsApp(
-                                        product.name, product.picture, href, function () {
-                                        }, function () {
-                                    toast.showShortBottom('Unable to Share! App Not Found');
-                                });
+                            var share_url = 'http://fashioniq.in/m/i/' + $stateParams.item_id + "/" + $stateParams.list_id;
+                            var picture = $scope.item.item_id.img;
+                            var name = $scope.item.item_id.name;
+                            if (name.length === 0) {
+                                name = 'Awesome Clip!';
                             }
+                            picture = CDN.cdnize(picture);
+                            window.plugins.socialsharing.shareViaWhatsApp(
+                                    name, picture, share_url, function () {
+                                    }, function (e) {
+                                console.log(e);
+                                toast.showShortBottom('Unable to Share! App Not Found');
+                            });
+                        };
+                        $scope.twitter = function (product) {
+                            var share_url = 'http://fashioniq.in/m/i/' + $stateParams.item_id + "/" + $stateParams.list_id;
+                            var picture = $scope.item.item_id.img;
+                            var name = $scope.item.item_id.name;
+                            picture = CDN.cdnize(picture);
+                            if (name.length === 0) {
+                                name = 'Awesome Clip!';
+                            }
+                            window.plugins.socialsharing.shareViaTwitter(
+                                    name, picture, share_url, function () {
+                                    }, function () {
+                                toast.showShortBottom('Unable to Share! App Not Found');
+                            });
                         };
 
+
                         $scope.facebook = function (product) {
-                            if (product.item_id.type === 'product') {
-                                var product = $scope.item.item_id;
-                                var href = product.href;
-                                if (window.cordova.platformId === "browser") {
-                                    if (!accountHelper.isFbInit()) {
-                                        facebookConnectPlugin.browserInit('765213543516434');
-                                        accountHelper.fbInit();
-                                    }
-                                }
-                                facebookConnectPlugin.showDialog({
-                                    method: 'share',
-                                    href: href,
-                                    message: product.name,
-                                    picture: product.picture
-                                }, function (data) {
-                                    console.log(data);
-                                }, function (data) {
-                                    console.log(data);
-                                    toast.showShortBottom('Unable to Share');
-                                });
+                            var share_url = 'http://fashioniq.in/m/i/' + $stateParams.item_id + "/" + $stateParams.list_id;
+                            var picture = $scope.item.item_id.img;
+                            var name = $scope.item.item_id.name;
+                            picture = CDN.cdnize(picture);
+                            if (name.length === 0) {
+                                name = 'Awesome Clip!';
                             }
+                            if (window.cordova.platformId === "browser") {
+                                if (!accountHelper.isFbInit()) {
+                                    facebookConnectPlugin.browserInit('765213543516434');
+                                    accountHelper.fbInit();
+                                }
+                            }
+                            facebookConnectPlugin.showDialog({
+                                method: 'share',
+                                href: share_url,
+                                message: name,
+                                picture: picture
+                            }, function (data) {
+                                console.log(data);
+                            }, function (data) {
+                                console.log(data);
+                                toast.showShortBottom('Unable to Share');
+                            });
                         };
                     } else {
                         $scope.isMobile = false;

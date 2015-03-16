@@ -15,27 +15,32 @@ productMod.controller('ProductCtrl',
                     $scope.isMobile = true;
 
                     $scope.shareAll = function (product) {
-                        window.plugins.socialsharing.share(product.name, null, product.img, product.desktop_href, function () {
+
+                        var share_url = 'http://fashioniq.in/m/p/' + product._id;
+                        window.plugins.socialsharing.share(product.name, null, product.img, share_url, function () {
                         }, function () {
                             toast.showShortBottom('Unable to Share');
                         });
                     };
                     $scope.twitter = function (product) {
+                        var share_url = 'http://fashioniq.in/m/p/' + product._id;
                         window.plugins.socialsharing.shareViaTwitter(
-                                product.name, product.img, product.desktop_href, function () {
+                                product.name, product.img, share_url, function () {
                                 }, function () {
                             toast.showShortBottom('Unable to Share');
                         });
                     };
                     $scope.whatsapp = function (product) {
+                        var share_url = 'http://fashioniq.in/m/p/' + product._id;
                         window.plugins.socialsharing.shareViaWhatsApp(
-                                product.name, product.img, product.desktop_href, function () {
+                                product.name, product.img, share_url, function () {
                                 }, function () {
                             toast.showShortBottom('Unable to Share');
                         });
                     };
 
                     $scope.facebook = function (product) {
+                        var share_url = 'http://fashioniq.in/m/p/' + product._id;
                         if (window.cordova.platformId === "browser") {
                             if (!accountHelper.isFbInit()) {
                                 facebookConnectPlugin.browserInit('765213543516434');
@@ -44,7 +49,7 @@ productMod.controller('ProductCtrl',
                         }
                         facebookConnectPlugin.showDialog({
                             method: 'share',
-                            href: product.desktop_href,
+                            href: share_url,
                             message: product.name,
                             picture: product.img
                         }, function (data) {
@@ -132,7 +137,6 @@ productMod.controller('ProductCtrl',
                             console.log('latest product data');
                             console.log(data);
                             $scope.product_detail_loading = false;
-                            timeStorage.set(cache_key, data, 1);
                             $scope.processProductData(data);
                             $ionicSlideBoxDelegate.update();
                             if (!self.fetch_latest_done)
@@ -152,6 +156,13 @@ productMod.controller('ProductCtrl',
                         var price = data.price;
                         var more_images = data.more_images;
 
+                        var data1 = timeStorage.get(cache_key);
+                        if (data1) {
+                            data1.price = price;
+                            data1.more_images = more_images;
+                            timeStorage.set(cache_key, data1, 1);
+                        }
+
                         price = Math.round(price);
                         if (price > 0)
                             $scope.product.price = price;
@@ -168,7 +179,7 @@ productMod.controller('ProductCtrl',
                 });
                 $scope.processProductData = function (data) {
 //                    var img = data.product.img;
-                    var prod_id = data.product._id;
+                    //var prod_id = data.product._id;
 //                    data.product.img = CDN.cdnize(ajaxRequest.url('v1/picture/images/' + prod_id));
 
                     var more_images = false;
@@ -196,6 +207,7 @@ productMod.controller('ProductCtrl',
                     }
                     $scope.product_loading = false;
                     $scope.$broadcast('scroll.refreshComplete');
+                    timeStorage.set(cache_key, data, 1);
                 };
                 $scope.$on('search_product_event', function () {
                     var cat_id = $scope.product.cat_id;

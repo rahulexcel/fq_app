@@ -296,8 +296,8 @@ menuMod.controller('MenuCtrl',
                     });
                 };
                 $scope.tickList = function (list) {
-                    var lists = $scope.lists.me;
                     wishlistHelper.incListPriority(list._id);
+                    var lists = $scope.lists.public;
                     for (var i = 0; i < lists.length; i++) {
                         if (lists[i]._id === list._id) {
                             lists[i].tick = true;
@@ -305,7 +305,17 @@ menuMod.controller('MenuCtrl',
                             lists[i].tick = false;
                         }
                     }
-                    $scope.lists.me = lists;
+                    $scope.lists.public = lists;
+
+                    var lists = $scope.lists.private;
+                    for (var i = 0; i < lists.length; i++) {
+                        if (lists[i]._id === list._id) {
+                            lists[i].tick = true;
+                        } else {
+                            lists[i].tick = false;
+                        }
+                    }
+                    $scope.lists.private = lists;
 
                     var lists = $scope.lists.shared;
                     for (var i = 0; i < lists.length; i++) {
@@ -323,11 +333,20 @@ menuMod.controller('MenuCtrl',
                 $scope.selectList = function () {
 
                     var list = false;
-                    var lists = $scope.lists.me;
+                    var lists = $scope.lists.public;
                     for (var i = 0; i < lists.length; i++) {
                         if (lists[i].tick) {
                             list = lists[i];
                             break;
+                        }
+                    }
+                    if (!list) {
+                        var lists = $scope.lists.private;
+                        for (var i = 0; i < lists.length; i++) {
+                            if (lists[i].tick) {
+                                list = lists[i];
+                                break;
+                            }
                         }
                     }
 

@@ -41,7 +41,7 @@ pinMod.controller('PinCtrl',
                     var ajax = $scope.$parent.getData($scope.page);
                     ajax.then(function (data) {
                         $scope.loading = false;
-                        console.log(data);
+//                        console.log(data);
                         if (data.length > 0) {
                             $scope.page++;
                             for (var i = 0; i < data.length; i++) {
@@ -223,7 +223,6 @@ pinMod.controller('PinCtrl',
                     level = 1;
                     for (var i = 0; i < data.length; i++) {
                         var pin = data[i];
-                        //var pin_height = $scope.getItemHeight(pin, true, false);
                         var pin_height = data[i].pin_height;
                         pin_height = pin_height.replace('px', '') * 1;
                         total_height += pin_height;
@@ -234,16 +233,8 @@ pinMod.controller('PinCtrl',
 //                    console.log(avg_height + 'avg height');
                     for (var i = 0; i < data.length; i++) {
                         var pin = data[i];
-                        //var pin_height = $scope.getItemHeight(pin, true, false);
                         var pin_height = data[i].pin_height;
                         pin_height = pin_height.replace('px', '') * 1;
-                        if (grid_space[cur_column] + pin_height > avg_height * level) {
-                            cur_column++;
-                            if (cur_column >= pin_column) {
-                                level++;
-                                cur_column = 0;
-                            }
-                        }
                         if (!grid_space[cur_column]) {
                             grid_space[cur_column] = 0;
                         }
@@ -255,6 +246,8 @@ pinMod.controller('PinCtrl',
                         if (cur_column > 2) {
                             cur_column = 0;
                         }
+
+//                        if (grid_space[cur_column] + pin_height > avg_height * level) {
                         if (cur_column === 0) {
                             grid1.push(pin);
                         } else if (cur_column === 1) {
@@ -263,6 +256,22 @@ pinMod.controller('PinCtrl',
                         else if (cur_column === 2) {
                             grid3.push(pin);
                         }
+
+                        var next_column = cur_column + 1;
+                        if (next_column > 2) {
+                            next_column = 0;
+                        }
+                        if (!grid_space[next_column]) {
+                            grid_space[next_column] = 0;
+                        }
+                        if (grid_space[cur_column] + pin_height > grid_space[next_column]) {
+                            cur_column++;
+                            if (cur_column >= pin_column) {
+                                level++;
+                                cur_column = 0;
+                            }
+                        }
+
 //                        else if (cur_column === 3) {
 //                            grid4.push(pin);
 //                        } else if (cur_column === 4) {

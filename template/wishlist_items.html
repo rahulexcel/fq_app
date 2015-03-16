@@ -1,9 +1,12 @@
-<ion-view>
-    <ion-nav-title>{{wishlist_name}}</ion-nav-title>
-    <ion-content overflow-scroll='false'>
-        <div ng-show='list_detail' style="background-color: white">
+<ion-view cache-view='false' title="{{wishlist_name}}">
+    <ion-content lazy-scroll overflow-scroll='false'>
+        <div ng-show='list_detail._id' style="background-color: white">
             <div class="padding">
-                <div class="list_name" style="font-weight:bold">{{list_detail.name}}</div>
+                <div class="list_name" style="font-weight:bold">
+                    <i ng-if="list_detail.type == 'shared'" class="ion-android-share-alt grey-color"></i>
+                    <i ng-if="list_detail.type == 'private'" class="ion-ios-locked grey-color"></i>
+                    {{list_detail.name}}
+                </div>
                 <div class="list_desc">{{list_detail.description}}</div>
             </div>
             <div class="list_stats row">
@@ -14,7 +17,10 @@
                     <i class="ion-ios-people fa-lg red-color"></i>&nbsp; {{list_detail.followers.length}}
                 </div>
                 <div class="col">
-                    <i class="ion-ios-heart-outline red-color"></i>&nbsp;{{list_detail.meta.likes}} likes
+                    <i class="ion-ios-heart-outline red-color"></i>&nbsp;{{list_detail.meta.likes}}
+                </div>
+                <div class="col"  style="padding: 0px" ng-if='list_detail.type == "public"'>
+                    <button on-tap='shareList()' style="height: 100%;margin: 0px;padding: 0px;font-size:1.5em" class="button button-full button-small button-icon ion-android-share-alt red-color"></button>
                 </div>
                 <div class="col" style="padding: 0px" ng-if="!my_list && list_detail.type != 'shared'">
                     <button on-tap='followList()' ng-if="!follow" style="height: 100%;margin: 0px;padding: 0px" class="button button-full button-small button-icon ion-ios-people fa-2x red-color"></button>

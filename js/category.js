@@ -169,6 +169,7 @@ categoryMod.controller('CategoryCtrl',
                     var state = $scope.currentState;
                     state.page = -1;
                     $scope.currentState = state;
+                    $scope.getLatestFilters(state);
                     var req = categoryHelper.fetchProduct(state);
                     req.then(function (ret) {
                         if (ret.products.length === 0) {
@@ -267,6 +268,7 @@ categoryMod.controller('CategoryCtrl',
                     for (var i = 0; i < filters.length; i++) {
                         var data = filters[i].data;
                         var type = filters[i].key;
+                        filters[i].type_select = 0;
                         for (var k = 0; k < data.length; k++) {
                             if (data[k].selected) {
                                 var filter = data[k];
@@ -278,8 +280,8 @@ categoryMod.controller('CategoryCtrl',
                                     name: name,
                                     param: url
                                 });
-
-
+                                filters[i].type_select++;
+                                filters[i].open = false; //close all filters during apply
                                 if (multi_support.indexOf(type) === -1) {
                                     filters[i].visible = false;
                                     console.log('do filter multi support');
@@ -409,67 +411,7 @@ categoryMod.controller('CategoryCtrl',
                         }
 
                         if (cat.search.length === 0) {
-                            var req = categoryHelper.fetchFilters(cat);
-                            req.then(function (ret) {
-
-                                if (!$scope.currentState.sortby || $scope.currentState.sortby.length === 0) {
-                                    $scope.currentState.sortby = 'popular';
-                                }
-                                if ($scope.currentState.sortby && ret.sortBy && ret.sortBy.length > 0) {
-                                    for (i = 0; i < ret.sortBy.length; i++) {
-                                        if (ret.sortBy[i].url === $scope.currentState.sortby) {
-                                            ret.sortBy[i].selected = true;
-                                        } else {
-                                            ret.sortBy[i].selected = false;
-                                        }
-                                    }
-                                }
-                                $scope.sortBy = ret.sortBy;
-                                var filters = ret.filters;
-                                prev_state_data = timeStorage.get('category_' + cat.cat_id + "_" + cat.sub_cat_id);
-                                if (!$scope.filters)
-                                    $scope.filters = [];
-                                var final_filters = $scope.filters;
-                                if (prev_state_data && prev_state_data.filters) {
-                                    var prev_filters = prev_state_data.filters;
-                                    for (var i = 0; i < filters.length; i++) {
-                                        var data = filters[i].data;
-                                        var type = filters[i].key;
-//                                        console.log('type ' + type);
-                                        for (var k = 0; k < data.length; k++) {
-                                            var filter1 = data[k];
-                                            var url1 = filter1.param;
-                                            var found = false;
-                                            for (var j = 0; j < prev_filters.length; j++) {
-                                                var url = prev_filters[j].param;
-//                                                console.log(url + "XXXXX" + url1 + "yyy");
-                                                if (url + "" === url1 + "") {
-                                                    found = true;
-                                                    console.log('foundddd');
-//                                                    if (multi_support.indexOf(type) === -1) {
-//                                                    }
-                                                    break;
-                                                }
-                                            }
-                                            if (found) {
-                                                filters[i].open = true;
-                                                filters[i].data[k].selected = true;
-                                                console.log(type + " typeee");
-                                                if (multi_support.indexOf(type) === -1) {
-                                                    console.log('page load non multi support');
-                                                    filters[i].visible = false;
-                                                }
-                                                break;
-                                            }
-
-                                        }
-                                    }
-                                }
-                                for (var i = 0; i < filters.length; i++) {
-                                    final_filters.push(filters[i]);
-                                }
-                                $scope.filters = final_filters;
-                            });
+                            $scope.getLatestFilters(cat);
 
                         }
 //                        $ionicNavBarDelegate.title(cat.name);
@@ -484,6 +426,71 @@ categoryMod.controller('CategoryCtrl',
                         });
                     }
                 });
+                $scope.getLatestFilters = function (cat) {
+                    var req = categoryHelper.fetchFilters(cat);
+                    req.then(function (ret) {
+
+                        if (!$scope.currentState.sortby || $scope.currentState.sortby.length === 0) {
+                            $scope.currentState.sortby = 'popular';
+                        }
+                        if ($scope.currentState.sortby && ret.sortBy && ret.sortBy.length > 0) {
+                            for (i = 0; i < ret.sortBy.length; i++) {
+                                if (ret.sortBy[i].url === $scope.currentState.sortby) {
+                                    ret.sortBy[i].selected = true;
+                                } else {
+                                    ret.sortBy[i].selected = false;
+                                }
+                            }
+                        }
+                        $scope.sortBy = ret.sortBy;
+                        var filters = ret.filters;
+                        prev_state_data = timeStorage.get('category_' + cat.cat_id + "_" + cat.sub_cat_id);
+//                        if (!$scope.filters)
+                        $scope.filters = [];
+                        var final_filters = $scope.filters;
+                        if (prev_state_data && prev_state_data.filters) {
+                            var prev_filters = prev_state_data.filters;
+                            for (var i = 0; i < filters.length; i++) {
+                                var data = filters[i].data;
+                                var type = filters[i].key;
+//                                        console.log('type ' + type);
+                                filters[i].type_select = 0;
+                                for (var k = 0; k < data.length; k++) {
+                                    var filter1 = data[k];
+                                    var url1 = filter1.param;
+                                    var found = false;
+                                    for (var j = 0; j < prev_filters.length; j++) {
+                                        var url = prev_filters[j].param;
+//                                                console.log(url + "XXXXX" + url1 + "yyy");
+                                        if (url + "" === url1 + "") {
+                                            filters[i].type_select++;
+                                            found = true;
+                                            console.log('foundddd');
+                                            break;
+//                                                    if (multi_support.indexOf(type) === -1) {
+//                                                    }
+                                        }
+                                    }
+                                    if (found) {
+                                        //filters[i].open = true;
+                                        filters[i].data[k].selected = true;
+                                        console.log(type + " typeee");
+                                        if (multi_support.indexOf(type) === -1) {
+                                            console.log('page load non multi support');
+                                            filters[i].visible = false;
+                                        }
+//                                        break;
+                                    }
+
+                                }
+                            }
+                        }
+                        for (var i = 0; i < filters.length; i++) {
+                            final_filters.push(filters[i]);
+                        }
+                        $scope.filters = final_filters;
+                    });
+                };
                 $scope.nextPage = function (force) {
                     console.log('next page');
                     if ($scope.currentState.page && ($scope.currentState.page * 1 !== -1) || force) {

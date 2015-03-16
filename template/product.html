@@ -45,7 +45,7 @@
                     <i class="fa fa-caret-down" ng-if="product.price_drop < 0">&nbsp;Price Drop of Rs.{{product.price_drop}}</i>
                 </div>
                 <div class="social-share">
-                    <div ng-if="!isMobile && item.item_id.type === 'product'">
+                    <div ng-if="!isMobile">
                         <div class="fb-like" data-href="{{product.desktop_href}}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                         <div class="twitter">
                             <a class="twitter-share-button"
@@ -54,7 +54,7 @@
                             </a>
                         </div>
                     </div>
-                    <div ng-if="isMobile && item.item_id.type === 'product'">
+                    <div ng-if="isMobile">
                         <i class="ion-social-whatsapp-outline red-color" on-tap='whatsapp(product)'></i>
                         <i class="ion-social-twitter red-color" on-tap='twitter(product)'></i>
                         <i class="ion-social-facebook red-color"  on-tap='facebook(product)'></i>

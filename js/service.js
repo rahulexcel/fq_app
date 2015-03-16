@@ -182,7 +182,7 @@ serviceMod.filter('prettyDate', function () {
 });
 serviceMod.filter('picture', ['ajaxRequest', 'CDN', function (ajaxRequest, CDN) {
         return function (picture, width, height) {
-            if (!angular.isDefined(picture)) {
+            if (!angular.isDefined(picture) || picture === null || picture == "null") {
                 return "img/empty.png";
             }
             if (picture.length === 0) {
@@ -229,7 +229,15 @@ serviceMod.factory('CDN', ['ajaxRequest', function (ajaxRequest) {
         service.cdnize = function (url) {
             var cdn = 'http://dyc4yp9si5syy.cloudfront.net/';
             var server = ajaxRequest.url('');
+
+//            console.log('url ' + url);
+//            console.log('server ' + server);
+//            console.log('cdn ' + cdn);
+            if (url.indexOf(server) === -1) {
+                url = ajaxRequest.url('v1/picture/view/' + url);
+            }
             url = url.replace(server, cdn);
+//            console.log('final ' + url);
             return url;
         };
         return service;
@@ -403,7 +411,7 @@ serviceMod.factory('ajaxRequest',
                             headers: {'Content-Type': 'application/json;charset=utf-8'},
                             cache: false,
                             data: JSON.stringify(data),
-                            timeout: 10000
+                            timeout: 20000
                         });
                         http.success(function (data) {
                             $rootScope.ajax_on = false;

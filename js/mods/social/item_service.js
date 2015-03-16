@@ -110,7 +110,7 @@ itemService.factory('itemHelper', [
                     notifyHelper.sendAlert('user_' + data.list_id.user_id, {
                         title: 'Likes Your Clip',
                         message: $localStorage.user.name + " likes your clip",
-                        bigPicture: data.item_id.href,
+                        bigPicture: data.item_id.org_img,
                         meta: {
                             user: $localStorage.user,
                             type: 'item_like',

@@ -469,3 +469,38 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             }
         });
     }]);
+
+
+function handleOpenURL(url) {
+    setTimeout(function () {
+        var parser = document.createElement('a');
+        parser.href = url;
+
+        var elem = angular.element(document.querySelector('[ng-app]'));
+        var injector = elem.injector();
+        var $location = injector.get('$location');
+
+        var path = parser.pathname;
+        if (path.indexOf('m/p') !== -1) {
+            //product
+            var p = path.split('/');
+            var last_index = p[p.length - 1];
+            $location.path('/app/product/' + last_index);
+        } else if (path.indexOf('m/i') !== -1) {
+            var p = path.split('/');
+            var last_index = p[p.length - 1];
+            var second_last_index = p[p.length - 2];
+            $location.path('/app/item/' + second_last_index + "/" + last_index);
+        } else if (path.indexOf('m/l') !== -1) {
+            var p = path.split('/');
+            var last_index = p[p.length - 1];
+            var second_last_index = p[p.length - 2];
+            $location.path('/app/wishlist_item/' + second_last_index + "/" + last_index + '/pins');
+        } else {
+            console.log('invalid url' + url);
+            window.open(url, '_system');
+        }
+
+        parser = null;
+    }, 0);
+}

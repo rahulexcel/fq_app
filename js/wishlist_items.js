@@ -5,6 +5,7 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                 if ($stateParams.list_id) {
                     $scope.wishlist_name = $stateParams.list_name;
                     $scope.list_id = $stateParams.list_id;
+                    console.log('list id ' + $scope.list_id);
                     $scope.list_detail = false;
                     $scope.follow = false;
                     $scope.my_list = false;
@@ -28,6 +29,14 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                         $scope.friend_list_model.hide();
                     };
 
+                    $scope.shareList = function () {
+                        var wishname = $scope.wishlist_name.replace(" ", "_");
+                        var share_url = 'http://fashioniq.in/m/l/' + $scope.list_id + "/" + wishname;
+                        window.plugins.socialsharing.share($scope.wishlist_name, null, null, share_url, function () {
+                        }, function () {
+                            toast.showShortBottom('Unable to Share');
+                        });
+                    };
                     $scope.leaveList = function () {
                         $ionicPopup.confirm({
                             title: 'Are you sure you want to leave this wishlist?',
@@ -62,6 +71,7 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                         var ajax = wishlistHelper.listItems($stateParams.list_id, page);
                         ajax.then(function (data) {
                             var list = data.list;
+                            $scope.wishlist_name = list.name;
 
                             if (list.type === 'private') {
                                 if (data.list.user_id._id !== $localStorage.user.id) {

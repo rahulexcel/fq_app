@@ -59,10 +59,24 @@ wishlistService.factory('wishlistHelper', [
         };
         service.getListName = function (list_id) {
             var user_wish_list = timeStorage.get('user_wish_list');
-            if (user_wish_list.me) {
-                for (var i = 0; i < user_wish_list.length; i++) {
-                    if (user_wish_list[i]._id === list_id) {
-                        return user_wish_list[i].name;
+            if (user_wish_list.public) {
+                for (var i = 0; i < user_wish_list.public.length; i++) {
+                    if (user_wish_list.public[i]._id === list_id) {
+                        return user_wish_list.public[i].name;
+                    }
+                }
+            }
+            if (user_wish_list.private) {
+                for (var i = 0; i < user_wish_list.private.length; i++) {
+                    if (user_wish_list.private[i]._id === list_id) {
+                        return user_wish_list.private[i].name;
+                    }
+                }
+            }
+            if (user_wish_list.shared) {
+                for (var i = 0; i < user_wish_list.shared.length; i++) {
+                    if (user_wish_list.shared[i]._id === list_id) {
+                        return user_wish_list.shared[i].name;
                     }
                 }
             }
@@ -80,17 +94,43 @@ wishlistService.factory('wishlistHelper', [
             timeStorage.set('user_wish_list_pri', user_wish_list_pri, 24);
         };
         service.sortList = function (list) {
-            var me = list.me;
+            var public = list.public;
             var user_wish_list_pri = timeStorage.get('user_wish_list_pri');
-            if (me && user_wish_list_pri) {
-                for (var i = 0; i < me.length; i++) {
-                    if (user_wish_list_pri[me[i]._id]) {
-                        me[i].sort_order = user_wish_list_pri[me[i]._id];
+            if (public && user_wish_list_pri) {
+                for (var i = 0; i < public.length; i++) {
+                    if (user_wish_list_pri[public[i]._id]) {
+                        public[i].sort_order = user_wish_list_pri[public[i]._id];
                     } else {
-                        me[i].sort_order = 0;
+                        public[i].sort_order = 0;
                     }
                 }
-                list.me = me;
+                list.public = public;
+            }
+
+            var private = list.private;
+            var user_wish_list_pri = timeStorage.get('user_wish_list_pri');
+            if (private && user_wish_list_pri) {
+                for (var i = 0; i < private.length; i++) {
+                    if (user_wish_list_pri[private[i]._id]) {
+                        private[i].sort_order = user_wish_list_pri[private[i]._id];
+                    } else {
+                        private[i].sort_order = 0;
+                    }
+                }
+                list.private = private;
+            }
+
+            var shared = list.shared;
+            var user_wish_list_pri = timeStorage.get('user_wish_list_pri');
+            if (shared && user_wish_list_pri) {
+                for (var i = 0; i < shared.length; i++) {
+                    if (user_wish_list_pri[shared[i]._id]) {
+                        shared[i].sort_order = user_wish_list_pri[shared[i]._id];
+                    } else {
+                        shared[i].sort_order = 0;
+                    }
+                }
+                list.shared = shared;
             }
             return list;
         };
@@ -120,6 +160,12 @@ wishlistService.factory('wishlistHelper', [
                 ajax.then(function (data) {
                     if (showLoading)
                         $ionicLoading.hide();
+
+                    var new_data = {
+                        shared: [],
+                        public: [],
+                        private: []
+                    };
                     if (data.me) {
                         for (var i = 0; i < data.me.length; i++) {
                             var name = data.me[i].name;
@@ -127,19 +173,30 @@ wishlistService.factory('wishlistHelper', [
                             var bg_color = service.getRandomColor();
                             data.me[i].list_symbol = list_symbol;
                             data.me[i].bg_color = bg_color;
+                            if (data.me[i].type === 'public') {
+                                new_data.public.push(data.me[i]);
+                            } else if (data.me[i].type === 'private') {
+                                new_data.private.push(data.me[i]);
+                            } else if (data.me[i].type === 'shared') {
+                                data.me[i].user_id = $localStorage.user;
+                                new_data.shared.push(data.me[i]);
+                            }
+
                         }
                     }
-//                    if (data.shared) {
-//                        for (var i = 0; i < data.shared.length; i++) {
+                    if (data.shared) {
+                        for (var i = 0; i < data.shared.length; i++) {
 //                            var name = data.shared[i].name;
 //                            var list_symbol = name.substring(0, 1).toUpperCase();
 //                            var bg_color = service.getRandomColor();
 //                            data.shared[i].list_symbol = list_symbol;
 //                            data.shared[i].bg_color = bg_color;
-//                        }
-//                    }
-                    timeStorage.set('user_wish_list', data, 12);
-                    def.resolve(self.sortList(data));
+
+                            new_data.shared.push(data.shared[i]);
+                        }
+                    }
+                    timeStorage.set('user_wish_list', new_data, 12);
+                    def.resolve(self.sortList(new_data));
                 }, function (message) {
                     if (showLoading)
                         $ionicLoading.hide();
@@ -294,7 +351,7 @@ wishlistService.factory('wishlistHelper', [
                         notifyHelper.sendQueue({
                             title: 'New Item Added',
                             alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
-                            bigPicture : data.wishlist_model.org_img,
+                            bigPicture: data.wishlist_model.org_img,
                             meta: {
                                 type: 'item_add',
                                 wishlist_model: data.wishlist_model,
@@ -456,7 +513,7 @@ wishlistService.factory('wishlistHelper', [
                         notifyHelper.sendQueue({
                             title: 'New Item Added',
                             alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
-                            bigPicture : data.wishlist_model.org_img,
+                            bigPicture: data.wishlist_model.org_img,
                             meta: {
                                 type: 'item_add',
                                 wishlist_model: data.wishlist_model,

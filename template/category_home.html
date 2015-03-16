@@ -13,7 +13,7 @@
         <span class="info grey-color">No Products Found</span>
     </div>
 
-    <div class="product" collection-repeat="prod in products track by prod._id">
+    <div class="product" force-refresh-images='true' collection-repeat="prod in products track by prod._id">
         <div class="image" on-tap="openProduct(prod);">
             <img img-loader ng-src="{{prod.img}}"/>
             <div class="heart my-wishlist-img red-back" on-tap="wishlist(prod,$event);">

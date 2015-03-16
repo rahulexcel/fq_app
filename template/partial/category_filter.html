@@ -7,17 +7,12 @@
     </ion-header-bar>
     <ion-content>
         <div id="show-fliter" class="filterby-container">
-<!--            <div class="filter-page">
-                <span class="filter-label"> <i class="icon ion-funnel filter-icon red-color"></i>&nbsp;FILTER</span>
-                <button class="button button-clear filter-button" on-tap='showProductsFn()'>
-                    <i class="ion-ios-close-empty close-icon-show close-tab-icon"></i> 
-                </button>
-                <div class="clearfix"></div>
-            </div>-->
             <div class="filter-list" ng-show='filter_type.visible' ng-repeat="filter_type in filters">
-                <div style="display:none">{{filter_type}}</div>
                 <div class="filter_label" on-tap='openFilter(filter_type);' ng-show='filter_type.visible'>
-                    <div style="float: left" ng-bind='filter_type.type'></div>
+                    <div style="float: left">
+                        <span>{{filter_type.type}}</span>
+                        <span ng-if='filter_type.type_select > 0'>({{filter_type.type_select}})</span>
+                    </div>
                     <div class="plus-minus" style="float: right;width: 10%" ng-if="filter_type.data.length > 0">
                         <i ng-show="!filter_type.open">[ + ]</i>
                         <i ng-show="filter_type.open">[ - ]</i>

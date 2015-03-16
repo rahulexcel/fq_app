@@ -241,10 +241,14 @@ notifyService.factory('notifyHelper', [
         };
         service.openItem = function (row) {
             if (row.type === 'price_alert') {
-                if (window.plugins) {
-                    window.open(row.data.url, '_system');
+                if (row.data.fq_product_id) {
+                    $location.path('/app/product/' + row.data.fq_product_id);
                 } else {
-                    window.open(row.data.url);
+                    if (window.plugins) {
+                        window.open(row.data.url, '_system');
+                    } else {
+                        window.open(row.data.url);
+                    }
                 }
             } else if (row.type === 'add_friend' || row.type === 'accept_friend' || row.type === 'decline_friend') {
                 $location.path('/app/profile/' + row.user.id + '/friends');
