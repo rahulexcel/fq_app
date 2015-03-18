@@ -349,53 +349,6 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
         $rootScope.isReady = function () {
             $rootScope.display = {display: "block"};
         };
-        var backPress = 0;
-        $ionicPlatform.registerBackButtonAction(function (e) {
-            var backView = $ionicHistory.backView();
-            $ionicLoading.hide();
-            if (backView) {
-                // there is a back view, go to it
-                backView.go();
-            } else {
-                // there is no back view, so close the app instead
-
-                if (backPress === 0) {
-                    backPress++;
-                    if ($location.path().indexOf('app/home') !== -1) {
-                        $location.path('/app/home/trending');
-                    }
-                    toast.showShortBottom('Press Back Again To Exit');
-                    $timeout(function () {
-                        backPress = 0;
-                    }, 3000);
-                } else {
-                    ionic.Platform.exitApp();
-                }
-            }
-            e.preventDefault();
-            return false;
-        }, 101);
-
-        if (window.plugins && window.plugins.webintent) {
-            window.plugins.webintent.hasExtra(window.plugins.webintent.EXTRA_TEXT,
-                    function (has) {
-                        if (has) {
-                            window.plugins.webintent.getExtra(window.plugins.webintent.EXTRA_TEXT,
-                                    function (data) {
-                                        // url is the value of EXTRA_TEXT
-
-                                        console.log(data);
-                                    }, function () {
-                                // There was no extra supplied.
-                            }
-                            );
-                        }
-                    }, function () {
-                // Something really bad happened.
-            }
-            );
-        }
-
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -410,6 +363,33 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                 StatusBar.styleDefault();
             }
             notifyHelper.init();
+
+            var backPress = 0;
+            $ionicPlatform.registerBackButtonAction(function (e) {
+                var backView = $ionicHistory.backView();
+                $ionicLoading.hide();
+                if (backView) {
+                    // there is a back view, go to it
+                    backView.go();
+                } else {
+                    // there is no back view, so close the app instead
+
+                    if (backPress === 0) {
+                        backPress++;
+                        if ($location.path().indexOf('app/home') !== -1) {
+                            $location.path('/app/home/trending');
+                        }
+                        toast.showShortBottom('Press Back Again To Exit');
+                        $timeout(function () {
+                            backPress = 0;
+                        }, 3000);
+                    } else {
+                        ionic.Platform.exitApp();
+                    }
+                }
+                e.preventDefault();
+                return false;
+            }, 101);
 
         });
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {

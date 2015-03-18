@@ -1,12 +1,13 @@
 var categoryService = angular.module('CategoryService', ['ServiceMod', 'ionic']);
 
 categoryService.factory('categoryHelper', [
-    'ajaxRequest', '$q', '$ionicLoading',
-    function (ajaxRequest, $q, $ionicLoading) {
+    'ajaxRequest', '$q',
+    function (ajaxRequest, $q) {
         var service = {};
-        service.fetchFilters = function (data) {
+        service.fetchFilters = function (data, is_search) {
             var defer = $q.defer();
-            var ajax = ajaxRequest.send('v1/catalog/filters', angular.copy(data));
+            var ajax = false;
+            ajax = ajaxRequest.send('v1/catalog/filters', angular.copy(data));
             ajax.then(function (data) {
                 var ret = {};
                 var filters = [];

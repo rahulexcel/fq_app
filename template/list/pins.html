@@ -40,9 +40,9 @@
                 <div class="user_image" on-tap='profile(pin.original.user_id)'>
                     <img class="rounded" bo-src='pin.user.picture| picture:35:35'/>
                 </div>
-                <div class="user-info">
-                    <span on-tap='profile(pin.original.user_id)' class="grey-color info">by <span bo-bind='pin.user.name'></span></span>
-                    <span on-tap='viewList(pin.original.list_id,pin.list.name)' class="black-font info">in <span bo-bind='pin.list.name'></span></span>
+                <div class="user-info" on-tap='viewList(pin.original.list_id,pin.list.name)'>
+                    <span class="grey-color info">by <span bo-bind='pin.user.name'></span></span>
+                    <span class="black-font info">in <span bo-bind='pin.list.name'></span></span>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -68,9 +68,9 @@
                 <div class="user_image" on-tap='profile(pin.original.user_id)'>
                     <img class="rounded" bo-src='pin.user.picture| picture:35:35'/>
                 </div>
-                <div class="user-info">
-                    <span on-tap='profile(pin.original.user_id)' class="grey-color info">by <span bo-bind='pin.user.name'></span></span>
-                    <span on-tap='viewList(pin.original.list_id,pin.list.name)' class="black-font info">in <span bo-bind='pin.list.name'></span></span>
+                <div class="user-info" on-tap='viewList(pin.original.list_id,pin.list.name)'>
+                    <span class="grey-color info">by <span bo-bind='pin.user.name'></span></span>
+                    <span class="black-font info">in <span bo-bind='pin.list.name'></span></span>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -95,9 +95,9 @@
                 <div class="user_image" on-tap='profile(pin.original.user_id)'>
                     <img class="rounded" bo-src='pin.user.picture| picture:35:35'/>
                 </div>
-                <div class="user-info">
-                    <span on-tap='profile(pin.original.user_id)' class="grey-color info">by <span bo-bind='pin.user.name'></span></span>
-                    <span on-tap='viewList(pin.original.list_id,pin.list.name)' class="black-font info">in <span bo-bind='pin.list.name'></span></span>
+                <div class="user-info" on-tap='viewList(pin.original.list_id,pin.list.name)'>
+                    <span class="grey-color info">by <span bo-bind='pin.user.name'></span></span>
+                    <span class="black-font info">in <span bo-bind='pin.list.name'></span></span>
                 </div>
                 <div class="clearfix"></div>
             </div>

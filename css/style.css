@@ -2137,9 +2137,26 @@ i.offline-icon{
     -o-transform: translate3d(0,0,0);
     transform: translate3d(0,0,0);
 }
+#anim .active_circle .anim_text
+{
+  display: block;
+}
+#anim .anim_text{
+    background-color: black;
+    border-radius: 5px;
+    font-size: 0.5em;
+    font-weight: bold;
+    left: -2px;
+    padding: 1px;
+    position: absolute;
+    text-align: center;
+    top: -25px;
+    width: 45px;
+    display: none;
+}
 .dot{
     background-color: black;display: block;height: 5px;left: 4px;position: absolute;top: 1px;width: 5px;z-index: 2147483647;
 }
 .backdrop{
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.6) !important;
 }

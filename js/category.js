@@ -371,7 +371,6 @@ categoryMod.controller('CategoryCtrl',
                 });
                 $scope.startPaging = false;
                 $scope.$watch('current_category', function (cat) {
-                    console.log(cat);
                     if (cat) {
 
                         console.log('processing');
@@ -411,8 +410,9 @@ categoryMod.controller('CategoryCtrl',
                         }
 
                         if (cat.search.length === 0) {
-                            $scope.getLatestFilters(cat);
-
+                            $scope.getLatestFilters(cat, false);
+                        } else {
+                            $scope.getLatestFilters(cat, true);
                         }
 //                        $ionicNavBarDelegate.title(cat.name);
                         var products = [];
@@ -426,8 +426,8 @@ categoryMod.controller('CategoryCtrl',
                         });
                     }
                 });
-                $scope.getLatestFilters = function (cat) {
-                    var req = categoryHelper.fetchFilters(cat);
+                $scope.getLatestFilters = function (cat, is_search) {
+                    var req = categoryHelper.fetchFilters(cat, is_search);
                     req.then(function (ret) {
 
                         if (!$scope.currentState.sortby || $scope.currentState.sortby.length === 0) {

@@ -38,6 +38,7 @@ pinMod.factory('pinchServie', ['$ionicBackdrop', '$window',
                 this.removeTemp();
                 this.startTransform();
                 this.classTransform(-1000, -1000);
+                console.log('release');
                 $ionicBackdrop.release();
                 this.is_showing = false;
                 return this.active_class;
@@ -224,16 +225,16 @@ pinMod.factory('pinchServie', ['$ionicBackdrop', '$window',
                 }
 
                 var f_c_coord = {
-                    x: length,
-                    y: Math.round(Math.sin(Math.PI / 12) * length * -1, 2)
+                    x: Math.round(Math.sin(Math.PI / 12) * length, 2) * -1,
+                    y: length * -1
                 };
                 var s_c_coord = {
                     x: Math.round(Math.cos(Math.PI / 4) * length, 2),
-                    y: Math.round(Math.cos(Math.PI / 4) * length, 2)
+                    y: Math.round(Math.cos(Math.PI / 4) * length, 2) * -1
                 };
                 var t_c_coord = {
-                    x: Math.round(Math.sin(Math.PI / 12) * length * -1, 2),
-                    y: length
+                    x: length,
+                    y: Math.round(Math.sin(Math.PI / 12) * length * -1, 2) * -1
                 };
                 this.positions = {
                     center: {
