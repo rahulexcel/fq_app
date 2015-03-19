@@ -16,6 +16,7 @@ profileMod.controller('ProfileListMineCtrl',
                     $scope.me = true;
                 }
                 self.genData = function () {
+                    console.log('gen data');
                     var wishlists = $scope.$parent.user.lists_mine;
                     if (wishlists) {
                         for (var i = 0; i < wishlists.length; i++) {
@@ -46,6 +47,7 @@ profileMod.controller('ProfileListMineCtrl',
                                 shared_lists.push(wishlists[i]);
                         }
                     }
+                    console.log(shared_lists);
                     $scope.shared_lists = shared_lists;
                     $scope.public_lists = public_lists;
                     $scope.private_lists = private_lists;
@@ -55,5 +57,6 @@ profileMod.controller('ProfileListMineCtrl',
                         $scope.private_lists = [];
                     }
                 }
+                self.genData();
             }
         ]);

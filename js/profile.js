@@ -33,6 +33,7 @@ profileMod.controller('ProfileCtrl',
                 };
 
                 var start_index = 0;
+                 $rootScope.$on('$viewContentLoaded', function (event) {
                     var path = $location.path();
                     //$scope.selected_class = 'wishlist';
                     path = path.replace('/me', '/' + user_id);
@@ -70,6 +71,7 @@ profileMod.controller('ProfileCtrl',
                         start_index = 2;
                     }
                     $ionicScrollDelegate.resize();
+                });
                 $scope.me = false;
                 $scope.menu_update = function () {
                     $location.path('/app/profile/' + user_id + '/update');

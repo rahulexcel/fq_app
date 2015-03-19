@@ -98,7 +98,7 @@ homeMod.controller('HomeCtrl',
                     self.init();
                 });
                 $rootScope.$on('$ionicView.leave', function () {
-                    self.skipFeedCheck = false;
+                    self.skipFeedCheck = true;
                 });
 
                 self.checkFeedCount = function () {

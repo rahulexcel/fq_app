@@ -194,6 +194,10 @@ categoryMod.controller('CategoryCtrl',
 
 
                     $scope.currentState.filters = new_filters;
+                    if (state.search.length > 0) {
+                        //is search page so fetch filters again
+                        $scope.getLatestFilters($scope.currentState, true);
+                    }
                     var req = categoryHelper.fetchProduct(state);
                     req.then(function (ret) {
                         $scope.product_loading = false;
@@ -226,7 +230,14 @@ categoryMod.controller('CategoryCtrl',
                     var filters = $scope.filters;
                     var selected = false;
                     var state = $scope.currentState;
-                    //state.filters = [];
+                    var new_filters = [];
+                    var exist_filters = state.filters;
+                    for (var i = 0; i < exist_filters.length; i++) {
+                        if (exist_filters[i].name === 'Category' || exist_filters[i].name === 'Sub Category') {
+                            new_filters.push(exist_filters[i]);
+                        }
+                    }
+                    state.filters = new_filters;
                     //remove this because in search ,each step gets new filter
                     // and it was removing previous filters
                     for (var i = 0; i < filters.length; i++) {
@@ -266,6 +277,7 @@ categoryMod.controller('CategoryCtrl',
                             $scope.getLatestFilters(state, true);
                         }
                         timeStorage.set('category_' + state.cat_id + "_" + state.sub_cat_id, state, 0.1);
+                        $ionicScrollDelegate.scrollTop(true);
                         var req = categoryHelper.fetchProduct(state);
                         req.then(function (ret) {
                             $scope.product_loading = false;
@@ -313,6 +325,7 @@ categoryMod.controller('CategoryCtrl',
                         state.page = -1;
                         $scope.currentState = state;
                         state.sortby = url;
+                        $ionicScrollDelegate.scrollTop(true);
                         timeStorage.set('category_' + state.cat_id + "_" + state.sub_cat_id, state, 0.1);
                         var req = categoryHelper.fetchProduct(state);
                         req.then(function (ret) {
@@ -386,6 +399,7 @@ categoryMod.controller('CategoryCtrl',
                         var products = [];
                         $scope.products = products;
                         $scope.product_loading = true;
+                        $ionicScrollDelegate.scrollTop(true);
                         var req = categoryHelper.fetchProduct(cat, true);
                         req.then(function (ret) {
                             $scope.product_loading = false;
@@ -412,7 +426,10 @@ categoryMod.controller('CategoryCtrl',
                         }
                         $scope.sortBy = ret.sortBy;
                         var filters = ret.filters;
-                        prev_state_data = timeStorage.get('category_' + cat.cat_id + "_" + cat.sub_cat_id);
+                        var prev_state_data = false;
+                        if (!cat.search) {
+                            prev_state_data = timeStorage.get('category_' + cat.cat_id + "_" + cat.sub_cat_id);
+                        }
 //                        if (!$scope.filters)
                         $scope.filters = [];
                         var final_filters = $scope.filters;
@@ -454,6 +471,7 @@ categoryMod.controller('CategoryCtrl',
                         for (var i = 0; i < filters.length; i++) {
                             final_filters.push(filters[i]);
                         }
+                        console.log(final_filters);
                         $scope.filters = final_filters;
                     });
                 };
