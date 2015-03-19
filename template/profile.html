@@ -1,10 +1,10 @@
-<ion-view title='{{user.name}} | Profile'>
+<ion-view cache-view="false" title='{{user.name}} | Profile'>
     <ion-content lazy-scroll overflow-scroll='false'>
         <div class="top-container" ng-show="user">
             <div class="box mine-username">
-                <div class="user_profile_center">
+                <div class="user_profile_center" on-tap="menu_profile();">
                     <img ng-src='{{user.picture|picture:100:100}}' class="rounded"/>
-                    <i ng-if="me" class="ion-edit red-color edit_picture" on-tap="menu_profile();"></i>
+                    <i ng-if="me" class="ion-edit red-color edit_picture"></i>
                 </div>
                 <div class="user_profile_center">
                     <span class="black-font info semibold">

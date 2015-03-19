@@ -38,7 +38,7 @@ pinMod.factory('pinchServie', ['$ionicBackdrop', '$window',
                 this.removeTemp();
                 this.startTransform();
                 this.classTransform(-1000, -1000);
-                console.log('release');
+//                console.log('release');
                 $ionicBackdrop.release();
                 this.is_showing = false;
                 return this.active_class;
@@ -80,7 +80,7 @@ pinMod.factory('pinchServie', ['$ionicBackdrop', '$window',
                     target = target.parent();
                     if (target.hasClass('pin')) {
                         this.active_pin = target.attr('id');
-                        console.log(this.active_pin + 'active pin');
+//                        console.log(this.active_pin + 'active pin');
                         found = true;
                         break;
                     }
@@ -275,9 +275,9 @@ pinMod.directive('pinch', ['pinchServie', '$ionicGesture', '$timeout', '$ionicSc
                     var drag_gesture = false;
                     var hold_gesture = false;
                     pinchServie.init();
-                    console.log('init');
+//                    console.log('init');
                     scope.$on('$destroy', function () {
-                        console.log('destroy');
+//                        console.log('destroy');
                         pinchServie.destroy();
                         $ionicGesture.off(relase_gesture, 'release');
                         $ionicGesture.off(drag_gesture, 'drag');
@@ -354,13 +354,13 @@ pinMod.controller('PinCtrl',
                     $scope.displayPins();
                 });
                 $scope.doRefresh = function () {
-                    console.log('do refresh');
+//                    console.log('do refresh');
                     $scope.page = 0;
                     $scope.loadMore();
                 };
                 var colors = ['#b71c1c', '#880e4f', '#4a148c', '#311b92', '#0d47a1', '#004d40', '#827717', '#1b5e20', '#827717', '#f57f17', '#e65100', '#546e7a', '#757575'];
                 $scope.loadMore = function () {
-                    console.log('load more');
+//                    console.log('load more');
                     var ajax = $scope.$parent.getData($scope.page);
                     ajax.then(function (data) {
                         $scope.loading = false;
@@ -507,7 +507,7 @@ pinMod.controller('PinCtrl',
                     if (window_width > 688) {
                         window_width = window_width - 275;
                     }
-                    console.log('window width ' + window_width);
+//                    console.log('window width ' + window_width);
                     pin_column = Math.floor(window_width / pin_width);
                     if (pin_column < 2) {
                         pin_width = (window_width) / 2 - 10;
@@ -523,7 +523,7 @@ pinMod.controller('PinCtrl',
                         angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:' + (pin_width * pin_column + 10 * pin_column) + 'px;');
                     }
                     $scope.col_width = Math.round(100 / pin_column, 2) + "%";
-                    console.log(pin_column + 'pin columns');
+//                    console.log(pin_column + 'pin columns');
                     $scope.grid1 = grid1;
                     $scope.grid2 = grid2;
                     $scope.grid3 = grid3;

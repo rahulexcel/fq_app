@@ -24,8 +24,8 @@ categoryMod.directive('scrollWatch', ['$window', function ($window) {
         };
     }]);
 categoryMod.controller('CategoryCtrl',
-        ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$timeout', '$ionicPlatform', 'timeStorage', 'ajaxRequest', 'CDN', '$ionicModal',
-            function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $timeout, $ionicPlatform, timeStorage, ajaxRequest, CDN, $ionicModal) {
+        ['$scope', 'categoryHelper', 'toast', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$timeout', '$ionicPlatform', 'timeStorage', 'ajaxRequest', 'CDN', '$ionicModal',
+            function ($scope, categoryHelper, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $timeout, $ionicPlatform, timeStorage, ajaxRequest, CDN, $ionicModal) {
                 var i = 0;
                 $scope.isCategoryPage = true;
                 $rootScope.$on('login_event', function () {
@@ -226,7 +226,9 @@ categoryMod.controller('CategoryCtrl',
                     var filters = $scope.filters;
                     var selected = false;
                     var state = $scope.currentState;
-                    state.filters = [];
+                    //state.filters = [];
+                    //remove this because in search ,each step gets new filter
+                    // and it was removing previous filters
                     for (var i = 0; i < filters.length; i++) {
                         var data = filters[i].data;
                         var type = filters[i].key;
@@ -431,10 +433,8 @@ categoryMod.controller('CategoryCtrl',
                                         if (url + "" === url1 + "") {
                                             filters[i].type_select++;
                                             found = true;
-                                            console.log('foundddd');
+//                                            console.log('foundddd');
                                             break;
-//                                                    if (multi_support.indexOf(type) === -1) {
-//                                                    }
                                         }
                                     }
                                     if (found) {

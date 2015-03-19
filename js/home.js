@@ -68,9 +68,9 @@ homeMod.controller('HomeCtrl',
                     self.type = 'trending';
                     $scope.selected_class = 'trending';
                     $scope.bg_col = 'none';
-                    self.skipFeedCheck = false;
+                    self.skipFeedCheck = true;
                     if ($localStorage.user.id) {
-                        self.skipFeedCheck = true;
+                        self.skipFeedCheck = false;
                     }
                     $scope.feed_unread = 0;
                     $scope.latest_uread = 0;
@@ -98,7 +98,6 @@ homeMod.controller('HomeCtrl',
                     self.init();
                 });
                 $rootScope.$on('$ionicView.leave', function () {
-                    console.log('leavdddde');
                     self.skipFeedCheck = false;
                 });
 
@@ -109,6 +108,7 @@ homeMod.controller('HomeCtrl',
                     });
                 };
                 self.checkLatestCount = function () {
+                    console.log(self.skipFeedCheck + "skip feed check");
                     var father = 'women';
                     if ($localStorage.latest_show && $localStorage.latest_show === 'men') {
                         father = 'men';
@@ -119,16 +119,20 @@ homeMod.controller('HomeCtrl',
                     });
                 };
                 $timeout(function () {
-                    self.checkFeedCount();
-                    self.checkLatestCount();
+                    if (!self.skipFeedCheck) {
+                        self.checkFeedCount();
+                        self.checkLatestCount();
+                    }
                 });
                 var feed_interval = $interval(function () {
-                    if (!self.skipFeedCheck)
+                    if (!self.skipFeedCheck) {
                         self.checkFeedCount();
+                    }
                 }, 10000);
                 var latest_interval = $interval(function () {
-                    if (!self.skipFeedCheck)
+                    if (!self.skipFeedCheck) {
                         self.checkLatestCount();
+                    }
                 }, 60000 * 15);
                 $ionicPlatform.on('pause', function () {
                     self.skipFeedCheck = true;

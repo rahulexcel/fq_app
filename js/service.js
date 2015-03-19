@@ -399,8 +399,8 @@ serviceMod.factory('ajaxRequest',
                             }
 
                         }
-                        console.log('data to send');
-                        console.log(data);
+//                        console.log('data to send');
+//                        console.log(data);
                         var def = $q.defer();
 //                        delete $http.defaults.headers.common['X-Requested-With'];
                         if (!silent)

@@ -7,126 +7,120 @@ wishlistnewMod.controller('WishlistNewCtrl',
                     $location.path('/app/signup');
                 });
                 var self = this;
-                self.init = function () {
-                    $scope.product = false;
-                    $scope.item = false;
-                    $scope.new_item = false;
-                    $scope.selected_friends = [];
-                    $scope.types = [
-                        {text: 'Private', value: 'private'},
-                        {text: 'Public', value: 'public'}
-                    ];
-                    $scope.list = {
-                        type: 'public',
-                        name: '',
-                        description: '',
-                        shared_ids: [],
-                        update: false,
-                        public: true,
-                        private: false,
-                        shared: false
-                    };
-                    $scope.friend_load = false;
-                    $scope.friends = [];
+                $scope.product = false;
+                $scope.item = false;
+                $scope.new_item = false;
+                $scope.selected_friends = [];
+                $scope.types = [
+                    {text: 'Private', value: 'private'},
+                    {text: 'Public', value: 'public'}
+                ];
+                $scope.list = {
+                    type: 'public',
+                    name: '',
+                    description: '',
+                    shared_ids: [],
+                    update: false,
+                    public: true,
+                    private: false,
+                    shared: false
                 };
-                self.init();
-                $rootScope.$on("$ionicView.enter", function () {
-                    self.init();
-                    if ($localStorage.user.id) {
-                        var path = $location.path();
-                        if (path.indexOf('wishlist_edit') !== -1) {
-                            if (!$stateParams.list_id) {
-                                toast.showShortBottom('Invalid Request No List To Edit');
-                                //put history in play here
-                                $location.path('/app/profile/me/mine');
-                            } else {
+                $scope.friend_load = false;
+                $scope.friends = [];
+                if ($localStorage.user.id) {
+                    var path = $location.path();
+                    if (path.indexOf('wishlist_edit') !== -1) {
+                        if (!$stateParams.list_id) {
+                            toast.showShortBottom('Invalid Request No List To Edit');
+                            //put history in play here
+                            $location.path('/app/profile/me/mine');
+                        } else {
 
-                                var list_id = $stateParams.list_id;
-                                var ajax = wishlistHelper.list(true, true);
-                                ajax.then(function (lists) {
-                                    var list = false;
-                                    lists = lists.me;
-                                    for (var i = 0; i < lists.length; i++) {
-                                        if (lists[i]._id === list_id) {
-                                            list = lists[i];
-                                        }
+                            var list_id = $stateParams.list_id;
+                            var ajax = wishlistHelper.list(true, true);
+                            ajax.then(function (lists) {
+                                var list = false;
+                                lists = lists.me;
+                                for (var i = 0; i < lists.length; i++) {
+                                    if (lists[i]._id === list_id) {
+                                        list = lists[i];
                                     }
-                                    if (!list) {
-                                        toast.showShortBottom('List Not Found');
-                                        $location.path('/app/profile/me/mine');
-                                        return;
-                                    }
-
-                                    if (path.indexOf('wishlist_edit') !== -1) {
-                                        //check if user has access to edit list
-                                        if ($localStorage.user.id !== list.user_id) {
-                                            toast.showShortBottom("You Cannot Edit This List");
-                                            $location.path('/app/profile/me/mine');
-                                            return;
-                                        }
-                                    }
-
-                                    $scope.list.type = list.type;
-                                    $scope.list.list_id = list._id;
-                                    $scope.list.name = list.name;
-                                    $scope.list.description = list.description;
-                                    $scope.list.shared_ids = list.shared_ids;
-
-                                    $scope.list.update = true;
-                                    if (list.type === 'private') {
-                                        $scope.list.public = false;
-                                        $scope.list.private = true;
-                                        $scope.list.shared = false;
-                                    } else if (list.type === 'public') {
-                                        $scope.list.public = true;
-                                        $scope.list.private = false;
-                                        $scope.list.shared = false;
-                                    } else {
-                                        $scope.list.public = false;
-                                        $scope.list.private = false;
-                                        $scope.list.shared = true;
-                                    }
-                                    var ajax = friendHelper.list();
-                                    ajax.then(function (data) {
-                                        $scope.processFriendList(angular.copy(data));
-                                    }, function () {
-                                        $scope.friend_load = true;
-                                    });
-                                }, function () {
+                                }
+                                if (!list) {
                                     toast.showShortBottom('List Not Found');
                                     $location.path('/app/profile/me/mine');
                                     return;
-                                });
-                            }
-                        } else {
-                            var product = $scope.$parent.wishlist_product;
-                            if (!product) {
-                                toast.showShortBottom('Invalid Request No Product');
-                                $location.path('/app/home');
-                            } else {
-                                console.log(product.product);
-                                if (product.product) {
-                                    $scope.product = product.product;
-                                } else if (product.item) {
-                                    $scope.item = product.item;
-                                } else if (product.new_item) {
-                                    $scope.new_item = true;
-                                } else {
-                                    toast.showShortBottom('Invalid Request No Product');
-                                    $location.path('/app/home');
                                 }
-                            }
-                            var ajax = friendHelper.list();
-                            ajax.then(function (data) {
-                                $scope.processFriendList(angular.copy(data));
+
+                                if (path.indexOf('wishlist_edit') !== -1) {
+                                    //check if user has access to edit list
+                                    if ($localStorage.user.id !== list.user_id) {
+                                        toast.showShortBottom("You Cannot Edit This List");
+                                        $location.path('/app/profile/me/mine');
+                                        return;
+                                    }
+                                }
+
+                                $scope.list.type = list.type;
+                                $scope.list.list_id = list._id;
+                                $scope.list.name = list.name;
+                                $scope.list.description = list.description;
+                                $scope.list.shared_ids = list.shared_ids;
+
+                                $scope.list.update = true;
+                                if (list.type === 'private') {
+                                    $scope.list.public = false;
+                                    $scope.list.private = true;
+                                    $scope.list.shared = false;
+                                } else if (list.type === 'public') {
+                                    $scope.list.public = true;
+                                    $scope.list.private = false;
+                                    $scope.list.shared = false;
+                                } else {
+                                    $scope.list.public = false;
+                                    $scope.list.private = false;
+                                    $scope.list.shared = true;
+                                }
+                                var ajax = friendHelper.list();
+                                ajax.then(function (data) {
+                                    $scope.processFriendList(angular.copy(data));
+                                }, function () {
+                                    $scope.friend_load = true;
+                                });
                             }, function () {
-                                $scope.friend_load = true;
+                                toast.showShortBottom('List Not Found');
+                                $location.path('/app/profile/me/mine');
+                                return;
                             });
                         }
                     } else {
-                        toast.showShortBottom('You Need To Be Logged In To Access This Page');
+                        var product = $scope.$parent.wishlist_product;
+                        if (!product) {
+                            toast.showShortBottom('Invalid Request No Product');
+                            $location.path('/app/home');
+                        } else {
+                            console.log(product.product);
+                            if (product.product) {
+                                $scope.product = product.product;
+                            } else if (product.item) {
+                                $scope.item = product.item;
+                            } else if (product.new_item) {
+                                $scope.new_item = true;
+                            } else {
+                                toast.showShortBottom('Invalid Request No Product');
+                                $location.path('/app/home');
+                            }
+                        }
+                        var ajax = friendHelper.list();
+                        ajax.then(function (data) {
+                            $scope.processFriendList(angular.copy(data));
+                        }, function () {
+                            $scope.friend_load = true;
+                        });
                     }
-                });
+                } else {
+                    toast.showShortBottom('You Need To Be Logged In To Access This Page');
+                }
 
                 $scope.create = function () {
                     $scope.status = 1;

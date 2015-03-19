@@ -36,35 +36,30 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
         ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$cordovaCamera', '$ionicPopup', '$timeout', 'uploader', '$ionicBackdrop', '$rootScope',
             function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $ionicModal, $window, $cordovaCamera, $ionicPopup, $timeout, uploader, $ionicBackdrop, $rootScope) {
                 var self = this;
-                self.init = function () {
-                    $scope.item = {
-                        picture: '',
-                        url: '',
-                        name: '',
-                        price: '',
-                        location: {
-                        },
-                        picture_size: {
-                        },
-                        description: '',
-                        file_name: ""
-                    };
-                    $scope.step = 1;
-                    $scope.step_type = false;
-                    $scope.url_images = [];
-                    $scope.is_mobile = false;
-                    if (window.cordova && window.cordova.plugins) {
-                        $scope.is_mobile = true;
-                    }
-                    $scope.file_upload = false;
-                    $scope.file = {
-                        myFiles: false
-                    };
+                $scope.item = {
+                    picture: '',
+                    url: '',
+                    name: '',
+                    price: '',
+                    location: {
+                    },
+                    picture_size: {
+                    },
+                    description: '',
+                    file_name: ""
+                };
+                $scope.step = 1;
+                $scope.step_type = false;
+                $scope.url_images = [];
+                $scope.is_mobile = false;
+                if (window.cordova && window.cordova.plugins) {
+                    $scope.is_mobile = true;
+                }
+                $scope.file_upload = false;
+                $scope.file = {
+                    myFiles: false
                 };
                 self.init();
-                $rootScope.$on("$ionicView.enter", function () {
-                    self.init();
-                });
                 $scope.$on('logout_event', function () {
                     $location.path('/app/signup');
                 });

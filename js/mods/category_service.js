@@ -24,8 +24,16 @@ categoryService.factory('categoryHelper', [
                 }
                 ret.sortBy = sortBy;
                 if (data.filters) {
+                    var len = 0;
+                    for (var filter in data.filters) {
+                        len++;
+                    }
                     for (var filter in data.filters) {
                         var filter_values = data.filters[filter];
+                        var open = false;
+                        if (len === 1) {
+                            open = true;
+                        }
                         if (data.filters[filter].data && data.filters[filter].data.length > 0) {
                             var filter_text = data.filters[filter].text;
                             var filter_key = data.filters[filter].key;
@@ -56,7 +64,8 @@ categoryService.factory('categoryHelper', [
                                 type: filter_text,
                                 data: sub_filters,
                                 visible: true,
-                                key: filter_key
+                                key: filter_key,
+                                open: open
                             });
                         }
                     }

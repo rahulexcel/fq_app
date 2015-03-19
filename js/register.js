@@ -2,7 +2,6 @@ var registerMod = angular.module('RegisterMod', ['GoogleLoginService', 'AccountS
 
 //cordova -d plugin add C:\xampp\htdocs\facebook-plugin -variable APP_ID="765213543516434" --variable APP_NAME="FashionIQ"
 
-
 registerMod.controller('RegisterCtrl',
         ['$scope', '$localStorage', '$location', 'toast', 'googleLogin', 'accountHelper', '$q', 'dataShare', '$rootScope',
             function ($scope, $localStorage, $location, toast, googleLogin, accountHelper, $q, dataShare, $rootScope) {
@@ -20,25 +19,26 @@ registerMod.controller('RegisterCtrl',
 
                 var self = this;
                 self.init = function () {
-                    $scope.register_obj = {
-                        name: '',
-                        email: $localStorage.user.email,
-                        password: ''
-                    };
-                    $scope.login_obj = {
-                        email: $localStorage.user.email,
-                        password: ''
-                    };
-                    $scope.forgot_obj = {
-                        email: $localStorage.user.email
-                    };
                     $scope.google_status = 0;
                     $scope.facebook_status = 0;
                     $scope.login_status = 0;
                     $scope.register_status = 0;
                     $scope.forgot_status = 0;
                 };
+                $scope.register_obj = {
+                    name: '',
+                    email: $localStorage.user.email,
+                    password: ''
+                };
+                $scope.login_obj = {
+                    email: $localStorage.user.email,
+                    password: ''
+                };
+                $scope.forgot_obj = {
+                    email: $localStorage.user.email
+                };
                 self.init();
+
                 $rootScope.$on("$ionicView.enter", function () {
                     self.init();
                 });

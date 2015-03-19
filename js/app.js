@@ -59,7 +59,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         'pin-content': {
                             templateUrl: 'template/list/pins.html',
                             controller: 'PinCtrl',
-                            controllerAs :'trending'
+                            controllerAs: 'trending'
                         }
                     }
                 })
@@ -69,7 +69,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         'pin-content': {
                             templateUrl: 'template/list/pins.html',
                             controller: 'PinCtrl',
-                            controllerAs :'feed'
+                            controllerAs: 'feed'
                         }
                     }
                 })
@@ -79,7 +79,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         'pin-content': {
                             templateUrl: 'template/category_home.html',
                             controller: 'HomeCatCtrl',
-                            controllerAs :'latest'
+                            controllerAs: 'latest'
                         }
                     }
                 })
@@ -343,7 +343,6 @@ var custom_history = [];
 
 app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", 'notifyHelper', '$cordovaNetwork', '$ionicHistory', '$timeout', 'toast', '$ionicLoading',
     function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location, notifyHelper, $cordovaNetwork, $ionicHistory, $timeout, toast, $ionicLoading) {
-        console.log('angular ready');
         if (!$localStorage.user) {
             $localStorage.user = {};
         } else {
@@ -359,9 +358,6 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
         var backPress = 0;
         $ionicPlatform.registerBackButtonAction(function (e) {
             e.preventDefault();
-            console.log('back pressseddddd');
-            var history = $ionicHistory.backView();
-            console.log(history);
             var backView = $ionicHistory.backView();
             $ionicLoading.hide();
             if (backView) {
@@ -413,8 +409,6 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             $location.path('/app/home');
         });
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-            console.log(toState.name + " to state");
-            console.log(fromState.name + "from state");
             $rootScope.body_class = '';
             if (toState.name === 'app.item' || toState.name.indexOf('app.home.trending') !== -1 || toState.name.indexOf('app.home.feed') !== -1 || toState.name.indexOf('app.profile') !== -1 || (toState.name.indexOf('app.wishlist_item') !== -1 && toState.name.indexOf('app.wishlist_item_add') === -1)) {
                 $rootScope.body_class = 'grey_bg';

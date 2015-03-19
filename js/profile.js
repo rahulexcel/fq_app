@@ -16,7 +16,6 @@ profileMod.controller('ProfileCtrl',
                     user_id = $localStorage.user.id;
                 }
                 var created_at = false;
-                self.init = function () {
                     $scope.user = false;
                     $scope.myScoll = false;
                     $scope.selected_class = '';
@@ -28,16 +27,12 @@ profileMod.controller('ProfileCtrl',
                     };
                     created_at = false;
                     $scope.status_edit = false;
-                };
 
-                self.init();
                 $scope.getData = function (page) {
                     return friendHelper.loadMoreProfilePins(user_id, page);
                 };
 
                 var start_index = 0;
-                $rootScope.$on('$ionicView.enter', function (event) {
-                    self.init();
                     var path = $location.path();
                     //$scope.selected_class = 'wishlist';
                     path = path.replace('/me', '/' + user_id);
@@ -74,9 +69,7 @@ profileMod.controller('ProfileCtrl',
                         $scope.selected_class = 'recommended';
                         start_index = 2;
                     }
-                    self.getUserData();
                     $ionicScrollDelegate.resize();
-                });
                 $scope.me = false;
                 $scope.menu_update = function () {
                     $location.path('/app/profile/' + user_id + '/update');
@@ -166,6 +159,7 @@ profileMod.controller('ProfileCtrl',
                         $location.path('/app/signup');
                     }
                 }
+                self.getUserData();
                 self.followUserID = function (user_id, type) {
                     return friendHelper.user_follow(user_id, type);
                 };
