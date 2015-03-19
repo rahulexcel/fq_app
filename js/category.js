@@ -27,26 +27,21 @@ categoryMod.controller('CategoryCtrl',
         ['$scope', 'categoryHelper', '$ionicHistory', 'toast', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$timeout', '$ionicPlatform', 'timeStorage', 'ajaxRequest', 'CDN', '$ionicModal',
             function ($scope, categoryHelper, $ionicHistory, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $timeout, $ionicPlatform, timeStorage, ajaxRequest, CDN, $ionicModal) {
                 var i = 0;
-                var backView = false;
                 $scope.isCategoryPage = true;
                 $rootScope.$on('login_event', function () {
                     console.log('category ctrl login event listener');
-                    backView = $ionicHistory.backView();
-                    console.log('back view');
-                    console.log(backView);
                     //if an operation requires login. log pages send back here and restores previous state
-                    if ($localStorage.previous && $localStorage.previous.state) {
-                        var state = $localStorage.previous.state;
-                        console.log('previous state');
-                        console.log(state);
-                        var category = $localStorage.previous.state.category;
-                        $scope.current_category = category;
-                        $localStorage.previous = {};
-                        backView = false;
-                        if (state.function === 'wishlist') {
-                            $scope.wishlist(state.param);
-                        }
-                    }
+//                    if ($localStorage.previous && $localStorage.previous.state) {
+//                        var state = $localStorage.previous.state;
+//                        console.log('previous state');
+//                        console.log(state);
+//                        var category = $localStorage.previous.state.category;
+//                        $scope.current_category = category;
+//                        $localStorage.previous = {};
+//                        if (state.function === 'wishlist') {
+//                            $scope.wishlist(state.param);
+//                        }
+//                    }
                 });
                 if ($stateParams.search_text) {
                     $scope.current_category = {
@@ -109,41 +104,21 @@ categoryMod.controller('CategoryCtrl',
                     if (backButton) {
                         backButton();
                     }
-//                    $scope.showProducts = true;
-//                    $scope.showSortBy = false;
-//                    $scope.showFilter = false;
                     $scope.sort_modal.hide();
                     $scope.filter_modal.hide();
-//                    $ionicScrollDelegate.scrollTop();
                 };
                 $scope.showSortByFn = function () {
                     if (!$scope.showProducts) {
                         $scope.showProductsFn();
                     } else {
-//                        backButton = $ionicPlatform.registerBackButtonAction(function () {
-//                            $scope.showProductsFn();
-//                        }, 99999);
                         $scope.sort_modal.show();
-                        //$scope.showProducts = false;
-                        //$scope.showSortBy = true;
-                        //$scope.showFilter = false;
-
-//                        $ionicScrollDelegate.scrollTop();
                     }
                 };
                 $scope.showFiltersFn = function () {
                     if (!$scope.showProducts) {
                         $scope.showProductsFn();
                     } else {
-//                        backButton = $ionicPlatform.registerBackButtonAction(function () {
-//                            $scope.showProductsFn();
-//                        }, 99999);
                         $scope.filter_modal.show();
-//                        $scope.showProducts = false;
-//                        $scope.showSortBy = false;
-//                        $scope.showFilter = true;
-//
-//                        $ionicScrollDelegate.scrollTop();
                     }
                 };
                 $scope.openFilter = function (obj) {
@@ -231,9 +206,6 @@ categoryMod.controller('CategoryCtrl',
                 };
                 var multi_support = ['designer_brands', 'premium_brands', 'website', 'size', 'brand', 'color'];
                 $scope.filterClick = function (filter_type, filter) {
-//                    console.log(filter);
-//                    console.log(filter_type);
-
                     var type = filter_type.type.toLowerCase();
                     console.log(type);
                     if (multi_support.indexOf(type) !== -1) {
@@ -241,7 +213,6 @@ categoryMod.controller('CategoryCtrl',
                     } else {
                         console.log('no multi');
                         for (var i = 0; i < filter_type.data.length; i++) {
-//                            console.log(filter_type.data[i].param + "XXXX" + filter.param);
                             if (filter_type.data[i].param === filter.param) {
 
                             } else {
@@ -252,16 +223,7 @@ categoryMod.controller('CategoryCtrl',
 
                 };
                 $scope.doFilter = function (filter) {
-//                    if (!filter.param) {
-//                        var cat_id = filter.cat_id;
-//                        var sub_cat_id = filter.sub_cat_id;
-//                        var cat_name = filter.cat_name;
-//                        var search = $scope.currentState.search;
-//                        $location.path('/app/category/' + cat_id + '/' + sub_cat_id + '/' + cat_name + '/' + search);
-//                    } else {
-
                     var filters = $scope.filters;
-
                     var selected = false;
                     var state = $scope.currentState;
                     state.filters = [];
@@ -297,6 +259,10 @@ categoryMod.controller('CategoryCtrl',
                         state.page = -1;
                         $scope.showProductsFn();
                         $scope.currentState = state;
+                        if (state.search.length > 0) {
+                            //is search page so fetch filters again
+                            $scope.getLatestFilters(state, true);
+                        }
                         timeStorage.set('category_' + state.cat_id + "_" + state.sub_cat_id, state, 0.1);
                         var req = categoryHelper.fetchProduct(state);
                         req.then(function (ret) {

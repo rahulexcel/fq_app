@@ -33,20 +33,38 @@ wishlistItemAddMod.directive('preloadable', function () {
     };
 });
 wishlistItemAddMod.controller('WishlistItemAddCtrl',
-        ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$cordovaCamera', '$ionicPopup', '$timeout', 'uploader', '$ionicBackdrop',
-            function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $ionicModal, $window, $cordovaCamera, $ionicPopup, $timeout, uploader, $ionicBackdrop) {
-                $scope.item = {
-                    picture: '',
-                    url: '',
-                    name: '',
-                    price: '',
-                    location: {
-                    },
-                    picture_size: {
-                    },
-                    description: '',
-                    file_name: ""
+        ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$cordovaCamera', '$ionicPopup', '$timeout', 'uploader', '$ionicBackdrop', '$rootScope',
+            function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $ionicModal, $window, $cordovaCamera, $ionicPopup, $timeout, uploader, $ionicBackdrop, $rootScope) {
+                var self = this;
+                self.init = function () {
+                    $scope.item = {
+                        picture: '',
+                        url: '',
+                        name: '',
+                        price: '',
+                        location: {
+                        },
+                        picture_size: {
+                        },
+                        description: '',
+                        file_name: ""
+                    };
+                    $scope.step = 1;
+                    $scope.step_type = false;
+                    $scope.url_images = [];
+                    $scope.is_mobile = false;
+                    if (window.cordova && window.cordova.plugins) {
+                        $scope.is_mobile = true;
+                    }
+                    $scope.file_upload = false;
+                    $scope.file = {
+                        myFiles: false
+                    };
                 };
+                self.init();
+                $rootScope.$on("$ionicView.enter", function () {
+                    self.init();
+                });
                 $scope.$on('logout_event', function () {
                     $location.path('/app/signup');
                 });
@@ -71,8 +89,6 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                         toast.showShortBottom('Upload A Picture');
                     }
                 };
-                $scope.step = 1;
-                $scope.step_type = false;
                 $scope.type = function (type) {
                     if (type === 'camera') {
                         $scope.showStep2(type);
@@ -159,7 +175,6 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     }, 100);
                 };
 
-                $scope.url_images = [];
                 $scope.$watch('item.url', function (val) {
                     if (val) {
                         if (timeout_promise) {
@@ -263,16 +278,6 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     $location.path('/app/signup');
                 }
 
-
-
-                $scope.is_mobile = false;
-                if (window.cordova && window.cordova.plugins) {
-                    $scope.is_mobile = true;
-                }
-                $scope.file_upload = false;
-                $scope.file = {
-                    myFiles: false
-                };
                 var picture_width = $window.innerWidth;
                 picture_width = Math.ceil(picture_width * 0.95);
                 if (picture_width > 480) {

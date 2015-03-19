@@ -72,6 +72,19 @@ friendService.factory('friendHelper', [
             });
             return def.promise;
         };
+        service.home_latest_count = function (type) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/feeds/latest/count', {
+                user_id: $localStorage.user.id,
+                father: type
+            }, true);
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
         service.home_feed_count = function () {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/feeds/my/count', {

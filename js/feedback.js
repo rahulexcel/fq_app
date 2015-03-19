@@ -2,23 +2,29 @@ var feedbackMod = angular.module('FeedbackMod',
         ['ServiceMod', 'ngStorage', 'ngCordova']);
 
 feedbackMod.controller('FeedbackCtrl',
-        ['$scope', '$localStorage', 'toast', 'ajaxRequest', '$cordovaDevice', '$cordovaAppVersion',
-            function ($scope, $localStorage, toast, ajaxRequest, $cordovaDevice, $cordovaAppVersion, $cordovaAppRate) {
-                $scope.feedback = {
-                    text: '',
-                    email: ''
+        ['$scope', '$localStorage', 'toast', 'ajaxRequest', '$cordovaDevice', '$cordovaAppVersion', '$rootScope',
+            function ($scope, $localStorage, toast, ajaxRequest, $cordovaDevice, $cordovaAppVersion, $cordovaAppRate, $rootScope) {
+                var self = this;
+                self.init = function () {
+                    $scope.feedback = {
+                        text: '',
+                        email: ''
+                    };
+                    if ($localStorage.user && $localStorage.user.email) {
+                        $scope.feedback.email = $localStorage.user.email;
+                    }
+                    $scope.device = {
+                        device: 'Desktop'
+                    };
+                    $scope.isMobile = false;
+                    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+                        $scope.isMobile = true;
+                    }
                 };
-                if ($localStorage.user && $localStorage.user.email) {
-                    $scope.feedback.email = $localStorage.user.email;
-                }
-                $scope.device = {
-                    device: 'Desktop'
-                };
-
-                $scope.isMobile = false;
-                if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-                    $scope.isMobile = true;
-                }
+                self.init();
+                $rootScope.$on("$ionicView.enter", function () {
+                    self.init();
+                });
 
                 $scope.rateUs = function () {
                     $cordovaAppRate.promptForRating(true).then(function (result) {

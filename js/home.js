@@ -57,38 +57,79 @@ var homeMod = angular.module('HomeMod', ['ServiceMod', 'ngStorage', 'ionic', 'pa
 //    }
 //});
 homeMod.controller('HomeCtrl',
-        ['$scope', 'friendHelper', '$location', '$ionicNavBarDelegate', '$rootScope', '$ionicScrollDelegate', '$localStorage', '$interval', '$ionicPlatform', '$timeout',
-            function ($scope, friendHelper, $location, $ionicNavBarDelegate, $rootScope, $ionicScrollDelegate, $localStorage, $interval, $ionicPlatform, $timeout) {
-                $scope.dynamic = '';
-                $scope.xyz = '123';
-
-
+        ['$scope', 'friendHelper', '$location', '$ionicNavBarDelegate', '$rootScope', '$ionicScrollDelegate', '$localStorage', '$interval', '$ionicPlatform', '$timeout', '$state',
+            function ($scope, friendHelper, $location, $ionicNavBarDelegate, $rootScope, $ionicScrollDelegate, $localStorage, $interval, $ionicPlatform, $timeout, $state) {
+//                $scope.dynamic = '';
+//                $scope.xyz = '123';
 
                 var self = this;
-                self.type = 'trending';
-                $scope.selected_class = 'trending';
-                $scope.bg_col = 'none';
 
-                $scope.feed_unread = 0;
+                self.init = function () {
+                    self.type = 'trending';
+                    $scope.selected_class = 'trending';
+                    $scope.bg_col = 'none';
+                    self.skipFeedCheck = false;
+                    if ($localStorage.user.id) {
+                        self.skipFeedCheck = true;
+                    }
+                    $scope.feed_unread = 0;
+                    $scope.latest_uread = 0;
+                    var path = $location.path();
+                    if (path === '/app/home/trending') {
+                        self.type = 'trending';
+                        $scope.selected_class = 'trending';
+                        $scope.bg_col = 'none';
+                        $ionicNavBarDelegate.title('Trending');
+                    } else if (path === '/app/home/feed') {
+                        $scope.selected_class = 'feed';
+                        self.type = 'feed';
+                        $scope.bg_col = 'none';
+                        $ionicNavBarDelegate.title('My Feed');
+                    } else if (path === '/app/home/latest') {
+                        $scope.selected_class = 'latest';
+                        self.type = 'latest';
+                        $scope.bg_col = '1px solid #eee7dd';
+                        $ionicNavBarDelegate.title('Latest');
+                    }
+                };
+                self.init();
 
-                var self = this;
-                self.skipFeedCheck = false;
-                if ($localStorage.user.id) {
-                    self.skipFeedCheck = true;
-                }
+                $rootScope.$on("$ionicView.enter", function () {
+                    self.init();
+                });
+                $rootScope.$on('$ionicView.leave', function () {
+                    console.log('leavdddde');
+                    self.skipFeedCheck = false;
+                });
+
                 self.checkFeedCount = function () {
                     var ajax = friendHelper.home_feed_count();
                     ajax.then(function (data) {
                         $scope.feed_unread = data;
                     });
                 };
+                self.checkLatestCount = function () {
+                    var father = 'women';
+                    if ($localStorage.latest_show && $localStorage.latest_show === 'men') {
+                        father = 'men';
+                    }
+                    var ajax2 = friendHelper.home_latest_count(father);
+                    ajax2.then(function (data) {
+                        $scope.latest_uread = data;
+                    });
+                };
                 $timeout(function () {
                     self.checkFeedCount();
+                    self.checkLatestCount();
                 });
                 var feed_interval = $interval(function () {
                     if (!self.skipFeedCheck)
                         self.checkFeedCount();
                 }, 10000);
+                var latest_interval = $interval(function () {
+                    if (!self.skipFeedCheck)
+                        self.checkLatestCount();
+                }, 60000 * 15);
                 $ionicPlatform.on('pause', function () {
                     self.skipFeedCheck = true;
                 });
@@ -97,9 +138,11 @@ homeMod.controller('HomeCtrl',
                 });
                 $scope.$on('$destroy', function () {
                     $interval.cancel(feed_interval);
+                    $interval.cancel(latest_interval);
                 });
 
                 $scope.getData = function (page) {
+                    console.log('get data called');
                     var path = $location.path();
                     if (path === '/app/home/trending') {
                         self.type = 'trending';
@@ -135,26 +178,6 @@ homeMod.controller('HomeCtrl',
                     $scope.$broadcast('show_women');
                 };
 
-                $rootScope.$on('$viewContentLoaded', function (event) {
-                    var path = $location.path();
-                    if (path === '/app/home/trending') {
-                        self.type = 'trending';
-                        $scope.selected_class = 'trending';
-                        $scope.bg_col = 'none';
-                        $ionicNavBarDelegate.title('Trending');
-                    } else if (path === '/app/home/feed') {
-                        $scope.selected_class = 'feed';
-                        self.type = 'feed';
-                        $scope.bg_col = 'none';
-                        $ionicNavBarDelegate.title('My Feed');
-                    } else if (path === '/app/home/latest') {
-                        $scope.selected_class = 'latest';
-                        self.type = 'latest';
-                        $scope.bg_col = '1px solid #eee7dd';
-                        $ionicNavBarDelegate.title('Latest');
-                    }
-                });
-
                 $scope.loadTopUsers = function () {
                     return friendHelper.top_users(0);
                 };
@@ -166,7 +189,8 @@ homeMod.controller('HomeCtrl',
                     self.type = 'trending';
                     $scope.bg_col = 'none';
                     $scope.selected_class = 'trending';
-                    $location.path('/app/home/trending');
+                    //$location.path('/app/home/trending');
+                    $state.go('app.home.trending');
                     $ionicNavBarDelegate.title('Trending');
                     $ionicScrollDelegate.resize();
                     if (window.analytics) {
@@ -177,7 +201,8 @@ homeMod.controller('HomeCtrl',
                     $scope.selected_class = 'feed';
                     self.type = 'feed';
                     $scope.bg_col = 'none';
-                    $location.path('/app/home/feed');
+//                    $location.path('/app/home/feed');
+                    $state.go('app.home.feed');
                     $ionicNavBarDelegate.title('My Feed');
                     $ionicScrollDelegate.resize();
                     if (window.analytics) {
@@ -188,7 +213,8 @@ homeMod.controller('HomeCtrl',
                     $scope.selected_class = 'latest';
                     $scope.bg_col = '1px solid #eee7dd';
                     self.type = 'latest';
-                    $location.path('/app/home/latest');
+//                    $location.path('/app/home/latest');
+                    $state.go('app.home.latest');
                     $ionicNavBarDelegate.title('Latest');
                     $ionicScrollDelegate.resize();
                     if (window.analytics) {

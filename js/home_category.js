@@ -10,7 +10,6 @@ homecatMod.controller('HomeCatCtrl',
                 $scope.products = [];
                 var self = this;
                 $scope.nextPage = function () {
-                    console.log('neexxx');
                     $scope.page++;
                     self.fetchProduct();
                 };

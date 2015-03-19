@@ -58,7 +58,8 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                     views: {
                         'pin-content': {
                             templateUrl: 'template/list/pins.html',
-                            controller: 'PinCtrl'
+                            controller: 'PinCtrl',
+                            controllerAs :'trending'
                         }
                     }
                 })
@@ -67,7 +68,8 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                     views: {
                         'pin-content': {
                             templateUrl: 'template/list/pins.html',
-                            controller: 'PinCtrl'
+                            controller: 'PinCtrl',
+                            controllerAs :'feed'
                         }
                     }
                 })
@@ -76,7 +78,8 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                     views: {
                         'pin-content': {
                             templateUrl: 'template/category_home.html',
-                            controller: 'HomeCatCtrl'
+                            controller: 'HomeCatCtrl',
+                            controllerAs :'latest'
                         }
                     }
                 })
@@ -335,6 +338,9 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                 });
         $urlRouterProvider.otherwise('/app/home/trending');
     }]);
+
+var custom_history = [];
+
 app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", 'notifyHelper', '$cordovaNetwork', '$ionicHistory', '$timeout', 'toast', '$ionicLoading',
     function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location, notifyHelper, $cordovaNetwork, $ionicHistory, $timeout, toast, $ionicLoading) {
         console.log('angular ready');
@@ -349,6 +355,36 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
         $rootScope.isReady = function () {
             $rootScope.display = {display: "block"};
         };
+
+        var backPress = 0;
+        $ionicPlatform.registerBackButtonAction(function (e) {
+            e.preventDefault();
+            console.log('back pressseddddd');
+            var history = $ionicHistory.backView();
+            console.log(history);
+            var backView = $ionicHistory.backView();
+            $ionicLoading.hide();
+            if (backView) {
+                // there is a back view, go to it
+                backView.go();
+            } else {
+                // there is no back view, so close the app instead
+
+                if (backPress === 0) {
+                    backPress++;
+                    if ($location.path().indexOf('app/home') !== -1) {
+                        $location.path('/app/home/trending');
+                    }
+                    toast.showShortBottom('Press Back Again To Exit');
+                    $timeout(function () {
+                        backPress = 0;
+                    }, 3000);
+                } else {
+                    ionic.Platform.exitApp();
+                }
+            }
+            return false;
+        }, 101);
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -363,34 +399,6 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                 StatusBar.styleDefault();
             }
             notifyHelper.init();
-
-            var backPress = 0;
-            $ionicPlatform.registerBackButtonAction(function (e) {
-                var backView = $ionicHistory.backView();
-                $ionicLoading.hide();
-                if (backView) {
-                    // there is a back view, go to it
-                    backView.go();
-                } else {
-                    // there is no back view, so close the app instead
-
-                    if (backPress === 0) {
-                        backPress++;
-                        if ($location.path().indexOf('app/home') !== -1) {
-                            $location.path('/app/home/trending');
-                        }
-                        toast.showShortBottom('Press Back Again To Exit');
-                        $timeout(function () {
-                            backPress = 0;
-                        }, 3000);
-                    } else {
-                        ionic.Platform.exitApp();
-                    }
-                }
-                e.preventDefault();
-                return false;
-            }, 101);
-
         });
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
             if ($cordovaNetwork.isOffline()) {
@@ -450,7 +458,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
         });
     }]);
 
-
+//this function is called when a url like http://fashioniq.in is opened
 function handleOpenURL(url) {
     setTimeout(function () {
         var parser = document.createElement('a');

@@ -3,6 +3,7 @@ profileMod.controller('ProfileCtrl',
         ['$scope', '$localStorage', 'toast', '$location', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope', '$timeout', 'wishlistHelper', '$ionicPopup', 'notifyHelper', '$ionicScrollDelegate', 'accountHelper',
             function ($scope, $localStorage, toast, $location, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout, wishlistHelper, $ionicPopup, notifyHelper, $ionicScrollDelegate, accountHelper) {
                 var user_id = false;
+                var self = this;
                 $scope.$on('logout_event', function () {
                     $location.path('/app/home');
                 });
@@ -14,22 +15,29 @@ profileMod.controller('ProfileCtrl',
                 } else if ($localStorage.user.id) {
                     user_id = $localStorage.user.id;
                 }
-                $scope.user = false;
-                $scope.myScoll = false;
-                $scope.selected_class = '';
-                $scope.friend_requests = [];
+                var created_at = false;
+                self.init = function () {
+                    $scope.user = false;
+                    $scope.myScoll = false;
+                    $scope.selected_class = '';
+                    $scope.friend_requests = [];
 
-                $scope.pin_status = {
-                    pin_page: 0,
-                    showMore: false
+                    $scope.pin_status = {
+                        pin_page: 0,
+                        showMore: false
+                    };
+                    created_at = false;
+                    $scope.status_edit = false;
                 };
 
+                self.init();
                 $scope.getData = function (page) {
                     return friendHelper.loadMoreProfilePins(user_id, page);
                 };
 
                 var start_index = 0;
-                $rootScope.$on('$viewContentLoaded', function (event) {
+                $rootScope.$on('$ionicView.enter', function (event) {
+                    self.init();
                     var path = $location.path();
                     //$scope.selected_class = 'wishlist';
                     path = path.replace('/me', '/' + user_id);
@@ -66,6 +74,7 @@ profileMod.controller('ProfileCtrl',
                         $scope.selected_class = 'recommended';
                         start_index = 2;
                     }
+                    self.getUserData();
                     $ionicScrollDelegate.resize();
                 });
                 $scope.me = false;
@@ -101,64 +110,62 @@ profileMod.controller('ProfileCtrl',
                     $location.path('/app/profile/' + user_id + '/recommended');
                     $ionicScrollDelegate.resize();
                 };
+                self.getUserData = function () {
+                    if (user_id) {
+                        $ionicLoading.show({
+                            template: 'Loading...'
+                        });
+                        var ajax = friendHelper.fullProfile(user_id, $localStorage.user.id);
+                        ajax.then(function (data) {
+                            $scope.is_following = data.is_following;
+                            $scope.is_friend = data.is_friend;
+                            $scope.friend_requests = data.friend_requests;
 
-                if (user_id) {
-                    $ionicLoading.show({
-                        template: 'Loading...'
-                    });
-                    var ajax = friendHelper.fullProfile(user_id, $localStorage.user.id);
-                    ajax.then(function (data) {
-                        $scope.is_following = data.is_following;
-                        $scope.is_friend = data.is_friend;
-                        $scope.friend_requests = data.friend_requests;
-
-                        $scope.friend_request_count = 0;
-                        if (data.friend_requests)
-                        {
-                            $scope.friend_request_count = data.friend_requests.length;
-                        }
-
-                        $scope.user = data;
-                        if ($scope.user._id === $localStorage.user.id) {
-                            $scope.me = true;
-                            $localStorage.user.gender = data.gender;
-                            $localStorage.user.picture = data.picture;
-                            $localStorage.user.name = data.name;
-                        }
-
-                        $ionicLoading.hide();
-                        $scope.$broadcast('user_info');
-
-                        var width = 125;
-                        if ($scope.me) {
-                            width = width * 8;
-                        } else {
-                            width = width * 4;
-                        }
-                        angular.element(document.querySelector('#menu_scroller')).attr('style', 'width:' + width + 'px');
-                        $timeout(function () {
-                            var window_width = document.querySelector('.menu-content').clientWidth * 1;
-                            var startX = 0;
-                            if (start_index !== 0) {
-                                startX = start_index * 125 - window_width;
-                                if (startX < 0) {
-                                    startX = 0;
-                                }
+                            $scope.friend_request_count = 0;
+                            if (data.friend_requests)
+                            {
+                                $scope.friend_request_count = data.friend_requests.length;
                             }
-                            $scope.myScroll = new IScroll('#menu_sliding', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true, startX: startX * -1});
-                        }, 50);
 
-                    }, function () {
-                        $ionicLoading.hide();
-                    });
+                            $scope.user = data;
+                            if ($scope.user._id === $localStorage.user.id) {
+                                $scope.me = true;
+                                $localStorage.user.gender = data.gender;
+                                $localStorage.user.picture = data.picture;
+                                $localStorage.user.name = data.name;
+                            }
 
-                } else {
-                    toast.showShortBottom('You Need To Be Logged In To Access This Page');
-                    $location.path('/app/signup');
+                            $ionicLoading.hide();
+                            $scope.$broadcast('user_info');
+
+                            var width = 125;
+                            if ($scope.me) {
+                                width = width * 8;
+                            } else {
+                                width = width * 4;
+                            }
+                            angular.element(document.querySelector('#menu_scroller')).attr('style', 'width:' + width + 'px');
+                            $timeout(function () {
+                                var window_width = document.querySelector('.menu-content').clientWidth * 1;
+                                var startX = 0;
+                                if (start_index !== 0) {
+                                    startX = start_index * 125 - window_width;
+                                    if (startX < 0) {
+                                        startX = 0;
+                                    }
+                                }
+                                $scope.myScroll = new IScroll('#menu_sliding', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true, startX: startX * -1});
+                            }, 50);
+
+                        }, function () {
+                            $ionicLoading.hide();
+                        });
+
+                    } else {
+                        toast.showShortBottom('You Need To Be Logged In To Access This Page');
+                        $location.path('/app/signup');
+                    }
                 }
-
-                var self = this;
-
                 self.followUserID = function (user_id, type) {
                     return friendHelper.user_follow(user_id, type);
                 };
@@ -180,7 +187,6 @@ profileMod.controller('ProfileCtrl',
                         toast.showShortBottom('Friend Request Declined');
                     });
                 };
-                var created_at = false;
                 $scope.addFriend = function () {
                     var ajax = friendHelper.addFriend(user_id, $localStorage.user.id);
                     ajax.then(function (data) {
@@ -254,7 +260,6 @@ profileMod.controller('ProfileCtrl',
                         $scope.request_process = false;
                     });
                 };
-                $scope.status_edit = false;
                 $scope.editStatus = function () {
                     $scope.status_edit = true;
                 };

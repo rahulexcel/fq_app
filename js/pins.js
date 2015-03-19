@@ -269,26 +269,6 @@ pinMod.directive('pinch', ['pinchServie', '$ionicGesture', '$timeout', '$ionicSc
         return {
             link: {
                 pre: function preLink(scope, iElement, iAttrs, controller) {
-//                    if (!document.getElementById('anim')) {
-//                        var html = '<div id="anim" class="anim">';
-//                        html += '<div class="anim_box">';
-//                        html += '<div class="center">';
-//                        html += '<i class="ion-android-radio-button-off"></i>';
-//                        html += '</div>';
-//                        html += '<div class="circle f_c animate_circle">';
-//                        html += '<i class="ion-ios-heart"></i>                        ';
-//                        html += '</div>';
-//                        html += '<div class="circle s_c animate_circle" style="line-height: 1.3">';
-//                        html += '<i class="ion-thumbsup"></i>';
-//                        html += '</div>';
-//                        html += '<div class="circle t_c animate_circle" style="line-height: 1.5">';
-//                        html += '<i class="ion-android-share-alt"></i>';
-//                        html += '</div>';
-//                        html += '</div>';
-//                        html += '</div>';
-//                        var body = document.querySelector('body');
-//                        angular.element(body).append(html);
-//                    }
                 },
                 post: function postLink(scope, iElement, iAttrs, controller) {
                     var relase_gesture = false;
@@ -469,9 +449,7 @@ pinMod.controller('PinCtrl',
                         $scope.loading = false;
                     });
                 };
-//                $scope.start = function () {
                 $scope.loadMore();
-//                }
                 $scope.doRefresh = function () {
                     $scope.page = 0;
                     $scope.initPinsDisplay();
@@ -570,7 +548,6 @@ pinMod.controller('PinCtrl',
                     }
 
                     var avg_height = total_height / pin_column;
-//                    console.log(avg_height + 'avg height');
                     for (var i = 0; i < data.length; i++) {
                         var pin = data[i];
                         var pin_height = data[i].pin_height;
@@ -592,8 +569,7 @@ pinMod.controller('PinCtrl',
                             grid1.push(pin);
                         } else if (cur_column === 1) {
                             grid2.push(pin);
-                        }
-                        else if (cur_column === 2) {
+                        } else if (cur_column === 2) {
                             grid3.push(pin);
                         }
 

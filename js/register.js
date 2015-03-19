@@ -4,8 +4,8 @@ var registerMod = angular.module('RegisterMod', ['GoogleLoginService', 'AccountS
 
 
 registerMod.controller('RegisterCtrl',
-        ['$scope', '$localStorage', '$location', 'toast', 'googleLogin', 'accountHelper', '$q', 'dataShare',
-            function ($scope, $localStorage, $location, toast, googleLogin, accountHelper, $q, dataShare) {
+        ['$scope', '$localStorage', '$location', 'toast', 'googleLogin', 'accountHelper', '$q', 'dataShare', '$rootScope',
+            function ($scope, $localStorage, $location, toast, googleLogin, accountHelper, $q, dataShare, $rootScope) {
                 if (!$localStorage.user) {
                     $localStorage.user = {};
                     $localStorage.user.email = '';
@@ -17,23 +17,31 @@ registerMod.controller('RegisterCtrl',
                     }
 
                 }
-                $scope.register_obj = {
-                    name: '',
-                    email: $localStorage.user.email,
-                    password: ''
+
+                var self = this;
+                self.init = function () {
+                    $scope.register_obj = {
+                        name: '',
+                        email: $localStorage.user.email,
+                        password: ''
+                    };
+                    $scope.login_obj = {
+                        email: $localStorage.user.email,
+                        password: ''
+                    };
+                    $scope.forgot_obj = {
+                        email: $localStorage.user.email
+                    };
+                    $scope.google_status = 0;
+                    $scope.facebook_status = 0;
+                    $scope.login_status = 0;
+                    $scope.register_status = 0;
+                    $scope.forgot_status = 0;
                 };
-                $scope.login_obj = {
-                    email: $localStorage.user.email,
-                    password: ''
-                };
-                $scope.forgot_obj = {
-                    email: $localStorage.user.email
-                };
-                $scope.google_status = 0;
-                $scope.facebook_status = 0;
-                $scope.login_status = 0;
-                $scope.register_status = 0;
-                $scope.forgot_status = 0;
+                self.init();
+                $rootScope.$on("$ionicView.enter", function () {
+                    self.init();
+                });
 
                 $scope.$watch('register_obj.email', function (value) {
                     if (value) {
@@ -54,28 +62,13 @@ registerMod.controller('RegisterCtrl',
                     }
                 });
 
-//                $scope.show_register = true;
-//                $scope.show_login = false;
-//                $scope.show_forgot = false;
-
                 $scope.showForgot = function () {
-//                    $scope.show_register = false;
-//                    $scope.show_login = false;
-//                    $scope.show_forgot = true;
-
                     $location.path('/app/forgot');
                 };
                 $scope.showRegister = function () {
-//                    $scope.show_register = true;
-//                    $scope.show_login = false;
-//                    $scope.show_forgot = false;
                     $location.path('/app/signup');
                 };
                 $scope.showLogin = function () {
-//                    $scope.show_register = false;
-//                    $scope.show_login = true;
-//                    $scope.show_forgot = false;
-
                     $location.path('/app/login');
                 };
                 $scope.forgot = function () {
