@@ -405,7 +405,7 @@ friendService.factory('friendHelper', [
                 });
                 notifyHelper.sendAlert('user_' + from_friend_id, {
                     title: 'Friend Request Accepted',
-                    message: $localStorage.user.name + ' has sent you a friend request',
+                    message: $localStorage.user.name + ' has accepted your friend request',
                     meta: {
                         type: 'accept_friend',
                         user: $localStorage.user

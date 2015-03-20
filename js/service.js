@@ -188,6 +188,9 @@ serviceMod.filter('picture', ['ajaxRequest', 'CDN', function (ajaxRequest, CDN) 
             if (picture.length === 0) {
                 return "img/empty.png";
             }
+            if(picture.indexOf('empty.png') !== -1){
+                return picture;
+            }
             if (!angular.isDefined(width)) {
                 return picture;
             }

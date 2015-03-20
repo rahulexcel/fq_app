@@ -139,7 +139,6 @@ profileMod.controller('ProfileCtrl',
                             } else {
                                 width = width * 4;
                             }
-                            angular.element(document.querySelector('#menu_scroller')).attr('style', 'width:' + width + 'px');
                             $timeout(function () {
                                 var window_width = document.querySelector('.menu-content').clientWidth * 1;
                                 var startX = 0;
@@ -149,6 +148,7 @@ profileMod.controller('ProfileCtrl',
                                         startX = 0;
                                     }
                                 }
+                                angular.element(document.querySelector('#menu_scroller')).attr('style', 'width:' + width + 'px');
                                 $scope.myScroll = new IScroll('#menu_sliding', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true, startX: startX * -1});
                             }, 50);
 

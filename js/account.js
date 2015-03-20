@@ -89,7 +89,7 @@ accountMod.controller('AccountCtrl',
                 $scope.browseCamera = function () {
                     var actionSheet = $ionicActionSheet.show({
                         buttons: [
-                            {text: 'Brower Pictures'},
+                            {text: 'Browse Picture'},
                             {text: 'Take Picture'}
                         ],
                         destructiveText: 'Remove Picture',
@@ -100,6 +100,7 @@ accountMod.controller('AccountCtrl',
                             var picture = accountHelper.removePicture();
                             picture.then(function () {
                                 $scope.login_data.picture = $localStorage.user.picture;
+                                $scope.$parent.user.picture = $localStorage.user.picture;
                             });
                         },
                         buttonClicked: function (index) {

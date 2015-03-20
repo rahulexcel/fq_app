@@ -59,7 +59,6 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                 $scope.file = {
                     myFiles: false
                 };
-                self.init();
                 $scope.$on('logout_event', function () {
                     $location.path('/app/signup');
                 });
