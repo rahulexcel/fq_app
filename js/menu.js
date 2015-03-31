@@ -385,7 +385,44 @@ menuMod.controller('MenuCtrl',
                     var ajax = wishlistHelper.list();
                     ajax.then(function (data) {
                         $scope.lists = data;
+
+                        //select a default list if nothing is selected
+
+                        var select = false;
+                        var lists = $scope.lists.public;
+                        for (var i = 0; i < lists.length; i++) {
+                            if (lists[i].tick) {
+                                select = true;
+                            }
+                        }
+                        if (!select && lists.length > 0) {
+                            lists[0].tick = true;
+                            $scope.lists.public = lists;
+                        } else {
+                            var lists = $scope.lists.private;
+                            for (var i = 0; i < lists.length; i++) {
+                                if (lists[i].tick) {
+                                    select = true;
+                                }
+                            }
+                            if (!select && lists.length > 0) {
+                                lists[0].tick = true;
+                                $scope.lists.private = lists;
+                            } else {
+                                var lists = $scope.lists.shared;
+                                for (var i = 0; i < lists.length; i++) {
+                                    if (lists[i].tick) {
+                                        select = true;
+                                    }
+                                }
+                                if (!select && lists.length > 0) {
+                                    lists[0].tick = true;
+                                    $scope.lists.shared = lists;
+                                }
+                            }
+                        }
                     });
+
                     $scope.wishlistmodal.show();
                 };
                 $scope.addWishlistItem = function () {
@@ -397,11 +434,7 @@ menuMod.controller('MenuCtrl',
                             $scope.wishlist_product.product = false;
                             $scope.wishlist_product.item = false;
                             $scope.wishlist_product.new_item = true;
-                            var ajax = wishlistHelper.list();
-                            ajax.then(function (data) {
-                                $scope.lists = data;
-                            });
-                            $scope.wishlistmodal.show();
+                            $scope.showWishlist();
                         }
                     } else {
                         toast.showShortBottom('Login To Add Item To Your Wishlist');

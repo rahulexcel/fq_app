@@ -8,7 +8,7 @@
     </div>
     <ion-list can-swipe="me">
         <ion-item class="item-thumbnail-left" bindonce ng-repeat="item in updates track by $index">
-            <img on-tap='account(item.user);' bo-if="item.user" class="rounded" ng-src="{{item.user.picture|picture:50:50}}">
+            <img on-tap='account(item.user);' bo-if="item.user" class="rounded" ng-src="{{item.user.picture|picture:100:100}}">
             <p>{{item.body.title}}</p>
             <div style="font-size: .82em">by <span bo-bind='item.user.name'></span></div>
             <div style="font-size: .82em"><span bo-html='item.time|prettyDate'></span></div>

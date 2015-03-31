@@ -175,14 +175,27 @@
                         <div class="user_image" style="position: absolute;left: 0px">
                             <img class="rounded" ng-src='{{comment.picture|picture:50:50}}' style="max-width: 50px;max-height: 50px;" />
                         </div>
-                        <div class="user-info" style="margin-left: 60px;width: 100%;margin-right: 5px">
+                        <div class="user-info" style="padding-left: 50px;width: 100%;padding-right: 5px">
                             <div>{{comment.comment}}</div>
-                            <div class="grey-color" style="font-size:0.7em">{{comment.created_at| prettyDate}}</div>
+
+                            <div style="padding-top: 5px;">
+                                <span class="grey-color" style="font-size:0.7em">{{comment.created_at| prettyDate}}</span>                                    
+                                <span style="font-size:.9em;padding-left: 10px">
+                                    <span ng-show="comment.can_like" class="red-color" style="text-decoration: underline">
+                                        <span on-tap="likeComment(comment);">Like</span>
+                                    </span>
+                                    <span ng-show="!comment.can_like" class="red-color" style="text-decoration: underline">
+                                        <span on-tap="unlikeComment(comment);">UnLike</span>
+                                    </span>
+                                    <span class="grey-color" ng-show="comment.likes.length > 0" style="padding-left: 10px;">
+                                        <i class="ion-thumbsup"></i> <span>{{comment.likes.length}}</span>
+                                    </span>
+                                </span>
+                            </div>
                             <div ng-if="comment.user_id === login.id" style="position: absolute;top: 0px;right:0px;font-size:1.5em" class="grey-color" on-tap='removeComment(comment);'>&times;</div>
                         </div>
                         <div class="clearfix"></div>
                     </div>
-
                 </div>
                 <div class="load-more" ng-if='item.comments.length > 20 && !showMoreComment'>
                     <span class="red-color" on-tap='loadAllComments()'>Load More</span>

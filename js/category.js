@@ -24,8 +24,8 @@ categoryMod.directive('scrollWatch', ['$window', function ($window) {
         };
     }]);
 categoryMod.controller('CategoryCtrl',
-        ['$scope', 'categoryHelper', 'toast', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$timeout', '$ionicPlatform', 'timeStorage', 'ajaxRequest', 'CDN', '$ionicModal',
-            function ($scope, categoryHelper, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $timeout, $ionicPlatform, timeStorage, ajaxRequest, CDN, $ionicModal) {
+        ['$scope', 'categoryHelper', 'toast', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$timeout', 'timeStorage', 'CDN', '$ionicModal', 'pinchServie',
+            function ($scope, categoryHelper, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $timeout, timeStorage, CDN, $ionicModal, pinchServie) {
                 var i = 0;
                 $scope.isCategoryPage = true;
                 $rootScope.$on('login_event', function () {
@@ -572,6 +572,29 @@ categoryMod.controller('CategoryCtrl',
                         }
                     }
                 };
+                var self = this;
+                self.getPinObj = function (active_pin) {
+                    for (var i = 0; i < $scope.products.length; i++) {
+                        if ($scope.products[i]._id === active_pin) {
+                            return $scope.products[i];
+                        }
+                    }
+                    return false;
+                };
+                console.log($scope);
+                $scope.$on('first', function () {
+                    var item = self.getPinObj(pinchServie.active_pin);
+                    $scope.wishlist(item);
+                });
+                $scope.$on('third', function () {
+                    var item = self.getPinObj(pinchServie.active_pin);
+                    $scope.whatsapp(item);
+                });
+                $scope.$on('fourth', function () {
+                    var item = self.getPinObj(pinchServie.active_pin);
+                    $scope.facebook(item);
+                });
+
                 $scope.wishlist = function (product, $event) {
                     if (window.analytics) {
                         window.analytics.trackEvent('Pin', 'Category Page', $location.path());
@@ -602,6 +625,36 @@ categoryMod.controller('CategoryCtrl',
                     product = angular.copy(product);
                     product.cat_name = $scope.current_category.name;
                     dataShare.broadcastData(product, 'product_open');
+                };
+
+                $scope.facebook = function (product) {
+                    var share_url = 'http://fashioniq.in/m/p/' + product._id;
+                    if (window.cordova.platformId === "browser") {
+                        if (!accountHelper.isFbInit()) {
+                            facebookConnectPlugin.browserInit('765213543516434');
+                            accountHelper.fbInit();
+                        }
+                    }
+                    facebookConnectPlugin.showDialog({
+                        method: 'share',
+                        href: share_url,
+                        message: product.name,
+                        picture: product.img
+                    }, function (data) {
+                        console.log(data);
+                    }, function (data) {
+                        console.log(data);
+                        toast.showShortBottom('Unable to Share');
+                    });
+                };
+                $scope.whatsapp = function (product) {
+                    console.log('sdsadfasdf');
+                    var share_url = 'http://fashioniq.in/m/p/' + product._id;
+                    window.plugins.socialsharing.shareViaWhatsApp(
+                            product.name, product.img, share_url, function () {
+                            }, function () {
+                        toast.showShortBottom('Unable to Share');
+                    });
                 };
             }
         ]);

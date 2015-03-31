@@ -62,6 +62,10 @@ profileMod.controller('ProfileUpdateCtrl',
                     });
                 };
                 $scope.getItems(0);
+                $scope.doRefresh = function () {
+                    $scope.page = 0;
+                    $scope.loadMoreUpdates(0);
+                };
                 $scope.loadMoreUpdates = function () {
                     $scope.page++;
                     var ajax = notifyHelper.getUpdate($localStorage.user.id, false, $scope.page);
@@ -79,7 +83,6 @@ profileMod.controller('ProfileUpdateCtrl',
                     notifyHelper.openItem(row);
                 };
                 $scope.updateItems = function (data, append) {
-                    console.log(data);
                     if (data.length === 0) {
                         $scope.hasMore = false;
                     } else {
@@ -91,11 +94,11 @@ profileMod.controller('ProfileUpdateCtrl',
                             var row = data[i];
 
                             var item = {};
-                            if (!row.data.user) {
-                                continue;
-                            }
                             if (row.type === 'price_alert') {
                                 row.data.user = $localStorage.user;
+                            }
+                            if (!row.data.user) {
+                                continue;
                             }
                             item.user = {
                                 picture: row.data.user.picture,
@@ -103,7 +106,11 @@ profileMod.controller('ProfileUpdateCtrl',
                                 id: row.data.user.id
                             };
                             item.objectId = row.id;
-                            if (row.type === 'price_alert') {
+                            if (row.type === 'like_comment') {
+                                item.body = {
+                                    title: item.user.name + ' likes your comment : ' + row.data.comment
+                                };
+                            } else if (row.type === 'price_alert') {
                                 item.body = {
                                     title: 'Price Changed for ' + row.data.name + ' from Rs.' + row.data.price + " to Rs." + row.data.price_found,
                                     image: row.data.img

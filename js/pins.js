@@ -1,328 +1,5 @@
 var pinMod = angular.module('PinMod', ['ionicLazyLoad']);
-pinMod.factory('pinchServie', ['$ionicBackdrop', '$window',
-    function ($ionicBackdrop, $window) {
-        var service = {
-            bodyElem: false,
-            headElem: false,
-            animElem: false,
-            is_showing: false,
-            active_class: false,
-            active_pin: false,
-            radius: 20,
-            positions: {},
-            init: function () {
-                if (!this.bodyElem) {
-                    this.animElem = angular.element(document.querySelector('#anim'));
-                    this.headElem = angular.element(document.querySelector('head'));
-                    this.bodyElem = angular.element(document.querySelector('body'));
-                    this.is_showing = false;
-                    this.active_class = false;
-                    this.active_pin = false;
-                    this.positions = {};
-                    this.startTransform();
-                    this.classTransform(-1000, -1000);
-                }
-            },
-            destroy: function () {
-                this.is_showing = false;
-            },
-            startTransform: function () {
-                this.addTransform(0, 0, 0, 0, 0, 0, 0);
-            },
-            removeTemp: function () {
-                var tempElem = document.querySelector('temp');
-                tempElem = angular.element(tempElem);
-                tempElem.remove();
-            },
-            hide: function (event) {
-                this.removeTemp();
-                this.startTransform();
-                this.classTransform(-1000, -1000);
-//                console.log('release');
-                $ionicBackdrop.release();
-                this.is_showing = false;
-                return this.active_class;
-            },
-            classTransform: function (x, y) {
-                var css = '';
-                var pfx = ["-webkit-", "-moz-", "-MS-", "-o-", ""];
-                for (var i = 0; i < pfx.length; i++) {
-                    var pf = pfx[i];
-                    css += pf + 'transform: translate3d(' + x + 'px,' + y + 'px,0);';
-                }
-                this.animElem.attr('style', "display:block;" + css);
-            },
-            addTransform: function (f_x, f_y, s_x, s_y, t_x, t_y) {
-                var pfx = ["-webkit-", "-moz-", "-MS-", "-o-", ""];
-                var html = '<style id="temp">';
-                var style1 = '';
-                var style2 = '';
-                var style3 = '';
-                for (var i = 0; i < pfx.length; i++) {
-                    var pf = pfx[i];
-                    style1 += pf + 'transform:translate3d(' + (f_x - this.radius) + 'px, ' + (f_y - this.radius) + 'px, 0);';
-                    style2 += pf + 'transform:translate3d(' + (s_x - this.radius) + 'px, ' + (s_y - this.radius) + 'px, 0);';
-                    style3 += pf + 'transform:translate3d(' + (t_x - this.radius) + 'px, ' + (t_y - this.radius) + 'px, 0);';
-                }
-                html += '#anim .f_c{' + style1 + '}';
-                html += '#anim .s_c{' + style2 + '}';
-                html += '#anim .t_c{' + style3 + '}';
-                html += '</style>';
-                this.headElem.append(html);
-            },
-            checkIsPin: function (event) {
-                var target = angular.element(event.gesture.target);
-                var max_depth = 10;
-                var found = false;
-                var i = 0;
-                while (i < max_depth) {
 
-                    target = target.parent();
-                    if (target.hasClass('pin')) {
-                        this.active_pin = target.attr('id');
-//                        console.log(this.active_pin + 'active pin');
-                        found = true;
-                        break;
-                    }
-                    i++;
-                }
-                return found;
-            },
-            inCircle: function (center, radius, point) {
-                var dist = Math.sqrt(Math.pow(center.x - point.x, 2) + Math.pow(center.y - point.y, 2))
-//                console.log(dist);
-                if (dist < radius) {
-                    return true;
-                } else {
-                    return false;
-                }
-            },
-            caneDrag: function () {
-                return this.is_showing;
-            },
-            handleDrag: function (event) {
-                if (this.is_showing) {
-
-//                    console.log('handling drag');
-//                    var target = angular.element(event.gesture.target);
-
-                    var x = event.gesture.center.pageX;
-                    var y = event.gesture.center.pageY;
-                    var positions = this.positions;
-                    var radius = this.radius;
-                    var f_c = positions.first;
-                    var s_c = positions.second;
-                    var t_c = positions.thrid;
-                    var center = positions.center;
-//                    var imageRect = $ionicPosition.offset(this.bodyElem);
-//                    console.log(imageRect);
-
-//                    console.log('org pos');
-//                    console.log({x: x, y: y});
-//                    angular.element(document.querySelector('#dot')).attr('style', 'top:' + y + 'px;left:' + x + 'px')
-                    y = y * 1 - center.y * 1;
-                    x = x * 1 - center.x * 1;
-
-
-                    var found_f = false;
-                    var found_s = false;
-                    var found_t = false;
-
-//                    console.log('pos');
-//                    console.log({x: x, y: y});
-//
-////                    console.log('center');
-////                    console.log(center);
-//
-//                    console.log('first');
-//                    console.log(f_c);
-//
-//                    console.log('second');
-//                    console.log(s_c);
-//
-//                    console.log('third');
-//                    console.log(t_c);
-//                    angular.element(document.querySelector('#dot1')).attr('style', 'top:' + (f_c.y * 1 + center.y * 1) + 'px;left:' + (f_c.x * 1 + center.x * 1) + 'px')
-//                    angular.element(document.querySelector('#dot2')).attr('style', 'top:' + (s_c.y * 1 + center.y * 1) + 'px;left:' + (s_c.x * 1 + center.x * 1) + 'px')
-//                    angular.element(document.querySelector('#dot3')).attr('style', 'top:' + (t_c.y * 1 + center.y * 1) + 'px;left:' + (t_c.x * 1 + center.x * 1) + 'px')
-
-                    if (this.inCircle({x: x, y: y}, radius, f_c)) {
-                        found_f = true;
-                    }
-                    if (this.inCircle({x: x, y: y}, radius, s_c)) {
-                        found_s = true;
-                    }
-                    if (this.inCircle({x: x, y: y}, radius, t_c)) {
-                        found_t = true;
-                    }
-                    if (found_f) {
-                        if (this.active_class !== 'f') {
-                            angular.element(document.querySelector('.f_c')).toggleClass('active_circle');
-                            this.active_class = 'f';
-                        }
-                    } else {
-                        if (this.active_class === 'f') {
-                            angular.element(document.querySelector('.f_c')).toggleClass('active_circle');
-                            this.active_class = '';
-                        }
-                    }
-                    if (found_s) {
-                        if (this.active_class !== 's') {
-                            angular.element(document.querySelector('.s_c')).toggleClass('active_circle');
-                            this.active_class = 's';
-                        }
-                    } else {
-                        if (this.active_class === 's') {
-                            angular.element(document.querySelector('.s_c')).toggleClass('active_circle');
-                            this.active_class = '';
-                        }
-                    }
-                    if (found_t) {
-                        if (this.active_class !== 't') {
-                            angular.element(document.querySelector('.t_c')).toggleClass('active_circle');
-                            this.active_class = 't';
-                        }
-                    } else {
-                        if (this.active_class === 't') {
-                            angular.element(document.querySelector('.t_c')).toggleClass('active_circle');
-                            this.active_class = '';
-                        }
-                    }
-
-
-                    return true;
-                } else {
-                    return false;
-                }
-            },
-            show: function (event, pin_id) {
-                console.log('hold');
-                if (!this.checkIsPin(event)) {
-                    console.log('is not pin');
-                    return false;
-                }
-
-                this.positions = {};
-                angular.element(document.querySelector('.s_c')).removeClass('active_circle');
-                angular.element(document.querySelector('.t_c')).removeClass('active_circle');
-                angular.element(document.querySelector('.t_c')).removeClass('active_circle');
-                this.active_class = false;
-                this.is_showing = true;
-                var x = event.gesture.center.pageX;
-                var y = event.gesture.center.pageY;
-                this.classTransform(x, y);
-                var length = 75;
-                var window_width = $window.innerWidth;
-                var window_height = $window.innerHeight;
-                var down = true;
-                var right = true;
-                if (y > window_height / 2) {
-                    //down = false;
-                    //let it be top always like pintrest
-                }
-                if (x > window_width / 2) {
-                    right = false;
-                }
-
-                var f_c_coord = {
-                    x: Math.round(Math.sin(Math.PI / 12) * length, 2) * -1,
-                    y: length * -1
-                };
-                var s_c_coord = {
-                    x: Math.round(Math.cos(Math.PI / 4) * length, 2),
-                    y: Math.round(Math.cos(Math.PI / 4) * length, 2) * -1
-                };
-                var t_c_coord = {
-                    x: length,
-                    y: Math.round(Math.sin(Math.PI / 12) * length * -1, 2) * -1
-                };
-                this.positions = {
-                    center: {
-                        x: x,
-                        y: y
-                    },
-                    first: f_c_coord,
-                    second: s_c_coord,
-                    thrid: t_c_coord
-                };
-                if (!right) {
-                    f_c_coord.x = f_c_coord.x * -1;
-                    s_c_coord.x = s_c_coord.x * -1;
-                    t_c_coord.x = t_c_coord.x * -1;
-                }
-                if (!down) {
-                    f_c_coord.y = f_c_coord.y * -1;
-                    s_c_coord.y = s_c_coord.y * -1;
-                    t_c_coord.y = t_c_coord.y * -1;
-                }
-                this.removeTemp();
-                this.addTransform(f_c_coord.x, f_c_coord.y, s_c_coord.x, s_c_coord.y, t_c_coord.x, t_c_coord.y);
-                $ionicBackdrop.retain();
-                return true;
-            }
-        };
-        return service;
-    }
-]);
-pinMod.directive('pinch', ['pinchServie', '$ionicGesture', '$timeout', '$ionicScrollDelegate',
-    function (pinchServie, $ionicGesture, $timeout, $ionicScrollDelegate) {
-        return {
-            link: {
-                pre: function preLink(scope, iElement, iAttrs, controller) {
-                },
-                post: function postLink(scope, iElement, iAttrs, controller) {
-                    var relase_gesture = false;
-                    var drag_gesture = false;
-                    var hold_gesture = false;
-                    pinchServie.init();
-//                    console.log('init');
-                    scope.$on('$destroy', function () {
-//                        console.log('destroy');
-                        pinchServie.destroy();
-                        $ionicGesture.off(relase_gesture, 'release');
-                        $ionicGesture.off(drag_gesture, 'drag');
-                        $ionicGesture.off(hold_gesture, 'hold');
-                    });
-                    var wait_for_anim = false;
-                    relase_gesture = $ionicGesture.on('release', function (e) {
-                        var ret = pinchServie.hide(e);
-                        if (ret === 'f') {
-                            scope.$broadcast('first');
-                        } else if (ret === 's') {
-                            scope.$broadcast('second');
-                        } else if (ret === 't') {
-                            scope.$broadcast('third');
-                        }
-                        $ionicScrollDelegate.freezeAllScrolls(false);
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }, angular.element(iElement));
-                    drag_gesture = $ionicGesture.on('drag', function (e) {
-                        if (!wait_for_anim) {
-                            if (pinchServie.caneDrag(e)) {
-                                pinchServie.handleDrag(e)
-                                e.preventDefault();
-                                e.stopPropagation();
-                            } else {
-                            }
-                        }
-                    }, angular.element(iElement));
-                    hold_gesture = $ionicGesture.on('hold', function (e) {
-                        if (pinchServie.show(e, iAttrs.id)) {
-                            $ionicScrollDelegate.freezeAllScrolls(true);
-                            wait_for_anim = true;
-                            $timeout(function () {
-                                wait_for_anim = false;
-                            }, 100);
-                            e.preventDefault();
-                            e.stopPropagation();
-                        }
-                    }, angular.element(iElement));
-                }
-            }
-        };
-    }
-]);
 pinMod.directive('resize', ['$window', function ($window) {
         return function (scope, element) {
             angular.element($window).bind('resize', function () {
@@ -336,8 +13,8 @@ pinMod.filter('nl2br', ['$sce', function ($sce) {
         };
     }]);
 pinMod.controller('PinCtrl',
-        ['$scope', '$timeout', '$location', '$rootScope', '$localStorage', 'friendHelper', 'toast', 'itemHelper', 'pinchServie', 'CDN',
-            function ($scope, $timeout, $location, $rootScope, $localStorage, friendHelper, toast, itemHelper, pinchServie, CDN) {
+        ['$scope', '$timeout', '$location', '$rootScope', '$localStorage', 'friendHelper', 'toast', 'itemHelper', 'pinchServie', 'CDN', 'accountHelper',
+            function ($scope, $timeout, $location, $rootScope, $localStorage, friendHelper, toast, itemHelper, pinchServie, CDN, accountHelper) {
                 $scope.loading = true;
                 $scope.windowWidth = 0;
                 $scope.hasMore = false;
@@ -354,21 +31,24 @@ pinMod.controller('PinCtrl',
                     $scope.displayPins();
                 });
                 $scope.doRefresh = function () {
-//                    console.log('do refresh');
                     $scope.page = 0;
                     $scope.loadMore();
                 };
                 var colors = ['#b71c1c', '#880e4f', '#4a148c', '#311b92', '#0d47a1', '#004d40', '#827717', '#1b5e20', '#827717', '#f57f17', '#e65100', '#546e7a', '#757575'];
                 $scope.loadMore = function () {
-//                    console.log('load more');
                     var ajax = $scope.$parent.getData($scope.page);
                     ajax.then(function (data) {
                         $scope.loading = false;
-//                        console.log(data);
+                        var new_data = [];
                         if (data.length > 0) {
                             $scope.page++;
                             for (var i = 0; i < data.length; i++) {
-
+                                if (!data[i]) {
+                                    continue;
+                                }
+                                if (!data[i].meta.pins) {
+                                    data[i].meta.pins = data[i].pins.length;
+                                }
                                 var index = Math.floor(Math.random() * (colors.length + 1));
                                 var color = colors[index];
                                 if (!color) {
@@ -418,10 +98,11 @@ pinMod.controller('PinCtrl',
                                     }
                                 }
                                 ajax_data.push(data[i]);
+                                new_data.push(data[i]);
                             }
                             $scope.pin_count = ajax_data.length;
                             $scope.total_pin_count += ajax_data.length;
-                            $scope.displayPins(data);
+                            $scope.displayPins(new_data);
                             $scope.hasMore = true;
                             $scope.$broadcast('scroll.infiniteScrollComplete');
                             $scope.$broadcast('scroll.refreshComplete');
@@ -759,7 +440,11 @@ pinMod.controller('PinCtrl',
                 });
                 $scope.$on('third', function () {
                     var item = self.getPinObj(pinchServie.active_pin);
-                    $scope.shareAll(item);
+                    $scope.whatsapp(item);
+                });
+                $scope.$on('fourth', function () {
+                    var item = self.getPinObj(pinchServie.active_pin);
+                    $scope.facebook(item);
                 });
                 $scope.pin = function (item) {
                     if (window.analytics) {
@@ -774,18 +459,52 @@ pinMod.controller('PinCtrl',
                         $scope.$parent.showWishlist();
                     }
                 };
-                $scope.shareAll = function (item) {
-                    var share_url = 'http://fashioniq.in/m/i/' + item._id + "/" + item.original.list_id;
-                    var picture = item.image;
-                    var name = item.name;
-                    picture = CDN.cdnize(picture);
-                    if (name.length === 0) {
-                        name = 'Awesome Clip!';
+                $scope.facebook = function (item) {
+                    if (item._id) {
+                        var share_url = 'http://fashioniq.in/m/i/' + item._id + "/" + item.original.list_id;
+                        var picture = item.image;
+                        var name = item.name;
+                        picture = CDN.cdnize(picture);
+                        if (name.length === 0) {
+                            name = 'Awesome Clip!';
+                        }
+                        if (window.cordova.platformId === "browser") {
+                            if (!accountHelper.isFbInit()) {
+                                facebookConnectPlugin.browserInit('765213543516434');
+                                accountHelper.fbInit();
+                            }
+                        }
+                        facebookConnectPlugin.showDialog({
+                            method: 'share',
+                            href: share_url,
+                            message: name,
+                            picture: picture
+                        }, function (data) {
+                            console.log(data);
+                        }, function (data) {
+                            console.log(data);
+                            toast.showShortBottom('Unable to Share');
+                        });
                     }
-                    window.plugins.socialsharing.share(name, null, picture, share_url, function () {
-                    }, function () {
-                        toast.showShortBottom('Unable to Share');
-                    });
+                };
+                $scope.whatsapp = function (item) {
+                    console.log('hm');
+                    if (item._id) {
+                        var share_url = 'http://fashioniq.in/m/i/' + item._id + "/" + item.original.list_id;
+                        var picture = item.image;
+                        var name = item.name;
+                        picture = CDN.cdnize(picture);
+                        if (name.length === 0) {
+                            name = 'Awesome Clip!';
+                        }
+                        console.log(name + "XXXhm" + picture + "XXX" + share_url);
+                        window.plugins.socialsharing.shareViaWhatsApp(
+                                name, picture, share_url, function () {
+                                }, function (e) {
+                            console.log(e);
+                            toast.showShortBottom('Unable to Share! App Not Found');
+                        });
+                    }
                 };
                 $scope.like = function (item) {
                     if (window.analytics) {

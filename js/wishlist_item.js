@@ -104,7 +104,27 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             for (i = 0; i < comments.length; i++) {
                                 if (!comments[i].picture || comments[i].picture.length === 0)
                                     comments[i].picture = 'img/favicon.png';
+
+                                var likes = comments[i].likes;
+                                if (likes && $localStorage.user.id) {
+                                    var found = false;
+                                    for (var j = 0; j < likes.length; j++) {
+                                        if (likes[j] && likes[j].user_id && likes[j].user_id === $localStorage.user.id) {
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                    if (found) {
+                                        comments[i].can_like = false;
+                                    } else {
+                                        comments[i].can_like = true;
+                                    }
+                                } else {
+                                    comments[i].likes = [];
+                                    comments[i].can_like = true;
+                                }
                             }
+                            data.comments = comments;
 
                             $scope.item = data;
                             if (data.item_id.location && data.item_id.location.length > 0) {
@@ -341,6 +361,45 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }, function () {
                             $ionicLoading.hide();
                         });
+                    };
+                    $scope.unlikeComment = function (comment) {
+                        var comment_id = comment._id;
+                        if ($localStorage.user.id) {
+                            var user_id = $localStorage.user.id;
+                            var ajax = itemHelper.unlikeComment(comment_id, user_id);
+                            ajax.then(function () {
+                                comment.can_like = true;
+                                var likes = comment.likes;
+                                if (!likes)
+                                    likes = [];
+                                var new_likes = [];
+                                for (var i = 0; i < likes.length; i++) {
+                                    if (likes[i].user_id !== user_id) {
+                                        new_likes.push(likes[i]);
+                                    }
+                                }
+
+                                comment.likes = new_likes;
+                            });
+                        } else {
+                            toast.showShortBottom('SignUp/Login To Like A Comment');
+                        }
+                    };
+                    $scope.likeComment = function (comment) {
+                        if ($localStorage.user.id) {
+                            var user_id = $localStorage.user.id;
+                            var ajax = itemHelper.likeComment(comment, user_id, $stateParams.item_id, $stateParams.list_id);
+                            ajax.then(function () {
+                                comment.can_like = false;
+                                if (!comment.likes)
+                                    comment.likes = [];
+                                comment.likes.push({
+                                    user_id: user_id
+                                });
+                            });
+                        } else {
+                            toast.showShortBottom('SignUp/Login To Like A Comment');
+                        }
                     };
                     $scope.likeList = function () {
                         if (window.analytics) {

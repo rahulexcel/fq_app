@@ -1,4 +1,8 @@
 <div class="padding">
+    <ion-refresher
+        pulling-text="Pull to refresh..."
+        on-refresh="doRefresh()">
+    </ion-refresher>
     <div ng-if='friend_requests.length > 0'>
         <div class="list-section" ng-show="friend_requests.length > 0">FRIEND REQUESTS</div>
         <div class="box" ng-repeat="user in friend_requests">

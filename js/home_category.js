@@ -1,8 +1,8 @@
 var homecatMod = angular.module('HomeCatMod', ['ServiceMod']);
 
 homecatMod.controller('HomeCatCtrl',
-        ['$scope', 'friendHelper', 'ajaxRequest', 'CDN', '$localStorage', '$location',
-            function ($scope, friendHelper, ajaxRequest, CDN, $localStorage, $location) {
+        ['$scope', 'friendHelper', 'CDN', '$localStorage', '$location', 'pinchServie', 'toast', 'itemHelper',
+            function ($scope, friendHelper, CDN, $localStorage, $location, pinchServie, toast, itemHelper) {
                 $scope.currentState = {};
                 $scope.product_loading = false;
                 $scope.showProducts = false;
@@ -71,12 +71,98 @@ homecatMod.controller('HomeCatCtrl',
                     });
                 };
                 self.fetchProduct();
+                var self = this;
+                self.getPinObj = function (active_pin) {
+                    for (var i = 0; i < $scope.products.length; i++) {
+                        if ($scope.products[i]._id === active_pin) {
+                            return $scope.products[i];
+                        }
+                    }
+                    return false;
+                };
+                $scope.$on('first', function () {
+                    var item = self.getPinObj(pinchServie.active_pin);
+                    $scope.wishlist(item);
+                });
+                $scope.$on('third', function () {
+                    var item = self.getPinObj(pinchServie.active_pin);
+                    $scope.whatsapp(item);
+                });
+                $scope.$on('fourth', function () {
+                    var item = self.getPinObj(pinchServie.active_pin);
+                    $scope.facebook(item);
+                });
+                $scope.facebook = function (item) {
+                    var share_url = 'http://fashioniq.in/m/p/' + item._id;
+                    var picture = item.img;
+                    var name = item.name;
+                    if (name.length === 0) {
+                        name = 'Awesome Clip!';
+                    }
+                    if (window.cordova.platformId === "browser") {
+                        if (!accountHelper.isFbInit()) {
+                            facebookConnectPlugin.browserInit('765213543516434');
+                            accountHelper.fbInit();
+                        }
+                    }
+                    facebookConnectPlugin.showDialog({
+                        method: 'share',
+                        href: share_url,
+                        message: name,
+                        picture: picture
+                    }, function (data) {
+                    }, function (data) {
+                        toast.showShortBottom('Unable to Share');
+                    });
+                };
+                $scope.whatsapp = function (item) {
+                    var share_url = 'http://fashioniq.in/m/p/' + item._id;
+                    var picture = item.img;
+                    var name = item.name;
+                    if (name.length === 0) {
+                        name = 'Awesome Clip!';
+                    }
+                    console.log(name + "XXXcathm" + picture + "XXX" + share_url);
+                    window.plugins.socialsharing.shareViaWhatsApp(
+                            name, picture, share_url, function () {
+                            }, function (e) {
+                        console.log(e);
+                        toast.showShortBottom('Unable to Share! App Not Found');
+                    });
+                };
+                $scope.like = function (item) {
+                    if (window.analytics) {
+                        window.analytics.trackEvent('Like', 'Pins Page', $location.path());
+                    }
+
+                    var item_id = item._id;
+                    var list_id = item.original.list_id;
+                    if (!$localStorage.user.id) {
+                        toast.showShortBottom('SignUp To Like Item');
+                        $location.path('/app/signup');
+                    } else {
+                        if ($scope.request_process) {
+                            toast.showProgress();
+                            return;
+                        }
+                        $scope.request_process = true;
+                        var ajax = itemHelper.like(item_id, list_id);
+                        ajax.then(function (data) {
+                            toast.showShortBottom('Item Liked');
+                            $scope.request_process = false;
+                        }, function () {
+                            $scope.request_process = false;
+                        });
+                    }
+                };
                 $scope.wishlist = function (product, $event) {
                     if (window.analytics) {
                         window.analytics.trackEvent('Pin', 'Latest Page', $location.path());
                     }
-                    $event.preventDefault();
-                    $event.stopPropagation();
+                    if ($event) {
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                    }
                     if ($localStorage.user.id) {
                         $scope.wishlist_product.item = false;
                         $scope.wishlist_product.new_item = false;

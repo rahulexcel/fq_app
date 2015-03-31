@@ -175,6 +175,15 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         }
                     }
                 })
+                .state('app.profile.alerts', {
+                    url: '/alerts',
+                    views: {
+                        'tab-content': {
+                            templateUrl: 'template/profile/price_alert.html',
+                            controller: 'ProfileAlertsCtrl'
+                        }
+                    }
+                })
                 .state('app.profile.mine', {
                     url: '/mine',
                     views: {
@@ -369,9 +378,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
 
                 if (backPress === 0) {
                     backPress++;
-                    if ($location.path().indexOf('app/home') !== -1) {
-                        $location.path('/app/home/trending');
-                    }
+                    $location.path('/app/home/trending');
                     toast.showShortBottom('Press Back Again To Exit');
                     $timeout(function () {
                         backPress = 0;

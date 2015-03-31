@@ -41,6 +41,12 @@ profileMod.controller('ProfileFriendCtrl',
                     $scope.me = true;
                 }
 
+                $scope.doRefresh = function () {
+                    $scope.hasMore = true;
+                    $scope.page = 0;
+                    $scope.loadMoreFriends();
+                };
+
                 $scope.hasMore = true;
                 $scope.page = 0;
                 $scope.loadMoreFriends = function () {
@@ -54,9 +60,11 @@ profileMod.controller('ProfileFriendCtrl',
                         } else {
                             $scope.hasMore = false;
                         }
+                        $scope.$broadcast('scroll.refreshComplete');
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     }, function () {
                         $scope.hasMore = false;
+                        $scope.$broadcast('scroll.refreshComplete');
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     });
                 };

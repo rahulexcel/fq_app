@@ -175,25 +175,28 @@ friendService.factory('friendHelper', [
             });
             ajax.then(function (data) {
                 def.resolve(data);
+                var uniq_id = new Date().getTime();
                 if (type === 'add') {
 //                    notifyHelper.subscribe('user_follower_' + follow_user_id);
 // will use only user based channel
+
                     notifyHelper.sendAlert('user_' + follow_user_id, {
                         title: 'New Follower',
                         message: $localStorage.user.name + " is Following You Now",
                         meta: {
                             user: $localStorage.user,
-                            type: 'follow_user'
+                            type: 'follow_user',
+                            uniq_id: uniq_id
                         }
-                    });
+                    }, uniq_id);
                     notifyHelper.addUpdate(follow_user_id, 'follow_user', {
                         user: $localStorage.user
-                    });
+                    }, uniq_id);
                 } else {
 //                    notifyHelper.unsubscribe('user_follower_' + follow_user_id);
                     notifyHelper.addUpdate(follow_user_id, 'unfollow_user', {
                         user: $localStorage.user
-                    });
+                    }, uniq_id);
                 }
 
             }, function () {
@@ -217,27 +220,29 @@ friendService.factory('friendHelper', [
             });
             ajax.then(function (data) {
                 def.resolve(data);
+                var uniq_id = new Date().getTime();
                 if (type === 'add') {
-                    notifyHelper.subscribe('list_' + list_id);
+                    //notifyHelper.subscribe('list_' + list_id);
                     notifyHelper.sendAlert('user_' + data.user_id, {
                         title: 'New List Follower',
                         message: $localStorage.user.name + " is Following You List " + data.name,
                         meta: {
                             user: $localStorage.user,
                             list: data,
-                            type: 'follow_list'
+                            type: 'follow_list',
+                            uniq_id: uniq_id
                         }
                     });
                     notifyHelper.addUpdate(data.user_id, 'follow_list', {
                         user: $localStorage.user,
                         list: data
-                    });
+                    }, uniq_id);
                 } else {
-                    notifyHelper.unsubscribe('list_' + list_id);
+                    //notifyHelper.unsubscribe('list_' + list_id);
                     notifyHelper.addUpdate(data.user_id, 'unfollow_list', {
                         user: $localStorage.user,
                         list: data
-                    });
+                    }, uniq_id);
                 }
             }, function () {
                 def.reject();
@@ -374,16 +379,18 @@ friendService.factory('friendHelper', [
                 to_user_id: $localStorage.user.id
             });
             ajax.then(function (data) {
+                var uniq_id = new Date().getTime();
                 notifyHelper.addUpdate(from_friend_id, 'decline_friend', {
                     user: $localStorage.user,
                     data: from_friend_id
-                });
+                }, uniq_id);
                 notifyHelper.sendAlert('user_' + from_friend_id, {
                     title: 'Friend Request Declined',
                     message: $localStorage.user.name + ' decliend your friend request',
                     meta: {
                         type: 'decline_friend',
-                        user: $localStorage.user
+                        user: $localStorage.user,
+                        uniq_id: uniq_id
                     }
                 });
                 def.resolve(data);
@@ -399,18 +406,35 @@ friendService.factory('friendHelper', [
                 to_user_id: $localStorage.user.id
             });
             ajax.then(function (data) {
+                var uniq_id = new Date().getTime();
                 notifyHelper.addUpdate(from_friend_id, 'accept_friend', {
                     user: $localStorage.user,
                     data: from_friend_id
-                });
+                }, uniq_id);
                 notifyHelper.sendAlert('user_' + from_friend_id, {
                     title: 'Friend Request Accepted',
                     message: $localStorage.user.name + ' has accepted your friend request',
                     meta: {
                         type: 'accept_friend',
-                        user: $localStorage.user
+                        user: $localStorage.user,
+                        uniq_id: uniq_id
                     }
                 });
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
+        service.my_friend_requests = function (user_id) {
+            if (!user_id) {
+                user_id = $localStorage.user.id;
+            }
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/social/user/friend_requests', {
+                user_id: user_id
+            });
+            ajax.then(function (data) {
                 def.resolve(data);
             }, function () {
                 def.reject();
@@ -425,16 +449,18 @@ friendService.factory('friendHelper', [
             });
             ajax.then(function (data) {
                 if (data.status === 'sent') {
+                    var uniq_id = new Date().getTime();
                     notifyHelper.addUpdate(to_user_id, 'add_friend', {
                         user: $localStorage.user,
                         data: to_user_id
-                    });
+                    }, uniq_id);
                     notifyHelper.sendAlert('user_' + to_user_id, {
                         title: 'Friend Request',
                         message: $localStorage.user.name + ' has sent you a friend request',
                         meta: {
                             type: 'add_friend',
-                            user: $localStorage.user
+                            user: $localStorage.user,
+                            uniq_id: uniq_id
                         }
                     });
                 }

@@ -11,9 +11,11 @@ notifyService.factory('notifyHelper', [
                 var ajax = this.getUpdate($localStorage.user.id, true);
                 ajax.then(function (count) {
                     $rootScope.profile_update = count;
-                    $timeout(function () {
-                        self.doUpdates();
-                    }, 60000);
+                    if (ionic.Platform.isWebView()) {
+                        $timeout(function () {
+                            self.doUpdates();
+                        }, 60000);
+                    }
                 });
             }
         };
@@ -58,6 +60,25 @@ notifyService.factory('notifyHelper', [
                 }
             });
             return defer.promise;
+        };
+        service.updateAlert = function (uniq_id) {
+            var user_id = $localStorage.user.id;
+            if (user_id && uniq_id) {
+                $rootScope.profile_update = 0;
+                $rootScope.$evalAsync();
+                var Update = Parse.Object.extend("Update");
+                var query = new Parse.Query(Update);
+                query.equalTo('user_id', user_id);
+                query.equalTo('uniq_id', uniq_id);
+                query.find({
+                    success: function (res) {
+                        for (var i = 0; i < res.length; i++) {
+                            res[i].set('read', true);
+                            res[i].save();
+                        }
+                    }
+                });
+            }
         };
         service.getUpdate = function (user_id, count, skip) {
             this.parseInit();
@@ -118,7 +139,7 @@ notifyService.factory('notifyHelper', [
 
             return defer.promise;
         };
-        service.addUpdate = function (user_ids, type, data) {
+        service.addUpdate = function (user_ids, type, data, uniq_id) {
             this.parseInit();
             if (!angular.isArray(user_ids)) {
                 user_ids = [user_ids];
@@ -136,10 +157,10 @@ notifyService.factory('notifyHelper', [
                             data: data,
                             read: false,
                             time: new Date(),
-                            type: type
+                            type: type,
+                            uniq_id: uniq_id
                         });
-                        update.save(null, {
-                            success: function () {
+                        update.save(null, {success: function () {
                                 defer.notify(user_id);
                                 if (k === (user_ids.length)) {
                                     defer.resolve();
@@ -201,8 +222,8 @@ notifyService.factory('notifyHelper', [
 //                    console.error(error);
 //                    defer.reject(error);
 //                }
-//            });
-//            return defer.promise;
+            //            });
+            //            return defer.promise;
         };
         service.unsubscribe = function (name) {
 //            this.parseInit();
@@ -215,8 +236,8 @@ notifyService.factory('notifyHelper', [
 //                }, function (e) {
 //                    defer.reject(e);
 //                });
-//            }
-//            return defer.promise;
+            //            }
+            //            return defer.promise;
         };
         service.subscribe = function (name) {
 //            this.parseInit();
@@ -229,8 +250,48 @@ notifyService.factory('notifyHelper', [
 //                }, function (e) {
 //                    defer.reject(e);
 //                });
-//            }
-//            return defer.promise;
+            //            }
+            //            return defer.promise;
+        };
+        service.setPriceLimit = function (item_id, user_id, price) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/notify/modify_alerts', {
+                user_id: user_id,
+                item_id: item_id,
+                price: price
+            });
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
+        service.stopPriceAlert = function (item_id, user_id) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/notify/stop_alert', {
+                user_id: user_id,
+                alert_id: item_id
+            });
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
+        service.getPriceAlerts = function (page) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/notify/get_alerts', {
+                user_id: $localStorage.user.id,
+                page: page
+            });
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
         };
         service.init_done = false;
         service.parseInit = function () {
@@ -240,6 +301,10 @@ notifyService.factory('notifyHelper', [
             }
         };
         service.openItem = function (row) {
+            if (row.uniq_id) {
+                console.log('notify unique ' + row.uniq_id);
+                service.updateAlert(row.uniq_id);
+            }
             if (row.type === 'price_alert') {
                 if (row.data.fq_product_id) {
                     $location.path('/app/product/' + row.data.fq_product_id);
@@ -251,7 +316,7 @@ notifyService.factory('notifyHelper', [
                     }
                 }
             } else if (row.type === 'add_friend' || row.type === 'accept_friend' || row.type === 'decline_friend') {
-                $location.path('/app/profile/' + row.user.id + '/friends');
+                $location.path('/app/profile/' + row.data.data + '/friends');
             } else if (row.type === 'item_unlike' || row.type === 'item_like') {
                 if (row.data.item_id) {
                     $location.path('/app/item/' + row.data.item_id._id + "/" + row.data.list_id._id);
@@ -266,8 +331,9 @@ notifyService.factory('notifyHelper', [
                 $location.path('/app/wishlist_item/' + row.data.list._id + "/" + row.data.list.name);
             } else if (row.type === 'unfollow_list') {
                 $location.path('/app/wishlist_item/' + row.data.list._id + "/" + row.data.list.name);
+            } else if (row.type === 'like_comment') {
+                $location.path('/app/item/' + row.data.item_id + "/" + row.data.list_id);
             } else if (row.type === 'item_comment') {
-                console.log(row.data.data);
                 if (row.data.data.item_id) {
                     $location.path('/app/item/' + row.data.data.item_id._id + "/" + row.data.data.list_id._id);
                 } else {
@@ -320,7 +386,7 @@ notifyService.factory('notifyHelper', [
 //
 //            ParsePushPlugin.on('receivePN', function (pn) {
 //                console.log('yo2 i got this push notification:' + JSON.stringify(pn));
-//                var data = pn;
+            //                var data = pn;
 //            });
 
 //            return;
@@ -365,7 +431,7 @@ notifyService.factory('notifyHelper', [
                                 service.openItem(meta);
                             });
                             // this is the actual push notification. its format depends on the data model from the push server
-//                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
+                            //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
                             break;
                         case 'error':
                             console.log('GCM error = ' + notification.msg);

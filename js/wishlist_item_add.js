@@ -48,6 +48,20 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                     description: '',
                     file_name: ""
                 };
+                $rootScope.$on('$ionicView.enter', function () {
+                    $scope.item = {
+                        picture: '',
+                        url: '',
+                        name: '',
+                        price: '',
+                        location: {
+                        },
+                        picture_size: {
+                        },
+                        description: '',
+                        file_name: ""
+                    };
+                });
                 $scope.step = 1;
                 $scope.step_type = false;
                 $scope.url_images = [];

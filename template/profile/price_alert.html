@@ -1,0 +1,51 @@
+<div class="padding">
+    <ion-refresher
+        pulling-text="Pull to refresh..."
+        on-refresh="doRefresh()">
+    </ion-refresher>
+    <div class="center_spinner" ng-if='loading'>
+        <ion-spinner></ion-spinner>
+    </div>
+
+    <div class="list card" bindonce ng-repeat="item in alerts track by $index">
+
+        <div class="item item-avatar">
+            <h2>{{::item.name}}</h2>
+            <p>Started At: {{::item.start_time_pretty|medium}}</p>
+            <p>Start Price: {{::item.base_price}}</p>
+        </div>
+        <div class="item item-body">
+            <img bo-src="item.img" />
+
+
+            <chartist ng-if="item.show_chart" data="item.data" options="options" ng-id="chart_{{item._id}}" type="line"></chartist>
+
+
+            <div>
+                Notify Me When Price Only Below
+                <input type="number" ng-model="item.limit" />
+                <button on-top="setPriceAlertLimt(item);">Set Limit</button>
+            </div>
+        </div>
+
+        <div class="item tabs tabs-secondary tabs-icon-left">
+            <a  class="tab-item" on-tap="stopNotification(item);">Stop Notify</a>
+            <a class="tab-item" on-tap="openItem(item);">
+                <i class="icon ion-chatbox"></i>
+                Buy Now
+            </a>
+            <a class="tab-item" on-tap="removePriceAlert(item);">
+                <i class="icon ion-share"></i>
+                Remove
+            </a>
+        </div>
+
+    </div>
+
+
+    <ion-infinite-scroll
+        ng-if='updates.length > 0 && hasMore'
+        on-infinite="loadMoreUpdates()"
+        distance="1%">
+    </ion-infinite-scroll>
+</div>

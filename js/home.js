@@ -124,21 +124,33 @@ homeMod.controller('HomeCtrl',
                         self.checkLatestCount();
                     }
                 });
-                var feed_interval = $interval(function () {
-                    if (!self.skipFeedCheck) {
-                        self.checkFeedCount();
+                if (ionic.Platform.isWebView()) {
+                    var feed_interval = $interval(function () {
+                        if (!self.skipFeedCheck) {
+                            self.checkFeedCount();
+                        }
+                    }, 10000);
+                    var latest_interval = $interval(function () {
+                        if (!self.skipFeedCheck) {
+                            self.checkLatestCount();
+                        }
+                    }, 60000 * 15);
+                }
+                $ionicPlatform.on('online', function () {
+                    if ($localStorage.user.id) {
+                        self.skipFeedCheck = false;
                     }
-                }, 10000);
-                var latest_interval = $interval(function () {
-                    if (!self.skipFeedCheck) {
-                        self.checkLatestCount();
-                    }
-                }, 60000 * 15);
+                });
+                $ionicPlatform.on('offline', function () {
+                    self.skipFeedCheck = true;
+                });
                 $ionicPlatform.on('pause', function () {
                     self.skipFeedCheck = true;
                 });
                 $ionicPlatform.on('resume', function () {
-                    self.skipFeedCheck = false;
+                    if ($localStorage.user.id) {
+                        self.skipFeedCheck = false;
+                    }
                 });
                 $scope.$on('$destroy', function () {
                     $interval.cancel(feed_interval);

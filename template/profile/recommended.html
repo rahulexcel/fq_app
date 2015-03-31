@@ -1,4 +1,8 @@
 <div class="padding">
+    <ion-refresher
+        pulling-text="Pull to refresh..."
+        on-refresh="doRefresh()">
+    </ion-refresher>
     <div id="following-main">
         <div class="list-section" ng-show="top_users.length > 0">
             <div style="float: left;width: 50%">TOP USERS</div>
@@ -10,7 +14,7 @@
         </div>
         <div class="list-section" ng-show="top_lists.length > 0">
             <div style="float: left;width: 50%">TOP LISTS</div>
-            <div ng-if="hasMore" style="float: right" on-tap="loadMore();">More</div>
+            <div ng-if="hasListMore" style="float: right" on-tap="loadMoreList();">More</div>
             <div class="clearfix"></div>
         </div>
         <div class="box" ng-repeat="list in top_lists  track by $index">

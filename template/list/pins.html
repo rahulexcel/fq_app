@@ -18,7 +18,7 @@
 </div>
 <div pinch resize class="pin_list_container">
     <div bindonce ng-if='grid1.length > 0' class="pin_list" ng-style="{'width': col_width}" style="float: left;">
-        <div class="pin" id='{{::pin._id}}' ng-repeat="pin in grid1 track by $index" ng-style="{'width': pin_width}"> 
+        <div class="pin pinch_ele" id='{{::pin._id}}' ng-repeat="pin in grid1 track by $index" ng-style="{'width': pin_width}"> 
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" bo-style="{'height': pin.pin_height,'background-color': pin.pin_color}" class="pin-img">
                 <img image-lazy-src="{{pin.image| picture:240}}" pin-color="{{::pin.pin_color}}" image-height="{{::pin.pin_height}}" />
             </div>
@@ -34,6 +34,7 @@
                     -->
                     <i class="ion-ios-heart-outline"></i> <i bo-bind='pin.meta.pins'></i>
                     <i class="ion-thumbsup"></i> <i bo-bind='pin.meta.likes'></i>
+                    <i class="ion-paper-airplane"></i> <i bo-bind='pin.meta.comments'></i>
                 </div>
             </div>
             <div class="pin-user">
@@ -50,7 +51,7 @@
     </div>
     <div bindonce ng-if='grid2.length > 0' class="pin_list" ng-style="{'width': col_width}" style="float: left;">
 
-        <div class="pin" id='{{::pin._id}}' ng-repeat="pin in grid2 track by $index" ng-style="{width: pin_width}">
+        <div class="pin pinch_ele" id='{{::pin._id}}' ng-repeat="pin in grid2 track by $index" ng-style="{width: pin_width}">
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" bo-style="{'height': pin.pin_height,'background-color': pin.pin_color}" class="pin-img">
                 <img image-lazy-src="{{pin.image| picture:240}}" pin-color="{{::pin.pin_color}}" bo-style="{'height': pin.pin_height}" image-height="{{::pin.pin_height}}" />
             </div>
@@ -62,6 +63,7 @@
                 <div class="pin-status">
                     <i class="ion-ios-heart-outline"></i> <i bo-bind='pin.meta.pins'></i>
                     <i class="ion-thumbsup"></i> <i bo-bind='pin.meta.likes'></i>
+                    <i class="ion-paper-airplane"></i> <i bo-bind='pin.meta.comments'></i>
                 </div>
             </div>
             <div class="pin-user">
@@ -77,7 +79,7 @@
         </div>
     </div>
     <div bindonce ng-if='grid3.length > 0'  class="pin_list" ng-style="{'width': col_width}" style="float: left;">
-        <div class="pin" id='{{::pin._id}}'  ng-repeat="pin in grid3 track by $index" ng-style="{width: pin_width}">
+        <div class="pin pinch_ele" id='{{::pin._id}}'  ng-repeat="pin in grid3 track by $index" ng-style="{width: pin_width}">
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" bo-style="{'height': pin.pin_height}" class="pin-img">
                 <img image-lazy-src="{{pin.image| picture:240}}" pin-color="{{::pin.pin_color}}" image-height="{{::pin.pin_height}}" />
             </div>
@@ -89,6 +91,7 @@
                 <div class="pin-status">
                     <i class="ion-ios-heart-outline"></i> <i bo-bind='pin.meta.pins'></i>
                     <i class="ion-thumbsup"></i> <i bo-bind='pin.meta.likes'></i>
+                    <i class="ion-paper-airplane"></i> <i bo-bind='pin.meta.comments'></i>
                 </div>
             </div>
             <div class="pin-user">

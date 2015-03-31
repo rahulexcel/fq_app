@@ -1,4 +1,4 @@
-var profileMod = angular.module('ProfileMod', ['ServiceMod', 'ngStorage', 'ionic', 'FriendService']);
+var profileMod = angular.module('ProfileMod', ['ServiceMod', 'ngStorage', 'ionic', 'FriendService', 'angular-chartist']);
 profileMod.controller('ProfileCtrl',
         ['$scope', '$localStorage', 'toast', '$location', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope', '$timeout', 'wishlistHelper', '$ionicPopup', 'notifyHelper', '$ionicScrollDelegate', 'accountHelper',
             function ($scope, $localStorage, toast, $location, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout, wishlistHelper, $ionicPopup, notifyHelper, $ionicScrollDelegate, accountHelper) {
@@ -16,24 +16,24 @@ profileMod.controller('ProfileCtrl',
                     user_id = $localStorage.user.id;
                 }
                 var created_at = false;
-                    $scope.user = false;
-                    $scope.myScoll = false;
-                    $scope.selected_class = '';
-                    $scope.friend_requests = [];
+                $scope.user = false;
+                $scope.myScoll = false;
+                $scope.selected_class = '';
+                $scope.friend_requests = [];
 
-                    $scope.pin_status = {
-                        pin_page: 0,
-                        showMore: false
-                    };
-                    created_at = false;
-                    $scope.status_edit = false;
+                $scope.pin_status = {
+                    pin_page: 0,
+                    showMore: false
+                };
+                created_at = false;
+                $scope.status_edit = false;
 
                 $scope.getData = function (page) {
                     return friendHelper.loadMoreProfilePins(user_id, page);
                 };
 
                 var start_index = 0;
-                 $rootScope.$on('$viewContentLoaded', function (event) {
+                $rootScope.$on('$viewContentLoaded', function (event) {
                     var path = $location.path();
                     //$scope.selected_class = 'wishlist';
                     path = path.replace('/me', '/' + user_id);
@@ -61,6 +61,10 @@ profileMod.controller('ProfileCtrl',
                         $scope.pin_status.showMore = false;
                         $scope.selected_class = 'update';
                         start_index = 8;
+                    } else if (path === '/app/profile/' + user_id + '/alerts') {
+                        $scope.pin_status.showMore = false;
+                        $scope.selected_class = 'alerts';
+                        start_index = 9;
                     } else if (path === '/app/profile/' + user_id + '/friends') {
                         $scope.pin_status.showMore = false;
                         $scope.selected_class = 'friends';
@@ -73,6 +77,10 @@ profileMod.controller('ProfileCtrl',
                     $ionicScrollDelegate.resize();
                 });
                 $scope.me = false;
+                $scope.menu_alerts = function () {
+                    $location.path('/app/profile/' + user_id + '/alerts');
+                    $ionicScrollDelegate.resize();
+                };
                 $scope.menu_update = function () {
                     $location.path('/app/profile/' + user_id + '/update');
                     $ionicScrollDelegate.resize();
@@ -105,6 +113,17 @@ profileMod.controller('ProfileCtrl',
                     $location.path('/app/profile/' + user_id + '/recommended');
                     $ionicScrollDelegate.resize();
                 };
+                $scope.haveGotFriendRequest = false;
+                self.getMyFriendRequests = function (profile_id) {
+                    var ajax = friendHelper.my_friend_requests();
+                    ajax.then(function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].from_user_id + "" === profile_id + "") {
+                                $scope.haveGotFriendRequest = true;
+                            }
+                        }
+                    });
+                }
                 self.getUserData = function () {
                     if (user_id) {
                         $ionicLoading.show({
@@ -117,6 +136,7 @@ profileMod.controller('ProfileCtrl',
                             $scope.friend_requests = data.friend_requests;
 
                             $scope.friend_request_count = 0;
+
                             if (data.friend_requests)
                             {
                                 $scope.friend_request_count = data.friend_requests.length;
@@ -128,6 +148,8 @@ profileMod.controller('ProfileCtrl',
                                 $localStorage.user.gender = data.gender;
                                 $localStorage.user.picture = data.picture;
                                 $localStorage.user.name = data.name;
+                            } else {
+                                self.getMyFriendRequests($scope.user._id);
                             }
 
                             $ionicLoading.hide();
@@ -135,7 +157,7 @@ profileMod.controller('ProfileCtrl',
 
                             var width = 125;
                             if ($scope.me) {
-                                width = width * 8;
+                                width = width * 9;
                             } else {
                                 width = width * 4;
                             }
@@ -160,7 +182,7 @@ profileMod.controller('ProfileCtrl',
                         toast.showShortBottom('You Need To Be Logged In To Access This Page');
                         $location.path('/app/signup');
                     }
-                }
+                };
                 self.getUserData();
                 self.followUserID = function (user_id, type) {
                     return friendHelper.user_follow(user_id, type);
@@ -168,8 +190,12 @@ profileMod.controller('ProfileCtrl',
                 $scope.acceptFriendRequest = function (from_user_id) {
                     var ajax = friendHelper.acceptFriendRequest(from_user_id);
                     ajax.then(function () {
+                        $scope.friend_request_count--;
+                        if ($scope.friend_request_count < 0) {
+                            $scope.friend_request_count = 0;
+                        }
                         $scope.$broadcast('friend_request');
-                        toast.showShortBottom('Friend Request Accepted');
+                        toast.showShortBottom('Friend Request Accepted! Pull Down To Refresh');
                     });
                 };
                 $scope.declineFriendRequest = function (from_user_id) {
@@ -180,7 +206,7 @@ profileMod.controller('ProfileCtrl',
                             $scope.friend_request_count = 0;
                         }
                         $scope.$broadcast('friend_request');
-                        toast.showShortBottom('Friend Request Declined');
+                        toast.showShortBottom('Friend Request Declined! Pull Down To Refresh');
                     });
                 };
                 $scope.addFriend = function () {
@@ -268,11 +294,12 @@ profileMod.controller('ProfileCtrl',
                         ajax.then(function () {
                             toast.showShortBottom('Status Updated!');
                             for (var i = 0; i < $scope.friends.length; i++) {
+                                var uniq_id = new Date().getTime();
                                 notifyHelper.queueAlert($scope.friends[i]._id);
                                 notifyHelper.addUpdate($scope.friends[i]._id, 'status_update', {
                                     user: $localStorage.user,
                                     status: $scope.user.status
-                                });
+                                }, uniq_id);
                             }
                             notifyHelper.sendQueue({
                                 title: 'Status Update',
@@ -280,7 +307,8 @@ profileMod.controller('ProfileCtrl',
                                 meta: {
                                     type: 'status_update',
                                     user: $localStorage.user,
-                                    status: $scope.user.status
+                                    status: $scope.user.status,
+                                    uniq_id: uniq_id
                                 }
                             });
                         }, function () {

@@ -1,6 +1,6 @@
 <ion-view>
     <ion-nav-title>{{currentState.title}}</ion-nav-title> 
-    <ion-content lazy-scroll ng-class="!hideFilterBox ? 'has-footer' : ''">
+    <ion-content pinch pinch-count="3" lazy-scroll ng-class="!hideFilterBox ? 'has-footer' : ''">
         <ion-refresher
             pulling-text="Refresh..."
             on-refresh="refreshCategory()">
@@ -22,7 +22,7 @@
                 <span class="info grey-color">No Products Found</span>
             </div>
 
-            <div class="product" force-refresh-images='true' collection-repeat="prod in products track by prod._id">
+            <div class="product pinch_ele" id="{{prod._id}}" force-refresh-images='true' collection-repeat="prod in products track by prod._id">
                 <div class="image" on-tap="openProduct(prod);">
                     <img img-loader ng-src="{{prod.img}}"/>
                     <div class="heart my-wishlist-img red-back" on-tap="wishlist(prod,$event);">
@@ -67,7 +67,6 @@
                         </div>-->
         </div>
         <div class="clearfix"></div>
-        <!--<button class="button button-full button-clear" ng-show="page >= 10 && !product_loading && currentProducts && currentState.page && showProducts && products.length > 0 && startPaging" on-tap="nextPage();">Load More</button>-->
         <ion-infinite-scroll
             immediate-check='false'
             ng-if="!product_loading && currentProducts && currentState.page && showProducts && products.length > 0 && startPaging"

@@ -268,19 +268,21 @@ wishlistService.factory('wishlistHelper', [
                     if (list.type === 'shared' && !list._id) {
                         var shared_ids = list.shared_ids;
                         for (var i = 0; i < shared_ids.length; i++) {
+                            var uniq_id = new Date().getTime();
                             notifyHelper.sendAlert('user_' + shared_ids[i], {
                                 title: 'New Wishlist Shared',
                                 message: $localStorage.user.name + " has shared a list with you",
                                 meta: {
                                     user: $localStorage.user,
                                     list: data,
-                                    type: 'list_created'
+                                    type: 'list_created',
+                                    uniq_id: uniq_id
                                 }
                             });
                             notifyHelper.addUpdate(shared_ids[i], 'list_created', {
                                 user: $localStorage.user,
                                 list: data
-                            });
+                            }, uniq_id);
                         }
                     }
 
@@ -417,7 +419,7 @@ wishlistService.factory('wishlistHelper', [
             }
         };
         service.setPriceAlert = function (product_id) {
-            var ajax = ajaxRequest.send('v1/wishlist/item/price_alert', {
+            var ajax = ajaxRequest.send('v1/notify/item/price_alert', {
                 user_id: $localStorage.user.id,
                 product_id: product_id
             });
@@ -436,19 +438,21 @@ wishlistService.factory('wishlistHelper', [
             ajax.then(function () {
                 def.resolve();
                 if (list.user_id) {
+                    var uniq_id = new Date().getTime();
                     notifyHelper.sendAlert('user_' + list.user_id._id, {
                         title: 'Left Your List',
                         message: $localStorage.user.name + " left your list " + list.name,
                         meta: {
                             user: $localStorage.user,
                             list: list,
-                            type: 'list_left'
+                            type: 'list_left',
+                            uniq_id: uniq_id
                         }
                     });
                     notifyHelper.addUpdate(list.user_id._id, 'list_left', {
                         user: $localStorage.user,
                         list: list
-                    });
+                    }, uniq_id);
                 }
             }, function () {
                 def.reject();

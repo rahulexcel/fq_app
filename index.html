@@ -8,6 +8,7 @@
         <link href="lib/ionic/css/ionic.min.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
         <link href="css/mobile.css" rel="stylesheet">
+        <link href="lib/chartist.min.css" rel="stylesheet">
         <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <style>
         </style>
@@ -22,6 +23,8 @@
         <script src="lib/ngStorage.min.js"></script>
         <script src="lib/iscroll-lite.js"></script>
         <script src="lib/pretty.js"></script>
+        <script src="lib/chartist.min.js"></script>
+        <script src="lib/angular-chartist.js"></script>
         <script src="lib/hmac-sha1.js"></script>
         <!--<script src="lib/modernizr.custom.webp.js"></script>-->
         <script src="lib/bindonce.min.js"></script>
@@ -61,6 +64,7 @@
         <script src="js/profile/followers.js"></script>
         <script src="js/profile/following.js"></script>
         <script src="js/profile/update.js"></script>
+        <script src="js/profile/price_alert.js"></script>
         <script src="js/profile/friend.js"></script>
         <script src="js/profile/recommended.js"></script>
         <script src="js/new_wishlist.js"></script>
@@ -86,7 +90,7 @@
         </div>
         <div class="anim" id="anim" style="display:block;transform: translate3d(-1000px,-1000px,0);">
             <div class="anim_box">
-                <div class="center">
+                <div class="center anim_center">
                     <i class="ion-android-radio-button-off"></i>
                 </div>
                 <div class="circle f_c animate_circle">
@@ -97,15 +101,20 @@
                     <div class="anim_text">Like</div>
                     <i class="ion-thumbsup"></i>
                 </div>
-                <div style="line-height: 1.5;padding-right: 5px" class="circle t_c animate_circle">
+                <div class="circle t_c animate_circle" style="line-height: 1.7">
                     <div class="anim_text">Share</div>
-                    <i class="ion-android-share-alt"></i>
+                    <i class="ion-social-whatsapp-outline"></i>
+                </div>
+                <div style="line-height: 1.6" class="circle ft_c animate_circle">
+                    <div class="anim_text">Share</div>
+                    <i class="ion-social-facebook"></i>
                 </div>
             </div>
         </div>
         <!--        <div id="dot" class="dot"></div>
                 <div id="dot1" class="dot"></div>
                 <div id="dot2" class="dot"></div>
-                <div id="dot3" class="dot"></div>-->
+                <div id="dot3" class="dot"></div>
+                <div id="dot4" class="dot"></div>-->
     </body>
 </html>
