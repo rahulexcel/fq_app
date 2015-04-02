@@ -1,0 +1,71 @@
+<ion-view>
+    <ion-nav-title>{{alert.name}}</ion-nav-title> 
+    <ion-content>
+        <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="doRefresh()">
+        </ion-refresher>
+        <div class="center_spinner" ng-if='loading'>
+            <ion-spinner></ion-spinner>
+        </div>
+        <div class="result-empty" ng-if="!alert && !loading">
+            <span class="info"><img src="img/favicon-not.png"/></span>
+            <span class="info grey-color">Alert Not Found</span>
+        </div>
+        <div ng-show="alert" id="wishlist_item">
+            <div class="box"  style="padding: 2px">
+                <div class="pro-img">
+                    <ion-slide-box ng-if="alert.more_images" show-pager="true" style="height: 350px">
+                        <ion-slide>
+                            <img img-loader ng-src='{{alert.img| picture:picture_width}}'/>
+                        </ion-slide>
+                        <ion-slide ng-repeat="img in alert.more_images">
+                            <img img-loader ng-src='{{img|picture}}'/>
+                        </ion-slide>
+                    </ion-slide-box>
+                    <img ng-if="!alert.more_images" img-loader ng-src='{{alert.img| picture:picture_width}}' />
+                </div>
+                <div class="pro-info">
+                    <div class="pro-name">
+                        <div>{{alert.name}}</div>
+                        <span class="e-site" ng-show='alert.website.length > 0'>
+                            <i class='site {{alert.website}}'></i>
+                            {{alert.website}}
+                        </span>
+                    </div>
+                    <div class="pro-price" ng-show="alert.price * 1 > 0">
+                        Rs.{{alert.price}}
+                    </div>
+                    <button class="button pro-button signup-button red-back" on-tap="openItem();">BUY NOW</button>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+
+            <button ng-if='mine' on-tap='removePriceAlert();' class="button">
+                <i class="ion-trash-a">Remove Alert</i>
+            </button>
+
+            <div ng-if='mine'>
+                Notify Me When Price Only Below
+                <input type="number" ng-model="alert.limit" />
+                <button on-tap='setPriceAlertLimit();' class="button">
+                    <i class="ion-gear-a">Set Price Limit</i>
+                </button>
+            </div>
+
+            <button ng-if='mine && !alert.stopped_notify' on-tap='stopNotification();' class="button">
+                <i class="ion-android-notifications-off">Stop Notification</i>
+            </button>
+            <button ng-if='mine && alert.stopped_notify' on-tap='startNotification();' class="button">
+                <i class="ion-android-notifications">Start Notification</i>
+            </button>
+
+            <div class="box" ng-if='alert.show_chart'>
+                <chartist ng-if="alert.show_chart" data="alert.data" options="options" ng-id="chart_{{alert._id}}" type="line"></chartist>
+            </div>
+
+        </div>
+
+    </ion-content>
+</ion-view>

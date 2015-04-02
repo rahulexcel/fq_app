@@ -36,7 +36,7 @@
                 <div class="pro-info">
                     <div class="pro-name" ng-if="item.item_id.name.length > 0">
                         <div>{{item.item_id.name}}</div>
-                        <span class="arrow" ng-show='item.item_id.brand.length > 0'>Arrow </span>
+                        <span class="arrow" ng-show='item.item_id.brand.length > 0'>{{item.item_id.brand}} </span>
                         <span class="e-site" ng-show='item.item_id.website.length > 0'>
                             <i class='site {{item.item_id.website}}'></i>
                             {{item.item_id.website}}
@@ -90,10 +90,10 @@
                     </span>
                 </div>
             </div>
-            <div class="box" ng-show="item.item_id.description.length > 0">
+            <div class="box padding" ng-show="item.item_id.description.length > 0">
                 <div>{{::item.item_id.description}}</div>
             </div>
-            <div class="box" ng-if="item.item_id.location.lat" style="padding: 5px">
+            <div class="box padding" ng-if="item.item_id.location.lat" style="padding: 5px">
                 <div data-tap-disabled="true" id="map-canvas-parent" style="height: 200px">
                     <div id="map-canvas_{{item.item_id._id}}" style="width: 100%; height: 100%">
                         <div class="center_spinner">
@@ -102,7 +102,7 @@
                     </div>
                 </div>
             </div>
-            <div class="box">
+            <div class="box padding">
                 <div class="user_image"  on-tap="profile(item.user_id);">
                     <img class="rounded" ng-src='{{item.user_id.picture| picture:50:50}}'/>
                 </div>
@@ -129,7 +129,7 @@
                 <button ng-if="me_follow_user" on-tap='unFollowUser(item.user_id._id);' class="abs-follow-button button-icon black-font ion-ios-people-outline fa-2x"></button>
                 <div class="clearfix"></div>
             </div>
-            <div class="added-to box">
+            <div class="added-to box padding">
                 <div class="center_box" style="margin-right: 20px">
                     <span class="info grey-color">Added To List</span>
                     <span class="info black-font" on-tap="viewList(item.list_id._id,item.list_id.name)" >{{item.list_id.name}}</span>
@@ -162,12 +162,12 @@
             </div>
 
 
-            <div class="hide-on-keyboard-open" data-tap-disabled="true" id="map-canvas-parent" style="height: 200px" ng-if="item.location.lat">
+            <div class="hide-on-keyboard-open padding" data-tap-disabled="true" id="map-canvas-parent" style="height: 200px" ng-if="item.location.lat">
                 <div id="map-canvas" style="width: 100%; height: 100%">
                     <i class="fa fa-spinner fa-spin"></i>
                 </div>
             </div>
-            <div class="user-comments box">
+            <div class="user-comments box  padding">
                 <h4>Comments</h4>
                 <span class="grey-color" ng-if="item.comments.length == 0">Be the first to comment</span>
                 <div style="padding-bottom: 5px" ng-repeat="comment in item.comments track by $index">
@@ -215,8 +215,31 @@
                     <div class="clearfix"></div>
                 </div>
             </div>
-
+            <div ui-view="pin-content"></div>
         </div>
-
     </ion-content>
+    <ion-footer-bar style="padding: 0px">
+        <div style="border-top:1px solid #d9d7d4">
+            <div class="row">
+                <div class="col">
+                    <button class="button button-clear grey-color">
+                        <i class="ion-thumbsup"></i>                        
+                    </button>
+                </div>
+                <div class="col">
+                    <button class="button button-clear grey-color">
+                        <i class="ion-trash-a"></i>
+                    </button>
+                </div>
+                <div class="col">
+                    <button class="button button-clear grey-color">
+                        <i class="ion-ios-heart"></i>
+                    </button>
+                </div>
+                <div class="col">
+                    <button class="button red-back" ng-show="item.item_id.href.length > 0" on-tap="view(item);">BUY NOW</button>
+                </div>
+            </div>
+        </div>
+    </ion-footer-bar>
 </ion-view>

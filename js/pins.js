@@ -356,7 +356,7 @@ pinMod.controller('PinCtrl',
                     if (window.analytics) {
                         window.analytics.trackEvent('View Item', 'Pins Page', $location.path());
                     }
-                    $location.path('/app/item/' + pin_id + '/' + list_id);
+                    $location.path('/app/item/' + pin_id + '/' + list_id + '/pins');
                 };
                 $scope.viewList = function (list_id, list_name) {
                     if (window.analytics) {

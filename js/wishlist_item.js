@@ -1,7 +1,7 @@
 var wishlistItemMod = angular.module('WishlistItemMod', ['ServiceMod', 'ngStorage', 'ionic', 'WishlistService', 'MapService', 'ItemService', 'FriendService']);
 wishlistItemMod.controller('WishlistItemCtrl',
-        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$window', 'socialJs', 'itemHelper', 'friendHelper', 'timeStorage', '$ionicLoading', '$ionicModal', '$ionicSlideBoxDelegate', 'productHelper', 'CDN',
-            function ($scope, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $window, socialJs, itemHelper, friendHelper, timeStorage, $ionicLoading, $ionicModal, $ionicSlideBoxDelegate, productHelper, CDN) {
+        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$window', 'socialJs', 'itemHelper', 'friendHelper', 'timeStorage', '$ionicLoading', '$ionicModal', '$ionicSlideBoxDelegate', 'productHelper', 'CDN','$q',
+            function ($scope, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $window, socialJs, itemHelper, friendHelper, timeStorage, $ionicLoading, $ionicModal, $ionicSlideBoxDelegate, productHelper, CDN,$q) {
                 $scope.wishlist = [];
                 $scope.loading = true;
                 $scope.items = [];
@@ -287,12 +287,11 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     }
 
                     $scope.view = function (item) {
-
-                        if (item.href) {
+                        if (item.item_id.href) {
                             if (window.plugins) {
-                                window.open(item.href, '_system');
+                                window.open(item.item_id.href, '_system');
                             } else {
-                                window.open(item.href);
+                                window.open(item.item_id.href);
                             }
                         } else {
                             if (item.product_id)
@@ -744,6 +743,11 @@ wishlistItemMod.controller('WishlistItemCtrl',
 
                 $scope.profile = function (user_id) {
                     $location.path('/app/profile/' + user_id + '/mine');
+                };
+                $scope.selected_class = 'wishlist_item';
+                $scope.hasMore = true;
+                $scope.getData = function () {
+                    return $q.when([]);
                 };
 
 //                    $scope.is_mobile = false;

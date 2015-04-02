@@ -90,7 +90,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrl',
                         var ajax = wishlistHelper.addItem(angular.copy($scope.item), $scope.list_id);
                         ajax.then(function (data) {
                             if (data.id) {
-                                $location.path('/app/item/' + data.id + "/" + $scope.list_id);
+                                $location.path('/app/item/' + data.id + "/" + $scope.list_id + '/pins');
                             }
                         });
                     } else {

@@ -26,7 +26,8 @@ var app = angular.module('starter',
             'PinMod',
             'ngCordova',
             'pasvaz.bindonce',
-            'HomeCatMod'
+            'HomeCatMod',
+            'AlertMod'
         ]
         );
 app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
@@ -86,10 +87,20 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                 })
                 .state('app.item', {
                     url: '/item/:item_id/:list_id',
+                    abstract: true,
                     views: {
                         'menuContent': {
                             templateUrl: 'template/wishlist_item.html',
                             controller: 'WishlistItemCtrl'
+                        }
+                    }
+                })
+                .state('app.item.pins', {
+                    url: '/pins',
+                    views: {
+                        'pin-content': {
+                            templateUrl: 'template/list/pins.html',
+                            controller: 'PinCtrl'
                         }
                     }
                 })
@@ -153,6 +164,15 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         'menuContent': {
                             templateUrl: 'template/forgot.html',
                             controller: 'RegisterCtrl'
+                        }
+                    }
+                })
+                .state('app.alert', {
+                    url: '/alert/:alert_id',
+                    views: {
+                        'menuContent': {
+                            templateUrl: 'template/alert.html',
+                            controller: 'AlertCtrl'
                         }
                     }
                 })
@@ -418,7 +438,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
         });
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
             $rootScope.body_class = '';
-            if (toState.name === 'app.item' || toState.name.indexOf('app.home.trending') !== -1 || toState.name.indexOf('app.home.feed') !== -1 || toState.name.indexOf('app.profile') !== -1 || (toState.name.indexOf('app.wishlist_item') !== -1 && toState.name.indexOf('app.wishlist_item_add') === -1)) {
+            if (toState.name === 'app.item.pins' || toState.name.indexOf('app.home.trending') !== -1 || toState.name.indexOf('app.home.feed') !== -1 || toState.name.indexOf('app.profile') !== -1 || (toState.name.indexOf('app.wishlist_item') !== -1 && toState.name.indexOf('app.wishlist_item_add') === -1)) {
                 $rootScope.body_class = 'grey_bg';
             }
 
@@ -480,7 +500,7 @@ function handleOpenURL(url) {
             var p = path.split('/');
             var last_index = p[p.length - 1];
             var second_last_index = p[p.length - 2];
-            $location.path('/app/item/' + second_last_index + "/" + last_index);
+            $location.path('/app/item/' + second_last_index + "/" + last_index + '/pins');
         } else if (path.indexOf('m/l') !== -1) {
             var p = path.split('/');
             var last_index = p[p.length - 1];

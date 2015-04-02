@@ -280,6 +280,18 @@ notifyService.factory('notifyHelper', [
             });
             return def.promise;
         };
+        service.getPriceAlert = function (alert_id) {
+            var def = $q.defer();
+            var ajax = ajaxRequest.send('v1/notify/get_alert', {
+                alert_id: alert_id
+            });
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
         service.getPriceAlerts = function (page) {
             var def = $q.defer();
             var ajax = ajaxRequest.send('v1/notify/get_alerts', {
@@ -319,9 +331,9 @@ notifyService.factory('notifyHelper', [
                 $location.path('/app/profile/' + row.data.data + '/friends');
             } else if (row.type === 'item_unlike' || row.type === 'item_like') {
                 if (row.data.item_id) {
-                    $location.path('/app/item/' + row.data.item_id._id + "/" + row.data.list_id._id);
+                    $location.path('/app/item/' + row.data.item_id._id + "/" + row.data.list_id._id + '/pins');
                 } else {
-                    $location.path('/app/item/' + row.data.data.item_id._id + "/" + row.data.data.list_id._id);
+                    $location.path('/app/item/' + row.data.data.item_id._id + "/" + row.data.data.list_id._id + '/pins');
                 }
             } else if (row.type === 'follow_user') {
                 $location.path('/app/profile/' + row.user.id + '/mine');
@@ -332,17 +344,17 @@ notifyService.factory('notifyHelper', [
             } else if (row.type === 'unfollow_list') {
                 $location.path('/app/wishlist_item/' + row.data.list._id + "/" + row.data.list.name);
             } else if (row.type === 'like_comment') {
-                $location.path('/app/item/' + row.data.item_id + "/" + row.data.list_id);
+                $location.path('/app/item/' + row.data.item_id + "/" + row.data.list_id + '/pins');
             } else if (row.type === 'item_comment') {
                 if (row.data.data.item_id) {
-                    $location.path('/app/item/' + row.data.data.item_id._id + "/" + row.data.data.list_id._id);
+                    $location.path('/app/item/' + row.data.data.item_id._id + "/" + row.data.data.list_id._id + '/pins');
                 } else {
-                    $location.path('/app/item/' + row.data.data.data.item_id._id + "/" + row.data.data.data.list_id._id);
+                    $location.path('/app/item/' + row.data.data.data.item_id._id + "/" + row.data.data.data.list_id._id + '/pins');
                 }
             } else if (row.type === 'item_add_user' || row.type === 'item_add') {
-                $location.path('/app/item/' + row.data.data.wishlist_model._id + "/" + row.data.data.list_id._id);
+                $location.path('/app/item/' + row.data.data.wishlist_model._id + "/" + row.data.data.list_id._id + '/pins');
             } else if (row.type === 'item_like' || row.type === 'item_unlike') {
-                $location.path('/app/item/' + row.data.data.data.item_id._id + "/" + row.data.data.data.list_id._id);
+                $location.path('/app/item/' + row.data.data.data.item_id._id + "/" + row.data.data.data.list_id._id + '/pins');
             } else if (row.type === 'list_created' || row.type === 'list_left') {
                 $location.path('/app/wishlist_item/' + row.list._id + "/" + row.list.name);
             } else if (row.type === 'status_update' || row.type === 'pic_update') {

@@ -599,8 +599,10 @@ categoryMod.controller('CategoryCtrl',
                     if (window.analytics) {
                         window.analytics.trackEvent('Pin', 'Category Page', $location.path());
                     }
-                    $event.preventDefault();
-                    $event.stopPropagation();
+                    if ($event) {
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                    }
                     if ($localStorage.user.id) {
                         $scope.wishlist_product.item = false;
                         $scope.wishlist_product.new_item = false;
