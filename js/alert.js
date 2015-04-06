@@ -1,12 +1,14 @@
 var alertMod = angular.module('AlertMod', ['ServiceMod']);
 
 alertMod.controller('AlertCtrl',
-        ['$scope', '$localStorage', 'toast', '$stateParams', '$location', 'dataShare', '$ionicSlideBoxDelegate', 'productHelper', 'timeStorage', 'notifyHelper', '$ionicPopup',
-            function ($scope, $localStorage, toast, $stateParams, $location, dataShare, $ionicSlideBoxDelegate, productHelper, timeStorage, notifyHelper, $ionicPopup) {
+        ['$scope', '$localStorage', 'toast', '$stateParams', '$location', 'dataShare', '$ionicSlideBoxDelegate', 'productHelper', 'timeStorage', 'notifyHelper', '$ionicPopup', '$ionicPosition', '$window', '$timeout',
+            function ($scope, $localStorage, toast, $stateParams, $location, dataShare, $ionicSlideBoxDelegate, productHelper, timeStorage, notifyHelper, $ionicPopup, $ionicPosition, $window, $timeout) {
                 var self = this;
                 self.normalizeData = function (data) {
                     if (data) {
                         var newData = {};
+                        var change = false;
+                        var old_price = 0;
                         for (var i = 0; i < data.length; i++) {
                             var row = data[i];
                             if (row.time && row.price * 1 > 0) {
@@ -19,9 +21,20 @@ alertMod.controller('AlertCtrl',
                                 } else {
                                     newData[key] = price;
                                 }
+                                if (old_price === 0) {
+                                    old_price = price;
+                                } else {
+                                    if (price !== old_price) {
+                                        change = true;
+                                    }
+                                }
                             }
                         }
-                        return newData;
+                        if (change)
+                            return newData;
+                        else {
+                            return {};
+                        }
                     } else {
                         return {};
                     }
@@ -102,6 +115,33 @@ alertMod.controller('AlertCtrl',
 
                     $scope.alert = alert;
                     $scope.fetchLatest(alert.url);
+                    if (alert.fq_product_id) {
+                        var ajax = productHelper.fetchProduct(alert.fq_product_id);
+                        ajax.then(function (data) {
+                            $scope.processProductData(data);
+                        }, function () {
+                        });
+                    }
+                };
+
+                $scope.$on('$destory', function () {
+                    $scope.myScroll.destroy();
+                    $scope.myScroll = null;
+                });
+                $scope.processProductData = function (data) {
+                    $scope.product = {};
+                    if (data.variants)
+                        $scope.product.variants = data.variants;
+                    if (data.similar)
+                        $scope.product.similar = data.similar;
+                    if (data.similar && data.similar.length > 0) {
+                        if (data.similar.length > 0) {
+                            $timeout(function () {
+                                angular.element(document.querySelector('.scroller_' + data.product._id)).attr('style', 'width:' + (data.similar.length * 152) + "px");
+                                $scope.myScroll = new IScroll('.similar_' + data.product._id, {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
+                            }, 100);
+                        }
+                    }
                 };
                 if ($stateParams.alert_id) {
 
@@ -138,7 +178,7 @@ alertMod.controller('AlertCtrl',
                         // We can disable the grid for this axis
                         showGrid: false,
                         // and also don't show the label
-                        showLabel: true,
+                        showLabel: true
                     },
                     // Y-Axis specific configuration
                     axisY: {
@@ -163,24 +203,27 @@ alertMod.controller('AlertCtrl',
 
                 $scope.setPriceAlertLimit = function () {
                     var item = $scope.alert;
-                    if (item.limit * 1 <= 0) {
-                        toast.showShortBottom('Price Limit Cannot Be Empty');
-                    } else {
-
-                        var confirmPopup = $ionicPopup.confirm({
-                            title: 'Set Price Limit?',
-                            template: 'You Will Get Price Drop Notification Only When Price Falls Below Rs: ' + item.limit
-                        });
-                        confirmPopup.then(function (res) {
-                            if (res) {
-                                var ajax = notifyHelper.setPriceLimit(item._id, $localStorage.user.id, item.limit);
-                                ajax.then(function () {
-                                    toast.showShortBottom('Price Limit Set');
-                                });
+                    var confirmPopup = $ionicPopup.confirm({
+                        title: 'Set Price Limit',
+                        template: '<input type="number" ng-model="item.limit">',
+                        subTitle: 'Price Below Which You Want To Get Alert Notification'
+                    });
+                    confirmPopup.then(function (res) {
+                        if (res == 1) {
+                            if (item.limit * 1 <= 0) {
+                                toast.showShortBottom('Price Limit Cannot Be Empty');
                             } else {
+
+                                if (res) {
+                                    var ajax = notifyHelper.setPriceLimit(item._id, $localStorage.user.id, item.limit);
+                                    ajax.then(function () {
+                                        toast.showShortBottom('Price Limit Set');
+                                    });
+                                } else {
+                                }
                             }
-                        });
-                    }
+                        }
+                    });
                 };
                 $scope.startNotification = function () {
                     var item = $scope.alert;
@@ -207,6 +250,26 @@ alertMod.controller('AlertCtrl',
                         }
                     });
 
+                };
+                $scope.show_footer_menu = true;
+                var first_scroll = false;
+                $scope.scroll = function () {
+                    var pos = $ionicPosition.position(angular.element(document.getElementById('fixed_footer')));
+                    var height = $window.innerHeight;
+                    if (!first_scroll) {
+                        first_scroll = true;
+                        if (pos.top + 50 + 44 < height) {
+                            //$scope.show_footer_menu = false;
+                        }
+                    }
+                    console.log((pos.top + 50 + 44) + "XXX" + height);
+                    if (pos.top + 50 + 44 > height) {
+                        $scope.show_footer_menu = true;
+                        console.log('false');
+                    } else {
+                        $scope.show_footer_menu = false;
+                        console.log('true');
+                    }
                 };
             }
         ]);

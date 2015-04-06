@@ -86,7 +86,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                     }
                 })
                 .state('app.item', {
-                    url: '/item/:item_id/:list_id',
+                    url: '/item',
                     abstract: true,
                     views: {
                         'menuContent': {
@@ -96,7 +96,7 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                     }
                 })
                 .state('app.item.pins', {
-                    url: '/pins',
+                    url: '/:item_id/:list_id/pins',
                     views: {
                         'pin-content': {
                             templateUrl: 'template/list/pins.html',
@@ -510,7 +510,6 @@ function handleOpenURL(url) {
             console.log('invalid url' + url);
             window.open(url, '_system');
         }
-
         parser = null;
     }, 0);
 }

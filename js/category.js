@@ -581,7 +581,6 @@ categoryMod.controller('CategoryCtrl',
                     }
                     return false;
                 };
-                console.log($scope);
                 $scope.$on('first', function () {
                     var item = self.getPinObj(pinchServie.active_pin);
                     $scope.wishlist(item);

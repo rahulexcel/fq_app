@@ -130,7 +130,14 @@ pinMod.controller('PinCtrl',
                         $scope.loading = false;
                     });
                 };
-                $scope.loadMore();
+                var load_by_default = true;
+                if ($scope.$parent && $scope.$parent.selected_class && $scope.$parent.selected_class === 'wishlist_item') {
+                    load_by_default = false;
+                    $scope.hasMore = true;
+                    $scope.loading = false;
+                }
+                if (load_by_default)
+                    $scope.loadMore();
                 $scope.doRefresh = function () {
                     $scope.page = 0;
                     $scope.initPinsDisplay();

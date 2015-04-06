@@ -1,15 +1,21 @@
 <ion-refresher
+    ng-if="selected_class != 'wishlist_item'"
     pulling-text="Pull to refresh..."
     on-refresh="doRefresh()">
 </ion-refresher>
 <div class="center_spinner"  ng-if='loading'>
     <ion-spinner></ion-spinner>
 </div>
+<div ng-if="total_pin_count > 0 && !loading && selected_class == 'wishlist_item'">
+    <div class="grey-color" style="text-align: center">
+        Related Clips
+    </div> 
+</div>
 <div ng-if="total_pin_count == 0 && !loading">
     <div style="text-align: center" ng-show="selected_class === 'feed'">
         Follow People and Lists To Build Your Feed
     </div> 
-    <div ng-show="selected_class !== 'feed'">
+    <div ng-show="selected_class !== 'feed' && selected_class !== 'wishlist_item'">
         <div class="result-empty">
             <span class="info"><img src="img/favicon-not.png"/></span>
             <span class="info grey-color">No Clips</span>

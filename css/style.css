@@ -101,6 +101,14 @@ textarea {
     font-size: 0.91em !important;
 }
 
+.zara  { background-image: url("../img/fav/zara.png");   }
+.indiacircus  { background-image: url("../img/fav/indiacircus.png");   }
+.indiacircus  { background-image: url("../img/fav/indiacircus.png");   }
+.miracas  { background-image: url("../img/fav/miracas.png");   }
+.forever21  { background-image: url("../img/fav/forever21.png");   }
+.fabindia  { background-image: url("../img/fav/fabindia.png");   }
+.bata  { background-image: url("../img/fav/bata.png");   }
+.basicslife  { background-image: url("../img/fav/basicslife.png");   }
 .zivame  { background-image: url("../img/fav/zivame.png");   }
 .Flipkart  { background-image: url("../img/fav/flipkart.png");   }
 .basicslife  { background-image: url("../img/fav/basicslife.png");   }
@@ -701,8 +709,7 @@ span.e-site{
     line-height: 2em;
     color:#737373;
     font-size: 10px;
-    display: block;
-
+    padding-left: 10px;
 }
 .pro-price{
     font-size: 1.2em;
@@ -883,7 +890,6 @@ span.other-price{
     font-size:1.1em;
 }
 i.site {
-    margin-right: 5px;
     vertical-align: middle;
 }
 .category i.site{
@@ -1382,6 +1388,7 @@ i.fa-circle{
 #wishlist_item .pro-info
 {
     border-bottom-style: none; 
+    padding: 10px;
 }
 #wishlist_item .abs-follow-button{
     line-height: 64px;
@@ -1394,6 +1401,10 @@ i.fa-circle{
     width: 100%;
     margin-top: 2px;
     line-height: 15px;
+}
+#wishlist_item .box{
+    border: none;
+    border-top: 1px solid #d9d7d4;
 }
 .box{
     position: relative;
@@ -1458,27 +1469,40 @@ button.follow-btn-red{
     font-weight: 600;
 }
 .user-comments{
-    border: 1px solid #d9d7d4;
+    /*border: 1px solid #d9d7d4;*/
     margin-bottom: 20px;
-    padding:0px 10px;
+    padding:0px;
     border-radius: .2em;
 }
 .comment-frm{
     margin-top: 5px;
-    border-top: 1px solid #d9d7d4;
     padding: 11px 0px;
     background-color: #fff;
-
+}
+.comment-frm .comment_box{
+    position: relative;
+}
+.comment-frm .input_box{
+    width: 100%;
+    margin-left:10px;
+    margin-right:38px !important;
+    padding-right:50px;
 }
 .comment-frm input{
-    float: left;
-    background-color: #DBDBDB;
-    border-radius: .2em;
-
+    width: 100%;
+}
+.comment-frm input:focus{
+    border-bottom:1px solid #ddd;
 }
 .comment-frm button.follow-btn{
     margin:0px;
 }
+.comment-frm button{
+    position: absolute;
+    right:0px;
+    top:-2px;
+}
+
 .load-more{margin-left:55px; }
 span.clip-follower{display: flex;}
 #wishlist_item .item-input-wrapper{
@@ -2208,4 +2232,32 @@ i.offline-icon{
 }
 .backdrop{
     background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.wishlist_item_footer{
+    border-top:1px solid #d1d1d1;
+    height: 50px;
+    background-color: white;
+    padding: 5px;
+}
+.wishlist_item_footer .item_icon{
+    float: right;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.wishlist_item_footer .item_icon i{
+    font-size:1.3em;
+}
+.wishlist_item_footer .item_icon button{
+    border-radius: 3px;
+    font-family: "dosis";
+    font-weight: bold;
+    margin-top: 2px;
+    font-size: 16px !important;
+    font-weight: 300;
+    padding-left: 5px;
+    padding-right: 5px;
+    min-width: initial;
+    min-height: 31px;
+    line-height: 32px;
 }

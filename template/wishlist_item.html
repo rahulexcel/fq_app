@@ -1,6 +1,6 @@
-<ion-view>
+<ion-view cache-view="false">
     <ion-nav-title>{{item.item_id.name}}</ion-nav-title> 
-    <ion-content>
+    <ion-content on-scroll="scroll();" lazy-scroll>
         <ion-refresher
             pulling-text="Pull to refresh..."
             on-refresh="doRefresh()">
@@ -10,7 +10,7 @@
             <span class="info grey-color">Clip Not Found</span>
         </div>
         <div ng-show="item" id="wishlist_item">
-            <div class="box"  style="padding: 2px">
+            <div class="box"  style="padding: 0px">
                 <div class="pro-img">
                     <ion-slide-box ng-if="item.item_id.more_images" show-pager="true" style="height: 350px">
                         <ion-slide>
@@ -20,18 +20,7 @@
                             <img img-loader ng-src='{{img|picture}}'/>
                         </ion-slide>
                     </ion-slide-box>
-                    <img ng-if="!item.item_id.more_images" img-loader ng-src='{{item.item_id.img| picture:picture_width}}' />
-                    <div ng-if='mine' on-tap='delete();' class="grey_bg delete_item">
-                        <i class="ion-trash-a"></i>
-                    </div>
-                    <div class="like-heart-big red-back" ng-if="!me_like && !mine" on-tap='like();'>
-                        <i class="ion-thumbsup"></i>
-                    </div>
-                    <div class="red-back wishlist-product-img-big" ng-if='!me_pin && !mine'>
-                        <div on-tap='pin();'>
-                            <i class="ion-ios-heart"></i>
-                        </div>
-                    </div>
+                    <img ng-if="!item.item_id.more_images && item.item_id.img" img-loader ng-src='{{item.item_id.img| picture:picture_width}}' />
                 </div>
                 <div class="pro-info">
                     <div class="pro-name" ng-if="item.item_id.name.length > 0">
@@ -46,50 +35,11 @@
                         Rs.{{item.item_id.price}}
                     </div>
 
-                    <div class="social-share">
-                        <div class="social-icon" ng-if="isMobile">
-                            <i class="ion-social-whatsapp-outline red-color" on-tap='whatsapp(item)'></i>
-                            <i class="ion-social-twitter red-color" on-tap='twitter(item)'></i>
-                            <i class="ion-social-facebook red-color"  on-tap='facebook(item)'></i>
-                            <i class="ion-android-share-alt red-color" on-tap='shareAll(item)'></i>
-                        </div>
-                        <!--social icon closed here-->
-
-                        <div ng-if="!isMobile && item.item_id.href.length > 0">
-                            <div class="fb-like" data-href="{{item.item_id.href}}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
-                            <div class="twitter">
-                                <a class="twitter-share-button"
-                                   href="https://twitter.com/share" data-url="{{item.item_id.href}}" data-text="{{item.item_id.name}}"  data-size="small">
-                                    Tweet
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="button pro-button signup-button red-back" ng-show="item.item_id.href.length > 0" on-tap="view(item);">BUY NOW</button>
+                    <!--<button class="button pro-button signup-button red-back" ng-show="item.item_id.href.length > 0" on-tap="view(item);">BUY NOW</button>-->
                     <div class="clearfix"></div>
-
-                    <span ng-if="me_like">
-                        <span ng-if="item.likes.length > 1"><span on-tap="unlike();">You</span> and <span on-tap='likeList();'>{{item.likes.length - 1}} Likes</span></span>
-                        <span ng-if="item.likes.length === 1" on-tap="unlike();">You Like</span>
-                    </span>
-                    <span ng-if='me_pin'>
-                        <span ng-if='item.item_id.pins.length > 1'>
-                            <div on-tap='pinList();' ng-show="item.item_id.pins.length > 0">You and {{item.item_id.pins.length - 1}} Clips</div>                        
-                        </span>
-                        <span ng-if='item.item_id.pins.length == 1'>
-                            <div on-tap='pinList();' ng-show="item.item_id.pins.length > 0">Clipped By You</div>                        
-                        </span>
-                    </span>
-                    <span ng-if="!me_like">
-                        <span ng-if="item.likes.length > 0"><span on-tap='likeList();'>{{item.likes.length}} Likes</span></span>
-                    </span>
-                    <span ng-if='!me_pin'>
-                        <span ng-if='item.item_id.pins.length > 0'>
-                            <div on-tap='pinList();'>{{item.item_id.pins.length}} Clips</div>                        
-                        </span>
-                    </span>
                 </div>
             </div>
+
             <div class="box padding" ng-show="item.item_id.description.length > 0">
                 <div>{{::item.item_id.description}}</div>
             </div>
@@ -102,7 +52,51 @@
                     </div>
                 </div>
             </div>
-            <div class="box padding">
+
+            <div class="box padding"  style="margin-bottom: 0px">
+                <div class="user_image"  on-tap="profile(item.user_id);">
+                    <img class="rounded" ng-src='{{item.user_id.picture| picture:50:50}}'/>
+                </div>
+                <div class="center_box" style="margin-left: 55px;margin-right: 20px">
+                    <div class="grey-color">
+                        <span style="font-size: .82em">by</span> <span class="red-color" on-tap="profile(item.user_id);">{{::item.user_id.name}}</span>
+                    </div>
+                    <div class="grey-color">
+                        <span style="font-size: .82em">in</span>
+                        <span class="black-font" on-tap="viewList(item.list_id._id,item.list_id.name)" >{{item.list_id.name}}</span>
+                    </div>
+                    <div class="grey-color" style="font-size: .82em">
+                        <!--
+                        <span ng-if="me_like">
+                            <span ng-if="item.likes.length > 1"><span on-tap="unlike();">You</span> and <span on-tap='likeList();'>{{item.likes.length - 1}} Likes</span></span>
+                            <span ng-if="item.likes.length === 1" on-tap="unlike();">You Like</span>
+                        </span>
+                        <span ng-if='me_pin'>
+                            <span ng-if='item.item_id.pins.length > 1'>
+                                <div on-tap='pinList();' ng-show="item.item_id.pins.length > 0">You and {{item.item_id.pins.length - 1}} Clips</div>                        
+                            </span>
+                            <span ng-if='item.item_id.pins.length == 1'>
+                                <div on-tap='pinList();' ng-show="item.item_id.pins.length > 0">Clipped By You</div>                        
+                            </span>
+                        </span>
+                        <span ng-if="!me_like">
+                            <span ng-if="item.likes.length > 0"><span on-tap='likeList();'>{{item.likes.length}} <i class="ion-thumbsup"></i></span></span>
+                        </span>
+                        <span ng-if='!me_pin'>
+                            <span ng-if='item.item_id.pins.length > 0'>
+                                <div on-tap='pinList();'>{{item.item_id.pins.length}} <i class="ion-ios-heart"></i></div>                        
+                            </span>
+                        </span>
+                        -->
+                        <span on-tap='likeList();' ng-class="{'red-color': me_like}">{{item.likes.length}} <i class="ion-thumbsup"></i></span>
+                        &nbsp;
+                        <span on-tap='pinList();'  ng-class="{'red-color': me_pin}">{{item.item_id.pins.length}} <i class="ion-ios-heart"></i></span>                        
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <!--
+            <div class="box padding"  style="margin-bottom: 0px">
                 <div class="user_image"  on-tap="profile(item.user_id);">
                     <img class="rounded" ng-src='{{item.user_id.picture| picture:50:50}}'/>
                 </div>
@@ -129,7 +123,7 @@
                 <button ng-if="me_follow_user" on-tap='unFollowUser(item.user_id._id);' class="abs-follow-button button-icon black-font ion-ios-people-outline fa-2x"></button>
                 <div class="clearfix"></div>
             </div>
-            <div class="added-to box padding">
+            <div class="added-to box padding" style="margin-bottom: 0px">
                 <div class="center_box" style="margin-right: 20px">
                     <span class="info grey-color">Added To List</span>
                     <span class="info black-font" on-tap="viewList(item.list_id._id,item.list_id.name)" >{{item.list_id.name}}</span>
@@ -160,85 +154,138 @@
                 <button on-tap='followList();' ng-if="!me_follow_list && !mine" class="abs-follow-button button-icon red-color ion-ios-people fa-2x"></button>
                 <div class="clearfix"></div>
             </div>
+            -->
 
-
-            <div class="hide-on-keyboard-open padding" data-tap-disabled="true" id="map-canvas-parent" style="height: 200px" ng-if="item.location.lat">
+            <div class="hide-on-keyboard-open padding" data-tap-disabled="true" id="map-canvas-parent" style="height: 200px;margin-bottom: 0px" ng-if="item.location.lat">
                 <div id="map-canvas" style="width: 100%; height: 100%">
                     <i class="fa fa-spinner fa-spin"></i>
                 </div>
             </div>
-            <div class="user-comments box  padding">
-                <h4>Comments</h4>
-                <span class="grey-color" ng-if="item.comments.length == 0">Be the first to comment</span>
-                <div style="padding-bottom: 5px" ng-repeat="comment in item.comments track by $index">
-                    <div style="position: relative;min-height: 50px">
-                        <div class="user_image" style="position: absolute;left: 0px">
-                            <img class="rounded" ng-src='{{comment.picture|picture:50:50}}' style="max-width: 50px;max-height: 50px;" />
-                        </div>
-                        <div class="user-info" style="padding-left: 50px;width: 100%;padding-right: 5px">
-                            <div>{{comment.comment}}</div>
-
-                            <div style="padding-top: 5px;">
-                                <span class="grey-color" style="font-size:0.7em">{{comment.created_at| prettyDate}}</span>                                    
-                                <span style="font-size:.9em;padding-left: 10px">
-                                    <span ng-show="comment.can_like" class="red-color" style="text-decoration: underline">
-                                        <span on-tap="likeComment(comment);">Like</span>
-                                    </span>
-                                    <span ng-show="!comment.can_like" class="red-color" style="text-decoration: underline">
-                                        <span on-tap="unlikeComment(comment);">UnLike</span>
-                                    </span>
-                                    <span class="grey-color" ng-show="comment.likes.length > 0" style="padding-left: 10px;">
-                                        <i class="ion-thumbsup"></i> <span>{{comment.likes.length}}</span>
-                                    </span>
-                                </span>
+            <div class="user-comments box" style="margin-bottom: 0px">
+                <div style="padding-left: 10px;padding-right: 10px;">
+                    <h4>Comments</h4>
+                    <span class="grey-color" ng-if="item.comments.length == 0">Be the first to comment</span>
+                    <div style="padding-bottom: 5px" ng-repeat="comment in item.comments track by $index">
+                        <div style="position: relative;min-height: 50px">
+                            <div class="user_image" style="position: absolute;left: 0px">
+                                <img class="rounded" ng-src='{{comment.picture|picture:50:50}}' style="max-width: 50px;max-height: 50px;" />
                             </div>
-                            <div ng-if="comment.user_id === login.id" style="position: absolute;top: 0px;right:0px;font-size:1.5em" class="grey-color" on-tap='removeComment(comment);'>&times;</div>
+                            <div class="user-info" style="padding-left: 50px;width: 100%;padding-right: 5px">
+                                <div>{{comment.comment}}</div>
+
+                                <div style="padding-top: 5px;">
+                                    <span class="grey-color" style="font-size:0.7em">{{comment.created_at| prettyDate}}</span>                                    
+                                    <span style="font-size:.9em;padding-left: 10px">
+                                        <span ng-show="comment.can_like" class="red-color" style="text-decoration: underline">
+                                            <span on-tap="likeComment(comment);">Like</span>
+                                        </span>
+                                        <span ng-show="!comment.can_like" class="red-color" style="text-decoration: underline">
+                                            <span on-tap="unlikeComment(comment);">UnLike</span>
+                                        </span>
+                                        <span class="grey-color" ng-show="comment.likes.length > 0" style="padding-left: 10px;">
+                                            <i class="ion-thumbsup"></i> <span>{{comment.likes.length}}</span>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div ng-if="comment.user_id === login.id" style="position: absolute;top: 0px;right:0px;font-size:1.5em" class="grey-color" on-tap='removeComment(comment);'>&times;</div>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="clearfix"></div>
                     </div>
-                </div>
-                <div class="load-more" ng-if='item.comments.length > 20 && !showMoreComment'>
-                    <span class="red-color" on-tap='loadAllComments()'>Load More</span>
+                    <div class="load-more" ng-if='item.comments.length > 20 && !showMoreComment'>
+                        <span class="red-color" on-tap='loadAllComments()'>Load More</span>
+                    </div>
                 </div>
                 <div class="clearfix"></div>
                 <div class="comment-frm">
-
-
-                    <div class="item item-input-inset">
-                        <label class="item-input-wrapper">
-                            <input ng-model="item.comment" keyboard-attach type="text" placeholder="Write a comment" class="black-font"/>
-                        </label>
-                        <button on-tap='addComment();' class="follow-btn">COMMENT</button>
+                    <div class="comment_box">
+                        <div class="input_box">
+                            <input ng-model="item.comment" keyboard-attach type="text" placeholder="Write a comment" class="black-font"/>                            
+                        </div>
+                        <button on-tap='addComment();' class="button button-icon red-color">
+                            <i style="font-size:1.5em" class="ion-android-send"></i>
+                        </button>
                     </div>
 
 
                     <div class="clearfix"></div>
                 </div>
             </div>
-            <div ui-view="pin-content"></div>
+
+            <div id='fixed_footer' class="wishlist_item_footer">
+                <div style="width: 100%"  ng-show='!show_footer_menu'>
+                    <div class="item_icon" ng-show="item.item_id.href.length > 0">
+                        <button class="button red-back" on-tap="view(item);">BUY NOW</button>
+                    </div>
+                    <div class="item_icon" ng-if='!me_pin && !mine' on-tap='pin();'>
+                        <button class="button button-clear grey-color">
+                            <i class="ion-ios-heart"></i>
+                        </button>
+                    </div>
+                    <div ng-if='mine' on-tap='delete();' class="item_icon">
+                        <button class="button button-clear grey-color">
+                            <i class="ion-trash-a"></i>
+                        </button>
+                    </div>
+                    <div class="item_icon" ng-if="!me_like && !mine" on-tap='like();'>
+                        <button class="button button-clear grey-color">
+                            <i class="ion-thumbsup"></i>                        
+                        </button>
+                    </div>
+                    <div class="item_icon" on-tap='facebook(item)'>
+                        <button class="button button-clear grey-color">
+                            <i class="ion-social-facebook"></i>
+                        </button>
+                    </div>
+                    <div class="item_icon" on-tap='whatsapp(item)'>
+                        <button class="button button-clear grey-color">
+                            <i class="ion-social-whatsapp-outline"></i>
+                        </button>
+                    </div>
+                    <div class="item_icon" on-tap='shareAll(item)'>
+                        <button class="button button-clear grey-color">
+                            <i class="ion-android-share-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 20px" ui-view="pin-content"></div>
         </div>
     </ion-content>
-    <ion-footer-bar style="padding: 0px">
-        <div style="border-top:1px solid #d9d7d4">
-            <div class="row">
-                <div class="col">
-                    <button class="button button-clear grey-color">
-                        <i class="ion-thumbsup"></i>                        
-                    </button>
-                </div>
-                <div class="col">
-                    <button class="button button-clear grey-color">
-                        <i class="ion-trash-a"></i>
-                    </button>
-                </div>
-                <div class="col">
-                    <button class="button button-clear grey-color">
-                        <i class="ion-ios-heart"></i>
-                    </button>
-                </div>
-                <div class="col">
-                    <button class="button red-back" ng-show="item.item_id.href.length > 0" on-tap="view(item);">BUY NOW</button>
-                </div>
+    <ion-footer-bar ng-show='show_footer_menu' class='wishlist_item_footer'>
+        <div style="width: 100%">
+            <div class="item_icon" ng-show="item.item_id.href.length > 0">
+                <button class="button red-back" on-tap="view(item);">BUY NOW</button>
+            </div>
+            <div class="item_icon" ng-if='!me_pin && !mine' on-tap='pin();'>
+                <button class="button button-clear grey-color">
+                    <i class="ion-ios-heart"></i>
+                </button>
+            </div>
+            <div ng-if='mine' on-tap='delete();' class="item_icon">
+                <button class="button button-clear grey-color">
+                    <i class="ion-trash-a"></i>
+                </button>
+            </div>
+            <div class="item_icon" ng-if="!me_like && !mine" on-tap='like();'>
+                <button class="button button-clear grey-color">
+                    <i class="ion-thumbsup"></i>                        
+                </button>
+            </div>
+            <div class="item_icon" on-tap='facebook(item)'>
+                <button class="button button-clear grey-color">
+                    <i class="ion-social-facebook"></i>
+                </button>
+            </div>
+            <div class="item_icon" on-tap='whatsapp(item)'>
+                <button class="button button-clear grey-color">
+                    <i class="ion-social-whatsapp-outline"></i>
+                </button>
+            </div>
+            <div class="item_icon" on-tap='shareAll(item)'>
+                <button class="button button-clear grey-color">
+                    <i class="ion-android-share-alt"></i>
+                </button>
             </div>
         </div>
     </ion-footer-bar>

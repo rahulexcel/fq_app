@@ -1,10 +1,11 @@
 var wishlistItemMod = angular.module('WishlistItemMod', ['ServiceMod', 'ngStorage', 'ionic', 'WishlistService', 'MapService', 'ItemService', 'FriendService']);
 wishlistItemMod.controller('WishlistItemCtrl',
-        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$window', 'socialJs', 'itemHelper', 'friendHelper', 'timeStorage', '$ionicLoading', '$ionicModal', '$ionicSlideBoxDelegate', 'productHelper', 'CDN','$q',
-            function ($scope, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $window, socialJs, itemHelper, friendHelper, timeStorage, $ionicLoading, $ionicModal, $ionicSlideBoxDelegate, productHelper, CDN,$q) {
+        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$window', 'socialJs', 'itemHelper', 'friendHelper', 'timeStorage', '$ionicLoading', '$ionicModal', '$ionicSlideBoxDelegate', 'productHelper', 'CDN', '$q', '$ionicPosition', '$window', '$state',
+            function ($scope, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $window, socialJs, itemHelper, friendHelper, timeStorage, $ionicLoading, $ionicModal, $ionicSlideBoxDelegate, productHelper, CDN, $q, $ionicPosition, $window, $state) {
                 $scope.wishlist = [];
                 $scope.loading = true;
                 $scope.items = [];
+                var page = 0;
                 var ajax = false;
                 $scope.$on('logout_event', function () {
                     $location.path('/app/signup');
@@ -42,9 +43,9 @@ wishlistItemMod.controller('WishlistItemCtrl',
                 picture_width = Math.ceil(picture_width * 0.95);
                 $scope.picture_width = picture_width;
                 $scope.mine = false;
-                if ($stateParams.item_id) {
-                    $scope.item_id = $stateParams.item_id;
-                    $scope.list_id = $stateParams.list_id;
+                if ($state.params.item_id) {
+                    $scope.item_id = $state.params.item_id;
+                    $scope.list_id = $state.params.list_id;
                     $scope.me_pin = false;
                     $scope.me_like = false;
                     $scope.me_follow_user = false;
@@ -176,7 +177,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         });
                     };
 
-                    var cache_key = 'item_' + $stateParams.item_id + "_" + $stateParams.list_id;
+                    var cache_key = 'item_' + $state.params.item_id + "_" + $state.params.list_id;
                     if (timeStorage.get(cache_key)) {
                         var data = timeStorage.get(cache_key);
                         $scope.checkData(data);
@@ -185,7 +186,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             template: 'Loading...'
                         });
                         $scope.clip_loading = true;
-                        ajax = wishlistHelper.viewItem($stateParams.item_id, $stateParams.list_id);
+                        ajax = wishlistHelper.viewItem($state.params.item_id, $state.params.list_id);
                         ajax.then(function (data) {
                             $scope.clip_loading = false;
                             timeStorage.set(cache_key, data, 1);
@@ -199,7 +200,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     }
                     $scope.doRefresh = function () {
                         $scope.clip_loading = true;
-                        ajax = wishlistHelper.viewItem($stateParams.item_id, $stateParams.list_id);
+                        ajax = wishlistHelper.viewItem($state.params.item_id, $state.params.list_id);
                         ajax.then(function (data) {
                             $scope.clip_loading = false;
                             timeStorage.set(cache_key, data, 1);
@@ -212,7 +213,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     if (window.plugins && window.plugins.socialsharing) {
                         $scope.isMobile = true;
                         $scope.shareAll = function (product) {
-                            var share_url = 'http://fashioniq.in/m/i/' + $stateParams.item_id + "/" + $stateParams.list_id;
+                            var share_url = 'http://fashioniq.in/m/i/' + $state.params.item_id + "/" + $state.params.list_id;
                             var picture = $scope.item.item_id.img;
                             var name = $scope.item.item_id.name;
                             picture = CDN.cdnize(picture);
@@ -225,7 +226,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             });
                         };
                         $scope.whatsapp = function (product) {
-                            var share_url = 'http://fashioniq.in/m/i/' + $stateParams.item_id + "/" + $stateParams.list_id;
+                            var share_url = 'http://fashioniq.in/m/i/' + $state.params.item_id + "/" + $state.params.list_id;
                             var picture = $scope.item.item_id.img;
                             var name = $scope.item.item_id.name;
                             if (name.length === 0) {
@@ -240,7 +241,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             });
                         };
                         $scope.twitter = function (product) {
-                            var share_url = 'http://fashioniq.in/m/i/' + $stateParams.item_id + "/" + $stateParams.list_id;
+                            var share_url = 'http://fashioniq.in/m/i/' + $state.params.item_id + "/" + $state.params.list_id;
                             var picture = $scope.item.item_id.img;
                             var name = $scope.item.item_id.name;
                             picture = CDN.cdnize(picture);
@@ -256,7 +257,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
 
 
                         $scope.facebook = function (product) {
-                            var share_url = 'http://fashioniq.in/m/i/' + $stateParams.item_id + "/" + $stateParams.list_id;
+                            var share_url = 'http://fashioniq.in/m/i/' + $state.params.item_id + "/" + $state.params.list_id;
                             var picture = $scope.item.item_id.img;
                             var name = $scope.item.item_id.name;
                             picture = CDN.cdnize(picture);
@@ -387,7 +388,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     $scope.likeComment = function (comment) {
                         if ($localStorage.user.id) {
                             var user_id = $localStorage.user.id;
-                            var ajax = itemHelper.likeComment(comment, user_id, $stateParams.item_id, $stateParams.list_id);
+                            var ajax = itemHelper.likeComment(comment, user_id, $state.params.item_id, $state.params.list_id);
                             ajax.then(function () {
                                 comment.can_like = false;
                                 if (!comment.likes)
@@ -745,9 +746,32 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     $location.path('/app/profile/' + user_id + '/mine');
                 };
                 $scope.selected_class = 'wishlist_item';
-                $scope.hasMore = true;
                 $scope.getData = function () {
-                    return $q.when([]);
+                    var defer = $q.defer();
+                    var ajax = wishlistHelper.listItems($state.params.list_id, page);
+                    ajax.then(function (data) {
+                        var items = data.items;
+                        defer.resolve(items);
+                        page++;
+                    }, function () {
+                        defer.reject();
+                    });
+                    return defer.promise;
+                };
+
+                $scope.show_footer_menu = true;
+                $scope.scroll = function () {
+                    var pos = $ionicPosition.position(angular.element(document.getElementById('fixed_footer')));
+                    var height = $window.innerHeight;
+
+                    console.log((pos.top + 50 + 44) + "XXX" + height);
+                    if (pos.top + 50 + 44 > height) {
+                        $scope.show_footer_menu = true;
+                        console.log('false');
+                    } else {
+                        $scope.show_footer_menu = false;
+                        console.log('true');
+                    }
                 };
 
 //                    $scope.is_mobile = false;

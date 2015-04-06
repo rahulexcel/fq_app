@@ -87,6 +87,9 @@ notifyService.factory('notifyHelper', [
             }
 
             var limit = 10;
+            if ($rootScope.profile_update > limit) {
+                limit = $rootScope.profile_update;
+            }
             var defer = $q.defer();
             var Update = Parse.Object.extend("Update");
             var query = new Parse.Query(Update);
@@ -319,7 +322,7 @@ notifyService.factory('notifyHelper', [
             }
             if (row.type === 'price_alert') {
                 if (row.data.fq_product_id) {
-                    $location.path('/app/product/' + row.data.fq_product_id);
+                    $location.path('/app/alert/' + row.data.id);
                 } else {
                     if (window.plugins) {
                         window.open(row.data.url, '_system');
