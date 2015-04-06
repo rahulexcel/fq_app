@@ -200,22 +200,22 @@ alertMod.controller('AlertCtrl',
                         }
                     });
                 };
-
+                $scope.data = {};
                 $scope.setPriceAlertLimit = function () {
                     var item = $scope.alert;
                     var confirmPopup = $ionicPopup.confirm({
                         title: 'Set Price Limit',
-                        template: '<input type="number" ng-model="item.limit">',
-                        subTitle: 'Price Below Which You Want To Get Alert Notification'
+                        template: '<input type="number" ng-model="data.limit">',
+                        subTitle: 'Price Below Which You Want To Get Alert Notification',
+                        scope: $scope
                     });
                     confirmPopup.then(function (res) {
                         if (res == 1) {
-                            if (item.limit * 1 <= 0) {
+                            if ($scope.data.limit * 1 <= 0) {
                                 toast.showShortBottom('Price Limit Cannot Be Empty');
                             } else {
-
                                 if (res) {
-                                    var ajax = notifyHelper.setPriceLimit(item._id, $localStorage.user.id, item.limit);
+                                    var ajax = notifyHelper.setPriceLimit(item._id, $localStorage.user.id, $scope.data.limit);
                                     ajax.then(function () {
                                         toast.showShortBottom('Price Limit Set');
                                     });
@@ -252,23 +252,22 @@ alertMod.controller('AlertCtrl',
 
                 };
                 $scope.show_footer_menu = true;
-                var first_scroll = false;
+                var self = this;
+                self.footer_ele = false;
                 $scope.scroll = function () {
-                    var pos = $ionicPosition.position(angular.element(document.getElementById('fixed_footer')));
-                    var height = $window.innerHeight;
-                    if (!first_scroll) {
-                        first_scroll = true;
-                        if (pos.top + 50 + 44 < height) {
-                            //$scope.show_footer_menu = false;
-                        }
+                    if (!self.footer_ele) {
+                        self.footer_ele = angular.element(document.getElementById('fixed_footer'));
                     }
-                    console.log((pos.top + 50 + 44) + "XXX" + height);
-                    if (pos.top + 50 + 44 > height) {
+                    var pos = $ionicPosition.offset(self.footer_ele);
+                    var height = $window.innerHeight;
+
+//                    console.log((pos.top + 50) + "XXX" + height);
+                    if (pos.top + 50 > height) {
                         $scope.show_footer_menu = true;
-                        console.log('false');
+//                        console.log('false');
                     } else {
                         $scope.show_footer_menu = false;
-                        console.log('true');
+//                        console.log('true');
                     }
                 };
             }

@@ -16,7 +16,7 @@
                         <ion-slide>
                             <img img-loader ng-src='{{item.item_id.img| picture:picture_width}}'/>
                         </ion-slide>
-                        <ion-slide ng-repeat="img in item.item_id.more_images">
+                        <ion-slide ng-repeat="img in item.item_id.more_images track by $index">
                             <img img-loader ng-src='{{img|picture}}'/>
                         </ion-slide>
                     </ion-slide-box>
@@ -176,10 +176,10 @@
                                 <div style="padding-top: 5px;">
                                     <span class="grey-color" style="font-size:0.7em">{{comment.created_at| prettyDate}}</span>                                    
                                     <span style="font-size:.9em;padding-left: 10px">
-                                        <span ng-show="comment.can_like" class="red-color" style="text-decoration: underline">
+                                        <span ng-show="comment.can_like === 2" class="red-color" style="text-decoration: underline">
                                             <span on-tap="likeComment(comment);">Like</span>
                                         </span>
-                                        <span ng-show="!comment.can_like" class="red-color" style="text-decoration: underline">
+                                        <span ng-show="comment.can_like ==== 1" class="red-color" style="text-decoration: underline">
                                             <span on-tap="unlikeComment(comment);">UnLike</span>
                                         </span>
                                         <span class="grey-color" ng-show="comment.likes.length > 0" style="padding-left: 10px;">

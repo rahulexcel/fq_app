@@ -96,6 +96,7 @@ homeMod.controller('HomeCtrl',
 
                 $rootScope.$on("$ionicView.enter", function () {
                     self.init();
+                    $ionicScrollDelegate.scrollTop();
                 });
                 $rootScope.$on('$ionicView.leave', function () {
                     self.skipFeedCheck = true;
@@ -156,8 +157,8 @@ homeMod.controller('HomeCtrl',
                     $interval.cancel(feed_interval);
                     $interval.cancel(latest_interval);
                 });
-                
-                
+
+
                 $scope.getData = function (page) {
                     console.log('get data called');
                     var path = $location.path();

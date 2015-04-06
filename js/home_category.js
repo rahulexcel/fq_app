@@ -1,8 +1,8 @@
 var homecatMod = angular.module('HomeCatMod', ['ServiceMod']);
 
 homecatMod.controller('HomeCatCtrl',
-        ['$scope', 'friendHelper', 'CDN', '$localStorage', '$location', 'pinchServie', 'toast', 'itemHelper',
-            function ($scope, friendHelper, CDN, $localStorage, $location, pinchServie, toast, itemHelper) {
+        ['$scope', 'friendHelper', 'CDN', '$localStorage', '$location', 'pinchServie', 'toast', 'itemHelper', 'dataShare',
+            function ($scope, friendHelper, CDN, $localStorage, $location, pinchServie, toast, itemHelper, dataShare) {
                 $scope.currentState = {};
                 $scope.product_loading = false;
                 $scope.showProducts = false;
@@ -16,10 +16,12 @@ homecatMod.controller('HomeCatCtrl',
                 $scope.openProduct = function (product) {
                     var id = product._id;
                     console.log('open product ');
+                    product = angular.copy(product);
+                    console.log('product');
+                    console.log(product);
+                    product.cat_name = '';
+                    dataShare.broadcastData(product, 'product_open', true);
                     $location.path('/app/product/' + id);
-//                    product = angular.copy(product);
-//                    product.cat_name = $scope.current_category.name;
-//                    dataShare.broadcastData(product, 'product_open');
                 };
                 $scope.refreshCategory = function () {
                     $scope.page = 0;

@@ -15,7 +15,7 @@
                         <ion-slide>
                             <img img-loader ng-src='{{product.img}}'/>
                         </ion-slide>
-                        <ion-slide ng-repeat="img in product.more_images">
+                        <ion-slide ng-repeat="img in product.more_images  track by $index">
                             <img img-loader ng-src='{{img}}'/>
                         </ion-slide>
                     </ion-slide-box>
@@ -28,8 +28,8 @@
             <div class="pro-info padding">
                 <div class="pro-name">
                     <div class="category pro-breadcrumb" ng-show='product.cat_id && product.parent_cat_name' on-tap='viewCategory(product);'>
-                            <div style="width: 100%;" class="grey-color">{{product.parent_cat_name}} >&nbsp; {{product.cat_name}}</div>
-                        </div>
+                        <div style="width: 100%;" class="grey-color">{{product.parent_cat_name}} >&nbsp; {{product.cat_name}}</div>
+                    </div>
                     <div class="product-heading">{{product.name}}</div>
                     <div>
                         <span class="e-site">

@@ -19,7 +19,7 @@
                         <ion-slide>
                             <img img-loader ng-src='{{alert.img| picture:picture_width}}'/>
                         </ion-slide>
-                        <ion-slide ng-repeat="img in alert.more_images">
+                        <ion-slide ng-repeat="img in alert.more_images  track by $index">
                             <img img-loader ng-src='{{img|picture}}'/>
                         </ion-slide>
                     </ion-slide-box>

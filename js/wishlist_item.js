@@ -116,9 +116,9 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                         }
                                     }
                                     if (found) {
-                                        comments[i].can_like = false;
+                                        comments[i].can_like = 2;
                                     } else {
-                                        comments[i].can_like = true;
+                                        comments[i].can_like = 1;
                                     }
                                 } else {
                                     comments[i].likes = [];
@@ -719,21 +719,25 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     } else {
                         var comment = $scope.item.comment;
                         var picture = $scope.item.picture;
-                        var ajax = itemHelper.comment($scope.item_id, $scope.list_id, comment, picture, 'add', false, $scope.item.item_id.img);
-                        ajax.then(function (data) {
-                            var comments = $scope.item.comments;
-                            comments.unshift({
-                                _id: data.comment_id,
-                                user_id: $localStorage.user.id,
-                                comment: $scope.item.comment,
-                                picture: $localStorage.user.picture,
-                                created_at: new Date().getTime()
-                            });
-                            $scope.item.comments = comments;
+                        if (comment.length > 0) {
                             $scope.item.comment = '';
                             $scope.item.picture = '';
-                            timeStorage.remove(cache_key);
-                        });
+                            var ajax = itemHelper.comment($scope.item_id, $scope.list_id, comment, picture, 'add', false, $scope.item.item_id.img);
+                            ajax.then(function (data) {
+                                var comments = $scope.item.comments;
+                                comments.unshift({
+                                    _id: data.comment_id,
+                                    user_id: $localStorage.user.id,
+                                    comment: $scope.item.comment,
+                                    picture: $localStorage.user.picture,
+                                    created_at: new Date().getTime()
+                                });
+                                $scope.item.comments = comments;
+                                timeStorage.remove(cache_key);
+                            });
+                        } else {
+                            toast.showShortBottom('Comment Cannot Be Empty!');
+                        }
                     }
                 };
 
@@ -760,17 +764,20 @@ wishlistItemMod.controller('WishlistItemCtrl',
                 };
 
                 $scope.show_footer_menu = true;
+                var self = this;
+                self.footer_ele = false;
                 $scope.scroll = function () {
-                    var pos = $ionicPosition.position(angular.element(document.getElementById('fixed_footer')));
+                    if (!self.footer_ele) {
+                        self.footer_ele = angular.element(document.getElementById('fixed_footer'));
+                    }
+                    var pos = $ionicPosition.offset(self.footer_ele);
                     var height = $window.innerHeight;
 
-                    console.log((pos.top + 50 + 44) + "XXX" + height);
-                    if (pos.top + 50 + 44 > height) {
+//                    console.log((pos.top + 50) + "XXX" + height);
+                    if (pos.top + 50 > height) {
                         $scope.show_footer_menu = true;
-                        console.log('false');
                     } else {
                         $scope.show_footer_menu = false;
-                        console.log('true');
                     }
                 };
 

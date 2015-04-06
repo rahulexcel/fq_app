@@ -875,8 +875,8 @@ serviceMod.factory('toast', ['$ionicPopup', function ($ionicPopup) {
     }
 ]);
 serviceMod.factory('ajaxRequest',
-        ['$http', '$q', '$log', 'toast', '$localStorage', '$ionicLoading', '$cordovaNetwork', '$rootScope', '$ionicPlatform',
-            function ($http, $q, $log, toast, $localStorage, $ionicLoading, $cordovaNetwork, $rootScope, $ionicPlatform) {
+        ['$http', '$q', '$log', 'toast', '$localStorage', '$ionicLoading', '$cordovaNetwork', '$rootScope', '$ionicPlatform', '$ionicBackdrop',
+            function ($http, $q, $log, toast, $localStorage, $ionicLoading, $cordovaNetwork, $rootScope, $ionicPlatform, $ionicBackdrop) {
                 return {
                     deviceStatus: 1,
                     hasInit: false,
@@ -947,6 +947,8 @@ serviceMod.factory('ajaxRequest',
                                     def.resolve();
                                 }
                             } else {
+                                $ionicLoading.hide();
+                                $ionicBackdrop.release();
                                 if (data.error === 2) {
                                     $log.log('Ajax Mongo Error ' + data.message);
                                     data.message = 'Unknown! Try Again Later';
@@ -961,6 +963,7 @@ serviceMod.factory('ajaxRequest',
                             $rootScope.ajax_on = false;
                             $log.warn('500 Error');
                             $ionicLoading.hide();
+                            $ionicBackdrop.release();
                             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
                                 if ($cordovaNetwork.isOffline()) {
 

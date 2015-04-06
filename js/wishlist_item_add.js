@@ -13,8 +13,6 @@ wishlistItemAddMod.directive('preloadable', function () {
                 var naturalHeight = this.naturalHeight * 1;
                 console.log(this.src);
                 if (naturalWidth !== 0 && naturalHeight !== 0) {
-                    console.log(naturalHeight + "XXX" + naturalWidth);
-
                     if (naturalWidth * 1 < 200 || naturalHeight * 1 < 200) {
                         console.log('remove ' + this.src);
                         scope.removeImage(this.src);

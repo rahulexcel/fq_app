@@ -18,7 +18,8 @@ menuMod.controller('MenuCtrl',
                 $scope.$on('$ionicExposeAside', function () {
                     $rootScope.$emit('custom_ionicExposeAside');
                 });
-                if (timeStorage.get('category')) {
+                var category = timeStorage.get('category');
+                if (category && category.length > 0) {
                     console.log('category from cache');
                     $scope.category = timeStorage.get('category');
                 } else {

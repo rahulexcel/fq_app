@@ -316,6 +316,7 @@ notifyService.factory('notifyHelper', [
             }
         };
         service.openItem = function (row) {
+            console.log(row);
             if (row.uniq_id) {
                 console.log('notify unique ' + row.uniq_id);
                 service.updateAlert(row.uniq_id);
