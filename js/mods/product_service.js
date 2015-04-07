@@ -10,7 +10,7 @@ productService.factory('productHelper', [
             if (timeStorage.get(key)) {
                 return $q.when(timeStorage.get(key));
             } else {
-                var ajax = $http.get(ajaxRequest.url('v1/parseurl') + "?url=" + url);
+                var ajax = $http.get(ajaxRequest.url('v1/parseurl') + "?url=" + encodeURIComponent(url));
                 ajax.then(function (data) {
                     if (data.data && data.data.data) {
                         timeStorage.set(key, data.data.data, 24);

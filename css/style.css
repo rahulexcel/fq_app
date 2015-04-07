@@ -2059,6 +2059,9 @@ i.offline-icon{
     line-height: 20px;
 }
 
+.platform-ios #menu-bar-container{
+    padding-top: 50px;
+}
 .platform-ios .home_header{
    top:65px !important;
    height:38px !important;
