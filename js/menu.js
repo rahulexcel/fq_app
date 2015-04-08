@@ -1,8 +1,8 @@
 var menuMod = angular.module('MenuMod', ['ServiceMod', 'ngStorage', 'ionic', 'pasvaz.bindonce']);
 
 menuMod.controller('MenuCtrl',
-        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork', '$ionicPlatform', '$ionicScrollDelegate',
-            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork, $ionicPlatform, $ionicScrollDelegate) {
+        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork', '$ionicPlatform', '$ionicScrollDelegate','$timeout',
+            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork, $ionicPlatform, $ionicScrollDelegate,$timout) {
 //                $ionicNavBarDelegate.showBackButton(false);
 
                 if ($localStorage.user.id) {
@@ -98,29 +98,31 @@ menuMod.controller('MenuCtrl',
                         $ionicScrollDelegate.resize();
                         return;
                     }
-                    $ionicScrollDelegate.resize();
+                    //$ionicScrollDelegate.resize();
                     $ionicScrollDelegate.$getByHandle('left_menu').scrollTop();
                     $ionicSideMenuDelegate.toggleLeft(false);
                     $location.path('/app/category/' + cat.cat_id + '/' + cat.sub_cat_id + '/' + cat.name);
-
-                    var category = $scope.category;
-                    for (var i = 0; i < category.length; i++) {
-                        var cat = category[i];
-                        cat.open = false;
-                        if (cat.data) {
-                            for (var j = 0; j < cat.data.length; j++) {
-                                var catSub = cat.data[j];
-                                catSub.open = false;
-                                if (catSub.data) {
-                                    for (var k = 0; k < catSub.data.length; k++) {
-                                        var catLast = catSub.data[k];
-                                        catLast.open = false;
+                    $timeout(function(){
+                        var category = $scope.category; 
+                        for (var i = 0; i < category.length; i++) {
+                            var cat = category[i];
+                            cat.open = false;
+                            if (cat.data) {
+                                for (var j = 0; j < cat.data.length; j++) {
+                                    var catSub = cat.data[j];
+                                    catSub.open = false;
+                                    if (catSub.data) {
+                                        for (var k = 0; k < catSub.data.length; k++) {
+                                            var catLast = catSub.data[k];
+                                            catLast.open = false;
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    $scope.category = category;
+                        $scope.category = category;
+                    },100);
+                    
                     //$location.path('/#/app/home');
                     //$scope.current_category = cat;
                 };
