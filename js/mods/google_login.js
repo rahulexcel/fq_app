@@ -5,7 +5,7 @@ googleLoginService.factory('googleLogin', [
     function ($http, $q, $interval, $log) {
         var service = {};
         service.access_token = false;
-        service.redirect_url = 'http://localhost/fashioniq/myapp/www/';
+        service.redirect_url = 'http://localhost:81/fashioniq/myapp/www/';
         service.client_id = '124787039157-04s8ecjnpgm47sm2br2kpplbk6ubp4q0.apps.googleusercontent.com';
         service.secret = 'aKlRBaHkYq4pdMMEVlW7pJ51';
         service.scope = 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/plus.me';
@@ -49,38 +49,48 @@ googleLoginService.factory('googleLogin', [
             params += '&response_type=code';
             params += '&scope=' + encodeURIComponent(options.scope);
             var authUrl = 'https://accounts.google.com/o/oauth2/auth?' + params;
+            if (cordova.InAppBrowser && cordova.InAppBrowser.open) {
+                window.open = cordova.InAppBrowser.open;
+            }
             var win = window.open(authUrl, '_blank', 'location=no,toolbar=no,width=800, height=800');
             var context = this;
             var error_count = 0;
-            var pollTimer = $interval(function () {
-                try {
-                    console.log("google window url " + win.document.URL);
-                    if (win.document.URL.indexOf(context.redirect_url) !== -1) {
-                        console.log('redirect url found');
-                        win.close();
-                        $interval.cancel(pollTimer);
-                        pollTimer = false;
-                        var url = win.document.URL;
-                        $log.debug('Final URL ' + url);
-                        var access_code = context.gulp(url, 'code');
-                        if (access_code) {
-                            $log.info('Access Code: ' + access_code);
-                            context.validateToken(access_code, def);
-                        } else {
-                            def.reject({error: 'Access Code Not Found'});
-                        }
-                    }
-                } catch (e) {
-                    error_count++;
-                    console.log(e);
-                    if (error_count > 10) {
-                        win.close();
-                        $interval.cancel(pollTimer);
-                        def.reject({error: 'Permission Error'});
-                    }
-                }
-            }, 100);
 
+            if (cordova.InAppBrowser && cordova.InAppBrowser.open) {
+                win.addEventListener('loadstart', function (data) {
+                    console.log(data);
+
+                });
+            } else {
+                var pollTimer = $interval(function () {
+                    try {
+                        console.log("google window url " + win.document.URL);
+                        if (win.document.URL.indexOf(context.redirect_url) !== -1) {
+                            console.log('redirect url found');
+                            win.close();
+                            $interval.cancel(pollTimer);
+                            pollTimer = false;
+                            var url = win.document.URL;
+                            $log.debug('Final URL ' + url);
+                            var access_code = context.gulp(url, 'code');
+                            if (access_code) {
+                                $log.info('Access Code: ' + access_code);
+                                context.validateToken(access_code, def);
+                            } else {
+                                def.reject({error: 'Access Code Not Found'});
+                            }
+                        }
+                    } catch (e) {
+                        error_count++;
+                        console.log(e);
+//                    if (error_count > 10) {
+//                        win.close();
+//                        $interval.cancel(pollTimer);
+//                        def.reject({error: 'Permission Error'});
+//                    }
+                    }
+                }, 100);
+            }
             return def.promise;
         };
         service.validateToken = function (token, def) {

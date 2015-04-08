@@ -2,7 +2,7 @@ var feedbackMod = angular.module('FeedbackMod',
         ['ServiceMod', 'ngStorage', 'ngCordova']);
 
 feedbackMod.controller('FeedbackCtrl',
-        ['$scope', '$localStorage', 'toast', 'ajaxRequest', '$cordovaDevice', '$cordovaAppVersion', '$rootScope',
+        ['$scope', '$localStorage', 'toast', 'ajaxRequest', '$cordovaDevice', '$cordovaAppVersion', '$cordovaAppRate', '$rootScope',
             function ($scope, $localStorage, toast, ajaxRequest, $cordovaDevice, $cordovaAppVersion, $cordovaAppRate, $rootScope) {
                 var self = this;
                 self.init = function () {
