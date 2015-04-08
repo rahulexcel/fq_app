@@ -193,12 +193,14 @@ registerMod.controller('RegisterCtrl',
                             });
                         }, function (data) {
                             console.log(data);
+                            $scope.facebook_status = 3;
                             toast.showShortBottom('Facebook Login Error! Try Again.');
                         });
 
                     }, function (data) {
                         console.log('error');
                         console.log(data);
+                        $scope.facebook_status = 3;
                         toast.showShortBottom('Facebook Login Error! Try Again.');
                     });
                 };
@@ -245,6 +247,7 @@ registerMod.controller('RegisterCtrl',
                             $scope.google_status = 3;
                         });
                     }, function (err) {
+                        $scope.google_status = 3;
                         toast.showShortBottom('Unknow Error!' + err);
                     });
 
