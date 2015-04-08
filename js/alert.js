@@ -44,7 +44,7 @@ alertMod.controller('AlertCtrl',
                         return;
                     }
                     self.fetch_latest_done = true;
-                    var ajax2 = productHelper.fetchLatest(href);
+                    var ajax2 = productHelper.fetchLatest(href, alert.fq_product_id);
                     var cache_key = 'product_' + alert.fq_product_id;
                     ajax2.then(function (data) {
                         var price = data.price;
@@ -114,7 +114,7 @@ alertMod.controller('AlertCtrl',
                     }
 
                     $scope.alert = alert;
-                    $scope.fetchLatest(alert.url);
+                    $scope.fetchLatest(alert.url, alert.fq_product_id);
                     if (alert.fq_product_id) {
                         var ajax = productHelper.fetchProduct(alert.fq_product_id);
                         ajax.then(function (data) {

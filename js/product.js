@@ -129,7 +129,7 @@ productMod.controller('ProductCtrl',
                         var data = timeStorage.get(cache_key);
                         $scope.processProductData(data);
                         $ionicSlideBoxDelegate.update();
-                        $scope.fetchLatest(data.product.org_href);
+                        $scope.fetchLatest(data.product.org_href, product_id);
                     } else {
                         $scope.product_detail_loading = true;
                         var ajax = productHelper.fetchProduct(product_id);
@@ -140,18 +140,18 @@ productMod.controller('ProductCtrl',
                             $scope.processProductData(data);
                             $ionicSlideBoxDelegate.update();
                             if (!self.fetch_latest_done)
-                                $scope.fetchLatest(data.product.org_href);
+                                $scope.fetchLatest(data.product.org_href, product_id);
                         }, function () {
                             $scope.$broadcast('scroll.refreshComplete');
                         });
                     }
                 };
-                $scope.fetchLatest = function (href) {
+                $scope.fetchLatest = function (href, product_id) {
                     if (!href) {
                         return;
                     }
                     self.fetch_latest_done = true;
-                    var ajax2 = productHelper.fetchLatest(href);
+                    var ajax2 = productHelper.fetchLatest(href, product_id);
                     ajax2.then(function (data) {
                         var price = data.price;
                         var more_images = data.more_images;
@@ -193,21 +193,49 @@ productMod.controller('ProductCtrl',
                         data.product.price = more_images_price;
                     }
                     $scope.product = data.product;
-                    if (data.variants)
-                        $scope.product.variants = data.variants;
+                    $scope.product_loading = false;
+                    $scope.$broadcast('scroll.refreshComplete');
+                    timeStorage.set(cache_key, data, 1);
+                    var pid = data.product._id;
+                    if (data.similar && data.similar.length > 0) {
+                        self.processSimliarData(data, data.product._id);
+                    } else {
+                        var ajax2 = productHelper.fetchSimilar(data.product._id);
+                        ajax2.then(function (data) {
+                            self.processSimliarData(data, pid);
+                        });
+                    }
+                    if (data.variants) {
+                        self.processVariantData(data);
+                    } else {
+                        var ajax3 = productHelper.fetchVariant(data.product._id);
+                        ajax3.then(function (data) {
+                            self.processVariantData(data);
+                        });
+                    }
+                };
+                self.processSimliarData = function (data, product_id) {
                     if (data.similar)
                         $scope.product.similar = data.similar;
                     if (data.similar && data.similar.length > 0) {
                         console.log('initiazling iscroll');
                         if (data.similar.length > 0)
                             $timeout(function () {
-                                angular.element(document.querySelector('.scroller_' + data.product._id)).attr('style', 'width:' + (data.similar.length * 152) + "px");
-                                $scope.myScroll = new IScroll('.similar_' + data.product._id, {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
+                                angular.element(document.querySelector('.scroller_' + product_id)).attr('style', 'width:' + (data.similar.length * 152) + "px");
+                                $scope.myScroll = new IScroll('.similar_' + product_id, {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
                             }, 100);
+                        var data2 = timeStorage.get(cache_key);
+                        data2.similar = data.similar;
+                        timeStorage.set(cache_key, data2, 1);
                     }
-                    $scope.product_loading = false;
-                    $scope.$broadcast('scroll.refreshComplete');
-                    timeStorage.set(cache_key, data, 1);
+                };
+                self.processVariantData = function (data) {
+                    if (data.variants) {
+                        $scope.product.variants = data.variants;
+                        var data2 = timeStorage.get(cache_key);
+                        data2.variants = data.variants;
+                        timeStorage.set(cache_key, data2, 1);
+                    }
                 };
                 $scope.$on('search_product_event', function () {
                     var cat_id = $scope.product.cat_id;
@@ -224,7 +252,7 @@ productMod.controller('ProductCtrl',
                     $scope.product_loading = false;
                     $scope.productInfo();
                     if (!self.fetch_latest_done)
-                        $scope.fetchLatest(data.org_href);
+                        $scope.fetchLatest(data.org_href, data._id);
                 });
                 $scope.buy = function (product) {
                     if (!product.href)

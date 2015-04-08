@@ -25,6 +25,7 @@
                             <ion-checkbox on-tap="filterClick(filter_type,filter);" ng-model="filter.selected" ng-value="filter.param">{{filter.name}}</ion-checkbox>
                         </ion-item>
                     </ion-list>
+                    <div on-tap="openBrand();" class="brand_view_more" style="color: #da500f" ng-if="filter_type.type === 'Brand' && brand_filters_status > 0">View More [{{brand_filters_status}}] + </div>
                 </div>
 
             </div>

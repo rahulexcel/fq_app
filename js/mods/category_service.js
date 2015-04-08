@@ -1,12 +1,21 @@
 var categoryService = angular.module('CategoryService', ['ServiceMod', 'ionic']);
 
 categoryService.factory('categoryHelper', [
-    'ajaxRequest', '$q',
-    function (ajaxRequest, $q) {
+    'ajaxRequest', '$q', 'timeStorage',
+    function (ajaxRequest, $q, timeStorage) {
         var service = {};
         service.fetchFilters = function (data, is_search) {
             var defer = $q.defer();
             var ajax = false;
+
+            var cache_key = false;
+            if (data.cat_id && data.sub_cat_id) {
+                cache_key = data.cat_id + "_" + data.sub_cat_id + '_v2';
+                if (timeStorage.get(cache_key)) {
+                    return $q.when(angular.copy(timeStorage.get(cache_key)));
+                }
+            }
+
             ajax = ajaxRequest.send('v1/catalog/filters', angular.copy(data));
             ajax.then(function (data) {
                 var ret = {};
@@ -70,8 +79,12 @@ categoryService.factory('categoryHelper', [
                         }
                     }
                 }
-                filters = [];
                 ret.filters = filters;
+
+                if (cache_key) {
+                    timeStorage.set(cache_key, angular.copy(ret), 12);
+                }
+
 //                if (is_new)
 //                    $ionicLoading.hide();
                 defer.resolve(ret);

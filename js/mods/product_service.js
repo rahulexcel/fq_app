@@ -4,13 +4,17 @@ productService.factory('productHelper', [
     'ajaxRequest', '$q', '$http', 'timeStorage',
     function (ajaxRequest, $q, $http, timeStorage) {
         var service = {};
-        service.fetchLatest = function (url) {
+        service.fetchLatest = function (url, pid) {
             var defer = $q.defer();
             var key = 'product_latest_' + url;
             if (timeStorage.get(key)) {
                 return $q.when(timeStorage.get(key));
             } else {
-                var ajax = $http.get(ajaxRequest.url('v1/parseurl') + "?url=" + encodeURIComponent(url));
+                var params = "?url=" + encodeURIComponent(url);
+                if (pid) {
+                    params += '&pid=' + encodeURIComponent(pid);
+                }
+                var ajax = $http.get(ajaxRequest.url('v1/parseurl') + params);
                 ajax.then(function (data) {
                     if (data.data && data.data.data) {
                         timeStorage.set(key, data.data.data, 24);
@@ -20,6 +24,56 @@ productService.factory('productHelper', [
                 return defer.promise;
             }
         };
+        service.fetchVariant = function (id) {
+            var defer = $q.defer();
+            var ajax = ajaxRequest.send('v1/product/variant', {
+                product_id: id
+            });
+            ajax.then(function (data) {
+                var ret = {};
+                var variants = [];
+                for (var i = 0; i < data.length; i++) {
+                    variants.push({
+                        _id: data[i]._id,
+                        brand: data[i].brand,
+                        name: data[i].name,
+                        img: data[i].img,
+                        price: data[i].price,
+                        website: data[i].website,
+                        url: data[i].href
+                    });
+                }
+
+                ret.variants = variants;
+                defer.resolve(ret);
+            });
+            return defer.promise;
+        };
+        service.fetchSimilar = function (id) {
+            var defer = $q.defer();
+            var ajax = ajaxRequest.send('v1/product/similar', {
+                product_id: id
+            });
+            ajax.then(function (data) {
+                var ret = {};
+                var similar = [];
+
+                for (var i = 0; i < data.length; i++) {
+                    similar.push({
+                        _id: data[i]._id,
+                        brand: data[i].brand,
+                        name: data[i].name,
+                        image: data[i].img,
+                        price: data[i].price,
+                        website: data[i].website,
+                        url: data[i].href
+                    });
+                }
+                ret.similar = similar;
+                defer.resolve(ret);
+            });
+            return defer.promise;
+        };
         service.fetchProduct = function (id) {
             var defer = $q.defer();
             var ajax = ajaxRequest.send('v1/product/view', {
@@ -28,34 +82,6 @@ productService.factory('productHelper', [
             ajax.then(function (data) {
                 var ret = {};
                 ret.product = data.product;
-                var variants = [];
-                for (var i = 0; i < data.variant.length; i++) {
-                    variants.push({
-                        _id: data.variant[i]._id,
-                        brand: data.variant[i].brand,
-                        name: data.variant[i].name,
-                        img: data.variant[i].img,
-                        price: data.variant[i].price,
-                        website: data.variant[i].website,
-                        url: data.variant[i].href
-                    });
-                }
-
-                var similar = [];
-
-                for (i = 0; i < data.similar.length; i++) {
-                    similar.push({
-                        _id: data.similar[i]._id,
-                        brand: data.similar[i].brand,
-                        name: data.similar[i].name,
-                        image: data.similar[i].img,
-                        price: data.similar[i].price,
-                        website: data.similar[i].website,
-                        url: data.similar[i].href
-                    });
-                }
-                ret.similar = similar;
-                ret.variants = variants;
                 defer.resolve(ret);
             });
             return defer.promise;

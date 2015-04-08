@@ -27,6 +27,7 @@ categoryMod.controller('CategoryCtrl',
         ['$scope', 'categoryHelper', 'toast', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$timeout', 'timeStorage', 'CDN', '$ionicModal', 'pinchServie',
             function ($scope, categoryHelper, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $timeout, timeStorage, CDN, $ionicModal, pinchServie) {
                 var i = 0;
+                var self = this;
                 $scope.isCategoryPage = true;
                 $rootScope.$on('login_event', function () {
                     console.log('category ctrl login event listener');
@@ -211,7 +212,6 @@ categoryMod.controller('CategoryCtrl',
                 var multi_support = ['designer_brands', 'premium_brands', 'website', 'size', 'brand', 'color'];
                 $scope.filterClick = function (filter_type, filter) {
                     var type = filter_type.type.toLowerCase();
-                    console.log(type);
                     if (multi_support.indexOf(type) !== -1) {
                         console.log('multi');
                     } else {
@@ -408,6 +408,8 @@ categoryMod.controller('CategoryCtrl',
                         });
                     }
                 });
+                self.brand_filters = false;
+                $scope.brand_filters_status = 0;
                 $scope.getLatestFilters = function (cat, is_search) {
                     var req = categoryHelper.fetchFilters(cat, is_search);
                     req.then(function (ret) {
@@ -440,6 +442,7 @@ categoryMod.controller('CategoryCtrl',
                                 var type = filters[i].key;
 //                                        console.log('type ' + type);
                                 filters[i].type_select = 0;
+                                var new_data = [];
                                 for (var k = 0; k < data.length; k++) {
                                     var filter1 = data[k];
                                     var url1 = filter1.param;
@@ -455,25 +458,65 @@ categoryMod.controller('CategoryCtrl',
                                         }
                                     }
                                     if (found) {
-                                        //filters[i].open = true;
                                         filters[i].data[k].selected = true;
+//                                        data[k].selected = true;
+                                        new_data.unshift(data[k]);
                                         console.log(type + " typeee");
                                         if (multi_support.indexOf(type) === -1) {
                                             console.log('page load non multi support');
                                             filters[i].visible = false;
                                         }
-//                                        break;
+                                    } else {
+                                        new_data.push(data[k]);
                                     }
 
                                 }
+                                filters[i].data = new_data;
                             }
                         }
                         for (var i = 0; i < filters.length; i++) {
-                            final_filters.push(filters[i]);
+                            if (filters[i].type === 'Brand') {
+                                self.brand_filters = filters[i].data;
+
+                                var new_data = [];
+                                for (var k = 0; k < filters[i].data.length; k++) {
+                                    if (k >= 10) {
+                                        break;
+                                    }
+                                    new_data.push(filters[i].data[k]);
+                                }
+                                $scope.brand_filters_status = filters[i].data.length - k;
+                                filters[i].data = new_data;
+                                final_filters.push(filters[i]);
+                            } else {
+                                final_filters.push(filters[i]);
+                            }
                         }
-                        console.log(final_filters);
+//                        console.log(final_filters);
                         $scope.filters = final_filters;
                     });
+                };
+                //when clicking on view more in brand filter
+                $scope.openBrand = function () {
+                    var filters = $scope.filters;
+                    for (var i = 0; i < filters.length; i++) {
+                        if (filters[i].type === 'Brand') {
+                            var new_data = filters[i].data;
+                            var brand_filter_data = self.brand_filters;
+                            var x = 0;
+                            for (var k = brand_filter_data.length - $scope.brand_filters_status; k < brand_filter_data.length; k++) {
+                                x++;
+                                if (x > 10) {
+                                    break;
+                                }
+                                new_data.push(brand_filter_data[k]);
+                            }
+                            $scope.brand_filters_status = brand_filter_data.length - k;
+                            filters[i].data = new_data;
+                        }
+                    }
+                    $scope.filters = filters;
+                    $ionicScrollDelegate.resize();
                 };
                 $scope.nextPage = function (force) {
                     console.log('next page');
@@ -572,7 +615,6 @@ categoryMod.controller('CategoryCtrl',
                         }
                     }
                 };
-                var self = this;
                 self.getPinObj = function (active_pin) {
                     for (var i = 0; i < $scope.products.length; i++) {
                         if ($scope.products[i]._id === active_pin) {
