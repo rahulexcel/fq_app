@@ -49,12 +49,14 @@ googleLoginService.factory('googleLogin', [
             params += '&response_type=code';
             params += '&scope=' + encodeURIComponent(options.scope);
             var authUrl = 'https://accounts.google.com/o/oauth2/auth?' + params;
-            var win = window.open(authUrl, '_blank', 'location=no,toolbar=no,width=800, height=600');
+            var win = window.open(authUrl, '_blank', 'location=no,toolbar=no,width=800, height=800');
             var context = this;
+            var error_count = 0;
             var pollTimer = $interval(function () {
                 try {
-                    $log.info(win.document.URL);
+                    console.log("google window url " + win.document.URL);
                     if (win.document.URL.indexOf(context.redirect_url) !== -1) {
+                        console.log('redirect url found');
                         win.close();
                         $interval.cancel(pollTimer);
                         pollTimer = false;
@@ -69,6 +71,13 @@ googleLoginService.factory('googleLogin', [
                         }
                     }
                 } catch (e) {
+                    error_count++;
+                    console.log(e);
+                    if (error_count > 10) {
+                        win.close();
+                        $interval.cancel(pollTimer);
+                        def.reject({error: 'Permission Error'});
+                    }
                 }
             }, 100);
 
