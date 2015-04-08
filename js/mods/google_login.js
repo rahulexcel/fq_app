@@ -49,19 +49,28 @@ googleLoginService.factory('googleLogin', [
             params += '&response_type=code';
             params += '&scope=' + encodeURIComponent(options.scope);
             var authUrl = 'https://accounts.google.com/o/oauth2/auth?' + params;
-            if (cordova.InAppBrowser && cordova.InAppBrowser.open) {
-                window.open = cordova.InAppBrowser.open;
-            }
+            
             var win = window.open(authUrl, '_blank', 'location=no,toolbar=no,width=800, height=800');
             var context = this;
 
-            if (cordova.InAppBrowser && cordova.InAppBrowser.open) {
+            if (ionic.Platform.isWebView()) {
                 console.log('using in app browser');
                 win.addEventListener('loadstart', function (data) {
-                    console.log(data);
+                    if (data.url.indexOf(context.redirect_url) !== -1) {
+                            console.log('redirect url found');
+                            win.close();
+                            var url = data.url;
+                            var access_code = context.gulp(url, 'code');
+                            if (access_code) {
+                                context.validateToken(access_code, def);
+                            } else {
+                                def.reject({error: 'Access Code Not Found'});
+                            }
+                        }
 
                 });
             } else {
+                console.log('InAppBrowser not found11');
                 var pollTimer = $interval(function () {
                     try {
                         console.log("google window url " + win.document.URL);
