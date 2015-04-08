@@ -70,6 +70,7 @@ categoryService.factory('categoryHelper', [
                         }
                     }
                 }
+                filters = [];
                 ret.filters = filters;
 //                if (is_new)
 //                    $ionicLoading.hide();
