@@ -54,9 +54,9 @@ googleLoginService.factory('googleLogin', [
             }
             var win = window.open(authUrl, '_blank', 'location=no,toolbar=no,width=800, height=800');
             var context = this;
-            var error_count = 0;
 
             if (cordova.InAppBrowser && cordova.InAppBrowser.open) {
+                console.log('using in app browser');
                 win.addEventListener('loadstart', function (data) {
                     console.log(data);
 
@@ -81,13 +81,6 @@ googleLoginService.factory('googleLogin', [
                             }
                         }
                     } catch (e) {
-                        error_count++;
-                        console.log(e);
-//                    if (error_count > 10) {
-//                        win.close();
-//                        $interval.cancel(pollTimer);
-//                        def.reject({error: 'Permission Error'});
-//                    }
                     }
                 }, 100);
             }
