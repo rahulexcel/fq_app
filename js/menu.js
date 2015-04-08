@@ -95,10 +95,10 @@ menuMod.controller('MenuCtrl',
                         } else {
                             cat.open = true;
                         }
-                        $ionicScrollDelegate.resize();
+                        $ionicScrollDelegate.$getByHandle('left_menu').resize();
                         return;
                     }
-                    $ionicScrollDelegate.resize();
+                    $ionicScrollDelegate.$getByHandle('left_menu').resize();
                     $ionicScrollDelegate.$getByHandle('left_menu').scrollTop();
                     $ionicSideMenuDelegate.toggleLeft(false);
                     $location.path('/app/category/' + cat.cat_id + '/' + cat.sub_cat_id + '/' + cat.name);
