@@ -376,8 +376,11 @@ notifyService.factory('notifyHelper', [
                         "sound": true,
                         "alert": true,
                     };
+                    console.log('ios device');
                     $cordovaPush.register(iosConfig).then(function (result) {
-                        var token = result.deviceToken;
+                        var token = result;
+                        console.log('device token');
+                        console.log(result);
                         $cordovaAppVersion.getAppVersion().then(function (version) {
                             var device = {
                                 cordova: $cordovaDevice.getCordova(),
@@ -393,7 +396,8 @@ notifyService.factory('notifyHelper', [
                             });
                         });
                     }, function (err) {
-
+                        console.log('error1');
+                        console.log(err);
                     });
                 } else {
                     $cordovaPush.register({
@@ -430,10 +434,16 @@ notifyService.factory('notifyHelper', [
                             break;
                         case 'message':
                             console.log(notification);
-                            var meta = notification.payload.meta;
-                            $timeout(function () {
-                                service.openItem(meta);
-                            });
+                            if(notification.payload){
+                                var meta = notification.payload.meta;
+                                $timeout(function () {
+                                    service.openItem(meta);
+                                });
+                            }else{
+                                $timeout(function () {
+                                    service.openItem(notification);
+                                });
+                            }
                             // this is the actual push notification. its format depends on the data model from the push server
                             //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
                             break;
