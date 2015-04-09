@@ -368,54 +368,42 @@ notifyService.factory('notifyHelper', [
         service.init = function () {
             this.doUpdates();
             this.parseInit();
-//            this.sendAlert('54ac08520167b1f12f7453f8', {
-//                title: 'Test Title',
-//                message: 'Test Message',
-//                meta: {
-//                    user: $localStorage.user,
-//                    type: 'add_friend'
-//                },
-//                bigPicture: 'http://graph.facebook.com/manisharies.iitg/picture?type=large'
-//            });
+            if (ionic.Platform.isWebView() && $localStorage.user.id) {
 
-//if (typeof ParsePushPlugin === 'undefined') {
-//                return;
-//            }
-//            ParsePushPlugin.register({
-//                appId: "X5pqHF9dFQhbCxv8lQYHhH1KfXjzp2c4phg51ZPz", clientKey: "8h7pfcLqc7fefx8781bl35nQdVxRKznhGNvWOonu", eventKey: "myEventKey"}, //will trigger receivePN[pnObj.myEventKey]
-//            function () {
-//                console.log('successfully registered device!');
-//                if ($localStorage.user.id) {
-//                    ParsePushPlugin.subscribe('LoginChannel', function (msg) {
-//                        ParsePushPlugin.subscribe('user_' + $localStorage.user.id, function (msg) {
-//
-//                        }, function (e) {
-//
-//                        });
-//                    }, function (e) {
-//
-//                    });
-//                }
-//            }, function (e) {
-//                console.log('error registering device: ' + e);
-//            });
-//
-//            ParsePushPlugin.on('receivePN', function (pn) {
-//                console.log('yo2 i got this push notification:' + JSON.stringify(pn));
-            //                var data = pn;
-//            });
+                if (ionic.Platform.isIOS()) {
+                    var iosConfig = {
+                        "badge": true,
+                        "sound": true,
+                        "alert": true,
+                    };
+                    $cordovaPush.register(iosConfig).then(function (result) {
+                        var token = result.deviceToken;
+                        $cordovaAppVersion.getAppVersion().then(function (version) {
+                            var device = {
+                                cordova: $cordovaDevice.getCordova(),
+                                model: $cordovaDevice.getModel(),
+                                platform: $cordovaDevice.getPlatform(),
+                                version: $cordovaDevice.getVersion()
+                            };
+                            device.appVersion = version;
+                            ajaxRequest.send('v1/notify/register', {
+                                user_id: $localStorage.user.id,
+                                token: token,
+                                device: device
+                            });
+                        });
+                    }, function (err) {
 
-//            return;
+                    });
+                } else {
+                    $cordovaPush.register({
+                        "senderID": "124787039157"
+                    }).then(function (result) {
 
+                    }, function (err) {
 
-            if (window.cordova && window.cordova.plugins) {
-                $cordovaPush.register({
-                    "senderID": "124787039157"
-                }).then(function (result) {
-
-                }, function (err) {
-
-                });
+                    });
+                }
                 $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
                     switch (notification.event) {
                         case 'registered':
