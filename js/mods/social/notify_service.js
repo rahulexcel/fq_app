@@ -198,6 +198,15 @@ notifyService.factory('notifyHelper', [
             if (!expiry) {
                 expiry = 24;
             }
+
+            if (data.user) {
+                var new_user = {};
+                new_user.id = data.user.id;
+                new_user.name = data.user.name;
+                new_user.picture = data.user.picture;
+                data.user = new_user;
+            }
+
             if (!angular.isArray(channel)) {
                 channel = channel.replace('user_', '')
             }
@@ -434,12 +443,12 @@ notifyService.factory('notifyHelper', [
                             break;
                         case 'message':
                             console.log(notification);
-                            if(notification.payload){
+                            if (notification.payload) {
                                 var meta = notification.payload.meta;
                                 $timeout(function () {
                                     service.openItem(meta);
                                 });
-                            }else{
+                            } else {
                                 $timeout(function () {
                                     service.openItem(notification);
                                 });

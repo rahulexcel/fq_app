@@ -274,7 +274,10 @@ wishlistService.factory('wishlistHelper', [
                                 message: $localStorage.user.name + " has shared a list with you",
                                 meta: {
                                     user: $localStorage.user,
-                                    list: data,
+                                    list: {
+                                        _id: data._id,
+                                        name: data.name
+                                    },
                                     type: 'list_created',
                                     uniq_id: uniq_id
                                 }
@@ -444,7 +447,10 @@ wishlistService.factory('wishlistHelper', [
                         message: $localStorage.user.name + " left your list " + list.name,
                         meta: {
                             user: $localStorage.user,
-                            list: list,
+                            list: {
+                                _id: list._id,
+                                name: list.name
+                            },
                             type: 'list_left',
                             uniq_id: uniq_id
                         }

@@ -228,7 +228,10 @@ friendService.factory('friendHelper', [
                         message: $localStorage.user.name + " is Following You List " + data.name,
                         meta: {
                             user: $localStorage.user,
-                            list: data,
+                            list: {
+                                _id: data._id,
+                                name: data.name
+                            },
                             type: 'follow_list',
                             uniq_id: uniq_id
                         }

@@ -126,7 +126,17 @@ itemService.factory('itemHelper', [
                                 bigPicture: ajaxRequest.url('v1/picture/view/' + item_picture) + "?width=480",
                                 meta: {
                                     user: $localStorage.user,
-                                    data: data,
+                                    data: {
+                                        item_id: {
+                                            _id: data.item_id._id,
+                                            img: data.item_id.img
+                                        },
+                                        list_id: {
+                                            _id: data.list_id._id,
+                                            name : data.list_id.name
+                                        },
+                                        comment: data.comment
+                                    },
                                     type: 'item_comment',
                                     uniq_id: uniq_id
                                 }
@@ -186,7 +196,16 @@ itemService.factory('itemHelper', [
                         meta: {
                             user: $localStorage.user,
                             type: 'item_like',
-                            data: data,
+                            data: {
+                                item_id: {
+                                    _id: data.item_id._id,
+                                    img: data.item_id.img
+                                },
+                                list_id: {
+                                    _id: data.list_id._id,
+                                    name: data.list_id.name,
+                                }
+                            },
                             uniq_id: uniq_id
                         }
                     });
