@@ -1,0 +1,74 @@
+<ion-view>
+    <ion-content style='bottom:0px' scroll='false'>
+        <div class="intro_bg_image">
+            <img style="width: 100%" src="img/back.png" />
+        </div>
+        <ion-slide-box show-pager='true' class="intro_slider">
+            <ion-slide class='intro_slide' style='padding-top:{{padding}}px'>
+                <div style="text-align: center">
+                    <img src='img/fashioniq_intro.png' />                    
+                </div>
+                <div class="intro_slide_text">
+                    Welcome! Get started with fashioniq and discover amazing things within seconds.
+                </div>
+                <br/>
+            </ion-slide>
+            <ion-slide class='intro_slide' style='padding-top:{{padding}}px'>
+                <div style="text-align: center">
+                    <img src='img/fashioniq_intro.png' />                    
+                </div>
+                <div class="intro_slide_text">
+                    Discover! Explore products that are liked by your friends and others. Pin things you like, and manage then in your wishlist and build your own personal catalog.
+                </div>
+                <br/>
+            </ion-slide>
+            <ion-slide class='intro_slide' style='padding-top:{{padding}}px'>
+                <div style="text-align: center">
+                    <img src='img/fashioniq_intro.png' />                    
+                </div>
+                <div class="intro_slide_text">
+                    Watch Prices for you! Get discounts sitting at home, as we notify you when the prices drop.
+                </div>
+                <br/>
+            </ion-slide>
+            <ion-slide class='intro_slide' style='padding-top:{{padding}}px'>
+                <div style="text-align: center">
+                    <img src='img/fashioniq_intro.png' />                    
+                </div>
+                <div class="intro_slide_text">
+                    Shop! When you see a thing you love, you can buy it instantly on FashionIQ or gift it to a friend.
+                </div>
+                <br/>
+            </ion-slide>
+        </ion-slide-box>
+
+        <div class="padding intro_skip_text" style="top: {{skip_pos}}px;">
+            <a on-tap='skipIntro();' href='#'>SKIP</a>
+        </div>
+    </ion-content>
+    <ion-footer-bar class='intro_footer'>
+        <div id="account-page" style="width: 100%;padding-top: 12px">
+            <div class="padding">
+                <button class="button google-button" style="font-size: 1em" on-tap='google();'>
+                    <i class="fa fa-google-plus fa-lg g-social-icon"></i>
+                    Connect with <span class="social-site-name">Google+</span>
+                    <i class="fa fa-spinner fa-spin" ng-show="google_status == 1"></i>
+                    <i class="fa fa-times" ng-show="google_status == 3"></i>
+                    <i class="fa fa-check" ng-show="google_status == 2"></i>
+                </button>
+            </div>
+            <div class="padding">
+                <button class="button fb-button" style="font-size: 1em" on-tap='facebook();'>	
+                    <i class="fa fa-facebook fa-lg fb-social-icon"></i>
+                    Connect with <span class="social-site-name">Facebook</span>
+                    <i class="fa fa-spinner fa-spin" ng-show="facebook_status == 1"></i>
+                    <i class="fa fa-times" ng-show="facebook_status == 3"></i>
+                    <i class="fa fa-check" ng-show="facebook_status == 2"></i>
+                </button>
+            </div>
+            <div class="padding" style="color: white;text-align: center;">
+                Sign up now and get most out of FasionIQ
+            </div>
+        </div>
+    </ion-footer-bar>
+</ion-view>

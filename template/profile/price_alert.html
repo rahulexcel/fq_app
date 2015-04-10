@@ -16,8 +16,8 @@
     </ion-list>
 
     <ion-infinite-scroll
-        ng-if='updates.length > 0 && hasMore'
-        on-infinite="loadMoreUpdates()"
+        ng-if='alerts.length > 0 && hasMore'
+        on-infinite="loadMore()"
         distance="1%">
     </ion-infinite-scroll>
 </div>

@@ -34,6 +34,11 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
     function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 //        $ionicConfigProvider.views.maxCache(2);
         $stateProvider
+                .state('intro', {
+                    url: '/intro',
+                    templateUrl: 'template/intro.html',
+                    controller: 'RegisterCtrl'
+                })
                 .state('offline', {
                     url: '/offline',
                     templateUrl: 'template/offline.html',
@@ -371,8 +376,8 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
 
 var custom_history = [];
 
-app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", 'notifyHelper', '$cordovaNetwork', '$ionicHistory', '$timeout', 'toast', '$ionicLoading',
-    function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location, notifyHelper, $cordovaNetwork, $ionicHistory, $timeout, toast, $ionicLoading) {
+app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", 'notifyHelper', '$cordovaNetwork', '$ionicHistory', '$timeout', 'toast', '$ionicLoading', '$ionicBackdrop',
+    function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location, notifyHelper, $cordovaNetwork, $ionicHistory, $timeout, toast, $ionicLoading, $ionicBackdrop) {
         if (!$localStorage.user) {
             $localStorage.user = {};
         } else {
@@ -390,6 +395,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             e.preventDefault();
             var backView = $ionicHistory.backView();
             $ionicLoading.hide();
+            $ionicBackdrop.release();
             if (backView) {
                 // there is a back view, go to it
                 backView.go();
@@ -441,6 +447,9 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             if (toState.name === 'app.item.pins' || toState.name.indexOf('app.home.trending') !== -1 || toState.name.indexOf('app.home.feed') !== -1 || toState.name.indexOf('app.profile') !== -1 || (toState.name.indexOf('app.wishlist_item') !== -1 && toState.name.indexOf('app.wishlist_item_add') === -1)) {
                 $rootScope.body_class = 'grey_bg';
             }
+            if (toState.name === 'intro') {
+                $rootScope.body_class = 'intro_page';
+            }
 
             if (toState.name && toState.name === 'app.wishlist_item') {
                 $rootScope.list_id = toParams.list_id;
@@ -476,6 +485,9 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                     }
 
                 }
+            }
+            if (!$localStorage.user.id) {
+                $location.path('/intro');
             }
         });
     }]);

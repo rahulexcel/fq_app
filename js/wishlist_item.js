@@ -116,13 +116,13 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                         }
                                     }
                                     if (found) {
-                                        comments[i].can_like = 2;
-                                    } else {
                                         comments[i].can_like = 1;
+                                    } else {
+                                        comments[i].can_like = 2;
                                     }
                                 } else {
                                     comments[i].likes = [];
-                                    comments[i].can_like = true;
+                                    comments[i].can_like = 2;
                                 }
                             }
                             data.comments = comments;
@@ -368,7 +368,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             var user_id = $localStorage.user.id;
                             var ajax = itemHelper.unlikeComment(comment_id, user_id);
                             ajax.then(function () {
-                                comment.can_like = true;
+                                comment.can_like = 2;
                                 var likes = comment.likes;
                                 if (!likes)
                                     likes = [];
@@ -390,7 +390,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             var user_id = $localStorage.user.id;
                             var ajax = itemHelper.likeComment(comment, user_id, $state.params.item_id, $state.params.list_id);
                             ajax.then(function () {
-                                comment.can_like = false;
+                                comment.can_like = 1;
                                 if (!comment.likes)
                                     comment.likes = [];
                                 comment.likes.push({
@@ -728,9 +728,10 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 comments.unshift({
                                     _id: data.comment_id,
                                     user_id: $localStorage.user.id,
-                                    comment: $scope.item.comment,
+                                    comment: comment,
                                     picture: $localStorage.user.picture,
-                                    created_at: new Date().getTime()
+                                    created_at: new Date().getTime(),
+                                    can_like: 0
                                 });
                                 $scope.item.comments = comments;
                                 timeStorage.remove(cache_key);
@@ -752,7 +753,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                 $scope.selected_class = 'wishlist_item';
                 $scope.getData = function () {
                     var defer = $q.defer();
-                    var ajax = wishlistHelper.listItems($state.params.list_id, page);
+                    var ajax = wishlistHelper.listItems($state.params.list_id, page, $scope.item_id);
                     ajax.then(function (data) {
                         var items = data.items;
                         defer.resolve(items);

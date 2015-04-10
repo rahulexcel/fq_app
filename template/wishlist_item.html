@@ -176,10 +176,10 @@
                                 <div style="padding-top: 5px;">
                                     <span class="grey-color" style="font-size:0.7em">{{comment.created_at| prettyDate}}</span>                                    
                                     <span style="font-size:.9em;padding-left: 10px">
-                                        <span ng-show="comment.can_like === 2" class="red-color" style="text-decoration: underline">
+                                        <span ng-show="comment.can_like === 2" class="red-color" style="font-size:.8em">
                                             <span on-tap="likeComment(comment);">Like</span>
                                         </span>
-                                        <span ng-show="comment.can_like ==== 1" class="red-color" style="text-decoration: underline">
+                                        <span ng-show="comment.can_like === 1" class="red-color" style="font-size:.8em">
                                             <span on-tap="unlikeComment(comment);">UnLike</span>
                                         </span>
                                         <span class="grey-color" ng-show="comment.likes.length > 0" style="padding-left: 10px;">
@@ -252,7 +252,7 @@
             <div style="margin-top: 20px" ui-view="pin-content"></div>
         </div>
     </ion-content>
-    <ion-footer-bar ng-show='show_footer_menu' class='wishlist_item_footer'>
+    <ion-footer-bar ng-show='show_footer_menu' class='hide-on-keyboard-open wishlist_item_footer'>
         <div style="width: 100%">
             <div class="item_icon" ng-show="item.item_id.href.length > 0">
                 <button class="button red-back" on-tap="view(item);">BUY NOW</button>

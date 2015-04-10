@@ -166,7 +166,7 @@ profileMod.controller('ProfileCtrl',
                                 var startX = 0;
                                 if (start_index !== 0) {
                                     //-10 so that next tab is also visible
-                                    startX = start_index * 125 - window_width - 10;
+                                    startX = start_index * 125 - window_width + 50;
                                     if (startX < 0) {
                                         startX = 0;
                                     }

@@ -215,13 +215,14 @@ wishlistService.factory('wishlistHelper', [
                 return def.promise;
             }
         };
-        service.listItems = function (list_id, page) {
+        service.listItems = function (list_id, page, item_id) {
             var def = $q.defer();
             if ($localStorage.user && $localStorage.user.id) {
                 var ajax = ajaxRequest.send('v1/wishlist/item/list', {
                     user_id: $localStorage.user.id,
                     list_id: list_id,
-                    page: page
+                    page: page,
+                    ignore_item_id: item_id
                 });
                 ajax.then(function (data) {
                     def.resolve(data);

@@ -3,8 +3,8 @@ var registerMod = angular.module('RegisterMod', ['GoogleLoginService', 'AccountS
 //cordova -d plugin add C:\xampp\htdocs\facebook-plugin -variable APP_ID="765213543516434" --variable APP_NAME="FashionIQ"
 
 registerMod.controller('RegisterCtrl',
-        ['$scope', '$localStorage', '$location', 'toast', 'googleLogin', 'accountHelper', '$q', 'dataShare', '$rootScope',
-            function ($scope, $localStorage, $location, toast, googleLogin, accountHelper, $q, dataShare, $rootScope) {
+        ['$scope', '$localStorage', '$location', 'toast', 'googleLogin', 'accountHelper', '$q', 'dataShare', '$rootScope', '$window',
+            function ($scope, $localStorage, $location, toast, googleLogin, accountHelper, $q, dataShare, $rootScope, $window) {
                 if (!$localStorage.user) {
                     $localStorage.user = {};
                     $localStorage.user.email = '';
@@ -251,6 +251,19 @@ registerMod.controller('RegisterCtrl',
                         toast.showShortBottom('Unknow Error!' + err);
                     });
 
+                };
+
+                var innerHeight = $window.innerHeight;
+
+                var skip_pos = innerHeight - 150 - 40;
+
+                $scope.skip_pos = skip_pos;
+
+                innerHeight = innerHeight * .3;
+                $scope.padding = innerHeight;
+
+                $scope.skipIntro = function () {
+                    $location.path('/app/home/trending');
                 };
             }
         ]);
