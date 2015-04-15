@@ -408,6 +408,20 @@ notifyService.factory('notifyHelper', [
                         console.log('error1');
                         console.log(err);
                     });
+                    $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
+                        switch (notification.event) {
+
+                            case 'message':
+                                console.log(notification);
+                                $timeout(function () {
+                                    service.openItem(notification);
+                                });
+                                // this is the actual push notification. its format depends on the data model from the push server
+                                //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
+                                break;
+
+                        }
+                    });
                 } else {
                     $cordovaPush.register({
                         "senderID": "124787039157"
@@ -416,54 +430,47 @@ notifyService.factory('notifyHelper', [
                     }, function (err) {
 
                     });
-                }
-                $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
-                    switch (notification.event) {
-                        case 'registered':
-                            if (notification.regid.length > 0) {
-                                if ($localStorage.user.id) {
-                                    var device = {
-                                        cordova: $cordovaDevice.getCordova(),
-                                        model: $cordovaDevice.getModel(),
-                                        platform: $cordovaDevice.getPlatform(),
-                                        version: $cordovaDevice.getVersion()
-                                    };
-                                    $cordovaAppVersion.getAppVersion().then(function (version) {
-                                        device.appVersion = version;
-                                        ajaxRequest.send('v1/notify/register', {
-                                            user_id: $localStorage.user.id,
-                                            reg_id: notification.regid,
-                                            device: device
+                    $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
+                        switch (notification.event) {
+                            case 'registered':
+                                if (notification.regid.length > 0) {
+                                    if ($localStorage.user.id) {
+                                        $cordovaAppVersion.getAppVersion().then(function (version) {
+                                            var device = {
+                                                cordova: $cordovaDevice.getCordova(),
+                                                model: $cordovaDevice.getModel(),
+                                                platform: $cordovaDevice.getPlatform(),
+                                                version: $cordovaDevice.getVersion()
+                                            };
+                                            device.appVersion = version;
+                                            ajaxRequest.send('v1/notify/register', {
+                                                user_id: $localStorage.user.id,
+                                                reg_id: notification.regid,
+                                                device: device
+                                            });
                                         });
-                                    });
-                                }
+                                    }
 
-                                console.log('registration ID = ' + notification.regid);
-                            }
-                            break;
-                        case 'message':
-                            console.log(notification);
-                            if (notification.payload) {
+                                    console.log('registration ID = ' + notification.regid);
+                                }
+                                break;
+                            case 'message':
                                 var meta = notification.payload.meta;
                                 $timeout(function () {
                                     service.openItem(meta);
                                 });
-                            } else {
-                                $timeout(function () {
-                                    service.openItem(notification);
-                                });
-                            }
-                            // this is the actual push notification. its format depends on the data model from the push server
-                            //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
-                            break;
-                        case 'error':
-                            console.log('GCM error = ' + notification.msg);
-                            break;
-                        default:
-                            console.log('An unknown GCM event has occurred');
-                            break;
-                    }
-                });
+                                // this is the actual push notification. its format depends on the data model from the push server
+                                //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
+                                break;
+                            case 'error':
+                                console.log('GCM error = ' + notification.msg);
+                                break;
+                            default:
+                                console.log('An unknown GCM event has occurred');
+                                break;
+                        }
+                    });
+                }
             }
         };
         return service;

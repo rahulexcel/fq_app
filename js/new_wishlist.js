@@ -147,7 +147,11 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                     $scope.status = 2;
                                 });
                             } else {
-                                $location.path('/app/wishlist_item_add/' + list_id + "/step1");
+                                if ($scope.$parent.show_wishlist_type) {
+                                    $location.path('/app/wishlist_item_add_step2/' + $scope.$parent.show_wishlist_type + "/" + list_id);
+                                } else {
+                                    $location.path('/app/wishlist_item_add_step1');
+                                }
                             }
                         } else if ($scope.item) {
                             if ($scope.item.item_id._id) {
@@ -161,10 +165,18 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                     $scope.status = 2;
                                 });
                             } else {
-                                $location.path('/app/wishlist_item_add/' + list_id + "/step1");
+                                if ($scope.$parent.show_wishlist_type) {
+                                    $location.path('/app/wishlist_item_add_step2/' + $scope.$parent.show_wishlist_type + "/" + list_id);
+                                } else {
+                                    $location.path('/app/wishlist_item_add_step1');
+                                }
                             }
                         } else if ($scope.new_item) {
-                            $location.path('/app/wishlist_item_add/' + list_id + "/step1");
+                            if ($scope.$parent.show_wishlist_type) {
+                                $location.path('/app/wishlist_item_add_step2/' + $scope.$parent.show_wishlist_type + "/" + list_id);
+                            } else {
+                                $location.path('/app/wishlist_item_add_step1');
+                            }
                         } else {
                             $location.path('/app/profile/me/mine');
                         }

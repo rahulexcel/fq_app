@@ -1,6 +1,5 @@
 var serviceMod = angular.module('ServiceMod', ['ngStorage', 'ionic']);
 
-
 serviceMod.factory('pinchServie', ['$window', '$timeout',
     function ($window, $timeout) {
         var service = {
@@ -509,6 +508,125 @@ serviceMod.directive('pinch', ['pinchServie', '$ionicGesture', '$timeout', '$ion
         };
     }
 ]);
+
+serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootScope',
+    function ($ionicGesture, $ionicPlatform, $rootScope) {
+        return {
+            link: {
+                pre: function preLink(scope, iElement, iAttrs, controller) {
+                    if (!ionic.Platform.isAndroid()) {
+                        //return;
+                    }
+                    var html = '<div id="add_tap" class="fab red-back">';
+                    html += "<div id='tap_main' class='fab_icon'>";
+                    html += '<i class="ion-android-add"></i>';
+                    html += "</div>";
+                    html += '<ul style="position: relative">';
+                    html += '<li id="tap_first" class="fab_first">';
+                    html += "<div class='anim_text'>Camera</div>";
+                    html += '<div class="fab_small"><i class="ion-ios-camera"></i></div>';
+                    html += '</li>';
+                    html += '<li id="tap_second" class="fab_second">';
+                    html += "<div class='anim_text'>Gallary</div>";
+                    html += '<div class="fab_small"><i class="ion-images"></i></div>';
+                    html += '</li>';
+                    html += '<li id="tap_third" class="fab_third">';
+                    html += "<div class='anim_text'>Web Link</div>";
+                    html += '<div class="fab_small"><i class="ion-link"></i></div>';
+                    html += '</li>';
+                    html += '<li id="tap_fourth" class="fab_fourth">';
+                    html += "<div class='anim_text'>NearBy</div>";
+                    html += '<div class="fab_small"><i class="ion-location"></i></div>';
+                    html += '</li>';
+                    html += '</ul>';
+                    html += '</div>';
+                    iElement.html(html);
+                },
+                post: function postLink(scope, iElement, iAttrs, controller) {
+                    if (!ionic.Platform.isAndroid()) {
+                        //return;
+                    }
+
+                    var ele = angular.element(document.getElementById('add_tap'));
+                    var backdrop = angular.element(document.querySelector('.backdrop'));
+                    var back_button = false;
+
+                    $rootScope.$on('$ionicView.afterEnter', function () {
+
+                        var eles = document.querySelectorAll('.bar-footer');
+
+                        var is_footer_showing = false;
+                        for (var i = 0; i < eles.length; i++) {
+                            var el = eles[i];
+                            if (el.offsetParent === null) {
+                                //hidden element http://stackoverflow.com/a/21696585/2304347
+                            } else {
+                                is_footer_showing = true;
+                            }
+                        }
+                        if (is_footer_showing) {
+                            ele.attr('style', 'right:20px;bottom:50px');
+                        } else {
+                            ele.attr('style', 'right:20px;bottom:20px');
+                        }
+
+                    });
+
+                    $rootScope.$on('hide_android_add', function () {
+                        ele.addClass('fab_hide');
+                    });
+                    $rootScope.$on('show_android_add', function () {
+                        ele.removeClass('fab_hide');
+                    });
+
+                    $ionicGesture.on('tap', function (e) {
+                        if (ele.hasClass('fab_rotate')) {
+                            back_button();
+                        } else {
+                            back_button = $ionicPlatform.registerBackButtonAction(function (e) {
+                                ele.toggleClass('fab_rotate')
+                                backdrop.toggleClass('active visible');
+                                e.preventDefault();
+                                return false;
+                            }, 9999);
+                        }
+                        ele.toggleClass('fab_rotate')
+                        backdrop.toggleClass('active visible');
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }, angular.element(document.getElementById('tap_main')));
+                    $ionicGesture.on('tap', function (e) {
+                        scope.$broadcast('tap_first');
+                        ele.toggleClass('fab_rotate')
+                        backdrop.toggleClass('active visible');
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }, angular.element(document.getElementById('tap_first')));
+                    $ionicGesture.on('tap', function (e) {
+                        scope.$broadcast('tap_second');
+                        ele.toggleClass('fab_rotate')
+                        backdrop.toggleClass('active visible');
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }, angular.element(document.getElementById('tap_second')));
+                    $ionicGesture.on('tap', function (e) {
+                        scope.$broadcast('tap_third');
+                        ele.toggleClass('fab_rotate')
+                        backdrop.toggleClass('active visible');
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }, angular.element(document.getElementById('tap_third')));
+                    $ionicGesture.on('tap', function (e) {
+                        scope.$broadcast('tap_fourth');
+                        ele.toggleClass('fab_rotate')
+                        backdrop.toggleClass('active visible');
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }, angular.element(document.getElementById('tap_fourth')));
+                }
+            }
+        };
+    }]);
 serviceMod.directive('imgLoader', function () {
     // in many cases image height was more than image width
     // in such cases, it was showing image half cut because it was reszing only by width and not by height

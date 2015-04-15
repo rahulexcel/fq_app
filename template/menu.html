@@ -16,11 +16,11 @@
                 <button on-tap='searchNow();' class="button button-icon btn-search">
                     <i class="ion-search white-color fa-lg"></i>
                 </button>
-                <button on-tap='wishlist();' class="button button-icon">
+                <button  ng-show="!ajax_on" on-tap='wishlist();' class="button button-icon">
                     <i class="ion-person fa-lg white-color"></i>
                     <div class="profile_updates" ng-if='profile_update > 0'>{{profile_update}}</div>
                 </button>
-                <button ng-show="!ajax_on" on-tap='addWishlistItem();' class="button button-icon">
+                <button on-tap='addWishlistItem();' class="add_top_button button button-icon">
                     <i class="ion-plus-round fa-lg white-color"></i>
                 </button>
                 <button on-tap="clearAjax();" ng-show="ajax_on" class="button button-clear">
@@ -50,12 +50,12 @@
             <div id="menu-bar-container">
                 <i class="fa fa-spinner fa-spin" ng-show='category.length == 0'></i>
                 <ul ng-show='category.length >= 0'>
-                    <li><span ng-click="home()" nav-clear menu-close>HOME</span><div class="clearfix"></div></li>
+                    <li><span ng-click="home()" class="pri_cats" ontouchstart="return true;" nav-clear menu-close>HOME</span><div class="clearfix"></div></li>
                     <li bindonce ng-repeat="cat in category">
-                        <span ng-click="selectCategory(cat)" bo-bind='cat.name|uppercase'></span><div class="clearfix"></div>
+                        <span ontouchstart="return true;" ng-click="selectCategory(cat)" bo-bind='cat.name|uppercase'></span><div class="clearfix"></div>
                         <ul ng-show="cat.open" style="padding-left: 20px" bo-if='cat.data.length > 0'>
                             <li class="sub-cat-label" bindonce ng-repeat="catSub in cat.data" >
-                                <span style="line-height: 1.2;padding-top: 8px;padding-bottom: 8px;" ng-click='selectCategory(catSub)' bo-bind='catSub.name|uppercase'>
+                                <span style="line-height: 1.2;padding-top: 8px;padding-bottom: 8px;" ontouchstart="return true;" ng-click='selectCategory(catSub)' bo-bind='catSub.name|uppercase'>
                                     <div class="plus-minus" bo-if="catSub.data.length > 0">
                                         <i ng-show="!catSub.open">+</i>
                                         <i ng-show="catSub.open">-</i>
@@ -65,7 +65,7 @@
                                 <div class="clearfix"></div>
                                 <ul class="" ng-show="catSub.open" style="padding-left: 20px" bo-if='catSub.data.length > 0'>
                                     <li class="" bindonce ng-repeat="catLast in catSub.data" >
-                                        <span class="subCat" style="line-height: 2"  ng-click='selectCategory(catLast)' bo-bind='catLast.name'></span>        
+                                        <span class="subCat" style="line-height: 2" ontouchstart="return true;" ng-click='selectCategory(catLast)' bo-bind='catLast.name'></span>        
                                     </li>
                                 </ul>
                             </li>

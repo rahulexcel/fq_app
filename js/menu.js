@@ -380,11 +380,14 @@ menuMod.controller('MenuCtrl',
                             $scope.wishlist_product.item.select_list_id = list._id;
                             $scope.$broadcast('wishlist_pin_select');
                         } else {
-                            $location.path('/app/wishlist_item_add/' + list._id + "/step1");
+                            $location.path('/app/wishlist_item_add_step2/' + $scope.show_wishlist_type + '/' + list._id);
+//                            $location.path('/app/wishlist_item_add/' + list._id + "/step1");
                         }
                     }
                 };
-                $scope.showWishlist = function () {
+                $scope.show_wishlist_type = false;
+                $scope.showWishlist = function (type) {
+                    $scope.show_wishlist_type = type;
                     var ajax = wishlistHelper.list();
                     ajax.then(function (data) {
                         $scope.lists = data;
@@ -431,14 +434,16 @@ menuMod.controller('MenuCtrl',
                 $scope.addWishlistItem = function () {
                     if ($localStorage.user && $localStorage.user.id) {
                         if ($rootScope.list_id) {
-                            dataShare.broadcastData({}, 'add_wishlist_item');
-                            $location.path('/app/wishlist_item_add/' + $rootScope.list_id + "/step1");
+                            dataShare.broadcastData($rootScope.list_id, 'add_wishlist_item');
+//                            $location.path('/app/wishlist_item_add/' + $rootScope.list_id + "/step1");
                         } else {
-                            $scope.wishlist_product.product = false;
-                            $scope.wishlist_product.item = false;
-                            $scope.wishlist_product.new_item = true;
-                            $scope.showWishlist();
+//                            $scope.wishlist_product.product = false;
+//                            $scope.wishlist_product.item = false;
+//                            $scope.wishlist_product.new_item = true;
+//                            $scope.showWishlist();
+                            dataShare.broadcastData(false, 'add_wishlist_item');
                         }
+                        $location.path('/app/wishlist_item_add_step1');
                     } else {
                         toast.showShortBottom('Login To Add Item To Your Wishlist');
                         $location.path('/app/signup');
@@ -447,5 +452,58 @@ menuMod.controller('MenuCtrl',
                 $scope.clearAjax = function () {
                     $rootScope.ajax_on = false;
                 };
+
+//below is code of material add
+
+                $scope.$on('modal.shown', function () {
+                    $rootScope.$emit('hide_android_add');
+                });
+                $scope.$on('modal.hidden', function () {
+                    $rootScope.$emit('show_android_add');
+                });
+                $scope.$on('tap_first', function () {
+                    if ($localStorage.user.id) {
+                        $scope.wishlist_product.product = false;
+                        $scope.wishlist_product.item = false;
+                        $scope.wishlist_product.new_item = true;
+                        $scope.showWishlist('camera');
+                    } else {
+                        toast.showShortBottom('Login/SignUp To Setup Wishlist');
+                        $location.path('/app/signup');
+                    }
+                });
+                $scope.$on('tap_second', function () {
+                    if ($localStorage.user.id) {
+                        $scope.wishlist_product.product = false;
+                        $scope.wishlist_product.item = false;
+                        $scope.wishlist_product.new_item = true;
+                        $scope.showWishlist('gallary');
+                    } else {
+                        toast.showShortBottom('Login/SignUp To Setup Wishlist');
+                        $location.path('/app/signup');
+                    }
+                });
+                $scope.$on('tap_thrid', function () {
+                    if ($localStorage.user.id) {
+                        $scope.wishlist_product.product = false;
+                        $scope.wishlist_product.item = false;
+                        $scope.wishlist_product.new_item = true;
+                        $scope.showWishlist('image_url');
+                    } else {
+                        toast.showShortBottom('Login/SignUp To Setup Wishlist');
+                        $location.path('/app/signup');
+                    }
+                });
+                $scope.$on('tap_fourth', function () {
+                    if ($localStorage.user.id) {
+                        $scope.wishlist_product.product = false;
+                        $scope.wishlist_product.item = false;
+                        $scope.wishlist_product.new_item = true;
+                        $scope.showWishlist('near');
+                    } else {
+                        toast.showShortBottom('Login/SignUp To Setup Wishlist');
+                        $location.path('/app/signup');
+                    }
+                });
             }
         ]);

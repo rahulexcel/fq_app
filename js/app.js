@@ -318,29 +318,32 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         }
                     }
                 })
-                .state('app.wishlist_item_add', {
-                    url: '/wishlist_item_add/:list_id',
-                    abstract: true,
+//                .state('app.wishlist_item_add', {
+//                    url: '/wishlist_item_add/:list_id',
+//                    abstract: true,
+//                    views: {
+//                        'menuContent': {
+//                            templateUrl: 'template/wishlist_item_add.html',
+//                            controller: 'WishlistItemAddCtrl'
+//                        }
+//                    }
+//                })
+
+                .state('app.wishlist_item_add_step1', {
+                    url: '/wishlist_item_add_step1',
                     views: {
                         'menuContent': {
-                            templateUrl: 'template/wishlist_item_add.html',
-                            controller: 'WishlistItemAddCtrl'
+                            templateUrl: 'template/wishlist_item_add_step1.html',
+                            controller: 'WishlistItemAddCtrlStep1'
                         }
                     }
                 })
-                .state('app.wishlist_item_add.step1', {
-                    url: '/step1',
+                .state('app.wishlist_item_add_step2', {
+                    url: '/wishlist_item_add_step2/:type/:list_id',
                     views: {
-                        'tab-content': {
-                            templateUrl: 'template/item_add/step1.html'
-                        }
-                    }
-                })
-                .state('app.wishlist_item_add.step2', {
-                    url: '/step2',
-                    views: {
-                        'tab-content': {
-                            templateUrl: 'template/item_add/step2.html'
+                        'menuContent': {
+                            templateUrl: 'template/wishlist_item_add_step2.html',
+                            controller: 'WishlistItemAddCtrlStep2'
                         }
                     }
                 })
@@ -429,6 +432,9 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                 StatusBar.styleDefault();
             }
             notifyHelper.init();
+            if (!$localStorage.user.id) {
+                $location.path('/intro');
+            }
         });
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
             if ($cordovaNetwork.isOffline()) {
@@ -449,6 +455,11 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             }
             if (toState.name === 'intro') {
                 $rootScope.body_class = 'intro_page';
+            }
+            if (toState.name === 'app.category_search' || toState.name === 'app.product_search' || toState.name === 'app.product' || toState.name === 'app.category' || toState.name === 'intro' || toState.name === 'offline' || toState.name === 'app.signup' || toState.name === 'app.login' || toState.name === 'app.forgot' || toState.name.indexOf('wishlist_item_add') != -1 || toState.name === 'app.invite' || toState.name === 'app.feedback' || toState.name === 'app.aboutus') {
+                $rootScope.$emit('hide_android_add');
+            } else {
+                $rootScope.$emit('show_android_add');
             }
 
             if (toState.name && toState.name === 'app.wishlist_item') {
@@ -485,9 +496,6 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                     }
 
                 }
-            }
-            if (!$localStorage.user.id) {
-                $location.path('/intro');
             }
         });
     }]);
