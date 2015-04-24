@@ -12,16 +12,16 @@
             <div class="pro-img padding">
                 <div class="pro-img">
                     <ion-slide-box ng-if="product.more_images" show-pager="true" style="height: 350px">
-                        <ion-slide>
+                        <ion-slide on-tap="showZoom(-1)">
                             <img img-loader ng-src='{{product.img}}'/>
                         </ion-slide>
-                        <ion-slide ng-repeat="img in product.more_images  track by $index">
+                        <ion-slide on-tap="showZoom($index)" ng-repeat="img in product.more_images  track by $index">
                             <img img-loader ng-src='{{img}}'/>
                         </ion-slide>
                     </ion-slide-box>
-                    <img ng-if="!product.more_images" ng-src='{{product.img}}'/>
+                    <img on-tap="showZoom(-1)" ng-if="!product.more_images" ng-src='{{product.img}}'/>
                 </div>
-                <div class="wishlist-product-img-big red-back" on-tap="wishlist(product,$event);">
+                <div class="wishlist-product-img-big accent_bg" on-tap="wishlist(product,$event);">
                     <i class="ion-ios-heart"></i>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                         <div class="clearfix"></div>
                     </div>
                 </div>
-                <div class="pro-price">
+                <div class="pro-price" ng-if="product.price * 1 > 20">
                     Rs.{{product.price}}
                 </div>
                 <div class="price-up-down" >
@@ -57,13 +57,13 @@
                         </div>
                     </div>
                     <div ng-if="isMobile">
-                        <i class="ion-social-whatsapp-outline red-color" on-tap='whatsapp(product)'></i>
-                        <i class="ion-social-twitter red-color" on-tap='twitter(product)'></i>
-                        <i class="ion-social-facebook red-color"  on-tap='facebook(product)'></i>
-                        <i class="ion-android-share-alt red-color" on-tap='shareAll(product)'></i>
+                        <i class="ion-social-whatsapp-outline accent" on-tap='whatsapp(product)'></i>
+                        <i class="ion-social-twitter accent" on-tap='twitter(product)'></i>
+                        <i class="ion-social-facebook accent"  on-tap='facebook(product)'></i>
+                        <i class="ion-android-share-alt accent" on-tap='shareAll(product)'></i>
                     </div>
                 </div>
-                <button class="button pro-button signup-button red-back" on-tap="buy(product);">BUY NOW</button>
+                <button class="button pro-button signup-button accent_bg" on-tap="buy(product);">BUY NOW</button>
                 <div class="clearfix"></div>
             </div>
 
@@ -76,22 +76,24 @@
                 <div class="similar-product-label">
                     SIMILAR PRODUCTS
                 </div>
-                <div id="similar" class="similar similar_{{product._id}}">
-                    <ul id="scroller" class="variants scroller_{{product._id}}">
-                        <li on-tap="openProduct(variant);" ng-repeat="variant in product.similar" style="float: left">
-                            <div class="similar-img">
-                                <img img-loader ng-src='{{variant.image}}'/>
-                            </div>
-                            <div class="name">
-                                {{variant.name}}
-                            </div>
-                            <div class="similar-price">
-                                Rs. {{variant.price}}
-                            </div>
-                        </li>
-                        <div class="clearfix"></div>
-                    </ul>
-                </div>  
+                <ion-scroll scrollbar-x="false" zoom="false" direction="x" style="width: 100%;">
+                    <div id="similar" class="similar similar_{{product._id}}">
+                        <ul id="scroller" class="variants scroller_{{product._id}}">
+                            <li on-tap="openProduct(variant);" ng-repeat="variant in product.similar" style="float: left">
+                                <div class="similar-img">
+                                    <img img-loader ng-src='{{variant.image}}'/>
+                                </div>
+                                <div class="name">
+                                    {{variant.name}}
+                                </div>
+                                <div class="similar-price" ng-if="variant.price * 1 > 20">
+                                    Rs. {{variant.price}}
+                                </div>
+                            </li>
+                            <div class="clearfix"></div>
+                        </ul>
+                    </div>  
+                </ion-scroll>
                 <div class="clearfix"></div>
             </div>
             <div class="clearfix"></div>
@@ -112,8 +114,8 @@
                                 <span class="e-site"> <i class="site {{variant.website}}"></i>{{variant.website}} </span>
                             </div>
                             <div class="other-seller-price">
-                                <span on-tap="openProduct(variant);" class="other-price">Rs.{{variant.price}}</span>
-                                <button class="button pro-button red-back" on-tap="buy(variant);">BUY</button>
+                                <span ng-if="variant.price * 1 > 20" on-tap="openProduct(variant);" class="other-price">Rs.{{variant.price}}</span>
+                                <button class="button pro-button accent_bg" on-tap="buy(variant);">BUY</button>
                             </div>
                             <div class="clearfix"></div>
                         </div>

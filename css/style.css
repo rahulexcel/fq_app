@@ -16,6 +16,69 @@
 
     }
 }
+.bar-header{
+    background-color: #3F51B5;
+}
+.primary_dark {
+    color:#303F9F;
+}
+.primary_bg{
+    background-color:#3F51B5;
+    color: white;
+}
+.primary{
+    color:#3F51B5;
+}
+.primary_light_bg{
+    background-color:#C5CAE9;
+}
+.primary_light{
+    color:#C5CAE9;
+}
+.text_icon{
+    color:#FFFFFF;
+}
+.accent_bg{
+    background-color:#f50057;
+    color: white;
+}
+.accent{
+    color:#f50057;
+}
+.primary_text{
+    color: #212121;
+}
+.secondary_text{
+    color:#727272;
+}
+.divider_color{
+    color:#B6B6B6;
+}
+
+.grey_bg{
+    background-color: #f9f7f4;
+}
+.grey_bg .pane,.grey_bg .view{
+    background-color: #f9f7f4;
+}
+
+/*
+.red-back,.bar-header{
+    background-color:#da500f !important;
+    color:#fff !important;
+}*/
+.white-back{
+    background-color: #fff;
+}
+
+.red-color{
+    color:#f50057;
+}
+.grey-color {
+    color:#727272;
+}
+
+
 .semibold{
     font-weight: 600;
 }
@@ -103,6 +166,7 @@ textarea {
 }
 
 .zara  { background-image: url("../img/fav/zara.png");   }
+.zara  { background-image: url("../img/fav/zara.png");   }
 .indiacircus  { background-image: url("../img/fav/indiacircus.png");   }
 .indiacircus  { background-image: url("../img/fav/indiacircus.png");   }
 .miracas  { background-image: url("../img/fav/miracas.png");   }
@@ -150,12 +214,6 @@ textarea {
 .bewakoof { background-image: url("../img/fav/bewakoof.png")  }
 .urbanladder { background-image: url("../img/fav/urbanladder.png")  }
 
-.grey_bg{
-    background-color: #f9f7f4;
-}
-.grey_bg .pane,.grey_bg .view{
-    background-color: #f9f7f4;
-}
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
 }
@@ -261,7 +319,6 @@ img
     background-color: #fff;
 }
 .prog_inner{
-    background-color: black;
     height: 2px;
 }
 
@@ -337,8 +394,6 @@ Scroll On Product Page
     text-size-adjust: none;   
 }
 #menu_sliding{
-    border-bottom: 1px solid #EEE7DD;
-    border-top: 1px solid #EEE7DD;
     background-color: #fff;
     width: 100%;
 }
@@ -363,25 +418,14 @@ Scroll On Product Page
     font-size: 0.79em;
     font-weight: bold;
     height: 39px;
+    border-bottom: 1px solid #EEE7DD;
+    border-top: 1px solid #EEE7DD;
 }
 
 .hidden {
     display: none;
 }
 
-.red-back,.bar-header{
-    background-color:#da500f !important;
-    color:#fff !important;
-}
-.white-back{
-    background-color: #fff;
-}
-.red-color{
-    color:#da500f;
-}
-.grey-color {
-    color:#838383;
-}
 .progress_parent{
     padding: 10px 15px;
 }
@@ -392,9 +436,6 @@ Scroll On Product Page
 }
 .uploading{
     font-size: 0.79em;
-}
-.prog_inner{
-    height: 3px;
 }
 i.close-tab-icon{
 
@@ -741,6 +782,16 @@ span.e-site{
     border-top: 1px solid #D1D1D1;
     font-family: "Dosis";
     font-size: 16px;
+}
+.zoom_similar #scroller li{
+    width: 50px !important;
+    border: 1px solid #ccc;
+    margin-left: 1px;
+    height: 36px;
+}
+.zoom_similar .similar-img{
+    margin: 3px;
+    height: 36px;
 }
 #scroller li {
     width:150px;
@@ -1422,6 +1473,16 @@ i.fa-circle{
     border-radius: .2em;
     background-color: #fff;
 }
+.user_image_box{
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    left:0px;
+    top:0px;
+}
 .user_image{
     float: left;
     width: 50px;
@@ -1433,6 +1494,14 @@ i.fa-circle{
 .user_image_new{
     width: 45px !important;
     margin:0px 15px 0px 0px;
+}
+.user-info-box{
+    line-height: 15px;
+    margin-top: 2px;
+    width: 98%;
+    margin-left: 2%;
+    padding-left: 50px;
+    padding-right: 55px;
 }
 .user-info{
     float: left;
@@ -1595,7 +1664,7 @@ ul.mine-list{
     margin: 0px !important;
 }
 ul.mine-list li{
-    border-right: 1px solid #EEE7DD;
+    /*border-right: 1px solid #EEE7DD;*/
     display: inline;
     line-height: 36px;
     /*padding: 13px 10px;*/
@@ -1777,7 +1846,10 @@ i.offline-icon{
     min-height: 50px;
 }
 .pin-status{
+    border-top: 1px solid #d9d7d4;
     color: #999;
+    font-size: 0.9em;
+    padding: 5px;
 }
 .pin-status .ion-thumbsup{
     padding-left: 5px;
@@ -1789,7 +1861,7 @@ i.offline-icon{
     margin: 0px auto;
 }
 .pin-info{
-    border-bottom: 1px solid #d9d7d4;
+    border-top: 1px solid #d9d7d4;
     /*min-height: 50px;*/
 }
 .pin .user-info span{
@@ -1870,57 +1942,57 @@ i.offline-icon{
     color: #8D8D8D;
     font-size: 10px;
 }
-.wishlist .wishlist{
-    border-bottom: 2px solid #DA500F !important;
-    color: #DA500F !important;
-}
 .private-label .item-checkbox {
     padding-left: 21px;
 }
+.wishlist .wishlist{
+    border-bottom: 2px solid #f50057 !important;
+    color: #f50057 !important;
+}
 .followers .followers{
-    border-bottom: 2px solid #DA500F !important;
-    color: #DA500F !important;
+    border-bottom: 2px solid #f50057 !important;
+    color: #f50057 !important;
 }
 .trending .trending{
     border-bottom: 2px solid #f50057 !important;
     color: #f50057 !important;
 }
 .latest .latest{
-    border-bottom: 2px solid #DA500F !important;
-    color: #DA500F !important;
+    border-bottom: 2px solid #f50057 !important;
+    color: #f50057 !important;
 }
 .feed .feed{
-    border-bottom: 2px solid #DA500F !important;
-    color: #DA500F !important;
+    border-bottom: 2px solid #f50057 !important;
+    color: #f50057 !important;
 }
 
 .following .following{
-    border-bottom: 2px solid #DA500F !important;
-    color: #DA500F !important;
+    border-bottom: 2px solid #f50057 !important;
+    color: #f50057 !important;
 }
 .pins .pins{
-    border-bottom: 2px solid #DA500F !important;
-    color: #DA500F !important;
+    border-bottom: 2px solid #f50057 !important;
+    color: #f50057 !important;
 }
 .profile .profile{
-    border-bottom: 2px solid #DA500F !important;
-    color: #DA500F !important;
+    border-bottom: 2px solid #f50057 !important;
+    color: #f50057 !important;
 }
 .update .update{
-    border-bottom: 2px solid #DA500F !important;
-    color: #DA500F !important;
+    border-bottom: 2px solid #f50057 !important;
+    color: #f50057 !important;
 }
 .alerts .alerts{
-    border-bottom: 2px solid #DA500F !important;
-    color: #DA500F !important;
+    border-bottom: 2px solid #f50057 !important;
+    color: #f50057 !important;
 }
 .friends .friends{
-    border-bottom: 2px solid #DA500F !important;
-    color: #DA500F !important;
+    border-bottom: 2px solid #f50057 !important;
+    color: #f50057 !important;
 }
 .recommended .recommended{
-    border-bottom: 2px solid #DA500F !important;
-    color: #DA500F !important;
+    border-bottom: 2px solid #f50057 !important;
+    color: #f50057 !important;
 }
 .home_content #menu_scroller{
     width: 100% !important;
@@ -2286,9 +2358,14 @@ i.offline-icon{
     min-height: 31px;
     line-height: 32px;
 }
-
-.brand_view_more{
-
+.brand_view_alph_sel{
+    text-decoration: underline;
+}
+.brand_view_alph{
+    float: left;
+    width:20px;
+    text-align: center;
+    color: #f50057 !important;
 }
 .intro_page .pane{
     background-color: black;
@@ -2471,4 +2548,40 @@ i.offline-icon{
     -moz-transform: translate3d(-10px,-305px,0px) scale(1);
     -o-transform: translate3d(-10px,-305px,0px) scale(1);
     -ms-transform: translate3d(-10px,-305px,0px) scale(1);
+}
+.button:hover{
+    color: white;
+}
+
+#wrapper_zoom {
+    /*position: absolute;*/
+    z-index: 1;
+    background: #ccc;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+#scroller_zoom {
+    position: absolute;
+    top:0px;
+    left:0px;
+    z-index: 1;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    width: 100%;
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    -o-text-size-adjust: none;
+    text-size-adjust: none;
 }

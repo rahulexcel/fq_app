@@ -47,7 +47,7 @@
                             &nbsp;
                             <span> <i class="ion-ios-people grey-color"></i>  {{list.followers.length}} followers </span> 
                             <div>Created {{list.created_at| prettyDate}} </div>
-                            <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
+                            <i ng-show="list.tick" class="fa fa-check list-tick accent"></i>
                             <div class="clearfix"></div>
                         </div>
                         <div class="clearfix"></div>
@@ -76,7 +76,7 @@
                             <div>
                                 Created {{list.created_at| prettyDate}} by {{list.user_id.name}}
                             </div>
-                            <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
+                            <i ng-show="list.tick" class="fa fa-check list-tick accent"></i>
                             <div class="clearfix"></div>
                         </div>
                         <div class="clearfix"></div>
@@ -105,7 +105,7 @@
                             &nbsp;
                             <span> <i class="ion-ios-people grey-color"></i> {{list.followers.length}} followers </span> 
                             <div>Created {{list.created_at| prettyDate}} </div>
-                            <i ng-show="list.tick" class="fa fa-check list-tick red-color"></i>
+                            <i ng-show="list.tick" class="fa fa-check list-tick accent"></i>
                             <div class="clearfix"></div>
                         </div>
                         <div class="clearfix"></div>
@@ -116,7 +116,7 @@
     </ion-content>
     <ion-footer-bar>
         <div class="clip-it">
-            <button on-tap='selectList();' class="button signup-button red-back disable-user-behavior">
+            <button on-tap='selectList();' class="button signup-button accent_bg disable-user-behavior">
                 CLIP IT
             </button>
         </div> 

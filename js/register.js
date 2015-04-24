@@ -1,17 +1,17 @@
-var registerMod = angular.module('RegisterMod', ['GoogleLoginService', 'AccountService', 'ServiceMod', 'ngStorage']);
+var registerMod = angular.module('RegisterMod', ['GoogleLoginService', 'AccountService', 'ServiceMod', 'ngStorage', 'UrlService']);
 
 //cordova -d plugin add C:\xampp\htdocs\facebook-plugin -variable APP_ID="765213543516434" --variable APP_NAME="FashionIQ"
 
 registerMod.controller('RegisterCtrl',
-        ['$scope', '$localStorage', '$location', 'toast', 'googleLogin', 'accountHelper', '$q', 'dataShare', '$rootScope', '$window',
-            function ($scope, $localStorage, $location, toast, googleLogin, accountHelper, $q, dataShare, $rootScope, $window) {
+        ['$scope', '$localStorage', 'toast', 'googleLogin', 'accountHelper', '$q', 'dataShare', '$rootScope', '$window', 'urlHelper',
+            function ($scope, $localStorage, toast, googleLogin, accountHelper, $q, dataShare, $rootScope, $window, urlHelper) {
                 if (!$localStorage.user) {
                     $localStorage.user = {};
                     $localStorage.user.email = '';
                 } else {
 
                     if ($localStorage.user.id) {
-                        $location.path('/app/home');
+                        urlHelper.openHomePage();
                         return;
                     }
 
@@ -63,13 +63,13 @@ registerMod.controller('RegisterCtrl',
                 });
 
                 $scope.showForgot = function () {
-                    $location.path('/app/forgot');
+                    urlHelper.openForgotPage();
                 };
                 $scope.showRegister = function () {
-                    $location.path('/app/signup');
+                    urlHelper.openSignUp();
                 };
                 $scope.showLogin = function () {
-                    $location.path('/app/login');
+                    urlHelper.openLoginPage();
                 };
                 $scope.forgot = function () {
                     var email = $scope.forgot_obj.email;
@@ -263,7 +263,7 @@ registerMod.controller('RegisterCtrl',
                 $scope.padding = innerHeight;
 
                 $scope.skipIntro = function () {
-                    $location.path('/app/home/trending');
+                    urlHelper.openHomePage();
                 };
             }
         ]);

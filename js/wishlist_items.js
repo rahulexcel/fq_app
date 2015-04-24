@@ -1,7 +1,14 @@
-var wishlistItemsMod = angular.module('WishlistItemsMod', ['ServiceMod', 'ngStorage', 'ionic']);
+var wishlistItemsMod = angular.module('WishlistItemsMod', ['ServiceMod', 'ngStorage', 'ionic', 'UrlService']);
 wishlistItemsMod.controller('WishlistItemsCtrl',
-        ['$scope', '$q', '$stateParams', 'wishlistHelper', '$ionicLoading', '$localStorage', 'toast', 'friendHelper', '$location', '$ionicBackdrop', '$ionicPopup', '$ionicModal',
-            function ($scope, $q, $stateParams, wishlistHelper, $ionicLoading, $localStorage, toast, friendHelper, $location, $ionicBackdrop, $ionicPopup, $ionicModal) {
+        ['$rootScope', '$scope', '$q', '$stateParams', 'wishlistHelper', '$ionicLoading', '$localStorage', 'toast', 'friendHelper', '$ionicBackdrop', '$ionicPopup', '$ionicModal', 'urlHelper',
+            function ($rootScope, $scope, $q, $stateParams, wishlistHelper, $ionicLoading, $localStorage, toast, friendHelper, $ionicBackdrop, $ionicPopup, $ionicModal, urlHelper) {
+
+                $scope.$on('modal.shown', function () {
+                    $rootScope.$emit('hide_android_add');
+                });
+                $scope.$on('modal.hidden', function () {
+                    $rootScope.$emit('show_android_add');
+                });
                 if ($stateParams.list_id) {
                     $scope.wishlist_name = $stateParams.list_name;
                     $scope.list_id = $stateParams.list_id;
@@ -10,7 +17,7 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                     $scope.follow = false;
                     $scope.my_list = false;
                     $scope.$on('logout_event', function () {
-                        $location.path('/app/signup');
+                        urlHelper.openSignUp();
                     });
                     $ionicModal.fromTemplateUrl('template/partial/user-follow.html', {
                         scope: $scope,
@@ -44,13 +51,13 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                             var ajax = wishlistHelper.leaveList($scope.list_detail);
                             ajax.then(function () {
                                 toast.showShortBottom('Your Have Left The Wishlist');
-                                $location.path('/app/profile/me/mine');
+                                urlHelper.openProfilePage('me', 'mine');
                             });
                         });
 
                     };
                     $scope.editList = function () {
-                        $location.path('/app/wishlist_edit/' + $scope.list_id);
+                        urlHelper.openWishlistEditPage($scope.list_id);
                     };
                     $scope.deleteList = function () {
                         $ionicBackdrop.retain();
@@ -58,7 +65,7 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                         ajax.then(function () {
                             $ionicBackdrop.release();
                             toast.showShortBottom('WishList Deleted');
-                            $location.path('/app/profile/me/mine');
+                            urlHelper.openProfilePage('me', 'mine');
                         }, function () {
                             $ionicBackdrop.release();
                         });
@@ -76,7 +83,7 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                             if (list.type === 'private') {
                                 if (data.list.user_id._id !== $localStorage.user.id) {
                                     toast.showShortBottom('You Cannot Access This List!');
-                                    $location.path('/app/profile/me/mine');
+                                    urlHelper.openProfilePage('me', 'mine');
                                     return;
                                 }
                             } else if (list.type === 'shared') {
@@ -95,7 +102,7 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                                     if (!found)
                                     {
                                         toast.showShortBottom('You Are Not A Member of This List!');
-                                        $location.path('/app/profile/me/mine');
+                                        urlHelper.openProfilePage('me', 'mine');
                                         return;
                                     }
                                 }

@@ -1,17 +1,17 @@
-var inviteMod = angular.module('InviteMod', ['AccountService', 'ServiceMod', 'ngStorage', 'InviteService']);
+var inviteMod = angular.module('InviteMod', ['AccountService', 'ServiceMod', 'ngStorage', 'InviteService', 'UrlService']);
 
 inviteMod.controller('InviteCtrl',
-        ['$scope', '$localStorage', '$location', 'toast', 'accountHelper', 'inviteHelper', 'dataShare', 'socialJs',
-            function ($scope, $localStorage, $location, toast, accountHelper, inviteHelper, dataShare, socialJs) {
+        ['$scope', '$localStorage', 'accountHelper', 'inviteHelper', 'dataShare', 'socialJs', 'urlHelper',
+            function ($scope, $localStorage, accountHelper, inviteHelper, dataShare, socialJs, urlHelper) {
 
 //not using this
                 if (!$localStorage.user.id) {
-                    $location.path('/app/home');
+                    urlHelper.openHomePage();
                     return;
                 }
                 $scope.friends = [];
                 $scope.$on('logout_event', function () {
-                    $location.path('/app/signup');
+                    urlHelper.openSignUp();
                 });
                 var data = false;
                 var ajax = false;
@@ -79,9 +79,9 @@ inviteMod.controller('InviteCtrl',
                         var prev_url = $localStorage.previous.url;
                         $localStorage.previous.url = false;
                         console.log('previous url ' + prev_url);
-                        $location.path(prev_url);
+                        urlHelper.direct(prev_url);
                     } else {
-                        $location.path('/app/account');
+                        urlHelper.openAccountPage();
                     }
                 };
             }

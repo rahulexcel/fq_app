@@ -1,8 +1,8 @@
-var alertMod = angular.module('AlertMod', ['ServiceMod']);
+var alertMod = angular.module('AlertMod', ['ServiceMod', 'UrlService']);
 
 alertMod.controller('AlertCtrl',
-        ['$scope', '$localStorage', 'toast', '$stateParams', '$location', 'dataShare', '$ionicSlideBoxDelegate', 'productHelper', 'timeStorage', 'notifyHelper', '$ionicPopup', '$ionicPosition', '$window', '$timeout',
-            function ($scope, $localStorage, toast, $stateParams, $location, dataShare, $ionicSlideBoxDelegate, productHelper, timeStorage, notifyHelper, $ionicPopup, $ionicPosition, $window, $timeout) {
+        ['$scope', '$localStorage', 'toast', '$stateParams', 'dataShare', '$ionicSlideBoxDelegate', 'productHelper', 'timeStorage', 'notifyHelper', '$ionicPopup', '$ionicPosition', '$window', '$timeout', 'urlHelper', '$ionicModal', '$timeout', '$ionicScrollDelegate',
+            function ($scope, $localStorage, toast, $stateParams, dataShare, $ionicSlideBoxDelegate, productHelper, timeStorage, notifyHelper, $ionicPopup, $ionicPosition, $window, $timeout, urlHelper, $ionicModal, $timeout, $ionicScrollDelegate) {
                 var self = this;
                 self.normalizeData = function (data) {
                     if (data) {
@@ -13,13 +13,20 @@ alertMod.controller('AlertCtrl',
                             var row = data[i];
                             if (row.time && row.price * 1 > 0) {
                                 var datetime = new Date(row.time * 1000);
+                                var key = row.time;
                                 var price = row.price;
                                 var x = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
                                 var key = datetime.getDate() + "-" + x[datetime.getMonth()];
-                                if (newData[key] && price < newData[key]) {
-                                    newData[key] = price;
+                                if (newData[key] && price < newData[key].price) {
+                                    newData[key] = {
+                                        price: price,
+                                        time: row.time
+                                    };
                                 } else {
-                                    newData[key] = price;
+                                    newData[key] = {
+                                        price: price,
+                                        time: row.time
+                                    };
                                 }
                                 if (old_price === 0) {
                                     old_price = price;
@@ -30,13 +37,86 @@ alertMod.controller('AlertCtrl',
                                 }
                             }
                         }
-                        if (change)
+                        if (change) {
+                            var time_data = [];
+                            for (var x in newData) {
+                                time_data.push({
+                                    price: newData[x].price,
+                                    time: x
+                                });
+                            }
+
+                            time_data = self.compressDuplicateData(time_data);
+                            time_data = self.compressOldData(time_data);
+
+                            newData = {};
+                            for (var i = 0; i < time_data.length; i++) {
+                                newData[time_data[i].time] = time_data[i].price;
+                            }
                             return newData;
-                        else {
+                        } else {
                             return {};
                         }
                     } else {
                         return {};
+                    }
+                };
+
+                self.compressOldData = function (time_data) {
+                    var max_data_points = 9; //maximum data points to show
+                    if (time_data.length > max_data_points) {
+
+                        time_data = time_data.slice(1);
+                        return self.compressOldData(time_data);
+                    } else {
+                        return time_data;
+                    }
+                };
+
+                self.compressDuplicateData = function (time_data) {
+                    var max_data_points = 9; //maximum data points to show
+                    if (time_data.length > max_data_points) {
+
+                        var new_time_data = [];
+                        var skip = false;
+                        var change_done = false;
+                        for (var i = 0; i < time_data.length; i++) {
+                            if (change_done) {
+                                new_time_data.push({
+                                    price: time_data[i].price,
+                                    time: time_data[i].time
+                                });
+                                continue;
+                            }
+                            if (time_data[i + 1]) {
+                                var price = time_data[i].price;
+                                var next_price = time_data[i + 1].price;
+
+                                if (price * 1 === next_price * 1) {
+                                    skip = true;
+                                } else {
+                                    skip = false;
+                                }
+                            } else {
+                                skip = false;
+                            }
+                            if (!skip) {
+                                new_time_data.push({
+                                    price: time_data[i].price,
+                                    time: time_data[i].time
+                                });
+                            } else {
+                                change_done = true;
+                            }
+                        }
+
+                        if (!change_done) {
+                            return new_time_data;
+                        } else {
+                            return self.compressDuplicateData(new_time_data);
+                        }
+                    } else {
+                        return time_data;
                     }
                 };
                 $scope.fetchLatest = function (href) {
@@ -62,6 +142,7 @@ alertMod.controller('AlertCtrl',
                             $scope.alert.price = price;
                         if (more_images && more_images.length > 0) {
                             $scope.alert.more_images = more_images;
+                            $scope.zoom_images = more_images;
                         } else {
                         }
                         $ionicSlideBoxDelegate.update();
@@ -134,33 +215,65 @@ alertMod.controller('AlertCtrl',
                         $scope.product.variants = data.variants;
                     if (data.similar)
                         $scope.product.similar = data.similar;
+
+
                     if (data.similar && data.similar.length > 0) {
+                        self.processSimliarData(data, $scope.alert.fq_product_id);
+                    } else {
+                        var ajax2 = productHelper.fetchSimilar($scope.alert.fq_product_id);
+                        ajax2.then(function (data) {
+                            self.processSimliarData(data, $scope.alert.fq_product_id);
+                        });
+                    }
+                    if (data.variants) {
+                        self.processVariantData(data);
+                    } else {
+                        var ajax3 = productHelper.fetchVariant($scope.alert.fq_product_id);
+                        ajax3.then(function (data) {
+                            self.processVariantData(data);
+                        });
+                    }
+                };
+
+                self.processSimliarData = function (data, product_id) {
+                    if (data.similar && data.similar.length > 0) {
+                        console.log('initiazling iscroll');
                         if (data.similar.length > 0) {
+                            $scope.product.similar = data.similar;
                             $timeout(function () {
-                                angular.element(document.querySelector('.scroller_' + data.product._id)).attr('style', 'width:' + (data.similar.length * 152) + "px");
-                                $scope.myScroll = new IScroll('.similar_' + data.product._id, {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
+                                angular.element(document.querySelector('.scroller_' + product_id)).attr('style', 'width:' + (data.similar.length * 152) + "px");
                             }, 100);
                         }
                     }
                 };
-                if ($stateParams.alert_id) {
-
-                    var alert = dataShare.getData();
-                    if (alert) {
-                        self.populateData(alert);
-                    } else {
-                        $scope.loading = true;
-                        var ajax = notifyHelper.getPriceAlert($stateParams.alert_id);
-                        ajax.then(function (data) {
-                            $scope.loading = false;
-                            self.populateData(data);
-                        });
+                self.processVariantData = function (data) {
+                    if (data.variants) {
+                        $scope.product.variants = data.variants;
                     }
+                };
+                $scope.$on('$stateChangeSuccess', function () {
+                    $scope.start();
+                });
+                $scope.start = function () {
+                    if ($stateParams.alert_id) {
 
-                } else {
-                    toast.showShortBottom('Invalid URL');
-                    $location.path('/app/home');
-                }
+                        var alert = dataShare.getData();
+                        if (alert) {
+                            self.populateData(alert);
+                        } else {
+                            $scope.loading = true;
+                            var ajax = notifyHelper.getPriceAlert($stateParams.alert_id);
+                            ajax.then(function (data) {
+                                $scope.loading = false;
+                                self.populateData(data);
+                            });
+                        }
+
+                    } else {
+                        toast.showShortBottom('Invalid URL');
+                        urlHelper.openHomePage();
+                    }
+                };
                 $scope.openItem = function () {
                     if (window.plugins) {
                         window.open($scope.alert.url, '_system');
@@ -260,15 +373,51 @@ alertMod.controller('AlertCtrl',
                     }
                     var pos = $ionicPosition.offset(self.footer_ele);
                     var height = $window.innerHeight;
-
-//                    console.log((pos.top + 50) + "XXX" + height);
                     if (pos.top + 50 > height) {
                         $scope.show_footer_menu = true;
-//                        console.log('false');
                     } else {
                         $scope.show_footer_menu = false;
-//                        console.log('true');
                     }
                 };
+
+                $scope.showZoom = function (index) {
+                    var more_images = $scope.alert.more_images;
+                    var img = $scope.alert.img;
+                    var final_images = [];
+                    final_images.push(img);
+                    if (more_images) {
+                        for (var i = 0; i < more_images.length; i++) {
+                            final_images.push(more_images[i]);
+                        }
+                    }
+                    if (index * 1 === -1) {
+                        $scope.zoom_main_image = img;
+                    } else {
+                        $scope.zoom_main_image = more_images[index * 1];
+                    }
+                    $scope.zoom_images = final_images;
+                    $scope.zoom_height = ($window.innerHeight - 50) + "px";
+                    $scope.zoom_modal.show();
+                    $timeout(function () {
+                        angular.element(document.querySelector('.zoom_similar')).attr('style', 'width:' + (final_images.length * 52) + "px");
+                    });
+                };
+                $scope.closeZoom = function () {
+                    $scope.zoom_modal.hide();
+                }
+                $scope.openZoomTap = function (index) {
+                    var more_images = $scope.zoom_images;
+                    $scope.zoom_main_image = more_images[index];
+                    $ionicScrollDelegate.$getByHandle('zoom-scroll').zoomBy(1, true);
+                };
+                $ionicModal.fromTemplateUrl('template/partial/zoom.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    $scope.zoom_modal = modal;
+                });
+                $scope.$on('$destroy', function () {
+                    $scope.zoom_modal.remove();
+                });
             }
         ]);

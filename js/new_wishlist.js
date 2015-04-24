@@ -1,10 +1,16 @@
-var wishlistnewMod = angular.module('WishlistNewMod', ['ServiceMod', 'ngStorage', 'ionic', 'WishlistService', 'FriendService', 'ItemService']);
+var wishlistnewMod = angular.module('WishlistNewMod', ['ServiceMod', 'ngStorage', 'ionic', 'WishlistService', 'FriendService', 'ItemService', 'UrlService']);
 
 wishlistnewMod.controller('WishlistNewCtrl',
-        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$location', '$ionicModal', 'friendHelper', 'timeStorage', 'itemHelper', '$stateParams', '$rootScope',
-            function ($scope, $localStorage, toast, wishlistHelper, $location, $ionicModal, friendHelper, timeStorage, itemHelper, $stateParams, $rootScope) {
+        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$ionicModal', 'friendHelper', 'timeStorage', 'itemHelper', '$stateParams', '$rootScope', 'urlHelper',
+            function ($scope, $localStorage, toast, wishlistHelper, $ionicModal, friendHelper, timeStorage, itemHelper, $stateParams, $rootScope, urlHelper) {
                 $scope.$on('logout_event', function () {
-                    $location.path('/app/signup');
+                    urlHelper.openSignUp();
+                });
+                $scope.$on('modal.shown', function () {
+                    $rootScope.$emit('hide_android_add');
+                });
+                $scope.$on('modal.hidden', function () {
+                    $rootScope.$emit('show_android_add');
                 });
                 var self = this;
                 $scope.product = false;
@@ -28,35 +34,57 @@ wishlistnewMod.controller('WishlistNewCtrl',
                 $scope.friend_load = false;
                 $scope.friends = [];
                 if ($localStorage.user.id) {
-                    var path = $location.path();
+                    var path = urlHelper.getPath();
                     if (path.indexOf('wishlist_edit') !== -1) {
                         if (!$stateParams.list_id) {
                             toast.showShortBottom('Invalid Request No List To Edit');
                             //put history in play here
-                            $location.path('/app/profile/me/mine');
+                            urlHelper.openProfilePage('me', 'mine');
                         } else {
 
                             var list_id = $stateParams.list_id;
                             var ajax = wishlistHelper.list(true, true);
-                            ajax.then(function (lists) {
+                            ajax.then(function (xlists) {
                                 var list = false;
-                                lists = lists.me;
+                                console.log(xlists);
+                                var lists = xlists.public;
                                 for (var i = 0; i < lists.length; i++) {
                                     if (lists[i]._id === list_id) {
                                         list = lists[i];
                                     }
                                 }
                                 if (!list) {
+                                    lists = xlists.private;
+                                    for (var i = 0; i < lists.length; i++) {
+                                        if (lists[i]._id === list_id) {
+                                            list = lists[i];
+                                        }
+                                    }
+                                    if (!list) {
+                                        lists = xlists.shared;
+                                        for (var i = 0; i < lists.length; i++) {
+                                            if (lists[i]._id === list_id) {
+                                                list = lists[i];
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (!list) {
                                     toast.showShortBottom('List Not Found');
-                                    $location.path('/app/profile/me/mine');
+                                    urlHelper.openProfilePage('me', 'mine');
                                     return;
                                 }
 
                                 if (path.indexOf('wishlist_edit') !== -1) {
                                     //check if user has access to edit list
-                                    if ($localStorage.user.id !== list.user_id) {
+                                    var list_user_id = list.user_id;
+                                    if (angular.isObject(list.user_id)) {
+                                        list_user_id = list.user_id._id;
+                                    }
+                                    if ($localStorage.user.id !== list_user_id) {
                                         toast.showShortBottom("You Cannot Edit This List");
-                                        $location.path('/app/profile/me/mine');
+                                        urlHelper.openProfilePage('me', 'mine');
                                         return;
                                     }
                                 }
@@ -89,7 +117,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                 });
                             }, function () {
                                 toast.showShortBottom('List Not Found');
-                                $location.path('/app/profile/me/mine');
+                                urlHelper.openProfilePage('me', 'mine');
                                 return;
                             });
                         }
@@ -97,7 +125,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         var product = $scope.$parent.wishlist_product;
                         if (!product) {
                             toast.showShortBottom('Invalid Request No Product');
-                            $location.path('/app/home');
+                            urlHelper.openHomePage();
                         } else {
                             console.log(product.product);
                             if (product.product) {
@@ -108,7 +136,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                 $scope.new_item = true;
                             } else {
                                 toast.showShortBottom('Invalid Request No Product');
-                                $location.path('/app/home');
+                                urlHelper.openHomePage();
                             }
                         }
                         var ajax = friendHelper.list();
@@ -141,16 +169,16 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                 ajax2.then(function () {
                                     $scope.status = 2;
                                     toast.showShortBottom('Product Added To Your Wishlist');
-                                    $location.path('/app/wishlist_item/' + list_id + "/" + $scope.list.name + '/pins');
+                                    urlHelper.openWishlistPage(list_id, list.name);
                                 }, function (message) {
                                     toast.showShortBottom(message);
                                     $scope.status = 2;
                                 });
                             } else {
                                 if ($scope.$parent.show_wishlist_type) {
-                                    $location.path('/app/wishlist_item_add_step2/' + $scope.$parent.show_wishlist_type + "/" + list_id);
+                                    urlHelper.openWishlistAddStep2($scope.$parent.show_wishlist_type, list_id);
                                 } else {
-                                    $location.path('/app/wishlist_item_add_step1');
+                                    urlHelper.openWishlistAddStep1();
                                 }
                             }
                         } else if ($scope.item) {
@@ -159,26 +187,26 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                 ajax.then(function (data) {
                                     $scope.status = 2;
                                     toast.showShortBottom('Product Added To Your Wishlist');
-                                    $location.path('/app/wishlist_item/' + list_id + "/" + $scope.list.name + '/pins');
+                                    urlHelper.openWishlistPage(list_id, $scope.list.name);
                                 }, function (message) {
 //                                        toast.showShortBottom(message);
                                     $scope.status = 2;
                                 });
                             } else {
                                 if ($scope.$parent.show_wishlist_type) {
-                                    $location.path('/app/wishlist_item_add_step2/' + $scope.$parent.show_wishlist_type + "/" + list_id);
+                                    urlHelper.openWishlistAddStep2($scope.$parent.show_wishlist_type, list_id);
                                 } else {
-                                    $location.path('/app/wishlist_item_add_step1');
+                                    urlHelper.openWishlistAddStep1();
                                 }
                             }
                         } else if ($scope.new_item) {
                             if ($scope.$parent.show_wishlist_type) {
-                                $location.path('/app/wishlist_item_add_step2/' + $scope.$parent.show_wishlist_type + "/" + list_id);
+                                urlHelper.openWishlistAddStep2($scope.$parent.show_wishlist_type, list_id);
                             } else {
-                                $location.path('/app/wishlist_item_add_step1');
+                                urlHelper.openWishlistAddStep1();
                             }
                         } else {
-                            $location.path('/app/profile/me/mine');
+                            urlHelper.openProfilePage('me', 'mine');
                         }
                     }, function (data) {
                         $scope.status = 3;
@@ -186,6 +214,20 @@ wishlistnewMod.controller('WishlistNewCtrl',
                 };
 
                 $scope.checkType = function (type) {
+                    if (type === 'shared') {
+                        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+                            cordova.plugins.Keyboard.close();
+                        }
+//                            $scope.list.type = 'private';
+                        if ($scope.friends && $scope.friends.length > 0) {
+                            $scope.modal.show();
+                        } else {
+                            toast.showShortBottom('Add Friends To Share List With Them!');
+                            return;
+                        }
+                    } else {
+                        $scope.selected_friends = [];
+                    }
                     if (type === 'public') {
                         $scope.list.type = 'public';
                         $scope.list.public = true;
@@ -218,16 +260,6 @@ wishlistnewMod.controller('WishlistNewCtrl',
                         $scope.list.private = false;
                         $scope.list.shared = true;
                     }
-                    if (type === 'shared') {
-                        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-                            cordova.plugins.Keyboard.close();
-                        }
-//                            $scope.list.type = 'private';
-                        if ($scope.friends && $scope.friends.length > 0)
-                            $scope.modal.show();
-                    } else {
-                        $scope.selected_friends = [];
-                    }
                 };
 
                 $scope.refreshFriendList = function () {
@@ -240,6 +272,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                     });
                 };
                 $scope.processFriendList = function (data) {
+
                     var shared_ids = $scope.list.shared_ids;
                     for (var i = 0; i < shared_ids.length; i++) {
                         for (var j = 0; j < data.length; j++) {

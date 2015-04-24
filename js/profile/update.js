@@ -1,6 +1,6 @@
 profileMod.controller('ProfileUpdateCtrl',
-        ['$scope', '$localStorage', 'notifyHelper', '$location', '$ionicListDelegate', 'toast', 'notifyHelper',
-            function ($scope, $localStorage, notifyHelper, $location, $ionicListDelegate, toast, notifyHelper) {
+        ['$scope', '$localStorage', 'notifyHelper', '$ionicListDelegate', 'toast', 'notifyHelper',
+            function ($scope, $localStorage, notifyHelper, $ionicListDelegate, toast, notifyHelper) {
                 $scope.$on('user_info', function () {
                     $scope.followers = $scope.$parent.user.followers;
                     if ($scope.$parent.user._id === $localStorage.user.id) {
@@ -28,7 +28,7 @@ profileMod.controller('ProfileUpdateCtrl',
                     toast.showShortBottom('Update Deleted');
                 };
                 $scope.account = function (user) {
-                    $location.path('/app/profile/' + user.id + '/mine');
+                    urlHelper.openProfilePage(user.id, 'mine');
                 };
                 $scope.hasMore = true;
                 $scope.$on('friend_request', function () {
@@ -145,7 +145,7 @@ profileMod.controller('ProfileUpdateCtrl',
                                 };
                             } else if (row.type === 'unfollow_user') {
                                 item.body = {
-                                    title: row.data.name + ' stopped following you!'
+                                    title: row.data.user.name + ' stopped following you!'
                                 };
                             } else if (row.type === 'follow_list') {
                                 item.body = {

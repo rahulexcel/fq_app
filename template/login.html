@@ -12,11 +12,11 @@
                             <span class="input-label black-font">Password</span>
                             <input type="password" keyboard-attach  ng-model="login_obj.password" placeholder="Passowrd"/>
                         </label>
-                        <div class="forget-pass red-color">
+                        <div class="forget-pass accent">
                             <span on-tap='showForgot();'>Forgot your password?</span>
                         </div>
                         <div class="padding">
-                            <button class="button signup-button red-back" on-tap='login();'>
+                            <button class="button signup-button accent_bg" on-tap='login();'>
                                 LOG IN
                                 <i class="fa fa-spinner fa-spin" ng-show="login_status == 1"></i>
                                 <i class="fa fa-times" ng-show="login_status == 3"></i>
@@ -24,7 +24,7 @@
                             </button>
                         </div>
                         <div class="register-bottom" align="center">
-                            <span class="login-click red-color" on-tap='showRegister();'>Sign Up</span>
+                            <span class="login-click accent" on-tap='showRegister();'>Sign Up</span>
                             <span class="check-account">  using your email address.</span>
                         </div>
                     </div>

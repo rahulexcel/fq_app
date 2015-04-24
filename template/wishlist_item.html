@@ -13,14 +13,14 @@
             <div class="box"  style="padding: 0px">
                 <div class="pro-img">
                     <ion-slide-box ng-if="item.item_id.more_images" show-pager="true" style="height: 350px">
-                        <ion-slide>
+                        <ion-slide on-tap="showZoom(-1)">
                             <img img-loader ng-src='{{item.item_id.img| picture:picture_width}}'/>
                         </ion-slide>
-                        <ion-slide ng-repeat="img in item.item_id.more_images track by $index">
+                        <ion-slide on-tap="showZoom($index)" ng-repeat="img in item.item_id.more_images track by $index">
                             <img img-loader ng-src='{{img|picture}}'/>
                         </ion-slide>
                     </ion-slide-box>
-                    <img ng-if="!item.item_id.more_images && item.item_id.img" img-loader ng-src='{{item.item_id.img| picture:picture_width}}' />
+                    <img on-tap="showZoom(-1)" ng-if="!item.item_id.more_images && item.item_id.img" img-loader ng-src='{{item.item_id.img| picture:picture_width}}' />
                 </div>
                 <div class="pro-info">
                     <div class="pro-name" ng-if="item.item_id.name.length > 0">
@@ -35,7 +35,6 @@
                         Rs.{{item.item_id.price}}
                     </div>
 
-                    <!--<button class="button pro-button signup-button red-back" ng-show="item.item_id.href.length > 0" on-tap="view(item);">BUY NOW</button>-->
                     <div class="clearfix"></div>
                 </div>
             </div>
@@ -59,7 +58,7 @@
                 </div>
                 <div class="center_box" style="margin-left: 55px;margin-right: 20px">
                     <div class="grey-color">
-                        <span style="font-size: .82em">by</span> <span class="red-color" on-tap="profile(item.user_id);">{{::item.user_id.name}}</span>
+                        <span style="font-size: .82em">by</span> <span class="primary" on-tap="profile(item.user_id);">{{::item.user_id.name}}</span>
                     </div>
                     <div class="grey-color">
                         <span style="font-size: .82em">in</span>
@@ -215,7 +214,7 @@
             <div id='fixed_footer' class="wishlist_item_footer">
                 <div style="width: 100%"  ng-show='!show_footer_menu'>
                     <div class="item_icon" ng-show="item.item_id.href.length > 0">
-                        <button class="button red-back" on-tap="view(item);">BUY NOW</button>
+                        <button class="button accent_bg" on-tap="view(item);">BUY NOW</button>
                     </div>
                     <div class="item_icon" ng-if='!me_pin && !mine' on-tap='pin();'>
                         <button class="button button-clear grey-color">
@@ -255,7 +254,7 @@
     <ion-footer-bar ng-show='show_footer_menu' class='hide-on-keyboard-open wishlist_item_footer'>
         <div style="width: 100%">
             <div class="item_icon" ng-show="item.item_id.href.length > 0">
-                <button class="button red-back" on-tap="view(item);">BUY NOW</button>
+                <button class="button accent_bg" on-tap="view(item);">BUY NOW</button>
             </div>
             <div class="item_icon" ng-if='!me_pin && !mine' on-tap='pin();'>
                 <button class="button button-clear grey-color">

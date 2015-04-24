@@ -1,4 +1,4 @@
-var categoryMod = angular.module('CategoryMod', ['CategoryService', 'WishlistService', 'ionic']);
+var categoryMod = angular.module('CategoryMod', ['CategoryService', 'WishlistService', 'ionic', 'UrlService']);
 categoryMod.directive('scrollWatch', ['$window', function ($window) {
         //not working with overflow-scroll=y
         //not working on mahima's system so removed it for now
@@ -24,9 +24,15 @@ categoryMod.directive('scrollWatch', ['$window', function ($window) {
         };
     }]);
 categoryMod.controller('CategoryCtrl',
-        ['$scope', 'categoryHelper', 'toast', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', '$location', 'dataShare', '$timeout', 'timeStorage', 'CDN', '$ionicModal', 'pinchServie',
-            function ($scope, categoryHelper, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, $location, dataShare, $timeout, timeStorage, CDN, $ionicModal, pinchServie) {
+        ['$scope', 'categoryHelper', 'toast', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', 'dataShare', '$timeout', 'timeStorage', '$ionicModal', 'pinchServie', 'urlHelper', 'accountHelper',
+            function ($scope, categoryHelper, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, dataShare, $timeout, timeStorage, $ionicModal, pinchServie, urlHelper, accountHelper) {
                 var i = 0;
+                $scope.$on('modal.shown', function () {
+                    $rootScope.$emit('hide_android_add');
+                });
+                $scope.$on('modal.hidden', function () {
+                    $rootScope.$emit('show_android_add');
+                });
                 var self = this;
                 $scope.isCategoryPage = true;
                 $rootScope.$on('login_event', function () {
@@ -125,7 +131,17 @@ categoryMod.controller('CategoryCtrl',
                 $scope.openFilter = function (obj) {
                     if (!obj.open) {
                         obj.open = true;
+                        if (obj.type === 'Brand') {
+                            $ionicScrollDelegate.$getByHandle('brand_scroll').resize();
+                            if ($scope.brandAlphSkip !== 0) {
+                                var skip = $scope.brandAlphSkip * 20 - 10;
+                                $ionicScrollDelegate.$getByHandle('brand_scroll').scrollTo(skip, 0, true);
+                            }
+                        }
                     } else {
+                        if (obj.type === 'Brand') {
+                            $ionicScrollDelegate.$getByHandle('brand_scroll').scrollTo(0, 0, true);
+                        }
                         obj.open = !obj.open;
                     }
                 };
@@ -408,8 +424,11 @@ categoryMod.controller('CategoryCtrl',
                         });
                     }
                 });
-                self.brand_filters = false;
+                self.brand_filters = {};
                 $scope.brand_filters_status = 0;
+                $scope.brandAlph = [];
+                $scope.brandAlph_width = 0;
+                $scope.brandAlphSkip = 0; //skip for animation
                 $scope.getLatestFilters = function (cat, is_search) {
                     var req = categoryHelper.fetchFilters(cat, is_search);
                     req.then(function (ret) {
@@ -476,16 +495,51 @@ categoryMod.controller('CategoryCtrl',
                         }
                         for (var i = 0; i < filters.length; i++) {
                             if (filters[i].type === 'Brand') {
-                                self.brand_filters = filters[i].data;
-
-                                var new_data = [];
+                                var first_char = false;
+                                var alphs = [];
+                                var temp_alsph = [];
+                                var skip = 0;
                                 for (var k = 0; k < filters[i].data.length; k++) {
-                                    if (k >= 10) {
-                                        break;
+                                    var name = filters[i].data[k].name;
+                                    if (name) {
+                                        var char = (name + "").substring(0, 1);
+                                        if (/[a-z]/i.test(char) && !first_char) {
+                                            first_char = char;
+                                        } else {
+                                            if (!first_char)
+                                                skip++;
+                                        }
+                                        if (!self.brand_filters[char]) {
+                                            self.brand_filters[char] = [];
+                                        }
+                                        self.brand_filters[char].push(filters[i].data[k]);
+                                        if (temp_alsph.indexOf(char) === -1) {
+                                            temp_alsph.push(char);
+                                        }
                                     }
-                                    new_data.push(filters[i].data[k]);
                                 }
-                                $scope.brand_filters_status = filters[i].data.length - k;
+                                for (var char in temp_alsph) {
+                                    var x = false;
+                                    if (temp_alsph[char] === first_char) {
+                                        x = true;
+                                    }
+                                    alphs.push({
+                                        name: temp_alsph[char],
+                                        selected: x
+                                    });
+                                }
+                                temp_alsph = [];
+                                $scope.brandAlphSkip = skip;
+                                $scope.brandAlph = alphs;
+                                $scope.brandAlph_width = (alphs.length * 20) + "px";
+                                var new_data = self.brand_filters[first_char];
+//                                for (var k = 0; k < filters[i].data.length; k++) {
+//                                    if (k >= 10) {
+//                                        break;
+//                                    }
+//                                    new_data.push(filters[i].data[k]);
+//                                }
+                                //$scope.brand_filters_status = filters[i].data.length - k;
                                 filters[i].data = new_data;
                                 final_filters.push(filters[i]);
                             } else {
@@ -497,6 +551,26 @@ categoryMod.controller('CategoryCtrl',
                     });
                 };
                 //when clicking on view more in brand filter
+
+                $scope.openBrandAlph = function (alph) {
+                    var filters = $scope.filters;
+                    for (var i = 0; i < filters.length; i++) {
+                        if (filters[i].type === 'Brand') {
+                            filters[i].data = self.brand_filters[alph];
+                        }
+                    }
+                    var x = $scope.brandAlph;
+                    for (var k = 0; k < x.length; k++) {
+                        if (x[k].name == alph) {
+                            x[k].selected = true;
+                        } else {
+                            x[k].selected = false;
+                        }
+                    }
+                    $scope.brandAlph = x;
+                    $scope.filters = filters;
+                    $ionicScrollDelegate.resize();
+                };
                 $scope.openBrand = function () {
                     var filters = $scope.filters;
                     for (var i = 0; i < filters.length; i++) {
@@ -638,7 +712,7 @@ categoryMod.controller('CategoryCtrl',
 
                 $scope.wishlist = function (product, $event) {
                     if (window.analytics) {
-                        window.analytics.trackEvent('Pin', 'Category Page', $location.path());
+                        window.analytics.trackEvent('Pin', 'Category Page', urlHelper.getPath());
                     }
                     if ($event) {
                         $event.preventDefault();
@@ -658,13 +732,13 @@ categoryMod.controller('CategoryCtrl',
                             param: angular.copy(product),
                             category: angular.copy($scope.currentState)
                         };
-                        $location.path('/app/signup');
+                        urlHelper.openSignUp();
                     }
                 };
                 $scope.openProduct = function (product) {
                     var id = product._id;
-                    console.log('open product ');
-                    $location.path('/app/product/' + id);
+                    console.log('open product ' + id);
+                    urlHelper.openProductPage(id);
                     product = angular.copy(product);
                     product.cat_name = $scope.current_category.name;
                     dataShare.broadcastData(product, 'product_open');

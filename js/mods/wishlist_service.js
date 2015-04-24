@@ -1,7 +1,7 @@
 var wishlistService = angular.module('WishlistService', ['ServiceMod', 'ionic', 'ngCordova']);
 wishlistService.factory('wishlistHelper', [
-    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', 'timeStorage', '$ionicLoading', 'notifyHelper', '$cordovaDialogs', '$ionicPopup',
-    function (ajaxRequest, $q, toast, $localStorage, $location, timeStorage, $ionicLoading, notifyHelper, $cordovaDialogs, $ionicPopup) {
+    'ajaxRequest', '$q', 'toast', '$localStorage', 'timeStorage', '$ionicLoading', 'notifyHelper', '$cordovaDialogs', '$ionicPopup', 'productHelper', 'urlHelper',
+    function (ajaxRequest, $q, toast, $localStorage, timeStorage, $ionicLoading, notifyHelper, $cordovaDialogs, $ionicPopup, productHelper, urlHelper) {
         var service = {};
         service.getRandomColor = function () {
             var colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#795548', '#9e9e9e', '#607d8b'];
@@ -49,7 +49,7 @@ wishlistService.factory('wishlistHelper', [
                     });
                 });
             } else {
-                $location.path('/app/signup');
+                urlHelper.openSignUp();
                 toast.showShortBottom('SignUp To Setup Wishlist and Price Alerts');
                 def.reject({
                     login: 1
@@ -207,7 +207,7 @@ wishlistService.factory('wishlistHelper', [
                 });
                 return def.promise;
             } else {
-                $location.path('/app/signup');
+                urlHelper.openSignUp();
                 toast.showShortBottom('SignUp To Setup Wishlist and Price Alerts');
                 def.reject({
                     login: 1
@@ -230,7 +230,7 @@ wishlistService.factory('wishlistHelper', [
                     def.reject(message);
                 });
             } else {
-                $location.path('/app/signup');
+                urlHelper.openSignUp();
                 toast.showShortBottom('SignUp To Setup Wishlist and Price Alerts');
                 def.reject({
                     login: 1
@@ -251,7 +251,7 @@ wishlistService.factory('wishlistHelper', [
                     def.reject(message);
                 });
             } else {
-                $location.path('/app/signup');
+                urlHelper.openSignUp();
                 toast.showShortBottom('SignUp To Setup Wishlist and Price Alerts');
                 def.reject({
                     login: 1
@@ -261,12 +261,17 @@ wishlistService.factory('wishlistHelper', [
         };
         service.create = function (list) {
             var def = $q.defer();
+            var is_edit_list = false;
             if ($localStorage.user && $localStorage.user.id) {
                 list.user_id = $localStorage.user.id;
+
+                if (list.list_id) {
+                    is_edit_list = true;
+                }
                 var ajax = ajaxRequest.send('v1/wishlist/add', list);
                 ajax.then(function (data) {
                     def.resolve(data);
-                    if (list.type === 'shared' && !list._id) {
+                    if (list.type === 'shared' && !list._id && !is_edit_list) {
                         var shared_ids = list.shared_ids;
                         for (var i = 0; i < shared_ids.length; i++) {
                             var uniq_id = new Date().getTime();
@@ -294,7 +299,7 @@ wishlistService.factory('wishlistHelper', [
                     def.reject(message);
                 });
             } else {
-                $location.path('/app/signup');
+                urlHelper.openSignUp();
                 toast.showShortBottom('SignUp To Setup Wishlist and Price Alerts');
                 def.reject({
                     login: 1
@@ -377,7 +382,7 @@ wishlistService.factory('wishlistHelper', [
                     });
                 });
             } else {
-                $location.path('/app/signup');
+                urlHelper.openSignUp();
                 toast.showShortBottom('SignUp To Setup Wishlist and Price Alerts');
                 def.reject({
                     login: 1
@@ -396,6 +401,16 @@ wishlistService.factory('wishlistHelper', [
             return def.promise;
         };
         service.showPriceAlertDialog = function (product_id, name) {
+            var data = productHelper.fetchLatestCache(product_id);
+            var cur_price = -1;
+            if (data.price) {
+                cur_price = data.price;
+            }
+            if(cur_price < 20){
+                //if price less than 20, then dont set price alert.
+                //mainly for websites with usd priceing for which we had price Rs. 1
+                return;
+            }
             if ($localStorage.price_alert_always) {
                 service.setPriceAlert(product_id);
             } else {
@@ -423,9 +438,16 @@ wishlistService.factory('wishlistHelper', [
             }
         };
         service.setPriceAlert = function (product_id) {
+            var data = productHelper.fetchLatestCache(product_id);
+            var cur_price = -1;
+            if (data.price) {
+                cur_price = data.price;
+            }
+
             var ajax = ajaxRequest.send('v1/notify/item/price_alert', {
                 user_id: $localStorage.user.id,
-                product_id: product_id
+                product_id: product_id,
+                price: cur_price
             });
             ajax.then(function () {
                 toast.showShortBottom('Price Alert Has Been Setup');
@@ -544,7 +566,7 @@ wishlistService.factory('wishlistHelper', [
                     });
                 });
             } else {
-                $location.path('/app/signup');
+                urlHelper.openSignUp();
                 toast.showShortBottom('SignUp To Setup Wishlist and Price Alerts');
                 def.reject({
                     login: 1

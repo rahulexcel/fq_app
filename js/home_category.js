@@ -1,8 +1,8 @@
-var homecatMod = angular.module('HomeCatMod', ['ServiceMod']);
+var homecatMod = angular.module('HomeCatMod', ['ServiceMod', 'UrlService']);
 
 homecatMod.controller('HomeCatCtrl',
-        ['$scope', 'friendHelper', 'CDN', '$localStorage', '$location', 'pinchServie', 'toast', 'itemHelper', 'dataShare',
-            function ($scope, friendHelper, CDN, $localStorage, $location, pinchServie, toast, itemHelper, dataShare) {
+        ['$scope', 'friendHelper', '$localStorage', 'pinchServie', 'toast', 'itemHelper', 'dataShare', 'urlHelper', 'accountHelper',
+            function ($scope, friendHelper, $localStorage, pinchServie, toast, itemHelper, dataShare, urlHelper, accountHelper) {
                 $scope.currentState = {};
                 $scope.product_loading = false;
                 $scope.showProducts = false;
@@ -21,7 +21,7 @@ homecatMod.controller('HomeCatCtrl',
                     console.log(product);
                     product.cat_name = '';
                     dataShare.broadcastData(product, 'product_open', true);
-                    $location.path('/app/product/' + id);
+                    urlHelper.openProductPage(id);
                 };
                 $scope.refreshCategory = function () {
                     $scope.page = 0;
@@ -134,14 +134,14 @@ homecatMod.controller('HomeCatCtrl',
                 };
                 $scope.like = function (item) {
                     if (window.analytics) {
-                        window.analytics.trackEvent('Like', 'Pins Page', $location.path());
+                        window.analytics.trackEvent('Like', 'Pins Page', urlHelper.getPath());
                     }
 
                     var item_id = item._id;
                     var list_id = item.original.list_id;
                     if (!$localStorage.user.id) {
                         toast.showShortBottom('SignUp To Like Item');
-                        $location.path('/app/signup');
+                        urlHelper.openSignUp();
                     } else {
                         if ($scope.request_process) {
                             toast.showProgress();
@@ -159,7 +159,7 @@ homecatMod.controller('HomeCatCtrl',
                 };
                 $scope.wishlist = function (product, $event) {
                     if (window.analytics) {
-                        window.analytics.trackEvent('Pin', 'Latest Page', $location.path());
+                        window.analytics.trackEvent('Pin', 'Latest Page', urlHelper.getPath());
                     }
                     if ($event) {
                         $event.preventDefault();
@@ -179,7 +179,7 @@ homecatMod.controller('HomeCatCtrl',
                             param: angular.copy(product),
                             category: angular.copy($scope.currentState)
                         };
-                        $location.path('/app/signup');
+                        urlHelper.openSignUp();
                     }
                 };
             }

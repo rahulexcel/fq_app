@@ -1,23 +1,4 @@
-<!--
-<br/><br/><br/><br/><br/><br/>
-
-
-<my-directive2>
-    <my-directive2>
-        {{xyz}}
-    </my-directive2>
-</my-directive2>
-
-<div ng-repeat="i in [1, 2, 3, 4, 5, 6]">
-    <my-directive my-attr='{{i}}'></my-directive>
-</div>
-
-{{dynamic}}
-<my-directive dynamic='{{dynamic}}'></my-directive>
-
-<input type='text' ng-model='dynamic' />-->
-
-<ion-view title='Trending'>
+<ion-view title='HOME'>
     <ion-header-bar class="home_header">
         <ul id='home_ul' class="mine-list" ng-class="selected_class">
             <li class="trending" on-tap='menu_trending();'>TRENDING</li>
@@ -37,13 +18,13 @@
         <div class="row">
             <div class="col">
                 <button class="button button-full button-clear filter-button" on-tap="showMen();">
-                    <i class="ion-female red-color"></i>
+                    <i class="ion-female accent"></i>
                     MEN
                 </button>
             </div>
             <div class="col">
                 <button class="button button-full button-clear filter-button" on-tap="showWomen();">
-                    <i class="ion-male red-color"></i>
+                    <i class="ion-male accent"></i>
                     WOMEN
                 </button>
             </div>

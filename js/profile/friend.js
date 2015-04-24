@@ -1,6 +1,6 @@
 profileMod.controller('ProfileFriendCtrl',
-        ['$scope', '$localStorage', 'toast', '$location', 'friendHelper',
-            function ($scope, $localStorage, toast, $location, friendHelper) {
+        ['$scope', '$localStorage', 'friendHelper',
+            function ($scope, $localStorage, friendHelper) {
                 var i = 0;
                 $scope.$on('user_info', function () {
                     var friends = $scope.$parent.user.friends;
@@ -43,12 +43,12 @@ profileMod.controller('ProfileFriendCtrl',
 
                 $scope.doRefresh = function () {
                     $scope.hasMore = true;
-                    $scope.page = 0;
+                    $scope.page = -1;
                     $scope.loadMoreFriends();
                 };
 
                 $scope.hasMore = true;
-                $scope.page = 0;
+                $scope.page = -1;
                 $scope.loadMoreFriends = function () {
                     $scope.page = $scope.page + 1;
                     var ajax = friendHelper.loadMoreFriends($scope.$parent.user._id, $scope.page);
@@ -69,7 +69,7 @@ profileMod.controller('ProfileFriendCtrl',
                     });
                 };
                 $scope.profile = function (user_id) {
-                    $location.path('/app/profile/' + user_id + '/mine');
+                    urlHelper.openProfilePage(user_id, 'mine');
                 };
 
                 $scope.$on('friend_request', function () {

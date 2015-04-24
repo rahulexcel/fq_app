@@ -1,4 +1,4 @@
-var pinMod = angular.module('PinMod', ['ionicLazyLoad']);
+var pinMod = angular.module('PinMod', ['ionicLazyLoad', 'UrlService']);
 
 pinMod.directive('resize', ['$window', function ($window) {
         return function (scope, element) {
@@ -13,8 +13,8 @@ pinMod.filter('nl2br', ['$sce', function ($sce) {
         };
     }]);
 pinMod.controller('PinCtrl',
-        ['$scope', '$timeout', '$location', '$rootScope', '$localStorage', 'friendHelper', 'toast', 'itemHelper', 'pinchServie', 'CDN', 'accountHelper',
-            function ($scope, $timeout, $location, $rootScope, $localStorage, friendHelper, toast, itemHelper, pinchServie, CDN, accountHelper) {
+        ['$scope', '$timeout', '$rootScope', '$localStorage', 'friendHelper', 'toast', 'itemHelper', 'pinchServie', 'CDN', 'accountHelper', 'urlHelper',
+            function ($scope, $timeout, $rootScope, $localStorage, friendHelper, toast, itemHelper, pinchServie, CDN, accountHelper, urlHelper) {
                 $scope.loading = true;
                 $scope.windowWidth = 0;
                 $scope.hasMore = false;
@@ -342,7 +342,6 @@ pinMod.controller('PinCtrl',
                         ret = 250 + 100;
                     }
                     //added 100px for text below image
-
                     if (only_image) {
                         return (ret - 100) + "px";
                     } else {
@@ -361,23 +360,23 @@ pinMod.controller('PinCtrl',
                 };
                 $scope.viewItem = function (pin_id, list_id) {
                     if (window.analytics) {
-                        window.analytics.trackEvent('View Item', 'Pins Page', $location.path());
+                        window.analytics.trackEvent('View Item', 'Pins Page', urlHelper.getPath());
                     }
-                    $location.path('/app/item/' + pin_id + '/' + list_id + '/pins');
+                    urlHelper.openItemPage(pin_id, list_id);
                 };
                 $scope.viewList = function (list_id, list_name) {
                     if (window.analytics) {
-                        window.analytics.trackEvent('View List', 'Pins Page', $location.path());
+                        window.analytics.trackEvent('View List', 'Pins Page', urlHelper.getPath());
                     }
-                    $location.path('/app/wishlist_item/' + list_id + '/' + list_name + "/pins");
+                    urlHelper.openWishlistPage(list_id, list_name);
                 };
                 $scope.followList = function (list_id, index) {
                     if (window.analytics) {
-                        window.analytics.trackEvent('Follow List', 'Pins Page', $location.path());
+                        window.analytics.trackEvent('Follow List', 'Pins Page', urlHelper.getPath());
                     }
                     if (!$localStorage.user.id) {
                         toast.showShortBottom('SignUp To Follow List');
-                        $location.path('/app/signup');
+                        urlHelper.openSignUp();
                     } else {
                         if ($scope.request_process) {
                             toast.showProgress();
@@ -455,7 +454,7 @@ pinMod.controller('PinCtrl',
                 });
                 $scope.pin = function (item) {
                     if (window.analytics) {
-                        window.analytics.trackEvent('Pin', 'Pin Page', $location.path());
+                        window.analytics.trackEvent('Pin', 'Pin Page', urlHelper.getPath());
                     }
                     if (!$localStorage.user.id) {
                         toast.showShortBottom('SignUp/Login To Pin Item');
@@ -515,14 +514,14 @@ pinMod.controller('PinCtrl',
                 };
                 $scope.like = function (item) {
                     if (window.analytics) {
-                        window.analytics.trackEvent('Like', 'Pins Page', $location.path());
+                        window.analytics.trackEvent('Like', 'Pins Page', urlHelper.getPath());
                     }
 
                     var item_id = item._id;
                     var list_id = item.original.list_id;
                     if (!$localStorage.user.id) {
                         toast.showShortBottom('SignUp To Like Item');
-                        $location.path('/app/signup');
+                        urlHelper.openSignUp();
                     } else {
                         if ($scope.request_process) {
                             toast.showProgress();

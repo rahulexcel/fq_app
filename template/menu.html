@@ -1,6 +1,6 @@
 <ion-side-menus enable-menu-with-back-views="true">
     <ion-side-menu-content drag-content="true" edge-drag-threshold='true'>
-        <ion-nav-bar class="bar-stable" ng-show="!showSearchBox">
+        <ion-nav-bar class="primary_bg" ng-show="!showSearchBox">
             <ion-nav-back-button ng-show="true" class='button-clear'>
                 <i class="icon ion-arrow-left-c"></i>
             </ion-nav-back-button>
@@ -75,16 +75,16 @@
                 </ul>
                 <ul class="default-list">
                     <li class="list-not-cat">
-                        <div class="internal-details" ng-if="!login" nav-clear menu-close on-tap='signup();'><i class="ion-person-add red-color log-sign"></i>Join /Sign Up</div>
+                        <div class="internal-details" ng-if="!login" nav-clear menu-close on-tap='signup();'><i class="ion-person-add accent log-sign"></i>Join /Sign Up</div>
                     </li>
                     <li class="list-not-cat" nav-clear menu-close on-tap='feedback();'>
-                        <div class="internal-details"><i class="ion-chatbubble-working red-color"></i>Feedback</div>
+                        <div class="internal-details"><i class="ion-chatbubble-working accent"></i>Feedback</div>
                     </li>
                     <li class="list-not-cat" nav-clear menu-close on-tap='aboutus();'>
-                        <div class="internal-details"><img src="img/favicon.png" class="red-color" alt="" />About Us</div>
+                        <div class="internal-details"><img src="img/favicon.png" class="accent" alt="" />About Us</div>
                     </li>
                     <li class="list-not-cat">
-                        <div class="internal-details" nav-clear menu-close ng-if="login" on-tap='logout();'><i class="ion-log-out red-color log-sign"></i>Logout</div>
+                        <div class="internal-details" nav-clear menu-close ng-if="login" on-tap='logout();'><i class="ion-log-out accent log-sign"></i>Logout</div>
                     </li>
                     <div class="clearfix"></div>
                 </ul>

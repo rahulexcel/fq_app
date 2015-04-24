@@ -1,7 +1,7 @@
-var notifyService = angular.module('NotifyMod', ['ServiceMod']);
+var notifyService = angular.module('NotifyMod', ['ServiceMod', 'UrlService']);
 notifyService.factory('notifyHelper', [
-    '$q', '$localStorage', '$rootScope', '$localStorage', '$ionicPlatform', '$timeout', '$cordovaPush', 'ajaxRequest', '$cordovaAppVersion', '$cordovaDevice', '$ionicPopup', '$location',
-    function ($q, $localStorage, $rootScope, $localStorage, $ionicPlatform, $timeout, $cordovaPush, ajaxRequest, $cordovaAppVersion, $cordovaDevice, $ionicPopup, $location) {
+    '$q', '$localStorage', '$rootScope', '$localStorage', '$ionicPlatform', '$timeout', '$cordovaPush', 'ajaxRequest', '$cordovaAppVersion', '$cordovaDevice', 'urlHelper',
+    function ($q, $localStorage, $rootScope, $localStorage, $ionicPlatform, $timeout, $cordovaPush, ajaxRequest, $cordovaAppVersion, $cordovaDevice, urlHelper) {
         //parse push notification
         var service = {};
         service.continueUpdate = true;
@@ -332,7 +332,7 @@ notifyService.factory('notifyHelper', [
             }
             if (row.type === 'price_alert') {
                 if (row.data.fq_product_id) {
-                    $location.path('/app/alert/' + row.data.id);
+                    urlHelper.openAlertPage(row.data.id.$id);
                 } else {
                     if (window.plugins) {
                         window.open(row.data.url, '_system');
@@ -341,37 +341,41 @@ notifyService.factory('notifyHelper', [
                     }
                 }
             } else if (row.type === 'add_friend' || row.type === 'accept_friend' || row.type === 'decline_friend') {
-                $location.path('/app/profile/' + row.data.data + '/friends');
+                urlHelper.openProfilePage(row.data.data, 'friends');
             } else if (row.type === 'item_unlike' || row.type === 'item_like') {
                 if (row.data.item_id) {
-                    $location.path('/app/item/' + row.data.item_id._id + "/" + row.data.list_id._id + '/pins');
+                    urlHelper.openItemPage(row.data.item_id._id, row.data.list_id._id);
                 } else {
-                    $location.path('/app/item/' + row.data.data.item_id._id + "/" + row.data.data.list_id._id + '/pins');
+                    urlHelper.openItemPage(row.data.data.item_id._id, row.data.data.list_id._id);
                 }
             } else if (row.type === 'follow_user') {
-                $location.path('/app/profile/' + row.user.id + '/mine');
+                urlHelper.openProfilePage(row.user.id, 'mine');
             } else if (row.type === 'unfollow_user') {
-                $location.path('/app/profile/' + row.user.id + '/mine');
+                urlHelper.openProfilePage(row.user.id, 'mine');
             } else if (row.type === 'follow_list') {
-                $location.path('/app/wishlist_item/' + row.data.list._id + "/" + row.data.list.name);
+                urlHelper.openWishlistPage(row.data.list._id, row.data.list.name);
             } else if (row.type === 'unfollow_list') {
-                $location.path('/app/wishlist_item/' + row.data.list._id + "/" + row.data.list.name);
+                urlHelper.openWishlistPage(row.data.list._id, row.data.list.name);
             } else if (row.type === 'like_comment') {
-                $location.path('/app/item/' + row.data.item_id + "/" + row.data.list_id + '/pins');
+                urlHelper.openItemPage(row.data.item_id, row.data.list_id);
             } else if (row.type === 'item_comment') {
                 if (row.data.data.item_id) {
-                    $location.path('/app/item/' + row.data.data.item_id._id + "/" + row.data.data.list_id._id + '/pins');
+                    urlHelper.openItemPage(row.data.data.item_id._id, row.data.data.list_id._id);
                 } else {
-                    $location.path('/app/item/' + row.data.data.data.item_id._id + "/" + row.data.data.data.list_id._id + '/pins');
+                    urlHelper.openItemPage(row.data.data.data.item_id._id, row.data.data.data.list_id._id);
                 }
             } else if (row.type === 'item_add_user' || row.type === 'item_add') {
-                $location.path('/app/item/' + row.data.data.wishlist_model._id + "/" + row.data.data.list_id._id + '/pins');
+                if (row.data.data.wishlist_model) {
+                    urlHelper.openItemPage(row.data.data.wishlist_model._id, row.data.data.list_id._id);
+                } else {
+                    urlHelper.openItemPage(row.wishlist_model._id, row.list_id._id);
+                }
             } else if (row.type === 'item_like' || row.type === 'item_unlike') {
-                $location.path('/app/item/' + row.data.data.data.item_id._id + "/" + row.data.data.data.list_id._id + '/pins');
+                urlHelper.openItemPage(row.data.data.data.item_id._id, row.data.data.data.list_id._id);
             } else if (row.type === 'list_created' || row.type === 'list_left') {
-                $location.path('/app/wishlist_item/' + row.list._id + "/" + row.list.name);
+                urlHelper.openWishlistPage(row.list._id, row.list.name);
             } else if (row.type === 'status_update' || row.type === 'pic_update') {
-                $location.path('/app/profile/' + row.user.id + '/mine');
+                urlHelper.openProfilePage(row.user.id, 'mine');
             }
         };
         service.init = function () {

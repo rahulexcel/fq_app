@@ -33,25 +33,25 @@
                     <div bo-bind='pin.name'></div>
                     <div bo-html='pin.description | nl2br'></div>
                 </div>
-                <div class="pin-status">
-                    <!--
-                     bo-class="{'red-color':!pin.canPin}"
-                     bo-class="{'red-color':!pin.canLike}"
-                    -->
-                    <i class="ion-ios-heart-outline"></i> <i bo-bind='pin.meta.pins'></i>
-                    <i class="ion-thumbsup"></i> <i bo-bind='pin.meta.likes'></i>
-                    <i class="ion-paper-airplane"></i> <i bo-bind='pin.meta.comments'></i>
-                </div>
             </div>
             <div class="pin-user">
                 <div class="user_image" on-tap='profile(pin.original.user_id)'>
                     <img class="rounded" bo-src='pin.user.picture| picture:35:35'/>
                 </div>
                 <div class="user-info" on-tap='viewList(pin.original.list_id,pin.list.name)'>
-                    <span class="grey-color info">by <span bo-bind='pin.user.name'></span></span>
+                    <span class="primary info"><span bo-bind='pin.user.name'></span></span>
                     <span class="black-font info">in <span bo-bind='pin.list.name'></span></span>
                 </div>
                 <div class="clearfix"></div>
+            </div>
+            <div class="pin-status">
+                <!--
+                 bo-class="{'accent':!pin.canPin}"
+                 bo-class="{'accent':!pin.canLike}"
+                -->
+                <i class="ion-ios-heart-outline"></i> <i bo-bind='pin.meta.pins'></i>
+                <i class="ion-thumbsup"></i> <i bo-bind='pin.meta.likes'></i>
+                <i class="ion-paper-airplane"></i> <i bo-bind='pin.meta.comments'></i>
             </div>
         </div>
     </div>
@@ -66,21 +66,21 @@
                     <div bo-bind='pin.name'></div>
                     <div bo-html='pin.description | nl2br'></div>
                 </div>
-                <div class="pin-status">
-                    <i class="ion-ios-heart-outline"></i> <i bo-bind='pin.meta.pins'></i>
-                    <i class="ion-thumbsup"></i> <i bo-bind='pin.meta.likes'></i>
-                    <i class="ion-paper-airplane"></i> <i bo-bind='pin.meta.comments'></i>
-                </div>
             </div>
             <div class="pin-user">
                 <div class="user_image" on-tap='profile(pin.original.user_id)'>
                     <img class="rounded" bo-src='pin.user.picture| picture:35:35'/>
                 </div>
                 <div class="user-info" on-tap='viewList(pin.original.list_id,pin.list.name)'>
-                    <span class="grey-color info">by <span bo-bind='pin.user.name'></span></span>
+                    <span class="primary info"><span bo-bind='pin.user.name'></span></span>
                     <span class="black-font info">in <span bo-bind='pin.list.name'></span></span>
                 </div>
                 <div class="clearfix"></div>
+            </div>
+            <div class="pin-status">
+                <i class="ion-ios-heart-outline"></i> <i bo-bind='pin.meta.pins'></i>
+                <i class="ion-thumbsup"></i> <i bo-bind='pin.meta.likes'></i>
+                <i class="ion-paper-airplane"></i> <i bo-bind='pin.meta.comments'></i>
             </div>
         </div>
     </div>
@@ -94,21 +94,21 @@
                     <div bo-bind='pin.name'></div>
                     <div bo-html='pin.description | nl2br'></div>
                 </div>
-                <div class="pin-status">
-                    <i class="ion-ios-heart-outline"></i> <i bo-bind='pin.meta.pins'></i>
-                    <i class="ion-thumbsup"></i> <i bo-bind='pin.meta.likes'></i>
-                    <i class="ion-paper-airplane"></i> <i bo-bind='pin.meta.comments'></i>
-                </div>
             </div>
             <div class="pin-user">
                 <div class="user_image" on-tap='profile(pin.original.user_id)'>
                     <img class="rounded" bo-src='pin.user.picture| picture:35:35'/>
                 </div>
                 <div class="user-info" on-tap='viewList(pin.original.list_id,pin.list.name)'>
-                    <span class="grey-color info">by <span bo-bind='pin.user.name'></span></span>
+                    <span class="primary info"><span bo-bind='pin.user.name'></span></span>
                     <span class="black-font info">in <span bo-bind='pin.list.name'></span></span>
                 </div>
                 <div class="clearfix"></div>
+            </div>
+            <div class="pin-status">
+                <i class="ion-ios-heart-outline"></i> <i bo-bind='pin.meta.pins'></i>
+                <i class="ion-thumbsup"></i> <i bo-bind='pin.meta.likes'></i>
+                <i class="ion-paper-airplane"></i> <i bo-bind='pin.meta.comments'></i>
             </div>
         </div>
     </div>

@@ -1,17 +1,17 @@
 var accountMod = angular.module('AccountMod',
-        ['ngCordova', 'AccountService', 'ServiceMod', 'ngStorage', 'angularFileUpload', 'ionic']);
+        ['ngCordova', 'AccountService', 'ServiceMod', 'ngStorage', 'angularFileUpload', 'ionic', 'UrlService']);
 
 accountMod.controller('AccountCtrl',
-        ['$scope', '$localStorage', '$location', 'toast', 'accountHelper', '$upload', 'ajaxRequest', '$ionicActionSheet', '$cordovaCamera', 'uploader', '$window', '$ionicBackdrop',
-            function ($scope, $localStorage, $location, toast, accountHelper, $upload, ajaxRequest, $ionicActionSheet, $cordovaCamera, uploader, $window, $ionicBackdrop) {
+        ['$scope', '$localStorage', 'toast', 'accountHelper', '$upload', 'ajaxRequest', '$ionicActionSheet', '$cordovaCamera', 'uploader', '$window', '$ionicBackdrop', 'urlHelper',
+            function ($scope, $localStorage, toast, accountHelper, $upload, ajaxRequest, $ionicActionSheet, $cordovaCamera, uploader, $window, $ionicBackdrop, urlHelper) {
 
 
                 $scope.$on('logout_event', function () {
-                    $location.path('/app/signup');
+                    urlHelper.openSignUp();
                 });
                 if (!$localStorage.user.id) {
                     toast.showShortBottom('SignIn To Access This Page');
-                    $location.path('/app/signup');
+                    urlHelper.openSignUp();
                     return;
                 }
                 $scope.login_data = $localStorage.user;

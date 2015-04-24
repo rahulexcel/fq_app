@@ -11,7 +11,7 @@
         <div class="category" ng-show="!product_loading">
 
             <div ng-show='currentState.filters.length > 0'>
-                <div on-tap='removeFilter(filter)' class="select_filter red-back" ng-repeat="filter in currentState.filters">
+                <div on-tap='removeFilter(filter)' class="select_filter accent_bg" ng-repeat="filter in currentState.filters">
                     {{filter.name}} <i class="ion-android-close"></i>
                 </div>
             </div>
@@ -25,46 +25,24 @@
             <div class="product pinch_ele" id="{{prod._id}}" force-refresh-images='true' collection-repeat="prod in products track by prod._id">
                 <div class="image" on-tap="openProduct(prod);">
                     <img img-loader ng-src="{{prod.img}}"/>
-                    <div class="heart my-wishlist-img red-back" on-tap="wishlist(prod,$event);">
+                    <div class="heart my-wishlist-img accent_bg" on-tap="wishlist(prod,$event);">
                         <i class="ion-ios-heart"></i>
                     </div>
                 </div>
                 <div class="bottom_box">
-                    <div class="name" on-tap="openProduct(prod);" ng-bind='prod.name'></div>
-                    <div class="website e-site grey-color"><i class='site {{prod.website}}'></i><span ng-bind='prod.website'></span></div>
+                    <div class="name primary_text" on-tap="openProduct(prod);" ng-bind='prod.name'></div>
+                    <div class="website e-site secondary_text"><i class='site {{prod.website}}'></i><span ng-bind='prod.website'></span></div>
                     <!--<div class="brand" ng-show="prod.brand.length > 0" ng-bind='prod.brand'></div>--> 
-                    <div class="price">
+                    <div class="price primary_text" ng-if="prod.price * 1 > 20">
                         Rs.<span ng-bind='prod.price'></span>
                     </div>
-                    <div class="drop-price" >
+                    <div class="drop-price" ng-if="prod.price * 1 > 20">
                         <i class="fa fa-caret-up up-price" ng-if="prod.price_drop > 0">&nbsp;<span ng-bind='prod.price_drop'></span></i>
                         <i class="fa fa-caret-down" ng-if="prod.price_drop < 0">&nbsp;<span ng-bind='prod.price_drop'></span></i>
                     </div>
                     <div class="clearfix"></div>
                 </div>
             </div>
-
-            <!--            <div class="product" bindonce ng-repeat="prod in products track by prod._id">
-                            <div class="image" on-tap="openProduct(prod);">
-                                <img img-loader image-lazy-src="{{prod.img}}"/>
-                                <div class="heart my-wishlist-img red-back" on-tap="wishlist(prod,$event);">
-                                    <i class="ion-ios-heart"></i>
-                                </div>
-                            </div>
-                            <div class="bottom_box">
-                                <div class="name" on-tap="openProduct(prod);" bo-bind='prod.name'></div>
-                                <div class="website e-site grey-color"><i class='site {{::prod.website}}'></i><span bo-bind='prod.website'></span></div>
-                                <div class="brand" bo-show="prod.brand.length > 0" bo-bind='prod.brand'></div> 
-                                <div class="price">
-                                    Rs.<span bo-bind='prod.price'></span>
-                                </div>
-                                <div class="drop-price" >
-                                    <i class="fa fa-caret-up up-price" bo-if="prod.price_drop > 0">&nbsp;<span bo-bind='prod.price_drop'></span></i>
-                                    <i class="fa fa-caret-down" bo-if="prod.price_drop < 0">&nbsp;<span bo-bind='prod.price_drop'></span></i>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>-->
         </div>
         <div class="clearfix"></div>
         <ion-infinite-scroll
@@ -82,13 +60,13 @@
         <div class="row" ng-show="(sortBy.length > 0 || filters.length > 0)">
             <div class="col" ng-if="sortBy.length > 0">
                 <button class="button button-full button-clear filter-button" on-tap="showSortByFn();">
-                    <i class="ion-android-options red-color"></i>
+                    <i class="ion-android-options accent"></i>
                     Sort By
                 </button>
             </div>
             <div class="col" ng-if="filters.length > 0">
                 <button class="button button-full button-clear filter-button" on-tap="showFiltersFn();">
-                    <i class="icon ion-funnel red-color"></i>
+                    <i class="icon ion-funnel accent"></i>
                     Filter
                 </button>
             </div>

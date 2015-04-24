@@ -22,7 +22,7 @@
             <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" ng-style="{'height': pin.pin_height,'background-color': pin.pin_color}" class="pin-img">
                 <!--<img ng-src='pin.image| picture:240'/>-->
                 <img ng-src="{{pin.image| picture:240}}" pin-color="{{pin.pin_color}}" image-height="{{pin.pin_height}}" />
-                <div on-tap='like(pin); $event.stopPropagation();' class="like-heart red-back" ng-if="pin.canLike">
+                <div on-tap='like(pin); $event.stopPropagation();' class="like-heart accent_bg" ng-if="pin.canLike">
                     <i class="ion-thumbsup"></i>
                 </div>
             </div>
@@ -32,8 +32,8 @@
                     <div ng-html='pin.description | nl2br'></div>
                 </div>
                 <div class="pin-status">
-                    <i class="ion-ios-heart-outline" ng-class="{'red-color':!pin.canPin}"></i> <i ng-bind='pin.meta.pins'></i>
-                    <i class="ion-thumbsup" ng-class="{'red-color':!pin.canLike}"></i> <i ng-bind='pin.meta.likes'></i>
+                    <i class="ion-ios-heart-outline" ng-class="{'accent':!pin.canPin}"></i> <i ng-bind='pin.meta.pins'></i>
+                    <i class="ion-thumbsup" ng-class="{'accent':!pin.canLike}"></i> <i ng-bind='pin.meta.likes'></i>
                 </div>
                 {{pin.pin_height_full}}
             </div>

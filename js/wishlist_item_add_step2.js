@@ -28,10 +28,17 @@ wishlistItemAddMod.directive('preloadable', function () {
         }
     };
 });
+
 wishlistItemAddMod.controller('WishlistItemAddCtrlStep2',
-        ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$location', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$cordovaCamera', '$ionicPopup', '$timeout', 'uploader', '$ionicBackdrop', '$rootScope',
-            function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $location, $stateParams, mapHelper, $ionicModal, $window, $cordovaCamera, $ionicPopup, $timeout, uploader, $ionicBackdrop, $rootScope) {
+        ['$scope', 'ajaxRequest', '$upload', '$localStorage', 'toast', 'wishlistHelper', '$stateParams', 'mapHelper', '$ionicModal', '$window', '$cordovaCamera', '$ionicPopup', '$timeout', 'uploader', '$ionicBackdrop', '$rootScope', 'urlHelper',
+            function ($scope, ajaxRequest, $upload, $localStorage, toast, wishlistHelper, $stateParams, mapHelper, $ionicModal, $window, $cordovaCamera, $ionicPopup, $timeout, uploader, $ionicBackdrop, $rootScope, urlHelper) {
                 var self = this;
+                $scope.$on('modal.shown', function () {
+                    $rootScope.$emit('hide_android_add');
+                });
+                $scope.$on('modal.hidden', function () {
+                    $rootScope.$emit('show_android_add');
+                });
                 $scope.item = {
                     picture: '',
                     url: '',
@@ -59,29 +66,6 @@ wishlistItemAddMod.controller('WishlistItemAddCtrlStep2',
                     };
                 });
 
-                if ($stateParams.type && $stateParams.list_id) {
-                    var type = $stateParams.type;
-                    console.log(type);
-                    $scope.list_id = $stateParams.list_id;
-                    $scope.step_type = type;
-                    if (type === 'camera') {
-                        $scope.browseCamera('camera');
-                    } else if (type === 'gallary') {
-                        $scope.browseCamera('gallary');
-                    } else if (type === 'image_url') {
-                    } else if (type === 'image') {
-                    } else if (type === 'url') {
-                    } else if (type === 'near') {
-                        $scope.showMap();
-                    } else {
-                        toast.showShortBottom('Invalid Type');
-                        $location.path('/app/wishlist_item_add_step1');
-                    }
-                } else {
-                    toast.showShortBottom('Invalid Type')
-                    $location.path('/app/wishlist_item_add_step1');
-                }
-
                 $scope.url_images = [];
                 $scope.is_mobile = false;
                 if (ionic.Platform.isWebView()) {
@@ -92,7 +76,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrlStep2',
                     myFiles: false
                 };
                 $scope.$on('logout_event', function () {
-                    $location.path('/app/signup');
+                    urlHelper.openSignUp();
                 });
 
                 $scope.sendItem = function () {
@@ -104,11 +88,25 @@ wishlistItemAddMod.controller('WishlistItemAddCtrlStep2',
                                 return;
                             }
                         }
-                        var ajax = wishlistHelper.addItem(angular.copy($scope.item), $scope.list_id);
-                        ajax.then(function (data) {
-                            if (data.id) {
-                                $location.path('/app/item/' + data.id + "/" + $scope.list_id + '/pins');
-                            }
+
+                        $scope.$parent.wishlist_product.product = false;
+                        $scope.$parent.wishlist_product.item = false;
+                        $scope.$parent.wishlist_product.new_item = true;
+
+                        var async = $scope.$parent.showWishlistAsync($scope.type, $scope.list_id);
+                        async.then(function (list_id) {
+                            console.log(list_id + "list id");
+                            var ajax = wishlistHelper.addItem(angular.copy($scope.item), list_id);
+                            ajax.then(function (data) {
+                                console.log(data);
+                                if (data.id) {
+                                    urlHelper.openItemPage(data.id, list_id);
+                                } else {
+                                    toast.showShortBottom('Unknown Error!');
+                                }
+                            });
+                        }, function () {
+                            toast.showShortBottom('Select a Wishlist To Clip Item!');
                         });
                     } else {
                         toast.showShortBottom('Upload A Picture');
@@ -266,19 +264,19 @@ wishlistItemAddMod.controller('WishlistItemAddCtrlStep2',
 //                        $scope.list_id = $stateParams.list_id;
 //                        var name = wishlistHelper.getListName($scope.list_id);
 //                        $scope.wishlist_name = name;
-//                        if ($location.path().indexOf('step2') !== -1) {
+//                        if (urlHelper.getPath().indexOf('step2') !== -1) {
 //                            if (!$scope.step_type) {
 //                                $location.path('/app/wishlist_item_add/' + $scope.list_id + '/step1');
 //                            }
 //                        }
 //                    } else {
 //                        toast.showShortBottom('Invalid Page, Need List ID');
-//                        $location.path('/app/home');
+//                       urlHelper.openHomePage();
 //                    }
 
                 } else {
                     toast.showShortBottom('You Need To Be Logged In To Access This Page');
-                    $location.path('/app/signup');
+                    urlHelper.openSignUp();
                 }
 
                 var picture_width = $window.innerWidth;
@@ -301,8 +299,9 @@ wishlistItemAddMod.controller('WishlistItemAddCtrlStep2',
 
                     if (type === 'gallary') {
                         options.sourceType = Camera.PictureSourceType.PHOTOLIBRARY;
-                    }
 
+                    } else {
+                    }
                     $cordovaCamera.getPicture(options).then(function (imageURI) {
                         $scope.progoress_style = {width: '0%'};
                         $scope.progress = 0;
@@ -342,6 +341,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrlStep2',
                                 }, function (data) {
                                     $ionicBackdrop.release();
                                 }, function (data) {
+//                                    console.log(data);
                                     var per = data.progress + '%';
                                     $scope.progoress_style = {width: per};
                                     $scope.progress = per;
@@ -360,9 +360,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrlStep2',
                     }
                     if ($scope.step_type !== 'near')
                         $scope.step_type = 'gallary';
-                    $location.path('/app/wishlist_item_add_step2/' + type + "/" + $scope.list_id);
                     console.log($scope.file.myFiles);
-//                    for (var i = 0; i < $scope.file.myFiles.length; i++) {
                     var i = 0;
                     var file = $scope.file.myFiles[i];
                     var size = file.size;
@@ -418,5 +416,28 @@ wishlistItemAddMod.controller('WishlistItemAddCtrlStep2',
 //                    }
 
                 });
+
+                if ($stateParams.type && $stateParams.list_id) {
+                    var type = $stateParams.type;
+                    console.log(type);
+                    $scope.list_id = $stateParams.list_id;
+                    $scope.step_type = type;
+                    if (type === 'camera') {
+                        $scope.browseCamera('camera');
+                    } else if (type === 'gallary') {
+                        $scope.browseCamera('gallary');
+                    } else if (type === 'image_url') {
+                    } else if (type === 'image') {
+                    } else if (type === 'url') {
+                    } else if (type === 'near') {
+                        $scope.showMap();
+                    } else {
+                        toast.showShortBottom('Invalid Type');
+                        urlHelper.openWishlistAddStep1();
+                    }
+                } else {
+                    toast.showShortBottom('Invalid Type')
+                    urlHelper.openWishlistAddStep1();
+                }
             }
         ]);

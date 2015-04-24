@@ -7,14 +7,6 @@
     </ion-header-bar>
     <ion-content>
         <div class="sortby-container">
-            <!--            <div class="filter-page">
-                            <span class="filter-label"><i class="fa fa-sort-alpha-desc filter-icon red-color"></i>&nbsp;SORT BY</span>
-                            <button class="button button-clear filter-button" on-tap='showProductsFn()'>
-                                <i class="ion-ios-close-empty close-icon-show close-tab-icon"></i>
-                            </button>
-            
-                            <div class="clearfix"></div>
-                        </div>-->
             <ion-list>
                 <ion-item ng-repeat="sort in sortBy">
                     <!--on-tap="doSort(sort);"-->
@@ -31,13 +23,13 @@
         <div class="row">
             <div class="col">
                 <button class="button button-full button-clear filter-button" on-tap="showProductsFn();">
-                    <i class="ion-close-round red-color"></i>
+                    <i class="ion-close-round accent"></i>
                     Close
                 </button>
             </div>
             <div class="col">
                 <button class="button button-full button-clear filter-button" on-tap="doSort()">
-                    <i class="ion-android-done-all red-color"></i>
+                    <i class="ion-android-done-all accent"></i>
                     Apply
                 </button>
             </div>

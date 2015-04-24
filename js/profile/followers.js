@@ -1,6 +1,6 @@
 profileMod.controller('ProfileFollowerCtrl',
-        ['$scope', '$localStorage', 'toast', 'friendHelper', '$location', 'dataShare',
-            function ($scope, $localStorage, toast, friendHelper, $location, dataShare) {
+        ['$scope', '$localStorage', 'friendHelper',
+            function ($scope, $localStorage, friendHelper) {
                 $scope.$on('user_info', function () {
                     var followers = $scope.$parent.user.followers;
                     if (followers) {
@@ -35,7 +35,8 @@ profileMod.controller('ProfileFollowerCtrl',
                     ajax.then(function (data) {
                         if (data.length > 0) {
                             for (var i = 0; i < data.length; i++) {
-                                $scope.followers.push(data[i]);
+                                if (data[i])
+                                    $scope.followers.push(data[i]);
                             }
                         } else {
                             $scope.hasMore = false;

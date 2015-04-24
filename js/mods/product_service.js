@@ -4,6 +4,14 @@ productService.factory('productHelper', [
     'ajaxRequest', '$q', '$http', 'timeStorage',
     function (ajaxRequest, $q, $http, timeStorage) {
         var service = {};
+        service.fetchLatestCache = function (pid) {
+            var key = 'product_latest_price_' + pid;
+            if (timeStorage.get(key)) {
+                return timeStorage.get(key);
+            } else {
+                return {};
+            }
+        };
         service.fetchLatest = function (url, pid) {
             var defer = $q.defer();
             var key = 'product_latest_' + url;
@@ -18,6 +26,7 @@ productService.factory('productHelper', [
                 ajax.then(function (data) {
                     if (data.data && data.data.data) {
                         timeStorage.set(key, data.data.data, 24);
+                        timeStorage.set('product_latest_price_' + pid, data.data.data, .1);
                         defer.resolve(data.data.data);
                     }
                 });

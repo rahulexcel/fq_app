@@ -1,6 +1,6 @@
 profileMod.controller('ProfileAlertsCtrl',
-        ['$scope', '$localStorage', 'toast', 'notifyHelper', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', '$location', 'dataShare',
-            function ($scope, $localStorage, toast, notifyHelper, $ionicLoading, $ionicPopup, $ionicListDelegate, $location, dataShare) {
+        ['$scope', '$localStorage', 'toast', 'notifyHelper', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', 'dataShare', 'urlHelper',
+            function ($scope, $localStorage, toast, notifyHelper, $ionicLoading, $ionicPopup, $ionicListDelegate, dataShare, urlHelper) {
                 var self = this;
                 $scope.$on('user_info', function () {
                     if ($scope.$parent.user._id === $localStorage.user.id) {
@@ -20,25 +20,27 @@ profileMod.controller('ProfileAlertsCtrl',
                     $scope.loadMore();
                 };
                 $scope.loadMore = function () {
-                    $ionicLoading.show({
-                        template: 'Loading...'
-                    });
+                    $scope.loading = true;
                     $scope.page = $scope.page + 1;
                     var ajax = notifyHelper.getPriceAlerts($scope.page);
                     ajax.then(function (data) {
+                        $scope.$broadcast('scroll.refreshComplete');
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
                         if (data.length === 0) {
                             $scope.hasMore = false;
                         }
                         $scope.alerts = $scope.alerts.concat(data);
-                        $ionicLoading.hide();
+                        $scope.loading = false;
                     }, function () {
-                        $ionicLoading.hide();
+                        $scope.$broadcast('scroll.refreshComplete');
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
+                        $scope.loading = false;
                     });
                 };
                 $scope.loadMore();
                 $scope.openAlert = function (item) {
                     dataShare.broadcastData(item, 'item');
-                    $location.path('/app/alert/' + item._id);
+                    urlHelper.openAlertPage(item._id);
                 };
                 $scope.openItem = function (product) {
                     if (window.plugins) {

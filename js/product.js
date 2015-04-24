@@ -1,8 +1,8 @@
-var productMod = angular.module('ProductMod', ['ionic', 'ProductService', 'ServiceMod']);
+var productMod = angular.module('ProductMod', ['ionic', 'ProductService', 'ServiceMod', 'UrlService']);
 
 productMod.controller('ProductCtrl',
-        ['$scope', '$stateParams', 'productHelper', 'dataShare', 'toast', '$localStorage', '$timeout', '$location', '$rootScope', 'socialJs', 'timeStorage', '$ionicSlideBoxDelegate', 'ajaxRequest', 'CDN', '$ionicHistory',
-            function ($scope, $stateParams, productHelper, dataShare, toast, $localStorage, $timeout, $location, $rootScope, socialJs, timeStorage, $ionicSlideBoxDelegate, ajaxRequest, CDN, $ionicHistory) {
+        ['$scope', '$stateParams', 'productHelper', 'dataShare', 'toast', '$localStorage', '$timeout', '$rootScope', 'socialJs', 'timeStorage', '$ionicSlideBoxDelegate', '$ionicHistory', 'urlHelper', 'accountHelper', '$ionicModal', '$window', '$ionicScrollDelegate',
+            function ($scope, $stateParams, productHelper, dataShare, toast, $localStorage, $timeout, $rootScope, socialJs, timeStorage, $ionicSlideBoxDelegate, $ionicHistory, urlHelper, accountHelper, $ionicModal, $window, $ionicScrollDelegate) {
                 $scope.product_loading = true;
                 $scope.product = false;
                 $scope.variants = [];
@@ -10,6 +10,13 @@ productMod.controller('ProductCtrl',
                 $scope.myScroll = false;
                 $scope.product_id = false;
                 var cache_key = false;
+
+                $scope.$on('modal.shown', function () {
+                    $rootScope.$emit('hide_android_add');
+                });
+                $scope.$on('modal.hidden', function () {
+                    $rootScope.$emit('show_android_add');
+                });
 
                 if (window.plugins && window.plugins.socialsharing) {
                     $scope.isMobile = true;
@@ -86,9 +93,9 @@ productMod.controller('ProductCtrl',
                         };
                         $ionicHistory.clearCache();
                         timeStorage.set('category_' + cat_id + "_" + sub_cat_id, category_data, 0.1);
-                        $location.path('/app/category/' + cat_id + '/' + sub_cat_id + '/' + cat_name);
+                        urlHelper.openCategoryPage(cat_id, sub_cat_id, cat_name);
                     }
-                }
+                };
                 $scope.viewBrand = function (product) {
                     var brand = product.brand;
                     var cat_id = product.cat_id;
@@ -112,7 +119,7 @@ productMod.controller('ProductCtrl',
                     console.log(category_data);
                     $ionicHistory.clearCache();
                     timeStorage.set('category_' + cat_id + "_" + sub_cat_id, category_data, 0.1);
-                    $location.path('/app/category/' + cat_id + '/' + sub_cat_id + '/' + cat_name);
+                    urlHelper.openCategoryPage(cat_id, sub_cat_id, cat_name);
                 };
                 var self = this;
                 self.fetch_latest_done = false;
@@ -168,6 +175,7 @@ productMod.controller('ProductCtrl',
                             $scope.product.price = price;
                         if (more_images && more_images.length > 0) {
                             $scope.product.more_images = more_images;
+                            $scope.zoom_images = more_images;
                         } else {
                         }
                         $ionicSlideBoxDelegate.update();
@@ -222,7 +230,6 @@ productMod.controller('ProductCtrl',
                         if (data.similar.length > 0)
                             $timeout(function () {
                                 angular.element(document.querySelector('.scroller_' + product_id)).attr('style', 'width:' + (data.similar.length * 152) + "px");
-                                $scope.myScroll = new IScroll('.similar_' + product_id, {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true});
                             }, 100);
                         var data2 = timeStorage.get(cache_key);
                         data2.similar = data.similar;
@@ -242,7 +249,7 @@ productMod.controller('ProductCtrl',
                     var sub_cat_id = $scope.product.sub_cat_id;
                     var name = $scope.product.cat_name;
                     var text = $rootScope.search.text;
-                    $location.path('/app/category/' + cat_id + "/" + sub_cat_id + "/" + name + "/" + text);
+                    urlHelper.openCategoryPage(cat_id, sub_cat_id, name, text);
                 });
                 $scope.$on('product_open', function () {
                     var data = dataShare.getData();
@@ -266,13 +273,13 @@ productMod.controller('ProductCtrl',
 
                 $scope.viewCategory = function (product) {
                     if (product.cat_id && product.sub_cat_id) {
-                        $location.path('/app/category/' + product.cat_id + "/" + product.sub_cat_id + "/" + product.cat_name);
+                        urlHelper.openCategoryPage(product.cat_id, product.sub_cat_id, product.cat_name);
                     }
                 };
 
                 $scope.wishlist = function (product, $event) {
                     if (window.analytics) {
-                        window.analytics.trackEvent('Pin', 'Product Page', $location.path());
+                        window.analytics.trackEvent('Pin', 'Product Page', urlHelper.getPath());
                     }
                     $event.preventDefault();
                     $event.stopPropagation();
@@ -290,7 +297,7 @@ productMod.controller('ProductCtrl',
                             param: angular.copy($scope.product)
                         };
                         toast.showShortBottom('Login To Create Wishlist');
-                        $location.path('/app/signup');
+                        urlHelper.openSignUp();
                     }
                 };
                 $scope.openProduct = function (product) {
@@ -300,7 +307,7 @@ productMod.controller('ProductCtrl',
                         product.img = product.image;
                     }
                     dataShare.broadcastData(angular.copy(product), 'product_open');
-                    $location.path('/app/product/' + id);
+                    urlHelper.openProductPage(id);
                 };
                 if ($stateParams.product_id) {
                     $scope.product_loading = true;
@@ -312,5 +319,44 @@ productMod.controller('ProductCtrl',
                     $scope.product_id = product_id;
                     $scope.productInfo();
                 }
+                $scope.showZoom = function (index) {
+                    var more_images = $scope.product.more_images;
+                    var img = $scope.product.img;
+                    var final_images = [];
+                    final_images.push(img);
+                    if (more_images) {
+                        for (var i = 0; i < more_images.length; i++) {
+                            final_images.push(more_images[i]);
+                        }
+                    }
+                    if (index * 1 === -1) {
+                        $scope.zoom_main_image = img;
+                    } else {
+                        $scope.zoom_main_image = more_images[index * 1];
+                    }
+                    $scope.zoom_images = final_images;
+                    $scope.zoom_height = ($window.innerHeight - 50) + "px";
+                    $scope.zoom_modal.show();
+                    $timeout(function () {
+                        angular.element(document.querySelector('.zoom_similar')).attr('style', 'width:' + (final_images.length * 52) + "px");
+                    });
+                };
+                $scope.closeZoom = function () {
+                    $scope.zoom_modal.hide();
+                }
+                $scope.openZoomTap = function (index) {
+                    var more_images = $scope.zoom_images;
+                    $scope.zoom_main_image = more_images[index];
+                    $ionicScrollDelegate.$getByHandle('zoom-scroll').zoomBy(1, true);
+                };
+                $ionicModal.fromTemplateUrl('template/partial/zoom.html', {
+                    scope: $scope,
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    $scope.zoom_modal = modal;
+                });
+                $scope.$on('$destroy', function () {
+                    $scope.zoom_modal.remove();
+                });
             }
         ]);

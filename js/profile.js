@@ -1,11 +1,11 @@
-var profileMod = angular.module('ProfileMod', ['ServiceMod', 'ngStorage', 'ionic', 'FriendService', 'angular-chartist']);
+var profileMod = angular.module('ProfileMod', ['ServiceMod', 'ngStorage', 'ionic', 'FriendService', 'angular-chartist', 'UrlService']);
 profileMod.controller('ProfileCtrl',
-        ['$scope', '$localStorage', 'toast', '$location', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope', '$timeout', 'wishlistHelper', '$ionicPopup', 'notifyHelper', '$ionicScrollDelegate', 'accountHelper',
-            function ($scope, $localStorage, toast, $location, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout, wishlistHelper, $ionicPopup, notifyHelper, $ionicScrollDelegate, accountHelper) {
+        ['$scope', '$localStorage', 'toast', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope', '$timeout', '$ionicPopup', 'notifyHelper', '$ionicScrollDelegate', 'accountHelper', 'urlHelper',
+            function ($scope, $localStorage, toast, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout, $ionicPopup, notifyHelper, $ionicScrollDelegate, accountHelper, urlHelper) {
                 var user_id = false;
                 var self = this;
                 $scope.$on('logout_event', function () {
-                    $location.path('/app/home');
+                    urlHelper.openHomePage();
                 });
                 if ($stateParams.user_id) {
                     user_id = $stateParams.user_id;
@@ -34,7 +34,7 @@ profileMod.controller('ProfileCtrl',
 
                 var start_index = 0;
                 $rootScope.$on('$viewContentLoaded', function (event) {
-                    var path = $location.path();
+                    var path = urlHelper.getPath();
                     //$scope.selected_class = 'wishlist';
                     path = path.replace('/me', '/' + user_id);
                     if (path === '/app/profile/' + user_id + '/mine') {
@@ -78,39 +78,39 @@ profileMod.controller('ProfileCtrl',
                 });
                 $scope.me = false;
                 $scope.menu_alerts = function () {
-                    $location.path('/app/profile/' + user_id + '/alerts');
+                    urlHelper.openProfilePage(user_id, 'alerts');
                     $ionicScrollDelegate.resize();
                 };
                 $scope.menu_update = function () {
-                    $location.path('/app/profile/' + user_id + '/update');
+                    urlHelper.openProfilePage(user_id, 'update');
                     $ionicScrollDelegate.resize();
                 };
                 $scope.menu_wishlist = function () {
-                    $location.path('/app/profile/' + user_id + '/mine');
+                    urlHelper.openProfilePage(user_id, 'mine');
                     $ionicScrollDelegate.resize();
                 };
                 $scope.menu_followers = function () {
-                    $location.path('/app/profile/' + user_id + '/followers');
+                    urlHelper.openProfilePage(user_id, 'followers');
                     $ionicScrollDelegate.resize();
                 };
                 $scope.menu_following = function () {
-                    $location.path('/app/profile/' + user_id + '/following');
+                    urlHelper.openProfilePage(user_id, 'following');
                     $ionicScrollDelegate.resize();
                 };
                 $scope.menu_pins = function () {
-                    $location.path('/app/profile/' + user_id + '/pins');
+                    urlHelper.openProfilePage(user_id, 'pins');
                     $ionicScrollDelegate.resize();
                 };
                 $scope.menu_profile = function () {
-                    $location.path('/app/profile/' + user_id + '/profile');
+                    urlHelper.openProfilePage(user_id, 'profile');
                     $ionicScrollDelegate.resize();
                 };
                 $scope.menu_friends = function () {
-                    $location.path('/app/profile/' + user_id + '/friends');
+                    urlHelper.openProfilePage(user_id, 'friends');
                     $ionicScrollDelegate.resize();
                 };
                 $scope.menu_recommended = function () {
-                    $location.path('/app/profile/' + user_id + '/recommended');
+                    urlHelper.openProfilePage(user_id, 'recommended');
                     $ionicScrollDelegate.resize();
                 };
                 $scope.haveGotFriendRequest = false;
@@ -172,7 +172,7 @@ profileMod.controller('ProfileCtrl',
                                     }
                                 }
                                 angular.element(document.querySelector('#menu_scroller')).attr('style', 'width:' + width + 'px');
-                                $scope.myScroll = new IScroll('#menu_sliding', {scrollX: true, scrollY: false, eventPassthrough: true, preventDefault: false, tap: true, startX: startX * -1});
+                                $ionicScrollDelegate.$getByHandle('profile_scroller').scrollTo(startX, 0, true);
                             }, 50);
 
                         }, function () {
@@ -181,7 +181,7 @@ profileMod.controller('ProfileCtrl',
 
                     } else {
                         toast.showShortBottom('You Need To Be Logged In To Access This Page');
-                        $location.path('/app/signup');
+                        urlHelper.openSignUp();
                     }
                 };
                 self.getUserData();

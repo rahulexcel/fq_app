@@ -20,12 +20,21 @@
                     <div class="clearfix"></div>
                 </div>
                 <div ng-show="filter_type.open">
+                    <ion-scroll ng-if="filter_type.type === 'Brand'" delegate-handle="brand_scroll" scrollbar-x="false" direction="x" zoom="false">
+                        <ul ng-style="{'width':brandAlph_width}">
+                            <li on-tap="openBrandAlph(alp.name)" ng-class="{'brand_view_alph_sel':alp.selected}" class="brand_view_alph" ng-repeat="alp in brandAlph">{{alp.name}}</li>
+                        </ul>
+                    </ion-scroll>
+                    <div class="clearfix"></div>
+
                     <ion-list>
                         <ion-item ng-repeat="filter in filter_type.data track by $index">
                             <ion-checkbox on-tap="filterClick(filter_type,filter);" ng-model="filter.selected" ng-value="filter.param">{{filter.name}}</ion-checkbox>
                         </ion-item>
                     </ion-list>
-                    <div on-tap="openBrand();" class="brand_view_more" style="color: #da500f" ng-if="filter_type.type === 'Brand' && brand_filters_status > 0">View More [{{brand_filters_status}}] + </div>
+                    <div>
+                        <!--<span on-tap="openBrand();" class="brand_view_more" style="color: #da500f" ng-if="filter_type.type === 'Brand' && brand_filters_status > 0">View More [{{brand_filters_status}}] + </span>-->
+                    </div>
                 </div>
 
             </div>
@@ -39,13 +48,13 @@
         <div class="row">
             <div class="col">
                 <button class="button button-full button-clear filter-button" on-tap="showProductsFn();">
-                    <i class="ion-close-round red-color"></i>
+                    <i class="ion-close-round accent"></i>
                     Close
                 </button>
             </div>
             <div class="col">
                 <button class="button button-full button-clear filter-button" on-tap="doApply()">
-                    <i class="ion-android-done-all red-color"></i>
+                    <i class="ion-android-done-all accent"></i>
                     Apply
                 </button>
             </div>

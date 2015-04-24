@@ -1,6 +1,6 @@
 profileMod.controller('ProfileRecommendedCtrl',
-        ['$scope', '$localStorage', 'toast', '$location', 'friendHelper', '$ionicLoading',
-            function ($scope, $localStorage, toast, $location, friendHelper, $ionicLoading) {
+        ['$scope', '$localStorage', 'toast', 'friendHelper', '$ionicLoading',
+            function ($scope, $localStorage, toast, friendHelper, $ionicLoading) {
                 $scope.$on('user_info', function () {
                     if ($scope.$parent.user._id === $localStorage.user.id) {
                         $scope.me = true;

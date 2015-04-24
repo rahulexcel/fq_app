@@ -16,14 +16,14 @@
             <div class="box"  style="padding: 0px">
                 <div class="pro-img">
                     <ion-slide-box ng-if="alert.more_images" show-pager="true" style="height: 350px">
-                        <ion-slide>
+                        <ion-slide on-tap="showZoom(-1)">
                             <img img-loader ng-src='{{alert.img| picture:picture_width}}'/>
                         </ion-slide>
-                        <ion-slide ng-repeat="img in alert.more_images  track by $index">
+                        <ion-slide on-tap="showZoom($index)" ng-repeat="img in alert.more_images  track by $index">
                             <img img-loader ng-src='{{img|picture}}'/>
                         </ion-slide>
                     </ion-slide-box>
-                    <img ng-if="!alert.more_images" img-loader ng-src='{{alert.img| picture:picture_width}}' />
+                    <img on-tap="showZoom(-1)" ng-if="!alert.more_images" img-loader ng-src='{{alert.img| picture:picture_width}}' />
                 </div>
                 <div class="pro-info">
                     <div class="pro-name">
@@ -48,7 +48,7 @@
             <div id='fixed_footer' class="wishlist_item_footer">
                 <div style="width: 100%"  ng-show='!show_footer_menu'>
                     <div class="item_icon">
-                        <button class="button red-back" on-tap="openItem();">BUY NOW</button>
+                        <button class="button accent_bg" on-tap="openItem();">BUY NOW</button>
                     </div>
                     <div ng-if='mine' on-tap='removePriceAlert();' class="item_icon">
                         <button class="button button-clear grey-color">
@@ -78,22 +78,24 @@
                 <div class="similar-product-label">
                     SIMILAR PRODUCTS
                 </div>
-                <div id="similar" class="similar similar_{{alert.fq_product_id}}">
-                    <ul id="scroller" class="variants scroller_{{alert.fq_product_id}}">
-                        <li on-tap="openProduct(variant);" ng-repeat="variant in product.similar" style="float: left">
-                            <div class="similar-img">
-                                <img img-loader ng-src='{{variant.image}}'/>
-                            </div>
-                            <div class="name">
-                                {{variant.name}}
-                            </div>
-                            <div class="similar-price">
-                                Rs. {{variant.price}}
-                            </div>
-                        </li>
-                        <div class="clearfix"></div>
-                    </ul>
-                </div>  
+                <ion-scroll zoom="false" direction="x"style="width: 100%;">
+                    <div id="similar" class="similar similar_{{alert.fq_product_id}}">
+                        <ul id="scroller" class="variants scroller_{{alert.fq_product_id}}">
+                            <li on-tap="openProduct(variant);" ng-repeat="variant in product.similar" style="float: left">
+                                <div class="similar-img">
+                                    <img img-loader ng-src='{{variant.image}}'/>
+                                </div>
+                                <div class="name">
+                                    {{variant.name}}
+                                </div>
+                                <div class="similar-price">
+                                    Rs. {{variant.price}}
+                                </div>
+                            </li>
+                            <div class="clearfix"></div>
+                        </ul>
+                    </div>  
+                </ion-scroll>
                 <div class="clearfix"></div>
             </div>
             <div class="clearfix"></div>
@@ -115,7 +117,7 @@
                             </div>
                             <div class="other-seller-price">
                                 <span on-tap="openProduct(variant);" class="other-price">Rs.{{variant.price}}</span>
-                                <button class="button pro-button red-back" on-tap="buy(variant);">BUY</button>
+                                <button class="button pro-button accent_bg" on-tap="buy(variant);">BUY</button>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -129,7 +131,7 @@
     <ion-footer-bar ng-show='show_footer_menu' class='wishlist_item_footer'>
         <div style="width: 100%">
             <div class="item_icon">
-                <button class="button red-back" on-tap="openItem();">BUY NOW</button>
+                <button class="button accent_bg" on-tap="openItem();">BUY NOW</button>
             </div>
             <div ng-if='mine' on-tap='removePriceAlert();' class="item_icon">
                 <button class="button button-clear grey-color">

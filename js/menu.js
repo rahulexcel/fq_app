@@ -1,16 +1,21 @@
-var menuMod = angular.module('MenuMod', ['ServiceMod', 'ngStorage', 'ionic', 'pasvaz.bindonce']);
+var menuMod = angular.module('MenuMod', ['ServiceMod', 'ngStorage', 'ionic', 'pasvaz.bindonce', 'UrlService']);
 
 menuMod.controller('MenuCtrl',
-        ['$scope', 'ajaxRequest', '$localStorage', '$location', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork', '$ionicPlatform', '$ionicScrollDelegate', '$timeout',
-            function ($scope, ajaxRequest, $localStorage, $location, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork, $ionicPlatform, $ionicScrollDelegate, $timeout) {
-//                $ionicNavBarDelegate.showBackButton(false);
-
+        ['$scope', 'ajaxRequest', '$localStorage', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork', '$ionicPlatform', '$ionicScrollDelegate', '$timeout', '$q', 'urlHelper',
+            function ($scope, ajaxRequest, $localStorage, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork, $ionicPlatform, $ionicScrollDelegate, $timeout, $q, urlHelper) {
                 if ($localStorage.user.id) {
                     notifyHelper.checkForUpdates();
                 }
+
+                $scope.$on('modal.shown', function () {
+                    $rootScope.$emit('hide_android_add');
+                });
+                $scope.$on('modal.hidden', function () {
+                    $rootScope.$emit('show_android_add');
+                });
                 $scope.checkOffline = function () {
                     if ($cordovaNetwork.isOnline()) {
-                        $location.app('/app/home/trending');
+                        urlHelper.openHomePage();
                     } else {
                         toast.showShortBottom('Still Offline...');
                     }
@@ -101,7 +106,7 @@ menuMod.controller('MenuCtrl',
                     //$ionicScrollDelegate.resize();
                     $ionicScrollDelegate.$getByHandle('left_menu').scrollTop();
                     $ionicSideMenuDelegate.toggleLeft(false);
-                    $location.path('/app/category/' + cat.cat_id + '/' + cat.sub_cat_id + '/' + cat.name);
+                    urlHelper.openCategoryPage(cat.cat_id, cat.sub_cat_id, cat.name);
                     $timeout(function () {
                         var category = $scope.category;
                         for (var i = 0; i < category.length; i++) {
@@ -122,18 +127,15 @@ menuMod.controller('MenuCtrl',
                         }
                         $scope.category = category;
                     }, 100);
-
-                    //$location.path('/#/app/home');
-                    //$scope.current_category = cat;
                 };
                 $scope.profile = function (user_id) {
-                    $location.path('/app/profile/' + user_id + '/mine');
+                    urlHelper.openProfilePage(user_id, 'mine');
                     if (window.analytics) {
                         window.analytics.trackEvent('Menu', 'Profile');
                     }
                 };
                 $scope.signup = function () {
-                    $location.path('/app/signup');
+                    urlHelper.openSignUp();
                     if (window.analytics) {
                         window.analytics.trackEvent('Menu', 'SignUp');
                     }
@@ -144,18 +146,18 @@ menuMod.controller('MenuCtrl',
                             window.analytics.trackEvent('Profile', 'Updates');
                         }
                         if ($localStorage.user.id) {
-                            $location.path('/app/profile/' + $localStorage.user.id + '/update');
+                            urlHelper.openProfilePage($localStorage.user.id, 'update');
                         } else {
-                            $location.path('/app/profile/me/update');
+                            urlHelper.openProfilePage('me', 'update');
                         }
                     } else {
                         if (window.analytics) {
                             window.analytics.trackEvent('Profile', 'Top');
                         }
                         if ($localStorage.user.id) {
-                            $location.path('/app/profile/' + $localStorage.user.id + '/mine');
+                            urlHelper.openProfilePage($localStorage.user.id, 'mine');
                         } else {
-                            $location.path('/app/profile/me/mine');
+                            urlHelper.openProfilePage('me', 'mine');
                         }
                     }
                 };
@@ -164,25 +166,25 @@ menuMod.controller('MenuCtrl',
                         window.analytics.trackEvent('Profile', 'Left Menu');
                         window.analytics.trackEvent('Menu', 'Profile');
                     }
-                    $location.path('/app/profile/me/profile');
+                    urlHelper.openProfilePage('me', 'profile');
                 };
                 $scope.feedback = function () {
-                    $location.path('/app/feedback');
+                    urlHelper.openFeedbackPage();
                 };
                 $scope.aboutus = function () {
                     if (window.analytics) {
                         window.analytics.trackEvent('Menu', 'About');
                     }
-                    $location.path('/app/aboutus');
+                    urlHelper.openAboutUsPage();
                 };
                 $scope.invite = function () {
-                    $location.path('/app/invite');
+                    urlHelper.openInvitePage();
                 };
                 $scope.home = function () {
                     if (window.analytics) {
                         window.analytics.trackEvent('Menu', 'Home');
                     }
-                    $location.path('/app/home');
+                    urlHelper.openHomePage();
                 };
 
                 $rootScope.showSearchBox = false;
@@ -224,7 +226,7 @@ menuMod.controller('MenuCtrl',
                 $scope.doSearch = function () {
                     if ($rootScope.search.text.length > 0) {
 
-                        var path = $location.path();
+                        var path = urlHelper.getPath();
                         if (path.indexOf('/app/category') !== -1) {
                             $scope.$broadcast('search_event');
                         } else if (path.indexOf('/app/product') !== -1) {
@@ -247,7 +249,7 @@ menuMod.controller('MenuCtrl',
                     $scope.search_cat = cat;
                     $scope.modal.hide();
                     var father_key = cat.father_key;
-                    $location.path('/app/search/' + father_key + "/" + $rootScope.search.text);
+                    urlHelper.openSearchPage(father_key, $rootScope.search.text);
                     $rootScope.search.text = '';
                     $rootScope.showSearchBox = false;
                 };
@@ -262,8 +264,11 @@ menuMod.controller('MenuCtrl',
                 $scope.$on('$destroy', function () {
                     $scope.wishlistmodal.remove();
                 });
-                $scope.closeWishlistModel = function () {
+                $scope.closeWishlistModel = function (is_from_close_button) {
                     $scope.wishlistmodal.hide();
+                    if ($scope.defer && !is_from_close_button) {
+                        $scope.defer.reject();
+                    }
                 };
                 $ionicModal.fromTemplateUrl('template/partial/wishlist-select.html', {
                     scope: $scope,
@@ -287,7 +292,7 @@ menuMod.controller('MenuCtrl',
                         }, 'wishstlist_new');
                     }
                     $scope.closeWishlistModel();
-                    $location.path('/app/wishlist_add');
+                    urlHelper.openWishlistAddPage();
                 };
                 $scope.refreshList = function () {
                     var ajax = wishlistHelper.list(true);
@@ -366,7 +371,7 @@ menuMod.controller('MenuCtrl',
                     if (!list) {
                         toast.showShortBottom('No List Selected');
                     } else {
-                        $scope.closeWishlistModel();
+                        $scope.closeWishlistModel(true);
                         if ($scope.wishlist_product.product) {
                             $scope.wishlist_product.product.wishlist_status = 1;
                             var ajax2 = wishlistHelper.add($scope.wishlist_product.product._id, list._id);
@@ -380,14 +385,26 @@ menuMod.controller('MenuCtrl',
                             $scope.wishlist_product.item.select_list_id = list._id;
                             $scope.$broadcast('wishlist_pin_select');
                         } else {
-                            $location.path('/app/wishlist_item_add_step2/' + $scope.show_wishlist_type + '/' + list._id);
+                            $scope.defer.resolve(list._id);
+//                            $location.path('/app/wishlist_item_add_step2/' + $scope.show_wishlist_type + '/' + list._id);
 //                            $location.path('/app/wishlist_item_add/' + list._id + "/step1");
                         }
                     }
                 };
                 $scope.show_wishlist_type = false;
-                $scope.showWishlist = function (type) {
+                $scope.defer = false;
+
+                $scope.showWishlistAsync = function (type, list_id) {
+                    if (list_id && list_id * 1 !== -1) {
+                        return $q.when(list_id);
+                    }
                     $scope.show_wishlist_type = type;
+                    $scope.defer = $q.defer();
+                    $scope.showWishlist(type);
+                    return $scope.defer.promise;
+                };
+                $scope.showWishlist = function (type) {
+                    $scope.show_wishlist_type = false;
                     var ajax = wishlistHelper.list();
                     ajax.then(function (data) {
                         $scope.lists = data;
@@ -443,10 +460,10 @@ menuMod.controller('MenuCtrl',
 //                            $scope.showWishlist();
                             dataShare.broadcastData(false, 'add_wishlist_item');
                         }
-                        $location.path('/app/wishlist_item_add_step1');
+                        urlHelper.openWishlistAddStep1();
                     } else {
                         toast.showShortBottom('Login To Add Item To Your Wishlist');
-                        $location.path('/app/signup');
+                        urlHelper.openSignUp();
                     }
                 };
                 $scope.clearAjax = function () {
@@ -463,46 +480,39 @@ menuMod.controller('MenuCtrl',
                 });
                 $scope.$on('tap_first', function () {
                     if ($localStorage.user.id) {
-                        $scope.wishlist_product.product = false;
-                        $scope.wishlist_product.item = false;
-                        $scope.wishlist_product.new_item = true;
-                        $scope.showWishlist('camera');
+                        toast.showShortBottom('Opening Your Camera...');
+                        urlHelper.openWishlistAddStep2('camera', -1);
                     } else {
                         toast.showShortBottom('Login/SignUp To Setup Wishlist');
-                        $location.path('/app/signup');
+                        urlHelper.openSignUp();
                     }
                 });
                 $scope.$on('tap_second', function () {
                     if ($localStorage.user.id) {
-                        $scope.wishlist_product.product = false;
-                        $scope.wishlist_product.item = false;
-                        $scope.wishlist_product.new_item = true;
-                        $scope.showWishlist('gallary');
+                        toast.showShortBottom('Opening Your Gallary...');
+                        urlHelper.openWishlistAddStep2('gallary', -1);
                     } else {
                         toast.showShortBottom('Login/SignUp To Setup Wishlist');
-                        $location.path('/app/signup');
+                        urlHelper.openSignUp();
                     }
                 });
-                $scope.$on('tap_thrid', function () {
+                $scope.$on('tap_third', function () {
+                    console.log('third')
                     if ($localStorage.user.id) {
-                        $scope.wishlist_product.product = false;
-                        $scope.wishlist_product.item = false;
-                        $scope.wishlist_product.new_item = true;
-                        $scope.showWishlist('image_url');
+                        toast.showShortBottom('Opening...');
+                        urlHelper.openWishlistAddStep2('image_url', -1);
                     } else {
                         toast.showShortBottom('Login/SignUp To Setup Wishlist');
-                        $location.path('/app/signup');
+                        urlHelper.openSignUp();
                     }
                 });
                 $scope.$on('tap_fourth', function () {
                     if ($localStorage.user.id) {
-                        $scope.wishlist_product.product = false;
-                        $scope.wishlist_product.item = false;
-                        $scope.wishlist_product.new_item = true;
-                        $scope.showWishlist('near');
+                        toast.showShortBottom('Opening...');
+                        urlHelper.openWishlistAddStep2('near', -1);
                     } else {
                         toast.showShortBottom('Login/SignUp To Setup Wishlist');
-                        $location.path('/app/signup');
+                        urlHelper.openSignUp();
                     }
                 });
             }

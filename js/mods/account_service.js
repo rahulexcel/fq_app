@@ -1,8 +1,8 @@
-var accountService = angular.module('AccountService', ['ServiceMod', 'NotifyMod']);
+var accountService = angular.module('AccountService', ['ServiceMod', 'NotifyMod', 'UrlService']);
 
 accountService.factory('accountHelper', [
-    'ajaxRequest', '$q', 'toast', '$localStorage', '$location', '$rootScope', '$cordovaDevice', 'notifyHelper', 'inviteHelper', 'dataShare',
-    function (ajaxRequest, $q, toast, $localStorage, $location, $rootScope, $cordovaDevice, notifyHelper, inviteHelper, dataShare) {
+    'ajaxRequest', '$q', 'toast', '$localStorage', 'urlHelper', '$rootScope', '$cordovaDevice', 'notifyHelper', 'inviteHelper', 'dataShare',
+    function (ajaxRequest, $q, toast, $localStorage, urlHelper, $rootScope, $cordovaDevice, notifyHelper, inviteHelper, dataShare) {
         var service = {};
         service.init_done = false;
         service.fbInit = function () {
@@ -160,7 +160,6 @@ accountService.factory('accountHelper', [
                     data.picture = ajaxRequest.url('v1/picture/view/' + data.picture);
                 }
                 notifyHelper.init();
-//                $location.path('/app/invite');
 
                 var redirect_url = '/app/home/trending';
                 if ($localStorage.previous && $localStorage.previous.url) {
@@ -173,10 +172,10 @@ accountService.factory('accountHelper', [
                         ajax = inviteHelper.lookUpFacebookFriends(data1.data);
                         ajax.then(function () {
                             def.resolve(data);
-                            $location.path(redirect_url);
+                            urlHelper.direct(redirect_url);
                         });
                     } else {
-                        $location.path(redirect_url);
+                        urlHelper.direct(redirect_url);
                     }
                 } else if ($localStorage.user.type === 'google') {
                     data1 = dataShare.getData();
@@ -184,13 +183,13 @@ accountService.factory('accountHelper', [
                         ajax = inviteHelper.lookUpGoogleFriends(data1.data);
                         ajax.then(function () {
                             def.resolve(data);
-                            $location.path(redirect_url);
+                            urlHelper.direct(redirect_url);
                         });
                     } else {
-                        $location.path(redirect_url);
+                        urlHelper.direct(redirect_url);
                     }
                 } else {
-                    $location.path(redirect_url);
+                    urlHelper.direct(redirect_url);
                 }
 
                 $rootScope.$broadcast('login_event');

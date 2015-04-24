@@ -1,4 +1,4 @@
-var serviceMod = angular.module('ServiceMod', ['ngStorage', 'ionic']);
+var serviceMod = angular.module('ServiceMod', ['ngStorage', 'ionic', 'UrlService']);
 
 serviceMod.factory('pinchServie', ['$window', '$timeout',
     function ($window, $timeout) {
@@ -431,6 +431,7 @@ serviceMod.factory('pinchServie', ['$window', '$timeout',
         return service;
     }
 ]);
+
 serviceMod.directive('pinch', ['pinchServie', '$ionicGesture', '$timeout', '$ionicScrollDelegate',
     function (pinchServie, $ionicGesture, $timeout, $ionicScrollDelegate) {
         return {
@@ -451,7 +452,6 @@ serviceMod.directive('pinch', ['pinchServie', '$ionicGesture', '$timeout', '$ion
 //                    console.log('init');
 
                     scope.$on('$destroy', function () {
-                        console.log('destroy');
                         pinchServie.destroy();
                         pinchShowing = false;
                         $ionicGesture.off(relase_gesture, 'release');
@@ -484,7 +484,7 @@ serviceMod.directive('pinch', ['pinchServie', '$ionicGesture', '$timeout', '$ion
                     drag_gesture = $ionicGesture.on('drag', function (e) {
                         if (!wait_for_anim) {
                             if (pinchServie.caneDrag(e)) {
-                                pinchServie.handleDrag(e)
+                                pinchServie.handleDrag(e);
                                 e.preventDefault();
                                 e.stopPropagation();
                             } else {
@@ -517,7 +517,7 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
                     if (!ionic.Platform.isAndroid()) {
                         //return;
                     }
-                    var html = '<div id="add_tap" class="fab red-back">';
+                    var html = '<div id="add_tap" class="hide-on-keyboard-open fab accent_bg">';
                     html += "<div id='tap_main' class='fab_icon'>";
                     html += '<i class="ion-android-add"></i>';
                     html += "</div>";
@@ -596,30 +596,34 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
                         e.stopPropagation();
                     }, angular.element(document.getElementById('tap_main')));
                     $ionicGesture.on('tap', function (e) {
-                        scope.$broadcast('tap_first');
                         ele.toggleClass('fab_rotate')
                         backdrop.toggleClass('active visible');
+                        back_button();
+                        scope.$broadcast('tap_first');
                         e.preventDefault();
                         e.stopPropagation();
                     }, angular.element(document.getElementById('tap_first')));
                     $ionicGesture.on('tap', function (e) {
-                        scope.$broadcast('tap_second');
                         ele.toggleClass('fab_rotate')
                         backdrop.toggleClass('active visible');
+                        back_button();
+                        scope.$broadcast('tap_second');
                         e.preventDefault();
                         e.stopPropagation();
                     }, angular.element(document.getElementById('tap_second')));
                     $ionicGesture.on('tap', function (e) {
-                        scope.$broadcast('tap_third');
                         ele.toggleClass('fab_rotate')
                         backdrop.toggleClass('active visible');
+                        back_button();
+                        scope.$broadcast('tap_third');
                         e.preventDefault();
                         e.stopPropagation();
                     }, angular.element(document.getElementById('tap_third')));
                     $ionicGesture.on('tap', function (e) {
-                        scope.$broadcast('tap_fourth');
                         ele.toggleClass('fab_rotate')
                         backdrop.toggleClass('active visible');
+                        back_button();
+                        scope.$broadcast('tap_fourth');
                         e.preventDefault();
                         e.stopPropagation();
                     }, angular.element(document.getElementById('tap_fourth')));
@@ -645,14 +649,14 @@ serviceMod.directive('imgLoader', function () {
         }
     };
 });
-serviceMod.directive("userBox", ['$location', 'toast', 'friendHelper', '$localStorage',
-    function ($location, toast, friendHelper, $localStorage) {
+serviceMod.directive("userBox", ['toast', 'friendHelper', '$localStorage', 'urlHelper',
+    function (toast, friendHelper, $localStorage, urlHelper) {
         var obj = {
             scope: {user: '=', me: '=', index: '@', users: '='},
             templateUrl: 'template/directive/user.html',
             controller: function ($scope) {
                 $scope.profile = function () {
-                    $location.path('/app/profile/' + $scope.user._id + '/mine');
+                    urlHelper.openProfilePage($scope.user._id, 'mine');
                 };
                 $scope.unFriend = function () {
                     var friend_user_id = $scope.user._id;
@@ -721,8 +725,8 @@ serviceMod.directive("userBox", ['$location', 'toast', 'friendHelper', '$localSt
         return obj;
     }]);
 serviceMod.directive("listBox",
-        ['wishlistHelper', '$location', 'dataShare', 'toast', 'friendHelper',
-            function (wishlistHelper, $location, dataShare, toast, friendHelper) {
+        ['wishlistHelper', 'urlHelper', 'toast', 'friendHelper',
+            function (wishlistHelper, urlHelper, toast, friendHelper) {
                 var obj = {
                     scope: {list: '=', me: '=', index: '@', lists: '='},
                     templateUrl: 'template/directive/list.html',
@@ -744,13 +748,13 @@ serviceMod.directive("listBox",
                     controller: function ($scope) {
                         $scope.viewList = function () {
                             var list = $scope.list;
-                            $location.path('/app/wishlist_item/' + list._id + "/" + list.name + '/pins');
+                            urlHelper.openWishlistPage(list._id, list.name);
                         };
                         $scope.editList = function () {
                             var list = $scope.list;
                             if ($scope.me) {
 //                                dataShare.broadcastData(list, 'edit_list');
-                                $location.path('/app/wishlist_edit/' + list._id);
+                                urlHelper.openWishlistEditPage(list._id);
                             } else {
                                 toast.showShortBottom('You Cannot Edit This List');
                             }
@@ -776,7 +780,7 @@ serviceMod.directive("listBox",
                         };
                         $scope.followList = function () {
                             if (window.analytics) {
-                                window.analytics.trackEvent('Follow List', 'Profile Page', $location.path());
+                                window.analytics.trackEvent('Follow List', 'Profile Page', urlHelper.getPath());
                             }
                             var list_id = $scope.list._id;
                             if ($scope.request_process) {
@@ -1241,6 +1245,7 @@ serviceMod.factory('uploader', ['$q', 'ajaxRequest',
                     context.ft = new FileTransfer();
                     context.ft.upload(fileURL, encodeURI(ajaxRequest.url('v1/picture/upload')), win, fail, options);
                     context.ft.onprogress = function (progressEvent) {
+//                        console.log(progressEvent);
                         if (progressEvent.lengthComputable) {                         //loadingStatus.setPercentage();
                             var x = Math.floor((progressEvent.loaded / progressEvent.total) * 100);
                             context.upload_defer.notify({progress: x});

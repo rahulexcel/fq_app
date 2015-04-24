@@ -181,15 +181,6 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         }
                     }
                 })
-//                .state('app.account', {
-//                    url: '/account',
-//                    views: {
-//                        'menuContent': {
-//                            templateUrl: 'template/account.html',
-//                            controller: 'AccountCtrl'
-//                        }
-//                    }
-//                })
                 .state('app.profile', {
                     url: '/profile/:user_id',
                     abstract: true,
@@ -318,17 +309,6 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         }
                     }
                 })
-//                .state('app.wishlist_item_add', {
-//                    url: '/wishlist_item_add/:list_id',
-//                    abstract: true,
-//                    views: {
-//                        'menuContent': {
-//                            templateUrl: 'template/wishlist_item_add.html',
-//                            controller: 'WishlistItemAddCtrl'
-//                        }
-//                    }
-//                })
-
                 .state('app.wishlist_item_add_step1', {
                     url: '/wishlist_item_add_step1',
                     views: {
@@ -374,13 +354,14 @@ app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
                         }
                     }
                 });
+
         $urlRouterProvider.otherwise('/app/home/trending');
     }]);
 
 var custom_history = [];
 
-app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", "$location", 'notifyHelper', '$cordovaNetwork', '$ionicHistory', '$timeout', 'toast', '$ionicLoading', '$ionicBackdrop',
-    function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, $location, notifyHelper, $cordovaNetwork, $ionicHistory, $timeout, toast, $ionicLoading, $ionicBackdrop) {
+app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", 'notifyHelper', '$cordovaNetwork', '$ionicHistory', '$timeout', 'toast', '$ionicLoading', '$ionicBackdrop', 'urlHelper', 'timeStorage',
+    function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, notifyHelper, $cordovaNetwork, $ionicHistory, $timeout, toast, $ionicLoading, $ionicBackdrop, urlHelper, timeStorage) {
         if (!$localStorage.user) {
             $localStorage.user = {};
         } else {
@@ -407,7 +388,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
 
                 if (backPress === 0) {
                     backPress++;
-                    $location.path('/app/home/trending');
+                    urlHelper.openHomePage();
                     toast.showShortBottom('Press Back Again To Exit');
                     $timeout(function () {
                         backPress = 0;
@@ -418,6 +399,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             }
             return false;
         }, 101);
+        
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -431,23 +413,28 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
+            if (ionic.Platform.isAndroid()) {
+                StatusBar.backgroundColorByHexString("#303F9F");
+            }
             notifyHelper.init();
-            if (!$localStorage.user.id) {
-                $location.path('/intro');
+            if (!$localStorage.user.id && !timeStorage.get('last_intro')) {
+                timeStorage.set('last_intro', 1, 1);
+                urlHelper.openIntroPage();
             }
         });
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
             if ($cordovaNetwork.isOffline()) {
-                $location.path('/offline');
+                urlHelper.openOfflinePage();
                 return;
             }
         }
         $rootScope.$on('networkOffline', function () {
-            $location.path('/offline');
+            urlHelper.openOfflinePage();
         });
         $rootScope.$on('networkOnline', function () {
-            $location.path('/app/home');
+            urlHelper.openHomePage();
         });
+
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
             $rootScope.body_class = '';
             if (toState.name === 'app.item.pins' || toState.name.indexOf('app.home.trending') !== -1 || toState.name.indexOf('app.home.feed') !== -1 || toState.name.indexOf('app.profile') !== -1 || (toState.name.indexOf('app.wishlist_item') !== -1 && toState.name.indexOf('app.wishlist_item_add') === -1)) {
@@ -456,7 +443,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             if (toState.name === 'intro') {
                 $rootScope.body_class = 'intro_page';
             }
-            if (toState.name === 'app.category_search' || toState.name === 'app.product_search' || toState.name === 'app.product' || toState.name === 'app.category' || toState.name === 'intro' || toState.name === 'offline' || toState.name === 'app.signup' || toState.name === 'app.login' || toState.name === 'app.forgot' || toState.name.indexOf('wishlist_item_add') != -1 || toState.name === 'app.invite' || toState.name === 'app.feedback' || toState.name === 'app.aboutus') {
+            if (toState.name === 'app.wishlist_item.pins' || toState.name === 'app.category_search' || toState.name === 'app.product_search' || toState.name === 'app.product' || toState.name === 'app.category' || toState.name === 'intro' || toState.name === 'offline' || toState.name === 'app.signup' || toState.name === 'app.login' || toState.name === 'app.forgot' || toState.name.indexOf('wishlist_item_add') != -1 || toState.name === 'app.invite' || toState.name === 'app.feedback' || toState.name === 'app.aboutus') {
                 $rootScope.$emit('hide_android_add');
             } else {
                 $rootScope.$emit('show_android_add');
@@ -508,24 +495,24 @@ function handleOpenURL(url) {
 
         var elem = angular.element(document.querySelector('[ng-app]'));
         var injector = elem.injector();
-        var $location = injector.get('$location');
+        var urlHelper = injector.get('urlHelper');
 
         var path = parser.pathname;
         if (path.indexOf('m/p') !== -1) {
             //product
             var p = path.split('/');
             var last_index = p[p.length - 1];
-            $location.path('/app/product/' + last_index);
+            urlHelper.openProductPage(last_index);
         } else if (path.indexOf('m/i') !== -1) {
             var p = path.split('/');
             var last_index = p[p.length - 1];
             var second_last_index = p[p.length - 2];
-            $location.path('/app/item/' + second_last_index + "/" + last_index + '/pins');
+            urlHelper.openItemPage(second_last_index, last_index);
         } else if (path.indexOf('m/l') !== -1) {
             var p = path.split('/');
             var last_index = p[p.length - 1];
             var second_last_index = p[p.length - 2];
-            $location.path('/app/wishlist_item/' + second_last_index + "/" + last_index + '/pins');
+            urlHelper.openWishlistPage(second_last_index, last_index);
         } else {
             console.log('invalid url' + url);
             window.open(url, '_system');
