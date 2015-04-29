@@ -509,8 +509,8 @@ serviceMod.directive('pinch', ['pinchServie', '$ionicGesture', '$timeout', '$ion
     }
 ]);
 
-serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootScope',
-    function ($ionicGesture, $ionicPlatform, $rootScope) {
+serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootScope', '$timeout',
+    function ($ionicGesture, $ionicPlatform, $rootScope, $timeout) {
         return {
             link: {
                 pre: function preLink(scope, iElement, iAttrs, controller) {
@@ -527,7 +527,7 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
                     html += '<div class="fab_small"><i class="ion-ios-camera"></i></div>';
                     html += '</li>';
                     html += '<li id="tap_second" class="fab_second">';
-                    html += "<div class='anim_text'>Gallary</div>";
+                    html += "<div class='anim_text'>Gallery</div>";
                     html += '<div class="fab_small"><i class="ion-images"></i></div>';
                     html += '</li>';
                     html += '<li id="tap_third" class="fab_third">';
@@ -552,24 +552,24 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
                     var back_button = false;
 
                     $rootScope.$on('$ionicView.afterEnter', function () {
-
-                        var eles = document.querySelectorAll('.bar-footer');
-
-                        var is_footer_showing = false;
-                        for (var i = 0; i < eles.length; i++) {
-                            var el = eles[i];
-                            if (el.offsetParent === null) {
-                                //hidden element http://stackoverflow.com/a/21696585/2304347
-                            } else {
-                                is_footer_showing = true;
+                        $timeout(function () {
+                            var eles = document.querySelectorAll('.bar-footer');
+                            var is_footer_showing = false;
+                            for (var i = 0; i < eles.length; i++) {
+                                var el = eles[i];
+                                if (el.offsetParent === null) {
+                                    //hidden element http://stackoverflow.com/a/21696585/2304347
+                                } else {
+                                    is_footer_showing = true;
+                                }
                             }
-                        }
-                        if (is_footer_showing) {
-                            ele.attr('style', 'right:20px;bottom:50px');
-                        } else {
-                            ele.attr('style', 'right:20px;bottom:20px');
-                        }
+                            if (is_footer_showing) {
+                                ele.attr('style', 'right:20px;bottom:50px');
+                            } else {
+                                ele.attr('style', 'right:20px;bottom:20px');
+                            }
 
+                        }, 1000);
                     });
 
                     $rootScope.$on('hide_android_add', function () {
@@ -1058,7 +1058,7 @@ serviceMod.factory('ajaxRequest',
                             headers: {'Content-Type': 'application/json;charset=utf-8'},
                             cache: false,
                             data: JSON.stringify(data),
-                            timeout: 20000
+                            timeout: 60000
                         });
                         http.success(function (data) {
                             $rootScope.ajax_on = false;
@@ -1086,6 +1086,8 @@ serviceMod.factory('ajaxRequest',
                             $log.warn('500 Error');
                             $ionicLoading.hide();
                             $ionicBackdrop.release();
+                            $scope.$broadcast('scroll.refreshComplete');
+                            $scope.$broadcast('scroll.infiniteScrollComplete');
                             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
                                 if ($cordovaNetwork.isOffline()) {
 

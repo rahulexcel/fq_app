@@ -17,17 +17,17 @@
     }
 }
 .bar-header{
-    background-color: #3F51B5;
+    background-color: #6200ea;
 }
 .primary_dark {
     color:#303F9F;
 }
 .primary_bg{
-    background-color:#3F51B5;
+    background-color:#6200ea;
     color: white;
 }
 .primary{
-    color:#3F51B5;
+    color:#6200ea;
 }
 .primary_light_bg{
     background-color:#C5CAE9;
@@ -165,7 +165,7 @@ textarea {
     font-size: 0.91em !important;
 }
 
-.zara  { background-image: url("../img/fav/zara.png");   }
+.elitify  { background-image: url("../img/fav/elitify.png");   }
 .zara  { background-image: url("../img/fav/zara.png");   }
 .indiacircus  { background-image: url("../img/fav/indiacircus.png");   }
 .indiacircus  { background-image: url("../img/fav/indiacircus.png");   }
@@ -928,9 +928,6 @@ span.other-price{
 }
 .category .product{
     margin-top:10px;
-}
-.category .product .bottom_box .price{
-    width: 45%;
 }
 .button.button-block, .button.button-full{
     margin-top:0px;
@@ -2454,13 +2451,14 @@ i.offline-icon{
     -ms-transition: all .1s ease-out;
     -o-transition: all .1s ease-out;
     transition: all .1s ease-out;
+    font-size:1.5em;
 }
 .fab_rotate .fab_icon{
-    transform: rotate(135deg);
-    -webkit-transform: rotate(135deg);
-    -moz-transform: rotate(135deg);
-    -o-transform: rotate(135deg);
-    -ms-transform: rotate(135deg);
+    transform: rotate(315deg);
+    -webkit-transform: rotate(315deg);
+    -moz-transform: rotate(315deg);
+    -o-transform: rotate(315deg);
+    -ms-transform: rotate(315deg);
 }
 
 .fab_small i{

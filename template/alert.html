@@ -16,9 +16,9 @@
             <div class="box"  style="padding: 0px">
                 <div class="pro-img">
                     <ion-slide-box ng-if="alert.more_images" show-pager="true" style="height: 350px">
-                        <ion-slide on-tap="showZoom(-1)">
+<!--                        <ion-slide on-tap="showZoom(-1)">
                             <img img-loader ng-src='{{alert.img| picture:picture_width}}'/>
-                        </ion-slide>
+                        </ion-slide>-->
                         <ion-slide on-tap="showZoom($index)" ng-repeat="img in alert.more_images  track by $index">
                             <img img-loader ng-src='{{img|picture}}'/>
                         </ion-slide>

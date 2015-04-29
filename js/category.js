@@ -176,6 +176,20 @@ categoryMod.controller('CategoryCtrl',
                         $scope.$broadcast('scroll.refreshComplete');
                     });
                 };
+                $scope.removeSearch = function () {
+                    var state = $scope.currentState;
+                    state.search = '';
+                    $scope.currentState = state;
+                    var req = categoryHelper.fetchProduct(state);
+                    req.then(function (ret) {
+                        $scope.product_loading = false;
+                        if (ret.products.length === 0) {
+                            toast.showShortBottom('Product Not Found Matching Current Filter');
+                        }
+                        $scope.update(ret);
+                        $scope.showProductsFn();
+                    });
+                };
                 $scope.removeFilter = function (filter) {
                     var url = filter.param;
                     $scope.product_loading = true;
@@ -368,6 +382,7 @@ categoryMod.controller('CategoryCtrl',
                 });
                 $scope.startPaging = false;
                 $scope.$watch('current_category', function (cat) {
+
                     if (cat) {
 
                         console.log('processing');

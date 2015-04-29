@@ -2,8 +2,8 @@ var feedbackMod = angular.module('FeedbackMod',
         ['ServiceMod', 'ngStorage', 'ngCordova']);
 
 feedbackMod.controller('FeedbackCtrl',
-        ['$scope', '$localStorage', 'toast', 'ajaxRequest', '$cordovaDevice', '$cordovaAppVersion', '$cordovaAppRate', '$rootScope',
-            function ($scope, $localStorage, toast, ajaxRequest, $cordovaDevice, $cordovaAppVersion, $cordovaAppRate, $rootScope) {
+        ['$scope', '$localStorage', 'toast', 'ajaxRequest', '$cordovaDevice', '$cordovaAppVersion', '$rootScope',
+            function ($scope, $localStorage, toast, ajaxRequest, $cordovaDevice, $cordovaAppVersion, $rootScope) {
                 var self = this;
                 self.init = function () {
                     $scope.feedback = {
@@ -26,10 +26,11 @@ feedbackMod.controller('FeedbackCtrl',
                     self.init();
                 });
 
-                $scope.rateUs = function () {
-                    $cordovaAppRate.promptForRating(true).then(function (result) {
 
-                    });
+                AppRate.preferences.storeAppURL.android = 'market://details?id=com.excellence.fashioniq';
+
+                $scope.rateUs = function () {
+                    AppRate.navigateToAppStore();
                 };
 
 

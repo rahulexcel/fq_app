@@ -489,7 +489,7 @@ menuMod.controller('MenuCtrl',
                 });
                 $scope.$on('tap_second', function () {
                     if ($localStorage.user.id) {
-                        toast.showShortBottom('Opening Your Gallary...');
+                        toast.showShortBottom('Opening Your Gallery...');
                         urlHelper.openWishlistAddStep2('gallary', -1);
                     } else {
                         toast.showShortBottom('Login/SignUp To Setup Wishlist');

@@ -1,11 +1,12 @@
 var homeMod = angular.module('HomeMod', ['ServiceMod', 'ngStorage', 'ionic', 'pasvaz.bindonce', 'ionicLazyLoad', 'UrlService']);
 homeMod.controller('HomeCtrl',
-        ['$scope', 'friendHelper', '$ionicNavBarDelegate', '$rootScope', '$ionicScrollDelegate', '$localStorage', '$interval', '$ionicPlatform', '$timeout', '$state', 'urlHelper',
-            function ($scope, friendHelper, $ionicNavBarDelegate, $rootScope, $ionicScrollDelegate, $localStorage, $interval, $ionicPlatform, $timeout, $state, urlHelper) {
+        ['$scope', 'friendHelper', '$ionicNavBarDelegate', '$rootScope', '$ionicScrollDelegate', '$localStorage', '$interval', '$ionicPlatform', '$timeout', '$state', 'urlHelper', '$q',
+            function ($scope, friendHelper, $ionicNavBarDelegate, $rootScope, $ionicScrollDelegate, $localStorage, $interval, $ionicPlatform, $timeout, $state, urlHelper, $q) {
                 var self = this;
                 $timeout(function () {
                     $ionicNavBarDelegate.align('center');
                 });
+                self.skipGetData = false;
                 self.init = function () {
                     self.type = 'trending';
                     $scope.selected_class = 'trending';
@@ -35,10 +36,12 @@ homeMod.controller('HomeCtrl',
 
                 $rootScope.$on("$ionicView.enter", function () {
                     self.init();
+                    self.skipGetData = false;
                     $ionicScrollDelegate.scrollTop();
                 });
                 $rootScope.$on('$ionicView.leave', function () {
                     self.skipFeedCheck = true;
+                    self.skipGetData = true;
                 });
 
                 self.checkFeedCount = function () {
@@ -80,17 +83,21 @@ homeMod.controller('HomeCtrl',
                     if ($localStorage.user.id) {
                         self.skipFeedCheck = false;
                     }
+                    self.skipGetData = false;
                 });
                 $ionicPlatform.on('offline', function () {
                     self.skipFeedCheck = true;
+                    self.skipGetData = true;
                 });
                 $ionicPlatform.on('pause', function () {
                     self.skipFeedCheck = true;
+                    self.skipGetData = true;
                 });
                 $ionicPlatform.on('resume', function () {
                     if ($localStorage.user.id) {
                         self.skipFeedCheck = false;
                     }
+                    self.skipGetData = false;
                 });
                 $scope.$on('$destroy', function () {
                     $interval.cancel(feed_interval);
@@ -99,6 +106,9 @@ homeMod.controller('HomeCtrl',
 
 
                 $scope.getData = function (page) {
+                    if (self.skipGetData) {
+                        return $q.when([]);
+                    }
                     console.log('get data called');
                     var path = urlHelper.getPath();
                     if (path === '/app/home/trending') {

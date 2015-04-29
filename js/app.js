@@ -30,9 +30,8 @@ var app = angular.module('starter',
             'AlertMod'
         ]
         );
-app.config(["$stateProvider", "$urlRouterProvider", "$ionicConfigProvider",
-    function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-//        $ionicConfigProvider.views.maxCache(2);
+app.config(["$stateProvider", "$urlRouterProvider",
+    function ($stateProvider, $urlRouterProvider) {
         $stateProvider
                 .state('intro', {
                     url: '/intro',
@@ -399,7 +398,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             }
             return false;
         }, 101);
-        
+
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)

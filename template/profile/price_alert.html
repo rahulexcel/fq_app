@@ -14,8 +14,8 @@
             <ion-option-button class="ion-trash-b accent_bg fa-2x" on-tap='removePriceAlert(item,$index)'></ion-option-button>
         </ion-item>
     </ion-list>
-    <div style="width: 100%;margin: 0px auto">
-        <ion-spinner ng-if="loading"></ion-spinner>
+    <div class="center_spinner" ng-if='loading'>
+        <ion-spinner></ion-spinner>
     </div>
     <ion-infinite-scroll
         ng-if='alerts.length > 0 && hasMore'

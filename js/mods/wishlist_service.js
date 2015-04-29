@@ -406,7 +406,7 @@ wishlistService.factory('wishlistHelper', [
             if (data.price) {
                 cur_price = data.price;
             }
-            if(cur_price < 20){
+            if (cur_price < 20) {
                 //if price less than 20, then dont set price alert.
                 //mainly for websites with usd priceing for which we had price Rs. 1
                 return;
@@ -448,7 +448,7 @@ wishlistService.factory('wishlistHelper', [
                 user_id: $localStorage.user.id,
                 product_id: product_id,
                 price: cur_price
-            });
+            }, true);
             ajax.then(function () {
                 toast.showShortBottom('Price Alert Has Been Setup');
             }, function () {

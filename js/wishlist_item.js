@@ -28,6 +28,8 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     $scope.me_follow_list = false;
                     $scope.clip_loading = false;
                     $scope.request_process = false;
+                    $scope.similar = [];
+                    $scope.product_id = '';
                     page = 0;
                     $ionicScrollDelegate.scrollTop();
                     $scope.start();
@@ -75,6 +77,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     $scope.clip_loading = false;
                     $scope.request_process = false;
                 }
+                var self = this;
                 $scope.checkData = function (data) {
                     if (!data._id) {
                         toast.showShortBottom('Looks Like Clip Has Been Deleted By Owner');
@@ -184,9 +187,28 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             }
                         }
                         $scope.loading = false;
+                        console.log(data);
                         if (data.item_id.type === 'product') {
                             $scope.fetchLatest(data.item_id.href);
+                            var unique = data.item_id.unique;
+                            var ajax2 = productHelper.fetchSimilar(false, unique);
+                            ajax2.then(function (data) {
+                                self.processSimliarData(data, unique);
+                            });
                         }
+                    }
+                };
+                self.processSimliarData = function (data, product_id) {
+                    if (data.similar && data.similar.length > 0) {
+                        $scope.similar = data.similar;
+                        $scope.product_id = product_id;
+                        console.log('initiazling iscroll');
+                        if (data.similar.length > 0) {
+                            $timeout(function () {
+                                angular.element(document.querySelector('.scroller_' + product_id)).attr('style', 'width:' + (data.similar.length * 152) + "px");
+                            }, 100);
+                        }
+                        $ionicScrollDelegate.resize();
                     }
                 };
                 $scope.loadAllComments = function () {
@@ -225,9 +247,10 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }
                     }
                 };
-                $scope.start();
+//                $scope.start();
                 $scope.doRefresh = function () {
                     $scope.clip_loading = true;
+                    var cache_key = 'item_' + $state.params.item_id + "_" + $state.params.list_id;
                     ajax = wishlistHelper.viewItem($state.params.item_id, $state.params.list_id);
                     ajax.then(function (data) {
                         $scope.clip_loading = false;
@@ -338,6 +361,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             toast.showProgress();
                             return;
                         }
+                        var cache_key = 'item_' + $state.params.item_id + "_" + $state.params.list_id;
                         $scope.request_process = true;
                         var ajax = friendHelper.user_follow(user_id, 'remove');
                         ajax.then(function (data) {
@@ -512,6 +536,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 template: 'Loading...'
                             });
                         }
+                        var cache_key = 'item_' + $state.params.item_id + "_" + $state.params.list_id;
                         $scope.request_process = true;
                         var ajax = friendHelper.user_follow(user_id);
                         ajax.then(function (data) {
@@ -546,6 +571,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             toast.showProgress();
                             return;
                         }
+                        var cache_key = 'item_' + $state.params.item_id + "_" + $state.params.list_id;
                         $scope.request_process = true;
                         var list_id = $scope.list_id;
                         var ajax = friendHelper.list_follow(list_id);
@@ -574,6 +600,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }
                         $scope.request_process = true;
                         var list_id = $scope.list_id;
+                        var cache_key = 'item_' + $state.params.item_id + "_" + $state.params.list_id;
                         var ajax = friendHelper.list_follow(list_id, 'remove');
                         ajax.then(function (data) {
                             var followers = $scope.item.list_id.followers;
@@ -607,6 +634,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         var item_id = $scope.item_id;
                         var list_id = $scope.list_id;
                         var ajax = itemHelper.like(item_id, list_id, 'remove');
+                        var cache_key = 'item_' + $state.params.item_id + "_" + $state.params.list_id;
                         ajax.then(function (data) {
                             var likes = $scope.item.likes;
                             if (!likes) {
@@ -638,7 +666,8 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     ajax.finally(function () {
                         $scope.request_process = false;
                         $ionicLoading.hide();
-                        urlHelper.openHomePage();
+                        var list_name = wishlistHelper.getListName($scope.list_id);
+                        urlHelper.openWishlistPage($scope.list_id, list_name);
                     });
                 };
                 $scope.like = function () {
@@ -659,6 +688,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         var item_id = $scope.item_id;
                         var list_id = $scope.list_id;
                         var ajax = itemHelper.like(item_id, list_id);
+                        var cache_key = 'item_' + $state.params.item_id + "_" + $state.params.list_id;
                         ajax.then(function (data) {
                             var likes = $scope.item.likes;
                             if (!likes) {
@@ -681,6 +711,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                 $scope.$on('wishlist_pin_select', function () {
                     var list_id = $scope.wishlist_product.item.select_list_id;
                     var ajax = itemHelper.pin($scope.item.item_id._id, list_id);
+                    var cache_key = 'item_' + $state.params.item_id + "_" + $state.params.list_id;
                     ajax.then(function (data) {
                         var pins = $scope.item.item_id.pins;
                         if (!pins) {
@@ -723,6 +754,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                 };
                 $scope.removeComment = function (comment) {
                     var ajax = itemHelper.removeComment($scope.item_id, $scope.list_id, comment._id);
+                    var cache_key = 'item_' + $state.params.item_id + "_" + $state.params.list_id;
                     ajax.then(function (data) {
                         var comments = $scope.item.comments;
                         console.log(comment);
@@ -744,20 +776,27 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     } else {
                         var comment = $scope.item.comment;
                         var picture = $scope.item.picture;
+                        var cache_key = 'item_' + $state.params.item_id + "_" + $state.params.list_id;
                         if (comment.length > 0) {
                             $scope.item.comment = '';
                             $scope.item.picture = '';
+                            var comments = $scope.item.comments;
+                            comments.unshift({
+                                _id: false,
+                                user_id: $localStorage.user.id,
+                                comment: comment,
+                                picture: $localStorage.user.picture,
+                                created_at: new Date().getTime(),
+                                can_like: 0
+                            });
                             var ajax = itemHelper.comment($scope.item_id, $scope.list_id, comment, picture, 'add', false, $scope.item.item_id.img);
                             ajax.then(function (data) {
                                 var comments = $scope.item.comments;
-                                comments.unshift({
-                                    _id: data.comment_id,
-                                    user_id: $localStorage.user.id,
-                                    comment: comment,
-                                    picture: $localStorage.user.picture,
-                                    created_at: new Date().getTime(),
-                                    can_like: 0
-                                });
+                                for (var i = 0; i < comments.length; i++) {
+                                    if (comments[i]._id === false) {
+                                        comments[i]._id = data.comment_id
+                                    }
+                                }
                                 $scope.item.comments = comments;
                                 timeStorage.remove(cache_key);
                             });

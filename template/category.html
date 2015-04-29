@@ -10,6 +10,11 @@
         </div>
         <div class="category" ng-show="!product_loading">
 
+            <div ng-show='currentState.search.length > 0'>
+                <div on-tap='removeSearch()' class="select_filter accent_bg">
+                    Search: {{currentState.search}} <i class="ion-android-close"></i>
+                </div>
+            </div>
             <div ng-show='currentState.filters.length > 0'>
                 <div on-tap='removeFilter(filter)' class="select_filter accent_bg" ng-repeat="filter in currentState.filters">
                     {{filter.name}} <i class="ion-android-close"></i>
@@ -35,6 +40,7 @@
                     <!--<div class="brand" ng-show="prod.brand.length > 0" ng-bind='prod.brand'></div>--> 
                     <div class="price primary_text" ng-if="prod.price * 1 > 20">
                         Rs.<span ng-bind='prod.price'></span>
+                        <span style="font-size:.82em" class="offrate accent" ng-show="prod.offrate * 1 > 0">(-{{prod.offrate}}%)</span>
                     </div>
                     <div class="drop-price" ng-if="prod.price * 1 > 20">
                         <i class="fa fa-caret-up up-price" ng-if="prod.price_drop > 0">&nbsp;<span ng-bind='prod.price_drop'></span></i>

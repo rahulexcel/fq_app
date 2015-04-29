@@ -13,7 +13,7 @@ friendService.factory('friendHelper', [
             var ajax = ajaxRequest.send('v1/feeds/user/top', {
                 skip: page,
                 user_id: id
-            });
+            }, true);
             ajax.then(function (data) {
                 def.resolve(data);
             }, function () {
@@ -30,7 +30,7 @@ friendService.factory('friendHelper', [
             var ajax = ajaxRequest.send('v1/feeds/list/top', {
                 skip: page,
                 user_id: id
-            });
+            }, true);
             ajax.then(function (data) {
                 for (var i = 0; i < data.length; i++) {
                     var row = data[i];

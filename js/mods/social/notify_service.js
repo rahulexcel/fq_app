@@ -218,7 +218,7 @@ notifyService.factory('notifyHelper', [
                 user_id: channel,
                 expiry: expiry,
                 data: data
-            });
+            }, true);
 //            expiry = new Date().getTime() + expiry * 1000;
 //            var defer = $q.defer();
 //            Parse.Push.send({
@@ -406,7 +406,7 @@ notifyService.factory('notifyHelper', [
                                 user_id: $localStorage.user.id,
                                 token: token,
                                 device: device
-                            });
+                            }, true);
                         });
                     }, function (err) {
                         console.log('error1');
@@ -451,7 +451,7 @@ notifyService.factory('notifyHelper', [
                                                 user_id: $localStorage.user.id,
                                                 reg_id: notification.regid,
                                                 device: device
-                                            });
+                                            }, true);
                                         });
                                     }
 

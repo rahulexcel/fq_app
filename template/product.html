@@ -12,9 +12,9 @@
             <div class="pro-img padding">
                 <div class="pro-img">
                     <ion-slide-box ng-if="product.more_images" show-pager="true" style="height: 350px">
-                        <ion-slide on-tap="showZoom(-1)">
-                            <img img-loader ng-src='{{product.img}}'/>
-                        </ion-slide>
+                        <!--                        <ion-slide on-tap="showZoom(-1)">
+                                                    <img img-loader ng-src='{{product.img}}'/>
+                                                </ion-slide>-->
                         <ion-slide on-tap="showZoom($index)" ng-repeat="img in product.more_images  track by $index">
                             <img img-loader ng-src='{{img}}'/>
                         </ion-slide>
@@ -65,6 +65,9 @@
                 </div>
                 <button class="button pro-button signup-button accent_bg" on-tap="buy(product);">BUY NOW</button>
                 <div class="clearfix"></div>
+                
+                <div ng-show="product.delivery_charge.length > 0">Delivery : {{product.delivery_charge}}</div>
+                <div ng-repeat="offer in product.offers">{{offer}}</div>
             </div>
 
             <div class="center_spinner" ng-if='product_detail_loading'>

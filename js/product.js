@@ -176,7 +176,12 @@ productMod.controller('ProductCtrl',
                         if (more_images && more_images.length > 0) {
                             $scope.product.more_images = more_images;
                             $scope.zoom_images = more_images;
-                        } else {
+                        }
+                        if (data.offers) {
+                            $scope.product.offers = data.offers;
+                        }
+                        if (data.delivery_charge) {
+                            $scope.product.delivery_charge = data.delivery_charge;
                         }
                         $ionicSlideBoxDelegate.update();
                     });
@@ -234,6 +239,7 @@ productMod.controller('ProductCtrl',
                         var data2 = timeStorage.get(cache_key);
                         data2.similar = data.similar;
                         timeStorage.set(cache_key, data2, 1);
+                        $ionicScrollDelegate.resize();
                     }
                 };
                 self.processVariantData = function (data) {
@@ -242,6 +248,7 @@ productMod.controller('ProductCtrl',
                         var data2 = timeStorage.get(cache_key);
                         data2.variants = data.variants;
                         timeStorage.set(cache_key, data2, 1);
+                        $ionicScrollDelegate.resize();
                     }
                 };
                 $scope.$on('search_product_event', function () {

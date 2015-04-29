@@ -128,14 +128,14 @@ itemService.factory('itemHelper', [
                                     user: $localStorage.user,
                                     data: {
                                         item_id: {
-                                            _id: data.item_id._id,
-                                            img: data.item_id.img
+                                            _id: data.data.item_id._id,
+                                            img: data.data.item_id.img
                                         },
                                         list_id: {
-                                            _id: data.list_id._id,
-                                            name : data.list_id.name
+                                            _id: data.data.list_id._id,
+                                            name : data.data.list_id.name
                                         },
-                                        comment: data.comment
+                                        comment: comment
                                     },
                                     type: 'item_comment',
                                     uniq_id: uniq_id

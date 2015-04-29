@@ -4,6 +4,12 @@ alertMod.controller('AlertCtrl',
         ['$scope', '$localStorage', 'toast', '$stateParams', 'dataShare', '$ionicSlideBoxDelegate', 'productHelper', 'timeStorage', 'notifyHelper', '$ionicPopup', '$ionicPosition', '$window', '$timeout', 'urlHelper', '$ionicModal', '$timeout', '$ionicScrollDelegate',
             function ($scope, $localStorage, toast, $stateParams, dataShare, $ionicSlideBoxDelegate, productHelper, timeStorage, notifyHelper, $ionicPopup, $ionicPosition, $window, $timeout, urlHelper, $ionicModal, $timeout, $ionicScrollDelegate) {
                 var self = this;
+                $scope.$on('modal.shown', function () {
+                    $rootScope.$emit('hide_android_add');
+                });
+                $scope.$on('modal.hidden', function () {
+                    $rootScope.$emit('show_android_add');
+                });
                 self.normalizeData = function (data) {
                     if (data) {
                         var newData = {};
@@ -243,12 +249,14 @@ alertMod.controller('AlertCtrl',
                             $timeout(function () {
                                 angular.element(document.querySelector('.scroller_' + product_id)).attr('style', 'width:' + (data.similar.length * 152) + "px");
                             }, 100);
+                            $ionicScrollDelegate.resize();
                         }
                     }
                 };
                 self.processVariantData = function (data) {
                     if (data.variants) {
                         $scope.product.variants = data.variants;
+                        $ionicScrollDelegate.resize();
                     }
                 };
                 $scope.$on('$stateChangeSuccess', function () {

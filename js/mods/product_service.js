@@ -37,7 +37,7 @@ productService.factory('productHelper', [
             var defer = $q.defer();
             var ajax = ajaxRequest.send('v1/product/variant', {
                 product_id: id
-            });
+            }, true);
             ajax.then(function (data) {
                 var ret = {};
                 var variants = [];
@@ -58,11 +58,21 @@ productService.factory('productHelper', [
             });
             return defer.promise;
         };
-        service.fetchSimilar = function (id) {
+        service.fetchSimilar = function (id, unique) {
             var defer = $q.defer();
+            var cache_key = '';
+            if (id) {
+                cache_key = 'similar_' + id;
+            } else {
+                cache_key = 'similar_' + unique;
+            }
+            if (timeStorage.get(cache_key)) {
+                return $q.when(timeStorage.get(cache_key));
+            }
             var ajax = ajaxRequest.send('v1/product/similar', {
-                product_id: id
-            });
+                product_id: id,
+                unique: unique
+            }, true);
             ajax.then(function (data) {
                 var ret = {};
                 var similar = [];
@@ -79,6 +89,7 @@ productService.factory('productHelper', [
                     });
                 }
                 ret.similar = similar;
+                timeStorage.set(cache_key, ret, 1);
                 defer.resolve(ret);
             });
             return defer.promise;

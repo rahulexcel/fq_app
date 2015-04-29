@@ -16,7 +16,7 @@ categoryService.factory('categoryHelper', [
                 }
             }
 
-            ajax = ajaxRequest.send('v1/catalog/filters', angular.copy(data));
+            ajax = ajaxRequest.send('v1/catalog/filters', angular.copy(data), true);
             ajax.then(function (data) {
                 var ret = {};
                 var filters = [];

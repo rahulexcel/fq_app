@@ -33,7 +33,6 @@ urlService.factory('urlHelper', ['$location',
             $location.path('/app/feedback');
         };
         service.openWishlistAddStep2 = function (wishlist_type, list_id) {
-            console.log('xxxxxx');
             $location.path('/app/wishlist_item_add_step2/' + wishlist_type + "/" + list_id);
         };
         service.openWishlistAddStep1 = function () {
