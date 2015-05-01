@@ -160,6 +160,8 @@ accountService.factory('accountHelper', [
                     data.picture = ajaxRequest.url('v1/picture/view/' + data.picture);
                 }
                 notifyHelper.init();
+                
+                $rootScope.$broadcast('login_event');
 
                 var redirect_url = '/app/home/trending';
                 if ($localStorage.previous && $localStorage.previous.url) {
@@ -191,8 +193,7 @@ accountService.factory('accountHelper', [
                 } else {
                     urlHelper.direct(redirect_url);
                 }
-
-                $rootScope.$broadcast('login_event');
+                
             }, function (message) {
                 def.reject(message);
             });

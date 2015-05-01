@@ -1,8 +1,8 @@
 var googleLoginService = angular.module('GoogleLoginService', []);
 
 googleLoginService.factory('googleLogin', [
-    '$http', '$q', '$interval', '$log',
-    function ($http, $q, $interval, $log) {
+    '$http', '$q', '$interval', '$log', 'timeStorage',
+    function ($http, $q, $interval, $log, timeStorage) {
         var service = {};
         service.access_token = false;
         service.redirect_url = 'http://localhost:81/fashioniq/myapp/www/';
@@ -44,20 +44,28 @@ googleLoginService.factory('googleLogin', [
         };
         service.authorize = function (options) {
             var def = $q.defer();
-            var params = 'client_id=' + encodeURIComponent(options.client_id);
-            params += '&redirect_uri=' + encodeURIComponent(options.redirect_uri);
-            params += '&response_type=code';
-            params += '&scope=' + encodeURIComponent(options.scope);
-            var authUrl = 'https://accounts.google.com/o/oauth2/auth?' + params;
-            
-            var win = window.open(authUrl, '_blank', 'location=no,toolbar=no,width=800, height=800');
-            var context = this;
 
-            if (ionic.Platform.isWebView()) {
-                console.log('using in app browser');
-                win.addEventListener('loadstart', function (data) {
-                    if (data.url.indexOf(context.redirect_url) !== -1) {
-                            console.log('redirect url found');
+            var access_token = timeStorage.get('google_access_token');
+            if (access_token) {
+                $log.info('Direct Access Token :' + access_token);
+                service.getUserInfo(access_token, def);
+            } else {
+
+                var params = 'client_id=' + encodeURIComponent(options.client_id);
+                params += '&redirect_uri=' + encodeURIComponent(options.redirect_uri);
+                params += '&response_type=code';
+                params += '&scope=' + encodeURIComponent(options.scope);
+                var authUrl = 'https://accounts.google.com/o/oauth2/auth?' + params;
+
+                var win = window.open(authUrl, '_blank', 'location=no,toolbar=no,width=800, height=800');
+                var context = this;
+
+                if (ionic.Platform.isWebView()) {
+                    console.log('using in app browser');
+                    win.addEventListener('loadstart', function (data) {
+                        console.log('load start');
+                        if (data.url.indexOf(context.redirect_url) !== -1) {
+                            console.log('redirect url found ' + context.redirect_url);
                             win.close();
                             var url = data.url;
                             var access_code = context.gulp(url, 'code');
@@ -68,30 +76,31 @@ googleLoginService.factory('googleLogin', [
                             }
                         }
 
-                });
-            } else {
-                console.log('InAppBrowser not found11');
-                var pollTimer = $interval(function () {
-                    try {
-                        console.log("google window url " + win.document.URL);
-                        if (win.document.URL.indexOf(context.redirect_url) !== -1) {
-                            console.log('redirect url found');
-                            win.close();
-                            $interval.cancel(pollTimer);
-                            pollTimer = false;
-                            var url = win.document.URL;
-                            $log.debug('Final URL ' + url);
-                            var access_code = context.gulp(url, 'code');
-                            if (access_code) {
-                                $log.info('Access Code: ' + access_code);
-                                context.validateToken(access_code, def);
-                            } else {
-                                def.reject({error: 'Access Code Not Found'});
+                    });
+                } else {
+                    console.log('InAppBrowser not found11');
+                    var pollTimer = $interval(function () {
+                        try {
+                            console.log("google window url " + win.document.URL);
+                            if (win.document.URL.indexOf(context.redirect_url) !== -1) {
+                                console.log('redirect url found');
+                                win.close();
+                                $interval.cancel(pollTimer);
+                                pollTimer = false;
+                                var url = win.document.URL;
+                                $log.debug('Final URL ' + url);
+                                var access_code = context.gulp(url, 'code');
+                                if (access_code) {
+                                    $log.info('Access Code: ' + access_code);
+                                    context.validateToken(access_code, def);
+                                } else {
+                                    def.reject({error: 'Access Code Not Found'});
+                                }
                             }
+                        } catch (e) {
                         }
-                    } catch (e) {
-                    }
-                }, 100);
+                    }, 100);
+                }
             }
             return def.promise;
         };
@@ -112,6 +121,9 @@ googleLoginService.factory('googleLogin', [
             http.then(function (data) {
                 $log.debug(data);
                 var access_token = data.data.access_token;
+                var expires_in = data.data.expires_in;
+                expires_in = expires_in * 1 / (60 * 60);
+                timeStorage.set('google_access_token', access_token, expires_in);
                 if (access_token) {
                     $log.info('Access Token :' + access_token);
                     context.getUserInfo(access_token, def);

@@ -4,7 +4,7 @@ homeMod.controller('HomeCtrl',
             function ($scope, friendHelper, $ionicNavBarDelegate, $rootScope, $ionicScrollDelegate, $localStorage, $interval, $ionicPlatform, $timeout, $state, urlHelper, $q) {
                 var self = this;
                 $timeout(function () {
-                    $ionicNavBarDelegate.align('center');
+                    $ionicNavBarDelegate.align('left');
                 });
                 self.skipGetData = false;
                 self.init = function () {
@@ -34,23 +34,35 @@ homeMod.controller('HomeCtrl',
                 };
                 self.init();
 
-                $rootScope.$on("$ionicView.enter", function () {
-                    self.init();
+                $scope.$on("$ionicView.beforeEnter", function () {
                     self.skipGetData = false;
+                    console.log('view entire skip get data false');
+                });
+                $scope.$on("$ionicView.enter", function () {
+                    self.init();
                     $ionicScrollDelegate.scrollTop();
                 });
-                $rootScope.$on('$ionicView.leave', function () {
+                $scope.$on('$ionicView.leave', function () {
                     self.skipFeedCheck = true;
                     self.skipGetData = true;
+                    console.log('view leave skip get data true');
                 });
 
                 self.checkFeedCount = function () {
+                    if (self.skipGetData) {
+                        console.log('skipping feed count');
+                        return false;
+                    }
                     var ajax = friendHelper.home_feed_count();
                     ajax.then(function (data) {
                         $scope.feed_unread = data;
                     });
                 };
                 self.checkLatestCount = function () {
+                    if (self.skipGetData) {
+                        console.log('skipping latest count');
+                        return false;
+                    }
                     console.log(self.skipFeedCheck + "skip feed check");
                     var father = 'women';
                     if ($localStorage.latest_show && $localStorage.latest_show === 'men') {
@@ -84,20 +96,24 @@ homeMod.controller('HomeCtrl',
                         self.skipFeedCheck = false;
                     }
                     self.skipGetData = false;
+                    console.log('online skip get data false');
                 });
                 $ionicPlatform.on('offline', function () {
                     self.skipFeedCheck = true;
                     self.skipGetData = true;
+                    console.log('offline skip get data false');
                 });
                 $ionicPlatform.on('pause', function () {
                     self.skipFeedCheck = true;
                     self.skipGetData = true;
+                    console.log('pause skip get data false');
                 });
                 $ionicPlatform.on('resume', function () {
                     if ($localStorage.user.id) {
                         self.skipFeedCheck = false;
                     }
                     self.skipGetData = false;
+                    console.log('resume skip get data false');
                 });
                 $scope.$on('$destroy', function () {
                     $interval.cancel(feed_interval);
@@ -107,6 +123,7 @@ homeMod.controller('HomeCtrl',
 
                 $scope.getData = function (page) {
                     if (self.skipGetData) {
+                        console.log('skipping feed data');
                         return $q.when([]);
                     }
                     console.log('get data called');

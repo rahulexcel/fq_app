@@ -1086,8 +1086,8 @@ serviceMod.factory('ajaxRequest',
                             $log.warn('500 Error');
                             $ionicLoading.hide();
                             $ionicBackdrop.release();
-                            $scope.$broadcast('scroll.refreshComplete');
-                            $scope.$broadcast('scroll.infiniteScrollComplete');
+                            $rootScope.$broadcast('scroll.refreshComplete');
+                            $rootScope.$broadcast('scroll.infiniteScrollComplete');
                             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
                                 if ($cordovaNetwork.isOffline()) {
 

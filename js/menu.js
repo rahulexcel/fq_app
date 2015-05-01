@@ -83,11 +83,11 @@ menuMod.controller('MenuCtrl',
                     });
                 };
 
-                $scope.$on('login_event', function () {
-                    $ionicNavBarDelegate.showBackButton(false);
+                $rootScope.$on('login_event', function () {
+//                    $ionicNavBarDelegate.showBackButton(false);
                     $scope.login = true;
                 });
-                $scope.$on('logout_event', function () {
+                $rootScope.$on('logout_event', function () {
                     $scope.login = false;
                 });
 
@@ -170,6 +170,9 @@ menuMod.controller('MenuCtrl',
                 };
                 $scope.feedback = function () {
                     urlHelper.openFeedbackPage();
+                };
+                $scope.intro = function () {
+                    urlHelper.openIntroPage();
                 };
                 $scope.aboutus = function () {
                     if (window.analytics) {
