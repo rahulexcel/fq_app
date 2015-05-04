@@ -34,7 +34,7 @@
                     <div ng-if="!me"><button   ng-if='is_following' on-tap='unFollowProfileUser();' class="profile-follow-btn grey-border">Unfollow</button></div>
                     <div ng-if="!me && haveGotFriendRequest"><button on-tap='acceptFriendRequest(user._id);' class="profile-follow-btn grey-border">Accept Friend Request</button></div>
                     <div class="follow-details">
-                        <div class="follow-field"><span>{{user.meta.friends}}</span><span class="grey-color semibold">Following</span></div>
+                        <div class="follow-field"><span>{{user.meta.following}}</span><span class="grey-color semibold">Following</span></div>
                         <div class="follow-field"><span>{{user.meta.followers}}</span>  <span class="grey-color semibold">Followers</span></div>
                         <div class="follow-field"> <span>{{user.meta.products}}</span><span class="grey-color semibold">Clips</span></div>
                     </div>
@@ -49,7 +49,7 @@
                         <li ng-if="me" class="friends" on-tap='menu_friends();'>FRIENDS <span ng-if="friend_request_count">({{friend_request_count}})</span></li>
                         <li ng-if="me" class="recommended" on-tap='menu_recommended();'>RECOMMENDATION</li>
                         <li class="followers" on-tap='menu_followers();'>FOLLOWERS</li>
-                        <li class="following" on-tap='menu_following();'>FOLLOWINGS</li>
+                        <li class="following" on-tap='menu_following();'>FOLLOWING</li>
                         <li class="pins" on-tap='menu_pins();'><span ng-if="me">MY</span> CLIPS</li>
                         <li ng-if="me" class="profile" on-tap='menu_profile();'>PROFILE</li>
                         <li ng-if="me" class="update" on-tap='menu_update();'>UPDATES</li>

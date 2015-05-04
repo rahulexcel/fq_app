@@ -191,7 +191,8 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         if (data.item_id.type === 'product') {
                             $scope.fetchLatest(data.item_id.href);
                             var unique = data.item_id.unique;
-                            var ajax2 = productHelper.fetchSimilar(false, unique);
+                            var website = data.item_id.website;
+                            var ajax2 = productHelper.fetchSimilar(false, unique, website);
                             ajax2.then(function (data) {
                                 self.processSimliarData(data, unique);
                             });

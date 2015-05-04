@@ -26,14 +26,35 @@ feedbackMod.controller('FeedbackCtrl',
                     self.init();
                 });
 
+                $scope.hasEmail = false;
 
-                AppRate.preferences.storeAppURL.android = 'market://details?id=com.excellence.fashioniq';
+                if (cordova.plugins && cordova.plugins.email) {
+                    cordova.plugins.email.isAvailable(function (isAvailable) {
+                        $scope.hasEmail = isAvailable;
+                    });
+                }
+
+                if (typeof AppRate !== "undefined")
+                    AppRate.preferences.storeAppURL.android = 'market://details?id=com.excellence.fashioniq';
 
                 $scope.rateUs = function () {
-                    AppRate.navigateToAppStore();
+                    if (typeof AppRate !== "undefined") {
+                        AppRate.navigateToAppStore();
+                    } else {
+                        window.open('https://play.google.com/store/apps/details?id=com.excellence.fashioniq&hl=en', '_system');
+                    }
                 };
 
-
+                $scope.sendEmailFeedback = function () {
+                    cordova.plugins.email.open({
+                        app: 'gmail',
+                        to: 'manish@fashioniq.in', // email addresses for TO field
+                        cc: 'manish@excellencetechnologies.in', // email addresses for CC field
+                        subject: 'Feedback For FashionIQ App',
+                        isHtml: true, // indicats if the body is HTML or plain text,
+                        attachments: ['base64:device.json//' + btoa(JSON.stringify($scope.device)), 'base64:user.json//' + btoa(JSON.stringify($localStorage.user))]
+                    });
+                };
                 $scope.sendFeedback = function () {
                     if ($scope.feedback.text.length > 0 && $scope.feedback.email.length > 0) {
                         $scope.feedback_status = 1;

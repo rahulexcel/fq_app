@@ -58,7 +58,7 @@ productService.factory('productHelper', [
             });
             return defer.promise;
         };
-        service.fetchSimilar = function (id, unique) {
+        service.fetchSimilar = function (id, unique, website) {
             var defer = $q.defer();
             var cache_key = '';
             if (id) {
@@ -71,7 +71,8 @@ productService.factory('productHelper', [
             }
             var ajax = ajaxRequest.send('v1/product/similar', {
                 product_id: id,
-                unique: unique
+                unique: unique,
+                website: website
             }, true);
             ajax.then(function (data) {
                 var ret = {};

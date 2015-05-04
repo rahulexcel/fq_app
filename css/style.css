@@ -753,7 +753,7 @@ div#account-page button{
     margin-bottom: -5px;
 }
 span.arrow{
-    color:#da500f;
+    color:#f50057;
 }
 .arrow{
     margin-right: 7px;
@@ -2415,7 +2415,12 @@ i.offline-icon{
 .fab_hide{
     display: none !important;
 }
+.fab_pink{
+    background-color: #f50057 !important;
+}
 .fab {
+    background-color: #189ce6;
+    color: white;
     border-radius: 50%;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
     color: #fff;

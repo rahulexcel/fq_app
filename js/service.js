@@ -509,15 +509,15 @@ serviceMod.directive('pinch', ['pinchServie', '$ionicGesture', '$timeout', '$ion
     }
 ]);
 
-serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootScope', '$timeout',
-    function ($ionicGesture, $ionicPlatform, $rootScope, $timeout) {
+serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootScope', '$timeout', '$state',
+    function ($ionicGesture, $ionicPlatform, $rootScope, $timeout, $state) {
         return {
             link: {
                 pre: function preLink(scope, iElement, iAttrs, controller) {
                     if (!ionic.Platform.isAndroid()) {
                         //return;
                     }
-                    var html = '<div id="add_tap" class="hide-on-keyboard-open fab accent_bg">';
+                    var html = '<div id="add_tap" class="hide-on-keyboard-open fab">';
                     html += "<div id='tap_main' class='fab_icon'>";
                     html += '<i class="ion-android-add"></i>';
                     html += "</div>";
@@ -534,10 +534,10 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
                     html += "<div class='anim_text'>Web Link</div>";
                     html += '<div class="fab_small"><i class="ion-link"></i></div>';
                     html += '</li>';
-                    html += '<li id="tap_fourth" class="fab_fourth">';
-                    html += "<div class='anim_text'>NearBy</div>";
-                    html += '<div class="fab_small"><i class="ion-location"></i></div>';
-                    html += '</li>';
+//                    html += '<li id="tap_fourth" class="fab_fourth">';
+//                    html += "<div class='anim_text'>NearBy</div>";
+//                    html += '<div class="fab_small"><i class="ion-location"></i></div>';
+//                    html += '</li>';
                     html += '</ul>';
                     html += '</div>';
                     iElement.html(html);
@@ -551,6 +551,14 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
                     var backdrop = angular.element(document.querySelector('.backdrop'));
                     var back_button = false;
 
+                    $rootScope.$on('$ionicView.beforeEnter', function () {
+                        console.log($state.current.name);
+                        if ($state.current.name.indexOf('app.home') !== -1) {
+                            ele.addClass('fab_pink');
+                        } else {
+                            ele.removeClass('fab_pink');
+                        }
+                    });
                     $rootScope.$on('$ionicView.afterEnter', function () {
                         $timeout(function () {
                             var eles = document.querySelectorAll('.bar-footer');
@@ -568,7 +576,6 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
                             } else {
                                 ele.attr('style', 'right:20px;bottom:20px');
                             }
-
                         }, 1000);
                     });
 
@@ -619,14 +626,14 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
                         e.preventDefault();
                         e.stopPropagation();
                     }, angular.element(document.getElementById('tap_third')));
-                    $ionicGesture.on('tap', function (e) {
-                        ele.toggleClass('fab_rotate')
-                        backdrop.toggleClass('active visible');
-                        back_button();
-                        scope.$broadcast('tap_fourth');
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }, angular.element(document.getElementById('tap_fourth')));
+//                    $ionicGesture.on('tap', function (e) {
+//                        ele.toggleClass('fab_rotate')
+//                        backdrop.toggleClass('active visible');
+//                        back_button();
+//                        scope.$broadcast('tap_fourth');
+//                        e.preventDefault();
+//                        e.stopPropagation();
+//                    }, angular.element(document.getElementById('tap_fourth')));
                 }
             }
         };
