@@ -559,6 +559,11 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
                             ele.removeClass('fab_pink');
                         }
                     });
+                    if ($state.current.name.indexOf('app.home') !== -1) {
+                        ele.addClass('fab_pink');
+                    } else {
+                        ele.removeClass('fab_pink');
+                    }
                     $rootScope.$on('$ionicView.afterEnter', function () {
                         $timeout(function () {
                             var eles = document.querySelectorAll('.bar-footer');

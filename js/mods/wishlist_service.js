@@ -407,6 +407,7 @@ wishlistService.factory('wishlistHelper', [
                 cur_price = data.price;
             }
             if (cur_price < 20) {
+                console.log('skipping price alert because price less than 20');
                 //if price less than 20, then dont set price alert.
                 //mainly for websites with usd priceing for which we had price Rs. 1
                 return;

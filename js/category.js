@@ -737,6 +737,10 @@ categoryMod.controller('CategoryCtrl',
                         $scope.wishlist_product.item = false;
                         $scope.wishlist_product.new_item = false;
                         $scope.wishlist_product.product = product;
+
+                        var key = 'product_latest_price_' + product._id;
+                        console.log(key + "XXXX" + product.price);
+                        timeStorage.set(key, product.price, .5);
                         $scope.$parent.showWishlist();
                     } else {
                         toast.showShortBottom('SignUp To Add Item To Wishlist');
