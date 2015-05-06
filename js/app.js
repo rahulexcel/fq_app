@@ -51,7 +51,7 @@ app.config(["$stateProvider", "$urlRouterProvider",
                 })
                 .state('app.home', {
                     url: '/home',
-                    abstract: true,
+//                    abstract: true,
                     views: {
                         'menuContent': {
                             templateUrl: 'template/home.html',
@@ -91,7 +91,7 @@ app.config(["$stateProvider", "$urlRouterProvider",
                 })
                 .state('app.item', {
                     url: '/item',
-                    abstract: true,
+//                    abstract: true,
                     views: {
                         'menuContent': {
                             templateUrl: 'template/wishlist_item.html',
@@ -291,7 +291,7 @@ app.config(["$stateProvider", "$urlRouterProvider",
                 })
                 .state('app.wishlist_item', {
                     url: '/wishlist_item/:list_id/:list_name',
-                    abstract: true,
+//                    abstract: true,
                     views: {
                         'menuContent': {
                             templateUrl: 'template/wishlist_items.html',
