@@ -1,7 +1,7 @@
 var wishlistItemMod = angular.module('WishlistItemMod', ['ServiceMod', 'ngStorage', 'ionic', 'WishlistService', 'MapService', 'ItemService', 'FriendService', 'UrlService']);
 wishlistItemMod.controller('WishlistItemCtrl',
-        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$ionicScrollDelegate', 'mapHelper', '$window', 'socialJs', 'itemHelper', 'friendHelper', 'timeStorage', '$ionicLoading', '$ionicModal', '$ionicSlideBoxDelegate', 'productHelper', 'CDN', '$q', '$ionicPosition', '$window', '$state', 'urlHelper', '$timeout', 'ajaxRequest', '$rootScope', 'accountHelper',
-            function ($scope, $localStorage, toast, wishlistHelper, $ionicScrollDelegate, mapHelper, $window, socialJs, itemHelper, friendHelper, timeStorage, $ionicLoading, $ionicModal, $ionicSlideBoxDelegate, productHelper, CDN, $q, $ionicPosition, $window, $state, urlHelper, $timeout, ajaxRequest, $rootScope, accountHelper) {
+        ['$scope', '$localStorage', 'toast', 'wishlistHelper', '$ionicScrollDelegate', 'mapHelper', '$window', 'socialJs', 'itemHelper', 'friendHelper', 'timeStorage', '$ionicLoading', '$ionicModal', '$ionicSlideBoxDelegate', 'productHelper', 'CDN', '$q', '$ionicPosition', '$window', '$state', 'urlHelper', '$timeout', 'ajaxRequest', '$rootScope', 'accountHelper','dataShare',
+            function ($scope, $localStorage, toast, wishlistHelper, $ionicScrollDelegate, mapHelper, $window, socialJs, itemHelper, friendHelper, timeStorage, $ionicLoading, $ionicModal, $ionicSlideBoxDelegate, productHelper, CDN, $q, $ionicPosition, $window, $state, urlHelper, $timeout, ajaxRequest, $rootScope, accountHelper,dataShare) {
 
                 $scope.$on('modal.shown', function () {
                     $rootScope.$emit('hide_android_add');
@@ -849,6 +849,16 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     } else {
                         $scope.show_footer_menu = false;
                     }
+                };
+
+                $scope.openProduct = function(product){
+                    var id = product._id;
+                    console.log('open product ' + id);
+                    if (!product.img) {
+                        product.img = product.image;
+                    }
+                    dataShare.broadcastData(angular.copy(product), 'product_open');
+                    urlHelper.openProductPage(id);
                 };
 
                 $scope.showZoom = function (index) {

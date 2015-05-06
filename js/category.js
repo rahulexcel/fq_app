@@ -739,7 +739,6 @@ categoryMod.controller('CategoryCtrl',
                         $scope.wishlist_product.product = product;
 
                         var key = 'product_latest_price_' + product._id;
-                        console.log(key + "XXXX" + product.price);
                         timeStorage.set(key, product.price, .5);
                         $scope.$parent.showWishlist();
                     } else {

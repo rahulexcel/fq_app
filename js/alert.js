@@ -372,6 +372,15 @@ alertMod.controller('AlertCtrl',
                     });
 
                 };
+                $scope.openProduct = function(product){
+                    var id = product._id;
+                    console.log('open product ' + id);
+                    if (!product.img) {
+                        product.img = product.image;
+                    }
+                    dataShare.broadcastData(angular.copy(product), 'product_open');
+                    urlHelper.openProductPage(id);
+                };
                 $scope.show_footer_menu = true;
                 var self = this;
                 self.footer_ele = false;
