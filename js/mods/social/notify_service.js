@@ -422,7 +422,12 @@ notifyService.factory('notifyHelper', [
                                 console.log('notification recieved');
                                 console.log(notification);
                                 //$timeout(function () {
-                                    self.openItem(notification);
+
+
+                                    var elem = angular.element(document.querySelector('[ng-app]'));
+                                    var injector = elem.injector();
+                                    var notifyHelper = injector.get('notifyHelper');
+                                    notifyHelper.openItem(notification);
                                 //});
                                 // this is the actual push notification. its format depends on the data model from the push server
                                 //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
