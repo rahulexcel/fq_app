@@ -325,11 +325,13 @@ notifyService.factory('notifyHelper', [
             }
         };
         service.openItem = function (row) {
+            console.log('open item');
             console.log(row);
             if (row.uniq_id) {
                 console.log('notify unique ' + row.uniq_id);
                 service.updateAlert(row.uniq_id);
             }
+            console.log('type ' + row.type);
             if (row.type === 'price_alert') {
                 if (row.data.fq_product_id) {
                     urlHelper.openAlertPage(row.data.id.$id);
@@ -416,6 +418,7 @@ notifyService.factory('notifyHelper', [
                         switch (notification.event) {
 
                             case 'message':
+                                console.log('notification recieved');
                                 console.log(notification);
                                 $timeout(function () {
                                     service.openItem(notification);
