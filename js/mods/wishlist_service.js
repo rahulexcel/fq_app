@@ -406,12 +406,12 @@ wishlistService.factory('wishlistHelper', [
             if (data.price) {
                 cur_price = data.price;
             }
-            if (cur_price < 20) {
-                console.log('skipping price alert because price less than 20');
-                //if price less than 20, then dont set price alert.
-                //mainly for websites with usd priceing for which we had price Rs. 1
-                return;
-            }
+            // if (cur_price < 20) {
+            //     console.log('skipping price alert because price less than 20');
+            //     //if price less than 20, then dont set price alert.
+            //     //mainly for websites with usd priceing for which we had price Rs. 1
+            //     return;
+            // }
             if ($localStorage.price_alert_always) {
                 service.setPriceAlert(product_id);
             } else {
@@ -450,8 +450,10 @@ wishlistService.factory('wishlistHelper', [
                 product_id: product_id,
                 price: cur_price
             }, true);
-            ajax.then(function () {
-                toast.showShortBottom('Price Alert Has Been Setup');
+            ajax.then(function (data) {
+                if(data == 1) {
+                    toast.showShortBottom('Price Alert Has Been Setup');
+                }
             }, function () {
                 toast.showShortBottom('UnExpected Error In Price Alert');
             });

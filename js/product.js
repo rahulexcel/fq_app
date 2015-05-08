@@ -11,6 +11,10 @@ productMod.controller('ProductCtrl',
                 $scope.product_id = false;
                 var cache_key = false;
 
+                $scope.$on('$ionicView.enter', function () {
+                    $ionicScrollDelegate.resize();
+                    $ionicScrollDelegate.scrollTop();
+                });
                 $scope.$on('modal.shown', function () {
                     $rootScope.$emit('hide_android_add');
                 });

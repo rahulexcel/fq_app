@@ -33,6 +33,10 @@ categoryMod.controller('CategoryCtrl',
                 $scope.$on('modal.hidden', function () {
                     $rootScope.$emit('show_android_add');
                 });
+                $scope.$on('$ionicView.enter', function () {
+                    $ionicScrollDelegate.resize();
+                    $ionicScrollDelegate.scrollTop();
+                });
                 var self = this;
                 $scope.isCategoryPage = true;
                 $rootScope.$on('login_event', function () {
