@@ -383,6 +383,7 @@ notifyService.factory('notifyHelper', [
         service.init = function () {
             this.doUpdates();
             this.parseInit();
+            var self = this;
             if (ionic.Platform.isWebView() && $localStorage.user.id) {
 
                 if (ionic.Platform.isIOS()) {
@@ -421,7 +422,7 @@ notifyService.factory('notifyHelper', [
                                 console.log('notification recieved');
                                 console.log(notification);
                                 //$timeout(function () {
-                                    service.openItem(notification);
+                                    self.openItem(notification);
                                 //});
                                 // this is the actual push notification. its format depends on the data model from the push server
                                 //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
