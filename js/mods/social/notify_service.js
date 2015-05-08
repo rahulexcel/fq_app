@@ -420,9 +420,9 @@ notifyService.factory('notifyHelper', [
                             case 'message':
                                 console.log('notification recieved');
                                 console.log(notification);
-                                $timeout(function () {
+                                //$timeout(function () {
                                     service.openItem(notification);
-                                });
+                                //});
                                 // this is the actual push notification. its format depends on the data model from the push server
                                 //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
                                 break;
