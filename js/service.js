@@ -514,9 +514,6 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
         return {
             link: {
                 pre: function preLink(scope, iElement, iAttrs, controller) {
-                    if (!ionic.Platform.isAndroid()) {
-                        //return;
-                    }
                     var html = '<div id="add_tap" class="hide-on-keyboard-open fab">';
                     html += "<div id='tap_main' class='fab_icon'>";
                     html += '<i class="ion-android-add"></i>';
