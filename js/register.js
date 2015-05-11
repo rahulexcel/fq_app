@@ -254,14 +254,7 @@ registerMod.controller('RegisterCtrl',
                 };
 
                 var innerHeight = $window.innerHeight;
-
-                var skip_pos = innerHeight - 150 - 40;
-
-                $scope.skip_pos = skip_pos;
-
-                innerHeight = innerHeight * .3;
-                $scope.padding = innerHeight;
-
+                $scope.padding = innerHeight * .3;
                 $scope.skipIntro = function () {
                     urlHelper.openHomePage();
                 };

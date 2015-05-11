@@ -135,7 +135,7 @@ homeMod.controller('HomeCtrl',
                     } else if (path === '/app/home/feed') {
                         $scope.selected_class = 'feed';
                         self.type = 'feed';
-                        $ionicNavBarDelegate.title('My Feed');
+                       // $ionicNavBarDelegate.title('My Feed');
                     } else if (path === '/app/home/latest') {
                         $scope.selected_class = 'latest';
                         self.type = 'latest';
@@ -183,7 +183,7 @@ homeMod.controller('HomeCtrl',
                     self.type = 'feed';
                     $scope.bg_col = 'none';
                     $state.go('app.home.feed');
-                    $ionicNavBarDelegate.title('My Feed');
+                    //$ionicNavBarDelegate.title('My Feed');
                     $ionicScrollDelegate.resize();
                     if (window.analytics) {
                         window.analytics.trackEvent('Home Page', 'Feed');
@@ -194,8 +194,8 @@ homeMod.controller('HomeCtrl',
                     $scope.bg_col = '1px solid #eee7dd';
                     self.type = 'latest';
                     $state.go('app.home.latest');
-                    $ionicNavBarDelegate.title('Latest');
-                    $ionicScrollDelegate.resize();
+                   // $ionicNavBarDelegate.title('Latest');
+                   // $ionicScrollDelegate.resize();
                     if (window.analytics) {
                         window.analytics.trackEvent('Home Page', 'Latest');
                     }

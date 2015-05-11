@@ -101,6 +101,14 @@ profileMod.controller('ProfileCtrl',
                     urlHelper.openProfilePage(user_id, 'pins');
                     $ionicScrollDelegate.resize();
                 };
+                $scope.edit_pic = function () {
+                    $scope.menu_profile();
+                    if (ionic.Platform.isWebView()) {
+                        $timeout(function () {
+                            $scope.$broadcast('open_camera');
+                        }, 100);
+                    }
+                };
                 $scope.menu_profile = function () {
                     urlHelper.openProfilePage(user_id, 'profile');
                     $ionicScrollDelegate.resize();

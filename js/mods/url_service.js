@@ -67,6 +67,10 @@ urlService.factory('urlHelper', ['$location',
             $location.path('/offline');
         };
         service.openIntroPage = function () {
+            if (window.StatusBar) {
+                StatusBar.hide();
+            }
+            hiddenStatusBar = true;
             $location.path('/intro');
         };
         service.openHomePage = function () {

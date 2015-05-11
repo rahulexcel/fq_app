@@ -286,10 +286,11 @@ img
     float: left;
     height: 200px;
     text-align: center;
+    min-width: 178px;
 }
 .category .product .bottom_box .price{                       
     float: left;
-    width: 90%;
+    width: 50%;
 }
 .category .product .bottom_box .heart{                       
     float: left;
@@ -782,6 +783,9 @@ span.e-site{
     border-top: 1px solid #D1D1D1;
     font-family: "Dosis";
     font-size: 16px;
+}
+.similar #scroller{
+    width: 1500px;
 }
 .zoom_similar #scroller li{
     width: 50px !important;
@@ -2397,11 +2401,13 @@ i.offline-icon{
 }
 .intro_skip_text{
     font-size:.8em;
-    position: absolute;
-    left:50%;
-    transform: translateX(-50%);
+    /*    position: absolute;
+        left:50%;
+        transform: translateX(-50%);*/
     color: white;
     text-decoration: none;
+    text-align: center;
+    width: 100%;
 }
 .intro_footer{
     z-index:99999;

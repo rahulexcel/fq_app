@@ -86,6 +86,10 @@ accountMod.controller('AccountCtrl',
                 $scope.file = {
                     myFiles: false
                 };
+                $scope.$on('open_camera', function () {
+                    //called from acccount.js when clicking on top pic
+                    $scope.browseCamera();
+                });
                 $scope.browseCamera = function () {
                     var actionSheet = $ionicActionSheet.show({
                         buttons: [

@@ -22,11 +22,6 @@ pinMod.controller('PinCtrl',
                 $scope.pin_count = 0;
                 $scope.total_pin_count = 0;
                 pinchServie.init();
-                $rootScope.$on('custom_ionicExposeAside', function () {
-                    $timeout(function () {
-                        $scope.displayPins();
-                    }, 1008);
-                });
                 $scope.$watch('windowWidth', function (newVaue) {
                     $scope.displayPins();
                 });

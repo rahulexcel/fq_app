@@ -291,11 +291,11 @@ categoryMod.controller('CategoryCtrl',
                                 });
                                 filters[i].type_select++;
                                 filters[i].open = false; //close all filters during apply
-                                if (multi_support.indexOf(type) === -1) {
+                                if (multi_support.indexOf(type.toLowerCase()) === -1) {
                                     filters[i].visible = false;
-                                    console.log('do filter multi support');
+                                    console.log('do filter multi support ' + type.toLowerCase());
                                 } else {
-                                    console.log('do filter multi support non');
+                                    console.log('do filter multi support non ' + type.toLowerCase());
                                 }
 
                             }
@@ -573,9 +573,33 @@ categoryMod.controller('CategoryCtrl',
 
                 $scope.openBrandAlph = function (alph) {
                     var filters = $scope.filters;
+                    var selected = [];
                     for (var i = 0; i < filters.length; i++) {
                         if (filters[i].type === 'Brand') {
-                            filters[i].data = self.brand_filters[alph];
+                            var data = filters[i].data;
+                            for (var k = 0; k < data.length; k++) {
+                                if (data[k].selected) {
+                                    selected.push(data[k]);
+                                }
+                            }
+                        }
+                    }
+
+                    for (var i = 0; i < filters.length; i++) {
+                        if (filters[i].type === 'Brand') {
+                            var x = self.brand_filters[alph];
+                            filters[i].data = x;
+                            for (var k = 0; k < selected.length; k++) {
+                                var found = false;
+                                for (var l = 0; l < x.length; l++) {
+                                    if (x[l].param === selected[k].param) {
+                                        found = true;
+                                    }
+                                }
+                                if (!found) {
+                                    filters[i].data.unshift(selected[k]);
+                                }
+                            }
                         }
                     }
                     var x = $scope.brandAlph;
@@ -742,8 +766,6 @@ categoryMod.controller('CategoryCtrl',
                         $scope.wishlist_product.new_item = false;
                         $scope.wishlist_product.product = product;
 
-                        var key = 'product_latest_price_' + product._id;
-                        timeStorage.set(key, product.price, .5);
                         $scope.$parent.showWishlist();
                     } else {
                         toast.showShortBottom('SignUp To Add Item To Wishlist');

@@ -247,7 +247,11 @@ alertMod.controller('AlertCtrl',
                         if (data.similar.length > 0) {
                             $scope.product.similar = data.similar;
                             $timeout(function () {
-                                angular.element(document.querySelector('.scroller_' + product_id)).attr('style', 'width:' + (data.similar.length * 152) + "px");
+                                var width = data.similar.length * 152;
+                                if (width < $window.innerWidth) {
+                                    width = $window.innerWidth;
+                                }
+                                angular.element(document.querySelector('.scroller_' + product_id)).attr('style', 'width:' + (width) + "px");
                             }, 100);
                             $ionicScrollDelegate.resize();
                         }
@@ -372,7 +376,7 @@ alertMod.controller('AlertCtrl',
                     });
 
                 };
-                $scope.openProduct = function(product){
+                $scope.openProduct = function (product) {
                     var id = product._id;
                     console.log('open product ' + id);
                     if (!product.img) {

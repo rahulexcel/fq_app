@@ -182,7 +182,7 @@ app.config(["$stateProvider", "$urlRouterProvider",
                 })
                 .state('app.profile', {
                     url: '/profile/:user_id',
-                    abstract: true,
+//                    abstract: true,
                     views: {
                         'menuContent': {
                             templateUrl: 'template/profile.html',
@@ -354,25 +354,20 @@ app.config(["$stateProvider", "$urlRouterProvider",
                     }
                 });
 
-        $urlRouterProvider.otherwise('/app/home/trending');
+//        $urlRouterProvider.otherwise('/app/intro');
     }]);
 
-var custom_history = [];
-
+var hiddenStatusBar = false;
 app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$cordovaSplashscreen", 'notifyHelper', '$cordovaNetwork', '$ionicHistory', '$timeout', 'toast', '$ionicLoading', '$ionicBackdrop', 'urlHelper', 'timeStorage',
     function ($ionicPlatform, $rootScope, $localStorage, $cordovaNetwork, $cordovaSplashscreen, notifyHelper, $cordovaNetwork, $ionicHistory, $timeout, toast, $ionicLoading, $ionicBackdrop, urlHelper, timeStorage) {
         if (!$localStorage.user) {
             $localStorage.user = {};
+            //always initalize empty user so that there is no errors
         } else {
             if ($localStorage.user.id)
                 if (window.analytics)
                     window.analytics.setUserId($localStorage.user.id)
         }
-        $rootScope.isBackButton = false;
-        $rootScope.isReady = function () {
-            $rootScope.display = {display: "block"};
-        };
-
         var backPress = 0;
         $ionicPlatform.registerBackButtonAction(function (e) {
             e.preventDefault();
@@ -382,19 +377,15 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             if (backView) {
                 // there is a back view, go to it
                 backView.go();
-            } else {
-                // there is no back view, so close the app instead
-
-                if (backPress === 0) {
-                    backPress++;
-                    urlHelper.openHomePage();
-                    toast.showShortBottom('Press Back Again To Exit');
-                    $timeout(function () {
-                        backPress = 0;
-                    }, 3000);
-                } else {
-                    ionic.Platform.exitApp();
-                }
+            }
+            if (backPress === 0) {
+                backPress++;
+                toast.showShortBottom('Press Back Again To Exit');
+                $timeout(function () {
+                    backPress = 0;
+                }, 3000);
+            } else if (backPress >= 2) {
+                ionic.Platform.exitApp();
             }
             return false;
         }, 101);
@@ -419,6 +410,8 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             if (!$localStorage.user.id && !timeStorage.get('last_intro')) {
                 timeStorage.set('last_intro', 1, 1);
                 urlHelper.openIntroPage();
+            } else {
+                urlHelper.openHomePage();
             }
         });
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -435,6 +428,12 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
         });
 
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+            if (hiddenStatusBar && (toState.name !== 'intro')) {
+                if (window.StatusBar) {
+                    StatusBar.show();
+                }
+                hiddenStatusBar = false;
+            }
             $rootScope.body_class = '';
             if (toState.name === 'app.item.pins' || toState.name.indexOf('app.home.trending') !== -1 || toState.name.indexOf('app.home.feed') !== -1 || toState.name.indexOf('app.profile') !== -1 || (toState.name.indexOf('app.wishlist_item') !== -1 && toState.name.indexOf('app.wishlist_item_add') === -1)) {
                 $rootScope.body_class = 'grey_bg';

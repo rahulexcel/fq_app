@@ -2,7 +2,7 @@
     <ion-content lazy-scroll overflow-scroll='false'>
         <div class="top-container" ng-show="user">
             <div class="box mine-username">
-                <div class="user_profile_center" on-tap="menu_profile();">
+                <div class="user_profile_center" on-tap="edit_pic();">
                     <img ng-src='{{user.picture|picture:100:100}}' class="rounded"/>
                     <i ng-if="me" class="ion-edit accent edit_picture"></i>
                 </div>

@@ -20,6 +20,10 @@ feedbackMod.controller('FeedbackCtrl',
                     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
                         $scope.isMobile = true;
                     }
+                    $scope.isAndroid = true;
+                    if (ionic.Platform.isIOS()) {
+                        $scope.isAndroid = false;
+                    }
                 };
                 self.init();
                 $rootScope.$on("$ionicView.enter", function () {
@@ -28,14 +32,16 @@ feedbackMod.controller('FeedbackCtrl',
 
                 $scope.hasEmail = false;
 
-                if (cordova.plugins && cordova.plugins.email) {
+                if (window.cordova && window.cordova.plugins && window.cordova.plugins.email) {
                     cordova.plugins.email.isAvailable(function (isAvailable) {
                         $scope.hasEmail = isAvailable;
                     });
                 }
 
-                if (typeof AppRate !== "undefined")
+                if (typeof AppRate !== "undefined") {
                     AppRate.preferences.storeAppURL.android = 'market://details?id=com.excellence.fashioniq';
+                    AppRate.preferences.storeAppURL.ios = '993157104';
+                }
 
                 $scope.rateUs = function () {
                     if (typeof AppRate !== "undefined") {

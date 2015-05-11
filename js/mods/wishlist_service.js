@@ -217,25 +217,27 @@ wishlistService.factory('wishlistHelper', [
         };
         service.listItems = function (list_id, page, item_id) {
             var def = $q.defer();
-            if ($localStorage.user && $localStorage.user.id) {
-                var ajax = ajaxRequest.send('v1/wishlist/item/list', {
-                    user_id: $localStorage.user.id,
-                    list_id: list_id,
-                    page: page,
-                    ignore_item_id: item_id
-                });
-                ajax.then(function (data) {
-                    def.resolve(data);
-                }, function (message) {
-                    def.reject(message);
-                });
-            } else {
-                urlHelper.openSignUp();
-                toast.showShortBottom('SignUp To Setup Wishlist and Price Alerts');
-                def.reject({
-                    login: 1
-                });
-            }
+            //comment out login check code because, when user is logged out and open any item page
+            // it redirects him to login page
+//            if ($localStorage.user && $localStorage.user.id) {
+            var ajax = ajaxRequest.send('v1/wishlist/item/list', {
+                user_id: $localStorage.user.id,
+                list_id: list_id,
+                page: page,
+                ignore_item_id: item_id
+            });
+            ajax.then(function (data) {
+                def.resolve(data);
+            }, function (message) {
+                def.reject(message);
+            });
+//            } else {
+//                urlHelper.openSignUp();
+//                toast.showShortBottom('SignUp To Setup Wishlist and Price Alerts');
+//                def.reject({
+//                    login: 1
+//                });
+//            }
             return def.promise;
         };
         service.delete = function (list_id) {
@@ -418,9 +420,10 @@ wishlistService.factory('wishlistHelper', [
                 if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
                     $cordovaDialogs.confirm('Do you want to recieve alerts when price drop for ' + name, 'Price Alert', ['Ok', 'Always', 'Cancel'])
                             .then(function (index) {
-                                if (index === 0) {
+                                console.log(index + "price alert");
+                                if (index === 1) {
                                     service.setPriceAlert(product_id);
-                                } else if (index === 1) {
+                                } else if (index === 2) {
                                     $localStorage.price_alert_always = true;
                                     service.setPriceAlert(product_id);
                                 } else {
@@ -439,6 +442,7 @@ wishlistService.factory('wishlistHelper', [
             }
         };
         service.setPriceAlert = function (product_id) {
+            console.log('price alert for ' + product_id);
             var data = productHelper.fetchLatestCache(product_id);
             var cur_price = -1;
             if (data.price) {
@@ -451,7 +455,7 @@ wishlistService.factory('wishlistHelper', [
                 price: cur_price
             }, true);
             ajax.then(function (data) {
-                if(data == 1) {
+                if (data == 1) {
                     toast.showShortBottom('Price Alert Has Been Setup');
                 }
             }, function () {

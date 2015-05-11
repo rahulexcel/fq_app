@@ -238,7 +238,11 @@ productMod.controller('ProductCtrl',
                         console.log('initiazling iscroll');
                         if (data.similar.length > 0)
                             $timeout(function () {
-                                angular.element(document.querySelector('.scroller_' + product_id)).attr('style', 'width:' + (data.similar.length * 152) + "px");
+                                var width = data.similar.length * 152;
+                                if (width < $window.innerWidth) {
+                                    width = $window.innerWidth;
+                                }
+                                angular.element(document.querySelector('.scroller_' + product_id)).attr('style', 'width:' + (width) + "px");
                             }, 100);
                         var data2 = timeStorage.get(cache_key);
                         data2.similar = data.similar;

@@ -27,7 +27,7 @@
                 <span class="info grey-color">No Products Found</span>
             </div>
 
-            <div class="product pinch_ele" id="{{prod._id}}" force-refresh-images='true' collection-repeat="prod in products track by prod._id">
+            <div class="product pinch_ele" id="{{prod._id}}" item-height="265px" force-refresh-images='true' collection-repeat="prod in products track by prod._id">
                 <div class="image" on-tap="openProduct(prod);">
                     <img img-loader ng-src="{{prod.img}}"/>
                     <div class="heart my-wishlist-img accent_bg" on-tap="wishlist(prod,$event);">

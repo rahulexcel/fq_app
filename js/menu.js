@@ -20,9 +20,6 @@ menuMod.controller('MenuCtrl',
                         toast.showShortBottom('Still Offline...');
                     }
                 };
-                $scope.$on('$ionicExposeAside', function () {
-                    $rootScope.$emit('custom_ionicExposeAside');
-                });
                 var category = timeStorage.get('category');
                 if (category && category.length > 0) {
                     console.log('category from cache');
@@ -90,7 +87,26 @@ menuMod.controller('MenuCtrl',
                 $rootScope.$on('logout_event', function () {
                     $scope.login = false;
                 });
+                $scope.$watch(function () {
+                    return $ionicSideMenuDelegate.isOpen();
+                }, function (isOpen) {
+                    //this is used to update left menu categories.
+                    //sometime left menu doesn't show up
+                    //this checks and updates it
 
+                    var category = timeStorage.get('category');
+                    if (category && category.length > 0) {
+                        console.log('category already loaded');
+                    } else {
+                        console.log('category not loaded');
+                        $scope.category = [];
+                        var ajax = ajaxRequest.send('v1/catalog/list', {});
+                        ajax.then(function (data) {
+                            $scope.category = data;
+                            timeStorage.set('category', data, 24);
+                        });
+                    }
+                });
                 $scope.selectCategory = function (cat) {
                     console.log('select category');
                     console.log(cat);
