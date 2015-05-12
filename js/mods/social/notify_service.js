@@ -334,7 +334,7 @@ notifyService.factory('notifyHelper', [
             console.log('type ' + row.type);
             if (row.type === 'price_alert') {
                 if (row.data.fq_product_id) {
-                    urlHelper.openAlertPage(row.data.id.$id);
+                    urlHelper.openAlertPage(row.data.fq_pro duct_id.$id);
                 } else {
                     if (window.plugins) {
                         window.open(row.data.url, '_system');
@@ -416,24 +416,20 @@ notifyService.factory('notifyHelper', [
                         console.log(err);
                     });
                     $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
-                        switch (notification.event) {
-
-                            case 'message':
-                                console.log('notification recieved');
+                        
+                                console.log('notification recieved in javascript');
                                 console.log(notification);
-                                //$timeout(function () {
-
-
-                                    var elem = angular.element(document.querySelector('[ng-app]'));
-                                    var injector = elem.injector();
-                                    var notifyHelper = injector.get('notifyHelper');
-                                    notifyHelper.openItem(notification);
+                                    var meta = notification.meta;
+                                    meta = JSON.parse(meta);
+                                    //$timeout(function () {
+                                        service.openItem(meta);
+                                    //});
                                 //});
                                 // this is the actual push notification. its format depends on the data model from the push server
                                 //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
-                                break;
+                                
 
-                        }
+                        
                     });
                 } else {
                     $cordovaPush.register({
