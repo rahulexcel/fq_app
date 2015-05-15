@@ -25,6 +25,9 @@ pinMod.controller('PinCtrl',
                 $scope.$watch('windowWidth', function (newVaue) {
                     $scope.displayPins();
                 });
+                $scope.$on('reload_pins', function () {
+                    $scope.doRefresh();
+                });
                 $scope.doRefresh = function () {
                     $scope.page = 0;
                     $scope.loadMore();
@@ -33,6 +36,8 @@ pinMod.controller('PinCtrl',
                 $scope.loadMore = function () {
                     var ajax = $scope.$parent.getData($scope.page);
                     ajax.then(function (data) {
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
+                        $scope.$broadcast('scroll.refreshComplete');
                         $scope.loading = false;
                         var new_data = [];
                         if (data.length > 0) {

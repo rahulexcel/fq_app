@@ -1,8 +1,8 @@
 var menuMod = angular.module('MenuMod', ['ServiceMod', 'ngStorage', 'ionic', 'pasvaz.bindonce', 'UrlService']);
 
 menuMod.controller('MenuCtrl',
-        ['$scope', 'ajaxRequest', '$localStorage', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork', '$ionicPlatform', '$ionicScrollDelegate', '$timeout', '$q', 'urlHelper',
-            function ($scope, ajaxRequest, $localStorage, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork, $ionicPlatform, $ionicScrollDelegate, $timeout, $q, urlHelper) {
+        ['$scope', 'ajaxRequest', '$localStorage', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork', '$ionicPlatform', '$ionicScrollDelegate', '$timeout', '$q', 'urlHelper', 'itemHelper',
+            function ($scope, ajaxRequest, $localStorage, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork, $ionicPlatform, $ionicScrollDelegate, $timeout, $q, urlHelper, itemHelper) {
                 if ($localStorage.user.id) {
                     notifyHelper.checkForUpdates();
                 }
@@ -402,7 +402,14 @@ menuMod.controller('MenuCtrl',
                             });
                         } else if ($scope.wishlist_product.item) {
                             $scope.wishlist_product.item.select_list_id = list._id;
-                            $scope.$broadcast('wishlist_pin_select');
+                            var list_id = $scope.wishlist_product.item.select_list_id;
+                            var ajax = itemHelper.pin($scope.wishlist_product.item._id, list_id);
+                            ajax.then(function () {
+                                $scope.$broadcast('wishlist_pin_select');
+                            }, function () {
+                                $scope.$broadcast('wishlist_pin_select');
+                            });
+
                         } else {
                             $scope.defer.resolve(list._id);
 //                            $location.path('/app/wishlist_item_add_step2/' + $scope.show_wishlist_type + '/' + list._id);

@@ -119,7 +119,11 @@ homeMod.controller('HomeCtrl',
                     $interval.cancel(feed_interval);
                     $interval.cancel(latest_interval);
                 });
-
+                var self = this;
+                self.women = true;
+                if ($localStorage.latest_show && $localStorage.latest_show == 'men') {
+                    self.women = false;
+                }
 
                 $scope.getData = function (page) {
                     if (self.skipGetData) {
@@ -135,7 +139,7 @@ homeMod.controller('HomeCtrl',
                     } else if (path === '/app/home/feed') {
                         $scope.selected_class = 'feed';
                         self.type = 'feed';
-                       // $ionicNavBarDelegate.title('My Feed');
+                        // $ionicNavBarDelegate.title('My Feed');
                     } else if (path === '/app/home/latest') {
                         $scope.selected_class = 'latest';
                         self.type = 'latest';
@@ -148,16 +152,23 @@ homeMod.controller('HomeCtrl',
                         }
                         return friendHelper.home_feed(page);
                     } else {
+                        return friendHelper.home_latest(page, self.women);
                     }
                 };
 
                 $scope.showMen = function () {
                     $localStorage.latest_show = 'men';
-                    $scope.$broadcast('show_men');
+                    self.women = false;
+                    $scope.$broadcast('reload_pins');
+                    console.log('men');
+                    //$scope.$broadcast('show_men');
                 };
                 $scope.showWomen = function () {
                     $localStorage.latest_show = 'women';
-                    $scope.$broadcast('show_women');
+                    self.women = true;
+                    $scope.$broadcast('reload_pins');
+                    console.log('women');
+                    //$scope.$broadcast('show_women');
                 };
 
                 $scope.loadTopUsers = function () {
@@ -194,8 +205,8 @@ homeMod.controller('HomeCtrl',
                     $scope.bg_col = '1px solid #eee7dd';
                     self.type = 'latest';
                     $state.go('app.home.latest');
-                   // $ionicNavBarDelegate.title('Latest');
-                   // $ionicScrollDelegate.resize();
+                    // $ionicNavBarDelegate.title('Latest');
+                    // $ionicScrollDelegate.resize();
                     if (window.analytics) {
                         window.analytics.trackEvent('Home Page', 'Latest');
                     }

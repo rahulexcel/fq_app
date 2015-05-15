@@ -26,12 +26,12 @@ var app = angular.module('starter',
             'PinMod',
             'ngCordova',
             'pasvaz.bindonce',
-            'HomeCatMod',
             'AlertMod'
         ]
         );
-app.config(["$stateProvider", "$urlRouterProvider",
-    function ($stateProvider, $urlRouterProvider) {
+app.config(["$stateProvider", "$urlRouterProvider", '$ionicConfigProvider',
+    function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+        $ionicConfigProvider.platform.android.scrolling.jsScrolling(false);
         $stateProvider
                 .state('intro', {
                     url: '/intro',
@@ -83,8 +83,8 @@ app.config(["$stateProvider", "$urlRouterProvider",
                     url: '/latest',
                     views: {
                         'pin-content': {
-                            templateUrl: 'template/category_home.html',
-                            controller: 'HomeCatCtrl',
+                            templateUrl: 'template/list/pins.html',
+                            controller: 'PinCtrl',
                             controllerAs: 'latest'
                         }
                     }
@@ -378,13 +378,14 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                 // there is a back view, go to it
                 backView.go();
             }
-            if (backPress === 0) {
-                backPress++;
+            backPress++;
+            if (backPress === 2) {
                 toast.showShortBottom('Press Back Again To Exit');
-                $timeout(function () {
-                    backPress = 0;
-                }, 3000);
-            } else if (backPress >= 2) {
+            }
+            $timeout(function () {
+                backPress = 0;
+            }, 2000);
+            if (backPress > 2) {
                 ionic.Platform.exitApp();
             }
             return false;
@@ -435,7 +436,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                 hiddenStatusBar = false;
             }
             $rootScope.body_class = '';
-            if (toState.name === 'app.item.pins' || toState.name.indexOf('app.home.trending') !== -1 || toState.name.indexOf('app.home.feed') !== -1 || toState.name.indexOf('app.profile') !== -1 || (toState.name.indexOf('app.wishlist_item') !== -1 && toState.name.indexOf('app.wishlist_item_add') === -1)) {
+            if (toState.name === 'app.item.pins' || toState.name.indexOf('app.home.trending') !== -1 || toState.name.indexOf('app.home.latest') !== -1 || toState.name.indexOf('app.home.feed') !== -1 || toState.name.indexOf('app.profile') !== -1 || (toState.name.indexOf('app.wishlist_item') !== -1 && toState.name.indexOf('app.wishlist_item_add') === -1)) {
                 $rootScope.body_class = 'grey_bg';
             }
             if (toState.name === 'intro') {
@@ -476,7 +477,15 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                         if (!$localStorage.previous) {
                             $localStorage.previous = {};
                         }
-                        $localStorage.previous.url = '/app' + url;
+                        if (url === '/latest' || url === '/trending' || url === '/feed') {
+                            $localStorage.previous.url = '/app/home' + url;
+                        } else if (fromState.name === 'app.item.pins') {
+                            $localStorage.previous.url = '/app/item' + url;
+                        } else if (fromState.name === 'app.wishlist_item.pins') {
+                            $localStorage.previous.url = '/app/wishlist_item' + url;
+                        } else {
+                            $localStorage.previous.url = '/app' + url;
+                        }
                         console.log(url + 'set as previous url');
                     }
 

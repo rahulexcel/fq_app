@@ -718,25 +718,21 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     }
                 };
                 $scope.$on('wishlist_pin_select', function () {
-                    var list_id = $scope.wishlist_product.item.select_list_id;
-                    var ajax = itemHelper.pin($scope.item.item_id._id, list_id);
+
+                    $scope.request_process = false;
                     var cache_key = 'item_' + $state.params.item_id + "_" + $state.params.list_id;
-                    ajax.then(function (data) {
-                        var pins = $scope.item.item_id.pins;
-                        if (!pins) {
-                            pins = [];
-                        }
-                        pins.push({
-                            user_id: $localStorage.user.id,
-                            created_at: new Date().getTime()
-                        });
-                        $scope.me_pin = true;
-                        $scope.item.item_id.pins = pins;
-                        timeStorage.remove(cache_key);
-                        $scope.request_process = false;
-                    }, function () {
-                        $scope.request_process = false;
+                    timeStorage.remove(cache_key);
+                    $scope.request_process = false;
+                    var pins = $scope.item.item_id.pins;
+                    if (!pins) {
+                        pins = [];
+                    }
+                    pins.push({
+                        user_id: $localStorage.user.id,
+                        created_at: new Date().getTime()
                     });
+                    $scope.me_pin = true;
+                    $scope.item.item_id.pins = pins;
                 });
                 $scope.pin = function () {
                     if (window.analytics) {

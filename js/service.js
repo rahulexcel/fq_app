@@ -824,6 +824,9 @@ serviceMod.filter('picture', ['ajaxRequest', 'CDN', function (ajaxRequest, CDN) 
             if (!angular.isDefined(picture) || picture === null || picture == "null") {
                 return "img/empty.png";
             }
+            if(picture === 'fashioniq'){
+                return 'img/icon.png';
+            }
             if (picture.length === 0) {
                 return "img/empty.png";
             }

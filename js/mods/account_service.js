@@ -103,6 +103,18 @@ accountService.factory('accountHelper', [
             });
             return def.promise;
         };
+        service.forgot = function (email) {
+            var def = $q.defer();
+            var ajax = false;
+            ajax = ajaxRequest.send('v1/account/forgot_password', {email: email});
+            ajax.then(function (data) {
+                def.resolve();
+                toast.showShortBottom('Password Sent To Your Email Address');
+            }, function () {
+                def.reject();
+            });
+            return def.promise;
+        };
         service.logout = function () {
             var def = $q.defer();
             var ajax = false;
@@ -160,13 +172,15 @@ accountService.factory('accountHelper', [
                     data.picture = ajaxRequest.url('v1/picture/view/' + data.picture);
                 }
                 notifyHelper.init();
-                
+
                 $rootScope.$broadcast('login_event');
 
                 var redirect_url = '/app/home/trending';
                 if ($localStorage.previous && $localStorage.previous.url) {
                     redirect_url = $localStorage.previous.url;
                 }
+                
+                console.log(redirect_url);
 
                 if ($localStorage.user.type === 'facebook') {
                     data1 = dataShare.getData();
@@ -193,7 +207,7 @@ accountService.factory('accountHelper', [
                 } else {
                     urlHelper.direct(redirect_url);
                 }
-                
+
             }, function (message) {
                 def.reject(message);
             });

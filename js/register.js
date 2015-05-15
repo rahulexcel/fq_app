@@ -74,9 +74,15 @@ registerMod.controller('RegisterCtrl',
                 $scope.forgot = function () {
                     var email = $scope.forgot_obj.email;
                     if (email.length > 0) {
-
+                        $scope.forgot_status = 1;
+                        var ajax = accountHelper.forgot(email);
+                        ajax.then(function () {
+                            $scope.forgot_status = 2;
+                        }, function () {
+                            $scope.forgot_status = 3;
+                        });
                     } else {
-                        toast.showShortBottom('All Fields Required');
+                        toast.showShortBottom('Enter Your Email Address');
                     }
                 };
 
