@@ -1,12 +1,5 @@
 <ion-view view-cache="false" title='Add Item Final Step'>
     <ion-content>
-        <div ng-if="step_type == 'near'">
-            <button class="button grey-color nearby-btn icon ion-location " on-tap="showMap();" ng-class="{
-                'red-color' : done, 'grey-color': !done}">
-                SET LOCATION
-            </button>
-            <small ng-show='item.location.lat' on-tap='removeLocation();'>Remove Location</small>
-        </div>
         <div ng-if="step_type == 'camera' || step_type == 'gallary' || step_type == 'near' || step_type == 'image'">
             <div ng-if="!is_mobile">
                 <div class ="profile-pic" ng-if="item.picture">
@@ -79,6 +72,14 @@
                 <ion-spinner></ion-spinner>
             </div>
 
+            <div ng-if="step_type == 'near'">
+                <button class="button grey-color nearby-btn icon ion-location " on-tap="showMap();" ng-class="{
+                'red-color' : done, 'grey-color': !done}">
+                    SET LOCATION
+                </button>
+                <small ng-show='item.location.lat' on-tap='removeLocation();'>Remove Location</small>
+            </div>
+
             <!--    
             don't need price, name. no one has time to do this
             <label class="item item-input item-floating-label">
@@ -92,8 +93,8 @@
                 </label>-->
 
             <label class ="item item-input item-floating-label">
-                <span class="input-label">Description (if any)</span>
-                <textarea ng-model='item.description' placeholder="Description (if any)"></textarea>
+                <span class="input-label">Description</span>
+                <textarea ng-model='item.description' placeholder="Description"></textarea>
             </label>
         </div>
         <div class="offline-button">

@@ -2,6 +2,9 @@ profileMod.controller('ProfileAlertsCtrl',
         ['$scope', '$localStorage', 'toast', 'notifyHelper', '$ionicLoading', '$ionicPopup', '$ionicListDelegate', 'dataShare', 'urlHelper',
             function ($scope, $localStorage, toast, notifyHelper, $ionicLoading, $ionicPopup, $ionicListDelegate, dataShare, urlHelper) {
                 var self = this;
+                $scope.$on('doRefresh', function () {
+                    $scope.doRefresh();
+                });
                 $scope.$on('user_info', function () {
                     if ($scope.$parent.user._id === $localStorage.user.id) {
                         $scope.me = true;

@@ -76,6 +76,9 @@ profileMod.controller('ProfileCtrl',
                     }
                     $ionicScrollDelegate.resize();
                 });
+                $scope.doRefresh = function () {
+                    $scope.$broadcast('doRefresh');
+                };
                 $scope.me = false;
                 $scope.menu_alerts = function () {
                     urlHelper.openProfilePage(user_id, 'alerts');

@@ -13,11 +13,10 @@ pinMod.filter('nl2br', ['$sce', function ($sce) {
         };
     }]);
 pinMod.controller('PinCtrl',
-        ['$scope', '$timeout', '$rootScope', '$localStorage', 'friendHelper', 'toast', 'itemHelper', 'pinchServie', 'CDN', 'accountHelper', 'urlHelper',
-            function ($scope, $timeout, $rootScope, $localStorage, friendHelper, toast, itemHelper, pinchServie, CDN, accountHelper, urlHelper) {
+        ['$scope', '$timeout', '$ionicPlatform', '$localStorage', 'friendHelper', 'toast', 'itemHelper', 'pinchServie', 'CDN', 'accountHelper', 'urlHelper',
+            function ($scope, $timeout, $ionicPlatform, $localStorage, friendHelper, toast, itemHelper, pinchServie, CDN, accountHelper, urlHelper) {
                 $scope.loading = true;
                 $scope.windowWidth = 0;
-                $scope.hasMore = false;
                 $scope.page = 0;
                 $scope.pin_count = 0;
                 $scope.total_pin_count = 0;
@@ -28,12 +27,20 @@ pinMod.controller('PinCtrl',
                 $scope.$on('reload_pins', function () {
                     $scope.doRefresh();
                 });
-                $scope.doRefresh = function () {
-                    $scope.page = 0;
-                    $scope.loadMore();
-                };
+                $scope.$on('has_no_more', function () {
+                    $scope.hasMore = false;
+                    console.log('has more');
+                });
+//                $scope.doRefresh = function () {
+//                    $scope.page = 0;
+//                    $scope.loadMore();
+//                    console.log('from do refresh');
+//                };
                 var colors = ['#b71c1c', '#880e4f', '#4a148c', '#311b92', '#0d47a1', '#004d40', '#827717', '#1b5e20', '#827717', '#f57f17', '#e65100', '#546e7a', '#757575'];
+
                 $scope.loadMore = function () {
+                    console.log('load more getting called');
+                    console.log($scope.hasMore);
                     var ajax = $scope.$parent.getData($scope.page);
                     ajax.then(function (data) {
                         $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -106,6 +113,8 @@ pinMod.controller('PinCtrl',
                             $scope.hasMore = true;
                             $scope.$broadcast('scroll.infiniteScrollComplete');
                             $scope.$broadcast('scroll.refreshComplete');
+                            $scope.$emit('scroll.infiniteScrollComplete');
+                            $scope.$emit('scroll.refreshComplete');
                         } else {
                             $scope.hasMore = false;
                             //for home page feed
@@ -125,6 +134,7 @@ pinMod.controller('PinCtrl',
                             }
                         }
                     }, function () {
+                        $scope.hasMore = false;
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                         $scope.$broadcast('scroll.refreshComplete');
                         $scope.loading = false;
@@ -136,12 +146,15 @@ pinMod.controller('PinCtrl',
                     $scope.hasMore = true;
                     $scope.loading = false;
                 }
-                if (load_by_default)
+                if (load_by_default) {
+                    console.log('from load by default');
                     $scope.loadMore();
+                }
                 $scope.doRefresh = function () {
                     $scope.page = 0;
                     $scope.initPinsDisplay();
                     ajax_data = [];
+                    console.log('from do refresh');
                     $scope.loadMore();
                 };
                 $scope.pinColumnWidth = function () {

@@ -1,4 +1,4 @@
-<ion-view>
+<ion-view overflow-scroll="true">
     <ion-nav-title>{{currentState.title}}</ion-nav-title> 
     <ion-content pinch pinch-count="3" lazy-scroll ng-class="!hideFilterBox ? 'has-footer' : ''">
         <ion-refresher
@@ -27,7 +27,7 @@
                 <span class="info grey-color">No Products Found</span>
             </div>
 
-            <div class="product pinch_ele" id="{{prod._id}}" item-height="265px" force-refresh-images='true' collection-repeat="prod in products track by prod._id">
+            <div class="product pinch_ele" id="{{prod._id}}" item-height="265px" force-refresh-images='true' ng-repeat="prod in products track by prod._id">
                 <div class="image" on-tap="openProduct(prod);">
                     <img img-loader ng-src="{{prod.img}}"/>
                     <div class="heart my-wishlist-img accent_bg" on-tap="wishlist(prod,$event);">

@@ -1,8 +1,4 @@
 <div class="padding">
-    <ion-refresher
-        pulling-text="Pull to refresh..."
-        on-refresh="doRefresh()">
-    </ion-refresher>
     <ion-list can-swipe="me">
         <ion-item class="item-thumbnail-left" ng-repeat="item in alerts track by $index">
             <img style="width: 100%;height: auto" on-tap='openAlert(item);' ng-src="{{item.img}}"/>

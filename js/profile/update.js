@@ -1,6 +1,9 @@
 profileMod.controller('ProfileUpdateCtrl',
         ['$scope', '$localStorage', 'notifyHelper', '$ionicListDelegate', 'toast', 'notifyHelper',
             function ($scope, $localStorage, notifyHelper, $ionicListDelegate, toast, notifyHelper) {
+                $scope.$on('doRefresh', function () {
+                    $scope.doRefresh();
+                });
                 $scope.$on('user_info', function () {
                     $scope.followers = $scope.$parent.user.followers;
                     if ($scope.$parent.user._id === $localStorage.user.id) {

@@ -32,6 +32,17 @@ var app = angular.module('starter',
 app.config(["$stateProvider", "$urlRouterProvider", '$ionicConfigProvider',
     function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
         $ionicConfigProvider.platform.android.scrolling.jsScrolling(false);
+        $ionicConfigProvider.views.forwardCache(true);
+        if (ionic.Platform.isAndroid()) {
+            var version = ionic.Platform.version();
+            var base_version = Math.floor(version);
+            if (base_version) {
+                if (base_version * 1 < 5) {
+                    $ionicConfigProvider.platform.android.views.transition('none');
+                }
+            }
+        }
+        $ionicConfigProvider.platform.android.views.transition('none');
         $stateProvider
                 .state('intro', {
                     url: '/intro',

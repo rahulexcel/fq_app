@@ -1,6 +1,8 @@
 profileMod.controller('ProfileListMineCtrl',
         ['$scope', '$localStorage',
             function ($scope, $localStorage) {
+                $scope.$on('doRefresh', function () {
+                });
                 var shared_lists = [];
                 var public_lists = [];
                 var private_lists = [];

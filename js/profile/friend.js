@@ -1,6 +1,9 @@
 profileMod.controller('ProfileFriendCtrl',
         ['$scope', '$localStorage', 'friendHelper',
             function ($scope, $localStorage, friendHelper) {
+                $scope.$on('doRefresh', function () {
+                    $scope.doRefresh();
+                });
                 var i = 0;
                 $scope.$on('user_info', function () {
                     var friends = $scope.$parent.user.friends;

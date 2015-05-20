@@ -527,10 +527,10 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
                     html += "<div class='anim_text'>Gallery</div>";
                     html += '<div class="fab_small"><i class="ion-images"></i></div>';
                     html += '</li>';
-                    html += '<li id="tap_third" class="fab_third">';
-                    html += "<div class='anim_text'>Web Link</div>";
-                    html += '<div class="fab_small"><i class="ion-link"></i></div>';
-                    html += '</li>';
+//                    html += '<li id="tap_third" class="fab_third">';
+//                    html += "<div class='anim_text'>Web Link</div>";
+//                    html += '<div class="fab_small"><i class="ion-link"></i></div>';
+//                    html += '</li>';
 //                    html += '<li id="tap_fourth" class="fab_fourth">';
 //                    html += "<div class='anim_text'>NearBy</div>";
 //                    html += '<div class="fab_small"><i class="ion-location"></i></div>';
@@ -547,6 +547,8 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
                     var ele = angular.element(document.getElementById('add_tap'));
                     var backdrop = angular.element(document.querySelector('.backdrop'));
                     var back_button = false;
+                    
+//                    ele.removeClass('fab_rotate');
 
                     $rootScope.$on('$ionicView.beforeEnter', function () {
                         console.log($state.current.name);
@@ -620,14 +622,14 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
                         e.preventDefault();
                         e.stopPropagation();
                     }, angular.element(document.getElementById('tap_second')));
-                    $ionicGesture.on('tap', function (e) {
-                        ele.toggleClass('fab_rotate')
-                        backdrop.toggleClass('active visible');
-                        back_button();
-                        scope.$broadcast('tap_third');
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }, angular.element(document.getElementById('tap_third')));
+//                    $ionicGesture.on('tap', function (e) {
+//                        ele.toggleClass('fab_rotate')
+//                        backdrop.toggleClass('active visible');
+//                        back_button();
+//                        scope.$broadcast('tap_third');
+//                        e.preventDefault();
+//                        e.stopPropagation();
+//                    }, angular.element(document.getElementById('tap_third')));
 //                    $ionicGesture.on('tap', function (e) {
 //                        ele.toggleClass('fab_rotate')
 //                        backdrop.toggleClass('active visible');

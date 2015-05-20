@@ -39,15 +39,34 @@ homeMod.controller('HomeCtrl',
                     console.log('view entire skip get data false');
                 });
                 $scope.$on("$ionicView.enter", function () {
-                    self.init();
+                    //self.init();
                     $ionicScrollDelegate.scrollTop();
                 });
                 $scope.$on('$ionicView.leave', function () {
                     self.skipFeedCheck = true;
                     self.skipGetData = true;
+                    $scope.$emit('has_no_more');
                     console.log('view leave skip get data true');
                 });
-
+                $ionicPlatform.on('offline', function () {
+                    self.skipFeedCheck = true;
+                    self.skipGetData = true;
+                    $scope.$emit('has_no_more');
+                    console.log('offline skip get data false');
+                });
+                $ionicPlatform.on('pause', function () {
+                    self.skipFeedCheck = true;
+                    self.skipGetData = true;
+                    $scope.$emit('has_no_more');
+                    console.log('pause skip get data false');
+                });
+                $ionicPlatform.on('resume', function () {
+                    if ($localStorage.user.id) {
+                        self.skipFeedCheck = false;
+                    }
+                    self.skipGetData = false;
+                    console.log('resume skip get data false');
+                });
                 self.checkFeedCount = function () {
                     if (self.skipGetData) {
                         console.log('skipping feed count');
@@ -98,23 +117,7 @@ homeMod.controller('HomeCtrl',
                     self.skipGetData = false;
                     console.log('online skip get data false');
                 });
-                $ionicPlatform.on('offline', function () {
-                    self.skipFeedCheck = true;
-                    self.skipGetData = true;
-                    console.log('offline skip get data false');
-                });
-                $ionicPlatform.on('pause', function () {
-                    self.skipFeedCheck = true;
-                    self.skipGetData = true;
-                    console.log('pause skip get data false');
-                });
-                $ionicPlatform.on('resume', function () {
-                    if ($localStorage.user.id) {
-                        self.skipFeedCheck = false;
-                    }
-                    self.skipGetData = false;
-                    console.log('resume skip get data false');
-                });
+
                 $scope.$on('$destroy', function () {
                     $interval.cancel(feed_interval);
                     $interval.cancel(latest_interval);
@@ -154,6 +157,10 @@ homeMod.controller('HomeCtrl',
                     } else {
                         return friendHelper.home_latest(page, self.women);
                     }
+                };
+
+                $scope.doRefresh = function () {
+                    $scope.$broadcast('reload_pins');
                 };
 
                 $scope.showMen = function () {

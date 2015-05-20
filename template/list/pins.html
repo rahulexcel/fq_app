@@ -1,8 +1,3 @@
-<ion-refresher
-    ng-if="selected_class != 'wishlist_item'"
-    pulling-text="Pull to refresh..."
-    on-refresh="doRefresh()">
-</ion-refresher>
 <div class="center_spinner"  ng-if='loading'>
     <ion-spinner></ion-spinner>
 </div>
@@ -31,6 +26,10 @@
             <div class="pin-info">
                 <div class="pin-name" on-tap='viewItem(pin._id,pin.original.list_id)'>
                     <div bo-bind='pin.name'></div>
+                    <div bo-if="pin.website.length > 0 && pin.price*1 > 20">
+                        <i style="height: 16px" class='site {{::pin.website}}'></i>
+                        <span style="float: none" class="pro-price">Rs.{{::pin.price}}</span>
+                    </div>
                     <div bo-html='pin.description | nl2br'></div>
                 </div>
             </div>
@@ -64,6 +63,10 @@
             <div class="pin-info">
                 <div class="pin-name" on-tap='viewItem(pin._id,pin.original.list_id)'>
                     <div bo-bind='pin.name'></div>
+                    <div bo-if="pin.website.length > 0 && pin.price*1 > 20">
+                        <i style="height: 16px" class='site {{::pin.website}}'></i>
+                        <span style="float: none" class="pro-price">Rs.{{::pin.price}}</span>
+                    </div>
                     <div bo-html='pin.description | nl2br'></div>
                 </div>
             </div>
@@ -92,6 +95,10 @@
             <div class="pin-info">
                 <div class="pin-name" on-tap='viewItem(pin._id,pin.original.list_id)'>
                     <div bo-bind='pin.name'></div>
+                    <div bo-if="pin.website.length > 0 && pin.price*1 > 20">
+                        <i style="height: 16px" class='site {{::pin.website}}'></i>
+                        <span style="float: none" class="pro-price">Rs.{{::pin.price}}</span>
+                    </div>
                     <div bo-html='pin.description | nl2br'></div>
                 </div>
             </div>

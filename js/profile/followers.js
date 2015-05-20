@@ -1,6 +1,8 @@
 profileMod.controller('ProfileFollowerCtrl',
         ['$scope', '$localStorage', 'friendHelper',
             function ($scope, $localStorage, friendHelper) {
+                $scope.$on('doRefresh', function () {
+                });
                 $scope.$on('user_info', function () {
                     var followers = $scope.$parent.user.followers;
                     if (followers) {

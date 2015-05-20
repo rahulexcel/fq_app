@@ -82,6 +82,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     $scope.request_process = false;
                 }
                 var self = this;
+                $scope.show_loves_count = 0;
                 $scope.checkData = function (data) {
                     if (!data._id) {
                         toast.showShortBottom('Looks Like Clip Has Been Deleted By Owner');
@@ -159,6 +160,10 @@ wishlistItemMod.controller('WishlistItemCtrl',
                         }
                         data.comments = comments;
 
+                        var width = $window.innerWidth - 90;
+                        var c = Math.floor(width / 30);
+                        $scope.show_loves_count = c;
+
                         $scope.item = data;
                         if (data.item_id.location && data.item_id.location.length > 0) {
                             var lat = data.item_id.location[1];
@@ -196,9 +201,10 @@ wishlistItemMod.controller('WishlistItemCtrl',
                             $scope.fetchLatest(data.item_id.href);
                             var unique = data.item_id.unique;
                             var website = data.item_id.website;
+                            var unique_id = data.item_id._id;
                             var ajax2 = productHelper.fetchSimilar(false, unique, website);
                             ajax2.then(function (data) {
-                                self.processSimliarData(data, unique);
+                                self.processSimliarData(data, unique_id);
                             });
                         }
                     }
@@ -214,6 +220,8 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 if (width < $window.innerWidth) {
                                     width = $window.innerWidth;
                                 }
+                                console.log('width ' + width);
+                                console.log('product id ' + product_id);
                                 angular.element(document.querySelector('.scroller_' + product_id)).attr('style', 'width:' + (width) + "px");
                             }, 100);
                         }
@@ -460,6 +468,15 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     } else {
                         toast.showShortBottom('SignUp/Login To Like A Comment');
                     }
+                };
+                $scope.loveList = function () {
+                    //showing combined data for likes/pins
+                    if (window.analytics) {
+                        window.analytics.trackEvent('Love List', 'Items Page', urlHelper.getPath());
+                    }
+                    var loves = $scope.item.loves;
+                    $scope.users = loves;
+                    $scope.modal.show();
                 };
                 $scope.likeList = function () {
                     if (window.analytics) {

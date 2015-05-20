@@ -1,4 +1,4 @@
-<ion-view title='HOME'>
+<ion-view title='HOME' cache-view="false">
     <ion-header-bar class="home_header">
         <ul id='home_ul' class="mine-list" ng-class="selected_class">
             <li class="trending" on-tap='menu_trending();'>TRENDING</li>
@@ -7,6 +7,10 @@
         </ul>
     </ion-header-bar>
     <ion-content lazy-scroll overflow-scroll='false' class="home_content" style="top:88px">
+        <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="doRefresh()">
+        </ion-refresher>
         <div ui-view="pin-content"></div>
     </ion-content>
 

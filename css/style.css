@@ -13,7 +13,6 @@
 @media screen and (max-width: 480px) {
     .category .product{
         width: 50%;
-
     }
 }
 .bar-header{
@@ -116,7 +115,7 @@
     height: 12px;
     width: 12px;
     line-height: 12px;
-    margin-right: 5px;
+    /*margin-right: 5px;*/
 }
 input::-webkit-input-placeholder { /* WebKit browsers */
     color:   #999999;
@@ -175,6 +174,8 @@ textarea {
 .bata  { background-image: url("../img/fav/bata.png");   }
 .basicslife  { background-image: url("../img/fav/basicslife.png");   }
 .zivame  { background-image: url("../img/fav/zivame.png");   }
+.faballey  { background-image: url("../img/fav/faballey.png");   }
+.indianroots  { background-image: url("../img/fav/indianroots.png");   }
 .Flipkart  { background-image: url("../img/fav/flipkart.png");   }
 .basicslife  { background-image: url("../img/fav/basicslife.png");   }
 .Snapdeal  { background-image: url("../img/fav/snapdeal.png")  }
@@ -286,7 +287,7 @@ img
     float: left;
     height: 200px;
     text-align: center;
-    min-width: 178px;
+    min-width: 100px;
 }
 .category .product .bottom_box .price{                       
     float: left;
@@ -956,7 +957,7 @@ i.site {
     vertical-align: middle;
 }
 .category i.site{
-    margin-left:0px;
+    margin-right:3px;
 }
 i.close-icon-show{
     line-height: 45px;
@@ -2143,7 +2144,7 @@ i.offline-icon{
     line-height: 20px;
 }
 
-.platform-android .add_top_button{
+.platform-webview .add_top_button{
     display: none;
 }
 .platform-ios #menu-bar-container{
@@ -2501,32 +2502,32 @@ i.offline-icon{
     transition: all .1s ease-out;
 }
 .fab_first{
-    transform: translate3d(-10px,-125px,0px) scale(0);
-    -webkit-transform:translate3d(-10px,-125px,0px)  scale(0);
-    -moz-transform: translate3d(-10px,-125px,0px) scale(0);
-    -o-transform: translate3d(-10px,-125px,0px) scale(0);
-    -ms-transform: translate3d(-10px,-125px,0px) scale(0);
+    transform: translate3d(-1000px,-1000px,0px) scale(1);
+    -webkit-transform:translate3d(-1000px,-1000px,0px)  scale(1);
+    -moz-transform: translate3d(-1000px,-1000px,0px) scale(1);
+    -o-transform: translate3d(-1000px,-1000px,0px) scale(1);
+    -ms-transform: translate3d(-1000px,-1000px,0px) scale(1);
 }
 .fab_second{
-    transform: translate3d(-10px,-185px,0px) scale(0);
-    -webkit-transform:translate3d(-10px,-185px,0px) scale(0);
-    -moz-transform: translate3d(-10px,-185px,0px) scale(0);
-    -o-transform: translate3d(-10px,-185px,0px) scale(0);
-    -ms-transform: translate3d(-10px,-185px,0px) scale(0);
+    transform: translate3d(-1000px,-1000px,0px) scale(1);
+    -webkit-transform:translate3d(-1000px,-1000px,0px)  scale(1);
+    -moz-transform: translate3d(-1000px,-1000px,0px) scale(1);
+    -o-transform: translate3d(-1000px,-1000px,0px) scale(1);
+    -ms-transform: translate3d(-1000px,-1000px,0px) scale(1);
 }
 .fab_third{
-    transform: translate3d(-10px,-245px,0px) scale(0);
-    -webkit-transform:translate3d(-10px,-245px,0px) scale(0);
-    -moz-transform: translate3d(-10px,-245px,0px) scale(0);
-    -o-transform: translate3d(-10px,-245px,0px) scale(0);
-    -ms-transform: translate3d(-10px,-245px,0px) scale(0);
+    transform: translate3d(-1000px,-1000px,0px) scale(1);
+    -webkit-transform:translate3d(-1000px,-1000px,0px)  scale(1);
+    -moz-transform: translate3d(-1000px,-1000px,0px) scale(1);
+    -o-transform: translate3d(-1000px,-1000px,0px) scale(1);
+    -ms-transform: translate3d(-1000px,-1000px,0px) scale(1);
 }
 .fab_fourth{
-    transform: translate3d(-10px,-305px,0px) scale(0);
-    -webkit-transform:translate3d(-10px,-305px,0px) scale(0);
-    -moz-transform: translate3d(-10px,-305px,0px) scale(0);
-    -o-transform: translate3d(-10px,-305px,0px) scale(0);
-    -ms-transform: translate3d(-10px,-305px,0px) scale(0);
+    transform: translate3d(-1000px,-1000px,0px) scale(1);
+    -webkit-transform:translate3d(-1000px,-1000px,0px)  scale(1);
+    -moz-transform: translate3d(-1000px,-1000px,0px) scale(1);
+    -o-transform: translate3d(-1000px,-1000px,0px) scale(1);
+    -ms-transform: translate3d(-1000px,-1000px,0px) scale(1);
 }
 
 .fab_rotate .fab_first{

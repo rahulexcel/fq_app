@@ -333,8 +333,8 @@ notifyService.factory('notifyHelper', [
             }
             console.log('type ' + row.type);
             if (row.type === 'price_alert') {
-                if (row.data.fq_product_id) {
-                    urlHelper.openAlertPage(row.data.fq_product_id.$id);
+                if (row.data.alert_id) {
+                    urlHelper.openAlertPage(row.data.alert_id);
                 } else {
                     if (window.plugins) {
                         window.open(row.data.url, '_system');

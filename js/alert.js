@@ -1,8 +1,8 @@
 var alertMod = angular.module('AlertMod', ['ServiceMod', 'UrlService']);
 
 alertMod.controller('AlertCtrl',
-        ['$scope', '$localStorage', 'toast', '$stateParams', 'dataShare', '$ionicSlideBoxDelegate', 'productHelper', 'timeStorage', 'notifyHelper', '$ionicPopup', '$ionicPosition', '$window', '$timeout', 'urlHelper', '$ionicModal', '$timeout', '$ionicScrollDelegate',
-            function ($scope, $localStorage, toast, $stateParams, dataShare, $ionicSlideBoxDelegate, productHelper, timeStorage, notifyHelper, $ionicPopup, $ionicPosition, $window, $timeout, urlHelper, $ionicModal, $timeout, $ionicScrollDelegate) {
+        ['$scope', '$localStorage', 'toast', '$stateParams', 'dataShare', '$ionicSlideBoxDelegate', 'productHelper', 'timeStorage', 'notifyHelper', '$ionicPopup', '$ionicPosition', '$window', '$timeout', 'urlHelper', '$ionicModal', '$timeout', '$ionicScrollDelegate', '$rootScope',
+            function ($scope, $localStorage, toast, $stateParams, dataShare, $ionicSlideBoxDelegate, productHelper, timeStorage, notifyHelper, $ionicPopup, $ionicPosition, $window, $timeout, urlHelper, $ionicModal, $timeout, $ionicScrollDelegate, $rootScope) {
                 var self = this;
                 $scope.$on('modal.shown', function () {
                     $rootScope.$emit('hide_android_add');
@@ -266,6 +266,9 @@ alertMod.controller('AlertCtrl',
                 $scope.$on('$stateChangeSuccess', function () {
                     $scope.start();
                 });
+                $scope.doRefresh = function () {
+                    $scope.start();
+                };
                 $scope.start = function () {
                     if ($stateParams.alert_id) {
 
@@ -274,10 +277,14 @@ alertMod.controller('AlertCtrl',
                             self.populateData(alert);
                         } else {
                             $scope.loading = true;
+                            console.log($stateParams.alert_id);
                             var ajax = notifyHelper.getPriceAlert($stateParams.alert_id);
                             ajax.then(function (data) {
+                                console.log(data);
                                 $scope.loading = false;
                                 self.populateData(data);
+                                $scope.$broadcast('scroll.infiniteScrollComplete');
+                                $scope.$broadcast('scroll.refreshComplete');
                             });
                         }
 
