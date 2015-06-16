@@ -205,9 +205,9 @@ pinMod.controller('PinCtrl',
                     total_height = 0;
                     total_pins = 0;
                     var window_width = document.querySelector('.menu-content').clientWidth;
-                    if (window_width > 688) {
-                        window_width = window_width - 275;
-                    }
+//                    if (window_width > 688) {
+//                        window_width = window_width - 275;
+//                    }
 //                    console.log('window width ' + window_width);
                     pin_column = Math.floor(window_width / pin_width);
                     if (pin_column < 2) {
