@@ -13,8 +13,11 @@
             <div class="box"  style="padding: 0px;margin:0px;">
                 <div class="pro-img" style="border: none">
                     <ion-slide-box ng-if="item.item_id.more_images" show-pager="true" style="height: 350px">
+                        <ion-slide ng-if='show_main_image_in_more' on-tap="showZoom(-1)">
+                            <img img-loader ng-src='{{item.item_id.img| picture:picture_width}}'/>
+                        </ion-slide>
                         <ion-slide on-tap="showZoom($index)" ng-repeat="img in item.item_id.more_images track by $index">
-                            <img img-loader ng-src='{{img|picture}}'/>
+                            <img data-id="more_images" img-loader ng-src='{{img|picture}}'/>
                         </ion-slide>
                     </ion-slide-box>
                     <img on-tap="showZoom(-1)" ng-if="!item.item_id.more_images && item.item_id.img" img-loader ng-src='{{item.item_id.img| picture:picture_width}}' />

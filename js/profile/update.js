@@ -74,9 +74,11 @@ profileMod.controller('ProfileUpdateCtrl',
                     var ajax = notifyHelper.getUpdate($localStorage.user.id, false, $scope.page);
                     ajax.then(function (data) {
                         $scope.updateItems(data, true);
+                        $scope.$emit('scroll.refreshComplete');
                         $scope.$broadcast('scroll.refreshComplete');
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     }, function () {
+                        $scope.$emit('scroll.refreshComplete');
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                         $scope.$broadcast('scroll.refreshComplete');
                     });

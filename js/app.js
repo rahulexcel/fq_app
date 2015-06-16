@@ -421,9 +421,9 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             notifyHelper.init();
             if (!$localStorage.user.id && !timeStorage.get('last_intro')) {
                 timeStorage.set('last_intro', 1, 1);
-                urlHelper.openIntroPage();
+                //urlHelper.openIntroPage();
             } else {
-                urlHelper.openHomePage();
+                //urlHelper.openHomePage();
             }
         });
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {

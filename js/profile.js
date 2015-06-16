@@ -79,6 +79,9 @@ profileMod.controller('ProfileCtrl',
                 $scope.doRefresh = function () {
                     $scope.$broadcast('doRefresh');
                 };
+                $scope.$on('getUserData', function () {
+                    self.getUserData();
+                });
                 $scope.me = false;
                 $scope.menu_alerts = function () {
                     urlHelper.openProfilePage(user_id, 'alerts');
@@ -185,12 +188,14 @@ profileMod.controller('ProfileCtrl',
                                 angular.element(document.querySelector('#menu_scroller')).attr('style', 'width:' + width + 'px');
                                 $ionicScrollDelegate.$getByHandle('profile_scroller').scrollTo(startX, 0, true);
                             }, 50);
-
+                            $scope.$broadcast('scroll.refreshComplete');
                         }, function () {
                             $ionicLoading.hide();
+                            $scope.$broadcast('scroll.refreshComplete');
                         });
 
                     } else {
+                        $scope.$broadcast('scroll.refreshComplete');
                         toast.showShortBottom('You Need To Be Logged In To Access This Page');
                         urlHelper.openSignUp();
                     }

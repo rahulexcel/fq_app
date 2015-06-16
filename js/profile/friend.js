@@ -63,10 +63,12 @@ profileMod.controller('ProfileFriendCtrl',
                         } else {
                             $scope.hasMore = false;
                         }
+                        $scope.$emit('scroll.refreshComplete');
                         $scope.$broadcast('scroll.refreshComplete');
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     }, function () {
                         $scope.hasMore = false;
+                        $scope.$emit('scroll.refreshComplete');
                         $scope.$broadcast('scroll.refreshComplete');
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     });

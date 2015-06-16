@@ -61,14 +61,16 @@ productService.factory('productHelper', [
         service.fetchSimilar = function (id, unique, website) {
             var defer = $q.defer();
             var cache_key = '';
-            if (id) {
-                cache_key = 'similar_' + id;
-            } else {
-                cache_key = 'similar_' + unique;
-            }
-            if (timeStorage.get(cache_key)) {
-                return $q.when(timeStorage.get(cache_key));
-            }
+            //there is caching at nodejs
+            // when we do force refresh at produce page this causes problem
+//            if (id) {
+//                cache_key = 'similar_' + id;
+//            } else {
+//                cache_key = 'similar_' + unique;
+//            }
+//            if (timeStorage.get(cache_key)) {
+//                return $q.when(timeStorage.get(cache_key));
+//            }
             var ajax = ajaxRequest.send('v1/product/similar', {
                 product_id: id,
                 unique: unique,

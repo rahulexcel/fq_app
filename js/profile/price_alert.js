@@ -27,6 +27,7 @@ profileMod.controller('ProfileAlertsCtrl',
                     $scope.page = $scope.page + 1;
                     var ajax = notifyHelper.getPriceAlerts($scope.page);
                     ajax.then(function (data) {
+                        $scope.$emit('scroll.refreshComplete');
                         $scope.$broadcast('scroll.refreshComplete');
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                         if (data.length === 0) {
@@ -35,6 +36,7 @@ profileMod.controller('ProfileAlertsCtrl',
                         $scope.alerts = $scope.alerts.concat(data);
                         $scope.loading = false;
                     }, function () {
+                        $scope.$emit('scroll.refreshComplete');
                         $scope.$broadcast('scroll.refreshComplete');
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                         $scope.loading = false;

@@ -547,7 +547,7 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
                     var ele = angular.element(document.getElementById('add_tap'));
                     var backdrop = angular.element(document.querySelector('.backdrop'));
                     var back_button = false;
-                    
+
 //                    ele.removeClass('fab_rotate');
 
                     $rootScope.$on('$ionicView.beforeEnter', function () {
@@ -656,6 +656,8 @@ serviceMod.directive('imgLoader', function () {
                 if (naturalHeight > naturalWidth) {
                     angular.element(element).attr('style', 'max-height:100%;width:auto');
                 }
+                if (attrs.id)
+                    scope.$emit('image_loaded_' + attrs.id);
             });
         }
     };
@@ -826,7 +828,7 @@ serviceMod.filter('picture', ['ajaxRequest', 'CDN', function (ajaxRequest, CDN) 
             if (!angular.isDefined(picture) || picture === null || picture == "null") {
                 return "img/empty.png";
             }
-            if(picture === 'fashioniq'){
+            if (picture === 'fashioniq') {
                 return 'img/icon.png';
             }
             if (picture.length === 0) {

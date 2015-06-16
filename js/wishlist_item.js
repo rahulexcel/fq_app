@@ -881,13 +881,18 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     dataShare.broadcastData(angular.copy(product), 'product_open');
                     urlHelper.openProductPage(id);
                 };
-
+                $scope.show_main_image_in_more = true;
+                $scope.$on('image_loaded_more_images', function () {
+                    $scope.show_main_image_in_more = false;
+                    $ionicSlideBoxDelegate.update();
+                });
                 $scope.showZoom = function (index) {
                     var more_images = $scope.item.item_id.more_images;
                     var img = ajaxRequest.url('v1/picture/view/' + $scope.item.item_id.img);
                     var final_images = [];
                     final_images.push(img);
                     if (more_images) {
+                        final_images = [];
                         for (var i = 0; i < more_images.length; i++) {
                             final_images.push(more_images[i]);
                         }

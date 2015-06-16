@@ -5,7 +5,9 @@ accountMod.controller('AccountCtrl',
         ['$scope', '$localStorage', 'toast', 'accountHelper', '$upload', 'ajaxRequest', '$ionicActionSheet', '$cordovaCamera', 'uploader', '$window', '$ionicBackdrop', 'urlHelper',
             function ($scope, $localStorage, toast, accountHelper, $upload, ajaxRequest, $ionicActionSheet, $cordovaCamera, uploader, $window, $ionicBackdrop, urlHelper) {
 
-
+                $scope.$on('doRefresh', function () {
+                    $scope.$emit('getUserData');
+                });
                 $scope.$on('logout_event', function () {
                     urlHelper.openSignUp();
                 });

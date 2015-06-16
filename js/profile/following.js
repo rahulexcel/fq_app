@@ -2,6 +2,7 @@ profileMod.controller('ProfileFollowingCtrl',
         ['$scope', '$localStorage', 'toast',
             function ($scope, $localStorage) {
                 $scope.$on('doRefresh', function () {
+                    $scope.$emit('getUserData');
                 });
                 $scope.$on('user_info', function () {
                     var following_users = $scope.$parent.user.following;

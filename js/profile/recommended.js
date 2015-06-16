@@ -44,7 +44,11 @@ profileMod.controller('ProfileRecommendedCtrl',
                                 toast.showShortBottom('No More Users Found');
                         }
                         $ionicLoading.hide();
+                        $scope.$emit('scroll.refreshComplete');
+                        $scope.$broadcast('scroll.refreshComplete');
                     }, function () {
+                        $scope.$emit('scroll.refreshComplete');
+                        $scope.$broadcast('scroll.refreshComplete');
                     });
                 };
                 $scope.loadMoreList = function () {

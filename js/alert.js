@@ -407,13 +407,18 @@ alertMod.controller('AlertCtrl',
                         $scope.show_footer_menu = false;
                     }
                 };
-
+                $scope.show_main_image_in_more = true;
+                $scope.$on('image_loaded_more_images', function () {
+                    $scope.show_main_image_in_more = false;
+                    $ionicSlideBoxDelegate.update();
+                });
                 $scope.showZoom = function (index) {
                     var more_images = $scope.alert.more_images;
                     var img = $scope.alert.img;
                     var final_images = [];
                     final_images.push(img);
                     if (more_images) {
+                        final_images = [];
                         for (var i = 0; i < more_images.length; i++) {
                             final_images.push(more_images[i]);
                         }
