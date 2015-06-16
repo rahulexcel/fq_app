@@ -20,7 +20,7 @@
                             <img img-loader ng-src='{{alert.img| picture:picture_width}}'/>
                         </ion-slide>
                         <ion-slide on-tap="showZoom($index)" ng-repeat="img in alert.more_images  track by $index">
-                            <img data-id="more_images" img-loader ng-src='{{img|picture}}'/>
+                            <img data-id="more_images{{$index}}" img-loader ng-src='{{img|picture}}'/>
                         </ion-slide>
                     </ion-slide-box>
                     <img on-tap="showZoom(-1)" ng-if="!alert.more_images" img-loader ng-src='{{alert.img| picture:picture_width}}' />

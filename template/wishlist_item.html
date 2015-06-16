@@ -17,7 +17,7 @@
                             <img img-loader ng-src='{{item.item_id.img| picture:picture_width}}'/>
                         </ion-slide>
                         <ion-slide on-tap="showZoom($index)" ng-repeat="img in item.item_id.more_images track by $index">
-                            <img data-id="more_images" img-loader ng-src='{{img|picture}}'/>
+                            <img data-id="more_images{{$index}}" img-loader ng-src='{{img|picture}}'/>
                         </ion-slide>
                     </ion-slide-box>
                     <img on-tap="showZoom(-1)" ng-if="!item.item_id.more_images && item.item_id.img" img-loader ng-src='{{item.item_id.img| picture:picture_width}}' />
@@ -188,6 +188,11 @@
                             <i class="ion-android-share-alt"></i>
                         </button>
                     </div>
+                    <div class="item_icon" on-tap="report(item)">
+                        <button class="button button-clear grey-color" style="color: #727272 ">
+                            <i class="ion-alert-circled"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -251,6 +256,11 @@
             <div class="item_icon" on-tap='shareAll(item)'>
                 <button class="button button-clear grey-color" style="color: #727272 ">
                     <i class="ion-android-share-alt"></i>
+                </button>
+            </div>
+            <div class="item_icon" on-tap="report(item)">
+                <button class="button button-clear grey-color" style="color: #727272 ">
+                    <i class="ion-alert-circled"></i>
                 </button>
             </div>
         </div>

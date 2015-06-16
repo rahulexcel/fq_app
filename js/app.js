@@ -419,11 +419,13 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                 StatusBar.backgroundColorByHexString("#303F9F");
             }
             notifyHelper.init();
-            if (!$localStorage.user.id && !timeStorage.get('last_intro')) {
-                timeStorage.set('last_intro', 1, 1);
-                //urlHelper.openIntroPage();
-            } else {
-                //urlHelper.openHomePage();
+            if (ionic.Platform.isWebView()) {
+                if (!$localStorage.user.id && !timeStorage.get('last_intro')) {
+                    timeStorage.set('last_intro', 1, 1);
+                    urlHelper.openIntroPage();
+                } else {
+                    urlHelper.openHomePage();
+                }
             }
         });
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {

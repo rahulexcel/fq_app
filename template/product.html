@@ -16,7 +16,7 @@
                             <img img-loader ng-src='{{product.img}}'/>
                         </ion-slide>
                         <ion-slide on-tap="showZoom($index)" ng-repeat="img in product.more_images  track by $index">
-                            <img data-id="more_images" img-loader ng-src='{{img}}'/>
+                            <img data-id="more_images{{$index}}" img-loader ng-src='{{img}}'/>
                         </ion-slide>
                     </ion-slide-box>
                     <img on-tap="showZoom(-1)" ng-if="!product.more_images" ng-src='{{product.img}}'/>

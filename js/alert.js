@@ -408,9 +408,11 @@ alertMod.controller('AlertCtrl',
                     }
                 };
                 $scope.show_main_image_in_more = true;
-                $scope.$on('image_loaded_more_images', function () {
+                $scope.$on('image_loaded_more_images0', function () {
                     $scope.show_main_image_in_more = false;
-                    $ionicSlideBoxDelegate.update();
+                    $timeout(function () {
+                        $ionicSlideBoxDelegate.update();
+                    });
                 });
                 $scope.showZoom = function (index) {
                     var more_images = $scope.alert.more_images;
