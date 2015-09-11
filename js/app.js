@@ -419,7 +419,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                 StatusBar.backgroundColorByHexString("#303F9F");
             }
             notifyHelper.init();
-            if (ionic.Platform.isWebView()) {
+            if (ionic.Platform.isAndroid() || ionic.Platform.isIOS()) {
                 if (!$localStorage.user.id && !timeStorage.get('last_intro')) {
                     timeStorage.set('last_intro', 1, 1);
                     urlHelper.openIntroPage();

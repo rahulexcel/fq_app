@@ -5,7 +5,8 @@ googleLoginService.factory('googleLogin', [
     function ($http, $q, $interval, $log, timeStorage) {
         var service = {};
         service.access_token = false;
-        service.redirect_url = 'http://localhost:81/fashioniq/myapp/www/';
+        //service.redirect_url = 'http://localhost:81/fashioniq/myapp/www/';
+        service.redirect_url = 'http://projects.excellencetechnologies.in:8080/fashion/'; //for deplying on server
         service.client_id = '124787039157-04s8ecjnpgm47sm2br2kpplbk6ubp4q0.apps.googleusercontent.com';
         service.secret = 'aKlRBaHkYq4pdMMEVlW7pJ51';
         service.scope = 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/plus.me';
@@ -60,11 +61,11 @@ googleLoginService.factory('googleLogin', [
                 var win = window.open(authUrl, '_blank', 'location=no,toolbar=no,width=800, height=800');
                 var context = this;
 
-                if (ionic.Platform.isWebView()) {
+                if (ionic.Platform.isAndroid() || ionic.Platform.isIOS()) {
                     console.log('using in app browser');
                     win.addEventListener('loadstart', function (data) {
                         console.log('load start');
-                        if (data.url.indexOf(context.redirect_url) !== -1) {
+                        if (data.url.indexOf(context.redirect_url) === 0) {
                             console.log('redirect url found ' + context.redirect_url);
                             win.close();
                             var url = data.url;
@@ -82,7 +83,7 @@ googleLoginService.factory('googleLogin', [
                     var pollTimer = $interval(function () {
                         try {
                             console.log("google window url " + win.document.URL);
-                            if (win.document.URL.indexOf(context.redirect_url) !== -1) {
+                            if (win.document.URL.indexOf(context.redirect_url) === 0) {
                                 console.log('redirect url found');
                                 win.close();
                                 $interval.cancel(pollTimer);
