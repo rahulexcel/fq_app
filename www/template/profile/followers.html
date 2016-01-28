@@ -1,0 +1,19 @@
+<div class="padding">
+    <div ng-if='followers.length > 0'>
+        <div class="list-section" ng-if="me">PEOPLE FOLLOWING YOU</div>
+        <div class="list-section" ng-if="!me">FOLLOWING</div>
+        <div class="box" ng-repeat="user in followers track by $index">
+            <div user-box user="user" users="followers" index="{{$index}}" me="me"></div>
+        </div>
+    </div>
+    <div class="result-empty" ng-if="followers.length == 0">
+        <span class="info"><img src="img/favicon-not.png"/></span>
+        <span class="info grey-color">No Followers</span>
+    </div>
+</div>
+
+<ion-infinite-scroll
+    ng-if='followers.length > 0 && hasMore'
+    on-infinite="loadMoreFollowers()"
+    distance="1%">
+</ion-infinite-scroll>

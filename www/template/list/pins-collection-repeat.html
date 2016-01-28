@@ -1,0 +1,69 @@
+<ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()">
+</ion-refresher>
+<div class="center_spinner"  ng-if='loading'>
+    <ion-spinner></ion-spinner>
+</div>
+<div ng-if="total_pin_count == 0 && !loading">
+    <div style="text-align: center" ng-show="selected_class === 'feed'">
+        Follow People and Lists To Build Your Feed
+    </div>
+    <div ng-show="selected_class !== 'feed'">
+        <div class="result-empty">
+            <span class="info"><img src="img/favicon-not.png"/></span>
+            <span class="info grey-color">No Clips</span>
+        </div>
+    </div>
+</div>
+<div class="pin_list_container">
+    <div class="pin_list">
+        <div class="pin"  collection-repeat="pin in grid1" item-width="pin_width_no" item-height="pin.pin_height_full"> 
+            <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" ng-style="{'height': pin.pin_height,'background-color': pin.pin_color}" class="pin-img">
+                <!--<img ng-src='pin.image| picture:240'/>-->
+                <img ng-src="{{pin.image| picture:240}}" pin-color="{{pin.pin_color}}" image-height="{{pin.pin_height}}" />
+                <div on-tap='like(pin); $event.stopPropagation();' class="like-heart accent_bg" ng-if="pin.canLike">
+                    <i class="ion-thumbsup"></i>
+                </div>
+            </div>
+            <div class="pin-info">
+                <div class="pin-name" on-tap='viewItem(pin._id,pin.original.list_id)'>
+                    <div ng-bind='pin.name'></div>
+                    <div ng-html='pin.description | nl2br'></div>
+                </div>
+                <div class="pin-status">
+                    <i class="ion-ios-heart-outline" ng-class="{'accent':!pin.canPin}"></i> <i ng-bind='pin.meta.pins'></i>
+                    <i class="ion-thumbsup" ng-class="{'accent':!pin.canLike}"></i> <i ng-bind='pin.meta.likes'></i>
+                </div>
+                {{pin.pin_height_full}}
+            </div>
+            <div class="pin-user">
+                <div class="user_image" on-tap='profile(pin.original.user_id)'>
+                    <img class="rounded" ng-src='{{pin.user.picture| picture:35:35}}'/>
+                </div>
+                <div class="user-info">
+                    <span on-tap='profile(pin.original.user_id)' class="grey-color info">by <span ng-bind='pin.user.name'></span></span>
+                    <span on-tap='viewList(pin.original.list_id,pin.list.name)' class="black-font info">in <span ng-bind='pin.list.name'></span></span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+
+<div id="following-main" class="padding" ng-if="selected_class === 'feed'">
+    <div class="list-section" ng-show="top_lists.length > 0">TOP LISTS</div>
+    <div class="box" ng-repeat="item1 in top_lists track by $index">
+        <div list-box list="item1" lists="top_lists" index="{{$index}}" me="false"></div>
+    </div>
+</div>
+
+<button class="button button-full button-clear" ng-show="page >= 10 && hasMore" on-tap="nextPage();">Load More</button>
+
+<ion-infinite-scroll
+    ng-if='page < 10 && hasMore'
+    on-infinite="loadMore()"
+    distance="1%">
+</ion-infinite-scroll>

@@ -1,0 +1,158 @@
+<ion-view>
+    <ion-nav-title>{{alert.name}}</ion-nav-title> 
+    <ion-content  on-scroll="scroll();" >
+        <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="doRefresh()">
+        </ion-refresher>
+        <div class="center_spinner" ng-if='loading'>
+            <ion-spinner></ion-spinner>
+        </div>
+        <div class="result-empty" ng-if="!alert && !loading">
+            <span class="info"><img src="img/favicon-not.png"/></span>
+            <span class="info grey-color">Alert Not Found</span>
+        </div>
+        <div ng-show="alert" id="wishlist_item">
+            <div class="box"  style="padding: 0px">
+                <div class="pro-img">
+                    <ion-slide-box ng-if="alert.more_images" show-pager="true" style="height: 350px">
+                        <ion-slide on-tap="showZoom(-1)">
+                            <img img-loader ng-src='{{alert.img| picture:picture_width}}'/>
+                        </ion-slide>
+                        <ion-slide on-tap="showZoom($index)" ng-repeat="img in alert.more_images  track by $index">
+                            <img data-id="more_images{{$index}}" img-loader ng-src='{{img|picture}}'/>
+                        </ion-slide>
+                    </ion-slide-box>
+                    <img on-tap="showZoom(-1)" ng-if="!alert.more_images" img-loader ng-src='{{alert.img| picture:picture_width}}' />
+                </div>
+                <div class="pro-info">
+                    <div class="pro-name">
+                        <div>{{alert.name}}</div>
+                        <span class="e-site" ng-show='alert.website.length > 0'>
+                            <i class='site {{alert.website}}'></i>
+                            {{alert.website}}
+                        </span>
+                    </div>
+                    <div class="pro-price" ng-show="alert.price * 1 > 0">
+                        Rs.{{alert.price}}
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+
+            <div class="box" ng-if='alert.show_chart'>
+                <chartist ng-if="alert.show_chart" data="alert.data" options="options" ng-id="chart_{{alert._id}}" type="line"></chartist>
+            </div>
+
+            <div id='fixed_footer' class="wishlist_item_footer">
+                <div style="width: 100%"  ng-show='!show_footer_menu'>
+                    <div class="item_icon">
+                        <button class="button accent_bg" on-tap="openItem();">BUY NOW</button>
+                    </div>
+                    <div ng-if='mine' on-tap='removePriceAlert();' class="item_icon">
+                        <button class="button button-clear grey-color">
+                            <i class="ion-trash-a"></i>
+                        </button>
+                    </div>
+                    <div class="item_icon" ng-if="mine && !alert.stopped_notify" on-tap='stopNotification();'>
+                        <button class="button button-clear grey-color">
+                            <i class="ion-android-notifications-off"></i>      
+                        </button>
+                    </div>
+                    <div class="item_icon" ng-if='mine && alert.stopped_notify' on-tap='startNotification()'>
+                        <button class="button button-clear grey-color">
+                            <i class="ion-android-notifications"></i>
+                        </button>
+                    </div>
+                    <div ng-if='mine' class="item_icon" on-tap='setPriceAlertLimit()'>
+                        <button class="button button-clear grey-color">
+                            <i class="ion-gear-a"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div ng-show='product.similar.length > 0'>
+                <div class="similar-product-label">
+                    SIMILAR PRODUCTS
+                </div>
+                <ion-scroll zoom="false" direction="x"style="width: 100%;">
+                    <div id="similar" class="similar similar_{{alert.fq_product_id}}">
+                        <ul id="scroller" class="variants scroller_{{alert.fq_product_id}}">
+                            <li on-tap="openProduct(variant);" ng-repeat="variant in product.similar" style="float: left">
+                                <div class="similar-img">
+                                    <img img-loader ng-src='{{variant.image}}'/>
+                                </div>
+                                <div class="name">
+                                    {{variant.name}}
+                                </div>
+                                <div class="similar-price">
+                                    Rs. {{variant.price}}
+                                </div>
+                            </li>
+                            <div class="clearfix"></div>
+                        </ul>
+                    </div>  
+                </ion-scroll>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="variants" ng-show='product.variants.length > 0'>
+                <div class="similar-product-label">
+                    OTHER SELLERS
+                </div>
+                <div ng-repeat="variant in product.variants" style="float: none;">
+                    <div class="other_seller_container">
+                        <div on-tap="openProduct(variant);" class="other-sellers-img">
+                            <img img-loader ng-src='{{variant.img}}'/>
+                        </div>
+                        <div class="other-seller-info">
+                            <div class="name" on-tap="openProduct(variant);">
+                                {{variant.name}}
+                            </div>
+                            <div class="other-e-site">
+                                <span class="e-site"> <i class="site {{variant.website}}"></i>{{variant.website}} </span>
+                            </div>
+                            <div class="other-seller-price">
+                                <span on-tap="openProduct(variant);" class="other-price">Rs.{{variant.price}}</span>
+                                <button class="button pro-button accent_bg" on-tap="buy(variant);">BUY</button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </ion-content>
+    <ion-footer-bar ng-show='show_footer_menu' class='wishlist_item_footer'>
+        <div style="width: 100%">
+            <div class="item_icon">
+                <button class="button accent_bg" on-tap="openItem();">BUY NOW</button>
+            </div>
+            <div ng-if='mine' on-tap='removePriceAlert();' class="item_icon">
+                <button class="button button-clear grey-color">
+                    <i class="ion-trash-a"></i>
+                </button>
+            </div>
+            <div class="item_icon" ng-if="mine && !alert.stopped_notify" on-tap='stopNotification();'>
+                <button class="button button-clear grey-color">
+                    <i class="ion-android-notifications-off"></i>      
+                </button>
+            </div>
+            <div class="item_icon" ng-if='mine && alert.stopped_notify' on-tap='startNotification()'>
+                <button class="button button-clear grey-color">
+                    <i class="ion-android-notifications"></i>
+                </button>
+            </div>
+            <div ng-if='mine' class="item_icon" on-tap='setPriceAlertLimit()'>
+                <button class="button button-clear grey-color">
+                    <i class="ion-gear-a"></i>
+                </button>
+            </div>
+        </div>
+    </ion-footer-bar>
+</ion-view>

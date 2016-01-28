@@ -1,0 +1,18 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title"><span ng-if='user_follow_title'>{{user_follow_title}}</span><span ng-if='!user_follow_title'>User List</span></h1>
+        <div class="button button-icon" on-tap="closeModel();">
+            <i class="ion-android-close close-tab-icon white-color social-close"></i>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div style="margin-bottom: 0px;border:none;border-bottom: 1px solid #d9d7d4;" class="box" ng-repeat="user in users track by $index">
+            <div user-box user="user" users="users" index="{{$index}}" me="false"></div>
+        </div>
+    </ion-content>
+    <ion-footer-bar>
+        <button  on-tap='closeModel();' class="button signup-button prev-btn accent_bg">
+            DONE
+        </button>
+    </ion-footer-bar>
+</ion-modal-view>

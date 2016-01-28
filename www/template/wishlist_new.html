@@ -1,0 +1,49 @@
+<ion-view view-cache="false" title='Add Wishlist' cache-view="false">
+    <ion-content overflow-scroll='true'>
+        <div id="wishlist_new">
+            <div>
+                <div class="clip-label black-font add-to-clip" ng-if='!list.update'><span>CREATE A NEW LIST</span></div>
+                <div class="clip-label black-font add-to-clip" ng-if='list.update'><span>EDIT LIST</span></div>
+                <div class="list">
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">List Name</span>
+                        <input type="text" ng-model='list.name' placeholder="List Name">
+                    </label>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Description</span>
+                        <textarea ng-model='list.description' placeholder="List Description"></textarea>
+                    </label>
+                    <!----- code for private ---->
+                    <ion-checkbox ng-change="checkType('public');" ng-model="list.public">
+                        <div class="wishlist-private">Public</div>
+                        <small>Clips are shared with everyone</small>
+                    </ion-checkbox>                             
+                    <ion-checkbox ng-change="checkType('private');" ng-model="list.private">
+                        <div class="wishlist-private">Private</div>
+                        <small>Your Personal Wishlist, clips are only visible to you</small>
+                    </ion-checkbox> 
+                    <ion-checkbox ng-change="checkType('shared');" ng-model="list.shared">
+                        <div class="wishlist-private">Shared</div>
+                        <small>Share Clips Only With Select Friends</small>
+                    </ion-checkbox> 
+                </div>
+                <div ng-show="list.type === 'shared' || list.type === 'private'">
+                    <div class="similar-product-label  clip-font-color clip-label clip-share">Share this with <span ng-if="selected_friends.length === 0">: Only Me</span></div>
+                    <div ng-repeat="friend in selected_friends" style="float: left" class="padding">
+                        <img class="rounded" ng-src='{{friend.picture|picture:50:50}}' style="max-width: 25px;max-height: 25px" />
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <ion-footer-bar>
+        <button  on-tap='create();' class="button button-full signup-button accent_bg">
+            <span ng-show='list.update'>UPDATE</span>
+            <span ng-show='!list.update'>CREATE</span>
+            <i class="fa fa-spinner fa-spin" ng-show="status == 1"></i>
+            <i class="fa fa-times" ng-show="status == 3"></i>
+            <i class="fa fa-check" ng-show="status == 2"></i>
+        </button>
+    </ion-footer-bar>
+</ion-view>

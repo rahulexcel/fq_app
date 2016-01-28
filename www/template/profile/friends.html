@@ -1,0 +1,38 @@
+<div class="padding">
+    <div ng-if='friend_requests.length > 0'>
+        <div class="list-section" ng-show="friend_requests.length > 0">FRIEND REQUESTS</div>
+        <div class="box" ng-repeat="user in friend_requests">
+            <div  on-tap="profile(user.from_user_id._id);" class="user_image">
+                <img class="rounded" ng-src="{{user.from_user_id.picture|picture:35:35}}"/>
+            </div>
+            <div class="user-info">
+                <span  on-tap="profile(user.from_user_id._id);" class="black-font info wish-name">{{user.from_user_id.name}}</span>
+                <span class="grey-color font11">{{user.from_user_id.meta.products}} clips
+                    <i class="ion-ios7-people fa-lg accent"></i>&nbsp;  {{user.from_user_id.followers.length}} Followers
+                </span>
+                <div ng-show="!user.friend_request">
+                    <span class="ion-android-done accent" on-tap="acceptFriendRequest(user.from_user_id._id,$index);">&nbsp;Accept</span>
+                    &nbsp;&nbsp;
+                    <span class="ion-android-close grey-color" on-tap="declineFriendRequest(user.from_user_id._id,$index);">&nbsp;Decline</span>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div ng-if='friends.length > 0'>
+        <div class="list-section" ng-show="friends.length > 0">YOUR FRIENDS</div>
+        <div class="box" ng-repeat="user in friends track by $index">
+            <div user-box user="user" users="friends" index="{{$index}}" me="me"></div>
+        </div>
+    </div>
+    <div class="result-empty" ng-if="friends.length == 0 && friend_requests.length == 0">
+        <span class="info"><img src="img/favicon-not.png"/></span>
+        <span class="info grey-color">No Friends</span>
+    </div>
+</div>
+<ion-infinite-scroll
+    ng-if='friends.length > 0 && hasMore'
+    on-infinite="loadMoreFriends()"
+    distance="1%">
+</ion-infinite-scroll>

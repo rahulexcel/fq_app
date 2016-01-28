@@ -1,0 +1,51 @@
+<ion-view cache-view="false" title='Forgot Password' cache-view="false">
+    <ion-content  overflow-scroll='true'>
+        <div id="account-page">
+            <div class="forgot">
+                <form>
+                    <div class="list">
+                        <label class="item item-input item-floating-label">
+                            <span class="input-label">Email</span>
+                            <input type="email" ng-model='forgot_obj.email' placeholder="Email">
+                        </label>
+                        <div class="padding">
+                            <button class="button signup-button accent_bg" on-tap='forgot();'>
+                                Send
+                                <i class="fa fa-spinner fa-spin" ng-show="forgot_status == 1"></i>
+                                <i class="fa fa-times" ng-show="forgot_status == 3"></i>
+                                <i class="fa fa-check" ng-show="forgot_status == 2"></i>
+                            </button>
+                        </div>
+                        <div class="register-bottom" align="center">			
+                            <span class="login-click accent" on-tap='showRegister();'>Signup </span>or
+                            <span class="login-click accent" on-tap='showLogin();'> Login</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <div class="alter">
+                    Alternatively,
+                </div>
+                <div class="padding">
+                    <button class="button google-button" on-tap='google();'>
+                        <i class="fa fa-google-plus fa-lg g-social-icon"></i>
+                        Sign up with <span class="social-site-name">Google+</span>
+                        <i class="fa fa-spinner fa-spin" ng-show="google_status == 1"></i>
+                        <i class="fa fa-times" ng-show="google_status == 3"></i>
+                        <i class="fa fa-check" ng-show="google_status == 2"></i>
+                    </button>
+                </div>
+                <div class="padding">
+                    <button class="button fb-button" on-tap='facebook();'>	
+                        <i class="fa fa-facebook fa-lg fb-social-icon"></i>
+                        Sign up with <span class="social-site-name">Facebook</span>
+                        <i class="fa fa-spinner fa-spin" ng-show="facebook_status == 1"></i>
+                        <i class="fa fa-times" ng-show="facebook_status == 3"></i>
+                        <i class="fa fa-check" ng-show="facebook_status == 2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

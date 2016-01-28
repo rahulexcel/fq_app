@@ -1,0 +1,63 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">FILTER</h1>
+        <div class="button button-icon" on-tap="showProductsFn();">
+            <i class="ion-android-close close-tab-icon white-color social-close"></i>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div id="show-fliter" class="filterby-container">
+            <div class="filter-list" ng-show='filter_type.visible' ng-repeat="filter_type in filters">
+                <div class="filter_label" on-tap='openFilter(filter_type);' ng-show='filter_type.visible'>
+                    <div style="float: left">
+                        <span>{{filter_type.type}}</span>
+                        <span ng-if='filter_type.type_select > 0'>({{filter_type.type_select}})</span>
+                    </div>
+                    <div class="plus-minus" style="float: right;width: 10%" ng-if="filter_type.data.length > 0">
+                        <i ng-show="!filter_type.open">[ + ]</i>
+                        <i ng-show="filter_type.open">[ - ]</i>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div ng-show="filter_type.open">
+                    <ion-scroll ng-if="filter_type.type === 'Brand'" delegate-handle="brand_scroll" scrollbar-x="false" direction="x" zoom="false">
+                        <ul ng-style="{'width':brandAlph_width}">
+                            <li on-tap="openBrandAlph(alp.name)" ng-class="{'brand_view_alph_sel':alp.selected}" class="brand_view_alph" ng-repeat="alp in brandAlph">{{alp.name}}</li>
+                        </ul>
+                    </ion-scroll>
+                    <div class="clearfix"></div>
+
+                    <ion-list>
+                        <ion-item ng-repeat="filter in filter_type.data track by $index">
+                            <ion-checkbox on-tap="filterClick(filter_type,filter);" ng-model="filter.selected" ng-value="filter.param">{{filter.name}}</ion-checkbox>
+                        </ion-item>
+                    </ion-list>
+                    <div>
+                        <!--<span on-tap="openBrand();" class="brand_view_more" style="color: #da500f" ng-if="filter_type.type === 'Brand' && brand_filters_status > 0">View More [{{brand_filters_status}}] + </span>-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </ion-content>
+    <ion-footer-bar class="bar-light">
+        <div class="clearfix"></div>
+        <div class="row" ng-show="false">
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="button button-full button-clear filter-button" on-tap="showProductsFn();">
+                    <i class="ion-close-round accent"></i>
+                    Close
+                </button>
+            </div>
+            <div class="col">
+                <button class="button button-full button-clear filter-button" on-tap="doApply()">
+                    <i class="ion-android-done-all accent"></i>
+                    Apply
+                </button>
+            </div>
+        </div>
+    </ion-footer-bar>
+</ion-modal-view>

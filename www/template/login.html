@@ -1,0 +1,58 @@
+<ion-view cache-view="false" title='Login'>
+    <ion-content  overflow-scroll='true'>
+        <div id="account-page">
+            <div class="login">
+                <form>
+                    <div class="list">
+                        <label class="item item-input item-floating-label">
+                            <span class="input-label black-font">Email</span>
+                            <input type="email" keyboard-attach   ng-model="login_obj.email" placeholder="Email"/>
+                        </label>
+                        <label class="item item-input item-floating-label">
+                            <span class="input-label black-font">Password</span>
+                            <input type="password" keyboard-attach  ng-model="login_obj.password" placeholder="Passowrd"/>
+                        </label>
+                        <div class="forget-pass accent">
+                            <span on-tap='showForgot();'>Forgot your password?</span>
+                        </div>
+                        <div class="padding">
+                            <button class="button signup-button accent_bg" on-tap='login();'>
+                                LOG IN
+                                <i class="fa fa-spinner fa-spin" ng-show="login_status == 1"></i>
+                                <i class="fa fa-times" ng-show="login_status == 3"></i>
+                                <i class="fa fa-check" ng-show="login_status == 2"></i>
+                            </button>
+                        </div>
+                        <div class="register-bottom" align="center">
+                            <span class="login-click accent" on-tap='showRegister();'>Sign Up</span>
+                            <span class="check-account">  using your email address.</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <div class="alter">
+                    Alternatively,
+                </div>
+                <div class="padding">
+                    <button class="button google-button" on-tap='google();'>
+                        <i class="fa fa-google-plus fa-lg g-social-icon"></i>
+                        Sign up with <span class="social-site-name">Google+</span>
+                        <i class="fa fa-spinner fa-spin" ng-show="google_status == 1"></i>
+                        <i class="fa fa-times" ng-show="google_status == 3"></i>
+                        <i class="fa fa-check" ng-show="google_status == 2"></i>
+                    </button>
+                </div>
+                <div class="padding">
+                    <button class="button fb-button" on-tap='facebook();'>	
+                        <i class="fa fa-facebook fa-lg fb-social-icon"></i>
+                        Sign up with <span class="social-site-name">Facebook</span>
+                        <i class="fa fa-spinner fa-spin" ng-show="facebook_status == 1"></i>
+                        <i class="fa fa-times" ng-show="facebook_status == 3"></i>
+                        <i class="fa fa-check" ng-show="facebook_status == 2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

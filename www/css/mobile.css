@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans'), url(../font/open_sans_400.woff2) format('woff2'), url(../font/open_sans_400.woff) format('woff');
+}
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(../font/open_sans_600.woff2) format('woff2'), url(../font/open_sans_600.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Dosis';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Dosis Regular'), local('Dosis-Regular'), url(../font/Dosis_400.woff2) format('woff2'), url(../font/Dosis_400.woff) format('woff');
+}
+@font-face {
+    font-family: 'Dosis';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Dosis SemiBold'), local('Dosis-SemiBold'), url(../font/Dosis_600.woff2) format('woff2'), url(../font/Dosis_600.woff) format('woff');
+}

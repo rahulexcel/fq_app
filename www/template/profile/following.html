@@ -1,0 +1,20 @@
+<div class="padding">
+    <div id="following-main">
+        <div class="list-section" ng-show="following_users.length > 0" ng-if="me">PEOPLE YOUR ARE FOLLOWING</div>
+        <div class="list-section" ng-show="following_users.length > 0" ng-if="!me">PEOPLE FOLLOWING</div>
+        <div class="box"  ng-repeat="user in following_users track by $index">
+            <div user-box user="user" users="following_users" index="{{$index}}" me="me"></div>
+        </div>
+        <div class="list-section" ng-show="lists_their.length > 0" ng-if="me">LISTS YOUR ARE FOLLOWING</div>
+        <div class="list-section" ng-show="lists_their.length > 0" ng-if="!me">LISTS FOLLOWING</div>
+        <div class="box" ng-repeat="list in lists_their track by $index">
+            <div list-box list="list" lists="lists_their" index="{{$index}}" me="me"></div>
+        </div>
+        <div ng-if="lists_their.length === 0 && following_users.length === 0">
+            <div class="result-empty">
+                <span class="info"><img src="img/favicon-not.png"/></span>
+                <span class="info grey-color">Not Following</span>
+            </div>
+        </div>
+    </div>
+</div>

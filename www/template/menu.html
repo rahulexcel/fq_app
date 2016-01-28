@@ -1,0 +1,96 @@
+<ion-side-menus enable-menu-with-back-views="true">
+    <ion-side-menu-content drag-content="true" edge-drag-threshold='true'>
+        <ion-nav-bar class="primary_bg" ng-show="!showSearchBox">
+            <ion-nav-back-button ng-show="true" class='button-clear'>
+                <i class="icon ion-arrow-left-c"></i>
+            </ion-nav-back-button>
+            <ion-nav-title>
+                FashionIQ
+            </ion-nav-title>
+            <ion-nav-buttons side="left">
+                <button class="button button-icon toggle-btn" menu-toggle="left">
+                    <i class="ion-navicon"></i>
+                </button>
+            </ion-nav-buttons>
+            <ion-nav-buttons side="right">
+                <button on-tap='searchNow();' class="button button-icon btn-search">
+                    <i class="ion-search white-color fa-lg"></i>
+                </button>
+                <button  ng-show="!ajax_on" on-tap='wishlist();' class="button button-icon">
+                    <i class="ion-person fa-lg white-color"></i>
+                    <div class="profile_updates" ng-if='profile_update > 0'>{{profile_update}}</div>
+                </button>
+                <button on-tap='addWishlistItem();' class="add_top_button button button-icon">
+                    <i class="ion-plus-round fa-lg white-color"></i>
+                </button>
+                <button on-tap="clearAjax();" ng-show="ajax_on" class="button button-clear">
+                    <ion-spinner icon="dots" style="fill:white"></ion-spinner>
+                </button>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+        <div style="width:100%" class="search_box" ng-show="showSearchBox">
+            <div class="list">
+                <form ng-submit="doSearch()">
+                    <div class="item item-input-inset">
+                        <button on-tap='closeSearch();' class="button button-small button-icon ion-close">
+                        </button>
+                        <label class="item-input-wrapper">
+                            <input ng-model="search.text" type="text" placeholder="Search">
+                        </label>
+                        <button type="submit" class="button button-small button-icon ion-ios-arrow-forward">
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <ion-nav-view name="menuContent"></ion-nav-view>
+    </ion-side-menu-content>
+    <ion-side-menu side="left">
+        <ion-content delegate-handle="left_menu">
+            <div id="menu-bar-container">
+                <i class="fa fa-spinner fa-spin" ng-show='category.length == 0'></i>
+                <ul ng-show='category.length >= 0'>
+                    <li><span ng-click="home()" class="pri_cats" ontouchstart="return true;" nav-clear menu-close>HOME</span><div class="clearfix"></div></li>
+                    <li bindonce ng-repeat="cat in category">
+                        <span ontouchstart="return true;" ng-click="selectCategory(cat)" bo-bind='cat.name|uppercase'></span><div class="clearfix"></div>
+                        <ul ng-show="cat.open" style="padding-left: 20px" bo-if='cat.data.length > 0'>
+                            <li class="sub-cat-label" bindonce ng-repeat="catSub in cat.data" >
+                                <span style="line-height: 1.2;padding-top: 8px;padding-bottom: 8px;" ontouchstart="return true;" ng-click='selectCategory(catSub)' bo-bind='catSub.name|uppercase'>
+                                    <div class="plus-minus" bo-if="catSub.data.length > 0">
+                                        <i ng-show="!catSub.open">+</i>
+                                        <i ng-show="catSub.open">-</i>
+                                    </div>
+
+                                </span>
+                                <div class="clearfix"></div>
+                                <ul class="" ng-show="catSub.open" style="padding-left: 20px" bo-if='catSub.data.length > 0'>
+                                    <li class="" bindonce ng-repeat="catLast in catSub.data" >
+                                        <span class="subCat" style="line-height: 2" ontouchstart="return true;" ng-click='selectCategory(catLast)' bo-bind='catLast.name'></span>        
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </li>
+                </ul>
+                <ul class="default-list">
+                    <li class="list-not-cat">
+                        <div class="internal-details" ng-if="!login" nav-clear menu-close on-tap='signup();'><i class="ion-person-add accent log-sign"></i>Join /Sign Up</div>
+                    </li>
+                    <li class="list-not-cat" nav-clear menu-close on-tap='feedback();'>
+                        <div class="internal-details"><i class="ion-chatbubble-working accent"></i>Feedback</div>
+                    </li>
+                    <li class="list-not-cat" nav-clear menu-close on-tap='aboutus();'>
+                        <div class="internal-details"><img src="img/favicon.png" class="accent" alt="" />About Us</div>
+                    </li>
+                    <!--                    <li class="list-not-cat" nav-clear menu-close on-tap="intro();">
+                                            <div class="internal-details"><img src="img/favicon.png" class="accent" alt="" />Intro</div>
+                                        </li>-->
+                    <li class="list-not-cat">
+                        <div class="internal-details" nav-clear menu-close ng-if="login" on-tap='logout();'><i class="ion-log-out accent log-sign"></i>Logout</div>
+                    </li>
+                    <div class="clearfix"></div>
+                </ul>
+            </div>
+        </ion-content>
+    </ion-side-menu>

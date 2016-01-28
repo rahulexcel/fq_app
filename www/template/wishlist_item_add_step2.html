@@ -1,0 +1,106 @@
+<ion-view view-cache="false" title='Add Item Final Step'>
+    <ion-content>
+        <div ng-if="step_type == 'camera' || step_type == 'gallary' || step_type == 'near' || step_type == 'image'">
+            <div ng-if="!is_mobile">
+                <div class ="profile-pic" ng-if="item.picture">
+                    <img ng-src="{{item.picture|picture:picture_width}}">
+                    <i class="ion-edit profile-pic-edit" ng-file-select 
+                       ng-model="file.myFiles" 
+                       ng-multiple="false" 
+                       ng-rejected-file-model="rejFiles"></i>
+                </div>            
+                <div class="profile-pic profile-pic-back" ng-if="!item.picture" ng-file-select 
+                     ng-model="file.myFiles" 
+                     ng-multiple="false" 
+                     ng-rejected-file-model="rejFiles">
+
+                    <div class="profile-pic-not">
+                        <i class="ion-image fa-2x"></i>
+                    </div>
+                    Upload Image
+                </div>
+            </div>
+
+            <div ng-if='is_mobile'>
+                <div class ="profile-pic padding" ng-if="item.picture">
+                    <img ng-src="{{item.picture|picture:picture_width}}">
+                    <i class="ion-edit profile-pic-edit" on-tap='browseCamera();'></i>
+                </div>            
+                <div class="profile-pic" ng-if="!item.picture"  on-tap='browseCamera();'>
+                    <div class="profile-pic-not" align="center">
+                        <i class="ion-ios-camera fa-2x"></i>
+                    </div>
+                    Picture
+                </div>
+            </div>
+            <div ng-show='rejFiles'>
+                {{rejFiles}}
+            </div>
+            <div class="progress_parent" ng-show='file_upload'>
+                <div class="progress" style="height: 2px">
+                    <div ng-style="progoress_style" class='prog_inner accent_bg'>
+
+                    </div>
+                </div>
+                <div>
+                    Uploading... 
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <div ng-if="step_type == 'image_url'">
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">Image URL</span>
+                    <input type="url" ng-model="item.url" placeholder="Image URL">
+                </label>                    
+                <div class ="profile-pic padding" ng-if="item.picture">
+                    <img ng-src="{{item.picture|picture:picture_width}}">
+                </div>
+            </div>
+            <div class="" ng-if="step_type == 'url'">
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">URL</span>
+                    <input type="url" ng-model="item.url" placeholder="Website Address">
+                </label>                    
+            </div>
+            <div class="row" ng-if="step_type == 'url' && $index % 3 == 0" ng-repeat="img in url_images track by $index">
+                <div style="height: 200px;border: 1px solid #777" class="col-33" ng-repeat="i in [$index, $index + 1, $index + 2, $index + 3]">
+                    <img ng-src="{{url_images[i]}}">
+                </div>
+            </div>
+            <div class="center_spinner" ng-if='url_loading'>
+                <ion-spinner></ion-spinner>
+            </div>
+
+            <div ng-if="step_type == 'near'">
+                <button class="button grey-color nearby-btn icon ion-location " on-tap="showMap();" ng-class="{
+                'red-color' : done, 'grey-color': !done}">
+                    SET LOCATION
+                </button>
+                <small ng-show='item.location.lat' on-tap='removeLocation();'>Remove Location</small>
+            </div>
+
+            <!--    
+            don't need price, name. no one has time to do this
+            <label class="item item-input item-floating-label">
+                    <span class="input-label">Clip Name</span>
+                    <input type="text" ng-model='list.name' placeholder="Clip Name (if any)">
+                </label>-->
+
+            <!--    <label class="item item-input item-floating-label">
+                    <span class="input-label">Price (if any)</span>
+                    <input type="number" ng-model='list.price' placeholder="Price (if any)">
+                </label>-->
+
+            <label class ="item item-input item-floating-label">
+                <span class="input-label">Description</span>
+                <textarea ng-model='item.description' placeholder="Description"></textarea>
+            </label>
+        </div>
+        <div class="offline-button">
+            <button class="button accent_bg signup-button" on-tap="sendItem();">Finish</button>
+        </div>
+        <br/>
+    </ion-content>
+</ion-view>
+

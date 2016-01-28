@@ -1,0 +1,43 @@
+<!--<ion-refresher
+    pulling-text="Refresh..."
+    on-refresh="refreshCategory()">
+</ion-refresher>-->
+<div class="center_spinner" ng-if='product_loading'>
+    <ion-spinner></ion-spinner>
+</div>
+
+<div class="category" pinch pinch-count="3">
+
+    <div class="result-empty" ng-if="products.length == 0 && !product_loading">
+        <span class="info"><img src="img/favicon-not.png"/></span>
+        <span class="info grey-color">No Products Found</span>
+    </div>
+
+    <div class="product pinch_ele" id="{{prod._id}}" force-refresh-images='true' collection-repeat="prod in products track by prod._id">
+        <div class="image" on-tap="openProduct(prod);">
+            <img img-loader ng-src="{{prod.img}}"/>
+            <!--  on-tap="wishlist(prod,$event);" -->
+            <div class="heart my-wishlist-img accent_bg" pinch-click>
+                <i class="ion-ios-heart"></i>
+            </div>
+        </div>
+        <div class="bottom_box">
+            <div class="name primary_text" on-tap="openProduct(prod);" ng-bind='prod.name'></div>
+            <div class="website e-site secondary_text"><i class='site {{prod.website}}'></i><span ng-bind='prod.website'></span></div>
+            <div class="price primary_text">
+                Rs.<span ng-bind='prod.price'></span>
+            </div>
+            <div class="drop-price" >
+                <i class="fa fa-caret-up up-price" ng-if="prod.price_drop > 0">&nbsp;<span ng-bind='prod.price_drop'></span></i>
+                <i class="fa fa-caret-down" ng-if="prod.price_drop < 0">&nbsp;<span ng-bind='prod.price_drop'></span></i>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<button class="button button-full button-clear" ng-show="page >= 2 && !product_loading && showProducts" on-tap="nextPage();">Load More</button>
+<ion-infinite-scroll
+    ng-if="page < 2 && !product_loading && showProducts"
+    on-infinite="nextPage()" distance='1%'>
+</ion-infinite-scroll>

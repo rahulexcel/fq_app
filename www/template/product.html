@@ -1,0 +1,132 @@
+<ion-view>
+    <ion-nav-title>{{product.name}}</ion-nav-title> 
+    <ion-content>
+        <ion-refresher
+            pulling-text="Update Product Info"
+            on-refresh="productInfo(true)">
+        </ion-refresher>
+        <div class="center_spinner" ng-if="product_loading">
+            <ion-spinner></ion-spinner>
+        </div>
+        <div class="product" ng-show="product" id="{{product._id}}">
+            <div class="pro-img padding">
+                <div class="pro-img">
+                    <ion-slide-box ng-if="product.more_images" show-pager="true" style="height: 350px">
+                        <ion-slide ng-if='show_main_image_in_more' on-tap="showZoom(-1)">
+                            <img img-loader ng-src='{{product.img}}'/>
+                        </ion-slide>
+                        <ion-slide on-tap="showZoom($index)" ng-repeat="img in product.more_images  track by $index">
+                            <img data-id="more_images{{$index}}" img-loader ng-src='{{img}}'/>
+                        </ion-slide>
+                    </ion-slide-box>
+                    <img on-tap="showZoom(-1)" ng-if="!product.more_images" ng-src='{{product.img}}'/>
+                </div>
+                <div class="wishlist-product-img-big accent_bg" on-tap="wishlist(product,$event);">
+                    <i class="ion-ios-heart"></i>
+                </div>
+            </div>
+            <div class="pro-info padding">
+                <div class="pro-name">
+                    <div class="category pro-breadcrumb" ng-show='product.cat_id && product.parent_cat_name' on-tap='viewCategory(product);'>
+                        <div style="width: 100%;" class="grey-color">{{product.parent_cat_name}} >&nbsp; {{product.cat_name}}</div>
+                    </div>
+                    <div class="product-heading">{{product.name}}</div>
+                    <div>
+                        <span class="e-site">
+                            <span class="arrow" ng-show='product.cat_id' on-tap='viewBrand(product);'>{{product.brand}}</span>
+                            <i class='site {{product.website}}'></i><span on-tap='viewWebsite(product);'>{{product.website}}</span>
+                        </span>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="pro-price" ng-if="product.price * 1 > 20">
+                    Rs.{{product.price}}
+                </div>
+                <div class="price-up-down" >
+                    <i class="fa fa-caret-up up-price" ng-if="product.price_drop > 0">&nbsp;Price Rise of {{product.price_drop}}</i>
+                    <i class="fa fa-caret-down" ng-if="product.price_drop < 0">&nbsp;Price Drop of Rs.{{product.price_drop}}</i>
+                </div>
+                <div class="social-share">
+                    <div ng-if="!isMobile">
+                        <div class="fb-like" data-href="{{product.desktop_href}}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+                        <div class="twitter">
+                            <a class="twitter-share-button"
+                               href="https://twitter.com/share" data-url="{{product.desktop_href}}" data-text="{{product.name}}"  data-size="small">
+                                Tweet
+                            </a>
+                        </div>
+                    </div>
+                    <div ng-if="isMobile">
+                        <i class="ion-social-whatsapp-outline accent" on-tap='whatsapp(product)'></i>
+                        <i class="ion-social-twitter accent" on-tap='twitter(product)'></i>
+                        <i class="ion-social-facebook accent"  on-tap='facebook(product)'></i>
+                        <i class="ion-android-share-alt accent" on-tap='shareAll(product)'></i>
+                    </div>
+                </div>
+                <button class="button pro-button signup-button accent_bg" on-tap="buy(product);">BUY NOW</button>
+                <div class="clearfix"></div>
+
+                <div ng-show="product.delivery_charge.length > 0">Delivery : {{product.delivery_charge}}</div>
+                <div ng-repeat="offer in product.offers">{{offer}}</div>
+            </div>
+
+            <div class="center_spinner" ng-if='product_detail_loading'>
+                <ion-spinner></ion-spinner>
+            </div>
+
+            <div class="clearfix"></div>
+            <div ng-show='product.similar.length > 0'>
+                <div class="similar-product-label">
+                    SIMILAR PRODUCTS
+                </div>
+                <ion-scroll scrollbar-x="false" delegate-handle="horizontal" zoom="false" locking="false" direction="x" style="width: 100%;">
+                    <div id="similar" class="similar similar_{{product._id}}">
+                        <ul id="scroller" class="variants scroller_{{product._id}}">
+                            <li on-tap="openProduct(variant);" ng-repeat="variant in product.similar" style="float: left">
+                                <div class="similar-img">
+                                    <img img-loader ng-src='{{variant.image}}'/>
+                                </div>
+                                <div class="name">
+                                    {{variant.name}}
+                                </div>
+                                <div class="similar-price" ng-if="variant.price * 1 > 20">
+                                    Rs. {{variant.price}}
+                                </div>
+                            </li>
+                            <div class="clearfix"></div>
+                        </ul>
+                    </div>  
+                </ion-scroll>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="variants" ng-show='product.variants.length > 0'>
+                <div class="similar-product-label">
+                    OTHER SELLERS
+                </div>
+                <div ng-repeat="variant in product.variants" style="float: none;">
+                    <div class="other_seller_container">
+                        <div on-tap="openProduct(variant);" class="other-sellers-img">
+                            <img img-loader ng-src='{{variant.img}}'/>
+                        </div>
+                        <div class="other-seller-info">
+                            <div class="name" on-tap="openProduct(variant);">
+                                {{variant.name}}
+                            </div>
+                            <div class="other-e-site">
+                                <span class="e-site"> <i class="site {{variant.website}}"></i>{{variant.website}} </span>
+                            </div>
+                            <div class="other-seller-price">
+                                <span ng-if="variant.price * 1 > 20" on-tap="openProduct(variant);" class="other-price">Rs.{{variant.price}}</span>
+                                <button class="button pro-button accent_bg" on-tap="buy(variant);">BUY</button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

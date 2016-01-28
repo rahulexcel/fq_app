@@ -1,0 +1,22 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Select Location</h1>
+        <div class="button button-icon" ng-class="{'accent' : done,'grey-color': !done}" on-tap="closeModel();">
+            <i class="ion-android-close close-tab-icon white-color social-close"></i>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div data-tap-disabled="true" id="map-canvas-parent" ng-style="{'height' : height}">
+            <div id="map-canvas" style="width: 100%; height: 100%">
+                <div class="center_spinner">
+                    <ion-spinner></ion-spinner>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <ion-footer-bar>
+        <button  on-tap='closeModel(true);' class="button signup-button prev-btn red-back">
+            DONE
+        </button>
+    </ion-footer-bar>
+</ion-modal-view>

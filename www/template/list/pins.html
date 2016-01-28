@@ -1,0 +1,140 @@
+<div class="center_spinner"  ng-if='loading'>
+    <ion-spinner></ion-spinner>
+</div>
+<div ng-if="total_pin_count > 0 && !loading && selected_class == 'wishlist_item'">
+    <div class="grey-color" style="text-align: center">
+        Clips By User
+    </div> 
+</div>
+<div ng-if="total_pin_count == 0 && !loading">
+    <div style="text-align: center" ng-show="selected_class === 'feed'">
+        Follow People and Lists To Build Your Feed
+    </div> 
+    <div ng-show="selected_class !== 'feed' && selected_class !== 'wishlist_item'">
+        <div class="result-empty">
+            <span class="info"><img src="img/favicon-not.png"/></span>
+            <span class="info grey-color">No Clips</span>
+        </div>
+    </div>
+</div>
+<div pinch resize class="pin_list_container">
+    <div bindonce ng-if='grid1.length > 0' class="pin_list" ng-style="{'width': col_width}" style="float: left;">
+        <div class="pin pinch_ele" id='{{::pin._id}}' ng-repeat="pin in grid1 track by $index" ng-style="{'width': pin_width}"> 
+            <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" bo-style="{'height': pin.pin_height,'background-color': pin.pin_color}" class="pin-img">
+                <img image-lazy-src="{{pin.image| picture:240}}" pin-color="{{::pin.pin_color}}" image-height="{{::pin.pin_height}}" />
+            </div>
+            <div class="pin-info">
+                <div class="pin-name" on-tap='viewItem(pin._id,pin.original.list_id)'>
+                    <div bo-bind='pin.name'></div>
+                    <div bo-if="pin.website.length > 0 && pin.price*1 > 20">
+                        <i style="height: 16px" class='site {{::pin.website}}'></i>
+                        <span style="float: none" class="pro-price">Rs.{{::pin.price}}</span>
+                    </div>
+                    <div bo-html='pin.description | nl2br'></div>
+                </div>
+            </div>
+            <div class="pin-user">
+                <div class="user_image" on-tap='profile(pin.original.user_id)'>
+                    <img class="rounded" bo-src='pin.user.picture| picture:35:35'/>
+                </div>
+                <div class="user-info" on-tap='viewList(pin.original.list_id,pin.list.name)'>
+                    <span class="primary info"><span bo-bind='pin.user.name'></span></span>
+                    <span class="black-font info">in <span bo-bind='pin.list.name'></span></span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="pin-status">
+                <!--
+                 bo-class="{'accent':!pin.canPin}"
+                 bo-class="{'accent':!pin.canLike}"
+                -->
+                <i class="ion-ios-heart-outline"></i> <i bo-bind='pin.meta.pins'></i>
+                <i class="ion-thumbsup"></i> <i bo-bind='pin.meta.likes'></i>
+                <i class="ion-paper-airplane"></i> <i bo-bind='pin.meta.comments'></i>
+            </div>
+        </div>
+    </div>
+    <div bindonce ng-if='grid2.length > 0' class="pin_list" ng-style="{'width': col_width}" style="float: left;">
+
+        <div class="pin pinch_ele" id='{{::pin._id}}' ng-repeat="pin in grid2 track by $index" ng-style="{width: pin_width}">
+            <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" bo-style="{'height': pin.pin_height,'background-color': pin.pin_color}" class="pin-img">
+                <img image-lazy-src="{{pin.image| picture:240}}" pin-color="{{::pin.pin_color}}" bo-style="{'height': pin.pin_height}" image-height="{{::pin.pin_height}}" />
+            </div>
+            <div class="pin-info">
+                <div class="pin-name" on-tap='viewItem(pin._id,pin.original.list_id)'>
+                    <div bo-bind='pin.name'></div>
+                    <div bo-if="pin.website.length > 0 && pin.price*1 > 20">
+                        <i style="height: 16px" class='site {{::pin.website}}'></i>
+                        <span style="float: none" class="pro-price">Rs.{{::pin.price}}</span>
+                    </div>
+                    <div bo-html='pin.description | nl2br'></div>
+                </div>
+            </div>
+            <div class="pin-user">
+                <div class="user_image" on-tap='profile(pin.original.user_id)'>
+                    <img class="rounded" bo-src='pin.user.picture| picture:35:35'/>
+                </div>
+                <div class="user-info" on-tap='viewList(pin.original.list_id,pin.list.name)'>
+                    <span class="primary info"><span bo-bind='pin.user.name'></span></span>
+                    <span class="black-font info">in <span bo-bind='pin.list.name'></span></span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="pin-status">
+                <i class="ion-ios-heart-outline"></i> <i bo-bind='pin.meta.pins'></i>
+                <i class="ion-thumbsup"></i> <i bo-bind='pin.meta.likes'></i>
+                <i class="ion-paper-airplane"></i> <i bo-bind='pin.meta.comments'></i>
+            </div>
+        </div>
+    </div>
+    <div bindonce ng-if='grid3.length > 0'  class="pin_list" ng-style="{'width': col_width}" style="float: left;">
+        <div class="pin pinch_ele" id='{{::pin._id}}'  ng-repeat="pin in grid3 track by $index" ng-style="{width: pin_width}">
+            <div on-tap='viewItem(pin._id,pin.original.list_id)' style="overflow: hidden" bo-style="{'height': pin.pin_height}" class="pin-img">
+                <img image-lazy-src="{{pin.image| picture:240}}" pin-color="{{::pin.pin_color}}" image-height="{{::pin.pin_height}}" />
+            </div>
+            <div class="pin-info">
+                <div class="pin-name" on-tap='viewItem(pin._id,pin.original.list_id)'>
+                    <div bo-bind='pin.name'></div>
+                    <div bo-if="pin.website.length > 0 && pin.price*1 > 20">
+                        <i style="height: 16px" class='site {{::pin.website}}'></i>
+                        <span style="float: none" class="pro-price">Rs.{{::pin.price}}</span>
+                    </div>
+                    <div bo-html='pin.description | nl2br'></div>
+                </div>
+            </div>
+            <div class="pin-user">
+                <div class="user_image" on-tap='profile(pin.original.user_id)'>
+                    <img class="rounded" bo-src='pin.user.picture| picture:35:35'/>
+                </div>
+                <div class="user-info" on-tap='viewList(pin.original.list_id,pin.list.name)'>
+                    <span class="primary info"><span bo-bind='pin.user.name'></span></span>
+                    <span class="black-font info">in <span bo-bind='pin.list.name'></span></span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="pin-status">
+                <i class="ion-ios-heart-outline"></i> <i bo-bind='pin.meta.pins'></i>
+                <i class="ion-thumbsup"></i> <i bo-bind='pin.meta.likes'></i>
+                <i class="ion-paper-airplane"></i> <i bo-bind='pin.meta.comments'></i>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+
+<div id="following-main" class="padding" ng-if="selected_class === 'feed'">
+    <div class="list-section" ng-show="top_lists.length > 0">Follow More People and Lists To Build Your Feed</div>
+    <div class="list-section" ng-show="top_lists.length > 0">SUGGESTED WISHLISTS</div>
+    <div class="box" ng-repeat="item1 in top_lists track by $index">
+        <div list-box list="item1" lists="top_lists" index="{{$index}}" me="false"></div>
+    </div>
+</div>
+
+<button class="button button-full button-clear" ng-show="page >= 10 && hasMore" on-tap="nextPage();">Load More</button>
+
+<ion-infinite-scroll
+    ng-if='page < 10 && hasMore'
+    on-infinite="loadMore()"
+    distance="1%">
+</ion-infinite-scroll>

@@ -1,0 +1,38 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">SORT</h1>
+        <div class="button button-icon" on-tap="showProductsFn();">
+            <i class="ion-android-close close-tab-icon white-color social-close"></i>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="sortby-container">
+            <ion-list>
+                <ion-item ng-repeat="sort in sortBy">
+                    <!--on-tap="doSort(sort);"-->
+                    <ion-checkbox ng-model="sort.selected" on-tap="sortClick(sort);">{{sort.name}}</ion-checkbox>
+                </ion-item>
+            </ion-list>
+        </div>
+    </ion-content>
+    <ion-footer-bar class="bar-light">
+        <div class="clearfix"></div>
+        <div class="row" ng-show="false">
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="button button-full button-clear filter-button" on-tap="showProductsFn();">
+                    <i class="ion-close-round accent"></i>
+                    Close
+                </button>
+            </div>
+            <div class="col">
+                <button class="button button-full button-clear filter-button" on-tap="doSort()">
+                    <i class="ion-android-done-all accent"></i>
+                    Apply
+                </button>
+            </div>
+        </div>
+    </ion-footer-bar>
+</ion-modal-view>

@@ -1,0 +1,37 @@
+<ion-view view-cache="false" title='Add Item Step1'>
+    <ion-content>
+        <div>
+            <ul class="default-list offline-add-pin">
+
+                <li class="clip-it" ng-if="is_mobile" on-tap='type("camera")'>
+                    <i class="ion-ios-camera grey-color fa-2x offline-icon picture-icon"></i><span class="grey-color">Camera</span>
+                </li>
+                <li  ng-if="is_mobile" class="clip-it" on-tap='type("gallary")'>
+                    <i class="ion-image grey-color fa-2x offline-icon"></i><span class="grey-color">Gallery</span>
+                </li>
+                
+                <li  ng-if="!is_mobile" class="clip-it" on-tap='type("image")'>
+                    <i class="ion-image grey-color fa-2x offline-icon"></i><span class="grey-color">Image Upload</span>
+                </li>
+<!--                <li  ng-if="!is_mobile" class="clip-it" ng-file-select 
+                     ng-model="file.myFiles" 
+                     ng-multiple="false" 
+                     ng-rejected-file-model="rejFiles"><i class="ion-ios-camera grey-color fa-2x offline-icon picture-icon"></i>
+                    <span class="grey-color">Picture</span></li>-->
+                <!--        
+                work has been done in this.
+                like fetch image url etc. but pushed because of time issue
+                <li class="clip-it" on-tap='type("url")'>
+                            <i class="fa fa-globe grey-color fa-2x offline-icon"></i><span class="grey-color">Website</span>
+                        </li>-->
+                <li class="clip-it" on-tap='type("image_url")'>
+                    <i class="ion-android-image fa-2x offline-icon grey-color"></i><span class="grey-color">Image URL</span>
+                </li>
+<!--                <li class="clip-it" on-tap='type("near")'>
+                    <i class="ion-location fa-2x offline-icon grey-color"></i><span class="grey-color">Near By</span>
+                </li>-->
+            </ul>
+        </div>
+    </ion-content>
+</ion-view>
+

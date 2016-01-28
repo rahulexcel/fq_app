@@ -1,0 +1,39 @@
+<div class='sub_box'>
+    <div class="wishlist_icon" on-tap='viewList();'>
+        <div ng-if="list.bg_color" class="round_icon" ng-style="{'background-color': list.bg_color}">
+            {{list.list_symbol}}
+        </div>
+        <div ng-if="list.user_id.picture">
+            <div class="round_icon">
+                <img class="rounded" ng-src="{{list.user_id.picture|picture:50:50}}" />
+            </div>
+        </div>
+    </div>
+    <div class="user-info wishlist_list_item">
+        <span class="black-font info font13" on-tap='viewList(list)'>
+            <i ng-if="list.type == 'private'" class="ion-ios-locked grey-color"></i>
+            <i ng-if="list.type == 'shared'" class="ion-android-share-alt grey-color"></i>
+            {{list.name}}
+        </span>
+        <div class=""> 
+            <span class="info grey-color font11 wish-icon">
+                <span>{{list.meta.products}} clips </span>
+                &nbsp;
+                <span><i class="ion-thumbsup grey-color"></i> {{list.meta.likes}} likes </span> 
+                &nbsp;
+                <span><i class="ion-ios-people grey-color"></i> {{list.followers.length}} followers </span> 
+            </span>
+            <div class="info grey-color font11">
+                Created {{list.created_at| prettyDate}} 
+                <span ng-if="list.user_id.name">by {{list.user_id.name}}</span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="action"> 
+            <i ng-if="list.is_following === true" on-tap='unFollowList();' class="icon black-font ion-ios-people-outline fa-2x"></i>
+            <i ng-if="list.is_following === false" on-tap='followList();' class="icon accent ion-ios-people fa-2x"></i>
+            <i ng-if="list.can_edit === true" on-tap='editList();' class="icon accent fa-lg ion-edit"></i>
+        </div> 
+    </div>
+    <div class="clearfix"></div>
+</div>

@@ -1,0 +1,16 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Select Category To Search</h1>
+        <div class="button button-icon" on-tap="closeModel();">
+            <i class="ion-android-close close-tab-icon white-color social-close"></i>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div id="menu-bar-container">
+            <ul>
+                <li bindonce on-tap='selectSearchCategory(cat)' ng-repeat='cat in category track by $index' bo-html='cat.name'>
+                </li>
+            </ul>
+        </div>
+    </ion-content>
+</ion-modal-view>

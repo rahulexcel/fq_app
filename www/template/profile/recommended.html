@@ -1,0 +1,26 @@
+<div class="padding">
+    <div id="following-main">
+        <div class="list-section" ng-show="top_users.length > 0">
+            <div style="float: left;width: 50%">TOP USERS</div>
+            <div ng-if="hasMore" style="float: right" on-tap="loadMore();">More</div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="box" ng-repeat="user in top_users track by $index">
+            <div user-box user="user" users="top_users" index="{{$index}}" me="me"></div>
+        </div>
+        <div class="list-section" ng-show="top_lists.length > 0">
+            <div style="float: left;width: 50%">TOP LISTS</div>
+            <div ng-if="hasListMore" style="float: right" on-tap="loadMoreList();">More</div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="box" ng-repeat="list in top_lists  track by $index">
+            <div list-box list="list" lists="top_lists" index="{{$index}}" me="me"></div>
+        </div>
+        <div ng-if="top_users.length === 0 && top_lists.length === 0">
+            <div class="result-empty">
+                <span class="info"><img src="img/favicon-not.png"/></span>
+                <span class="info grey-color">No Recommendations</span>
+            </div>
+        </div>
+    </div>
+</div>

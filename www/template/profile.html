@@ -1,0 +1,68 @@
+<ion-view cache-view="false" title='{{user.name}} Profile'>
+    <ion-content lazy-scroll overflow-scroll='false'>
+        <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="doRefresh()">
+        </ion-refresher>
+        <div class="top-container" ng-show="user">
+            <div class="box mine-username">
+                <div class="user_profile_center" on-tap="edit_pic();">
+                    <img ng-src='{{user.picture|picture:100:100}}' class="rounded"/>
+                    <i ng-if="me" class="ion-edit accent edit_picture"></i>
+                </div>
+                <div class="user_profile_center">
+                    <span class="black-font info semibold">
+                        <i ng-if="!me && is_friend === false" on-tap="addFriend();" class="ion-person-add fa-lg accent"></i>
+                        <i ng-if="!me && is_friend === true" on-tap="unFriend();" class="ion-person fa-lg"></i>
+                        {{user.name}}
+                    </span>
+
+                    <div class="status">
+                        <div ng-if="status_edit">
+                            <div class="item item-input-inset status_box">
+                                <label class="item-input-wrapper">
+                                    <input class="status_input" ng-model="user.status" type="text" placeholder="Your Status....">
+                                </label>
+                                <button on-tap="updateStatus();" class="button button-icon ion-android-done-all status_tick accent_bg">
+                                </button>
+                            </div>
+                        </div>
+                        <div class="grey-color" ng-if="!status_edit">
+                            <span ng-if="(!user.status || user.status.length === 0) && me">Set Your Status</span>
+                            <span ng-if="user.status && user.status.length !== 0">{{user.status}}</span>
+                            <i ng-if="me" style="opacity: 0.7" class="ion-edit accent" on-tap="editStatus();"></i>
+                        </div>
+                    </div>
+
+                    <div ng-if="!me"><button  ng-if='!is_following' on-tap='followProfileUser();' class="accent_bg profile-follow-btn">Follow</button></div>
+                    <div ng-if="!me"><button   ng-if='is_following' on-tap='unFollowProfileUser();' class="profile-follow-btn grey-border">Unfollow</button></div>
+                    <div ng-if="!me && haveGotFriendRequest"><button on-tap='acceptFriendRequest(user._id);' class="profile-follow-btn grey-border">Accept Friend Request</button></div>
+                    <div class="follow-details">
+                        <div class="follow-field"><span>{{user.meta.following}}</span><span class="grey-color semibold">Following</span></div>
+                        <div class="follow-field"><span>{{user.meta.followers}}</span>  <span class="grey-color semibold">Followers</span></div>
+                        <div class="follow-field"> <span>{{user.meta.products}}</span><span class="grey-color semibold">Clips</span></div>
+                    </div>
+                    <div class="clearfix"></div>      
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <ion-scroll scrollbar-x="false" delegate-handle="profile_scroller" zoom="false" direction="x" style="width: 100%;">
+                <div id='menu_sliding'>
+                    <ul id='menu_scroller' class="mine-list" ng-class="selected_class">
+                        <li class="wishlist" on-tap='menu_wishlist();'><span ng-if="me">MY</span> WISHLIST</li>
+                        <li ng-if="me" class="friends" on-tap='menu_friends();'>FRIENDS <span ng-if="friend_request_count">({{friend_request_count}})</span></li>
+                        <li ng-if="me" class="recommended" on-tap='menu_recommended();'>RECOMMENDATION</li>
+                        <li class="followers" on-tap='menu_followers();'>FOLLOWERS</li>
+                        <li class="following" on-tap='menu_following();'>FOLLOWING</li>
+                        <li class="pins" on-tap='menu_pins();'><span ng-if="me">MY</span> CLIPS</li>
+                        <li ng-if="me" class="profile" on-tap='menu_profile();'>PROFILE</li>
+                        <li ng-if="me" class="update" on-tap='menu_update();'>UPDATES</li>
+                        <li ng-if="me" class="alerts" style="border-right: none" on-tap='menu_alerts();'>PRICE ALERTS</li>
+                    </ul>
+                </div>
+            </ion-scroll>
+            <div class="clearfix"></div>
+            <div class="mine-content" ui-view="tab-content"></div>
+        </div>
+    </ion-content>
+</ion-view>

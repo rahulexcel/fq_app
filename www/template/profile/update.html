@@ -1,0 +1,32 @@
+<div class="padding">
+    <div class="center_spinner" ng-if='loading'>
+        <ion-spinner></ion-spinner>
+    </div>
+    <ion-list can-swipe="me">
+        <ion-item class="item-thumbnail-left" ng-repeat="item in updates track by $index">
+            <img on-tap='account(item.user);' ng-if="item.user" class="rounded" ng-src="{{item.user.picture|picture:100:100}}">
+            <p>{{item.body.title}}</p>
+            <div style="font-size: .82em">by <span>{{::item.user.name}}</span></div>
+            <div style="font-size: .82em"><span>{{::item.time|prettyDate}}</span></div>
+            <button class="button button-small grey_bg" on-tap='openUpdate(item);'>Open</button>
+            <!--
+            <div class="item item-body" on-tap='openUpdate(item);'>
+                <p bo-bind='item.body.title'></p>
+                <img bo-if="item.body.image" class="full-image" ng-src="{{item.body.image|picture:320}}">
+            </div>
+            -->
+            <ion-option-button class="ion-trash-b accent_bg fa-2x" on-tap='deleteItem(item,$index)'></ion-option-button>
+
+        </ion-item>
+    </ion-list>
+    <div class="result-empty" ng-if="updates.length == 0">
+        <span class="info"><img src="img/favicon-not.png"/></span>
+        <span class="info grey-color">No Updates</span>
+    </div>
+
+    <ion-infinite-scroll
+        ng-if='updates.length > 0 && hasMore'
+        on-infinite="loadMoreUpdates()"
+        distance="1%">
+    </ion-infinite-scroll>
+</div>

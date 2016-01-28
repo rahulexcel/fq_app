@@ -1,0 +1,21 @@
+<div class="padding">
+    <ion-list can-swipe="me">
+        <ion-item class="item-thumbnail-left" ng-repeat="item in alerts track by $index">
+            <img style="width: 100%;height: auto" on-tap='openAlert(item);' ng-src="{{item.img}}"/>
+            <p>{{::item.name}}</p>
+            <div style="font-size: .82em">Started On: {{::item.start_time_pretty|date:medium}}</div>
+            <div style="font-size: .82em">Start Price: Rs. {{::item.base_price}}</div>
+            <div style="font-size: .82em">Current Price: Rs. {{::item.price_found}}</div>
+            <button class="button button-small grey_bg" on-tap='openAlert(item);'>Manage Alert</button>
+            <ion-option-button class="ion-trash-b accent_bg fa-2x" on-tap='removePriceAlert(item,$index)'></ion-option-button>
+        </ion-item>
+    </ion-list>
+    <div class="center_spinner" ng-if='loading'>
+        <ion-spinner></ion-spinner>
+    </div>
+    <ion-infinite-scroll
+        ng-if='alerts.length > 0 && hasMore'
+        on-infinite="loadMore()"
+        distance="1%">
+    </ion-infinite-scroll>
+</div>

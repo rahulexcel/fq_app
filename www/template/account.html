@@ -1,0 +1,100 @@
+<div class="padding">
+    <div>
+        <div ng-show='rejFiles'>
+            {{rejFiles}}
+        </div>
+        <div class="progress_parent register white-back box-round">
+            <div class="user_image user_image_new">
+                <img ng-src="{{login_data.picture|picture:45:45}}" class='rounded'/>
+            </div>
+            <div class="profile_update_image" ng-if="!is_mobile">
+                <div class="progress-info semibold" ng-file-select 
+                     ng-model="file.myFiles" 
+                     ng-multiple="false" 
+                     ng-rejected-file-model="rejFiles">
+                    <div ng-show='!file_upload'>Change Profile Image</div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="profile_update_image" ng-if='is_mobile'>
+                <div class="progress-info" on-tap='browseCamera();'>Change profile image</div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div ng-show='file_upload'>
+                <div class="uploading">
+                    Uploading...
+                </div>
+                <div class="progress-info progress" style="height: 3px">
+                    <i class="fa fa-times progress-close" ></i>
+                    <div ng-style="progoress_style" class='prog_inner accent_bg'>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div on-tap='updateFacebookImage();' ng-if='login_data.type == "facebook"' style="color:#506da9">
+                <i class="ion-social-facebook" style="font-size:1em;vertical-align: bottom"></i>
+                <span style="font-size:.9em">
+                    Update Pic From Facebook
+                </span>
+            </div>
+        </div>
+
+    </div>
+    <div id="my-acc">
+
+        <!--  Diactivate From Facebook or Google  ----->
+
+        <div class="update-info similar-product-label">UPDATE INFORMATION</div>
+        <div class="white-back box-round" >
+            <form>
+                <div class="list list-my_acc">
+                    <label class="item item-input item-floating-label item-myacc1">
+                        <span class="input-label">Name</span>
+                        <input type="text" ng-model='profile.name' placeholder="Full Name">
+                    </label>
+                    <label class="item item-input item-floating-label item-myacc2">
+                        <span class="input-label myacc-gender-label">Gender</span>
+                        <select ng-model='profile.gender'>
+                            <option value="M">Male</option>                            
+                            <option value="F">Female</option>                            
+                        </select>
+                    </label>
+                </div>
+                <div class="padding">
+                    <button on-tap='update();' class="button  myacc-update accent_bg">
+                        UPDATE
+                        <i class="fa fa-spinner fa-spin" ng-show="register_status === 1"></i>
+                        <i class="fa fa-times" ng-show="register_status === 3"></i>
+                        <i class="fa fa-check" ng-show="register_status === 2"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="update-info similar-product-label white-back">CHANGE PASSWORD</div>
+        <div class="white-back box-round">
+            <form>
+                <div class="list list-my_acc">
+                    <label class="item item-input item-floating-label item-myacc1">
+                        <span class="input-label">New Password</span>
+                        <input autocomplete="off" type="password" ng-model='profile.password' placeholder="New Passowrd">
+                    </label>
+                    <label class="item item-input item-floating-label item-myacc2 item-confirm-pass">
+                        <span class="input-label">Confirm Password</span>
+                        <input autocomplete="off" type="password" ng-model='profile.confPassword' placeholder="Confirm Passowrd">
+                    </label>
+                </div>
+                <div class="padding">
+                    <button on-tap='password();' class="button  myacc-update accent_bg">
+                        CHANGE
+                        <i class="fa fa-spinner fa-spin" ng-show="register_status == 1"></i>
+                        <i class="fa fa-times" ng-show="register_status == 3"></i>
+                        <i class="fa fa-check" ng-show="register_status == 2"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

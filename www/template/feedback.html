@@ -1,0 +1,36 @@
+<ion-view view-title="FEEDBACK">
+    <ion-content>
+        <div class="list feedback-container">
+            <div ng-if="hasEmail">
+                <br/>
+                <button class="button signup-button accent_bg" on-tap="sendEmailFeedback();">SEND Feedback</button>
+            </div>
+            <div ng-if="!hasEmail">
+                <label class="item item-input item-floating-label first-feed-label">
+                    <span class="input-label black-font">Email</span>
+                    <input type="text" ng-model='feedback.email' placeholder="Email">
+                </label>
+                <label class="item item-input item-floating-label sec-feed-label">
+                    <span class="input-label black-font">Leave a feedback</span>
+                    <textarea ng-model="feedback.text" style="width:100%;height: 50px" placeholder="Leave a feedback"></textarea>
+                </label>
+                <div class="feed-submit">
+                    <button class="button signup-button accent_bg" on-tap="sendFeedback();">SUBMIT
+                        <i class="fa fa-spinner fa-spin" ng-show="feedback_status == 1"></i>
+                        <i class="fa fa-times" ng-show="feedback_status == 3"></i>
+                        <i class="fa fa-check" ng-show="feedback_status == 2"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="feed-info">
+                <h4 class="rate-app">RATE OUR APP</h4>
+                <p class="rate-descrip">If you love our app, please take a moment to rate it in the App store</p>
+                <button on-tap="rateUs();" class="button signup-button feed-rate-btn">
+                    <img ng-if="isAndroid" src="img/google_play.png"/>
+                    <img ng-if="!isAndroid" width="16px" height="16px" src="img/ios.png"/>&nbsp;&nbsp;RATE NOW
+                </button>
+            </div>
+
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,30 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">SELECT FRIENDS</h1>
+        <div class="button button-icon" on-tap="closeModel();">
+            <i class="ion-android-close close-tab-icon white-color social-close"></i>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="refreshFriendList()">
+        </ion-refresher>
+        <i class="fa fa-spinner fa-spin" ng-show='!friend_load'></i>
+        <div class="clip-label black-font add-to-clip"><span>PRIVATE</span></div>
+        <div class="similar-product-label  clip-font-color clip-label clip-share">Share this with</div>
+        <div class="list">
+            <div on-tap='selectFriend(friend)' class="item item-avatar" ng-repeat='friend in friends'>
+                <img class="rounded" ng-if='friend.picture' ng-src='{{friend.picture|picture:50:50}}' style="max-width: 50px;max-height: 50px" />
+                <p>{{friend.name}}</p>
+                <div style="font-size:.82em" class="display_status">{{friend.status}}</div>
+                <i style="right: 5px" ng-show="friend.checked" class="ion-checkmark list-tick accent"></i>
+            </div>
+        </div>
+    </ion-content>
+    <ion-footer-bar>
+        <button  on-tap='closeModel();' class="button signup-button prev-btn accent_bg">
+            DONE
+        </button>
+    </ion-footer-bar>
+</ion-modal-view>
