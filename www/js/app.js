@@ -207,8 +207,8 @@ app.config(["$stateProvider", "$urlRouterProvider", '$ionicConfigProvider',
                         'tab-content': {
                             templateUrl: 'template/profile/price_alert.html',
                             controller: 'ProfileAlertsCtrl'
-                        }
-                    }
+                        }   
+                    }   
                 })
                 .state('app.profile.mine', {
                     url: '/mine',
@@ -391,6 +391,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             }
             backPress++;
             if (backPress === 2) {
+                console.log('Back Button');
                 toast.showShortBottom('Press Back Again To Exit');
             }
             $timeout(function () {

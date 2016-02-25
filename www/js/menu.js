@@ -1,8 +1,8 @@
 var menuMod = angular.module('MenuMod', ['ServiceMod', 'ngStorage', 'ionic', 'pasvaz.bindonce', 'UrlService']);
 
 menuMod.controller('MenuCtrl',
-        ['$scope', 'ajaxRequest', '$localStorage', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork', '$ionicPlatform', '$ionicScrollDelegate', '$timeout', '$q', 'urlHelper', 'itemHelper',
-            function ($scope, ajaxRequest, $localStorage, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork, $ionicPlatform, $ionicScrollDelegate, $timeout, $q, urlHelper, itemHelper) {
+        ['$scope', 'ajaxRequest','$ionicHistory','googleLogin', '$localStorage', '$state','$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork', '$ionicPlatform', '$ionicScrollDelegate', '$timeout', '$q', 'urlHelper', 'itemHelper',
+            function ($scope, ajaxRequest,$ionicHistory,googleLogin, $localStorage,$state, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork, $ionicPlatform, $ionicScrollDelegate, $timeout, $q, urlHelper, itemHelper) {
                 console.log('Menu');
                 if ($localStorage.user.id) {
                     notifyHelper.checkForUpdates();
@@ -43,6 +43,7 @@ menuMod.controller('MenuCtrl',
                 $rootScope.$on('facebook_friends_found', function () {
                     //called from inviteHelper on login/register
                     console.log('facebook friends broadcast');
+                    $state.go('app.profile');
                     var friends = dataShare.getData();
                     if (friends.length > 0) {
                         $scope.users = friends;
@@ -59,6 +60,7 @@ menuMod.controller('MenuCtrl',
                 }
 
                 $scope.logout = function () {
+                    var api = googleLogin.logout($localStorage.google_access_token);
                     $scope.login = false;
                     if (window.analytics) {
                         window.analytics.trackEvent('Menu', 'Logout');
@@ -77,6 +79,7 @@ menuMod.controller('MenuCtrl',
                         $localStorage.user = {
                             email: email
                         };
+                        $localStorage.$reset();
                         $rootScope.$broadcast('logout_event');
                     });
                 };

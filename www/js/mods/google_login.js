@@ -123,7 +123,7 @@ googleLoginService.factory('googleLogin', [
                 $log.debug(data);
                 var access_token = data.data.access_token;
                 var expires_in = data.data.expires_in;
-                expires_in = expires_in * 1 / (60 * 60);
+                //expires_in = expires_in * 1 / (60 * 60);
                 timeStorage.set('google_access_token', access_token, expires_in);
                 if (access_token) {
                     $log.info('Access Token :' + access_token);
@@ -183,6 +183,19 @@ googleLoginService.factory('googleLogin', [
                 def.reject(data.error);
             });
             return def.promise;
+        };
+        service.logout = function (access_token) {
+            var access_token = access_token;
+            var http = $http({
+                url: 'https://accounts.google.com/o/oauth2/revoke',
+                method: 'GET',
+                params: {
+                    token: access_token
+                }
+            });
+            http.then(function (data) {
+                console.log(data);
+            });
         };
         return service;
     }

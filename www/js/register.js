@@ -239,14 +239,17 @@ registerMod.controller('RegisterCtrl',
                     $scope.google_status = 1;
                     var api = googleLogin.startLogin();
                     api.then(function (data) {
-                        var user = data;
-                        if (user.gender === 'male') {
-                            user.gender = 'M';
-                        } else if (user.gender === 'female') {
-                            user.gender = 'F';
-                        } else {
-                            user.gender = false;
-                        }
+                        console.log(data);
+                        var user=data;
+                        user.gender='M';
+                        // var user = data;
+                        // if (user.gender === 'male') {
+                        //     user.gender = 'M';
+                        // } else if (user.gender === 'female') {
+                        //     user.gender = 'F';
+                        // } else {
+                        //     user.gender = false;
+                        // }
                         var prog = accountHelper.create(user, 'google');
                         prog.then(function () {
                             $scope.google_status = 2;

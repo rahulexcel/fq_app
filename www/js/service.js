@@ -1029,7 +1029,7 @@ serviceMod.factory('ajaxRequest',
                         });
                     },
                     url: function (api) {
-                        return 'http://144.76.83.246:5000/' + api;
+                        return 'http://144.76.34.244:5000/' + api;
                     },
                     send: function (api, data, method) {
                         var self = this;
