@@ -5,6 +5,7 @@ productMod.controller('ProductCtrl',
             function ($scope, $stateParams, productHelper, dataShare, toast, $localStorage, $timeout, $rootScope, socialJs, timeStorage, $ionicSlideBoxDelegate, $ionicHistory, urlHelper, accountHelper, $ionicModal, $window, $ionicScrollDelegate) {
                 $scope.product_loading = true;
                 $scope.product_variants_loading = false;
+                $scope.product_similar_loading = false;
                 $scope.product = false;
                 $scope.variants = [];
                 $scope.similar = [];
@@ -224,8 +225,10 @@ productMod.controller('ProductCtrl',
                     if (data.similar && data.similar.length > 0) {
                         self.processSimliarData(data, data.product._id);
                     } else {
+                        $scope.product_similar_loading = true;
                         var ajax2 = productHelper.fetchSimilar(data.product._id);
                         ajax2.then(function (data) {
+                            $scope.product_similar_loading = false;
                             self.processSimliarData(data, pid);
                         });
                     }
