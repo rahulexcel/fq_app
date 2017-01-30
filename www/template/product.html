@@ -100,6 +100,9 @@
                 <div class="clearfix"></div>
             </div>
             <div class="clearfix"></div>
+            <div class="center_spinner" ng-if="product_variants_loading">
+                <ion-spinner></ion-spinner>
+            </div>
             <div class="variants" ng-show='product.variants.length > 0'>
                 <div class="similar-product-label">
                     OTHER SELLERS

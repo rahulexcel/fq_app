@@ -24,8 +24,8 @@ categoryMod.directive('scrollWatch', ['$window', function ($window) {
         };
     }]);
 categoryMod.controller('CategoryCtrl',
-        ['$scope', 'categoryHelper', 'toast', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', 'dataShare', '$timeout', 'timeStorage', '$ionicModal', 'pinchServie', 'urlHelper', 'accountHelper',
-            function ($scope, categoryHelper, toast, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, dataShare, $timeout, timeStorage, $ionicModal, pinchServie, urlHelper, accountHelper) {
+        ['$scope', 'categoryHelper', 'toast', '$ionicHistory', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', 'dataShare', '$timeout', 'timeStorage', '$ionicModal', 'pinchServie', 'urlHelper', 'accountHelper',
+            function ($scope, categoryHelper, toast, $ionicHistory, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, dataShare, $timeout, timeStorage, $ionicModal, pinchServie, urlHelper, accountHelper) {
                 var i = 0;
                 $scope.$on('modal.shown', function () {
                     $rootScope.$emit('hide_android_add');
@@ -34,8 +34,12 @@ categoryMod.controller('CategoryCtrl',
                     $rootScope.$emit('show_android_add');
                 });
                 $scope.$on('$ionicView.enter', function () {
-                    $ionicScrollDelegate.resize();
-                    $ionicScrollDelegate.scrollTop();
+                    if($ionicHistory.forwardView() && $ionicHistory.forwardView().stateName == "app.product"){
+                        //do not scroll top
+                    } else{
+                        $ionicScrollDelegate.resize();
+                        $ionicScrollDelegate.scrollTop();
+                    }
                 });
                 var self = this;
                 $scope.isCategoryPage = true;
