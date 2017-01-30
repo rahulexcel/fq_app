@@ -28,10 +28,10 @@ menuMod.controller('MenuCtrl',
                 } else {
                     console.log('category not from cache');
                     $scope.category = [];
-                    var ajax = ajaxRequest.send('v1/catalog/list', {});
+                    var ajax = ajaxRequest.send('v2/catalog/list', {});
                     ajax.then(function (data) {
-                        $scope.category = data;
-                        timeStorage.set('category', data, 24);
+                        $scope.category = data.websites;
+                        timeStorage.set('category', data.websites, 24);
                     });
                 }
                 $ionicModal.fromTemplateUrl('template/partial/user-follow.html', {
@@ -104,10 +104,10 @@ menuMod.controller('MenuCtrl',
                     } else {
                         console.log('category not loaded');
                         $scope.category = [];
-                        var ajax = ajaxRequest.send('v1/catalog/list', {});
+                        var ajax = ajaxRequest.send('v2/catalog/list', {});
                         ajax.then(function (data) {
-                            $scope.category = data;
-                            timeStorage.set('category', data, 24);
+                            $scope.category = data.websites;
+                            timeStorage.set('category', data.websites, 24);
                         });
                     }
                 });

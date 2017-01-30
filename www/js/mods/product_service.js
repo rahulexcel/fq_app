@@ -35,7 +35,9 @@ productService.factory('productHelper', [
         };
         service.fetchVariant = function (id) {
             var defer = $q.defer();
-            var ajax = ajaxRequest.send('v1/product/variant', {
+//            var ajax = ajaxRequest.send('v1/product/variant', {
+//            for v2 only
+            var ajax = ajaxRequest.send('v2/product/variant', {
                 product_id: id
             }, true);
             ajax.then(function (data) {
@@ -71,15 +73,17 @@ productService.factory('productHelper', [
 //            if (timeStorage.get(cache_key)) {
 //                return $q.when(timeStorage.get(cache_key));
 //            }
-            var ajax = ajaxRequest.send('v1/product/similar', {
+//            var ajax = ajaxRequest.send('v1/product/similar', {
+//            for v2 api
+            var ajax = ajaxRequest.send('v2/product/similar', {
                 product_id: id,
                 unique: unique,
                 website: website
             }, true);
-            ajax.then(function (data) {
+            ajax.then(function (similarData) {
+                var data = similarData.products[0];
                 var ret = {};
                 var similar = [];
-
                 for (var i = 0; i < data.length; i++) {
                     similar.push({
                         _id: data[i]._id,
@@ -99,7 +103,9 @@ productService.factory('productHelper', [
         };
         service.fetchProduct = function (id) {
             var defer = $q.defer();
-            var ajax = ajaxRequest.send('v1/product/view', {
+//            var ajax = ajaxRequest.send('v1/product/view', {
+//            for version 2 api
+            var ajax = ajaxRequest.send('v2/product/view', {
                 product_id: id
             });
             ajax.then(function (data) {

@@ -137,6 +137,7 @@ productMod.controller('ProductCtrl',
                     var product_id = $scope.product_id;
                     var cache_key = 'product_' + product_id;
                     if (timeStorage.get(cache_key) && !force) {
+                        console.log('product data');
                         var data = timeStorage.get(cache_key);
                         $scope.processProductData(data);
                         $ionicSlideBoxDelegate.update();
@@ -145,8 +146,6 @@ productMod.controller('ProductCtrl',
                         $scope.product_detail_loading = true;
                         var ajax = productHelper.fetchProduct(product_id);
                         ajax.then(function (data) {
-                            console.log('latest product data');
-                            console.log(data);
                             $scope.product_detail_loading = false;
                             $scope.processProductData(data);
                             $ionicSlideBoxDelegate.update();
@@ -275,8 +274,6 @@ productMod.controller('ProductCtrl',
                 });
                 $scope.$on('product_open', function () {
                     var data = dataShare.getData();
-                    console.log('product open event');
-                    console.log(data);
                     $scope.product = data;
                     $scope.product_loading = false;
                     $scope.productInfo();
@@ -324,7 +321,6 @@ productMod.controller('ProductCtrl',
                 };
                 $scope.openProduct = function (product) {
                     var id = product._id;
-                    console.log('open product ' + id);
                     if (!product.img) {
                         product.img = product.image;
                     }

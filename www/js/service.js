@@ -1029,7 +1029,12 @@ serviceMod.factory('ajaxRequest',
                         });
                     },
                     url: function (api) {
-                        return 'http://144.76.34.244:5000/' + api;
+                        //for v2 only
+                        if(api == 'v2/catalog/list' || api == 'v2/catalog/products' || api == 'v2/product/view' || api == 'v2/product/similar' || api == 'v2/product/variant'){
+                            return 'http://144.76.34.244:5005/' + api;   
+                        } else{
+                            return 'http://144.76.34.244:5000/' + api;
+                        }
                     },
                     send: function (api, data, method) {
                         var self = this;
@@ -1078,7 +1083,7 @@ serviceMod.factory('ajaxRequest',
                         });
                         http.success(function (data) {
                             $rootScope.ajax_on = false;
-                            if (data.error === 0) {
+                            if (data.error === 0 || data) {
                                 if (data.data) {
                                     def.resolve(data.data);
                                 } else {

@@ -99,7 +99,14 @@ categoryService.factory('categoryHelper', [
             if (data.search) {
                 var ajax = ajaxRequest.send('v1/catalog/search', angular.copy(data));
             } else {
-                var ajax = ajaxRequest.send('v1/catalog/products', angular.copy(data));
+                if(!data.page){
+                    data.page = 1;
+                }
+                var v2data = {
+                    "website": data.name,
+                    "page":data.page
+                }
+                var ajax = ajaxRequest.send('v2/catalog/products', angular.copy(v2data));
             }
 //            if (is_new)
 //                $ionicLoading.show({
@@ -109,12 +116,15 @@ categoryService.factory('categoryHelper', [
                 var ret = {};
                 if (angular.isDefined(data.products)) {
                     ret.products = data.products;
-                    ret.page = data.current_page;
+                    if(data.current_page){
+                        ret.page = data.current_page;
+                    } else{
+                        ret.page = data.nextPage -1;
+                    }
                 } else {
                     ret.products = [];
                     ret.page = -1;
                 }
-
                 var sortBy = [];
                 if (angular.isDefined(data.sort) && angular.isArray(data.sort)) {
                     for (var i = 0; i < data.sort.length; i++) {

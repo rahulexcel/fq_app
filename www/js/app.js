@@ -148,6 +148,7 @@ app.config(["$stateProvider", "$urlRouterProvider", '$ionicConfigProvider',
                 })
                 .state('app.product', {
                     url: '/product/:product_id',
+                    cache: false,
                     views: {
                         'menuContent': {
                             templateUrl: 'template/product.html',
