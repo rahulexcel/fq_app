@@ -15,7 +15,7 @@
                         <ion-slide ng-if='show_main_image_in_more' on-tap="showZoom(-1)">
                             <img img-loader ng-src='{{product.img}}'/>
                         </ion-slide>
-                        <ion-slide on-tap="showZoom($index)" ng-repeat="img in product.more_images  track by $index">
+                        <ion-slide on-tap="showZoom($index)" ng-repeat="img in product.more_images track by $index">
                             <img data-id="more_images{{$index}}" img-loader ng-src='{{img}}'/>
                         </ion-slide>
                     </ion-slide-box>
@@ -69,13 +69,19 @@
                 <div ng-show="product.delivery_charge.length > 0">Delivery : {{product.delivery_charge}}</div>
                 <div ng-repeat="offer in product.offers">{{offer}}</div>
             </div>
-
-<!--            <div class="center_spinner" ng-if='product_detail_loading'>
+            <div ng-if='product.price_history.length > 0 && product.price_history[0].date1'>
+                <div class="similar-product-label">
+                    PRICE HISTORY
+                </div>
+                <chartist data="product.price_history" ng-id="price_history_chart" type="line"></chartist>
+            </div>
+            <div class="clearfix"></div>
+            <div class="center_spinner" ng-if='product_detail_loading'>
                 <ion-spinner></ion-spinner>
-            </div>-->
+            </div>
 
             <div class="clearfix"></div>
-            
+
             <div class="variants" ng-if="product_similar_loading">
                 <div class="similar-product-label">
                     SIMILAR PRODUCTS
