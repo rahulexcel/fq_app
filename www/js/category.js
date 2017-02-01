@@ -24,8 +24,8 @@ categoryMod.directive('scrollWatch', ['$window', function ($window) {
         };
     }]);
 categoryMod.controller('CategoryCtrl',
-        ['$scope', 'categoryHelper', 'toast', '$ionicHistory', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', 'dataShare', '$timeout', 'timeStorage', '$ionicModal', 'pinchServie', 'urlHelper', 'accountHelper',
-            function ($scope, categoryHelper, toast, $ionicHistory, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, dataShare, $timeout, timeStorage, $ionicModal, pinchServie, urlHelper, accountHelper) {
+        ['$scope', 'categoryHelper', 'toast', '$ionicHistory', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', 'dataShare', '$timeout', 'timeStorage', '$ionicModal', 'pinchServie', 'urlHelper', '$ionicNavBarDelegate', 'accountHelper',
+            function ($scope, categoryHelper, toast, $ionicHistory, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, dataShare, $timeout, timeStorage, $ionicModal, pinchServie, urlHelper, $ionicNavBarDelegate, accountHelper) {
                 var i = 0;
                 $scope.$on('modal.shown', function () {
                     $rootScope.$emit('hide_android_add');
@@ -58,6 +58,7 @@ categoryMod.controller('CategoryCtrl',
 //                        }
 //                    }
                 });
+                console.log($stateParams)
                 if ($stateParams.search_text) {
                     $scope.current_category = {
                         name: $stateParams.name,
@@ -72,7 +73,11 @@ categoryMod.controller('CategoryCtrl',
                     console.log('setting category via search params');
                     $scope.current_category = {
                         father_key: $stateParams.father_key,
-                        search: $stateParams.search
+                        search: $stateParams.search,
+                        //for v2 only
+                        search_text: $stateParams.search,
+                        websites:['shopclues','paytm','Snapdeal','amazon'],
+                        page:1
                     };
                     $scope.products = [];
                 } else if ($stateParams.cat_id && $stateParams.sub_cat_id) {
@@ -185,9 +190,16 @@ categoryMod.controller('CategoryCtrl',
                     });
                 };
                 $scope.removeSearch = function () {
+                    $scope.product_loading = true;
+//                    for v2 only
+                    if($scope.currentState.father_key == "allCategory"){
+                        $ionicNavBarDelegate.title('FashionIQ');
+                        $ionicNavBarDelegate.align('left');
+                    }
                     var state = $scope.currentState;
                     state.search = '';
                     $scope.currentState = state;
+                    console.log('state',state)
                     var req = categoryHelper.fetchProduct(state);
                     req.then(function (ret) {
                         $scope.product_loading = false;
@@ -379,6 +391,9 @@ categoryMod.controller('CategoryCtrl',
                     var text = $rootScope.search.text;
                     $scope.product_loading = true;
                     $scope.currentState.search = text;
+                    //for v2 only
+                    $scope.currentState.search_text = text;
+                    $scope.currentState.websites = [$stateParams.name];
                     var state = $scope.currentState;
                     var req = categoryHelper.fetchProduct(state);
                     req.then(function (ret) {
@@ -482,7 +497,6 @@ categoryMod.controller('CategoryCtrl',
                             for (var i = 0; i < filters.length; i++) {
                                 var data = filters[i].data;
                                 var type = filters[i].key;
-//                                        console.log('type ' + type);
                                 filters[i].type_select = 0;
                                 var new_data = [];
                                 for (var k = 0; k < data.length; k++) {
@@ -491,11 +505,9 @@ categoryMod.controller('CategoryCtrl',
                                     var found = false;
                                     for (var j = 0; j < prev_filters.length; j++) {
                                         var url = prev_filters[j].param;
-//                                                console.log(url + "XXXXX" + url1 + "yyy");
                                         if (url + "" === url1 + "") {
                                             filters[i].type_select++;
                                             found = true;
-//                                            console.log('foundddd');
                                             break;
                                         }
                                     }
@@ -569,7 +581,6 @@ categoryMod.controller('CategoryCtrl',
                                 final_filters.push(filters[i]);
                             }
                         }
-//                        console.log(final_filters);
                         $scope.filters = final_filters;
                     });
                 };
@@ -640,7 +651,6 @@ categoryMod.controller('CategoryCtrl',
                     $ionicScrollDelegate.resize();
                 };
                 $scope.nextPage = function (force) {
-                    console.log('next page');
                     if ($scope.currentState.page && ($scope.currentState.page * 1 !== -1) || force) {
                         var state = $scope.currentState;
                         state.page++;
@@ -653,7 +663,6 @@ categoryMod.controller('CategoryCtrl',
                             }, 30);
                         });
                     } else {
-                        console.log('here');
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                     }
                 };
@@ -669,11 +678,8 @@ categoryMod.controller('CategoryCtrl',
                     else
                         $scope.currentProducts = false;
                     $scope.currentState.page = ret.page;
-                    console.log(ret.products.length + 'products');
-                    console.log('current page ' + ret.page);
                     $scope.page_size = ret.products.length;
                     if ($scope.products && append) {
-                        console.log('appending products');
                         var products = $scope.products;
                         for (i = 0; i < ret.products.length; i++) {
                             if (self.product_ids.indexOf(ret.products[i]._id) === -1) {
@@ -701,7 +707,6 @@ categoryMod.controller('CategoryCtrl',
                         $scope.current_start_page = 1;
                     }
                     $scope.next_page_url = ret.page;
-                    console.log(ret);
                     if (!$scope.filters) {
                         $scope.filters = [];
                     }
@@ -813,7 +818,6 @@ categoryMod.controller('CategoryCtrl',
                     });
                 };
                 $scope.whatsapp = function (product) {
-                    console.log('sdsadfasdf');
                     var share_url = 'http://fashioniq.in/m/p/' + product._id;
                     window.plugins.socialsharing.shareViaWhatsApp(
                             product.name, product.img, share_url, function () {

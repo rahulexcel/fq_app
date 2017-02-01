@@ -95,15 +95,24 @@ categoryService.factory('categoryHelper', [
             return defer.promise;
         };
         service.fetchProduct = function (data, is_new) {
+            console.log('data, is_new',data, is_new)
             var defer = $q.defer();
             if (data.search) {
-                var ajax = ajaxRequest.send('v1/catalog/search', angular.copy(data));
+                console.log(data)
+//                for v2 only
+                var v2data = {
+                    websites:JSON.stringify(data.websites),
+                    search_text:data.search_text,
+                    page:data.page
+                }
+                var ajax = ajaxRequest.send('v2/catalog/search', angular.copy(v2data));
             } else {
                 if(!data.page){
                     data.page = 1;
                 }
+                //                for v2 only
                 var v2data = {
-                    "website": data.name,
+                    "website": data.name || data.father_key ||data.title,
                     "page":data.page
                 }
                 var ajax = ajaxRequest.send('v2/catalog/products', angular.copy(v2data));

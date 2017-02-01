@@ -1,8 +1,8 @@
 var menuMod = angular.module('MenuMod', ['ServiceMod', 'ngStorage', 'ionic', 'pasvaz.bindonce', 'UrlService']);
 
 menuMod.controller('MenuCtrl',
-        ['$scope', 'ajaxRequest','$ionicHistory','googleLogin', '$localStorage', '$state','$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork', '$ionicPlatform', '$ionicScrollDelegate', '$timeout', '$q', 'urlHelper', 'itemHelper',
-            function ($scope, ajaxRequest,$ionicHistory,googleLogin, $localStorage,$state, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork, $ionicPlatform, $ionicScrollDelegate, $timeout, $q, urlHelper, itemHelper) {
+        ['$scope', 'ajaxRequest', '$ionicHistory', 'googleLogin', '$localStorage', '$state', '$ionicNavBarDelegate', '$rootScope', 'timeStorage', 'toast', '$ionicModal', 'wishlistHelper', 'dataShare', '$ionicLoading', 'accountHelper', 'notifyHelper', '$ionicSideMenuDelegate', '$cordovaNetwork', '$ionicPlatform', '$ionicScrollDelegate', '$timeout', '$q', 'urlHelper', 'itemHelper',
+            function ($scope, ajaxRequest, $ionicHistory, googleLogin, $localStorage, $state, $ionicNavBarDelegate, $rootScope, timeStorage, toast, $ionicModal, wishlistHelper, dataShare, $ionicLoading, accountHelper, notifyHelper, $ionicSideMenuDelegate, $cordovaNetwork, $ionicPlatform, $ionicScrollDelegate, $timeout, $q, urlHelper, itemHelper) {
                 console.log('Menu');
                 if ($localStorage.user.id) {
                     notifyHelper.checkForUpdates();
@@ -255,7 +255,11 @@ menuMod.controller('MenuCtrl',
                         } else if (path.indexOf('/app/product') !== -1) {
                             $scope.$broadcast('search_product_event');
                         } else {
-                            $scope.modal.show();
+                            //for v2 only
+                            urlHelper.openSearchPage('allCategory', $rootScope.search.text);
+                            $rootScope.search.text = '';
+                            $rootScope.showSearchBox = false;
+//                            $scope.modal.show();
                         }
 
                         if (window.analytics) {
@@ -271,7 +275,9 @@ menuMod.controller('MenuCtrl',
                     console.log(cat);
                     $scope.search_cat = cat;
                     $scope.modal.hide();
-                    var father_key = cat.father_key;
+//                    var father_key = cat.father_key;
+                    //for v2 only
+                    var father_key = cat.name;
                     urlHelper.openSearchPage(father_key, $rootScope.search.text);
                     $rootScope.search.text = '';
                     $rootScope.showSearchBox = false;
