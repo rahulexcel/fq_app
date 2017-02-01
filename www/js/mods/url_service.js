@@ -74,7 +74,9 @@ urlService.factory('urlHelper', ['$location',
             $location.path('/intro');
         };
         service.openHomePage = function () {
-            $location.path('/app/home/trending');
+            $location.path('/app/home');
+//            comment and change for v2 only
+//            $location.path('/app/home/trending');
         };
         service.openSignUp = function () {
             $location.path('/app/signup');

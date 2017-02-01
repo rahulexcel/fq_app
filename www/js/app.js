@@ -70,36 +70,37 @@ app.config(["$stateProvider", "$urlRouterProvider", '$ionicConfigProvider',
                         }
                     }
                 })
-                .state('app.home.trending', {
-                    url: '/trending',
-                    views: {
-                        'pin-content': {
-                            templateUrl: 'template/list/pins.html',
-                            controller: 'PinCtrl',
-                            controllerAs: 'trending'
-                        }
-                    }
-                })
-                .state('app.home.feed', {
-                    url: '/feed',
-                    views: {
-                        'pin-content': {
-                            templateUrl: 'template/list/pins.html',
-                            controller: 'PinCtrl',
-                            controllerAs: 'feed'
-                        }
-                    }
-                })
-                .state('app.home.latest', {
-                    url: '/latest',
-                    views: {
-                        'pin-content': {
-                            templateUrl: 'template/list/pins.html',
-                            controller: 'PinCtrl',
-                            controllerAs: 'latest'
-                        }
-                    }
-                })
+                //comment for v2 only
+//                .state('app.home.trending', {
+//                    url: '/trending',
+//                    views: {
+//                        'pin-content': {
+//                            templateUrl: 'template/list/pins.html',
+//                            controller: 'PinCtrl',
+//                            controllerAs: 'trending'
+//                        }
+//                    }
+//                })
+//                .state('app.home.feed', {
+//                    url: '/feed',
+//                    views: {
+//                        'pin-content': {
+//                            templateUrl: 'template/list/pins.html',
+//                            controller: 'PinCtrl',
+//                            controllerAs: 'feed'
+//                        }
+//                    }
+//                })
+//                .state('app.home.latest', {
+//                    url: '/latest',
+//                    views: {
+//                        'pin-content': {
+//                            templateUrl: 'template/list/pins.html',
+//                            controller: 'PinCtrl',
+//                            controllerAs: 'latest'
+//                        }
+//                    }
+//                })
                 .state('app.item', {
                     url: '/item',
 //                    abstract: true,
