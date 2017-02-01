@@ -383,5 +383,42 @@ productMod.controller('ProductCtrl',
                 $scope.$on('$destroy', function () {
                     $scope.zoom_modal.remove();
                 });
+                $scope.alreadyLikedUnliked = false;
+                if ($localStorage['productLikeUnlikeIds']) {
+                    for (var i = 0; i < $localStorage['productLikeUnlikeIds'].length; i++) {
+                        if($localStorage['productLikeUnlikeIds'][i] == $stateParams.product_id){
+                            $scope.alreadyLikedUnliked = true;
+                            break;
+                        }
+                    }
+                }
+                $scope.likeProduct = function () {
+                    $scope.alreadyLikedUnliked = true;
+                    if($scope.product.count_likes){
+                        $scope.product.count_likes = $scope.product.count_likes + 1;
+                    } else{
+                        $scope.product.count_likes = 1;
+                    }
+                    var ids = $localStorage['productLikeUnlikeIds'];
+                    ids.push($stateParams.product_id)
+                    $localStorage.productLikeUnlikeIds = ids;
+                    productHelper.likeProduct($stateParams.product_id).then(function (data) {
+                        toast.showShortBottom('Product Liked');
+                    });
+                };
+                $scope.unlikeProduct = function () {
+                    $scope.alreadyLikedUnliked = true;
+                    if($scope.product.count_unlikes){
+                        $scope.product.count_unlikes = $scope.product.count_unlikes + 1;
+                    } else{
+                        $scope.product.count_unlikes = 1;
+                    }
+                    var ids = $localStorage['productLikeUnlikeIds'];
+                    ids.push($stateParams.product_id)
+                    $localStorage.productLikeUnlikeIds = ids;
+                    productHelper.unlikeProduct($stateParams.product_id).then(function (data) {
+                        toast.showShortBottom('Product Unliked');
+                    });
+                };
             }
         ]);

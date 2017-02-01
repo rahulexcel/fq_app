@@ -382,6 +382,11 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                     window.analytics.setUserId($localStorage.user.id)
         }
         var backPress = 0;
+        if (!$localStorage.productLikeUnlikeIds) {
+            var productLikeUnlikeIds = [];
+            $localStorage.productLikeUnlikeIds = productLikeUnlikeIds;
+        }
+        
         $ionicPlatform.registerBackButtonAction(function (e) {
             e.preventDefault();
             var backView = $ionicHistory.backView();

@@ -115,6 +115,26 @@ productService.factory('productHelper', [
             });
             return defer.promise;
         };
+        service.likeProduct = function (id) {
+            var defer = $q.defer();
+            var ajax = ajaxRequest.send('v2/product/like', {
+                product_id: id
+            });
+            ajax.then(function (data) {
+                defer.resolve(data);
+            });
+            return defer.promise;
+        };
+        service.unlikeProduct = function (id) {
+            var defer = $q.defer();
+            var ajax = ajaxRequest.send('v2/product/unlike', {
+                product_id: id
+            });
+            ajax.then(function (data) {
+                defer.resolve(data);
+            });
+            return defer.promise;
+        };
         return service;
     }
 ]);

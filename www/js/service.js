@@ -1030,7 +1030,7 @@ serviceMod.factory('ajaxRequest',
                     },
                     url: function (api) {
                         //for v2 only
-                        if(api == 'v2/catalog/list' || api == 'v2/catalog/products' || api == 'v2/product/view' || api == 'v2/product/similar' || api == 'v2/product/variant' || api == 'v2/catalog/search'){
+                        if(api == 'v2/catalog/list' || api == 'v2/catalog/products' || api == 'v2/product/view' || api == 'v2/product/similar' || api == 'v2/product/variant' || api == 'v2/catalog/search' || api == 'v2/product/like' || api == 'v2/product/unlike'){
                             return 'http://144.76.34.244:5005/' + api;   
                         } else{
                             return 'http://144.76.34.244:5000/' + api;

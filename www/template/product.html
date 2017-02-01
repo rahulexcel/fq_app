@@ -21,9 +21,20 @@
                     </ion-slide-box>
                     <img on-tap="showZoom(-1)" ng-if="!product.more_images" ng-src='{{product.img}}'/>
                 </div>
-                <div class="wishlist-product-img-big accent_bg" on-tap="wishlist(product,$event);">
-                    <i class="ion-ios-heart"></i>
-                </div>
+                <!--comment for v2 only-->
+                <!--                <div class="wishlist-product-img-big accent_bg" on-tap="wishlist(product,$event);">
+                                    <i class="ion-ios-heart"></i>
+                                </div>-->
+            </div>
+            <div class="row">
+                <button class="col button button-clear button-positive" ng-click="likeProduct()" ng-disabled="alreadyLikedUnliked">
+                    <i class="icon ion-thumbsup"></i>
+                    {{product.count_likes}}
+                </button>
+                <button class="col button button-clear button-assertive" ng-click="unlikeProduct()" ng-disabled="alreadyLikedUnliked">
+                    <i class="icon ion-thumbsdown"></i>
+                    {{product.count_unlikes}}
+                </button>
             </div>
             <div class="pro-info padding">
                 <div class="pro-name">
