@@ -230,6 +230,8 @@ productMod.controller('ProductCtrl',
                         ajax2.then(function (data) {
                             $scope.product_similar_loading = false;
                             self.processSimliarData(data, pid);
+                        }, function(err){
+                            $scope.product_similar_loading = false;
                         });
                     }
                     if (data.variants) {
@@ -240,6 +242,8 @@ productMod.controller('ProductCtrl',
                         ajax3.then(function (data) {
                             $scope.product_variants_loading = false;
                             self.processVariantData(data);
+                        }, function(err){
+                            $scope.product_variants_loading = false;
                         });
                     }
                 };

@@ -111,8 +111,14 @@ categoryService.factory('categoryHelper', [
                     data.page = 1;
                 }
                 //                for v2 only
+                var newData = angular.copy(data)
+                if(newData.name == "FashionIQ" || newData.title == "FashionIQ" || newData.father_key == "allCategory"){
+                    newData.name = '';
+                    newData.title = '';
+                    newData.father_key = '';
+                }
                 var v2data = {
-                    "website": data.name || data.father_key ||data.title,
+                    "website": newData.name || newData.father_key || newData.title,
                     "page":data.page
                 }
                 var ajax = ajaxRequest.send('v2/catalog/products', angular.copy(v2data));

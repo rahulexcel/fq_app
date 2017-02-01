@@ -57,6 +57,8 @@ productService.factory('productHelper', [
 
                 ret.variants = variants;
                 defer.resolve(ret);
+            }, function(err){
+                defer.reject(err);
             });
             return defer.promise;
         };
@@ -98,6 +100,8 @@ productService.factory('productHelper', [
                 ret.similar = similar;
                 timeStorage.set(cache_key, ret, 1);
                 defer.resolve(ret);
+            }, function(err){
+                defer.reject(err);
             });
             return defer.promise;
         };

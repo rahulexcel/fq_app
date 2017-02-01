@@ -58,7 +58,6 @@ categoryMod.controller('CategoryCtrl',
 //                        }
 //                    }
                 });
-                console.log($stateParams)
                 if ($stateParams.search_text) {
                     $scope.current_category = {
                         name: $stateParams.name,
@@ -86,6 +85,12 @@ categoryMod.controller('CategoryCtrl',
                         name: $stateParams.name,
                         cat_id: $stateParams.cat_id,
                         sub_cat_id: $stateParams.sub_cat_id
+                    };
+                    $scope.products = [];
+                } else if ($ionicHistory.currentView().stateName == 'app.home') {
+                    console.log('setting category via home category');
+                    $scope.current_category = {
+                        name: 'FashionIQ'
                     };
                     $scope.products = [];
                 }
@@ -194,10 +199,11 @@ categoryMod.controller('CategoryCtrl',
 //                    for v2 only
                     if($scope.currentState.father_key == "allCategory"){
                         $ionicNavBarDelegate.title('FashionIQ');
-                        $ionicNavBarDelegate.align('left');
+//                        $ionicNavBarDelegate.align('left');
                     }
                     var state = $scope.currentState;
                     state.search = '';
+                    state.page = 1;
                     $scope.currentState = state;
                     console.log('state',state)
                     var req = categoryHelper.fetchProduct(state);

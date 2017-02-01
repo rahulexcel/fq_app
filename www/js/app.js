@@ -64,9 +64,14 @@ app.config(["$stateProvider", "$urlRouterProvider", '$ionicConfigProvider',
                     url: '/home',
 //                    abstract: true,
                     views: {
+//                        comment for v2 only
+//                        'menuContent': {
+//                            templateUrl: 'template/home.html',
+//                            controller: 'HomeCtrl'
+//                        }
                         'menuContent': {
-                            templateUrl: 'template/home.html',
-                            controller: 'HomeCtrl'
+                            templateUrl: 'template/category.html',
+                            controller: 'CategoryCtrl'
                         }
                     }
                 })
@@ -209,8 +214,8 @@ app.config(["$stateProvider", "$urlRouterProvider", '$ionicConfigProvider',
                         'tab-content': {
                             templateUrl: 'template/profile/price_alert.html',
                             controller: 'ProfileAlertsCtrl'
-                        }   
-                    }   
+                        }
+                    }
                 })
                 .state('app.profile.mine', {
                     url: '/mine',
@@ -386,7 +391,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             var productLikeUnlikeIds = [];
             $localStorage.productLikeUnlikeIds = productLikeUnlikeIds;
         }
-        
+
         $ionicPlatform.registerBackButtonAction(function (e) {
             e.preventDefault();
             var backView = $ionicHistory.backView();

@@ -6,7 +6,7 @@ homeMod.controller('HomeCtrl',
                 console.log('home');
                 $timeout(function () {
                     console.log($state)
-                    $ionicNavBarDelegate.align('left');
+//                    $ionicNavBarDelegate.align('left');
                     if($state.current.name == "app.home.trending"){
                         $ionicNavBarDelegate.title('FashionIQ');
                     } else if($state.current.name == "app.home"){
