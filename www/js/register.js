@@ -148,13 +148,14 @@ registerMod.controller('RegisterCtrl',
                             accountHelper.fbInit();
                         }
                     }
-                    facebookConnectPlugin.login(['email', 'user_friends'], function (data) {
+                    facebookConnectPlugin.login(['email', 'user_friends', 'public_profile'], function (data) {
                         console.log(data);
-                        facebookConnectPlugin.api('/me', null, function (data) {
+                        facebookConnectPlugin.api('/me?fields=email,name&access_token=' + data.authResponse.accessToken, null, function (data) {
                             if ($scope.facebook_status === 1) {
                                 toast.showProgress();
                                 return;
                             }
+                            console.log('fbuserdata',data)
                             $scope.facebook_status = 1;
                             var fb_id = data.id;
                             var email = data.email;
