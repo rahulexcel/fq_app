@@ -103,7 +103,8 @@ categoryService.factory('categoryHelper', [
                 var v2data = {
                     websites:JSON.stringify(data.websites),
                     search_text:data.search_text,
-                    page:data.page
+                    page:data.page,
+                    sort:data.sortby
                 }
                 var ajax = ajaxRequest.send('v2/catalog/search', angular.copy(v2data));
             } else {
@@ -119,7 +120,8 @@ categoryService.factory('categoryHelper', [
                 }
                 var v2data = {
                     "website": newData.name || newData.father_key || newData.title,
-                    "page":data.page
+                    "page":data.page,
+                    sort:data.sortby
                 }
                 var ajax = ajaxRequest.send('v2/catalog/products', angular.copy(v2data));
             }

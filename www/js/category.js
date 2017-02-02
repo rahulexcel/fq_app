@@ -332,7 +332,8 @@ categoryMod.controller('CategoryCtrl',
                             //is search page so fetch filters again
                             $scope.getLatestFilters(state, true);
                         }
-                        timeStorage.set('category_' + state.cat_id + "_" + state.sub_cat_id, state, 0.1);
+//                        comment for v2 only
+//                        timeStorage.set('category_' + state.cat_id + "_" + state.sub_cat_id, state, 0.1);
                         $ionicScrollDelegate.scrollTop(true);
                         var req = categoryHelper.fetchProduct(state);
                         req.then(function (ret) {
@@ -382,7 +383,8 @@ categoryMod.controller('CategoryCtrl',
                         $scope.currentState = state;
                         state.sortby = url;
                         $ionicScrollDelegate.scrollTop(true);
-                        timeStorage.set('category_' + state.cat_id + "_" + state.sub_cat_id, state, 0.1);
+//                        comment for v2 only
+//                        timeStorage.set('category_' + state.cat_id + "_" + state.sub_cat_id, state, 0.1);
                         var req = categoryHelper.fetchProduct(state);
                         req.then(function (ret) {
                             $scope.product_loading = false;
@@ -476,9 +478,12 @@ categoryMod.controller('CategoryCtrl',
                 $scope.getLatestFilters = function (cat, is_search) {
                     var req = categoryHelper.fetchFilters(cat, is_search);
                     req.then(function (ret) {
-
+//                        for v2 only
+                        ret.sortBy = [{"name":"Popular","url":"likes"},{"name":"Most Viewed","url":"mostviewed"},{"name":"Price -- Low to High","url":"pricelth"},{"name":"Price -- High to Low","url":"pricehtl"}];
                         if (!$scope.currentState.sortby || $scope.currentState.sortby.length === 0) {
-                            $scope.currentState.sortby = 'popular';
+//                            $scope.currentState.sortby = 'popular';
+//                             comment and change only for v2
+                            $scope.currentState.sortby = 'likes';
                         }
                         if ($scope.currentState.sortby && ret.sortBy && ret.sortBy.length > 0) {
                             for (i = 0; i < ret.sortBy.length; i++) {
