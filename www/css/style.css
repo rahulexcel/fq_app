@@ -2601,6 +2601,23 @@ i.offline-icon{
 .category-product-likeUnlike div{
     padding: 0px;
     font-size: 14px;
+        border-color: transparent;
+    background-color: #f8f8f8;
+    color: #444;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: 0 12px;
+    min-width: 52px;
+    min-height: 47px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    vertical-align: top;
+    text-align: center;
+    text-overflow: ellipsis;
+    line-height: 42px;
+    cursor: pointer;
 }
 .category-product-likeUnlike div i:before{
     font-size: 16px!important;
