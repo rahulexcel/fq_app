@@ -31,7 +31,7 @@
                         // We can disable the grid for this axis
                         showGrid: false,
                         // and also don't show the label
-                        showLabel: true
+                        showLabel: false
                     },
                     // Y-Axis specific configuration
                     axisY: {
