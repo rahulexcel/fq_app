@@ -919,7 +919,7 @@ span.other-price{
     font-size: 0.79em;
 }
 .category .product{
-    height:264px;
+    height:288px;
 }
 .category .bottom_box .e-site{
     /*line-height: 12px;*/
@@ -2594,4 +2594,14 @@ i.offline-icon{
     -ms-text-size-adjust: none;
     -o-text-size-adjust: none;
     text-size-adjust: none;
+}
+.category-product-likeUnlike{
+    padding: 0px;
+}
+.category-product-likeUnlike div{
+    padding: 0px;
+    font-size: 14px;
+}
+.category-product-likeUnlike div i:before{
+    font-size: 16px!important;
 }

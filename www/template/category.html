@@ -31,9 +31,19 @@
                 <div class="image" on-tap="openProduct(prod);">
                     <img img-loader ng-src="{{prod.img}}"/>
                     <!--comment for v2 only-->
-<!--                    <div class="heart my-wishlist-img accent_bg" on-tap="wishlist(prod,$event);">
-                        <i class="ion-ios-heart"></i>
-                    </div>-->
+                    <!--                    <div class="heart my-wishlist-img accent_bg" on-tap="wishlist(prod,$event);">
+                                            <i class="ion-ios-heart"></i>
+                                        </div>-->
+                </div>
+                <div class="row category-product-likeUnlike" ng-if="prod.count_likes > 0 || prod.count_unlikes > 0">
+                    <div class="col button button-clear button-positive">
+                        <i class="icon ion-thumbsup"></i>
+                        {{prod.count_likes}}
+                    </div>
+                    <div class="col button button-clear button-assertive">
+                        <i class="icon ion-thumbsdown"></i>
+                        {{prod.count_unlikes}}
+                    </div>
                 </div>
                 <div class="bottom_box">
                     <div class="name primary_text" on-tap="openProduct(prod);" ng-bind='prod.name'></div>
