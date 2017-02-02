@@ -231,6 +231,12 @@ menuMod.controller('MenuCtrl',
                     searchBack = $ionicPlatform.registerBackButtonAction(function () {
                         $rootScope.showSearchBox = false;
                     }, 99999);
+                    $timeout(function () {
+                        var element = window.document.getElementById('searchInput');
+                        console.log(element)
+                        if (element)
+                            element.focus();
+                    });
                 };
                 $scope.$on('$destroy', function () {
                     $scope.modal.remove();
