@@ -22,7 +22,7 @@ productService.factory('productHelper', [
                 if (pid) {
                     params += '&pid=' + encodeURIComponent(pid);
                 }
-                var ajax = $http.get(ajaxRequest.url('v1/parseurl') + params);
+                var ajax = $http.get(ajaxRequest.url('v2/parseurl') + params);
                 ajax.then(function (data) {
                     if (data.data && data.data.data) {
                         timeStorage.set(key, data.data.data, 24);
