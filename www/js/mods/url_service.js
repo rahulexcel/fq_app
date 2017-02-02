@@ -1,6 +1,6 @@
 var urlService = angular.module('UrlService', []);
-urlService.factory('urlHelper', ['$location',
-    function ($location) {
+urlService.factory('urlHelper', ['$location','$ionicHistory',
+    function ($location,$ionicHistory) {
         var service = {};
         service.getPath = function () {
             return $location.path();
@@ -74,7 +74,9 @@ urlService.factory('urlHelper', ['$location',
             $location.path('/intro');
         };
         service.openHomePage = function () {
-            $location.path('/app/home');
+            $ionicHistory.clearCache().then(function(){
+                $location.path('/app/home');
+            });
 //            comment and change for v2 only
 //            $location.path('/app/home/trending');
         };

@@ -62,7 +62,6 @@ app.config(["$stateProvider", "$urlRouterProvider", '$ionicConfigProvider',
                 })
                 .state('app.home', {
                     url: '/home',
-                    cache:false,
 //                    abstract: true,
                     views: {
 //                        comment for v2 only
