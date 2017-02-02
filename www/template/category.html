@@ -49,11 +49,11 @@
                     <div class="name primary_text" on-tap="openProduct(prod);" ng-bind='prod.name'></div>
                     <div class="website e-site secondary_text"><i class='site {{prod.website}}'></i><span ng-bind='prod.website'></span></div>
                     <!--<div class="brand" ng-show="prod.brand.length > 0" ng-bind='prod.brand'></div>--> 
-                    <div class="price primary_text" ng-if="prod.price * 1 > 20">
+                    <div class="price primary_text">
                         Rs.<span ng-bind='prod.price'></span>
                         <span style="font-size:.82em" class="offrate accent" ng-show="prod.offrate * 1 > 0">(-{{prod.offrate}}%)</span>
                     </div>
-                    <div class="drop-price" ng-if="prod.price * 1 > 20">
+                    <div class="drop-price">
                         <i class="fa fa-caret-up up-price" ng-if="prod.price_drop > 0">&nbsp;<span ng-bind='prod.price_drop'></span></i>
                         <i class="fa fa-caret-down" ng-if="prod.price_drop < 0">&nbsp;<span ng-bind='prod.price_drop'></span></i>
                     </div>
