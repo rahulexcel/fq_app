@@ -2622,3 +2622,9 @@ i.offline-icon{
 .category-product-likeUnlike div i:before{
     font-size: 16px!important;
 }
+.platform-ios .search_box form div.item{
+   padding: 24px 0px 10px 0px !important;
+}
+.platform-ios .search_box form div.item input{
+   width: 100%;
+}
