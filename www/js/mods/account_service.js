@@ -118,7 +118,7 @@ accountService.factory('accountHelper', [
         service.logout = function () {
             var def = $q.defer();
             var ajax = false;
-            ajax = ajaxRequest.send('v1/account/logout', {api_key: $localStorage.user.api_key});
+            ajax = ajaxRequest.send('v2/account/logout', {api_key: $localStorage.user.api_key});
             ajax.then(function (data) {
                 def.resolve();
                 $rootScope.profile_update = 0;
