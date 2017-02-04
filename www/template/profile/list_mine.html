@@ -10,7 +10,7 @@
     <div class="top-container" ng-show="public_lists.length > 0">
         <div class="list-section"><span ng-if="me">YOUR </span>PUBLIC WISHLISTS</div>
         <ul class="mine-clip-list">
-            <li ng-repeat='item1 in public_lists track by item1._id' style="position: relative">
+            <li ng-repeat='item1 in public_lists track by $index' style="position: relative">
                 <div list-box list="item1" lists="wishlist_mine" index="{{$index}}" me="me"></div>
             </li>
         </ul>
@@ -18,7 +18,7 @@
     <div class="top-container" ng-show="private_lists.length > 0">
         <div class="list-section"><span ng-if="me">YOUR </span>PRIVATE WISHLISTS</div>
         <ul class="mine-clip-list">
-            <li ng-repeat='item1 in private_lists track by item1._id' style="position: relative">
+            <li ng-repeat='item1 in private_lists track by $index' style="position: relative">
                 <div list-box list="item1" lists="wishlist_mine" index="{{$index}}" me="me"></div>
             </li>
         </ul>

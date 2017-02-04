@@ -286,7 +286,7 @@ friendService.factory('friendHelper', [
             if ($localStorage.user && user_id === $localStorage.user.id) {
                 me = true;
             }
-            var ajax = ajaxRequest.send('v1/social/user/profile/full', {
+            var ajax = ajaxRequest.send('v2/social/user/profile/full', {
                 user_id: user_id,
                 me: me,
                 my_id: my_id
@@ -348,7 +348,7 @@ friendService.factory('friendHelper', [
         };
         service.loadMoreProfilePins = function (user_id, skip) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/user/profile/pins', {
+            var ajax = ajaxRequest.send('v2/social/user/profile/pins', {
                 user_id: user_id,
                 skip: skip
             });
