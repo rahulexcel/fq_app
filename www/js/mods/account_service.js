@@ -146,16 +146,20 @@ accountService.factory('accountHelper', [
             }
             user.device = device;
             if (type === 'login') {
-                ajax = ajaxRequest.send('v1/account/login', {user: user});
+                ajax = ajaxRequest.send('v2/account/login', {user: user});
             } else if (type === 'facebook') {
-                ajax = ajaxRequest.send('v1/account/create/facebook', {user: user});
+                ajax = ajaxRequest.send('v2/account/create/facebook', {user: user});
             } else if (type === 'google') {
-                ajax = ajaxRequest.send('v1/account/create/google', {user: user});
+                ajax = ajaxRequest.send('v2/account/create/google', {user: user});
             } else {
-                ajax = ajaxRequest.send('v1/account/create', {user: user});
+                ajax = ajaxRequest.send('v2/account/create', {user: user});
             }
             ajax.then(function (data) {
-                if (data.name && data.name !== 'XXX') {
+                if(!data){
+                    toast.showShortBottom('Account Already Exists!');
+                    return;
+                }
+                else if (data.name && data.name !== 'XXX') {
                     toast.showShortBottom('Welcome ' + data.name);
                 } else {
                     toast.showShortBottom('Welcome');
@@ -174,12 +178,13 @@ accountService.factory('accountHelper', [
                 notifyHelper.init();
 
                 $rootScope.$broadcast('login_event');
-
-                var redirect_url = '/app/home/trending';
+//                comment and change for v2 only
+//                var redirect_url = '/app/home/trending';
+                var redirect_url = '/app/home';
                 if ($localStorage.previous && $localStorage.previous.url) {
                     redirect_url = $localStorage.previous.url;
                 }
-                
+
                 console.log(redirect_url);
 
                 if ($localStorage.user.type === 'facebook') {
@@ -199,9 +204,11 @@ accountService.factory('accountHelper', [
                         ajax = inviteHelper.lookUpGoogleFriends(data1.data);
                         ajax.then(function () {
                             def.resolve(data);
+                            console.log(redirect_url)
                             urlHelper.direct(redirect_url);
                         });
                     } else {
+                        console.log(redirect_url)
                         urlHelper.direct(redirect_url);
                     }
                 } else {

@@ -436,7 +436,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             if (ionic.Platform.isAndroid() || ionic.Platform.isIOS()) {
                 if (!$localStorage.user.id && !timeStorage.get('last_intro')) {
                     timeStorage.set('last_intro', 1, 1);
-                    urlHelper.openHomePage();
+                    urlHelper.openIntroPage();
                 } else {
                     urlHelper.openHomePage();
                 }
