@@ -13,7 +13,7 @@ accountService.factory('accountHelper', [
         };
         service.updateFacebookPics = function () {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/account/update/facebook_image', {
+            var ajax = ajaxRequest.send('v2/account/update/facebook_image', {
                 user_id: $localStorage.user.id
             });
             ajax.then(function (data) {
@@ -25,7 +25,7 @@ accountService.factory('accountHelper', [
         };
         service.facebookFriends = function (data, email) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/account/facebook_friends', {
+            var ajax = ajaxRequest.send('v2/account/facebook_friends', {
                 email: email,
                 friends: data
             });
@@ -38,7 +38,7 @@ accountService.factory('accountHelper', [
         };
         service.updatePassword = function (password) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/account/update', {
+            var ajax = ajaxRequest.send('v2/account/update', {
                 user_id: $localStorage.user.id,
                 password: password
             });
@@ -51,7 +51,7 @@ accountService.factory('accountHelper', [
         };
         service.updateStatus = function (status) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/account/update/status', {
+            var ajax = ajaxRequest.send('v2/account/update/status', {
                 user_id: $localStorage.user.id,
                 status: status
             });
@@ -64,7 +64,7 @@ accountService.factory('accountHelper', [
         };
         service.updateProfile = function (profile) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/account/update', {
+            var ajax = ajaxRequest.send('v2/account/update', {
                 user_id: $localStorage.user.id,
                 profile: profile
             });
@@ -79,7 +79,7 @@ accountService.factory('accountHelper', [
         };
         service.removePicture = function () {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/account/remove_picture', {
+            var ajax = ajaxRequest.send('v2/account/remove_picture', {
                 user_id: $localStorage.user.id
             });
             ajax.then(function (data) {
@@ -92,7 +92,7 @@ accountService.factory('accountHelper', [
         };
         service.updatePicture = function (filename) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/account/update/picture', {
+            var ajax = ajaxRequest.send('v2/account/update/picture', {
                 user_id: $localStorage.user.id,
                 picture: filename
             });
@@ -106,7 +106,7 @@ accountService.factory('accountHelper', [
         service.forgot = function (email) {
             var def = $q.defer();
             var ajax = false;
-            ajax = ajaxRequest.send('v1/account/forgot_password', {email: email});
+            ajax = ajaxRequest.send('v2/account/forgot_password', {email: email});
             ajax.then(function (data) {
                 def.resolve();
                 toast.showShortBottom('Password Sent To Your Email Address');
