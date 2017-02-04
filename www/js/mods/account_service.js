@@ -155,8 +155,8 @@ accountService.factory('accountHelper', [
                 ajax = ajaxRequest.send('v2/account/create', {user: user});
             }
             ajax.then(function (data) {
-                if(!data){
-                    toast.showShortBottom('Account Already Exists!');
+                if(data.error == 1){
+                    toast.showShortBottom(data.message);
                     return;
                 }
                 else if (data.name && data.name !== 'XXX') {
