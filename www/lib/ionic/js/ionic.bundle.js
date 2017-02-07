@@ -5302,7 +5302,7 @@ ionic.views.Scroll = ionic.views.View.inherit({
       self.__enableScrollY = true;
       self.__hasStarted = true;
       self.doTouchStart(getEventTouches(e), e.timeStamp);
-      e.preventDefault();
+//      e.preventDefault();
     };
 
     self.touchMove = function(e) {
@@ -8174,7 +8174,7 @@ ionic.scroll = {
         return;
       }
 
-      e.gesture.srcEvent.preventDefault();
+//      e.gesture.srcEvent.preventDefault();
       self._dragOp.drag(e);
     }
 
@@ -65965,13 +65965,13 @@ function($timeout, $ionicGesture, $window) {
 
           if (getPrimaryScrollAxis(e) == 'x') {
             sideMenuCtrl._handleDrag(e);
-            e.gesture.srcEvent.preventDefault();
+    //            e.gesture.srcEvent.preventDefault();
           }
         }
 
         function onDragY(e) {
           if (getPrimaryScrollAxis(e) == 'x') {
-            e.gesture.srcEvent.preventDefault();
+//            e.gesture.srcEvent.preventDefault();
           }
         }
 
