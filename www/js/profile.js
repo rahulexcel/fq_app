@@ -1,7 +1,7 @@
 var profileMod = angular.module('ProfileMod', ['ServiceMod', 'ngStorage', 'ionic', 'FriendService', 'angular-chartist', 'UrlService']);
 profileMod.controller('ProfileCtrl',
-        ['$scope', '$localStorage', 'toast', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope', '$timeout', '$ionicPopup', 'notifyHelper', '$ionicScrollDelegate', 'accountHelper', 'urlHelper',
-            function ($scope, $localStorage, toast, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout, $ionicPopup, notifyHelper, $ionicScrollDelegate, accountHelper, urlHelper) {
+        ['$scope', '$localStorage', 'toast', '$ionicLoading', 'friendHelper', '$stateParams', '$rootScope', '$timeout', '$ionicPopup', 'notifyHelper', '$ionicScrollDelegate', 'accountHelper', 'urlHelper','$ionicNavBarDelegate',
+            function ($scope, $localStorage, toast, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout, $ionicPopup, notifyHelper, $ionicScrollDelegate, accountHelper, urlHelper,$ionicNavBarDelegate) {
                 var user_id = false;
                 var self = this;
                 $scope.$on('logout_event', function () {
@@ -157,6 +157,7 @@ profileMod.controller('ProfileCtrl',
                             }
 
                             $scope.user = data;
+                            $ionicNavBarDelegate.title(data.name);
                             if ($scope.user._id === $localStorage.user.id) {
                                 $scope.me = true;
                                 $localStorage.user.gender = data.gender;
