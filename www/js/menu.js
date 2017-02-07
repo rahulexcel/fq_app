@@ -174,8 +174,12 @@ menuMod.controller('MenuCtrl',
                         if (window.analytics) {
                             window.analytics.trackEvent('Profile', 'Top');
                         }
-                        if ($localStorage.user.id) {
-                            urlHelper.openProfilePage($localStorage.user.id, 'mine');
+                        if ($localStorage.user) {
+                            if($localStorage.user.id){
+                                urlHelper.openProfilePage($localStorage.user.id, 'mine');
+                            } else{
+                                urlHelper.openProfilePage('me', 'mine');
+                            }
                         } else {
                             urlHelper.openProfilePage('me', 'mine');
                         }
