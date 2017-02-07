@@ -21,10 +21,9 @@
                     </ion-slide-box>
                     <img on-tap="showZoom(-1)" ng-if="!product.more_images" ng-src='{{product.img}}'/>
                 </div>
-                <!--comment for v2 only-->
-                <!--                <div class="wishlist-product-img-big accent_bg" on-tap="wishlist(product,$event);">
-                                    <i class="ion-ios-heart"></i>
-                                </div>-->
+                <div class="wishlist-product-img-big accent_bg" on-tap="wishlist(product,$event);">
+                    <i class="ion-ios-heart"></i>
+                </div>
             </div>
             <div class="row">
                 <button class="col button button-clear button-positive" ng-click="likeProduct()" ng-disabled="alreadyLikedUnliked">
@@ -58,8 +57,7 @@
                     <i class="fa fa-caret-down" ng-if="product.price_drop < 0">&nbsp;Price Drop of Rs.{{product.price_drop}}</i>
                 </div>
                 <div class="social-share">
-                    <!--comment for v2 only-->
-<!--                    <div ng-if="!isMobile">
+                    <div ng-if="!isMobile">
                         <div class="fb-like" data-href="{{product.desktop_href}}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
                         <div class="twitter">
                             <a class="twitter-share-button"
@@ -73,7 +71,7 @@
                         <i class="ion-social-twitter accent" on-tap='twitter(product)'></i>
                         <i class="ion-social-facebook accent"  on-tap='facebook(product)'></i>
                         <i class="ion-android-share-alt accent" on-tap='shareAll(product)'></i>
-                    </div>-->
+                    </div>
                 </div>
                 <button class="button pro-button signup-button accent_bg" on-tap="buy(product);">BUY NOW</button>
                 <div class="clearfix"></div>

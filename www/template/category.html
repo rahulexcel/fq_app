@@ -30,10 +30,9 @@
             <div class="product pinch_ele" id="{{prod._id}}" item-height="265px" force-refresh-images='true' ng-repeat="prod in products track by prod._id">
                 <div class="image" on-tap="openProduct(prod);">
                     <img img-loader ng-src="{{prod.img}}"/>
-                    <!--comment for v2 only-->
-                    <!--                    <div class="heart my-wishlist-img accent_bg" on-tap="wishlist(prod,$event);">
-                                            <i class="ion-ios-heart"></i>
-                                        </div>-->
+                    <div class="heart my-wishlist-img accent_bg" on-tap="wishlist(prod,$event);">
+                        <i class="ion-ios-heart"></i>
+                    </div>
                 </div>
                 <div class="row category-product-likeUnlike" ng-if="prod.count_likes > 0 || prod.count_unlikes > 0">
                     <div class="col button-clear button-positive" style="color:#387ef5;">
@@ -48,7 +47,6 @@
                 <div class="bottom_box">
                     <div class="name primary_text" on-tap="openProduct(prod);" ng-bind='prod.name'></div>
                     <div class="website e-site secondary_text"><i class='site {{prod.website}}'></i><span ng-bind='prod.website'></span></div>
-                    <!--<div class="brand" ng-show="prod.brand.length > 0" ng-bind='prod.brand'></div>--> 
                     <div class="price primary_text">
                         Rs.<span ng-bind='prod.price'></span>
                         <span style="font-size:.82em" class="offrate accent" ng-show="prod.offrate * 1 > 0">(-{{prod.offrate}}%)</span>
