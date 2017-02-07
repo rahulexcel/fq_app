@@ -1,8 +1,8 @@
 profileMod.controller('ProfileListMineCtrl',
-        ['$scope', '$localStorage',
-            function ($scope, $localStorage) {
+        ['$scope', '$localStorage', 'wishlistHelper',
+            function ($scope, $localStorage, wishlistHelper) {
                 $scope.$on('doRefresh', function () {
-                   $scope.$emit('getUserData');
+                    $scope.$emit('getUserData');
                 });
                 var shared_lists = [];
                 var public_lists = [];
@@ -21,6 +21,9 @@ profileMod.controller('ProfileListMineCtrl',
                 self.genData = function () {
                     console.log('gen data');
                     var wishlists = $scope.$parent.user.lists_mine;
+                    shared_lists = [];
+                    public_lists = [];
+                    private_lists = [];
                     if (wishlists) {
                         for (var i = 0; i < wishlists.length; i++) {
                             if ($scope.me) {
@@ -50,7 +53,24 @@ profileMod.controller('ProfileListMineCtrl',
                                 shared_lists.push(wishlists[i]);
                         }
                     }
-                    console.log(shared_lists);
+                    for (var i = 0; i < public_lists.length; i++) {
+                        if (!public_lists[i].bg_color) {
+                            public_lists[i].bg_color = wishlistHelper.getRandomColor();
+                            public_lists[i].list_symbol = public_lists[i].name.substring(0, 1);
+                        }
+                    }
+                    for (var i = 0; i < private_lists.length; i++) {
+                        if (!private_lists[i].bg_color) {
+                            private_lists[i].bg_color = wishlistHelper.getRandomColor();
+                            private_lists[i].list_symbol = private_lists[i].name.substring(0, 1);
+                        }
+                    }
+                    for (var i = 0; i < shared_lists.length; i++) {
+                        if (!shared_lists[i].bg_color) {
+                            shared_lists[i].bg_color = wishlistHelper.getRandomColor();
+                            shared_lists[i].list_symbol = shared_lists[i].name.substring(0, 1);
+                        }
+                    }
                     $scope.shared_lists = shared_lists;
                     $scope.public_lists = public_lists;
                     $scope.private_lists = private_lists;
