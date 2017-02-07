@@ -14,7 +14,7 @@ wishlistService.factory('wishlistHelper', [
         };
         service.saveImageUrl = function (url) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/picture/get_url?url=' + encodeURIComponent(url), {}, 'GET');
+            var ajax = ajaxRequest.send('v2/picture/get_url?url=' + encodeURIComponent(url), {}, 'GET');
             ajax.then(function (data) {
                 def.resolve(data);
             }, function (message) {
@@ -24,7 +24,7 @@ wishlistService.factory('wishlistHelper', [
         };
         service.getUrlImage = function (url) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/picture/extract?url=' + encodeURIComponent(url), {}, 'GET');
+            var ajax = ajaxRequest.send('v2/picture/extract?url=' + encodeURIComponent(url), {}, 'GET');
             ajax.then(function (data) {
                 def.resolve(data);
             }, function (message) {
@@ -35,7 +35,7 @@ wishlistService.factory('wishlistHelper', [
         service.remove = function (item_id, list_id) {
             var def = $q.defer();
             if ($localStorage.user && $localStorage.user.id) {
-                var ajax = ajaxRequest.send('v1/wishlist/item/remove', {
+                var ajax = ajaxRequest.send('v2/wishlist/item/remove', {
                     user_id: $localStorage.user.id,
                     item_id: item_id,
                     list_id: list_id
@@ -154,7 +154,7 @@ wishlistService.factory('wishlistHelper', [
                     $ionicLoading.show({
                         template: 'Loading...'
                     });
-                var ajax = ajaxRequest.send('v1/wishlist/list', {
+                var ajax = ajaxRequest.send('v2/wishlist/list', {
                     user_id: $localStorage.user.id
                 });
                 ajax.then(function (data) {
@@ -220,7 +220,7 @@ wishlistService.factory('wishlistHelper', [
             //comment out login check code because, when user is logged out and open any item page
             // it redirects him to login page
 //            if ($localStorage.user && $localStorage.user.id) {
-            var ajax = ajaxRequest.send('v1/wishlist/item/list', {
+            var ajax = ajaxRequest.send('v2/wishlist/item/list', {
                 user_id: $localStorage.user.id,
                 list_id: list_id,
                 page: page,
@@ -243,7 +243,7 @@ wishlistService.factory('wishlistHelper', [
         service.delete = function (list_id) {
             var def = $q.defer();
             if ($localStorage.user && $localStorage.user.id) {
-                var ajax = ajaxRequest.send('v1/wishlist/list/delete', {
+                var ajax = ajaxRequest.send('v2/wishlist/list/delete', {
                     list_id: list_id,
                     user_id: $localStorage.user.id
                 });
@@ -270,7 +270,7 @@ wishlistService.factory('wishlistHelper', [
                 if (list.list_id) {
                     is_edit_list = true;
                 }
-                var ajax = ajaxRequest.send('v1/wishlist/add', list);
+                var ajax = ajaxRequest.send('v2/wishlist/add', list);
                 ajax.then(function (data) {
                     def.resolve(data);
                     if (list.type === 'shared' && !list._id && !is_edit_list) {
@@ -313,7 +313,7 @@ wishlistService.factory('wishlistHelper', [
         service.addItem = function (item, list_id) {
             var def = $q.defer();
             if ($localStorage.user && $localStorage.user.id) {
-                var ajax = ajaxRequest.send('v1/wishlist/item/add', {
+                var ajax = ajaxRequest.send('v2/wishlist/item/add', {
                     user_id: $localStorage.user.id,
                     item: item,
                     list_id: list_id,
@@ -394,7 +394,7 @@ wishlistService.factory('wishlistHelper', [
         };
         service.viewItem = function (item_id, list_id) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/wishlist/item/view/' + item_id + "/" + list_id, {}, 'GET');
+            var ajax = ajaxRequest.send('v2/wishlist/item/view/' + item_id + "/" + list_id, {}, 'GET');
             ajax.then(function (data) {
                 def.resolve(data);
             }, function (message) {
@@ -449,7 +449,7 @@ wishlistService.factory('wishlistHelper', [
                 cur_price = data.price;
             }
 
-            var ajax = ajaxRequest.send('v1/notify/item/price_alert', {
+            var ajax = ajaxRequest.send('v2/notify/item/price_alert', {
                 user_id: $localStorage.user.id,
                 product_id: product_id,
                 price: cur_price
@@ -464,7 +464,7 @@ wishlistService.factory('wishlistHelper', [
         };
         service.leaveList = function (list) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/wishlist/leave_list', {
+            var ajax = ajaxRequest.send('v2/wishlist/leave_list', {
                 user_id: $localStorage.user.id,
                 list_id: list._id
             });
@@ -499,7 +499,7 @@ wishlistService.factory('wishlistHelper', [
             var def = $q.defer();
             var self = this;
             if ($localStorage.user && $localStorage.user.id) {
-                var ajax = ajaxRequest.send('v1/wishlist/item/add', {
+                var ajax = ajaxRequest.send('v2/wishlist/item/add', {
                     user_id: $localStorage.user.id,
                     product_id: product_id,
                     list_id: list_id,

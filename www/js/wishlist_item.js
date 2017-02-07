@@ -890,7 +890,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                 });
                 $scope.showZoom = function (index) {
                     var more_images = $scope.item.item_id.more_images;
-                    var img = ajaxRequest.url('v1/picture/view/' + $scope.item.item_id.img);
+                    var img = ajaxRequest.url('v2/picture/view/' + $scope.item.item_id.img);
                     var final_images = [];
                     final_images.push(img);
                     if (more_images) {
@@ -965,7 +965,7 @@ wishlistItemMod.controller('WishlistItemCtrl',
                                 user: $localStorage.user,
                                 message: 'Abuse Report'
                             };
-                            var ajax = ajaxRequest.send('v1/feedback/add', {
+                            var ajax = ajaxRequest.send('v2/feedback/add', {
                                 feedback: angular.copy(data),
                                 device: angular.copy($scope.device)
                             });

@@ -190,7 +190,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrlStep2',
                                 ajax.then(function (data) {
                                     $scope.url_loading = false;
                                     if (data) {
-                                        var pic = ajaxRequest.url('v1/picture/view/' + data.data);
+                                        var pic = ajaxRequest.url('v2/picture/view/' + data.data);
                                         $scope.item.picture = pic;
                                         $scope.item.picture_size = data.size;
                                         $scope.item.file_name = data.data;
@@ -330,7 +330,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrlStep2',
                                         if (data.size.width < 150 || data.size.height < 150) {
                                             toast.showShortBottom('Image Size Should Be More Than 150x150px');
                                         } else {
-                                            var pic = ajaxRequest.url('v1/picture/view/' + data.data);
+                                            var pic = ajaxRequest.url('v2/picture/view/' + data.data);
                                             $scope.item.picture = pic;
                                             $scope.item.picture_size = data.size;
                                             $scope.item.file_name = data.data;
@@ -378,7 +378,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrlStep2',
                     $scope.file_upload = true;
                     $ionicBackdrop.retain();
                     $scope.upload = $upload.upload({
-                        url: ajaxRequest.url('v1/picture/upload'),
+                        url: ajaxRequest.url('v2/picture/upload'),
                         data: {user_id: $localStorage.user.id, size: 1, temp: true},
                         file: file
                     }).progress(function (evt) {
@@ -401,7 +401,7 @@ wishlistItemAddMod.controller('WishlistItemAddCtrlStep2',
                                 toast.showShortBottom('Image Size Should Be More Than 150x150px');
                             } else {
                                 if (data.data) {
-                                    var pic = ajaxRequest.url('v1/picture/view/' + data.data);
+                                    var pic = ajaxRequest.url('v2/picture/view/' + data.data);
                                     $scope.item.picture = pic;
                                     $scope.item.picture_size = data.size;
                                     $scope.item.file_name = data.data;

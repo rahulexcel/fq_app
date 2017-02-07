@@ -843,7 +843,7 @@ serviceMod.filter('picture', ['ajaxRequest', 'CDN', function (ajaxRequest, CDN) 
             //if (picture.length <= 32) {
             if (picture.indexOf('http') === -1) {
                 //mongodb id
-                picture = ajaxRequest.url('v1/picture/view/' + picture);
+                picture = ajaxRequest.url('v2/picture/view/' + picture);
             }
 
             if (picture.indexOf('facebook') !== -1) {
@@ -881,7 +881,7 @@ serviceMod.factory('CDN', ['ajaxRequest', function (ajaxRequest) {
 //            console.log('server ' + server);
 //            console.log('cdn ' + cdn);
             if (url.indexOf(server) === -1) {
-                url = ajaxRequest.url('v1/picture/view/' + url);
+                url = ajaxRequest.url('v2/picture/view/' + url);
             }
             url = url.replace(server, cdn);
 //            console.log('final ' + url);
@@ -1267,7 +1267,7 @@ serviceMod.factory('uploader', ['$q', 'ajaxRequest',
                         context.ft = false;
                     };
                     context.ft = new FileTransfer();
-                    context.ft.upload(fileURL, encodeURI(ajaxRequest.url('v1/picture/upload')), win, fail, options);
+                    context.ft.upload(fileURL, encodeURI(ajaxRequest.url('v2/picture/upload')), win, fail, options);
                     context.ft.onprogress = function (progressEvent) {
 //                        console.log(progressEvent);
                         if (progressEvent.lengthComputable) {                         //loadingStatus.setPercentage();

@@ -6,7 +6,7 @@ inviteService.factory('inviteHelper', [
         var service = {};
         service.lookUpGoogleFriends = function (data) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/friends/google/lookup', {
+            var ajax = ajaxRequest.send('v2/friends/google/lookup', {
                 user_id: $localStorage.user.id,
                 google_data: data
             });
@@ -19,7 +19,7 @@ inviteService.factory('inviteHelper', [
         };
         service.lookUpFacebookFriends = function (data) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/friends/facebook/lookup', {
+            var ajax = ajaxRequest.send('v2/friends/facebook/lookup', {
                 user_id: $localStorage.user.id,
                 fb_data: data
             });

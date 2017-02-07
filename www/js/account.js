@@ -155,7 +155,7 @@ accountMod.controller('AccountCtrl',
                                                     $scope.progoress_style = {width: per};
                                                     $scope.progress = per;
                                                     $ionicBackdrop.release();
-                                                    var pic = ajaxRequest.url('v1/picture/view/' + data.data);
+                                                    var pic = ajaxRequest.url('v2/picture/view/' + data.data);
                                                     $scope.login_data.picture = pic;
                                                     $localStorage.user.picture = pic;
                                                     $scope.$parent.user.picture = pic;
@@ -210,7 +210,7 @@ accountMod.controller('AccountCtrl',
                     $scope.file_upload = true;
                     $ionicBackdrop.retain();
                     $scope.upload = $upload.upload({
-                        url: ajaxRequest.url('v1/picture/upload'),
+                        url: ajaxRequest.url('v2/picture/upload'),
                         data: {user_id: $localStorage.user.id},
                         file: file
                     }).progress(function (evt) {
@@ -230,7 +230,7 @@ accountMod.controller('AccountCtrl',
                                 $scope.progoress_style = {width: per};
                                 $scope.progress = per;
                                 $ionicBackdrop.release();
-                                var pic = ajaxRequest.url('v1/picture/view/' + data.data);
+                                var pic = ajaxRequest.url('v2/picture/view/' + data.data);
                                 $scope.login_data.picture = pic;
                                 $localStorage.user.picture = pic;
                                 $scope.$parent.user.picture = pic;

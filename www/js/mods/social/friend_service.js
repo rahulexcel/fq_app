@@ -10,7 +10,7 @@ friendService.factory('friendHelper', [
             if ($localStorage.user.id) {
                 id = $localStorage.user.id;
             }
-            var ajax = ajaxRequest.send('v1/feeds/user/top', {
+            var ajax = ajaxRequest.send('v2/feeds/user/top', {
                 skip: page,
                 user_id: id
             }, true);
@@ -27,7 +27,7 @@ friendService.factory('friendHelper', [
             if ($localStorage.user.id) {
                 id = $localStorage.user.id;
             }
-            var ajax = ajaxRequest.send('v1/feeds/list/top', {
+            var ajax = ajaxRequest.send('v2/feeds/list/top', {
                 skip: page,
                 user_id: id
             }, true);
@@ -50,9 +50,9 @@ friendService.factory('friendHelper', [
             var def = $q.defer();
             var url = '';
             if (women) {
-                url = 'v1/feeds/latest?father=home_latest_women';
+                url = 'v2/feeds/latest?father=home_latest_women';
             } else {
-                url = 'v1/feeds/latest?father=home_latest_men';
+                url = 'v2/feeds/latest?father=home_latest_men';
             }
             var ajax = ajaxRequest.send(url, {page: page});
             ajax.then(function (data) {
@@ -64,7 +64,7 @@ friendService.factory('friendHelper', [
         };
         service.home_trending = function (page) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/feeds/trending', {page: page});
+            var ajax = ajaxRequest.send('v2/feeds/trending', {page: page});
             ajax.then(function (data) {
                 def.resolve(data);
             }, function () {
@@ -74,7 +74,7 @@ friendService.factory('friendHelper', [
         };
         service.home_latest_count = function (type) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/feeds/latest/count', {
+            var ajax = ajaxRequest.send('v2/feeds/latest/count', {
                 user_id: $localStorage.user.id,
                 father: type
             }, true);
@@ -87,7 +87,7 @@ friendService.factory('friendHelper', [
         };
         service.home_feed_count = function () {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/feeds/my/count', {
+            var ajax = ajaxRequest.send('v2/feeds/my/count', {
                 user_id: $localStorage.user.id
             }, true);
             ajax.then(function (data) {
@@ -99,7 +99,7 @@ friendService.factory('friendHelper', [
         };
         service.home_feed = function (page) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/feeds/my', {
+            var ajax = ajaxRequest.send('v2/feeds/my', {
                 page: page,
                 user_id: $localStorage.user.id
             });
@@ -112,7 +112,7 @@ friendService.factory('friendHelper', [
         };
         service.item_pins_list = function (item_id) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/item/pins', {
+            var ajax = ajaxRequest.send('v2/social/item/pins', {
                 item_id: item_id
             });
             ajax.then(function (data) {
@@ -124,7 +124,7 @@ friendService.factory('friendHelper', [
         };
         service.item_likes_list = function (list_id, item_id) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/item/likes', {
+            var ajax = ajaxRequest.send('v2/social/item/likes', {
                 list_id: list_id,
                 item_id: item_id
             });
@@ -137,7 +137,7 @@ friendService.factory('friendHelper', [
         };
         service.list_followers_list = function (list_id) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/list/followers', {
+            var ajax = ajaxRequest.send('v2/social/list/followers', {
                 list_id: list_id
             });
             ajax.then(function (data) {
@@ -149,7 +149,7 @@ friendService.factory('friendHelper', [
         };
         service.user_followers_list = function (user_id) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/user/followers', {
+            var ajax = ajaxRequest.send('v2/social/user/followers', {
                 user_id: user_id
             });
             ajax.then(function (data) {
@@ -168,7 +168,7 @@ friendService.factory('friendHelper', [
             }
             var user_id = $localStorage.user.id;
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/user/follow', {
+            var ajax = ajaxRequest.send('v2/social/user/follow', {
                 user_id: user_id,
                 follow_user_id: follow_user_id,
                 type: type
@@ -213,7 +213,7 @@ friendService.factory('friendHelper', [
             }
             var user_id = $localStorage.user.id;
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/list/follow', {
+            var ajax = ajaxRequest.send('v2/social/list/follow', {
                 user_id: user_id,
                 list_id: list_id,
                 type: type
@@ -265,7 +265,7 @@ friendService.factory('friendHelper', [
             if (friend_list && !force) {
                 return $q.when(angular.copy(friend_list));
             } else {
-                var ajax = ajaxRequest.send('v1/social/friends/list', {
+                var ajax = ajaxRequest.send('v2/social/friends/list', {
                     user_id: user_id
                 });
                 ajax.then(function (data) {
@@ -309,7 +309,7 @@ friendService.factory('friendHelper', [
         };
         service.loadMoreFriends = function (user_id, skip) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/user/friends', {
+            var ajax = ajaxRequest.send('v2/social/user/friends', {
                 user_id: user_id,
                 skip: skip
             });
@@ -322,7 +322,7 @@ friendService.factory('friendHelper', [
         };
         service.loadMoreFollowers = function (user_id, skip) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/user/followers', {
+            var ajax = ajaxRequest.send('v2/social/user/followers', {
                 user_id: user_id,
                 skip: skip
             });
@@ -335,7 +335,7 @@ friendService.factory('friendHelper', [
         };
         service.loadMoreFollowing = function (user_id, skip) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/user/following', {
+            var ajax = ajaxRequest.send('v2/social/user/following', {
                 user_id: user_id,
                 skip: skip
             });
@@ -361,7 +361,7 @@ friendService.factory('friendHelper', [
         };
         service.unFriend = function (me_id, friend_id) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/user/unfriend', {
+            var ajax = ajaxRequest.send('v2/social/user/unfriend', {
                 me_id: me_id,
                 friend_id: friend_id
             });
@@ -377,7 +377,7 @@ friendService.factory('friendHelper', [
         };
         service.declineFriendRequest = function (from_friend_id) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/user/declinefriendrequest', {
+            var ajax = ajaxRequest.send('v2/social/user/declinefriendrequest', {
                 from_user_id: from_friend_id,
                 to_user_id: $localStorage.user.id
             });
@@ -404,7 +404,7 @@ friendService.factory('friendHelper', [
         };
         service.acceptFriendRequest = function (from_friend_id) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/user/acceptfriendrequest', {
+            var ajax = ajaxRequest.send('v2/social/user/acceptfriendrequest', {
                 from_user_id: from_friend_id,
                 to_user_id: $localStorage.user.id
             });
@@ -434,7 +434,7 @@ friendService.factory('friendHelper', [
                 user_id = $localStorage.user.id;
             }
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/user/friend_requests', {
+            var ajax = ajaxRequest.send('v2/social/user/friend_requests', {
                 user_id: user_id
             });
             ajax.then(function (data) {
@@ -446,7 +446,7 @@ friendService.factory('friendHelper', [
         };
         service.addFriend = function (to_user_id, from_user_id) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/user/addfriend', {
+            var ajax = ajaxRequest.send('v2/social/user/addfriend', {
                 from_user_id: from_user_id,
                 to_user_id: to_user_id
             });

@@ -214,7 +214,7 @@ notifyService.factory('notifyHelper', [
             data.time = new Date().getTime();
             if (data.alert)
                 data.message = data.alert;
-            return ajaxRequest.send('v1/notify/alert', {
+            return ajaxRequest.send('v2/notify/alert', {
                 user_id: channel,
                 expiry: expiry,
                 data: data
@@ -267,7 +267,7 @@ notifyService.factory('notifyHelper', [
         };
         service.setPriceLimit = function (item_id, user_id, price) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/notify/modify_alerts', {
+            var ajax = ajaxRequest.send('v2/notify/modify_alerts', {
                 user_id: user_id,
                 item_id: item_id,
                 price: price
@@ -281,7 +281,7 @@ notifyService.factory('notifyHelper', [
         };
         service.stopPriceAlert = function (item_id, user_id) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/notify/stop_alert', {
+            var ajax = ajaxRequest.send('v2/notify/stop_alert', {
                 user_id: user_id,
                 alert_id: item_id
             });
@@ -294,7 +294,7 @@ notifyService.factory('notifyHelper', [
         };
         service.getPriceAlert = function (alert_id) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/notify/get_alert', {
+            var ajax = ajaxRequest.send('v2/notify/get_alert', {
                 alert_id: alert_id
             });
             ajax.then(function (data) {
@@ -306,7 +306,7 @@ notifyService.factory('notifyHelper', [
         };
         service.getPriceAlerts = function (page) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/notify/get_alerts', {
+            var ajax = ajaxRequest.send('v2/notify/get_alerts', {
                 user_id: $localStorage.user.id,
                 page: page
             });
@@ -405,7 +405,7 @@ notifyService.factory('notifyHelper', [
                                 version: $cordovaDevice.getVersion()
                             };
                             device.appVersion = version;
-                            ajaxRequest.send('v1/notify/register', {
+                            ajaxRequest.send('v2/notify/register', {
                                 user_id: $localStorage.user.id,
                                 token: token,
                                 device: device
@@ -452,7 +452,7 @@ notifyService.factory('notifyHelper', [
                                                 version: $cordovaDevice.getVersion()
                                             };
                                             device.appVersion = version;
-                                            ajaxRequest.send('v1/notify/register', {
+                                            ajaxRequest.send('v2/notify/register', {
                                                 user_id: $localStorage.user.id,
                                                 reg_id: notification.regid,
                                                 device: device

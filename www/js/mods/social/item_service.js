@@ -6,7 +6,7 @@ itemService.factory('itemHelper', [
         var service = {};
         service.unlikeComment = function (comment_id, user_id) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/item/comment/unlike', {
+            var ajax = ajaxRequest.send('v2/social/item/comment/unlike', {
                 comment_id: comment_id,
                 user_id: user_id
             });
@@ -20,7 +20,7 @@ itemService.factory('itemHelper', [
         service.likeComment = function (comment, user_id, item_id, list_id) {
             var def = $q.defer();
             var comment_id = comment._id;
-            var ajax = ajaxRequest.send('v1/social/item/comment/like', {
+            var ajax = ajaxRequest.send('v2/social/item/comment/like', {
                 comment_id: comment_id,
                 user_id: user_id
             });
@@ -52,7 +52,7 @@ itemService.factory('itemHelper', [
         };
         service.listComment = function (list_id, item_id) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/item/view/comment/' + list_id + "/" + item_id, {}, 'POST');
+            var ajax = ajaxRequest.send('v2/social/item/view/comment/' + list_id + "/" + item_id, {}, 'POST');
             ajax.then(function (data) {
                 if ($localStorage.user.id) {
                     for (var i = 0; i < data.length; i++) {
@@ -95,7 +95,7 @@ itemService.factory('itemHelper', [
             }
             var user_id = $localStorage.user.id;
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/item/comment', {
+            var ajax = ajaxRequest.send('v2/social/item/comment', {
                 user_id: user_id,
                 list_id: list_id,
                 item_id: item_id,
@@ -123,7 +123,7 @@ itemService.factory('itemHelper', [
                                 title: 'New Comment',
                                 message: $localStorage.user.name + " comment on your clip",
                                 alert: comment,
-                                bigPicture: ajaxRequest.url('v1/picture/view/' + item_picture) + "?width=480",
+                                bigPicture: ajaxRequest.url('v2/picture/view/' + item_picture) + "?width=480",
                                 meta: {
                                     user: $localStorage.user,
                                     data: {
@@ -158,7 +158,7 @@ itemService.factory('itemHelper', [
         service.pin = function (item_id, list_id) {
             var user_id = $localStorage.user.id;
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/item/pin', {
+            var ajax = ajaxRequest.send('v2/social/item/pin', {
                 user_id: user_id,
                 list_id: list_id,
                 item_id: item_id
@@ -179,7 +179,7 @@ itemService.factory('itemHelper', [
             }
             var user_id = $localStorage.user.id;
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v1/social/item/like', {
+            var ajax = ajaxRequest.send('v2/social/item/like', {
                 user_id: user_id,
                 list_id: list_id,
                 item_id: item_id,

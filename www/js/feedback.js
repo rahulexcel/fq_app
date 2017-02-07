@@ -64,7 +64,7 @@ feedbackMod.controller('FeedbackCtrl',
                 $scope.sendFeedback = function () {
                     if ($scope.feedback.text.length > 0 && $scope.feedback.email.length > 0) {
                         $scope.feedback_status = 1;
-                        var ajax = ajaxRequest.send('v1/feedback/add', {
+                        var ajax = ajaxRequest.send('v2/feedback/add', {
                             feedback: angular.copy($scope.feedback),
                             device: angular.copy($scope.device)
                         });

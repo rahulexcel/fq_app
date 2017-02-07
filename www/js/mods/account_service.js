@@ -173,7 +173,7 @@ accountService.factory('accountHelper', [
                 if (picture.length === 0) {
                     data.picture = '';
                 } else if (picture.indexOf('http') === -1) {
-                    data.picture = ajaxRequest.url('v1/picture/view/' + data.picture);
+                    data.picture = ajaxRequest.url('v2/picture/view/' + data.picture);
                 }
                 notifyHelper.init();
 
