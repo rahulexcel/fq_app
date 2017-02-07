@@ -155,11 +155,10 @@ accountService.factory('accountHelper', [
                 ajax = ajaxRequest.send('v2/account/create', {user: user});
             }
             ajax.then(function (data) {
-                if(data.error == 1){
+                if (data.error == 1) {
                     toast.showShortBottom(data.message);
                     return;
-                }
-                else if (data.name && data.name !== 'XXX') {
+                } else if (data.name && data.name !== 'XXX') {
                     toast.showShortBottom('Welcome ' + data.name);
                 } else {
                     toast.showShortBottom('Welcome');
@@ -193,10 +192,18 @@ accountService.factory('accountHelper', [
                         ajax = inviteHelper.lookUpFacebookFriends(data1.data);
                         ajax.then(function () {
                             def.resolve(data);
-                            urlHelper.direct(redirect_url);
+                            if (redirect_url == '/app/mine') {
+                                urlHelper.openProfilePage($localStorage.user.id, 'mine');
+                            } else {
+                                urlHelper.direct(redirect_url);
+                            }
                         });
                     } else {
-                        urlHelper.direct(redirect_url);
+                        if (redirect_url == '/app/mine') {
+                            urlHelper.openProfilePage($localStorage.user.id, 'mine');
+                        } else {
+                            urlHelper.direct(redirect_url);
+                        }
                     }
                 } else if ($localStorage.user.type === 'google') {
                     data1 = dataShare.getData();
@@ -205,14 +212,26 @@ accountService.factory('accountHelper', [
                         ajax.then(function () {
                             def.resolve(data);
                             console.log(redirect_url)
-                            urlHelper.direct(redirect_url);
+                            if (redirect_url == '/app/mine') {
+                                urlHelper.openProfilePage($localStorage.user.id, 'mine');
+                            } else {
+                                urlHelper.direct(redirect_url);
+                            }
                         });
                     } else {
                         console.log(redirect_url)
-                        urlHelper.direct(redirect_url);
+                        if (redirect_url == '/app/mine') {
+                            urlHelper.openProfilePage($localStorage.user.id, 'mine');
+                        } else {
+                            urlHelper.direct(redirect_url);
+                        }
                     }
                 } else {
-                    urlHelper.direct(redirect_url);
+                    if (redirect_url == '/app/mine') {
+                        urlHelper.openProfilePage($localStorage.user.id, 'mine');
+                    } else {
+                        urlHelper.direct(redirect_url);
+                    }
                 }
 
             }, function (message) {
