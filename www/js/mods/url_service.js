@@ -74,11 +74,11 @@ urlService.factory('urlHelper', ['$location','$ionicHistory',
             $location.path('/intro');
         };
         service.openHomePage = function () {
-            $ionicHistory.clearCache().then(function(){
-                $location.path('/app/home');
-            });
+//            $ionicHistory.clearCache().then(function(){
+//                $location.path('/app/home');
+//            });
 //            comment and change for v2 only
-//            $location.path('/app/home/trending');
+            $location.path('/app/home/trending');
         };
         service.openSignUp = function () {
             $location.path('/app/signup');

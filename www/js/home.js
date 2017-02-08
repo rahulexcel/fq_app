@@ -4,15 +4,15 @@ homeMod.controller('HomeCtrl',
             function ($scope, friendHelper, $ionicNavBarDelegate, $rootScope, $ionicScrollDelegate, $localStorage, $interval, $ionicPlatform, $timeout, $state, urlHelper, $q) {
                 var self = this;
                 console.log('home');
-//                $timeout(function () {
-//                    console.log($state)
-//                    $ionicNavBarDelegate.align('left');
-//                    if($state.current.name == "app.home.trending"){
-//                        $ionicNavBarDelegate.title('FashionIQ');
-//                    } else if($state.current.name == "app.home"){
-//                        $ionicNavBarDelegate.title('HOME');
-//                    }
-//                },100);
+                $timeout(function () {
+                    console.log($state)
+                    $ionicNavBarDelegate.align('left');
+                    if($state.current.name == "app.home.trending"){
+                        $ionicNavBarDelegate.title('FashionIQ');
+                    } else if($state.current.name == "app.home"){
+                        $ionicNavBarDelegate.title('HOME');
+                    }
+                },100);
                 self.skipGetData = false;
                 self.init = function () {
                     self.type = 'trending';
