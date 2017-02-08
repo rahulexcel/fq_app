@@ -55,7 +55,7 @@ productService.factory('productHelper', [
 
                 ret.variants = variants;
                 defer.resolve(ret);
-            }, function(err){
+            }, function (err) {
                 defer.reject(err);
             });
             return defer.promise;
@@ -73,11 +73,19 @@ productService.factory('productHelper', [
 //            if (timeStorage.get(cache_key)) {
 //                return $q.when(timeStorage.get(cache_key));
 //            }
-            var ajax = ajaxRequest.send('v2/product/similar', {
-                product_id: id,
-                unique: unique,
-                website: website
-            }, true);
+//    for v2 only
+            if (id) {
+                var ajax = ajaxRequest.send('v2/product/similar', {
+                    product_id: id,
+                    unique: unique,
+                    website: website
+                }, true);
+            } else {
+                var ajax = ajaxRequest.send('v2/product/similar', {
+                    unique: unique,
+                    website: website
+                }, true);
+            }
             ajax.then(function (similarData) {
                 var data = similarData.products[0];
                 var ret = {};
@@ -96,7 +104,7 @@ productService.factory('productHelper', [
                 ret.similar = similar;
                 timeStorage.set(cache_key, ret, 1);
                 defer.resolve(ret);
-            }, function(err){
+            }, function (err) {
                 defer.reject(err);
             });
             return defer.promise;
