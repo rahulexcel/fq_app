@@ -4,6 +4,7 @@ profileMod.controller('ProfileCtrl',
             function ($scope, $localStorage, toast, $ionicLoading, friendHelper, $stateParams, $rootScope, $timeout, $ionicPopup, notifyHelper, $ionicScrollDelegate, accountHelper, urlHelper,$ionicNavBarDelegate) {
                 var user_id = false;
                 var self = this;
+                $scope.friends =[];
                 $scope.$on('logout_event', function () {
                     urlHelper.openHomePage();
                 });

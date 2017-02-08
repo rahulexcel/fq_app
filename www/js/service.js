@@ -865,7 +865,8 @@ serviceMod.filter('picture', ['ajaxRequest', 'CDN', function (ajaxRequest, CDN) 
                 if (height) {
                     picture = picture + "&height=" + height;
                 }
-                picture = CDN.cdnize(picture);
+//                Uncomment this line if you want to use CDN URL (CDN Factory)
+//                picture = CDN.cdnize(picture); 
             } else {
 
             }
@@ -877,9 +878,6 @@ serviceMod.factory('CDN', ['ajaxRequest', function (ajaxRequest) {
         service.cdnize = function (url) {
             var cdn = 'http://dyc4yp9si5syy.cloudfront.net/';
             var server = ajaxRequest.url('');
-//            console.log('url ' + url);
-//            console.log('server ' + server);
-//            console.log('cdn ' + cdn);
             if (url.indexOf(server) === -1) {
                 url = ajaxRequest.url('v2/picture/view/' + url);
             }
