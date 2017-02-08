@@ -39,26 +39,28 @@ notifyService.factory('notifyHelper', [
             });
         };
         service.delete = function (object_id) {
-            this.parseInit();
+            //remove parse in for v2 only
+//            this.parseInit();
             var defer = $q.defer();
-            var Update = Parse.Object.extend("Update");
-            var query = new Parse.Query(Update);
-            query.get(object_id, {
-                success: function (obj) {
-                    obj.destroy({
-                        success: function (res) {
-                            console.log('deleted');
-                            defer.resolve(res);
-                        },
-                        error: function () {
-                            defer.reject();
-                        }
-                    });
-                },
-                error: function (object, error) {
-                    defer.reject();
-                }
-            });
+//            var Update = Parse.Object.extend("Update");
+//            var query = new Parse.Query(Update);
+//            query.get(object_id, {
+//                success: function (obj) {
+//                    obj.destroy({
+//                        success: function (res) {
+//                            console.log('deleted');
+//                            defer.resolve(res);
+//                        },
+//                        error: function () {
+//                            defer.reject();
+//                        }
+//                    });
+//                },
+//                error: function (object, error) {
+//                    defer.reject();
+//                }
+//            });
+            defer.reject();
             return defer.promise;
         };
         service.updateAlert = function (uniq_id) {
@@ -66,120 +68,124 @@ notifyService.factory('notifyHelper', [
             if (user_id && uniq_id) {
                 $rootScope.profile_update = 0;
                 $rootScope.$evalAsync();
-                var Update = Parse.Object.extend("Update");
-                var query = new Parse.Query(Update);
-                query.equalTo('user_id', user_id);
-                query.equalTo('uniq_id', uniq_id);
-                query.find({
-                    success: function (res) {
-                        for (var i = 0; i < res.length; i++) {
-                            res[i].set('read', true);
-                            res[i].save();
-                        }
-                    }
-                });
+                //remove parse in for v2 only
+//                var Update = Parse.Object.extend("Update");
+//                var query = new Parse.Query(Update);
+//                query.equalTo('user_id', user_id);
+//                query.equalTo('uniq_id', uniq_id);
+//                query.find({
+//                    success: function (res) {
+//                        for (var i = 0; i < res.length; i++) {
+//                            res[i].set('read', true);
+//                            res[i].save();
+//                        }
+//                    }
+//                });
             }
         };
         service.getUpdate = function (user_id, count, skip) {
-            this.parseInit();
-            if (!skip) {
-                skip = 0;
-            }
-
-            var limit = 10;
-            if ($rootScope.profile_update > limit) {
-                limit = $rootScope.profile_update;
-            }
+                    //remove parse in for v2 only
+//            this.parseInit();
+//                    if (!skip) {
+//                skip = 0;
+//            }
+//
+//            var limit = 10;
+//            if ($rootScope.profile_update > limit) {
+//                limit = $rootScope.profile_update;
+//            }
             var defer = $q.defer();
-            var Update = Parse.Object.extend("Update");
-            var query = new Parse.Query(Update);
-            query.equalTo('user_id', user_id);
-            if (count)
-            {
-                query.equalTo('read', false);
-                query.count({
-                    success: function (res) {
-                        defer.resolve(res);
-                    },
-                    error: function () {
-                        defer.reject();
-                    }
-                });
-            } else {
-                query.descending("time");
-                query.limit(limit);
-                query.skip(skip);
-                query.find({
-                    success: function (res) {
-                        var ret = [];
-                        for (var i = 0; i < res.length; i++) {
-                            ret.push({
-                                id: res[i].id,
-                                user_id: res[i].get('user_id'),
-                                data: res[i].get('data'),
-                                read: res[i].get('read'),
-                                time: res[i].get('time'),
-                                type: res[i].get('type')
-                            });
-                            var profile_update = $rootScope.profile_update;
-                            if (!res[i].get('read')) {
-                                res[i].set('read', true);
-                                res[i].save();
-                                profile_update--;
-                                if (profile_update < 0) {
-                                    profile_update = 0;
-                                }
-                            }
-                            $rootScope.profile_update = profile_update;
-                        }
-                        defer.resolve(ret);
-                    },
-                    error: function () {
-                        defer.reject();
-                    }
-                });
-            }
-
+//            var Update = Parse.Object.extend("Update");
+//            var query = new Parse.Query(Update);
+//            query.equalTo('user_id', user_id);
+//            if (count)
+//            {
+//                query.equalTo('read', false);
+//                query.count({
+//                    success: function (res) {
+//                        defer.resolve(res);
+//                    },
+//                    error: function () {
+//                        defer.reject();
+//                    }
+//                });
+//            } else {
+//                query.descending("time");
+//                query.limit(limit);
+//                query.skip(skip);
+//                query.find({
+//                    success: function (res) {
+//                        var ret = [];
+//                        for (var i = 0; i < res.length; i++) {
+//                            ret.push({
+//                                id: res[i].id,
+//                                user_id: res[i].get('user_id'),
+//                                data: res[i].get('data'),
+//                                read: res[i].get('read'),
+//                                time: res[i].get('time'),
+//                                type: res[i].get('type')
+//                            });
+//                            var profile_update = $rootScope.profile_update;
+//                            if (!res[i].get('read')) {
+//                                res[i].set('read', true);
+//                                res[i].save();
+//                                profile_update--;
+//                                if (profile_update < 0) {
+//                                    profile_update = 0;
+//                                }
+//                            }
+//                            $rootScope.profile_update = profile_update;
+//                        }
+//                        defer.resolve(ret);
+//                    },
+//                    error: function () {
+//                        defer.reject();
+//                    }
+//                });
+//            }
+            defer.reject();
             return defer.promise;
         };
         service.addUpdate = function (user_ids, type, data, uniq_id) {
-            this.parseInit();
-            if (!angular.isArray(user_ids)) {
-                user_ids = [user_ids];
-            }
+            //remove parse in for v2 only
+//            this.parseInit();
+//            if (!angular.isArray(user_ids)) {
+//                user_ids = [user_ids];
+//            }
             var defer = $q.defer();
-            if (user_ids.length === 0) {
-                defer.when();
-            } else {
-                var Update = Parse.Object.extend("Update");
-                var k = 0;
-                for (var i = 0; i < user_ids.length; i++) {
-                    (function (user_id) {
-                        var update = new Update({
-                            user_id: user_id,
-                            data: data,
-                            read: false,
-                            time: new Date(),
-                            type: type,
-                            uniq_id: uniq_id
-                        });
-                        update.save(null, {success: function () {
-                                defer.notify(user_id);
-                                if (k === (user_ids.length)) {
-                                    defer.resolve();
-                                }
-                                k++;
-                            },
-                            error: function () {
-                                if (k === (user_ids.length)) {
-                                    defer.reject();
-                                }
-                                k++;
-                            }
-                        });
-                    })(user_ids[i]);
-                }
-            }
+//            if (user_ids.length === 0) {
+//                defer.when();
+//            } else {
+//                var Update = Parse.Object.extend("Update");
+//                var k = 0;
+//                for (var i = 0; i < user_ids.length; i++) {
+//                    (function (user_id) {
+//                        var update = new Update({
+//                            user_id: user_id,
+//                            data: data,
+//                            read: false,
+//                            time: new Date(),
+//                            type: type,
+//                            uniq_id: uniq_id
+//                        });
+//                        update.save(null, {success: function () {
+//                                defer.notify(user_id);
+//                                if (k === (user_ids.length)) {
+//                                    defer.resolve();
+//                                }
+//                                k++;
+//                            },
+//                            error: function () {
+//                                if (k === (user_ids.length)) {
+//                                    defer.reject();
+//                                }
+//                                k++;
+//                            }
+//                        });
+//                    })(user_ids[i]);
+//                }
+//            }
+            defer.reject();
             return defer.promise;
         };
         service.channelQueue = [];
@@ -194,31 +200,32 @@ notifyService.factory('notifyHelper', [
                 service.sendAlert(queue, data, expiry);
         };
         service.sendAlert = function (channel, data, expiry) {
-            this.parseInit();
-            if (!expiry) {
-                expiry = 24;
-            }
-
-            if (data.user) {
-                var new_user = {};
-                new_user.id = data.user.id;
-                new_user.name = data.user.name;
-                new_user.picture = data.user.picture;
-                data.user = new_user;
-            }
-
-            if (!angular.isArray(channel)) {
-                channel = channel.replace('user_', '')
-            }
-            expiry = expiry * 60 * 60;
-            data.time = new Date().getTime();
-            if (data.alert)
-                data.message = data.alert;
-            return ajaxRequest.send('v2/notify/alert', {
-                user_id: channel,
-                expiry: expiry,
-                data: data
-            }, true);
+            ////remove parse in for v2 only
+//            this.parseInit();
+//            if (!expiry) {
+//                expiry = 24;
+//            }
+//
+//            if (data.user) {
+//                var new_user = {};
+//                new_user.id = data.user.id;
+//                new_user.name = data.user.name;
+//                new_user.picture = data.user.picture;
+//                data.user = new_user;
+//            }
+//
+//            if (!angular.isArray(channel)) {
+//                channel = channel.replace('user_', '')
+//            }
+//            expiry = expiry * 60 * 60;
+//            data.time = new Date().getTime();
+//            if (data.alert)
+//                data.message = data.alert;
+//            return ajaxRequest.send('v2/notify/alert', {
+//                user_id: channel,
+//                expiry: expiry,
+//                data: data
+//            }, true);
 //            expiry = new Date().getTime() + expiry * 1000;
 //            var defer = $q.defer();
 //            Parse.Push.send({
@@ -319,10 +326,21 @@ notifyService.factory('notifyHelper', [
         };
         service.init_done = false;
         service.parseInit = function () {
-            if (!this.init_done) {
-                Parse.initialize('X5pqHF9dFQhbCxv8lQYHhH1KfXjzp2c4phg51ZPz', 'wjP6ghTt3b6dJ7lyrzIinTLMNe3fW6vy3LafCyVs');
-                this.init_done = true;
-            }
+            document.addEventListener("keydown", keyDownTextField, false);
+
+function keyDownTextField(e) {
+var keyCode = e.keyCode;
+  if(keyCode==13) {
+  alert("You hit the enter key.");
+  } else {
+  alert("Oh no you didn't.");
+  }
+}
+            //remove parse in for v2 only
+//            if (!this.init_done) {
+//                Parse.initialize('X5pqHF9dFQhbCxv8lQYHhH1KfXjzp2c4phg51ZPz', 'wjP6ghTt3b6dJ7lyrzIinTLMNe3fW6vy3LafCyVs');
+//                this.init_done = true;
+//            }
         };
         service.openItem = function (row) {
             console.log('open item');
@@ -382,7 +400,8 @@ notifyService.factory('notifyHelper', [
         };
         service.init = function () {
             this.doUpdates();
-            this.parseInit();
+            //remove parse in for v2 only
+//            this.parseInit();
             var self = this;
             if (ionic.Platform.isWebView() && $localStorage.user.id) {
 
@@ -416,20 +435,20 @@ notifyService.factory('notifyHelper', [
                         console.log(err);
                     });
                     $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
-                        
-                                console.log('notification recieved in javascript');
-                                console.log(notification);
-                                    var meta = notification.meta;
-                                    meta = JSON.parse(meta);
-                                    //$timeout(function () {
-                                        service.openItem(meta);
-                                    //});
-                                //});
-                                // this is the actual push notification. its format depends on the data model from the push server
-                                //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
-                                
 
-                        
+                        console.log('notification recieved in javascript');
+                        console.log(notification);
+                        var meta = notification.meta;
+                        meta = JSON.parse(meta);
+                        //$timeout(function () {
+                        service.openItem(meta);
+                        //});
+                        //});
+                        // this is the actual push notification. its format depends on the data model from the push server
+                        //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
+
+
+
                     });
                 } else {
                     $cordovaPush.register({
