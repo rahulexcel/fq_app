@@ -62,10 +62,15 @@ wishlistItemsMod.controller('WishlistItemsCtrl',
                     $scope.deleteList = function () {
                         $ionicBackdrop.retain();
                         var ajax = wishlistHelper.delete($scope.list_id);
-                        ajax.then(function () {
+                        ajax.then(function (data) {
+                            console.log(data)
                             $ionicBackdrop.release();
-                            toast.showShortBottom('WishList Deleted');
-                            urlHelper.openProfilePage('me', 'mine');
+                            if (data.error == 1) {
+                                toast.showShortBottom(data.message);
+                            } else {
+                                toast.showShortBottom('WishList Deleted');
+                                urlHelper.openProfilePage('me', 'mine');
+                            }
                         }, function () {
                             $ionicBackdrop.release();
                         });

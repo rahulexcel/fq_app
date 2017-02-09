@@ -800,7 +800,7 @@ span.e-site{
     height: 36px;
 }
 #scroller li {
-    width:150px;
+    width:147px;
     background-color:#fff;
     padding: 0 10px 3px;;
 }
@@ -2341,8 +2341,8 @@ i.offline-icon{
 }
 .wishlist_item_footer .item_icon{
     float: right;
-    padding-right: 10px;
-    padding-left: 10px;
+    padding-right: 6px;
+    padding-left: 6px;
 }
 .wishlist_item_footer .item_icon i{
     font-size:1.3em;

@@ -1,6 +1,6 @@
 <ion-view cache-view="false">
     <ion-nav-title>{{item.item_id.name}}</ion-nav-title> 
-    <ion-content on-scroll="scroll();" lazy-scroll>
+    <ion-content on-scroll="scroll();" lazy-scroll class="has-header">
         <ion-refresher
             pulling-text="Pull to refresh..."
             on-refresh="doRefresh()">
