@@ -326,16 +326,6 @@ notifyService.factory('notifyHelper', [
         };
         service.init_done = false;
         service.parseInit = function () {
-            document.addEventListener("keydown", keyDownTextField, false);
-
-function keyDownTextField(e) {
-var keyCode = e.keyCode;
-  if(keyCode==13) {
-  alert("You hit the enter key.");
-  } else {
-  alert("Oh no you didn't.");
-  }
-}
             //remove parse in for v2 only
 //            if (!this.init_done) {
 //                Parse.initialize('X5pqHF9dFQhbCxv8lQYHhH1KfXjzp2c4phg51ZPz', 'wjP6ghTt3b6dJ7lyrzIinTLMNe3fW6vy3LafCyVs');

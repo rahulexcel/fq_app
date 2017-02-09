@@ -159,8 +159,21 @@ registerMod.controller('RegisterCtrl',
                             $scope.facebook_status = 1;
                             var fb_id = data.id;
                             var email = data.email;
-                            var firstname = data.first_name;
-                            var lastname = data.last_name;
+                            if(data.first_name){
+                                var firstname = data.first_name;
+                            }
+                            if(data.last_name){
+                                var lastname = data.last_name;
+                            }
+                            if(firstname && lastname){
+                                var FBname = firstname + " " + lastname
+                            } else if(data.name){
+                                var FBname = data.name;
+                            } else{
+                                var FBname = '';
+                            }
+                            
+                            
                             var gender = data.gender;
                             if (gender === 'male') {
                                 gender = 'M';
@@ -185,7 +198,7 @@ registerMod.controller('RegisterCtrl',
                                     toast.showShortBottom("Email Not Found From Facebook, Unable To Login!");
                                 } else {
                                     var user = {
-                                        name: firstname + " " + lastname,
+                                        name: FBname,
                                         gender: gender,
                                         email: email,
                                         fb_id: fb_id,

@@ -145,6 +145,10 @@ accountService.factory('accountHelper', [
                 };
             }
             user.device = device;
+            console.log(user)
+            if(!user.gender){
+                user.gender = 'M';
+            }
             if (type === 'login') {
                 ajax = ajaxRequest.send('v2/account/login', {user: user});
             } else if (type === 'facebook') {
@@ -157,6 +161,7 @@ accountService.factory('accountHelper', [
             ajax.then(function (data) {
                 if (data.error == 1) {
                     toast.showShortBottom(data.message);
+                    def.reject();
                     return;
                 } else if (data.name && data.name !== 'XXX') {
                     toast.showShortBottom('Welcome ' + data.name);
@@ -166,10 +171,11 @@ accountService.factory('accountHelper', [
                 if (data._id) {
                     data.id = data._id;
                 }
+                console.log('welcome-data', data)
                 data.type = type;
                 $localStorage.user = data;
                 var picture = data.picture;
-                if (picture.length === 0) {
+                if (!picture) {
                     data.picture = '';
                 } else if (picture.indexOf('http') === -1) {
                     data.picture = ajaxRequest.url('v2/picture/view/' + data.picture);
