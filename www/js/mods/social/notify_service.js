@@ -221,11 +221,11 @@ notifyService.factory('notifyHelper', [
 //            data.time = new Date().getTime();
 //            if (data.alert)
 //                data.message = data.alert;
-//            return ajaxRequest.send('v2/notify/alert', {
-//                user_id: channel,
-//                expiry: expiry,
-//                data: data
-//            }, true);
+            return ajaxRequest.send('v2/notify/alert', {
+                user_id: channel,
+                expiry: expiry,
+                data: data
+            }, true);
 //            expiry = new Date().getTime() + expiry * 1000;
 //            var defer = $q.defer();
 //            Parse.Push.send({
