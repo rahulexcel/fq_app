@@ -17,7 +17,7 @@ pinMod.controller('PinCtrl',
             function ($scope, $timeout, $ionicPlatform, $localStorage, friendHelper, toast, itemHelper, pinchServie, CDN, accountHelper, urlHelper) {
                 $scope.loading = true;
                 $scope.windowWidth = 0;
-                $scope.page = 0;
+                $scope.page = 1;
                 $scope.pin_count = 0;
                 $scope.total_pin_count = 0;
                 pinchServie.init();
@@ -151,7 +151,7 @@ pinMod.controller('PinCtrl',
                     $scope.loadMore();
                 }
                 $scope.doRefresh = function () {
-                    $scope.page = 0;
+                    $scope.page = 1;
                     $scope.initPinsDisplay();
                     ajax_data = [];
                     console.log('from do refresh');
