@@ -7,6 +7,14 @@ menuMod.controller('MenuCtrl',
                 if ($localStorage.user.id) {
                     notifyHelper.checkForUpdates();
                 }
+                $scope.backButtonShow = true;
+                $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+                    if (toState.name == 'app.home.trending' || toState.name == 'app.home.feed' || toState.name == 'app.home.latest') {
+                        $scope.backButtonShow = false;
+                    } else {
+                        $scope.backButtonShow = true;
+                    }
+                });
 
                 $scope.$on('modal.shown', function () {
                     $rootScope.$emit('hide_android_add');
@@ -175,9 +183,9 @@ menuMod.controller('MenuCtrl',
                             window.analytics.trackEvent('Profile', 'Top');
                         }
                         if ($localStorage.user) {
-                            if($localStorage.user.id){
+                            if ($localStorage.user.id) {
                                 urlHelper.openProfilePage($localStorage.user.id, 'mine');
-                            } else{
+                            } else {
                                 urlHelper.openProfilePage('me', 'mine');
                             }
                         } else {
