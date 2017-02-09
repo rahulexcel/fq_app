@@ -4,7 +4,11 @@ var accountMod = angular.module('AccountMod',
 accountMod.controller('AccountCtrl',
         ['$scope', '$localStorage', 'toast', 'accountHelper', '$upload', 'ajaxRequest', '$ionicActionSheet', '$cordovaCamera', 'uploader', '$window', '$ionicBackdrop', 'urlHelper',
             function ($scope, $localStorage, toast, accountHelper, $upload, ajaxRequest, $ionicActionSheet, $cordovaCamera, uploader, $window, $ionicBackdrop, urlHelper) {
-
+                
+//                var a =5;
+//                var b= 6;
+//                var x = '+';
+//                console.log(eval(a +x+ b));
                 $scope.$on('doRefresh', function () {
                     $scope.$emit('getUserData');
                 });
