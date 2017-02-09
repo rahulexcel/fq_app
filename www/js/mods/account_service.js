@@ -156,6 +156,7 @@ accountService.factory('accountHelper', [
             }
             ajax.then(function (data) {
                 if (data.error == 1) {
+                    def.reject();
                     toast.showShortBottom(data.message);
                     return;
                 } else if (data.name && data.name !== 'XXX') {

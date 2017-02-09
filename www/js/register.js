@@ -155,7 +155,7 @@ registerMod.controller('RegisterCtrl',
                                 toast.showProgress();
                                 return;
                             }
-                            console.log('fbuserdata',data)
+                            console.log('fbuserdata', data)
                             $scope.facebook_status = 1;
                             var fb_id = data.id;
                             var email = data.email;
@@ -241,8 +241,8 @@ registerMod.controller('RegisterCtrl',
                     var api = googleLogin.startLogin();
                     api.then(function (data) {
                         console.log(data);
-                        var user=data;
-                        user.gender='M';
+                        var user = data;
+                        user.gender = 'M';
                         // var user = data;
                         // if (user.gender === 'male') {
                         //     user.gender = 'M';
