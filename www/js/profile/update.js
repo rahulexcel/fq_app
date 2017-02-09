@@ -62,6 +62,8 @@ profileMod.controller('ProfileUpdateCtrl',
                     ajax.then(function (data) {
                         $scope.loading = false;
                         $scope.updateItems(data);
+                    }, function(){
+                        $scope.loading = false;
                     });
                 };
                 $scope.getItems(0);

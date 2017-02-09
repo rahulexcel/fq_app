@@ -147,7 +147,7 @@ accountService.factory('accountHelper', [
             user.device = device;
             console.log(user)
             if(!user.gender){
-                user.gender = 'M';
+                user.gender = 'F';
             }
             if (type === 'login') {
                 ajax = ajaxRequest.send('v2/account/login', {user: user});
@@ -184,9 +184,7 @@ accountService.factory('accountHelper', [
                 notifyHelper.init();
 
                 $rootScope.$broadcast('login_event');
-//                comment and change for v2 only
-//                var redirect_url = '/app/home/trending';
-                var redirect_url = '/app/home';
+                var redirect_url = '/app/home/trending';
                 if ($localStorage.previous && $localStorage.previous.url) {
                     redirect_url = $localStorage.previous.url;
                 }

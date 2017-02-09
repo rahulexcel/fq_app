@@ -17,7 +17,7 @@ pinMod.controller('PinCtrl',
             function ($scope, $timeout, $ionicPlatform, $localStorage, friendHelper, toast, itemHelper, pinchServie, CDN, accountHelper, urlHelper) {
                 $scope.loading = true;
                 $scope.windowWidth = 0;
-                $scope.page = 1;
+                $scope.page = 0;
                 $scope.pin_count = 0;
                 $scope.total_pin_count = 0;
                 pinchServie.init();
