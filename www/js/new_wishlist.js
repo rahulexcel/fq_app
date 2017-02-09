@@ -169,7 +169,7 @@ wishlistnewMod.controller('WishlistNewCtrl',
                                 ajax2.then(function () {
                                     $scope.status = 2;
                                     toast.showShortBottom('Product Added To Your Wishlist');
-                                    urlHelper.openWishlistPage(list_id, list.name);
+                                    urlHelper.openWishlistPage(list_id, $scope.list.name);
                                 }, function (message) {
                                     toast.showShortBottom(message);
                                     $scope.status = 2;
