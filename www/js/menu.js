@@ -14,6 +14,12 @@ menuMod.controller('MenuCtrl',
                     } else {
                         $scope.backButtonShow = true;
                     }
+                    $timeout(function () {
+                        $ionicNavBarDelegate.align('left');
+                        if ($state.current.name == "app.home.trending") {
+                            $ionicNavBarDelegate.title('FashionIQ');
+                        }
+                    }, 100);
                 });
 
                 $scope.$on('modal.shown', function () {
