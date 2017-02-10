@@ -133,7 +133,7 @@ itemService.factory('itemHelper', [
                                         },
                                         list_id: {
                                             _id: data.data.list_id._id,
-                                            name : data.data.list_id.name
+                                            name: data.data.list_id.name
                                         },
                                         comment: comment
                                     },
@@ -186,40 +186,44 @@ itemService.factory('itemHelper', [
                 type: type
             });
             ajax.then(function (data) {
-                def.resolve(data);
-                if (type === 'add') {
-                    var uniq_id = new Date().getTime();
-                    notifyHelper.sendAlert('user_' + data.list_id.user_id, {
-                        title: 'Likes Your Clip',
-                        message: $localStorage.user.name + " likes your clip",
-                        bigPicture: data.item_id.org_img,
-                        meta: {
-                            user: $localStorage.user,
-                            type: 'item_like',
-                            data: {
-                                item_id: {
-                                    _id: data.item_id._id,
-                                    img: data.item_id.img
+                if (data.error != 1) {
+                    def.resolve(data);
+                    if (type === 'add') {
+                        var uniq_id = new Date().getTime();
+                        notifyHelper.sendAlert('user_' + data.list_id.user_id, {
+                            title: 'Likes Your Clip',
+                            message: $localStorage.user.name + " likes your clip",
+                            bigPicture: data.item_id.org_img,
+                            meta: {
+                                user: $localStorage.user,
+                                type: 'item_like',
+                                data: {
+                                    item_id: {
+                                        _id: data.item_id._id,
+                                        img: data.item_id.img
+                                    },
+                                    list_id: {
+                                        _id: data.list_id._id,
+                                        name: data.list_id.name,
+                                    }
                                 },
-                                list_id: {
-                                    _id: data.list_id._id,
-                                    name: data.list_id.name,
-                                }
-                            },
-                            uniq_id: uniq_id
-                        }
-                    });
-                    notifyHelper.addUpdate(data.list_id.user_id, 'item_like', {
-                        user: $localStorage.user,
-                        data: data
-                    }, uniq_id);
+                                uniq_id: uniq_id
+                            }
+                        });
+                        notifyHelper.addUpdate(data.list_id.user_id, 'item_like', {
+                            user: $localStorage.user,
+                            data: data
+                        }, uniq_id);
+                    } else {
+                        notifyHelper.addUpdate(data.list_id.user_id, 'item_unlike', {
+                            user: $localStorage.user,
+                            data: data
+                        });
+                    }
                 } else {
-                    notifyHelper.addUpdate(data.list_id.user_id, 'item_unlike', {
-                        user: $localStorage.user,
-                        data: data
-                    });
+                    def.reject(data);
+                    toast.showShortBottom(data.message);
                 }
-
             }, function (data) {
                 def.reject(data);
             });

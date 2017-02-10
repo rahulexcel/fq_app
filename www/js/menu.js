@@ -175,27 +175,31 @@ menuMod.controller('MenuCtrl',
                     }
                 };
                 $scope.wishlist = function () {
-                    if ($rootScope.profile_update > 0) {
-                        if (window.analytics) {
-                            window.analytics.trackEvent('Profile', 'Updates');
-                        }
-                        if ($localStorage.user.id) {
-                            urlHelper.openProfilePage($localStorage.user.id, 'update');
-                        } else {
-                            urlHelper.openProfilePage('me', 'update');
-                        }
+                    if (!$localStorage.user) {
+                        urlHelper.openSignUp();
                     } else {
-                        if (window.analytics) {
-                            window.analytics.trackEvent('Profile', 'Top');
-                        }
-                        if ($localStorage.user) {
+                        if ($rootScope.profile_update > 0) {
+                            if (window.analytics) {
+                                window.analytics.trackEvent('Profile', 'Updates');
+                            }
                             if ($localStorage.user.id) {
-                                urlHelper.openProfilePage($localStorage.user.id, 'mine');
+                                urlHelper.openProfilePage($localStorage.user.id, 'update');
+                            } else {
+                                urlHelper.openProfilePage('me', 'update');
+                            }
+                        } else {
+                            if (window.analytics) {
+                                window.analytics.trackEvent('Profile', 'Top');
+                            }
+                            if ($localStorage.user) {
+                                if ($localStorage.user.id) {
+                                    urlHelper.openProfilePage($localStorage.user.id, 'mine');
+                                } else {
+                                    urlHelper.openProfilePage('me', 'mine');
+                                }
                             } else {
                                 urlHelper.openProfilePage('me', 'mine');
                             }
-                        } else {
-                            urlHelper.openProfilePage('me', 'mine');
                         }
                     }
                 };

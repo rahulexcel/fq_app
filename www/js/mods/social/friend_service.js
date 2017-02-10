@@ -99,10 +99,17 @@ friendService.factory('friendHelper', [
         };
         service.home_feed = function (page) {
             var def = $q.defer();
-            var ajax = ajaxRequest.send('v2/feeds/my', {
-                page: page,
-                user_id: $localStorage.user.id
-            });
+            if ($localStorage.user) {
+                var userdata = {
+                    page: page,
+                    user_id: $localStorage.user.id
+                }
+            } else {
+                var userdata = {
+                    page: page
+                }
+            }
+            var ajax = ajaxRequest.send('v2/feeds/my', userdata);
             ajax.then(function (data) {
                 def.resolve(data);
             }, function () {

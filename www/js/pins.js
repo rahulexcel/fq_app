@@ -21,6 +21,121 @@ pinMod.controller('PinCtrl',
                 $scope.pin_count = 0;
                 $scope.total_pin_count = 0;
                 pinchServie.init();
+                
+                $scope.initPinsDisplay = function () {
+                    grid_space = [];
+                    grid = [];
+                    grid1 = [];
+                    grid2 = [];
+                    grid3 = [];
+                    grid4 = [];
+                    grid5 = [];
+                    cur_column = 0;
+                    level = 1;
+                    pin_column = 0;
+                    pin_width = 240;
+                    total_height = 0;
+                    total_pins = 0;
+                    var window_width = document.querySelector('.menu-content').clientWidth;
+//                    if (window_width > 688) {
+//                        window_width = window_width - 275;
+//                    }
+//                    console.log('window width ' + window_width);
+                    pin_column = Math.floor(window_width / pin_width);
+                    if (pin_column < 2) {
+                        pin_width = (window_width) / 2 - 10;
+                        $scope.pin_width = pin_width + "px";
+                        $scope.pin_width_no = pin_width;
+                        //2px padding
+                        pin_column = 2;
+                        angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:100%;');
+                    } else {
+                        pin_width = 240;
+                        $scope.pin_width = pin_width + "px";
+                        $scope.pin_width_no = pin_width;
+                        angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:' + (pin_width * pin_column + 10 * pin_column) + 'px;');
+                    }
+                    $scope.col_width = Math.round(100 / pin_column, 2) + "%";
+//                    console.log(pin_column + 'pin columns');
+                    $scope.grid1 = grid1;
+                    $scope.grid2 = grid2;
+                    $scope.grid3 = grid3;
+                };
+                
+                $scope.displayPins = function (data) {
+                    if (!data) {
+                        $scope.initPinsDisplay();
+                        data = ajax_data;
+                    }
+                    if (data.length === 0) {
+                        return;
+                    }
+
+                    level = 1;
+                    for (var i = 0; i < data.length; i++) {
+                        var pin = data[i];
+                        var pin_height = data[i].pin_height;
+                        pin_height = pin_height.replace('px', '') * 1;
+                        total_height += pin_height;
+                        total_pins++;
+                    }
+
+                    var avg_height = total_height / pin_column;
+                    for (var i = 0; i < data.length; i++) {
+                        var pin = data[i];
+                        var pin_height = data[i].pin_height;
+                        pin_height = pin_height.replace('px', '') * 1;
+                        if (!grid_space[cur_column]) {
+                            grid_space[cur_column] = 0;
+                        }
+                        if (!grid[cur_column]) {
+                            grid[cur_column] = [];
+                        }
+                        //grid[cur_column].push(pin);
+//                        console.log('pin_height ' + i + "XXXX" + pin_height);
+                        if (cur_column > 2) {
+                            cur_column = 0;
+                        }
+
+//                        if (grid_space[cur_column] + pin_height > avg_height * level) {
+                        if (cur_column === 0) {
+                            grid1.push(pin);
+                        } else if (cur_column === 1) {
+                            grid2.push(pin);
+                        } else if (cur_column === 2) {
+                            grid3.push(pin);
+                        }
+
+                        var next_column = cur_column + 1;
+                        if (next_column > 2) {
+                            next_column = 0;
+                        }
+                        if (!grid_space[next_column]) {
+                            grid_space[next_column] = 0;
+                        }
+                        if (grid_space[cur_column] + pin_height > grid_space[next_column]) {
+                            cur_column++;
+                            if (cur_column >= pin_column) {
+                                level++;
+                                cur_column = 0;
+                            }
+                        }
+
+//                        else if (cur_column === 3) {
+//                            grid4.push(pin);
+//                        } else if (cur_column === 4) {
+//                            grid5.push(pin);
+//                        }
+                        grid_space[cur_column] += pin_height;
+//                        console.log(grid_space[cur_column] + 'grid space' + i + 'column ' + cur_column);
+                        $scope.grid = grid;
+                        $scope.grid1 = grid1;
+                        $scope.grid2 = grid2;
+                        $scope.grid3 = grid3;
+                    }
+
+                };
+                
                 $scope.$watch('windowWidth', function (newVaue) {
                     $scope.displayPins();
                 });
@@ -73,13 +188,13 @@ pinMod.controller('PinCtrl',
                                     data[i].likes = 0;
                                 }
 
-                                if ($localStorage.user.id && $localStorage.user.id === data[i].original.user_id) {
+                                if ($localStorage.user && $localStorage.user.id === data[i].original.user_id) {
                                     data[i].canPin = false;
                                 } else {
                                     if (data[i].pins && data[i].pins.length > 0) {
                                         data[i].canPin = true;
                                         for (var m = 0; m < data[i].pins.length; m++) {
-                                            if (data[i].pins[m] === $localStorage.user.id) {
+                                            if ($localStorage.user && data[i].pins[m] === $localStorage.user.id) {
                                                 data[i].canPin = false;
                                                 break;
                                             }
@@ -89,7 +204,7 @@ pinMod.controller('PinCtrl',
                                     }
                                 }
 
-                                if ($localStorage.user.id && $localStorage.user.id === data[i].original.user_id) {
+                                if ($localStorage.user && $localStorage.user.id === data[i].original.user_id) {
                                     data[i].canLike = false;
                                 } else {
                                     if (data[i].likes && data[i].likes.length > 0) {
@@ -190,119 +305,9 @@ pinMod.controller('PinCtrl',
                 $scope.pin_width_no = pin_width;
                 var total_height = 0;
                 var total_pins = 0;
-                $scope.initPinsDisplay = function () {
-                    grid_space = [];
-                    grid = [];
-                    grid1 = [];
-                    grid2 = [];
-                    grid3 = [];
-                    grid4 = [];
-                    grid5 = [];
-                    cur_column = 0;
-                    level = 1;
-                    pin_column = 0;
-                    pin_width = 240;
-                    total_height = 0;
-                    total_pins = 0;
-                    var window_width = document.querySelector('.menu-content').clientWidth;
-//                    if (window_width > 688) {
-//                        window_width = window_width - 275;
-//                    }
-//                    console.log('window width ' + window_width);
-                    pin_column = Math.floor(window_width / pin_width);
-                    if (pin_column < 2) {
-                        pin_width = (window_width) / 2 - 10;
-                        $scope.pin_width = pin_width + "px";
-                        $scope.pin_width_no = pin_width;
-                        //2px padding
-                        pin_column = 2;
-                        angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:100%;');
-                    } else {
-                        pin_width = 240;
-                        $scope.pin_width = pin_width + "px";
-                        $scope.pin_width_no = pin_width;
-                        angular.element(document.querySelector('.pin_list_container')).attr('style', 'width:' + (pin_width * pin_column + 10 * pin_column) + 'px;');
-                    }
-                    $scope.col_width = Math.round(100 / pin_column, 2) + "%";
-//                    console.log(pin_column + 'pin columns');
-                    $scope.grid1 = grid1;
-                    $scope.grid2 = grid2;
-                    $scope.grid3 = grid3;
-                };
+                
                 $scope.initPinsDisplay();
-                $scope.displayPins = function (data) {
-                    if (!data) {
-                        $scope.initPinsDisplay();
-                        data = ajax_data;
-                    }
-                    if (data.length === 0) {
-                        return;
-                    }
-
-                    level = 1;
-                    for (var i = 0; i < data.length; i++) {
-                        var pin = data[i];
-                        var pin_height = data[i].pin_height;
-                        pin_height = pin_height.replace('px', '') * 1;
-                        total_height += pin_height;
-                        total_pins++;
-                    }
-
-                    var avg_height = total_height / pin_column;
-                    for (var i = 0; i < data.length; i++) {
-                        var pin = data[i];
-                        var pin_height = data[i].pin_height;
-                        pin_height = pin_height.replace('px', '') * 1;
-                        if (!grid_space[cur_column]) {
-                            grid_space[cur_column] = 0;
-                        }
-                        if (!grid[cur_column]) {
-                            grid[cur_column] = [];
-                        }
-                        //grid[cur_column].push(pin);
-//                        console.log('pin_height ' + i + "XXXX" + pin_height);
-                        if (cur_column > 2) {
-                            cur_column = 0;
-                        }
-
-//                        if (grid_space[cur_column] + pin_height > avg_height * level) {
-                        if (cur_column === 0) {
-                            grid1.push(pin);
-                        } else if (cur_column === 1) {
-                            grid2.push(pin);
-                        } else if (cur_column === 2) {
-                            grid3.push(pin);
-                        }
-
-                        var next_column = cur_column + 1;
-                        if (next_column > 2) {
-                            next_column = 0;
-                        }
-                        if (!grid_space[next_column]) {
-                            grid_space[next_column] = 0;
-                        }
-                        if (grid_space[cur_column] + pin_height > grid_space[next_column]) {
-                            cur_column++;
-                            if (cur_column >= pin_column) {
-                                level++;
-                                cur_column = 0;
-                            }
-                        }
-
-//                        else if (cur_column === 3) {
-//                            grid4.push(pin);
-//                        } else if (cur_column === 4) {
-//                            grid5.push(pin);
-//                        }
-                        grid_space[cur_column] += pin_height;
-//                        console.log(grid_space[cur_column] + 'grid space' + i + 'column ' + cur_column);
-                        $scope.grid = grid;
-                        $scope.grid1 = grid1;
-                        $scope.grid2 = grid2;
-                        $scope.grid3 = grid3;
-                    }
-
-                };
+                
                 $scope.getItemWidth = function () {
                     return pin_width + "px";
                 };
@@ -483,7 +488,8 @@ pinMod.controller('PinCtrl',
                         var share_url = 'http://fashioniq.in/m/i/' + item._id + "/" + item.original.list_id;
                         var picture = item.image;
                         var name = item.name;
-                        picture = CDN.cdnize(picture);
+//                        picture = CDN.cdnize(picture);
+                        picture = picture;
                         if (name.length === 0) {
                             name = 'Awesome Clip!';
                         }
@@ -512,7 +518,8 @@ pinMod.controller('PinCtrl',
                         var share_url = 'http://fashioniq.in/m/i/' + item._id + "/" + item.original.list_id;
                         var picture = item.image;
                         var name = item.name;
-                        picture = CDN.cdnize(picture);
+//                        picture = CDN.cdnize(picture);
+                        picture = picture;
                         if (name.length === 0) {
                             name = 'Awesome Clip!';
                         }
