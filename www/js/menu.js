@@ -16,7 +16,7 @@ menuMod.controller('MenuCtrl',
                     }
                     $timeout(function () {
                         $ionicNavBarDelegate.align('left');
-                        if ($state.current.name == "app.home.trending") {
+                        if ($state.current.name == "app.home.trending" || $state.current.name == "app.home.feed" || $state.current.name == "app.home.latest") {
                             $ionicNavBarDelegate.title('FashionIQ');
                         }
                     }, 100);

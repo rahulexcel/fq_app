@@ -100,9 +100,11 @@ app.config(["$stateProvider", "$urlRouterProvider", '$ionicConfigProvider',
                     url: '/latest',
                     views: {
                         'pin-content': {
-                            templateUrl: 'template/list/pins.html',
-                            controller: 'PinCtrl',
-                            controllerAs: 'latest'
+//                            templateUrl: 'template/list/pins.html',
+//                            controller: 'PinCtrl',
+                            templateUrl: 'template/category.html',
+                            controller: 'CategoryCtrl',
+//                            controllerAs: 'latest'
                         }
                     }
                 })

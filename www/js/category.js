@@ -24,9 +24,10 @@ categoryMod.directive('scrollWatch', ['$window', function ($window) {
         };
     }]);
 categoryMod.controller('CategoryCtrl',
-        ['$scope', 'categoryHelper', 'toast', '$ionicHistory', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', 'dataShare', '$timeout', 'timeStorage', '$ionicModal', 'pinchServie', 'urlHelper', '$ionicNavBarDelegate', 'accountHelper',
-            function ($scope, categoryHelper, toast, $ionicHistory, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, dataShare, $timeout, timeStorage, $ionicModal, pinchServie, urlHelper, $ionicNavBarDelegate, accountHelper) {
+        ['$scope', 'categoryHelper', 'toast', '$ionicHistory', '$ionicScrollDelegate', '$stateParams', '$localStorage', '$rootScope', 'dataShare', '$timeout', 'timeStorage', '$ionicModal', 'pinchServie', 'urlHelper', '$ionicNavBarDelegate', 'accountHelper','$window',
+            function ($scope, categoryHelper, toast, $ionicHistory, $ionicScrollDelegate, $stateParams, $localStorage, $rootScope, dataShare, $timeout, timeStorage, $ionicModal, pinchServie, urlHelper, $ionicNavBarDelegate, accountHelper, $window) {
                 var i = 0;
+                console.log('CategoryCtrl', $ionicHistory.currentView().stateName)
                 $scope.$on('modal.shown', function () {
                     $rootScope.$emit('hide_android_add');
                 });
@@ -87,8 +88,13 @@ categoryMod.controller('CategoryCtrl',
                         sub_cat_id: $stateParams.sub_cat_id
                     };
                     $scope.products = [];
-                } else if ($ionicHistory.currentView().stateName == 'app.home') {
+                } else if ($ionicHistory.currentView().stateName == 'app.home.latest' || $ionicHistory.currentView().stateName == 'app.home.trending') {
                     console.log('setting category via home category');
+                    console.log('$window.innerHeight',$window.innerHeight)
+                    $scope.categoryPageLatest = {
+                        "height":($window.innerHeight - 88)+ 'px',
+                        "background": "#fff"
+                    }
                     $scope.current_category = {
                         name: 'FashionIQ'
                     };
