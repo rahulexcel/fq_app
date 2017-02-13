@@ -32,7 +32,7 @@ productMod.controller('ProductCtrl',
                         var share_url = 'http://fashioniq.in/m/p/' + product._id;
                         window.plugins.socialsharing.share(product.name, null, product.img, share_url, function () {
                         }, function () {
-                            toast.showShortBottom('Unable to Share');
+                            toast.showShortBottom('Unable to Share! App not found');
                         });
                     };
                     $scope.twitter = function (product) {
@@ -40,7 +40,7 @@ productMod.controller('ProductCtrl',
                         window.plugins.socialsharing.shareViaTwitter(
                                 product.name, product.img, share_url, function () {
                                 }, function () {
-                            toast.showShortBottom('Unable to Share');
+                            toast.showShortBottom('Unable to Share! App not found');
                         });
                     };
                     $scope.whatsapp = function (product) {
@@ -48,7 +48,7 @@ productMod.controller('ProductCtrl',
                         window.plugins.socialsharing.shareViaWhatsApp(
                                 product.name, product.img, share_url, function () {
                                 }, function () {
-                            toast.showShortBottom('Unable to Share');
+                            toast.showShortBottom('Unable to Share! app not found');
                         });
                     };
 
@@ -69,7 +69,7 @@ productMod.controller('ProductCtrl',
                             console.log(data);
                         }, function (data) {
                             console.log(data);
-                            toast.showShortBottom('Unable to Share');
+                            toast.showShortBottom('Unable to Share! App not found');
                         });
                     };
                 } else {

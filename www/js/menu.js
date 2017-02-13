@@ -175,7 +175,7 @@ menuMod.controller('MenuCtrl',
                     }
                 };
                 $scope.wishlist = function () {
-                    if (!$localStorage.user) {
+                    if (!$localStorage.user.userId) {
                         urlHelper.openSignUp();
                     } else {
                         if ($rootScope.profile_update > 0) {

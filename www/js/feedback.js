@@ -2,13 +2,16 @@ var feedbackMod = angular.module('FeedbackMod',
         ['ServiceMod', 'ngStorage', 'ngCordova']);
 
 feedbackMod.controller('FeedbackCtrl',
-        ['$scope', '$localStorage', 'toast', 'ajaxRequest', '$cordovaDevice', '$cordovaAppVersion', '$rootScope',
-            function ($scope, $localStorage, toast, ajaxRequest, $cordovaDevice, $cordovaAppVersion, $rootScope) {
+        ['$scope', '$localStorage', 'toast', 'ajaxRequest', '$ionicHistory', '$cordovaDevice', '$cordovaAppVersion', '$rootScope',
+            function ($scope, $localStorage, toast, ajaxRequest, $ionicHistory, $cordovaDevice, $cordovaAppVersion, $rootScope) {
                 var self = this;
                 self.init = function () {
                     $scope.feedback = {
                         text: '',
                         email: ''
+                    };
+                    $rootScope.$ionicGoBack = function (backCount) {
+                        window.history.back();
                     };
                     if ($localStorage.user && $localStorage.user.email) {
                         $scope.feedback.email = $localStorage.user.email;

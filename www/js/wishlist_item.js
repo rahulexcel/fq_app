@@ -295,12 +295,13 @@ wishlistItemMod.controller('WishlistItemCtrl',
                     };
                     $scope.whatsapp = function (product) {
                         var share_url = 'http://fashioniq.in/m/i/' + $state.params.item_id + "/" + $state.params.list_id;
-                        var picture = $scope.item.item_id.img;
+                        var picture = product.img;
+                        console.log(picture)
                         var name = $scope.item.item_id.name;
                         if (name.length === 0) {
                             name = 'Awesome Clip!';
                         }
-                        picture = CDN.cdnize(picture);
+//                        picture = CDN.cdnize(picture);
                         window.plugins.socialsharing.shareViaWhatsApp(
                                 name, picture, share_url, function () {
                                 }, function (e) {

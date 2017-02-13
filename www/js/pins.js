@@ -21,7 +21,7 @@ pinMod.controller('PinCtrl',
                 $scope.pin_count = 0;
                 $scope.total_pin_count = 0;
                 pinchServie.init();
-                
+
                 $scope.initPinsDisplay = function () {
                     grid_space = [];
                     grid = [];
@@ -61,7 +61,7 @@ pinMod.controller('PinCtrl',
                     $scope.grid2 = grid2;
                     $scope.grid3 = grid3;
                 };
-                
+
                 $scope.displayPins = function (data) {
                     if (!data) {
                         $scope.initPinsDisplay();
@@ -135,7 +135,7 @@ pinMod.controller('PinCtrl',
                     }
 
                 };
-                
+
                 $scope.$watch('windowWidth', function (newVaue) {
                     $scope.displayPins();
                 });
@@ -305,9 +305,9 @@ pinMod.controller('PinCtrl',
                 $scope.pin_width_no = pin_width;
                 var total_height = 0;
                 var total_pins = 0;
-                
+
                 $scope.initPinsDisplay();
-                
+
                 $scope.getItemWidth = function () {
                     return pin_width + "px";
                 };
@@ -513,17 +513,15 @@ pinMod.controller('PinCtrl',
                     }
                 };
                 $scope.whatsapp = function (item) {
-                    console.log('hm');
                     if (item._id) {
                         var share_url = 'http://fashioniq.in/m/i/' + item._id + "/" + item.original.list_id;
-                        var picture = item.image;
+                        var picture = item.org_img;
                         var name = item.name;
 //                        picture = CDN.cdnize(picture);
                         picture = picture;
                         if (name.length === 0) {
                             name = 'Awesome Clip!';
                         }
-                        console.log(name + "XXXhm" + picture + "XXX" + share_url);
                         window.plugins.socialsharing.shareViaWhatsApp(
                                 name, picture, share_url, function () {
                                 }, function (e) {
