@@ -94,6 +94,7 @@ menuMod.controller('MenuCtrl',
                             email: email
                         };
                         $localStorage.$reset();
+                        $localStorage.user = {};
                         $rootScope.$broadcast('logout_event');
                     });
                 };
@@ -175,7 +176,7 @@ menuMod.controller('MenuCtrl',
                     }
                 };
                 $scope.wishlist = function () {
-                    if (!$localStorage.user.userId) {
+                    if (!$localStorage.user || !$localStorage.user.id) {
                         urlHelper.openSignUp();
                     } else {
                         if ($rootScope.profile_update > 0) {

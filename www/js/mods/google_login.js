@@ -60,11 +60,12 @@ googleLoginService.factory('googleLogin', [
 
                 var win = window.open(authUrl, '_blank', 'location=no,toolbar=no,width=800, height=800');
                 var context = this;
-
                 if (ionic.Platform.isAndroid() || ionic.Platform.isIOS()) {
                     console.log('using in app browser');
                     win.addEventListener('loadstart', function (data) {
-                        console.log('load start');
+                        if (data.url.split('error=')[1]) {
+                            def.reject({error: data.url.split('error=')[1]});
+                        }
                         if (data.url.indexOf(context.redirect_url) === 0) {
                             console.log('redirect url found ' + context.redirect_url);
                             win.close();
@@ -76,7 +77,6 @@ googleLoginService.factory('googleLogin', [
                                 def.reject({error: 'Access Code Not Found'});
                             }
                         }
-
                     });
                 } else {
                     console.log('InAppBrowser not found11');

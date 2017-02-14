@@ -159,21 +159,21 @@ registerMod.controller('RegisterCtrl',
                             $scope.facebook_status = 1;
                             var fb_id = data.id;
                             var email = data.email;
-                            if(data.first_name){
+                            if (data.first_name) {
                                 var firstname = data.first_name;
                             }
-                            if(data.last_name){
+                            if (data.last_name) {
                                 var lastname = data.last_name;
                             }
-                            if(firstname && lastname){
+                            if (firstname && lastname) {
                                 var FBname = firstname + " " + lastname
-                            } else if(data.name){
+                            } else if (data.name) {
                                 var FBname = data.name;
-                            } else{
+                            } else {
                                 var FBname = '';
                             }
-                            
-                            
+
+
                             var gender = data.gender;
                             if (gender === 'male') {
                                 gender = 'M';
@@ -272,7 +272,7 @@ registerMod.controller('RegisterCtrl',
                         });
                     }, function (err) {
                         $scope.google_status = 3;
-                        toast.showShortBottom('Unknow Error!' + err);
+                        toast.showShortBottom(err);
                     });
 
                 };
