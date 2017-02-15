@@ -79,7 +79,11 @@ registerMod.controller('RegisterCtrl',
                         var ajax = accountHelper.forgot(email);
                         ajax.then(function (data) {
                             console.log(data)
-                            $scope.forgot_status = 2;
+                            if (data.message == 'Email Id Not Found') {
+                                $scope.forgot_status = 3;
+                            } else {
+                                $scope.forgot_status = 2;
+                            }
                         }, function () {
                             $scope.forgot_status = 3;
                         });

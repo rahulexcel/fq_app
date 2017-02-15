@@ -108,10 +108,10 @@ accountService.factory('accountHelper', [
             var ajax = false;
             ajax = ajaxRequest.send('v2/account/forgot_password', {email: email});
             ajax.then(function (data) {
-                def.resolve();
+                def.resolve(data);
                 toast.showShortBottom(data.message);
-            }, function () {
-                def.reject();
+            }, function (e) {
+                def.reject(e);
             });
             return def.promise;
         };
