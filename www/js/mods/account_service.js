@@ -109,7 +109,7 @@ accountService.factory('accountHelper', [
             ajax = ajaxRequest.send('v2/account/forgot_password', {email: email});
             ajax.then(function (data) {
                 def.resolve();
-                toast.showShortBottom('Password Sent To Your Email Address');
+                toast.showShortBottom(data.message);
             }, function () {
                 def.reject();
             });

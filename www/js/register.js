@@ -77,7 +77,8 @@ registerMod.controller('RegisterCtrl',
                     if (email.length > 0) {
                         $scope.forgot_status = 1;
                         var ajax = accountHelper.forgot(email);
-                        ajax.then(function () {
+                        ajax.then(function (data) {
+                            console.log(data)
                             $scope.forgot_status = 2;
                         }, function () {
                             $scope.forgot_status = 3;
