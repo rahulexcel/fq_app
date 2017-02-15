@@ -272,7 +272,8 @@ registerMod.controller('RegisterCtrl',
                         });
                     }, function (err) {
                         $scope.google_status = 3;
-                        toast.showShortBottom(err);
+                        if (err != 'Closed')
+                            toast.showShortBottom(err);
                     });
 
                 };

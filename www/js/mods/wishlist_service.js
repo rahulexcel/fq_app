@@ -506,6 +506,7 @@ wishlistService.factory('wishlistHelper', [
                     type: 'product'
                 });
                 ajax.then(function (data) {
+                    if(!data.error || data.error == 0){
                     def.resolve(data);
                     self.showPriceAlertDialog(product_id, data.wishlist_model.name);
                     if (data.list) {
@@ -565,7 +566,10 @@ wishlistService.factory('wishlistHelper', [
 
                         //need to post to user followers as well
                     }
-
+                }else{
+                    toast.showShortBottom(data.message);
+                    def.reject(data)
+                }
                 }, function (message) {
                     def.reject({
                         login: 0,

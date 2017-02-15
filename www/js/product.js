@@ -230,7 +230,7 @@ productMod.controller('ProductCtrl',
                         ajax2.then(function (data) {
                             $scope.product_similar_loading = false;
                             self.processSimliarData(data, pid);
-                        }, function(err){
+                        }, function (err) {
                             $scope.product_similar_loading = false;
                         });
                     }
@@ -242,7 +242,7 @@ productMod.controller('ProductCtrl',
                         ajax3.then(function (data) {
                             $scope.product_variants_loading = false;
                             self.processVariantData(data);
-                        }, function(err){
+                        }, function (err) {
                             $scope.product_variants_loading = false;
                         });
                     }
@@ -347,7 +347,10 @@ productMod.controller('ProductCtrl',
                     $scope.product_id = product_id;
                     $scope.productInfo();
                 }
+                var zoom = 0;
                 $scope.showZoom = function (index) {
+                    $ionicScrollDelegate.$getByHandle('zoom-scroll').zoomTo(1, true);
+                    zoom = 0;
                     var more_images = $scope.product.more_images;
                     var img = $scope.product.img;
                     var final_images = [];
@@ -373,10 +376,26 @@ productMod.controller('ProductCtrl',
                 $scope.closeZoom = function () {
                     $scope.zoom_modal.hide();
                 }
+                
+                $scope.zoomImage = function () {
+                    if (zoom == 0) {
+                        $timeout(function () {
+                            $ionicScrollDelegate.$getByHandle('zoom-scroll').zoomTo(4, true, 190, 0);
+                        });
+                        zoom = 1;
+                    } else {
+                        $timeout(function () {
+                            $ionicScrollDelegate.$getByHandle('zoom-scroll').zoomTo(1, true);
+                        });
+                        zoom = 0;
+                    }
+                }
+
                 $scope.openZoomTap = function (index) {
+                    $ionicScrollDelegate.$getByHandle('zoom-scroll').zoomTo(1, true);
+                    zoom = 0;
                     var more_images = $scope.zoom_images;
                     $scope.zoom_main_image = more_images[index];
-                    $ionicScrollDelegate.$getByHandle('zoom-scroll').zoomBy(1, true);
                 };
                 $ionicModal.fromTemplateUrl('template/partial/zoom.html', {
                     scope: $scope,
@@ -390,7 +409,7 @@ productMod.controller('ProductCtrl',
                 $scope.alreadyLikedUnliked = false;
                 if ($localStorage['productLikeUnlikeIds']) {
                     for (var i = 0; i < $localStorage['productLikeUnlikeIds'].length; i++) {
-                        if($localStorage['productLikeUnlikeIds'][i] == $stateParams.product_id){
+                        if ($localStorage['productLikeUnlikeIds'][i] == $stateParams.product_id) {
                             $scope.alreadyLikedUnliked = true;
                             break;
                         }
@@ -398,9 +417,9 @@ productMod.controller('ProductCtrl',
                 }
                 $scope.likeProduct = function () {
                     $scope.alreadyLikedUnliked = true;
-                    if($scope.product.count_likes){
+                    if ($scope.product.count_likes) {
                         $scope.product.count_likes = $scope.product.count_likes + 1;
-                    } else{
+                    } else {
                         $scope.product.count_likes = 1;
                     }
                     var ids = $localStorage['productLikeUnlikeIds'];
@@ -412,9 +431,9 @@ productMod.controller('ProductCtrl',
                 };
                 $scope.unlikeProduct = function () {
                     $scope.alreadyLikedUnliked = true;
-                    if($scope.product.count_unlikes){
+                    if ($scope.product.count_unlikes) {
                         $scope.product.count_unlikes = $scope.product.count_unlikes + 1;
-                    } else{
+                    } else {
                         $scope.product.count_unlikes = 1;
                     }
                     var ids = $localStorage['productLikeUnlikeIds'];

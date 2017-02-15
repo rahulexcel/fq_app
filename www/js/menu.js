@@ -355,6 +355,7 @@ menuMod.controller('MenuCtrl',
                 $scope.refreshList = function () {
                     var ajax = wishlistHelper.list(true);
                     ajax.then(function (data) {
+                        console.log(data)
                         $scope.lists = data;
                         $scope.$broadcast('scroll.refreshComplete');
                     }, function () {
@@ -397,7 +398,7 @@ menuMod.controller('MenuCtrl',
 //                    list.tick = true;
                 };
                 $scope.selectList = function () {
-
+                    console.log("selectListselectListselectListselectListselectList")
                     var list = false;
                     var lists = $scope.lists.public;
                     for (var i = 0; i < lists.length; i++) {
@@ -434,6 +435,8 @@ menuMod.controller('MenuCtrl',
                             $scope.wishlist_product.product.wishlist_status = 1;
                             var ajax2 = wishlistHelper.add($scope.wishlist_product.product._id, list._id);
                             ajax2.then(function () {
+                                console.log("AAAAAAA")
+                                $scope.refreshList();
                                 $scope.wishlist_product.product.wishlist_status = 2;
                                 toast.showShortBottom('Added To Your Wishlist');
                             }, function (message) {
@@ -446,6 +449,7 @@ menuMod.controller('MenuCtrl',
                             ajax.then(function () {
                                 $scope.$broadcast('wishlist_pin_select');
                             }, function () {
+                                $scope.refreshList();
                                 $scope.$broadcast('wishlist_pin_select');
                             });
 

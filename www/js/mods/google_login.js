@@ -60,13 +60,18 @@ googleLoginService.factory('googleLogin', [
 
                 var win = window.open(authUrl, '_blank', 'location=no,toolbar=no,width=800, height=800');
                 var context = this;
+                var flag = false;
                 if (ionic.Platform.isAndroid() || ionic.Platform.isIOS()) {
                     console.log('using in app browser');
                     win.addEventListener('loadstart', function (data) {
+                        console.log(data)
                         if (data.url.split('error=')[1]) {
                             def.reject({error: data.url.split('error=')[1]});
+                        } else {
+                            console.log(data)
                         }
                         if (data.url.indexOf(context.redirect_url) === 0) {
+                            flag = true;
                             console.log('redirect url found ' + context.redirect_url);
                             win.close();
                             var url = data.url;
@@ -78,6 +83,12 @@ googleLoginService.factory('googleLogin', [
                             }
                         }
                     });
+                    win.addEventListener('exit', function (data) {
+                        if (!flag) {
+                            console.log("Window Exit :", data);
+                            def.reject({error:'Closed'});
+                        }
+                    })
                 } else {
                     console.log('InAppBrowser not found11');
                     var pollTimer = $interval(function () {
@@ -103,6 +114,7 @@ googleLoginService.factory('googleLogin', [
                     }, 100);
                 }
             }
+            flag = false; 
             return def.promise;
         };
         service.validateToken = function (token, def) {

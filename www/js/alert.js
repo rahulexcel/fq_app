@@ -414,7 +414,10 @@ alertMod.controller('AlertCtrl',
                         $ionicSlideBoxDelegate.update();
                     });
                 });
+                var zoom = 0;
                 $scope.showZoom = function (index) {
+                    $ionicScrollDelegate.$getByHandle('zoom-scroll').zoomTo(1, true);
+                    zoom = 0;
                     var more_images = $scope.alert.more_images;
                     var img = $scope.alert.img;
                     var final_images = [];
@@ -440,10 +443,26 @@ alertMod.controller('AlertCtrl',
                 $scope.closeZoom = function () {
                     $scope.zoom_modal.hide();
                 }
+
+                $scope.zoomImage = function () {
+                    if (zoom == 0) {
+                        $timeout(function () {
+                            $ionicScrollDelegate.$getByHandle('zoom-scroll').zoomTo(4, true, 190, 0);
+                        });
+                        zoom = 1;
+                    } else {
+                        $timeout(function () {
+                            $ionicScrollDelegate.$getByHandle('zoom-scroll').zoomTo(1, true);
+                        });
+                        zoom = 0;
+                    }
+                }
+
                 $scope.openZoomTap = function (index) {
+                    $ionicScrollDelegate.$getByHandle('zoom-scroll').zoomTo(1, true);
+                    zoom = 0;
                     var more_images = $scope.zoom_images;
                     $scope.zoom_main_image = more_images[index];
-                    $ionicScrollDelegate.$getByHandle('zoom-scroll').zoomBy(1, true);
                 };
                 $ionicModal.fromTemplateUrl('template/partial/zoom.html', {
                     scope: $scope,

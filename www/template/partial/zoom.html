@@ -6,8 +6,8 @@
         </div>
     </ion-header-bar>
     <ion-content>
-        <ion-scroll delegate-handle="zoom-scroll" locking="false" zooming="true" direction="xy" style="width: 100%;" ng-style="{'height': zoom_height}">
-            <img ng-src="{{zoom_main_image}}" />
+        <ion-scroll style="text-align: center; width: 100%;" delegate-handle="zoom-scroll" overflow-scroll="false" locking="false" zooming="true" direction="xy" ng-style="{'height': zoom_height}">
+            <img ng-src="{{zoom_main_image}}" ng-click="zoomImage()"/>
         </ion-scroll>
     </ion-content>
     <ion-footer-bar>
