@@ -106,7 +106,7 @@ accountService.factory('accountHelper', [
         service.forgot = function (email) {
             var def = $q.defer();
             var ajax = false;
-            ajax = ajaxRequest.send('v2/account/forgot_password', {email: email});
+            ajax = ajaxRequest.send('v2/account/forgot_password', {email: email}, 'POST', true);
             ajax.then(function (data) {
                 def.resolve(data);
                 toast.showShortBottom(data.message);
