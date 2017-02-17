@@ -2,14 +2,17 @@
     <ion-content  overflow-scroll='true'>
         <div id="account-page">
             <div class="forgot">
-                <form>
+                <form name="forgot_form">
                     <div class="list">
                         <label class="item item-input item-floating-label">
                             <span class="input-label">Email</span>
-                            <input type="email" ng-model='forgot_obj.email' placeholder="Email">
+                            <input type="email" name="email" ng-pattern="/^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,3})$/i" ng-model='forgot_obj.email' placeholder="Email" required="">
+                            <div class="m-t-xs" ng-show="forgot_form.email.$invalid && forgot_form.submitted">
+                                <span class="text-danger" ng-show="forgot_form.email.$error"><i class="fa fa-exclamation-triangle"></i> Please enter a valid emailId</span>
+                            </div>
                         </label>
                         <div class="padding">
-                            <button class="button signup-button accent_bg" on-tap='forgot();'>
+                            <button class="button signup-button accent_bg" on-tap='forgot(forgot_form);'>
                                 Send
                                 <i class="fa fa-spinner fa-spin" ng-show="forgot_status == 1"></i>
                                 <i class="fa fa-times" ng-show="forgot_status == 3"></i>

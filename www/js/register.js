@@ -72,77 +72,96 @@ registerMod.controller('RegisterCtrl',
                 $scope.showLogin = function () {
                     urlHelper.openLoginPage();
                 };
-                $scope.forgot = function () {
-                    var email = $scope.forgot_obj.email;
-                    if (email.length > 0) {
-                        $scope.forgot_status = 1;
-                        var ajax = accountHelper.forgot(email);
-                        ajax.then(function (data) {
-                            console.log(data)
-                            if (data.message == 'Email Id Not Found') {
+                $scope.forgot = function (form) {
+                    if (form.$valid) {
+                        var email = $scope.forgot_obj.email;
+                        if (email.length > 0) {
+                            $scope.forgot_status = 1;
+                            var ajax = accountHelper.forgot(email);
+                            ajax.then(function (data) {
+                                console.log(data)
+                                if (data.message == 'Email Id Not Found') {
+                                    $scope.forgot_status = 3;
+                                } else {
+                                    $scope.forgot_status = 2;
+                                }
+                            }, function () {
                                 $scope.forgot_status = 3;
-                            } else {
-                                $scope.forgot_status = 2;
-                            }
-                        }, function () {
-                            $scope.forgot_status = 3;
-                        });
+                            });
+                        } else {
+                            toast.showShortBottom('Enter Your Email Address');
+                        }
                     } else {
-                        toast.showShortBottom('Enter Your Email Address');
+                        form.submitted = true;
+                        toast.showShortBottom('Please enter valid emailId');
+                        $scope.login_status = 3;
                     }
                 };
 
-                $scope.login = function () {
-                    var email = $scope.login_obj.email;
-                    var password = $scope.login_obj.password;
-                    if (email.length > 0 && password.length > 0) {
-                        if ($scope.login_status === 1)
-                        {
-                            toast.showProgress();
-                            return;
+                $scope.login = function (form) {
+                    if (form.$valid) {
+                        var email = $scope.login_obj.email;
+                        var password = $scope.login_obj.password;
+                        if (email.length > 0 && password.length > 0) {
+                            if ($scope.login_status === 1)
+                            {
+                                toast.showProgress();
+                                return;
+                            }
+                            $scope.login_status = 1;
+                            $localStorage.user = {};
+                            $localStorage.user.email = email;
+                            var user = {
+                                email: email,
+                                password: password
+                            };
+                            var prog = accountHelper.create(user, 'login');
+                            prog.then(function () {
+                                $scope.login_status = 2;
+                            }, function () {
+                                $scope.login_status = 3;
+                            });
+                        } else {
+                            toast.showShortBottom('All Fields Required');
                         }
-                        $scope.login_status = 1;
-                        $localStorage.user = {};
-                        $localStorage.user.email = email;
-                        var user = {
-                            email: email,
-                            password: password
-                        };
-                        var prog = accountHelper.create(user, 'login');
-                        prog.then(function () {
-                            $scope.login_status = 2;
-                        }, function () {
-                            $scope.login_status = 3;
-                        });
                     } else {
-                        toast.showShortBottom('All Fields Required');
+                        form.submitted = true;
+                        toast.showShortBottom('Please fill valid emailId and password');
+                        $scope.login_status = 3;
                     }
                 };
-                $scope.create = function () {
-                    var email = $scope.register_obj.email;
-                    var password = $scope.register_obj.password;
-                    var name = $scope.register_obj.name;
-                    if (email.length > 0 && password.length > 0 && name.length > 0) {
-                        if ($scope.register_status === 1) {
-                            toast.showProgress();
-                            return;
+                $scope.create = function (form) {
+                    console.log(form)
+                    if (form.$valid) {
+                        var email = $scope.register_obj.email;
+                        var password = $scope.register_obj.password;
+                        var name = $scope.register_obj.name;
+                        if (email.length > 0 && password.length > 0 && name.length > 0) {
+                            if ($scope.register_status === 1) {
+                                toast.showProgress();
+                                return;
+                            }
+                            $scope.register_status = 1;
+                            $localStorage.user = {};
+                            $localStorage.user.email = email;
+                            var user = {
+                                name: name,
+                                email: email,
+                                password: password
+                            };
+                            var prog = accountHelper.create(user, 'create');
+                            prog.then(function () {
+                                $scope.register_status = 2;
+                            }, function () {
+                                $scope.register_status = 3;
+                            });
+                        } else {
+                            toast.showShortBottom('All Fields Required');
                         }
-                        $scope.register_status = 1;
-                        $localStorage.user = {};
-                        $localStorage.user.email = email;
-                        var user = {
-                            name: name,
-                            email: email,
-                            password: password
-                        };
-                        var prog = accountHelper.create(user, 'create');
-                        prog.then(function () {
-                            $scope.register_status = 2;
-                        }, function () {
-                            $scope.register_status = 3;
-                        });
                     } else {
-                        toast.showShortBottom('All Fields Required');
+                        form.submitted = true;
+                        $scope.register_status = 3;
+                        toast.showShortBottom('Please fill all fields with proper data');
                     }
                 };
                 $scope.facebook = function () {

@@ -2,23 +2,32 @@
     <ion-content  overflow-scroll='true'>
         <div id="account-page">
             <div class="register">
-                <form>
+                <form id="register" role="form" name="signup_form" novalidate ng-submit="create(signup_form)">
                     <div class="list">
                         <label class="item item-input item-floating-label">
                             <span class="input-label black-font">Name</span>
-                            <input type="text" ng-model='register_obj.name' placeholder="Name">
+                            <input type="text" name="name" ng-model='register_obj.name' placeholder="Name" required="">
+                            <div class="m-t-xs" ng-show="signup_form.name.$invalid && signup_form.submitted">
+                                <span class="text-danger" ng-show="signup_form.name.$error"><i class="fa fa-exclamation-triangle"></i> Please enter your name</span>
+                            </div>
                         </label>
                         <label class="item item-input item-floating-label">
                             <span class="input-label black-font">Email</span>
-                            <input type="email" ng-model='register_obj.email' placeholder="Email">
+                            <input type="email" ng-model='register_obj.email' ng-pattern="/^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,3})$/i" required name="emailid" placeholder="Email">
+                            <div class="m-t-xs" ng-show="signup_form.emailid.$invalid && signup_form.submitted">
+                                <span class="text-danger" ng-show="signup_form.emailid.$error"><i class="fa fa-exclamation-triangle"></i> Please enter a valid emailId</span>
+                            </div>
                         </label>
                         <label class="item item-input item-floating-label">
                             <span class="input-label black-font">Password</span>
-                            <input type="password" ng-model='register_obj.password' placeholder="Password">
+                            <input type="password" name="password1" ng-model='register_obj.password' placeholder="Password" required="">
+                            <div class="m-t-xs" ng-show="signup_form.password1.$invalid && signup_form.submitted">
+                                <span class="text-danger" ng-show="signup_form.password1.$error"><i class="fa fa-exclamation-triangle"></i> Please enter a password</span>
+                            </div>
                         </label>
                     </div>
                     <div class="padding">
-                        <button  on-tap='create();' class="button signup-button accent_bg">
+                        <button type="submit" class="button signup-button accent_bg">
                             SIGN UP
                             <i class="fa fa-spinner fa-spin" ng-show="register_status == 1"></i>
                             <i class="fa fa-times" ng-show="register_status == 3"></i>

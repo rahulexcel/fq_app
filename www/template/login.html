@@ -2,21 +2,27 @@
     <ion-content  overflow-scroll='true'>
         <div id="account-page">
             <div class="login">
-                <form>
+                <form id="login" role="form" name="login_form" novalidate ng-submit="login(login_form)">
                     <div class="list">
                         <label class="item item-input item-floating-label">
                             <span class="input-label black-font">Email</span>
-                            <input type="email" keyboard-attach   ng-model="login_obj.email" placeholder="Email"/>
+                            <input type="email" keyboard-attach name="email" ng-pattern="/^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,3})$/i" ng-model="login_obj.email" placeholder="Email" required=""/>
+                            <div class="m-t-xs" ng-show="login_form.email.$invalid && login_form.submitted">
+                                <span class="text-danger" ng-show="login_form.email.$error"><i class="fa fa-exclamation-triangle"></i> Please enter a valid emailId</span>
+                            </div>
                         </label>
                         <label class="item item-input item-floating-label">
                             <span class="input-label black-font">Password</span>
-                            <input type="password" keyboard-attach  ng-model="login_obj.password" placeholder="Passowrd"/>
+                            <input type="password" name="password" keyboard-attach  ng-model="login_obj.password" placeholder="Passowrd" required=""/>
+                            <div class="m-t-xs" ng-show="login_form.password.$invalid && login_form.submitted">
+                                <span class="text-danger" ng-show="login_form.password.$error"><i class="fa fa-exclamation-triangle"></i> Please enter your password</span>
+                            </div>
                         </label>
                         <div class="forget-pass accent">
                             <span on-tap='showForgot();'>Forgot your password?</span>
                         </div>
                         <div class="padding">
-                            <button class="button signup-button accent_bg" on-tap='login();' ng-disabled="login_status ==1">
+                            <button class="button signup-button accent_bg" type="submit" ng-disabled="login_status == 1">
                                 LOG IN
                                 <i class="fa fa-spinner fa-spin" ng-show="login_status == 1"></i>
                                 <i class="fa fa-times" ng-show="login_status == 3"></i>
@@ -35,7 +41,7 @@
                     Alternatively,
                 </div>
                 <div class="padding">
-                    <button class="button google-button" on-tap='google();' ng-disabled="login_status ==1">
+                    <button class="button google-button" on-tap='google();' ng-disabled="login_status == 1">
                         <i class="fa fa-google-plus fa-lg g-social-icon"></i>
                         Sign up with <span class="social-site-name">Google+</span>
                         <i class="fa fa-spinner fa-spin" ng-show="google_status == 1"></i>
@@ -44,7 +50,7 @@
                     </button>
                 </div>
                 <div class="padding">
-                    <button class="button fb-button" on-tap='facebook();' ng-disabled="login_status ==1">	
+                    <button class="button fb-button" on-tap='facebook();' ng-disabled="login_status == 1">	
                         <i class="fa fa-facebook fa-lg fb-social-icon"></i>
                         Sign up with <span class="social-site-name">Facebook</span>
                         <i class="fa fa-spinner fa-spin" ng-show="facebook_status == 1"></i>
