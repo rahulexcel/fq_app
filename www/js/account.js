@@ -142,7 +142,7 @@ accountMod.controller('AccountCtrl',
                                     if (size * 1 > 5) {
                                         toast.showShortBottom('Upload File Of Size Less Than 5MB');
                                     } else {
-                                        $ionicBackdrop.retain();
+//                                        $ionicBackdrop.retain();
                                         $scope.file_upload = true;
                                         var ajax = uploader.upload(imageURI, {
                                             user_id: $localStorage.user.id
@@ -212,7 +212,7 @@ accountMod.controller('AccountCtrl',
                     }
 
                     $scope.file_upload = true;
-                    $ionicBackdrop.retain();
+//                    $ionicBackdrop.retain();
                     $scope.upload = $upload.upload({
                         url: ajaxRequest.url('v2/picture/upload'),
                         data: {user_id: $localStorage.user.id},
