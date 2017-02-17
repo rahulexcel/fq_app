@@ -226,7 +226,7 @@ registerMod.controller('RegisterCtrl',
                                         gender: gender,
                                         email: email,
                                         fb_id: fb_id,
-                                        picture: 'http://graph.facebook.com/' + fb_id + '/picture?type=large'
+                                        picture: 'https://graph.facebook.com/' + fb_id + '/picture?type=large'
                                     };
                                     var prog = accountHelper.create(user, 'facebook');
                                     prog.then(function () {

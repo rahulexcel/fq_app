@@ -116,7 +116,7 @@ accountMod.controller('AccountCtrl',
                         buttonClicked: function (index) {
                             actionSheet();
                             var options = {
-                                quality: 100,
+                                quality: 40,
                                 destinationType: Camera.DestinationType.FILE_URI,
                                 sourceType: Camera.PictureSourceType.CAMERA,
 //                                encodingType: Camera.EncodingType.JPEG,

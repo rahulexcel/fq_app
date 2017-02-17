@@ -551,7 +551,7 @@ function handleOpenURL(url) {
             urlHelper.openWishlistPage(second_last_index, last_index);
         } else {
             console.log('invalid url' + url);
-            window.open(url, '_system');
+//            window.open(url, '_system');
         }
         parser = null;
     }, 0);
