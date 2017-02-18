@@ -64,24 +64,32 @@ feedbackMod.controller('FeedbackCtrl',
                         attachments: ['base64:device.json//' + btoa(JSON.stringify($scope.device)), 'base64:user.json//' + btoa(JSON.stringify($localStorage.user))]
                     });
                 };
-                $scope.sendFeedback = function () {
-                    if ($scope.feedback.text.length > 0 && $scope.feedback.email.length > 0) {
-                        $scope.feedback_status = 1;
-                        var ajax = ajaxRequest.send('v2/feedback/add', {
-                            feedback: angular.copy($scope.feedback),
-                            device: angular.copy($scope.device)
-                        });
-                        ajax.then(function () {
-                            $scope.feedback_status = 2;
-                            toast.showShortBottom('Thanks For Your Valuable Feedback!');
-                            if ($scope.isMobile) {
-                                $scope.rateUs();
-                            }
-                        }, function () {
-                            $scope.feedback_status = 2;
-                        });
+                $scope.sendFeedback = function (form) {
+                    console.log($scope.feedback_form)
+                    if (form.$valid) {
+                        if ($scope.feedback.text.length > 0 && $scope.feedback.email.length > 0) {
+                            $scope.feedback_status = 1;
+                            var ajax = ajaxRequest.send('v2/feedback/add', {
+                                feedback: angular.copy($scope.feedback),
+                                device: angular.copy($scope.device)
+                            });
+                            ajax.then(function () {
+                                $scope.feedback_status = 2;
+                                toast.showShortBottom('Thanks For Your Valuable Feedback!');
+                                if ($scope.isMobile) {
+                                    $scope.rateUs();
+                                }
+                            }, function () {
+                                $scope.feedback_status = 2;
+                            });
+                        } else {
+                            toast.showShortBottom('Fill Up All Fields');
+                            $scope.feedback_status = 3;
+                        }
                     } else {
-                        toast.showShortBottom('Fill Up All Fields');
+                        form.submitted = true;
+                        toast.showShortBottom('Please enter valid emailId');
+                        $scope.feedback_status = 3;
                     }
                 };
 

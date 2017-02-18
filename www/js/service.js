@@ -1026,8 +1026,13 @@ serviceMod.factory('ajaxRequest',
                             self.deviceStatus = 1;
                         });
                     },
-                    url: function (api) {
-                        return 'http://144.76.34.244:5005/' + api;
+                    url: function (api, flag) {
+                        if (flag) {
+                            return 'http://192.168.1.147:5005/' + api;
+                            
+                        } else {
+                            return 'http://144.76.34.244:5005/' + api;
+                        }
                         //for v2 only
 //                        if(api == 'v2/catalog/list' || api == 'v2/catalog/products' || api == 'v2/product/view' || api == 'v2/product/similar' || api == 'v2/product/variant' || api == 'v2/catalog/search' || api == 'v2/product/like' || api == 'v2/product/unlike' || api == 'v2/parseurl'){
 //                            return 'http://144.76.34.244:5005/' + api;   
@@ -1035,7 +1040,7 @@ serviceMod.factory('ajaxRequest',
 //                            return 'http://144.76.34.244:5000/' + api;
 //                        }
                     },
-                    send: function (api, data, method) {
+                    send: function (api, data, method, flag) {
                         var self = this;
                         if (!self.hasInit) {
                             self.init();
@@ -1073,7 +1078,7 @@ serviceMod.factory('ajaxRequest',
                         if (!silent)
                             $rootScope.ajax_on = true;
                         var http = $http({
-                            url: this.url(api),
+                            url: this.url(api, flag),
                             method: method,
                             headers: {'Content-Type': 'application/json;charset=utf-8'},
                             cache: false,

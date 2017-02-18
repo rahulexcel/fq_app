@@ -253,6 +253,7 @@ accountMod.controller('AccountCtrl',
                         $localStorage.user.picture = data;
                         $scope.login_data.picture = data;
                         $scope.$parent.user.picture = data;
+                        toast.showShortBottom('Your profile picture is updated with facebook');
                         $scope.$evalAsync();
                     });
                 };
