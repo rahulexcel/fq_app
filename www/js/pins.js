@@ -513,7 +513,6 @@ pinMod.controller('PinCtrl',
                     }
                 };
                 $scope.whatsapp = function (item) {
-                    console.log('itemitemitemitem',item)
                     if (item._id) {
                         var share_url = 'http://fashioniq.in/m/i/' + item._id + "/" + item.original.list_id;
                         var picture = item.org_img;
@@ -525,7 +524,6 @@ pinMod.controller('PinCtrl',
                         }
                         window.plugins.socialsharing.shareViaWhatsApp(
                                 name, picture, share_url, function (s) {
-                                    console.log('pins sucess', s)
                                     if(!s){
                                     toast.showShortBottom('Unable to Share! App Not Found');
                                 }

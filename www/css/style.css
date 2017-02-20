@@ -2628,3 +2628,9 @@ i.offline-icon{
 .platform-ios .search_box form div.item input{
    width: 100%;
 }
+.platform-ipad .ion-social-whatsapp-outline{
+    display: none;
+}
+.platform-ipad .whatsapp-iconIpad{
+    display: none;
+}

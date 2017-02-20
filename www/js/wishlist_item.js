@@ -289,7 +289,6 @@ var wishlistItemMod = angular.module('WishlistItemMod', ['ServiceMod', 'ngStorag
                                 });
                                 };
                                 $scope.whatsapp = function (product) {
-                    console.log('productproductproduct',product)
                                 var share_url = 'http://fashioniq.in/m/i/' + $state.params.item_id + "/" + $state.params.list_id;
                                         var picture = product.img;
                                         console.log(picture)
@@ -300,7 +299,6 @@ var wishlistItemMod = angular.module('WishlistItemMod', ['ServiceMod', 'ngStorag
 //                        picture = CDN.cdnize(picture);
                                 window.plugins.socialsharing.shareViaWhatsApp(
                                         name, picture, share_url, function (s) {
-                                            console.log('wishlist sucess', s)
                                             if(!s){
                                     toast.showShortBottom('Unable to Share! App Not Found');
                                 }

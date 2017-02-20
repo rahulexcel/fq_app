@@ -835,11 +835,9 @@ categoryMod.controller('CategoryCtrl',
                     });
                 };
                 $scope.whatsapp = function (product) {
-                    console.log('productproductproduct',product)
                     var share_url = 'http://fashioniq.in/m/p/' + product._id;
                     window.plugins.socialsharing.shareViaWhatsApp(
                             product.name, product.img, share_url, function (s) {
-                                console.log('category sucess', s)
                                 if(!s){
                                     toast.showShortBottom('Unable to Share! App Not Found');
                                 }
