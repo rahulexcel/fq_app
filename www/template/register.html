@@ -6,9 +6,9 @@
                     <div class="list">
                         <label class="item item-input item-floating-label">
                             <span class="input-label black-font">Name</span>
-                            <input type="text" name="name" ng-model='register_obj.name' placeholder="Name" required="">
+                            <input type="text" name="name" ng-model='register_obj.name' placeholder="Name" ng-pattern="/^[A-Za-z ]+$/" required="">
                             <div class="m-t-xs" ng-show="signup_form.name.$invalid && signup_form.submitted">
-                                <span class="text-danger" ng-show="signup_form.name.$error"><i class="fa fa-exclamation-triangle"></i> Please enter your name</span>
+                                <span class="text-danger" ng-show="signup_form.name.$error"><i class="fa fa-exclamation-triangle"></i> Please enter your valid name (*Number not allowed)</span>
                             </div>
                         </label>
                         <label class="item item-input item-floating-label">
