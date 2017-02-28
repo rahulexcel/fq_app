@@ -584,6 +584,7 @@ serviceMod.directive('materialadd', ['$ionicGesture', '$ionicPlatform', '$rootSc
                     });
 
                     $rootScope.$on('hide_android_add', function () {
+                        console.log('hide hide hide hide hide hide hide hide hide hide hide hide ')
                         ele.addClass('fab_hide');
                     });
                     $rootScope.$on('show_android_add', function () {

@@ -485,7 +485,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             if (toState.name === 'intro') {
                 $rootScope.body_class = 'intro_page';
             }
-            if (toState.name === 'app.wishlist_item.pins' || toState.name === 'app.category_search' || toState.name === 'app.product_search' || toState.name === 'app.product' || toState.name === 'app.category' || toState.name === 'intro' || toState.name === 'offline' || toState.name === 'app.signup' || toState.name === 'app.login' || toState.name === 'app.forgot' || toState.name.indexOf('wishlist_item_add') != -1 || toState.name === 'app.invite' || toState.name === 'app.feedback' || toState.name === 'app.aboutus') {
+            if (toState.name === 'app.wishlist_item.pins' || toState.name === 'app.category_search' || toState.name === 'app.product_search' || toState.name === 'app.product' || toState.name === 'intro' || toState.name === 'offline' || toState.name === 'app.signup' || toState.name === 'app.login' || toState.name === 'app.forgot' || toState.name.indexOf('wishlist_item_add') != -1 || toState.name === 'app.invite' || toState.name === 'app.feedback' || toState.name === 'app.aboutus') {
                 $rootScope.$emit('hide_android_add');
             } else {
                 $rootScope.$emit('show_android_add');
