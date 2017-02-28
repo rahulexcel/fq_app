@@ -277,13 +277,15 @@ var wishlistItemMod = angular.module('WishlistItemMod', ['ServiceMod', 'ngStorag
                         $scope.isMobile = true;
                                 $scope.shareAll = function (product) {
                                 var share_url = 'http://fashioniq.in/m/i/' + $state.params.item_id + "/" + $state.params.list_id;
-                                        var picture = $scope.item.item_id.img;
+//                                        var picture = $scope.item.item_id.img;
+                                        var picture = product.img;
                                         var name = $scope.item.item_id.name;
-                                        picture = CDN.cdnize(picture);
+//                                        picture = CDN.cdnize(picture);
                                         if (name.length === 0) {
                                 name = 'Awesome Clip!';
                                 }
                                 window.plugins.socialsharing.share(name, null, picture, share_url, function () {
+                                    toast.showShortBottom('Post Shared.');
                                 }, function () {
                                 toast.showShortBottom('Unable to Share');
                                 });
@@ -301,6 +303,8 @@ var wishlistItemMod = angular.module('WishlistItemMod', ['ServiceMod', 'ngStorag
                                         name, picture, share_url, function (s) {
                                             if(!s){
                                     toast.showShortBottom('Unable to Share! App Not Found');
+                                }else{
+                                    toast.showShortBottom('Post Shared.');
                                 }
                                         }, function (e) {
                                 console.log('whishlist',e);
@@ -309,26 +313,33 @@ var wishlistItemMod = angular.module('WishlistItemMod', ['ServiceMod', 'ngStorag
                                 };
                                 $scope.twitter = function (product) {
                                 var share_url = 'http://fashioniq.in/m/i/' + $state.params.item_id + "/" + $state.params.list_id;
-                                        var picture = $scope.item.item_id.img;
+//                                        var picture = $scope.item.item_id.img;
+                                        var picture = product.img;
                                         var name = $scope.item.item_id.name;
-                                        picture = CDN.cdnize(picture);
+//                                        picture = CDN.cdnize(picture);
                                         if (name.length === 0) {
                                 name = 'Awesome Clip!';
                                 }
                                 window.plugins.socialsharing.shareViaTwitter(
                                         name, picture, share_url, function () {
-                                        }, function () {
-                                toast.showShortBottom('Unable to Share! App Not Found');
+                                            toast.showShortBottom('Post Shared.');
+                                        }, function (e) {
+                                            if(e== 'cancelled'){
+                                        toast.showShortBottom('You have cancelled the request');
+                                    }else{
+                                       toast.showShortBottom('Unable to Share! App not found'); 
+                                    }
                                 });
                                 };
                                 $scope.facebook = function (product) {
                                 var share_url = 'http://fashioniq.in/m/i/' + $state.params.item_id + "/" + $state.params.list_id;
-                                        var picture = $scope.item.item_id.img;
+//                                        var picture = $scope.item.item_id.img;
+                                        var picture = product.img;
                                         var name = $scope.item.item_id.name;
-                                        picture = CDN.cdnize(picture);
+//                                        picture = CDN.cdnize(picture);
                                         if (name.length === 0) {
-                                name = 'Awesome Clip!';
-                                }
+                                                name = 'Awesome Clip!';
+                                           }
                                 if (window.cordova.platformId === "browser") {
                                 if (!accountHelper.isFbInit()) {
                                 facebookConnectPlugin.browserInit('765213543516434');
