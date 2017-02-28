@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "688089506520",
+    "firebase_url": "https://fashioniq-467f2.firebaseio.com",
+    "project_id": "fashioniq-467f2",
+    "storage_bucket": "fashioniq-467f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688089506520:android:c5f62aced99de9c1",
+        "android_client_info": {
+          "package_name": "com.excellence.fashioniq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "688089506520-53a2aomfu7erl6bhb4l3t6i6bpe0vnv4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0Z007_yWvxnQfZcMMU4kKZ6yhQzpx160"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

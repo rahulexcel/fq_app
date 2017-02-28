@@ -389,106 +389,140 @@ notifyService.factory('notifyHelper', [
             }
         };
         service.init = function () {
+            console.log("FCM init")
             this.doUpdates();
             //remove parse in for v2 only
 //            this.parseInit();
             var self = this;
             if (ionic.Platform.isWebView() && $localStorage.user.id) {
-
-                if (ionic.Platform.isIOS()) {
-                    var iosConfig = {
-                        "badge": true,
-                        "sound": true,
-                        "alert": true,
-                    };
-                    console.log('ios device');
-                    $cordovaPush.register(iosConfig).then(function (result) {
-                        var token = result;
-                        console.log('device token');
-                        console.log(result);
-                        $cordovaAppVersion.getAppVersion().then(function (version) {
-                            var device = {
-                                cordova: $cordovaDevice.getCordova(),
-                                model: $cordovaDevice.getModel(),
-                                platform: $cordovaDevice.getPlatform(),
-                                version: $cordovaDevice.getVersion()
-                            };
-                            device.appVersion = version;
-                            ajaxRequest.send('v2/notify/register', {
-                                user_id: $localStorage.user.id,
-                                token: token,
-                                device: device
-                            }, true);
-                        });
-                    }, function (err) {
-                        console.log('error1');
-                        console.log(err);
+                FCMPlugin.getToken(function(token){
+                    console.log('device token',token);
+                    $cordovaAppVersion.getAppVersion().then(function (version) {
+                        var device = {
+                            cordova: $cordovaDevice.getCordova(),
+                            model: $cordovaDevice.getModel(),
+                            platform: $cordovaDevice.getPlatform(),
+                            version: $cordovaDevice.getVersion()
+                        };
+                        device.appVersion = version;
+                        ajaxRequest.send('v2/notify/register', {
+                            user_id: $localStorage.user.id,
+                            token: token,
+                            device: device
+                        }, true);
                     });
-                    $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
-
-                        console.log('notification recieved in javascript');
-                        console.log(notification);
-                        var meta = notification.meta;
-                        meta = JSON.parse(meta);
-                        //$timeout(function () {
-                        service.openItem(meta);
-                        //});
-                        //});
-                        // this is the actual push notification. its format depends on the data model from the push server
-                        //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
-
-
-
+                });
+                FCMPlugin.onTokenRefresh(function(token){
+                    console.log('device token',token);
+                    $cordovaAppVersion.getAppVersion().then(function (version) {
+                        var device = {
+                            cordova: $cordovaDevice.getCordova(),
+                            model: $cordovaDevice.getModel(),
+                            platform: $cordovaDevice.getPlatform(),
+                            version: $cordovaDevice.getVersion()
+                        };
+                        device.appVersion = version;
+                        ajaxRequest.send('v2/notify/register', {
+                            user_id: $localStorage.user.id,
+                            token: token,
+                            device: device
+                        }, true);
                     });
-                } else {
-                    $cordovaPush.register({
-                        "senderID": "124787039157"
-                    }).then(function (result) {
+                });
+                // if (ionic.Platform.isIOS()) {
+                //     var iosConfig = {
+                //         "badge": true,
+                //         "sound": true,
+                //         "alert": true,
+                //     };
+                //     console.log('ios device');
+                //     $cordovaPush.register(iosConfig).then(function (result) {
+                //         var token = result;
+                //         console.log('device token');
+                //         console.log(result);
+                //         $cordovaAppVersion.getAppVersion().then(function (version) {
+                //             var device = {
+                //                 cordova: $cordovaDevice.getCordova(),
+                //                 model: $cordovaDevice.getModel(),
+                //                 platform: $cordovaDevice.getPlatform(),
+                //                 version: $cordovaDevice.getVersion()
+                //             };
+                //             device.appVersion = version;
+                //             ajaxRequest.send('v2/notify/register', {
+                //                 user_id: $localStorage.user.id,
+                //                 token: token,
+                //                 device: device
+                //             }, true);
+                //         });
+                //     }, function (err) {
+                //         console.log('error1');
+                //         console.log(err);
+                //     });
+                //     $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
 
-                    }, function (err) {
+                //         console.log('notification recieved in javascript');
+                //         console.log(notification);
+                //         var meta = notification.meta;
+                //         meta = JSON.parse(meta);
+                //         //$timeout(function () {
+                //         service.openItem(meta);
+                //         //});
+                //         //});
+                //         // this is the actual push notification. its format depends on the data model from the push server
+                //         //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
 
-                    });
-                    $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
-                        switch (notification.event) {
-                            case 'registered':
-                                if (notification.regid.length > 0) {
-                                    if ($localStorage.user.id) {
-                                        $cordovaAppVersion.getAppVersion().then(function (version) {
-                                            var device = {
-                                                cordova: $cordovaDevice.getCordova(),
-                                                model: $cordovaDevice.getModel(),
-                                                platform: $cordovaDevice.getPlatform(),
-                                                version: $cordovaDevice.getVersion()
-                                            };
-                                            device.appVersion = version;
-                                            ajaxRequest.send('v2/notify/register', {
-                                                user_id: $localStorage.user.id,
-                                                reg_id: notification.regid,
-                                                device: device
-                                            }, true);
-                                        });
-                                    }
 
-                                    console.log('registration ID = ' + notification.regid);
-                                }
-                                break;
-                            case 'message':
-                                var meta = notification.payload.meta;
-                                $timeout(function () {
-                                    service.openItem(meta);
-                                });
-                                // this is the actual push notification. its format depends on the data model from the push server
-                                //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
-                                break;
-                            case 'error':
-                                console.log('GCM error = ' + notification.msg);
-                                break;
-                            default:
-                                console.log('An unknown GCM event has occurred');
-                                break;
-                        }
-                    });
-                }
+
+                //     });
+                // } else {
+                //     $cordovaPush.register({
+                //         "senderID": "124787039157"
+                //     }).then(function (result) {
+
+                //     }, function (err) {
+
+                //     });
+                //     $rootScope.$on('$cordovaPush:notificationReceived', function (event, notification) {
+                //         switch (notification.event) {
+                //             case 'registered':
+                //                 if (notification.regid.length > 0) {
+                //                     if ($localStorage.user.id) {
+                //                         $cordovaAppVersion.getAppVersion().then(function (version) {
+                //                             var device = {
+                //                                 cordova: $cordovaDevice.getCordova(),
+                //                                 model: $cordovaDevice.getModel(),
+                //                                 platform: $cordovaDevice.getPlatform(),
+                //                                 version: $cordovaDevice.getVersion()
+                //                             };
+                //                             device.appVersion = version;
+                //                             ajaxRequest.send('v2/notify/register', {
+                //                                 user_id: $localStorage.user.id,
+                //                                 reg_id: notification.regid,
+                //                                 device: device
+                //                             }, true);
+                //                         });
+                //                     }
+
+                //                     console.log('registration ID = ' + notification.regid);
+                //                 }
+                //                 break;
+                //             case 'message':
+                //                 var meta = notification.payload.meta;
+                //                 $timeout(function () {
+                //                     service.openItem(meta);
+                //                 });
+                //                 // this is the actual push notification. its format depends on the data model from the push server
+                //                 //                            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
+                //                 break;
+                //             case 'error':
+                //                 console.log('GCM error = ' + notification.msg);
+                //                 break;
+                //             default:
+                //                 console.log('An unknown GCM event has occurred');
+                //                 break;
+                //         }
+                //     });
+                // }
             }
         };
         return service;

@@ -384,9 +384,9 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
             $localStorage.user = {};
             //always initalize empty user so that there is no errors
         } else {
-            if ($localStorage.user.id)
-                if (window.analytics)
-                    window.analytics.setUserId($localStorage.user.id)
+            // if ($localStorage.user.id)
+            //     if (window.analytics)
+            //         window.analytics.setUserId($localStorage.user.id)
         }
         var backPress = 0;
         if (!$localStorage.productLikeUnlikeIds) {
@@ -420,13 +420,27 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
-            console.log('Hiii');
+            console.log('paltform ready');
+            FCMPlugin.onNotification(function(data){
+                    console.log("fcm notification data", data);
+                    if(data.wasTapped){
+                      //Notification was received on device tray and tapped by the user.
+                      $rootScope.fromFCM = true;
+                      urlHelper.openProductPage(data.product_id);
+                      console.log( JSON.stringify(data) );
+                    }else{
+                      //Notification was received in foreground. Maybe the user needs to be notified.\
+                      // $rootScope.fromFCM = true;
+                      // urlHelper.openProductPage(data.product_id);
+                      console.log( JSON.stringify(data) );
+                    }
+                });
             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 $cordovaSplashscreen.hide();
                 $cordovaNetwork.watchOffline();
                 $cordovaNetwork.watchOnline();
-                window.analytics.startTrackerWithId('UA-58649556-1');
+                // window.analytics.startTrackerWithId('UA-58649556-1');
             }
             if (window.StatusBar) {
                 StatusBar.styleDefault();
@@ -487,7 +501,7 @@ app.run(["$ionicPlatform", "$rootScope", "$localStorage", "$cordovaNetwork", "$c
                 if ($cordovaNetwork.isOffline() && toState.name !== 'offline') {
                     return;
                 }
-                window.analytics.trackView(toState.name);
+                // window.analytics.trackView(toState.name);
             }
 
             if ($localStorage.user) {

@@ -136,16 +136,18 @@ productMod.controller('ProductCtrl',
                     if (self.product_info_done && !force) {
                         return;
                     }
+                    console.log('$rootScope.fromFCM',$rootScope.fromFCM)
                     self.product_info_done = true;
                     var product_id = $scope.product_id;
                     var cache_key = 'product_' + product_id;
-                    if (timeStorage.get(cache_key) && !force) {
+                    if (timeStorage.get(cache_key) && !force && !$rootScope.fromFCM) {
                         console.log('product data');
                         var data = timeStorage.get(cache_key);
                         $scope.processProductData(data);
                         $ionicSlideBoxDelegate.update();
                         $scope.fetchLatest(data.product.org_href, product_id);
                     } else {
+                        $rootScope.fromFCM = false;
                         $scope.product_detail_loading = true;
                         var ajax = productHelper.fetchProduct(product_id);
                         ajax.then(function (data) {

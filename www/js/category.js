@@ -806,6 +806,7 @@ categoryMod.controller('CategoryCtrl',
                     }
                 };
                 $scope.openProduct = function (product) {
+                    console.log('productproductproductproduct',product)
                     var id = product._id;
                     console.log('open product ' + id);
                     urlHelper.openProductPage(id);
