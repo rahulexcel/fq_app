@@ -449,10 +449,15 @@ wishlistService.factory('wishlistHelper', [
                 cur_price = data.price;
             }
 
-            var ajax = ajaxRequest.send('v2/notify/item/price_alert', {
-                user_id: $localStorage.user.id,
-                product_id: product_id,
-                price: cur_price
+//            var ajax = ajaxRequest.send('v2/notify/item/price_alert', {
+//                user_id: $localStorage.user.id,
+//                product_id: product_id,
+//                price: cur_price
+//            }, true);
+            var ajax = ajaxRequest.send('v2/genie_alerts/set_genie_alert', {
+                email_id: $localStorage.user.email,
+                mongo_id: product_id,
+                website: 'fashioniq'
             }, true);
             ajax.then(function (data) {
                 if (data == 1) {
@@ -506,70 +511,70 @@ wishlistService.factory('wishlistHelper', [
                     type: 'product'
                 });
                 ajax.then(function (data) {
-                    if(!data.error || data.error == 0){
-                    def.resolve(data);
-                    self.showPriceAlertDialog(product_id, data.wishlist_model.name);
-                    if (data.list) {
-                        var followers = data.list.followers;
-                        var shared_ids = data.list.shared_ids;
-                        console.log(followers);
-                        console.log(shared_ids);
-                        if (shared_ids.length > 0) {
-                            shared_ids.push(data.list.user_id);
-                            for (var i = 0; i < shared_ids.length; i++) {
-                                if (shared_ids[i] !== $localStorage.user.id) {
-                                    console.log(shared_ids[i]);
-                                    notifyHelper.queueAlert('user_' + shared_ids[i]);
+                    if (!data.error || data.error == 0) {
+                        def.resolve(data);
+                        self.showPriceAlertDialog(product_id, data.wishlist_model.name);
+                        if (data.list) {
+                            var followers = data.list.followers;
+                            var shared_ids = data.list.shared_ids;
+                            console.log(followers);
+                            console.log(shared_ids);
+                            if (shared_ids.length > 0) {
+                                shared_ids.push(data.list.user_id);
+                                for (var i = 0; i < shared_ids.length; i++) {
+                                    if (shared_ids[i] !== $localStorage.user.id) {
+                                        console.log(shared_ids[i]);
+                                        notifyHelper.queueAlert('user_' + shared_ids[i]);
+                                    }
                                 }
-                            }
-                        } else {
-                            if (data.list.type === 'public') {
-                                //no need to send alert for public lists. 
-                                //these items will be shown in feed
-                                if (followers.length > 0) {
-                                    console.log(followers);
-                                    //followers only if no shared ids
-                                    for (var i = 0; i < followers.length; i++) {
-                                        notifyHelper.queueAlert('user_' + followers[i]);
+                            } else {
+                                if (data.list.type === 'public') {
+                                    //no need to send alert for public lists. 
+                                    //these items will be shown in feed
+                                    if (followers.length > 0) {
+                                        console.log(followers);
+                                        //followers only if no shared ids
+                                        for (var i = 0; i < followers.length; i++) {
+                                            notifyHelper.queueAlert('user_' + followers[i]);
+                                        }
+
+                                    }
+
+                                    var user_followers = data.user.followers;
+                                    console.log(user_followers);
+                                    var filtered_user_followers = [];
+                                    for (var i = 0; i < user_followers.length; i++) {
+                                        var follower = user_followers[i];
+                                        if (followers.indexOf(follower) === -1) {
+                                            filtered_user_followers.push(follower);
+                                        }
+                                    }
+                                    console.log(filtered_user_followers);
+                                    for (var i = 0; i < filtered_user_followers.length; i++) {
+                                        notifyHelper.queueAlert('user_' + filtered_user_followers[i]);
                                     }
 
                                 }
-
-                                var user_followers = data.user.followers;
-                                console.log(user_followers);
-                                var filtered_user_followers = [];
-                                for (var i = 0; i < user_followers.length; i++) {
-                                    var follower = user_followers[i];
-                                    if (followers.indexOf(follower) === -1) {
-                                        filtered_user_followers.push(follower);
-                                    }
-                                }
-                                console.log(filtered_user_followers);
-                                for (var i = 0; i < filtered_user_followers.length; i++) {
-                                    notifyHelper.queueAlert('user_' + filtered_user_followers[i]);
-                                }
-
                             }
+                            notifyHelper.sendQueue({
+                                title: 'New Item Added',
+                                alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
+                                bigPicture: data.wishlist_model.org_img,
+                                meta: {
+                                    type: 'item_add',
+                                    wishlist_model: data.wishlist_model,
+                                    list: data.list,
+                                    user: $localStorage.user,
+                                    item_id: data.wishlist_model._id
+                                }
+                            });
+
+                            //need to post to user followers as well
                         }
-                        notifyHelper.sendQueue({
-                            title: 'New Item Added',
-                            alert: 'Item Added To List ' + data.list.name + " by " + $localStorage.user.name,
-                            bigPicture: data.wishlist_model.org_img,
-                            meta: {
-                                type: 'item_add',
-                                wishlist_model: data.wishlist_model,
-                                list: data.list,
-                                user: $localStorage.user,
-                                item_id: data.wishlist_model._id
-                            }
-                        });
-
-                        //need to post to user followers as well
+                    } else {
+                        toast.showShortBottom(data.message);
+                        def.reject(data)
                     }
-                }else{
-                    toast.showShortBottom(data.message);
-                    def.reject(data)
-                }
                 }, function (message) {
                     def.reject({
                         login: 0,

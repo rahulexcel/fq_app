@@ -50,7 +50,12 @@ feedbackMod.controller('FeedbackCtrl',
                     if (typeof AppRate !== "undefined") {
                         AppRate.navigateToAppStore();
                     } else {
-                        window.open('https://play.google.com/store/apps/details?id=com.excellence.fashioniq&hl=en', '_system');
+                        if ($scope.isAndroid) {
+                            window.open('https://play.google.com/store/apps/details?id=com.excellence.fashioniq&hl=en', '_system');
+                        } else {
+                            window.open('https://itunes.apple.com/us/app/fashioniq/id993157104?ls=1&mt=8', '_system');
+                            
+                        }
                     }
                 };
 
